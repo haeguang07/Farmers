@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="/css/login/login.css" type="text/css">
+</head>
+<body>
+<!-- /*0706 로그인페이지(간편로그인 해야함) */ -->
+<div id="loginForm">
+		<form>
+			<div class="imgcontainer">
+				<img src="/img/logo.png" alt="Avatar" class="avatar">
+			</div>
+
+			<div class="container">
+				<ul id="logininput">
+					<li><label for="uname"><b>아이디</b></label> <input type="text" placeholder="아이디를 입력하세요" id="id" name="id" required></li>
+					<li><label for="psw"><b>비밀번호</b></label> <input type="password" placeholder="패스워드를 입력하세요" id="pw" name="pw" required>
+					</li>
+				</ul>
+				<div id="login_button">
+					<button type="button" id="login">로그인</button>
+					<button type="button" id="join" >회원가입</button>
+				</div>
+				<span class="psw"><a href="#">아이디/비밀번호찾기</a></span>
+			</div>
+			<div id="simple_login">
+				<br>
+				<p>SNS아이디로 간편하게 로그인</p>
+				<img src="/img/logo_google.png" id="googleLogin" class="simple_login_logo">
+				<img src="/img/logo_naver.png" id="naverLogin" class="simple_login_logo">
+				<img src="/img/logo_kakao.png" id="kakaoLogin" class="simple_login_logo">
+			</div>
+		</form>
+	</div>
+
+</body>
+</html>
