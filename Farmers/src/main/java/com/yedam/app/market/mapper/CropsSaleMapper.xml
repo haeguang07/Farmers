@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.app.market.mapper.CropsSaleMapper">
+
+	<!-- 전체조회 -->
+	<select id="selectCropsSaleList" resultType="CropsSaleVO">
+		select crp_sale_no, crp_title, crp_ctg, price, qty, rep, reg_date, reg_stts
+		from crops_sale
+		order by reg_date
+	</select>
+	
+	<!-- 단건조회 -->
+	<select id="selectCropsSaleInfo" resultType="CropsSaleVO">
+		select crp_sale_no, mem_no, crp_title, crp_ctg, price, qty, rep, reg_date, reg_stts
+		from crops_sale
+		where crp_sale_no = #{crpSaleNo}
+	</select>
+	
+	<!-- 등록 -->
+	<insert id="insertCropsSale" parameterType="CropsSaleVO">
+		<selectKey keyProperty="crpSaleNo" resultType="String" order="BEFORE">
+			select 'CRP' || LPAD(crp_seq.nextval, 6, '0')
+			from dual
+		</selectKey>
+		insert into crops_sale(crp_sale_no, crp_title, crp_ctg, price, qty, rep, data_desct, reg_date)
+		values(#{crpSaleNo}, #{crpTitle}, #{crpCtg}, #{price}, #{qty}, #{rep}, #{dataDesct}, sysdate)
+	</insert>
+	
+	<!-- 수정 -->
+	<update id="updateCropsSale" parameterType="CropsSaleVO">
+		update crops_sale
+		<set>
+			<if test="crp_title != null and !crp_title.equals('')">
+				crp_title = #{crpTitle}
+			</if>
+			<if test="qty != null and !qty.equals('')">
+				, qty = #{qty}
+			</if>
+			<if test="rep != null and !rep.equals('')">
+				rep = #{rep}
+			</if>
+			<if test="data_desct != null and !data_desct.equals('')">
+				data_desct = #{dataDesct}
+			</if>
+			<if test="reg_date == null">
+				reg_date = sysdate
+			</if>
+		</set>
+		where crp_sale_no = #{crpSaleNo}
+	</update>
+	
+	<!-- 삭제 -->
+	<delete id="deleteCropsSale" parameterType="CropsSaleVO">
+		delete from crops_sale
+		where crp_sale_no = #{crpSaleNo}
+	</delete>
+	
+	<!-- 별점 -->
+	
+	<!-- 작물 카테고리 -->
+	
+	<!-- 게시글 수 카운팅 -->
+	
+</mapper>
