@@ -1,4 +1,4 @@
-package com.yedam.app.user.service;
+package com.yedam.app.user.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
