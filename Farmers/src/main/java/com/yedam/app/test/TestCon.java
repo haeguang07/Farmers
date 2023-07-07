@@ -8,6 +8,7 @@ public class TestCon {
 	@GetMapping("test")
 	public String test() {
 		return "index";
-	}
+	} 
+	
 	
 }
