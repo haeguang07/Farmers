@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{index}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Male_Fashion Template">
+    <meta name="keywords" content="Male_Fashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Male-Fashion | Template</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="css/sungWookCss/sungook.css" type="text/css">
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <hr>
+        <!-- Shop Details Section Begin -->
+        <section class="shop-details">
+            <div class="product__details__pic">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="shop__sidebar">
+                                <div class="shop__sidebar__accordion">
+                                    <div class="accordion" id="accordionExample">
+                                        <div class="card">
+                                            <div class="card-heading">
+                                                <a data-toggle="collapse" data-target="#collapseOne">농촌마켓</a>
+                                            </div>
+                                            <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
+                                                <div class="card-body">
+                                                    <div class="shop__sidebar__categories">
+                                                        <ul>
+                                                            <li><a href="#">전원마켓</a></li>
+                                                            <li><a href="#">농작물판매</a></li>
+                                                            <li><a href="fundingList" class="mySelect"
+                                                                    style=" color: black;">농작물펀딩</a></li>
+                                                            <li><a href="#">경매장</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row col-lg-10">
+                            <div class="col-lg-4 col-md-9">
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                                        <div class="product__details__pic__item">
+                                            <img src="img/shop-details/product-big-2.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tabs-2" role="tabpanel">
+                                        <div class="product__details__pic__item">
+                                            <img src="img/shop-details/product-big-3.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tabs-3" role="tabpanel">
+                                        <div class="product__details__pic__item">
+                                            <img src="img/shop-details/product-big.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tabs-4" role="tabpanel">
+                                        <div class="product__details__pic__item">
+                                            <img src="img/shop-details/product-big-4.png" alt="">
+                                            <a href="https://www.youtube.com/watch?v=8PJ3_p7VqHw&list=RD8PJ3_p7VqHw&start_radio=1"
+                                                class="video-popup"><i class="fa fa-play"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product__details__content col-lg-8">
+                                <div class="container">
+                                    <div class="row d-flex justify-content-center row">
+                                        <div class="col-lg-12">
+                                            <div class="product__details__text">
+                                                <h4 th:text="${fundingInfo.fndTitle}" style="display: inline;">상품명</h4> <h6 style="display: inline;">달성률</h6>
+                                                <hr>
+                                                <div class="row">
+                                                <p class="myInline col-lg-6 mb-0">참여인원</p>
+                                                <p class="myInline col-lg-6 mb-0">결제일</p>
+                                                </div>
+                                                <br>
+                                                <div class="row">
+                                                <p class="myInline col-lg-6 mb-0">목표금액/달성률</p>
+                                                <p class="myInline col-lg-6 mb-0">배송시작일</p>
+                                                </div>
+                                                <br>
+                                                <div class="row">
+                                                <p class="myInline col-lg-6 mb-0">펀딩가격</p>
+                                                <p class="myInline col-lg-6 mb-0">판매자</p>
+                                                </div>
+                                                <br>
+                                                <div class="row">
+                                                <p class="myInline col-lg-6 mb-0">펀딩기간</p>
+                                                <p class="myInline col-lg-6 mb-0">목표금액</p>
+                                                </div>
+                                                <div class="product__details__cart__option row">
+                                                    <div class="quantity row col-lg-8 myZeroMargin">
+                                                        <div class="pro-qty col-lg-6">
+                                                            <input type="text" value="1"  class="myInline">
+                                                        </div>
+                                                            <h6 class="col-lg-6">총액</h6>
+                                                    </div>
+                                                    <a href="#" class="primary-btn col-lg-4">add to cart</a>
+                                                </div>
+                                                <div class="product__details__btns__option">
+                                                    <a href="#"><i class="fa fa-heart"></i> add to wishlist</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row col-lg-12">
+                                <div class="col-lg-12">
+                                    <div class="product__details__tab">
+                                        <div class="row">
+                                            <ul class="nav nav-tabs col-lg-12" role="tablist">
+                                                <li class="nav-item col-lg-3">
+                                                    <a class="nav-link active" data-toggle="tab" href="#tabs-5"
+                                                        role="tab">Description</a>
+                                                </li>
+                                                <li class="nav-item col-lg-3">
+                                                    <a class="nav-link" data-toggle="tab" href="#tabs-6"
+                                                        role="tab">Customer
+                                                        Previews(5)</a>
+                                                </li>
+                                                <li class="nav-item col-lg-3">
+                                                    <a class="nav-link" data-toggle="tab" href="#tabs-7"
+                                                        role="tab">Additional
+                                                        information</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="row">
+                                            <div class="tab-content col-lg-12">
+                                                <div class="tab-pane active" id="tabs-5" role="tabpanel">
+                                                    <div class="product__details__tab__content">
+                                                        <p class="note">상품상세</p>
+                                                        <div class="product__details__tab__content__item">
+                                                            <h5>상세상세</h5>
+                                                            <p>상세상세상세</p>
+                                                        </div>
+                                                        <div class="product__details__tab__content__item">
+                                                            <h5>Material used</h5>
+                                                            <p></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane" id="tabs-6" role="tabpanel">
+                                                    <div class="product__details__tab__content">
+                                                        <div class="product__details__tab__content__item">
+                                                            <h5>Products Infomation</h5>
+                                                            <p>a</p>
+                                                            <p>a</p>
+                                                        </div>
+                                                        <div class="product__details__tab__content__item">
+                                                            <h5>Material used</h5>
+                                                            <p>a</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane" id="tabs-7" role="tabpanel">
+                                                    <div class="product__details__tab__content">
+                                                        <p class="note">a</p>
+                                                        <div class="product__details__tab__content__item">
+                                                            <h5>Products Infomation</h5>
+                                                            <p>a</p>
+                                                            <pa</p> </div> <div
+                                                                class="product__details__tab__content__item">
+                                                                <h5>Material used</h5>
+                                                                <p>a</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Related Section Begin -->
+                            <section class="related spad col-lg-12">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <h3 class="related-title">Related Product</h3>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-6 col-sm-6 col-sm-6">
+                                            <div class="product__item">
+                                                <div class="product__item__pic set-bg"
+                                                    data-setbg="img/product/product-1.jpg">
+                                                    <span class="label">New</span>
+                                                    <ul class="product__hover">
+                                                        <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="product__item__text">
+                                                    <h6>Piqué Biker Jacket</h6>
+                                                    <a href="#" class="add-cart">+ Add To Cart</a>
+                                                    <h5>$67.24</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                    <!-- Related Section End -->
+                </div>
+            </div>
+    </div>
+    </div>
+
+
+    </section>
+    <!-- Shop Details Section End -->
+    </div>
+    <!-- Js Plugins -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.nice-select.min.js"></script>
+    <script src="js/jquery.nicescroll.min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/jquery.countdown.min.js"></script>
+    <script src="js/jquery.slicknav.js"></script>
+    <script src="js/mixitup.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
