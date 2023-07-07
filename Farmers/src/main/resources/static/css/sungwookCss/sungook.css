@@ -1,0 +1,25 @@
+@charset "UTF-8";
+
+.myMargin {
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+.myFontSizeMin {
+	font-size: small;
+}
+
+.myInline {
+	display: inline;
+}
+
+.myRight {
+	float: right;
+}
+
+.mySelect {
+	font-weight: 900;
+}
+.myZeroMargin{
+	margin-right: 0px;
+}
