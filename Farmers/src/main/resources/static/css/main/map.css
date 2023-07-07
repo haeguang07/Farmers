@@ -1,0 +1,98 @@
+@charset "UTF-8";
+
+.OUTLINE {
+  stroke-linejoin: round;
+  stroke: #ffffff;
+  stroke-width: 2;
+}
+
+#CD11 {
+  fill: #dfdfdf;
+}
+
+#CD26 {
+  fill: #dfdfdf;
+}
+
+#CD27 {
+  fill: #dfdfdf;
+}
+
+#CD28 {
+  fill: #dfdfdf;
+}
+
+#CD29 {
+  fill: #dfdfdf;
+}
+
+#CD30 {
+  fill: #dfdfdf;
+}
+
+#CD31 {
+  fill: #dfdfdf;
+}
+
+#CD36 {
+  fill: #dfdfdf;
+}
+
+#CD41 {
+  fill: #15ab15;
+}
+
+#CD42 {
+  fill: #fd82ff;
+}
+
+#CD43 {
+  fill: #fff700;
+}
+
+#CD44 {
+  fill: #58ff8d;
+}
+
+#CD45 {
+  fill: #34495e;
+}
+
+#CD46 {
+  fill: #a73efd;
+}
+
+#CD47 {
+  fill: #ff6600;
+}
+
+#CD48 {
+  fill: #1abc9c;
+}
+
+#CD50 {
+  fill: #f1c40f;
+}
+
+.TEXT {
+  fill: #ffffff;
+  font-size: 25;
+  font-weight: bold;
+  text-anchor: middle;
+  alignment-baseline: middle;
+}
+
+.season {
+    width: 80px;
+    font-size: large;
+    font-weight: bold;
+    background-color: #ebebeb;
+    color: rgb(84 84 84);
+    border: none;
+    border-radius: 50%;  
+}
+
+.btn-two {
+  margin: 9px;
+  border-radius: 10px;
+}
