@@ -3,12 +3,35 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.app.market.mapper.FundingMapper">
+	<!-- 펀딩 리스트 조회 -->
 	<select id="getFundingList" resultType="FundingVO">
-		SELECT * 
+		SELECT *
 		FROM funding
 		ORDER BY 1
 	</select>
-	
+
+	<!-- 펀딩 리스트 조회 (페이징) -->
+	<select id="getFundingListPage" parameterType="int"
+		resultType="FundingVO">
+	<![CDATA[
+		SELECT b.*
+		FROM
+		(SELECT rownum rn , a.*
+		FROM (SELECT *
+		FROM funding
+		order by 1desc) a
+		WHERE rownum <= #{page} * 10) b
+		WHERE b.rn > (#{page}-1) * 10
+		]]>
+	</select>
+
+	<!-- funding 전제 수 조회 -->
+	<select id="fundingTotal" resultType="int">
+		SELECT count(*)
+		FROM funding
+	</select>
+
+	<!-- 펀딩 상세 조회 -->
 	<select id="getFundingInfo" resultType="FundingVO">
 		SELECT *
 		FROM funding
