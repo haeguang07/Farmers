@@ -14,8 +14,8 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Override
 	public MemberVO login(MemberVO vo) {
-		
 		return memberMapper.selectMember(vo);
 	}
 	
 }
+
