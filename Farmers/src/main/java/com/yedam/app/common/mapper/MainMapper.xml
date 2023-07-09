@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.app.common.mapper.MainMapper">
+	<select id="selectImg" resultType="MainVO">
+		select *
+		from recom_crops natural join recom_crops_info
+		where dst_ctg = #{dstCtg}
+		order by map_no
+	</select>
+</mapper>
+
