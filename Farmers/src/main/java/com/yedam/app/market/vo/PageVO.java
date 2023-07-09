@@ -1,6 +1,7 @@
 package com.yedam.app.market.vo;
 
 import lombok.Data;
+import lombok.Getter;
 
 @Data
 public class PageVO {
@@ -23,5 +24,6 @@ public class PageVO {
 		this.prev = this.startPage>1;
 		this.next = this.endPage < realEnd; 
 	}
+	
 	
 }

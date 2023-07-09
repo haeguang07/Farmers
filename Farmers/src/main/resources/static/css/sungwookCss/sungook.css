@@ -28,3 +28,6 @@
 .textLeft{
 	text-align : left;
 }
+.hideItem{
+	display : none;
+}

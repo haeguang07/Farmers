@@ -25,4 +25,5 @@ public class FundingVO {
 	private String regStts;
 	private String crpCtg;
 	private String fndStts;
+	private int dday;
 }

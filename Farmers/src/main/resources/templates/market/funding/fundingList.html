@@ -1,33 +1,30 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{index}">
 
 <head>
-<meta charset="UTF-8">
-<meta name="description" content="Male_Fashion Template">
-<meta name="keywords" content="Male_Fashion, unica, creative, html">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>Male-Fashion | Template</title>
+	<meta charset="UTF-8">
+	<meta name="description" content="Male_Fashion Template">
+	<meta name="keywords" content="Male_Fashion, unica, creative, html">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Male-Fashion | Template</title>
 
-<!-- Google Font -->
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
-	rel="stylesheet">
+	<!-- Google Font -->
+	<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+		rel="stylesheet">
 
 
-<!-- Css Styles -->
-<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-<link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-<link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
-<link rel="stylesheet" href="css/nice-select.css" type="text/css">
-<link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-<link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-<link rel="stylesheet" href="css/style.css" type="text/css">
-<link rel="stylesheet" href="css/sungWookCss/sungook.css"
-	type="text/css">
+	<!-- Css Styles -->
+	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+	<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
+	<link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
+	<link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
+	<link rel="stylesheet" href="css/nice-select.css" type="text/css">
+	<link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
+	<link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
+	<link rel="stylesheet" href="css/style.css" type="text/css">
+	<link rel="stylesheet" href="css/sungWookCss/sungook.css" type="text/css">
 
 </head>
 
@@ -64,15 +61,13 @@
 										<div class="card-heading">
 											<a data-toggle="collapse" data-target="#collapseOne">농촌마켓</a>
 										</div>
-										<div id="collapseOne" class="collapse show"
-											data-parent="#accordionExample">
+										<div id="collapseOne" class="collapse show" data-parent="#accordionExample">
 											<div class="card-body">
 												<div class="shop__sidebar__categories">
 													<ul>
 														<li><a href="#">전원마켓</a></li>
 														<li><a href="#">농작물판매</a></li>
-														<li><a href="fundingList" class="mySelect"
-															style="color: black;">농작물펀딩</a></li>
+														<li><a href="fundingList" class="mySelect" style="color: black;">농작물펀딩</a></li>
 														<li><a href="#">경매장</a></li>
 													</ul>
 												</div>
@@ -90,8 +85,7 @@
 								<div class="col-lg-10 col-md-10 col-sm-10">
 									<div class="shop__product__option__left">
 										<div class="row form-floating">
-											<select class="form-select form-group col-4"
-												aria-label="Default select example">
+											<select class="form-select form-group col-4" aria-label="Default select example">
 												<option selected>전체</option>
 												<option value="1">야채</option>
 												<option value="2">과일</option>
@@ -99,11 +93,9 @@
 											</select>
 											<div class="col-8">
 												<div class="input-group mb-3">
-													<input type="text" class="form-control"
-														placeholder="상품명 검색" aria-label="Recipient's username"
+													<input type="text" class="form-control" placeholder="상품명 검색" aria-label="Recipient's username"
 														aria-describedby="button-addon2">
-													<button class="btn btn-outline-secondary" type="button"
-														id="button-addon2">검색</button>
+													<button class="btn btn-outline-secondary" type="button" id="button-addon2">검색</button>
 												</div>
 											</div>
 										</div>
@@ -111,17 +103,18 @@
 								</div>
 								<div class="col-lg-2 col-md-2 col-sm-2">
 									<div class="form-select">
-										<select>
-											<option value="">최신순</option>
-											<option value="">인기순</option>
-											<option value="">판매임박순</option>
+										<select id="order">
+											<option value="new">최신순</option>
+											<option value="popul">인기순</option>
+											<option value="dday">판매임박순</option>
 										</select>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-lg-4 col-md-6 col-sm-6"
+						<div class="row" id="fundingDiv">
+							<!-- 페이지 이동 방식 -->
+							<!-- <div class="col-lg-4 col-md-6 col-sm-6"
 								th:each="funding : ${fundingList}">
 								<div class="product__item"
 									th:onclick="|location.href='@{fundingInfo(fndNo=${funding.fndNo})}'|">
@@ -144,18 +137,17 @@
 										</div>
 									</div>
 								</div>
-							</div>
+							</div> -->
+
 						</div>
 						<div class="row">
-							<div class="col-lg-12">
-								<div class="product__pagination">
-									<!-- <a href="noticeList.do?page=${pageInfo.startPage-1}" th:if="${pageInfo.prev}">◁</a> 
-									<div th:each="num : ${#numbers.sequence(pageInfo.startPage,pageInfo.endPage)}">
-										<a class="${num == pageInfo.pageNum ? 'active': '' }" href="noticeList.do?page=${num} ">[[${num}]]</a>
-									</div>
-									<a href="noticeList.do?page=${pageInfo.endPage+1}" th:if="${pageInfo.next}">▷</a> -->
-									<a class="active" href="#">1</a> <a href="#">2</a> <a href="#">3</a>
-								</div>
+							<div class="col-lg-12" id="pageDiv">
+								<!-- 페이지 이동 방식 -->
+								<!-- 	<div class="product__pagination">
+									<a th:href="@{fundingList(pageNum=${pageInfo.startPage-1})}" th:if="${pageInfo.prev}">◁</a> 						
+										<a th:each="num : ${#numbers.sequence(pageInfo.startPage,pageInfo.endPage)}" th:class="${num == pageInfo.pageNum} ? 'active': '' " th:href="@{fundingList(pageNum=${num})}">[[${num}]]</a>
+									<a th:href="@{fundingList(pageNum=${pageInfo.endPage+1})}" th:if="${pageInfo.next}">▷</a>
+								</div> -->
 							</div>
 						</div>
 					</div>
@@ -167,11 +159,41 @@
 		</section>
 		<!-- Shop Section End -->
 
+		<!-- clone용 tag -->
+		<div class="col-lg-4 col-md-6 col-sm-6 hideItem" id="fundingItem">
+			<div class="product__item">
+				<div class="product__item__pic set-bg" data-setbg="img/product/product-2.jpg">
+					<ul class="product__hover">
+						<li><a href="#"><img src="img/icon/heart.png" alt="" id="img"></a></li>
+					</ul>
+				</div>
+				<div class="product__item__text">
+					<a href="#" class="add-cart">+ Add To Cart</a>
+					<h6 id="name">상품명</h6>
+					<p style="font-weight: 900; margin-bottom: 0;" id="price">가격</p>
+					<div>
+						<p class="myInline" id="goalPer">달성률</p>
+						<p class="myFontSizeMin myInline" id="totalPrice">총금액</p>
+						<p class="myFontSizeMin myInline myRight" id="dday">디데이</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="product__pagination hideItem" id="pageItem">
+			<a class="myInline" id="prevPage">◁</a>
+			<div id="pageNumDiv" class="myInline">
+				<a id="pageNum">a</a>
+			</div>
+			<a class="myInline" id="nextPage">▷</a>
+		</div>
 		<!-- 내 스크립트 -->
 		<script>
-			$('#add').on('click', function() {
+			//등록 페이지로 이동
+			$('#add').on('click', function () {
 				location.href = "addFunding"
 			})
+
 			/* 팝업창 */
 			/* $('#add').magnificPopup({
 				items:[{
@@ -180,6 +202,94 @@
 				}
 				]
 			}) */
+			//페이지 로드 시 함수
+			$(function () {
+				ajaxData(1)
+			})
+
+			//리스트 데이터 아작스로 가져오기
+			function ajaxData(page) {
+				$.ajax({
+					url: 'fundingList',
+					type: 'POST',
+					data: {
+						pageNum: page
+					}
+				}).done(function (data, status, xhr) {
+					printList(data)
+				}).fail(function () {
+					console.log('fail')
+				})
+			}
+
+			//리스트 출력 함수
+			function printList(data) {
+				$('#fundingDiv').children().remove();
+				$('#pageDiv').children().remove();
+				let fundingData = data.fundingList
+				let pageData = data.pageInfo
+
+				$(fundingData).each(function (index, item) {
+					prinfItem(item)
+				})
+
+				printPage(pageData)
+			}
+
+			//펀딩 생성 및 추가 함수
+			function prinfItem(item) {
+				let clone = $('#fundingItem').clone();
+				$(clone).removeClass('hideItem')
+				$(clone).on('click', function () {
+					location.href = "fundingInfo?fndNo=" + item.fndNo
+				})
+
+				//데이터 집어넣기
+				$(clone).find('#name').text(item.fndTitle)
+				$(clone).find('#price').text(item.fndPrice + '원')
+				if (item.dday != 0) {
+					$(clone).find('#dday').text('D-' + item.dday)
+				} else {
+					$(clone).find('#dday').text('D-DAY')
+				}
+
+				$('#fundingDiv').append(clone)
+			}
+
+			// 페이징 생성 및 추가
+			function printPage(pageData) {
+				let pageItem = $('#pageItem').clone()
+				$(pageItem).removeClass('hideItem')
+				$(pageItem).find('#prevPage').on('click',function(){
+					ajaxData(pageData.startPage -1)
+				})
+				$(pageItem).find('#nextPage').on('click',function(){
+					ajaxData(pageData.endPage +1)
+				})
+
+				if(!pageData.prev){
+					$(pageItem).find('#prevPage').hide()
+				}
+				if(!pageData.next){
+					$(pageItem).find('#nextPage').hide()
+				}
+
+				for (let i = pageData.startPage; i <= pageData.endPage; i++) {
+					let clone = $('#pageItem').find('#pageNum').clone()
+					$(clone).text(i);
+					if(i == pageData.pageNum){
+						$(clone).addClass('active')
+						$(clone).css('border-color','orange')
+					}
+					$(clone).on('click', function () {
+						ajaxData(i)
+					})
+					$(pageItem).find('#pageNumDiv').append(clone)
+				}
+
+				$(pageItem).find('#pageNum')[0].remove()
+				$('#pageDiv').append(pageItem)
+			}
 		</script>
 	</div>
 </body>

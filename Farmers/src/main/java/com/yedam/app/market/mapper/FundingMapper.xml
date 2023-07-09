@@ -7,6 +7,7 @@
 	<select id="getFundingList" resultType="FundingVO">
 		SELECT *
 		FROM funding
+		WHERE reg_stts = 'e1'
 		ORDER BY 1
 	</select>
 
@@ -18,10 +19,11 @@
 		FROM
 		(SELECT rownum rn , a.*
 		FROM (SELECT *
-		FROM funding
-		order by 1desc) a
-		WHERE rownum <= #{page} * 10) b
-		WHERE b.rn > (#{page}-1) * 10
+		FROM funding JOIN (SELECT fnd_no, TRUNC(fnd_end_date - sysdate) as dday FROM funding) USING (fnd_no)
+		WHERE reg_stts = 'e1'
+		order by 1 desc) a
+		WHERE rownum <= #{page} * 9) b
+		WHERE b.rn > (#{page}-1) * 9
 		]]>
 	</select>
 
