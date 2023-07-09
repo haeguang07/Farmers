@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>경매품 등록 신청 폼</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<!-- 등록 신청 페이지 -->
+		<form th:action="@{/addAuction}" method="POST" th:object="${AuctionVO}">
+		<div>
+			<label id="actTitle">제목</label>
+			<input type="text" id="actTitle" th:field="*{actTitle}">
+		</div>
+		
+		<div>
+			<label id=""></label>
+		</div>
+		</form>
+	</div>
+</body>
+</html>
