@@ -15,7 +15,7 @@ public class CropsSaleVO {
 	public int price;
 	public int qty;
 	public String rep;
-	public String dataDesct;
+	public String detaDesct;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	public Date regDate;
 	public String regStts;

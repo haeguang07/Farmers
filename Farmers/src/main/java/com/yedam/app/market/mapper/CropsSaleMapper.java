@@ -6,13 +6,13 @@ import com.yedam.app.market.vo.CropsSaleVO;
 
 public interface CropsSaleMapper {
 	// 전체조회
-	public List<CropsSaleVO> selectCropsSaleList(CropsSaleVO CsVO);
+	public List<CropsSaleVO> selectCropsSaleList();
 	// 단건조회
-	public CropsSaleVO selectCropsSaleInfo(CropsSaleVO CsVO);
+	public CropsSaleVO selectCropsSaleInfo(CropsSaleVO csVO);
 	// 등록
-	public int insertCropsSale(CropsSaleVO CsVO);
+	public int insertCropsSale(CropsSaleVO csVO);
 	// 수정
-	public int updateCropsSale(CropsSaleVO CsVO);
+	public int updateCropsSale(CropsSaleVO csVO);
 	// 삭제
 	public int deleteCropsSale(String crpSaleNo);
 }
