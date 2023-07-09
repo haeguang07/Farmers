@@ -15,32 +15,32 @@ public class CropsSaleServiceImpl implements CropsSaleService {
 	CropsSaleMapper csMapper;
 	
 	@Override
-	public List<CropsSaleVO> getCropsSaleList(CropsSaleVO CsVO) {
-		return csMapper.selectCropsSaleList(CsVO);
+	public List<CropsSaleVO> getCropsSaleList() {
+		return csMapper.selectCropsSaleList();
 	}
 
 	@Override
-	public CropsSaleVO getCropsSaleInfo(CropsSaleVO CsVO) {
-		return csMapper.selectCropsSaleInfo(CsVO);
+	public CropsSaleVO getCropsSaleInfo(CropsSaleVO csVO) {
+		return csMapper.selectCropsSaleInfo(csVO);
 	}
 
 	@Override
-	public int insertCropsSaleInfo(CropsSaleVO CsVO) {
-		int result = csMapper.insertCropsSale(CsVO);
+	public int insertCropsSaleInfo(CropsSaleVO csVO) {
+		int result = csMapper.insertCropsSale(csVO);
 		
 		if(result == 1) {
-			return Integer.parseInt(CsVO.getCrpSaleNo());
+			return Integer.parseInt(csVO.getCrpSaleNo());
 		} else {
 			return -1;
 		}
 	}
 
 	@Override
-	public int updateCropsSaleInfo(CropsSaleVO CsVO) {
-		int result = csMapper.updateCropsSale(CsVO);
+	public int updateCropsSaleInfo(CropsSaleVO csVO) {
+		int result = csMapper.updateCropsSale(csVO);
 		
 		if(result == 1) {
-			return Integer.parseInt(CsVO.getCrpSaleNo());
+			return Integer.parseInt(csVO.getCrpSaleNo());
 		} else {
 			return -1;
 		}

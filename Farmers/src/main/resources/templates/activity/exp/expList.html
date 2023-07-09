@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{index}">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Male_Fashion Template">
+<meta name="keywords" content="Male_Fashion, unica, creative, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>농촌 체험하기</title>
+
+<!-- Google Font -->
+<link
+	href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+	rel="stylesheet">
+
+<!-- Css Styles -->
+<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+<link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+<link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+<link rel="stylesheet" href="/css/nice-select.css" type="text/css">
+<link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+<link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+<link rel="stylesheet" href="/css/style.css" type="text/css">
+
+<!-- Js Plugins -->
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.nice-select.min.js"></script>
+<script src="/js/jquery.nicescroll.min.js"></script>
+<script src="/js/jquery.magnific-popup.min.js"></script>
+<script src="/js/jquery.countdown.min.js"></script>
+<script src="/js/jquery.slicknav.js"></script>
+<script src="/js/mixitup.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+</head>
+<body>
+	<div layout:fragment="content">
+		<!-- Breadcrumb Section Begin -->
+		<section class="breadcrumb-option">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="breadcrumb__text">
+							<h4>농촌 체험하기</h4>
+							<div class="breadcrumb__links">
+								<a href="./index.html">농촌체험</a> <span>농촌 체험하기</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Breadcrumb Section End -->
+		<div>
+            <h3 class="text-center">농작물 판매</h3>
+        </div>
+		<!-- Shop Section Begin -->
+		<section class="shop">
+			<div class="container">
+				<hr>
+				<div class="row">
+					<div class="col-lg-3">
+						<div class="shop__sidebar">
+							<div class="shop__sidebar__accordion">
+								<div class="accordion" id="accordionExample">
+									<div class="card">
+										<div class="card-heading">
+											<a data-toggle="collapse" data-target="#collapseOne">농촌체험</a>
+										</div>
+										<div id="collapseOne" class="collapse show"
+											data-parent="#accordionExample">
+											<div class="card-body">
+												<div class="shop__sidebar__categories">
+													<ul>
+														<li><a href="#">전원 비엔비</a></li>
+														<li><b><a href="cropsSaleList" style="color: black;">농촌 체험하기</a></b></li>
+														<li><a href="#">일자리</a></li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-9">
+						<div class="shop__product__option">
+							<div class="row">
+								<div class="col-lg-7 col-md-7 col-sm-7">
+									<div>
+										<div class="row form-floating">
+											<select class="form-select form-group col-1.5"
+												aria-label="Default select example">
+												<option selected>체험시작날짜</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<h6 class="col-lg-2" style="text-align: center; line-height: 45px;">지역 선택</h6>
+								<div class="col-lg-1.5 col-md-1.5 col-sm-1.5">
+									<div class="form-select">
+										<select>
+											<option value="">도</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-lg-1.5 col-md-1.5 col-sm-1.5">
+									<div class="form-select">
+										<select>
+											<option value="">시·군</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-4 col-md-6 col-sm-6" th:each="exp : ${expList}">
+								<div class="product__item" th:onclick="|location.href='@{expInfo(frexNo=${exp.frexNo})}'|">
+									<div>
+										<h6 th:text="${exp.frexTitle}">체험명</h6>
+										<p>현재참여인원</p>/<p th:text="${exp.pptPer}">총참여인원</p>
+										<p th:text="${#dates.format(exp.exStrDate, 'yyyy/MM/dd')}">체험시작날짜</p> ~ <p th:text="${#dates.format(exp.exEndDate, 'yyyy/MM/dd')}">체험종료날짜</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="product__pagination">
+									<a class="active" href="#">1</a> <a href="#">2</a> <a href="#">3</a>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-12">
+								<button type="button" class="btn btn-dark" style="width: 115px; height: 40px; float: right; margin-right: 30px;">게시글 작성</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Shop Section End -->
+		<script src="js/main.js"></script>
+	</div>
+</body>
+</html>
