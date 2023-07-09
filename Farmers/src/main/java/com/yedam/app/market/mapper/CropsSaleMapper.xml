@@ -24,8 +24,8 @@
 			select 'CRP' || LPAD(crp_seq.nextval, 6, '0')
 			from dual
 		</selectKey>
-		insert into crops_sale(crp_sale_no, crp_title, crp_ctg, price, qty, rep, data_desct, reg_date)
-		values(#{crpSaleNo}, #{crpTitle}, #{crpCtg}, #{price}, #{qty}, #{rep}, #{dataDesct}, sysdate)
+		insert into crops_sale(crp_sale_no, crp_title, crp_ctg, price, qty, rep, deta_desct, reg_date)
+		values(#{crpSaleNo}, #{crpTitle}, #{crpCtg}, #{price}, #{qty}, #{rep}, #{detaDesct}, sysdate)
 	</insert>
 	
 	<!-- 수정 -->
@@ -41,8 +41,8 @@
 			<if test="rep != null and !rep.equals('')">
 				rep = #{rep}
 			</if>
-			<if test="data_desct != null and !data_desct.equals('')">
-				data_desct = #{dataDesct}
+			<if test="data_desct != null and !deta_desct.equals('')">
+				deta_desct = #{detaDesct}
 			</if>
 			<if test="reg_date == null">
 				reg_date = sysdate

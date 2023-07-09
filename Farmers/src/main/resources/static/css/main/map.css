@@ -39,11 +39,11 @@
 }
 
 #CD41 {
-  fill: #15ab15;
+  fill: #43b343;
 }
 
 #CD42 {
-  fill: #fd82ff;
+  fill: #ff7bda;
 }
 
 #CD43 {
@@ -51,15 +51,15 @@
 }
 
 #CD44 {
-  fill: #58ff8d;
+  fill: #70f99c;
 }
 
 #CD45 {
-  fill: #34495e;
+  fill: #3f6f9f;
 }
 
 #CD46 {
-  fill: #a73efd;
+  fill: #a987ff;
 }
 
 #CD47 {
@@ -67,19 +67,19 @@
 }
 
 #CD48 {
-  fill: #1abc9c;
+  fill: #04dbd0;
 }
 
 #CD50 {
-  fill: #f1c40f;
+  fill: #ffa600;
 }
 
 .TEXT {
   fill: #ffffff;
-  font-size: 25;
+  font-size: 30;
   font-weight: bold;
   text-anchor: middle;
-  alignment-baseline: middle;
+  /* alignment-baseline: middle; */
 }
 
 .season {
