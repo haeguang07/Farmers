@@ -1581,7 +1581,7 @@ ol {
 .product__details__pic .nav-tabs .nav-item.show .nav-link,
 .product__details__pic .nav-tabs .nav-link.active {
 	background-color: transparent;
-	border-color: transparent;
+	border-color: #20502a;
 }
 
 .product__details__breadcrumb {
