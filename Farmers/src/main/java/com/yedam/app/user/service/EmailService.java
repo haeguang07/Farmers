@@ -34,7 +34,7 @@ public class EmailService {
 		String toEmail = mail.getTo(); 
 
 		final String username = "hk97564";
-		final String password = "";
+		final String password = "gllapytrjkrkseak";
 
 		// 메일에 출력할 텍스트
 		StringBuffer sb = new StringBuffer();
