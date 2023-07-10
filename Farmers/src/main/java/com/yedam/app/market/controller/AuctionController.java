@@ -20,7 +20,7 @@ public class AuctionController {
 	@GetMapping("auction")
 	public String auctionList(Model model) {
 		List<AuctionVO> list = actService.getAllAuctions();
-		model.addAttribute("auction", list);
+		model.addAttribute("actList", list);
 		// System.out.println(list);
 		return "market/auction/auctionList";
 	}
@@ -30,7 +30,7 @@ public class AuctionController {
 	public String auctionInfo(int actNo, Model model) {
 		System.out.println(actNo);
 		AuctionVO info = actService.getOneAuction(actNo);
-		model.addAttribute("auctionInfo", info);
+		model.addAttribute("actInfo", info);
 		return "market/auction/auctionInfo";
 		
 	}
