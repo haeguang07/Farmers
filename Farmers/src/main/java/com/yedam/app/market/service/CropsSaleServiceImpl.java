@@ -57,4 +57,14 @@ public class CropsSaleServiceImpl implements CropsSaleService {
 		}
 	}
 
+	@Override
+	public int getCount(String crpSaleNo) {
+		return csMapper.getCount(crpSaleNo);
+	}
+
+	@Override
+	public int totalRate() {
+		return csMapper.totalRate();
+	}
+
 }
