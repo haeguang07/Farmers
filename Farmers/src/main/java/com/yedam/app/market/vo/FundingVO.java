@@ -25,4 +25,9 @@ public class FundingVO {
 	private String regStts;
 	private String crpCtg;
 	private String fndStts;
+	private int dday;
+	private int priceSum;
+	private int payCount;
+	private String nick;
+	private float goalPer;
 }
