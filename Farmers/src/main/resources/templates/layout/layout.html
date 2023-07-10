@@ -61,7 +61,8 @@
 					<div class="col-lg-6 col-md-5">
 						<div class="header__top__right">
 							<div class="header__top__links">
-								<a href="#">회원가입</a> <a href="#">로그인</a>
+								<a href="join">회원가입</a>
+								<a href="login">로그인</a>
 							</div>
 							<div class="header__top__hover">
 								<span>마이페이지 <i class="arrow_carrot-down"></i></span>
@@ -79,27 +80,28 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-3 col-md-3">
+				<!-- 파머스 로고 -->
 					<div class="header__logo">
-						<a href="#"><img src="img/logo.png" style="width: 2" alt=""></a>
+						<a href="/"><img src="img/logo.png" style="width: 2" alt=""></a>
 					</div>
 				</div>
 				<div class="col-lg-6 col-md-6">
 					<nav class="header__menu mobile-menu" style="padding-top: 50px;">
 						<ul>
-							<li class="active"><a href="#">홈으로</a></li>
+							<li class="active"><a href="/">홈으로</a></li>
 							<li><a href="#">귀농귀촌</a>
 								<ul class="dropdown">
-									<li><a href="#">귀농귀촌 가이드</a></li>
-									<li><a href="#">지원사업/교육</a></li>
+									<li><a href="farmGuide">귀농귀촌 가이드</a></li>
+									<li><a href="farmEdu">지원사업/교육</a></li>
 									<li><a href="#">농지대여</a></li>
 									<li><a href="#">농기구 대여/판매</a></li>
-									<li><a href="#">금손 귀농인</a></li>
+									<li><a href="skilled">금손 귀농인</a></li>
 								</ul></li>
 
 							<li><a href="#">농촌체험</a>
 								<ul class="dropdown">
-									<li><a href="#">농촌 비엔비</a></li>
-									<li><a href="#">농촌 체험하기</a></li>
+									<li><a href="bnbList">농촌 비엔비</a></li>
+									<li><a href="expList">농촌 체험하기</a></li>
 									<li><a href="#">농촌 일자리</a></li>
 								</ul></li>
 							<li><a href="#">농촌마켓</a>
@@ -111,9 +113,9 @@
 								</ul></li>
 							<li><a href="#">게시판</a>
 								<ul class="dropdown">
-									<li><a href="#">공지사항</a></li>
-									<li><a href="#">커뮤니티</a></li>
-									<li><a href="#">이벤트</a></li>
+									<li><a href="boardNotice">공지사항</a></li>
+									<li><a href="boardCommunity">커뮤니티</a></li>
+									<li><a href="boardEvent">이벤트</a></li>
 								</ul></li>
 						</ul>
 					</nav>
@@ -211,6 +213,7 @@
 	<script src="/js/main.js"></script>
 	
 	<script>
+	
 		var modal = document.querySelector('.modal');
 		var closeButton = document.querySelectorAll('.close');
 		var notificationButton = document.querySelector('.notification-btn');

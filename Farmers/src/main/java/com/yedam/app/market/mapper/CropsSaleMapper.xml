@@ -57,10 +57,17 @@
 		where crp_sale_no = #{crpSaleNo}
 	</delete>
 	
+	<!-- 게시글 수 카운팅 -->
+	<select id="getCount" resultType="String">
+		select count(*) from crops_sale
+		where crp_sale_no = #{crpSaleNo}
+	</select>
+	
 	<!-- 별점 -->
+	<select id="totalRate" resultType="int">
+		
+	</select>
 	
 	<!-- 작물 카테고리 -->
-	
-	<!-- 게시글 수 카운팅 -->
 	
 </mapper>

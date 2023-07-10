@@ -10,31 +10,8 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>농작물 판매</title>
 
-<!-- Google Font -->
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
-	rel="stylesheet">
-
-<!-- Css Styles -->
-<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
-<link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
-<link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
-<link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
-<link rel="stylesheet" href="/css/nice-select.css" type="text/css">
-<link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
-<link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
-<link rel="stylesheet" href="/css/style.css" type="text/css">
-
-<!-- Js Plugins -->
-<script src="/js/jquery-3.3.1.min.js"></script>
-<script src="/js/bootstrap.min.js"></script>
-<script src="/js/jquery.nice-select.min.js"></script>
-<script src="/js/jquery.nicescroll.min.js"></script>
-<script src="/js/jquery.magnific-popup.min.js"></script>
-<script src="/js/jquery.countdown.min.js"></script>
-<script src="/js/jquery.slicknav.js"></script>
-<script src="/js/mixitup.min.js"></script>
-<script src="/js/owl.carousel.min.js"></script>
+<link rel="stylesheet" href="../tui-grid/dist/tui-grid.css" />
+<script src="../tui-gird/dist/tui-grid.js"></script>
 </head>
 <body>
 	<div layout:fragment="content">
@@ -158,11 +135,50 @@
 							</div>
 						</div>
 					</div>
+					<div id="grid"></div>
 				</div>
 			</div>
 		</section>
 		<!-- Shop Section End -->
-		<script src="js/main.js"></script>
 	</div>
+	<script>
+		const Grid = require('tui-grid');
+		
+		import Grid from 'tui-grid';
+		
+		const instance = new Grid({
+			  el: document.getElementById('grid'), // Container element
+			  columns: [
+			    {
+			      header: 'Name',
+			      name: 'name'
+			    },
+			    {
+			      header: 'Artist',
+			      name: 'artist'
+			    },
+			    {
+			      header: 'Release',
+			      name: 'release'
+			    },
+			    {
+			      header: 'Genre',
+			      name: 'genre'
+			    }
+			  ],
+			  data: [
+			    {
+			      name: 'Beautiful Lies',
+			      artist: 'Birdy',
+			      release: '2016.03.26',
+			      genre: 'Pop'
+			    }
+			  ]
+			});
+
+			instance.resetData(newData); // Call API of instance's public method
+
+			Grid.applyTheme('striped'); // Call API of static method
+	</script>
 </body>
 </html>
