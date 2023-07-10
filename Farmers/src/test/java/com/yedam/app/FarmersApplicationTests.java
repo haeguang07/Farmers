@@ -13,7 +13,6 @@ class FarmersApplicationTests {
 
 	@Test
 	void contextLoads() {
-<<<<<<< HEAD
 		int leftLimit = 48; // numeral '0'
 		int rightLimit = 122; // letter 'z'
 		int targetStringLength = 13;
@@ -22,9 +21,8 @@ class FarmersApplicationTests {
 				.filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97) &&(i <= 33 || i >= 38)).limit(targetStringLength)
 				.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
 		System.out.println(generatedString);
-=======
+
 		System.out.println(uploadPath);
->>>>>>> branch 'main' of https://github.com/haeguang07/Farmers.git
 	}
 	
 }
