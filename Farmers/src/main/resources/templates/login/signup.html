@@ -17,7 +17,7 @@
 	padding: 0 0 0 14px;
 }
 
-img {
+#logo {
 	width: 20%;
 }
 
@@ -31,8 +31,8 @@ img {
 </style>
 </head>
 <body>
-	<div id="joinForm">
-		<img src="/img/logo.png" class="inline-blcok">
+	<div id="joinForm" layout:fragment="content">
+		
 		<div class="inline-blcok">
 			<h3>회원가입</h3>
 			<p>회원이 되어 다양한 해택을 경험해 보세요</p>
@@ -70,7 +70,7 @@ img {
 						<td><input type="text" class="" name="post" id="post"
 							style="width: 90px;" placeholder="우편번호" readonly>
 							<button type="button" class="button" id="postBtn"
-								onclick="execDaumPostcode()">우편번호 찾기</button></td>
+								onclick="postCode()">우편번호 찾기</button></td>
 					</tr>
 					<tr>
 						<td></td>
@@ -113,72 +113,41 @@ img {
 					<!-- 추가 사항 -->
 					<!-- 이름 -->
 					<div id="step2">
-					<tr>
-						<td>이름</td>
-						<td><input type="text" class="" id="name" name="name"></td>
-						<td class="explanText">이름을 입력하세요</td>
-					</tr>
-					<!-- 전화번호-->
-					<tr>
-						<td>전화번호</td>
-						<td><input type="text" class="" id="joinPhone" name="moble"></td>
-						<td class="explanText">-를 입력하지 않고 숫자만 입력하세요</td>
-					</tr>
-					<!-- 성별-->
-					<tr>
-						<td>성별</td>
-						<td><label><input type="radio" name="gender"
-								id="male" checked="checked" value="M">남성</label> <label><input
-								type="radio" name="gender" id="female" value="F">여성</label></td>
-						<td></td>
-					</tr>
-					<!-- 생년월일-->
-					<tr>
-						<td>생년월일</td>
-						<td><input type="text" class="" name="birth" id="birth"
-							placeholder="YYYY-MM-DD"></td>
-						<td class="explanText">YYYY-MM-DD 형태로 입력해 주세요</td>
-					</tr>
+						<tr>
+							<td>이름</td>
+							<td><input type="text" class="" id="name" name="name"></td>
+							<td class="explanText">이름을 입력하세요</td>
+						</tr>
+						<!-- 전화번호-->
+						<tr>
+							<td>전화번호</td>
+							<td><input type="text" class="" id="joinPhone" name="moble"></td>
+							<td class="explanText">-를 입력하지 않고 숫자만 입력하세요</td>
+						</tr>
+						<!-- 성별-->
+						<tr>
+							<td>성별</td>
+							<td><label><input type="radio" name="gender"
+									id="male" checked="checked" value="M">남성</label> <label><input
+									type="radio" name="gender" id="female" value="F">여성</label></td>
+							<td></td>
+						</tr>
+						<!-- 생년월일-->
+						<tr>
+							<td>생년월일</td>
+							<td><input type="text" class="" name="birth" id="birth"
+								placeholder="YYYY-MM-DD"></td>
+							<td class="explanText">YYYY-MM-DD 형태로 입력해 주세요</td>
+						</tr>
 
 					</div>
 				</table>
 			</div>
 		</form>
-	</div>
-	<script
-		src="http://dmaps.daum.net/map_js_init/postcode.v2.js?autoload=false"></script>
-	<script>
-		function execDaumPostcode() {
-			daum.postcode.load(function () {
-				new daum.Postcode({
-					oncomplete: function (data) {
-						var addr = '';
-						var extraAddr = '';
-						if (data.userSelectedType === 'R') {
-							addr = data.roadAddress;
-						} else {
-							addr = data.jibunAddress;
-						}
-						if (data.userSelectedType === 'R') {
-							if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
-								extraAddr += data.bname;
-							}
-							if (data.buildingName !== '' && data.apartment === 'Y') {
-								extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-							}
-							if (extraAddr !== '') {
-								extraAddr = ' (' + extraAddr + ')';
-							}
-						}
-						document.getElementById('post').value = data.zonecode;
-						document.getElementById("adr").value = addr;
-						document.getElementById("adrDetail").focus();
-					}
-				}).open();
-			});
-		}
-	</script>
-	<script>
+
+		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js?autoload=false"></script>
+		<script src="/js/postAPI.js"></script>
+		<script>
 		let num;
 		let btn = document.querySelector('#sendEmail');
 		let email = document.getElementById('joinEmail');
@@ -355,7 +324,7 @@ img {
 
 		})
 
-		
 		</script>
+	</div>
 </body>
 </html>
