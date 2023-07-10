@@ -122,8 +122,8 @@
 								<div class="product__item" th:onclick="|location.href='@{expInfo(frexNo=${exp.frexNo})}'|">
 									<div>
 										<h6 th:text="${exp.frexTitle}">체험명</h6>
-										<p>현재참여인원</p>/<p th:text="${exp.pptPer}">총참여인원</p>
-										<p th:text="${#dates.format(exp.exStrDate, 'yyyy/MM/dd')}">체험시작날짜</p> ~ <p th:text="${#dates.format(exp.exEndDate, 'yyyy/MM/dd')}">체험종료날짜</p>
+										<p th:text="|현재참여인원 / ${exp.pptPer}|">총참여인원</p>
+										<p th:text="|${#dates.format(exp.exStrDate, 'yyyy/MM/dd')} ~ ${#dates.format(exp.exEndDate, 'yyyy/MM/dd')}|">체험시작날짜</p>
 									</div>
 								</div>
 							</div>
