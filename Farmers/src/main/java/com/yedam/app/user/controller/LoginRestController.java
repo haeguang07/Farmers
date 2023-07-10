@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yedam.app.user.service.EmailService;
@@ -27,16 +28,17 @@ public class LoginRestController {
 	
 	//로그인 기능
 	@PostMapping("login")
-	public Map<String, Object> login(MemberVO vo, HttpServletRequest request){
-		
-		vo=memberService.login(vo);
+	public Map<String, Object> login(@RequestBody MemberVO vo, HttpServletRequest request){
+		System.out.println(vo);
+		vo = memberService.login(vo);
+		System.out.println(vo);
 		Map<String, Object> map= new HashMap<>();
-		if(vo.getMemNo()!=null) {
+		if(vo==null) {
+			map.put("result", "fail");			
+		}else {
 			map.put("result", "success");
 			HttpSession session = request.getSession();
 			session.setAttribute("mem", vo);
-		}else {
-			map.put("result", "fail");
 		}
 		return map;
 	}
