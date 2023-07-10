@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -66,14 +68,14 @@ img {
 					<tr>
 						<td>주소</td>
 						<td><input type="text" class="" name="post" id="post"
-							style="width: 90px;" placeholder="우편번호" readonly="readonly">
+							style="width: 90px;" placeholder="우편번호" readonly>
 							<button type="button" class="button" id="postBtn"
 								onclick="execDaumPostcode()">우편번호 찾기</button></td>
 					</tr>
 					<tr>
 						<td></td>
 						<td colspan="2"><input type="text" class="" name="adr"
-							id="adr" style="width: 400px;" placeholder="주소"></td>
+							id="adr" style="width: 400px;" placeholder="주소" readonly></td>
 					</tr>
 					<tr>
 						<td></td>
@@ -99,7 +101,7 @@ img {
 					<tr>
 						<td>닉네임</td>
 						<td><input type="text" class="textjoin1" id="nickname"></td>
-						<td><button type="button" class="joinButton" id="nickcheck">중복체크</button></td>
+						<td><button type="button" class="button" id="nickcheck">중복체크</button></td>
 					</tr>
 
 					<tr>
@@ -143,18 +145,9 @@ img {
 			</div>
 		</form>
 	</div>
-	${result }
 	<script
 		src="http://dmaps.daum.net/map_js_init/postcode.v2.js?autoload=false"></script>
 	<script>
-	let query = window.location.search;
-	let param = new URLSearchParams(query);
-	let result = param.get('result');
-	console.log(result);
-		if(result == 'false'){
-			alert('회원가입에 실패했습니다.')
-		}
-	
 		function execDaumPostcode() {
 			daum.postcode.load(function () {
 				new daum.Postcode({
@@ -177,9 +170,9 @@ img {
 								extraAddr = ' (' + extraAddr + ')';
 							}
 						}
-						document.getElementById('joinPost').value = data.zonecode;
-						document.getElementById("joinAdr").value = addr;
-						document.getElementById("joinAdr2").focus();
+						document.getElementById('post').value = data.zonecode;
+						document.getElementById("adr").value = addr;
+						document.getElementById("adrDetail").focus();
 					}
 				}).open();
 			});
