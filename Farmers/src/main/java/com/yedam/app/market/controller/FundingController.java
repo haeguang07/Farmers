@@ -91,15 +91,14 @@ public class FundingController {
 	@PostMapping(value = "/image/upload")
 	public ModelAndView image(MultipartHttpServletRequest request) {
 
-		// ckeditor는 이미지 업로드 후 이미지 표시하기 위해 uploaded 와 url을 json 형식으로 받아야 함
+		
 		// modelandview를 사용하여 json 형식으로 보내기위해 모델앤뷰 생성자 매개변수로 jsonView 라고 써줌
 		// jsonView 라고 쓴다고 무조건 json 형식으로 가는건 아니고 @Configuration 어노테이션을 단
-		// WebConfig 파일에 MappingJackson2JsonView 객체를 리턴하는 jsonView 매서드를 만들어서 bean으로 등록해야
-		// 함
+		// WebConfig 파일에 MappingJackson2JsonView 객체를 리턴하는 jsonView 매서드를 만들어서 bean으로 등록해야함
+
 		ModelAndView mav = new ModelAndView("jsonView");
 
-		// ckeditor 에서 파일을 보낼 때 upload : [파일] 형식으로 해서 넘어오기 때문에 upload라는 키의 밸류를 받아서
-		// uploadFile에 저장함
+		// ckeditor 에서 파일을 보낼 때 upload : [파일] 형식으로 해서 넘어오기 때문에 upload라는 키의 밸류를 받아서 uploadFile에 저장함
 		MultipartFile uploadFile = request.getFile("upload");
 
 		String originalName = uploadFile.getOriginalFilename();
@@ -111,8 +110,8 @@ public class FundingController {
 		String folderPath = makeFolder();
 		// UUID
 		String uuid = UUID.randomUUID().toString();
-		// 저장할 파일 이름 중간에 "_"를 이용하여 구분
 		
+		// 저장할 파일 이름 중간에 "_"를 이용하여 구분
 		String uploadFileName = folderPath + File.separator + uuid + "_" + fileName;
 		
 		String saveName = uploadPath + File.separator + uploadFileName;
@@ -134,10 +133,11 @@ public class FundingController {
 		
 		//DB에 저장할 때 java에서만 읽히는 File.separator를 /로 변환 후 DB에 저장
 		String imagePath = uploadFileName.replace(File.separator, "/"); 
-		System.out.println(uploadFileName);
-		System.out.println(imagePath);
+		System.out.println(saveName);
 		System.out.println(savePath);
-
+		
+		
+		// ckeditor는 이미지 업로드 후 이미지 표시하기 위해 uploaded 와 url을 json 형식으로 받아야 함
 		// uploaded, url 값을 modelandview를 통해 보냄
 		mav.addObject("uploaded", true); // 업로드 완료
 		mav.addObject("url", savePath); // 업로드 파일의 경로
@@ -163,6 +163,5 @@ public class FundingController {
 		}
 		return folderPath;
 	}
-	
-	
+
 }
