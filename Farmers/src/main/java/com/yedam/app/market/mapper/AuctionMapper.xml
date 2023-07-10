@@ -3,6 +3,63 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.app.market.mapper.AuctionMapper">
-
+	<!-- 전체 조회 -->
+	<select id="showAllList" resultType="AuctionVO">
+		SELECT *
+		FROM auction
+		ORDER BY act_no DESC
+	</select>
+	
+	<!-- 단건 조회 -->
+	<select id="selectAction" resultType="AuctionVO">
+		SELECT *
+		FROM auction
+		WHERE act_no = #{actNo}
+	</select>
+	
+	<!-- 등록 -->
+	<insert id="addAuction" parameterType="AuctionVO">
+		<selectKey keyProperty="actNo"
+				   resultType="String"
+				   order="BEFORE">
+			SELECT 'ACT' || LPAD(act_seq.nextval, 6, '0')
+			FROM dual
+		</selectKey>
+		INSERT INTO auction (
+								act_no
+								, mem_no
+								, act_title
+								, act_date
+								, desct
+								, sale_qty
+								, bnp
+								, act_trm
+								, ship_price
+								, ship_dur_avg
+								, ship_dur_max
+								, rep
+								, reg_stts
+								<if test="atchNo != null and !atchNo.equals('')">
+								, atch_no
+								</if>
+							)
+		VALUES ( #{actNo}
+				 , 'mem000001'
+				 , #{actTitle}
+				 , #{act_date}
+				 , #{desct}
+				 , #{saleQty}
+				 , #{bnp}
+				 , #{actTrm}
+				 , #{shipPrice}
+				 , #{shipDurAvg}
+				 , #{shipDurMax}
+				 , #{rep}
+				 , 'e0'
+				<if test="atchNo != null and !atchNo.equals('')">
+				, #{attachNo}
+				</if>
+				)
+	</insert>
 
 </mapper>

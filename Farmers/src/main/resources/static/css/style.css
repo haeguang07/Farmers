@@ -660,6 +660,32 @@ ol {
 	margin-right: 0;
 }
 
+
+/*---------------------
+  Related Products
+-----------------------*/
+.related-products {
+  padding-top: 80px;
+  padding-bottom: 40px;
+}
+
+.related__products__slider.owl-carousel .col-lg-3 {
+  max-width: 100%;
+}
+.related__products__slider.owl-carousel .owl-nav button {
+  font-size: 30px;
+  color: #888888;
+  position: absolute;
+  left: -44px;
+  top: 28%;
+}
+.related__products__slider.owl-carousel .owl-nav button.owl-next {
+  left: auto;
+  right: -44px;
+}
+
+
+
 /*---------------------
   Banner
 -----------------------*/
