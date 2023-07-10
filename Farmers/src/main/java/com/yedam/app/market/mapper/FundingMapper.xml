@@ -12,16 +12,46 @@
 	</select>
 
 	<!-- 펀딩 리스트 조회 (페이징) -->
-	<select id="getFundingListPage" parameterType="int"
-		resultType="FundingVO">
-	<![CDATA[
+	<select id="getFundingListPage" resultType="FundingVO">
 		SELECT b.*
 		FROM
 		(SELECT rownum rn , a.*
 		FROM (SELECT *
-		FROM funding JOIN (SELECT fnd_no, TRUNC(fnd_end_date - sysdate) as dday FROM funding) USING (fnd_no)
-		WHERE reg_stts = 'e1'
-		order by 1 desc) a
+		FROM funding LEFT
+		JOIN (SELECT fnd_no, TRUNC(fnd_end_date - sysdate) as dday, priceSum,
+		payCount, TRUNC((priceSum/goal_price)*100,2) as goalPer
+		FROM funding
+		LEFT JOIN (SELECT board_no, sum(price*qty) as
+		priceSum,
+		sum(qty) as
+		payCount
+		FROM payment_detail
+		GROUP BY board_no)
+		ON(fnd_no = board_no))
+		USING (fnd_no)
+		<where>
+			AND reg_stts = 'e1'
+			<if
+				test="category != null and !category.equals('') and !category.equals('전체')">
+				AND crp_ctg = #{category}
+			</if>
+			<if test="search != null and !search.equals('')">
+				AND fnd_title LIKE '%${search}%'
+			</if>
+		</where>
+		<choose>
+			<when test="order.equals('최신순')">
+				order by 1 desc
+			</when>
+			<when test="order.equals('인기순')">
+				order by payCount asc
+			</when>
+			<when test="order.equals('판매임박순')">
+				order by dday asc
+			</when>
+		</choose>
+		) a
+		<![CDATA[
 		WHERE rownum <= #{page} * 9) b
 		WHERE b.rn > (#{page}-1) * 9
 		]]>
@@ -31,12 +61,48 @@
 	<select id="fundingTotal" resultType="int">
 		SELECT count(*)
 		FROM funding
+		<where>
+			AND reg_stts = 'e1'
+			<if
+				test="category != null and !category.equals('') and !category.equals('전체')">
+				AND crp_ctg = #{category}
+			</if>
+			<if test="search != null and !search.equals('')">
+				AND fnd_title LIKE '%${search}%'
+			</if>
+		</where>
 	</select>
 
 	<!-- 펀딩 상세 조회 -->
 	<select id="getFundingInfo" resultType="FundingVO">
+
 		SELECT *
-		FROM funding
-		WHERE fnd_no = #{fndNo}
+		FROM member JOIN
+		(SELECT *
+		FROM funding JOIN (SELECT fnd_no, TRUNC(fnd_end_date -
+		sysdate) as dday,
+		priceSum,payCount, TRUNC((priceSum/goal_price)*100,2)
+		as goalPer
+		FROM funding Right JOIN (SELECT board_no, sum(price*qty) as
+		priceSum,
+		count(board_no) as payCount
+		FROM payment_detail
+		GROUP BY
+		board_no)
+		ON(fnd_no = board_no)
+		WHERE fnd_no = #{fndNo}) USING (fnd_no))
+		USING (mem_no)
+	</select>
+
+	<!-- 펀딩 추천 목록 조회 -->
+	<select id="getPolpularFnd" resultType="FundingVO">
+		<![CDATA[
+		SELECT * FROM (SELECT fnd_no,sum(qty) as sumCount, fnd_title, fnd_price, rep
+		FROM funding JOIN payment_detail
+		ON (fnd_no = board_no)
+		GROUP BY fnd_no,fnd_title, fnd_price,rep
+		ORDER BY sumCount DESC)
+		WHERE ROWNUM <= 4
+		]]>
 	</select>
 </mapper>

@@ -85,16 +85,16 @@
 								<div class="col-lg-10 col-md-10 col-sm-10">
 									<div class="shop__product__option__left">
 										<div class="row form-floating">
-											<select class="form-select form-group col-4" aria-label="Default select example">
-												<option selected>전체</option>
-												<option value="1">야채</option>
-												<option value="2">과일</option>
-												<option value="3">곡물</option>
+											<select class="form-select form-group col-4" aria-label="Default select example" id="category">
+												<option selected value="전체">전체</option>
+												<option value="야채">야채</option>
+												<option value="과일">과일</option>
+												<option value="곡물">곡물</option>
 											</select>
 											<div class="col-8">
 												<div class="input-group mb-3">
 													<input type="text" class="form-control" placeholder="상품명 검색" aria-label="Recipient's username"
-														aria-describedby="button-addon2">
+														aria-describedby="button-addon2" id="search">
 													<button class="btn btn-outline-secondary" type="button" id="button-addon2">검색</button>
 												</div>
 											</div>
@@ -104,9 +104,9 @@
 								<div class="col-lg-2 col-md-2 col-sm-2">
 									<div class="form-select">
 										<select id="order">
-											<option value="new">최신순</option>
-											<option value="popul">인기순</option>
-											<option value="dday">판매임박순</option>
+											<option value="최신순">최신순</option>
+											<option value="인기순">인기순</option>
+											<option value="판매임박순">판매임박순</option>
 										</select>
 									</div>
 								</div>
@@ -208,12 +208,15 @@
 			})
 
 			//리스트 데이터 아작스로 가져오기
-			function ajaxData(page) {
+			function ajaxData(page,category,order,search) {
 				$.ajax({
 					url: 'fundingList',
 					type: 'POST',
 					data: {
-						pageNum: page
+						pageNum: page,
+						category:category,
+						order:order,
+						search:search
 					}
 				}).done(function (data, status, xhr) {
 					printList(data)
@@ -252,12 +255,16 @@
 				} else {
 					$(clone).find('#dday').text('D-DAY')
 				}
-
+				$(clone).find('#totalPrice').text(item.priceSum+'원')
+				$(clone).find('#goalPer').text(item.goalPer+"%")
+				
 				$('#fundingDiv').append(clone)
 			}
 
 			// 페이징 생성 및 추가
 			function printPage(pageData) {
+				console.log(pageData)
+
 				let pageItem = $('#pageItem').clone()
 				$(pageItem).removeClass('hideItem')
 				$(pageItem).find('#prevPage').on('click',function(){
@@ -282,7 +289,7 @@
 						$(clone).css('border-color','orange')
 					}
 					$(clone).on('click', function () {
-						ajaxData(i)
+						getCondition(i)
 					})
 					$(pageItem).find('#pageNumDiv').append(clone)
 				}
@@ -290,6 +297,31 @@
 				$(pageItem).find('#pageNum')[0].remove()
 				$('#pageDiv').append(pageItem)
 			}
+
+			//조건 값 변경시 사용 될 함수
+			function getCondition(page){
+				let search = $('#search').val();
+				let category = $('#category').val();
+				let order = $('#order').val()
+				if(page == null){
+					page = 1
+				}
+
+				ajaxData(page,category,order,search)
+			}
+
+			//검색 버튼 클릭 시
+			$('#button-addon2').on('click',function(){
+				getCondition()
+			})
+			//카테고리 변경 시
+			$('#category').change(function(){
+				getCondition()
+			})
+			//정렬 변경 시
+			$('#order').change(function(){
+				getCondition()
+			})
 		</script>
 	</div>
 </body>

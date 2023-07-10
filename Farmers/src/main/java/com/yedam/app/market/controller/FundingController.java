@@ -41,15 +41,17 @@ public class FundingController {
 	@ResponseBody
 	public Map<String,Object> fundingListPage( @RequestParam(required = false, defaultValue = "0") int pageNum, 
 			 								   @RequestParam(required = false) String category,
-			 								   @RequestParam(required = false) String order,
-			 								   @RequestParam(required = false) String title ,
+			 								   @RequestParam(required = false, defaultValue = "최신순") String order,
+			 								   @RequestParam(required = false) String search ,
 			 								   Model model) {	
-		System.out.println(title);
+		System.out.println(category);
+		System.out.println(order);
+		System.out.println(search);
+		
 		pageNum = (pageNum == 0 ? 1 : pageNum);
-		System.out.println(pageNum);
-		int total = fundingService.fundingTotal();
-		List<FundingVO> list = fundingService.getFundingListPage(pageNum);
-		System.out.println(list);
+		int total = fundingService.fundingTotal(category,search);
+		System.out.println(total);
+		List<FundingVO> list = fundingService.getFundingListPage(pageNum,category,order,search);
 		
 		PageVO vo = new PageVO(pageNum, total);
 		Map<String,Object> map = new HashMap<String, Object>();
@@ -59,18 +61,22 @@ public class FundingController {
 		return map;
 	}
 	
-	
+	//펀딩 상세 페이지
 	@GetMapping("fundingInfo")
 	public String fundingInfo(FundingVO vo, Model model) {
-		System.out.println(vo);
 		FundingVO info =  fundingService.getFundingInfo(vo);
 		System.out.println(info);
+		List<FundingVO> poplu = fundingService.getPolpularFnd();
 		model.addAttribute("fundingInfo",info);
+		model.addAttribute("polurInfo",poplu);
 		return "market/funding/fundingInfo";
 	}		
 	
+	//펀딩 등록 페이지
 	@GetMapping("addFunding")
 	public String addFunding() {
 		return "market/funding/addFundingForm";
 	}
+	
+	
 }

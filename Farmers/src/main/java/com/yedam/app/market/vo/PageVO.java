@@ -14,10 +14,10 @@ public class PageVO {
 	public PageVO(int pageNum, int total) {
 		this.pageNum = pageNum;
 		
-		this.endPage = (int)Math.ceil(this.pageNum/10.0)*10; //ceil 소수점올림
+		this.endPage = (int)Math.ceil(this.pageNum/9.0)*10; //ceil 소수점올림
 		this.startPage = this.endPage-9;
 		
-		int realEnd = (int)(Math.ceil(total/10.0)); //아예 마지막 페이지
+		int realEnd = (int)(Math.ceil(total/9.0)); //아예 마지막 페이지
 		if(realEnd < this.endPage) {
 			this.endPage = realEnd;
 		}
