@@ -18,8 +18,16 @@ public class UserContorller {
 	public String login() {
 		return "login/login";
 	}
-	
-	
+	//아이디 비밀번호 찾기 이동
+	@GetMapping("IDFound")
+	public String IdFound() {
+		return "login/IDPW";
+	}
+	//회원가입 페이지 이동
+	@GetMapping("join")
+	public String join() {
+		return "login/signup";
+	}
 	
 	
 	
