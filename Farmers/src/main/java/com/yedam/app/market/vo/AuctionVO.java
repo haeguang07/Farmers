@@ -2,6 +2,10 @@ package com.yedam.app.market.vo;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 
 @Data
@@ -10,6 +14,8 @@ public class AuctionVO {
 	// 경매
 	private String actNo;
 	private String actTitle;
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern ="yyyy-MM-dd")
 	private Date actDate;
 	private String desct;
 	private int saleQty;
@@ -23,6 +29,8 @@ public class AuctionVO {
 	private String atchNo;
 	
 	// 카운트 다운
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern ="yyyy-MM-dd")
 	private Date actExpireDate;
 	
 	// 경매 신청
