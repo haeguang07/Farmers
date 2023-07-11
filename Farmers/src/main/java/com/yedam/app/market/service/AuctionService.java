@@ -9,7 +9,10 @@ public interface AuctionService {
 		public List<AuctionVO> getAllAuctions();	
 		
 		// 단건 조회
-		public AuctionVO getOneAuction(int ActNo);
+		public AuctionVO getOneAuction(int actNo);
+		
+		// 입찰 최고가 조회
+		public AuctionVO calHighestBid(int actNo);
 		
 		// 등록
 		public boolean InsertAuction(AuctionVO vo);

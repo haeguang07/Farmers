@@ -11,20 +11,6 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>농촌비앤비 상세페이지</title>
 
-<!-- Google Font -->
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
-	rel="stylesheet">
-
-<!-- Css Styles -->
-<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-<link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-<link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
-<link rel="stylesheet" href="css/nice-select.css" type="text/css">
-<link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-<link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-<link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
 
 <body>
@@ -37,13 +23,13 @@
 					<div class="row">
 						<div class="col-lg-12" style="text-align: left">
 							<div class="product__details__breadcrumb">
-								<a href="./shop.html">농촌비엔비</a> <span>제목넣기</span>
+								<a href="/bnbList">농촌비엔비</a> <span>제목넣기</span>
 							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-lg-3 col-md-3">
-							<ul class="nav nav-tabs" role="tablist">
+							<!-- 							<ul class="nav nav-tabs" role="tablist">
 								<li class="nav-item"><a class="nav-link active"
 									data-toggle="tab" href="#tabs-1" role="tab">
 										<div class="product__thumb__pic set-bg"
@@ -66,16 +52,16 @@
 											<i class="fa fa-play"></i>
 										</div>
 								</a></li>
-							</ul>
+							</ul> -->
 						</div>
 						<div class="col-lg-6 col-md-9">
 							<div class="tab-content">
 								<div class="tab-pane active" id="tabs-1" role="tabpanel">
 									<div class="product__details__pic__item">
-										<img src="img/shop-details/product-big-2.png" alt="">
+										<img src="img/bnb/001-1.jpg" alt="대표사진">
 									</div>
 								</div>
-								<div class="tab-pane" id="tabs-2" role="tabpanel">
+								<!-- 								<div class="tab-pane" id="tabs-2" role="tabpanel">
 									<div class="product__details__pic__item">
 										<img src="img/shop-details/product-big-3.png" alt="">
 									</div>
@@ -91,7 +77,7 @@
 											href="https://www.youtube.com/watch?v=8PJ3_p7VqHw&list=RD8PJ3_p7VqHw&start_radio=1"
 											class="video-popup"><i class="fa fa-play"></i></a>
 									</div>
-								</div>
+								</div> -->
 							</div>
 						</div>
 					</div>
@@ -103,19 +89,14 @@
 					<div class="row d-flex justify-content-center">
 						<div class="col-lg-8">
 							<div class="product__details__text">
-								<h4>경북 청도 농촌 한달살기</h4>
+								<h3>경북 청도 농촌 한달살기</h3>
 								<div class="rating">
 									<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 										class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 										class="fa fa-star-o"></i> <span> - 5 Reviews</span>
 								</div>
-								<h3>
-									50,000원(1박) <span>70.00</span>
-								</h3>
-								<p>Coat with quilted lining and an adjustable hood.
-									Featuring long sleeves with adjustable cuff tabs, adjustable
-									asymmetric hem with elastic side tabs and a front zip fastening
-									with placket.</p>
+								<p>경북 청도에서 한달 살기 체험 해보세요! </p>
+								<h3>50,000원(1박)</h3>
 								<!-- 사이즈선택 -->
 								<!-- <div class="product__details__option">
 									<div class="product__details__option__size">
@@ -130,18 +111,21 @@
 								</div> -->
 								<!-- 날짜선택 -->
 								<div>
-									<label for="date"> 날짜선택하기
-									<input type="date" id="startDate" max="2077-06-20" min="2077-06-05" value="2077-06-15"> ~
-									<input type="date" id="endDate" max="2077-06-20" min="2077-06-05" value="2077-06-15">
+									<label for="date"> 날짜 선택 
+										<input type="date" id="startDate" min="2023-06-05" max="2023-06-23" value="2023-06-05"> 
+										~ <input type="date" id="endDate" min="2023-06-05" max="2077-06-28" value="2023-06-22">
+									<br>
+									<p>총 일수 : </p>
+									<p>총 금액 : </p>									
 									</label>
 								</div>
 								<div class="product__details__cart__option">
-									<div class="quantity">
+									<!-- 									<div class="quantity"> 수량
 										<div class="pro-qty">
 											<input type="text" value="1">
 										</div>
-									</div>
-									<a href="#" class="primary-btn">add to cart</a>
+									</div> -->
+									<a href="#" class="primary-btn">예약 및 결제하기</a>
 								</div>
 
 							</div>
@@ -157,12 +141,10 @@
 									<li class="nav-item"><a class="nav-link" data-toggle="tab"
 										href="#tabs-6" role="tab">리뷰</a></li>
 									<li class="nav-item"><a class="nav-link" data-toggle="tab"
-										href="#tabs-7" role="tab">상품문의</a></li>
-									<li class="nav-item"><a class="nav-link" data-toggle="tab"
-										href="#tabs-7" role="tab">Additional information</a></li>
+										href="#tabs-7" role="tab">문의처</a></li>
 								</ul>
 								<div class="tab-content">
-									<!-- 첫번째 탭 -->
+									<!-- 첫번째 탭 : 상세설명 ck editor -->
 									<div class="tab-pane active" id="tabs-5" role="tabpanel">
 										<div class="product__details__tab__content">
 											<p class="note">Nam tempus turpis at metus scelerisque
@@ -191,52 +173,43 @@
 											</div>
 											<div class="product__details__tab__content__item">
 												<h5>Material used</h5>
-												<p>Polyester is deemed lower quality due to its none
-													natural quality’s. Made from synthetic materials, not
-													natural like wool. Polyester suits become creased easily
-													and are known for not being breathable. Polyester suits
-													tend to have a shine to them compared to wool and cotton
-													suits, this can make the suit look cheap. The texture of
-													velvet is luxurious and breathable. Velvet is a great
-													choice for dinner party jacket and can be worn all year
-													round.</p>
+												<p></p>
 											</div>
+											<!-- 지도 api -->
 										</div>
+											<div id="map" style="width: 750px; height: 350px;"></div>
 									</div>
-									<!-- 두번째 탭 -->
+									<!-- 두번째 탭: 리뷰 -->
 									<div class="tab-pane" id="tabs-6" role="tabpanel">
 										<div class="product__details__tab__content">
 											<div class="product__details__tab__content__item">
-												<h5>Products Infomation</h5>
-												<p>A Pocket PC is a handheld computer, which features
-													many of the same capabilities as a modern PC. These handy
-													little devices allow individuals to retrieve and store
-													e-mail messages, create a contact file, coordinate
-													appointments, surf the internet, exchange text messages and
-													more. Every product that is labeled as a Pocket PC must be
-													accompanied with specific software to operate the unit and
-													must feature a touchscreen and touchpad.</p>
-												<p>As is the case with any new technology product, the
-													cost of a Pocket PC was substantial during it’s early
-													release. For approximately $700.00, consumers could
-													purchase one of top-of-the-line Pocket PCs in 2003. These
-													days, customers are finding that prices have become much
-													more reasonable now that the newness is wearing off. For
-													approximately $350.00, a new Pocket PC can now be
-													purchased.</p>
+												<h5>리뷰</h5>
+												<table class="table">
+													<tr>
+														<th>날짜</th>
+														<th>내용</th>
+														<th>아이디</th>
+														<th>수정</th>
+													</tr>
+													<tr>
+														<td>2023-02-05</td>
+														<td>재미있었습니다.</td>
+														<td>mem001</td>
+														<td><button>수정</button>
+															<button>삭제</button></td>
+													</tr>
+													<tr>
+														<th>리뷰</th>
+														<td><textarea name="" id="" cols="50" rows="3"></textarea>
+														</td>
+														<td>아이디</td>
+														<td><button>등록</button></td>
+													</tr>
+												</table>
 											</div>
-											<div class="product__details__tab__content__item">
-												<h5>Material used</h5>
-												<p>Polyester is deemed lower quality due to its none
-													natural quality’s. Made from synthetic materials, not
-													natural like wool. Polyester suits become creased easily
-													and are known for not being breathable. Polyester suits
-													tend to have a shine to them compared to wool and cotton
-													suits, this can make the suit look cheap. The texture of
-													velvet is luxurious and breathable. Velvet is a great
-													choice for dinner party jacket and can be worn all year
-													round.</p>
-											</div>
+											<!-- 											<div class="product__details__tab__content__item">
+
+											</div> -->
 										</div>
 									</div>
 									<!-- 세번째 탭 -->
@@ -248,23 +221,9 @@
 												faucibus an sullamcorper mattis drostique des commodo
 												pharetras loremos.</p>
 											<div class="product__details__tab__content__item">
-												<h5>Products Infomation</h5>
-												<p>A Pocket PC is a handheld computer, which features
-													many of the same capabilities as a modern PC. These handy
-													little devices allow individuals to retrieve and store
-													e-mail messages, create a contact file, coordinate
-													appointments, surf the internet, exchange text messages and
-													more. Every product that is labeled as a Pocket PC must be
-													accompanied with specific software to operate the unit and
-													must feature a touchscreen and touchpad.</p>
-												<p>As is the case with any new technology product, the
-													cost of a Pocket PC was substantial during it’s early
-													release. For approximately $700.00, consumers could
-													purchase one of top-of-the-line Pocket PCs in 2003. These
-													days, customers are finding that prices have become much
-													more reasonable now that the newness is wearing off. For
-													approximately $350.00, a new Pocket PC can now be
-													purchased.</p>
+												<h5>문의처</h5>
+												<p>문의처:
+												판매자 </p>
 											</div>
 											<div class="product__details__tab__content__item">
 												<h5>Material used</h5>
@@ -284,26 +243,35 @@
 							</div>
 						</div>
 					</div>
-					<br>
-					<br>
-					<br>
-					<br>
+					<br> <br> <br> <br>
 				</div>
 			</div>
 		</section>
 		<!-- Shop Details Section End -->
 	</div>
-	<!-- Js Plugins -->
-	<script src="js/jquery-3.3.1.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/jquery.nice-select.min.js"></script>
-	<script src="js/jquery.nicescroll.min.js"></script>
-	<script src="js/jquery.magnific-popup.min.js"></script>
-	<script src="js/jquery.countdown.min.js"></script>
-	<script src="js/jquery.slicknav.js"></script>
-	<script src="js/mixitup.min.js"></script>
-	<script src="js/owl.carousel.min.js"></script>
-	<script src="js/main.js"></script>
+	
+	<!-- 지도 api -->
+	<script
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c573b65eabeb9b6da24ab52d832dc807"></script>
+	<script>
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+		mapOption = {
+			center : new kakao.maps.LatLng(37.56682, 126.97865), // 지도의 중심좌표
+			level : 3, // 지도의 확대 레벨
+			mapTypeId : kakao.maps.MapTypeId.ROADMAP
+		// 지도종류
+		};
+
+		// 지도를 생성한다 
+		var map = new kakao.maps.Map(mapContainer, mapOption);
+
+		// 지도에 마커를 생성하고 표시한다
+		var marker = new kakao.maps.Marker({
+			position : new kakao.maps.LatLng(37.56682, 126.97865), // 마커의 좌표
+			map : map
+		// 마커를 표시할 지도 객체
+		});
+	</script>
 </body>
 
 </html>

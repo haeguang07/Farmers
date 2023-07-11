@@ -9,4 +9,18 @@ public interface BnbMapper {
 	//전체조회
 	public List<BnbVO> selectBnbList();
 	
+	//단건조회
+	public BnbVO selectBnb();
+	
+	//등록
+	public int insertBnb();
+	
+	//수정
+	public int updateBnb();
+		
+	//삭제
+	public int deleteBnb();
+	
+	
 }
+

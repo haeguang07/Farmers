@@ -20,10 +20,15 @@ public class AuctionServiceImpl implements AuctionService {
 	}
 
 	@Override
-	public AuctionVO getOneAuction(int ActNo) {
-		return auctionMapper.selectAuction(ActNo);
+	public AuctionVO getOneAuction(int actNo) {
+		return auctionMapper.selectAuction(actNo);
 	}
 
+	@Override
+	public AuctionVO calHighestBid(int actNo) {
+		return auctionMapper.calHighestBid(actNo);
+	}
+	
 	@Override
 	public boolean InsertAuction(AuctionVO vo) {
 		return auctionMapper.addAuction(vo) > 0;

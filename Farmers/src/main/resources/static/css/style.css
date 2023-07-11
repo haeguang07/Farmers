@@ -3739,6 +3739,10 @@ ol {
 		text-align: left;
 		padding-top: 20px;
 	}
+	.shop__product__option__left {
+		thext-align: right;
+		padding-top: 20px;
+	}
 	.shop__sidebar {
 		padding-right: 0;
 		margin-bottom: 40px;
