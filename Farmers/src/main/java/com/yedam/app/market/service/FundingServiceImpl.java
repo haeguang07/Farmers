@@ -42,5 +42,11 @@ public class FundingServiceImpl implements FundingService {
 		return fundingMapper.getPolpularFnd();
 	}
 
+	@Override
+	public boolean insertFunding(FundingVO vo) {
+		
+		return fundingMapper.insertFunding(vo) > 0 ;
+	}
+
 
 }
