@@ -7,7 +7,6 @@
       <div class="member">
 
         <div class="text-center">
-              <div><label>이름</label><input type="text" id="name" name="name"   v-model="name"></div>
               <div><label>이메일</label><input type="text" id="email" name="email" v-model="email"></div>
           </div>
           <div class="text-center">
@@ -35,7 +34,6 @@
 export default{
   data(){
     return{
-      name:'',
       email:'',
       id:'',
       box1:true,
@@ -45,9 +43,10 @@ export default{
   },
   methods:{
     idFound(){
-      let obj={name: this.name, email: this.email}
-      console.log(obj);
+      let obj={name: this.name}
       //아래 내용을 ajax 호출하기
+      fetch('findID')
+
       this.id='';
       this.box1=false
       if(this.id!=''){
