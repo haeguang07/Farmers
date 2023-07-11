@@ -24,9 +24,5 @@ public class CropsSaleVO {
 	// review
 	public String revNo;
 	public int rate;
-	public String revDesct;
-	@DateTimeFormat(pattern="yyyy-MM-dd")
-	public Date wrtDate;
-	public String boardNp;
-	public String img;
+	public String boardNo;
 }
