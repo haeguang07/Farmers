@@ -19,4 +19,7 @@ public interface FundingMapper {
 	
 	//추천 펀딩 정보 가져오기
 	public List<FundingVO> getPolpularFnd();
+	
+	//펀딩 등록
+	public int insertFunding(FundingVO vo);
 }

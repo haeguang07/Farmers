@@ -75,15 +75,14 @@
 
 	<!-- 펀딩 상세 조회 -->
 	<select id="getFundingInfo" resultType="FundingVO">
-
 		SELECT *
 		FROM member JOIN
 		(SELECT *
 		FROM funding JOIN (SELECT fnd_no, TRUNC(fnd_end_date -
 		sysdate) as dday,
-		priceSum,payCount, TRUNC((priceSum/goal_price)*100,2)
+		NVL(priceSum,0) as priceSum,NVL(payCount,0) as payCount, NVL(TRUNC((priceSum/goal_price)*100,2),0)
 		as goalPer
-		FROM funding Right JOIN (SELECT board_no, sum(price*qty) as
+		FROM funding LEFT JOIN (SELECT board_no, sum(price*qty) as
 		priceSum,
 		count(board_no) as payCount
 		FROM payment_detail
@@ -105,4 +104,22 @@
 		WHERE ROWNUM <= 4
 		]]>
 	</select>
+
+	<!-- 펀딩 등록 -->
+	<insert id="insertFunding" parameterType="FundingVO">
+		INSERT INTO funding
+		VALUES ('n9'||LPAD(funding_seq.NEXTVAL,13,0),
+		('mem0000000000000'),
+		#{fndTitle},
+		#{desct},
+		#{fndStrDate},
+		#{fndEndDate},
+		#{goalPrice},
+		#{fndPrice},
+		#{shipStrDate},
+		#{rep},
+		'e1',
+		#{crpCtg},
+		'0')
+	</insert>
 </mapper>
