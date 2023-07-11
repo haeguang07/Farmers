@@ -19,4 +19,7 @@ public interface FundingService {
 
 	// 추천 펀딩 정보 가져오기
 	public List<FundingVO> getPolpularFnd();
+	
+	//펀딩 등록
+	public boolean insertFunding(FundingVO vo);
 }

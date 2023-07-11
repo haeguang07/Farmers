@@ -4,8 +4,14 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.app.activity.mapper.BnbMapper">
 
-	<select id="selectBnbList">
+	<select id="selectBnbList" resultType="BnbVO">
 		select * from farmbnb
 	</select>
 
+	<select id="selectBnb">
+		select * from farmbnb
+		where bnb_no= #{bnbNo}
+	</select>
+
 </mapper>
+

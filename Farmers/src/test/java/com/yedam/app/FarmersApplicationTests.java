@@ -13,7 +13,6 @@ class FarmersApplicationTests {
 
 	@Test
 	void contextLoads() {
-
 		int leftLimit = 48; // numeral '0'
 		int rightLimit = 122; // letter 'z'
 		int targetStringLength = 13;

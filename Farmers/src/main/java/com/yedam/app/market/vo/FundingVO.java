@@ -14,12 +14,16 @@ public class FundingVO {
 	private String memNo;
 	private String fndTitle;
 	private String desct;
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern ="yyyy-MM-dd")
 	private Date fndStrDate;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	@JsonFormat(pattern ="yyyy-MM-dd")
 	private Date fndEndDate;
 	private int goalPrice;
 	private int fndPrice;
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern ="yyyy-MM-dd")
 	private Date shipStrDate;
 	private String rep;
 	private String regStts;

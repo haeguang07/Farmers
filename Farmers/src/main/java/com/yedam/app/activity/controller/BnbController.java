@@ -20,7 +20,7 @@ public class BnbController {
 	@GetMapping("bnbList")
 	public String getBnbList(Model model){
 		List<BnbVO> list = bnbService.selectBnbList();
-		model.addAttribute(list);
+		model.addAttribute("list",list);
 		return "activity/bnb/bnbList";		
 	}
 	
