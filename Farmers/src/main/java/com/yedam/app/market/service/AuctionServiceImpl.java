@@ -15,8 +15,8 @@ public class AuctionServiceImpl implements AuctionService {
 	AuctionMapper auctionMapper;
 	
 	@Override
-	public List<AuctionVO> getAllAuctions() {
-		return auctionMapper.showAllList();
+	public List<AuctionVO> getAuctionList() {
+		return auctionMapper.showAuctionList();
 	}
 
 	@Override

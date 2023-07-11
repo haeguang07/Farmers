@@ -6,7 +6,7 @@ import com.yedam.app.market.vo.AuctionVO;
 
 public interface AuctionService {
 		// 전체 조회
-		public List<AuctionVO> getAllAuctions();	
+		public List<AuctionVO> getAuctionList();	
 		
 		// 단건 조회
 		public AuctionVO getOneAuction(int actNo);
