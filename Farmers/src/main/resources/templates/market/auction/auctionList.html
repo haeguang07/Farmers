@@ -11,6 +11,11 @@
 	<title>유귀농 경매장</title>
 	<link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
 </head>
+<style>
+	.shop__product__link__right > a {
+		text-decoration-color: none;
+	}
+</style>
 
 <body>
 	<div layout:fragment="content">
@@ -37,14 +42,6 @@
 				<div class="row">
 					<div class="col-lg-3">
 						<div class="shop__sidebar">
-							<div class="shop__sidebar__search">
-								<form action="#">
-									<input type="text" placeholder="Search...">
-									<button type="submit">
-										<span class="icon_search"></span>
-									</button>
-								</form>
-							</div>
 							<div class="shop__sidebar__accordion">
 								<div class="accordion" id="accordionExample">
 									<div class="card">
@@ -55,10 +52,10 @@
 											<div class="card-body">
 												<div class="shop__sidebar__categories">
 													<ul class="nice-scroll">
-														<li><a href="#">전원마켓</a></li>
 														<li><a href="#">농작물 판매</a></li>
 														<li><a href="#">농작물 펀딩</a></li>
-														<li><b><a href="#">경매장</a></b></li>
+														<li><b><a href="#" style="color:black;">경매장</a></b></li>
+														<li><a href="#">전원마켓</a></li>
 													</ul>
 												</div>
 											</div>
@@ -77,6 +74,13 @@
 									</div>
 								</div>
 								<div class="col-lg-6 col-md-6 col-sm-6">
+									<div class="shop__product__link__right">
+										<a href="#"><span>최신순</span></a> / 
+										<a href="#"><span>인기순</span></a> / 
+										<a href="#"><span>최저가순</span></a> / 
+										<a href="#"><span>최고가순</span></a> /
+									</div>
+									<!-- 
 									<div class="shop__product__option__right">
 										<p>Sort by Price:</p>
 										<select>
@@ -85,159 +89,28 @@
 											<option value="">$55 - $100</option>
 										</select>
 									</div>
+									 -->
 								</div>
 							</div>
 						</div>
-						<div class="row">
-							<div></div>
-							<div class="col-lg-4 col-md-6 col-sm-6">
+						<div class="row" id="auctionList">
+							<div class="col-lg-4 col-md-6 col-sm-6" th:each="act : ${actList}">
 								<div class="product__item">
-									<div class="product__item__pic set-bg" data-setbg="img/product/product-2.jpg">
+									<div class="product__item__pic set-bg" data-setbg="img/market/auction/Daechu.jpg">
+										<!-- <span class="label">종료임박</span> -->
 										<ul class="product__hover">
 											<li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-											<li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-											<li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
 										</ul>
 									</div>
 									<div class="product__item__text">
-										<h6>경매물품명</h6>
+										<h6 th:text="${act.actTitle}">상품명</h6>
 										<a href="#" class="add-cart">+ Add To Cart</a>
 										<h8>현재 입찰가</h8>
-										<h5>경매종료일</h5>
+										<div class="countdown">경매종료일</div>
 										<div class="product__color__select">
 											<label for="pc-4"> <input type="radio" id="pc-4">
 											</label> <label class="active black" for="pc-5"> <input type="radio" id="pc-5">
 											</label> <label class="grey" for="pc-6"> <input type="radio" id="pc-6">
-											</label>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-4 col-md-6 col-sm-6">
-								<div class="product__item sale">
-									<div class="product__item__pic set-bg" data-setbg="img/product/product-3.jpg">
-										<span class="label">종료임박</span>
-										<ul class="product__hover">
-											<li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-											<li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-											<li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-										</ul>
-									</div>
-									<div class="product__item__text">
-										<h6>경매물품명</h6>
-										<a href="#" class="add-cart">+ Add To Cart</a>
-										<h5>현재 입찰가</h5>
-										<h5>경매종료일</h5>
-									</div>
-									<h5>$43.48</h5>
-									<div class="product__color__select">
-										<label for="pc-7"> <input type="radio" id="pc-7">
-										</label> <label class="active black" for="pc-8"> <input type="radio" id="pc-8">
-										</label> <label class="grey" for="pc-9"> <input type="radio" id="pc-9">
-										</label>
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-4 col-md-6 col-sm-6">
-								<div class="product__item">
-									<div class="product__item__pic set-bg" data-setbg="img/product/product-4.jpg">
-										<ul class="product__hover">
-											<li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-											<li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-											<li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-										</ul>
-									</div>
-									<div class="product__item__text">
-										<h6>Diagonal Textured Cap</h6>
-										<a href="#" class="add-cart">+ Add To Cart</a>
-										<div class="rating">
-											<i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i
-												class="fa fa-star-o"></i> <i class="fa fa-star-o"></i>
-										</div>
-										<h5>$60.9</h5>
-										<div class="product__color__select">
-											<label for="pc-10"> <input type="radio" id="pc-10">
-											</label> <label class="active black" for="pc-11"> <input type="radio" id="pc-11">
-											</label> <label class="grey" for="pc-12"> <input type="radio" id="pc-12">
-											</label>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-4 col-md-6 col-sm-6">
-								<div class="product__item sale">
-									<div class="product__item__pic set-bg" data-setbg="img/product/product-6.jpg">
-										<span class="label">Sale</span>
-										<ul class="product__hover">
-											<li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-											<li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-											<li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-										</ul>
-									</div>
-									<div class="product__item__text">
-										<h6>Ankle Boots</h6>
-										<a href="#" class="add-cart">+ Add To Cart</a>
-										<div class="rating">
-											<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-												class="fa fa-star"></i> <i class="fa fa-star-o"></i>
-										</div>
-										<h5>$98.49</h5>
-										<div class="product__color__select">
-											<label for="pc-16"> <input type="radio" id="pc-16">
-											</label> <label class="active black" for="pc-17"> <input type="radio" id="pc-17">
-											</label> <label class="grey" for="pc-18"> <input type="radio" id="pc-18">
-											</label>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-4 col-md-6 col-sm-6">
-								<div class="product__item">
-									<div class="product__item__pic set-bg" data-setbg="img/product/product-7.jpg">
-										<ul class="product__hover">
-											<li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-											<li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-											<li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-										</ul>
-									</div>
-									<div class="product__item__text">
-										<h6>T-shirt Contrast Pocket</h6>
-										<a href="#" class="add-cart">+ Add To Cart</a>
-										<div class="rating">
-											<i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i
-												class="fa fa-star-o"></i> <i class="fa fa-star-o"></i>
-										</div>
-										<h5>$49.66</h5>
-										<div class="product__color__select">
-											<label for="pc-19"> <input type="radio" id="pc-19">
-											</label> <label class="active black" for="pc-20"> <input type="radio" id="pc-20">
-											</label> <label class="grey" for="pc-21"> <input type="radio" id="pc-21">
-											</label>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-4 col-md-6 col-sm-6">
-								<div class="product__item">
-									<div class="product__item__pic set-bg" data-setbg="img/product/product-8.jpg">
-										<ul class="product__hover">
-											<li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-											<li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-											<li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-										</ul>
-									</div>
-									<div class="product__item__text">
-										<h6>Basic Flowing Scarf</h6>
-										<a href="#" class="add-cart">+ Add To Cart</a>
-										<div class="rating">
-											<i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i
-												class="fa fa-star-o"></i> <i class="fa fa-star-o"></i>
-										</div>
-										<h5>$26.28</h5>
-										<div class="product__color__select">
-											<label for="pc-22"> <input type="radio" id="pc-22">
-											</label> <label class="active black" for="pc-23"> <input type="radio" id="pc-23">
-											</label> <label class="grey" for="pc-24"> <input type="radio" id="pc-24">
 											</label>
 										</div>
 									</div>
@@ -381,7 +254,10 @@
 		</div>
 		<!-- Search End -->
 
-		<script src="js/main.js"></script>
+		<script>
+			// 경매종료일 countdown
+			// const auctionDate = Date.parse();
+		</script>
 	</div>
 </body>
 
