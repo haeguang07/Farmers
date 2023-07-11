@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.app.market.service.CropsSaleService;
@@ -42,5 +43,18 @@ public class CropsSaleController {
 		System.out.println(info);
 		model.addAttribute("csInfo", info);
 		return "market/cropsSale/cropsSaleInfo";
+	}
+	
+	// 등록페이지 불러오기
+	@GetMapping("cropsSaleInsert")
+	public String insertCropsSaleForm() {
+		return "market/cropsSale/cropsSaleInsert";
+	}
+	
+	// 등록
+	@PostMapping("cropsSaleInsert")
+	public String insertCropsSale(Model model, CropsSaleVO csVO) {
+		csService.insertCropsSaleInfo(csVO);
+		return "market/cropsSale/cropsSaleList";
 	}
 }
