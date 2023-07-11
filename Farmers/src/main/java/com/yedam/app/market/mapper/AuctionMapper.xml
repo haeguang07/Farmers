@@ -5,9 +5,11 @@
 <mapper namespace="com.yedam.app.market.mapper.AuctionMapper">
 	<!-- 전체 조회 -->
 	<select id="showAllList" resultType="AuctionVO">
-		SELECT *
-		FROM auction
-		ORDER BY act_no DESC
+		SELECT act.act_no, act.mem_no, act.act_title, act.act_date, act.act_trm, act.rep, act.reg_stts, act.bnp, MAX(apl.bid_price) AS bid_price
+		FROM auction act, auction_apply apl
+		WHERE act.act_no = apl.act_no (+)
+		GROUP BY act.act_no, act.mem_no, act.act_title, act.act_date, act.act_trm, act.rep, act.reg_stts, act.bnp
+		ORDER BY 1 DESC
 	</select>
 	
 	<!-- 단건 조회 -->
@@ -15,6 +17,17 @@
 		SELECT *
 		FROM auction
 		WHERE act_no = #{actNo}
+	</select>
+	
+	<!-- 현재 입찰 최고가 계산 -->
+	<select id="calHighestBid" resultType="AuctionVO">
+		SELECT *
+		FROM auction_apply
+		WHERE bid_price = (
+                            SELECT MAX(bid_price)
+                            FROM auction_apply
+                            WEHRE act_no = #{actNo}
+                          )
 	</select>
 	
 	<!-- 등록 -->
