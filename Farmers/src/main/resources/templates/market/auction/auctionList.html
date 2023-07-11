@@ -74,11 +74,11 @@
 									</div>
 								</div>
 								<div class="col-lg-6 col-md-6 col-sm-6">
-									<div class="shop__product__link__right">
+									<div class="shop__product__link__right text-right">
 										<a href="#"><span>최신순</span></a> / 
 										<a href="#"><span>인기순</span></a> / 
 										<a href="#"><span>최저가순</span></a> / 
-										<a href="#"><span>최고가순</span></a> /
+										<a href="#"><span>최고가순</span></a>
 									</div>
 									<!-- 
 									<div class="shop__product__option__right">
@@ -94,9 +94,9 @@
 							</div>
 						</div>
 						<div class="row" id="auctionList">
-							<div class="col-lg-4 col-md-6 col-sm-6" th:each="act : ${actList}">
+							<div class="col-lg-4 col-md-6 col-sm-6" th:each="act : ${actList}" th:if="${act.regStts} == 'e1'">
 								<div class="product__item">
-									<div class="product__item__pic set-bg" data-setbg="img/market/auction/Daechu.jpg">
+									<div class="product__item__pic set-bg" data-th-data-setbg="|/img/market/auction/${act.rep}|">
 										<!-- <span class="label">종료임박</span> -->
 										<ul class="product__hover">
 											<li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
@@ -104,14 +104,11 @@
 									</div>
 									<div class="product__item__text">
 										<h6 th:text="${act.actTitle}">상품명</h6>
-										<a href="#" class="add-cart">+ Add To Cart</a>
-										<h8>현재 입찰가</h8>
-										<div class="countdown">경매종료일</div>
-										<div class="product__color__select">
-											<label for="pc-4"> <input type="radio" id="pc-4">
-											</label> <label class="active black" for="pc-5"> <input type="radio" id="pc-5">
-											</label> <label class="grey" for="pc-6"> <input type="radio" id="pc-6">
-											</label>
+										<a href="#" class="add-cart">+ 즉시 구매가 <span th:text="${#numbers.formatInteger(act.bnp, 1, 'COMMA')} +'원'"></span></a>
+										현재 입찰가 <span th:text="${#numbers.formatInteger(act.bidPrice, 1, 'COMMA')}"></span>원
+										<div class="countdown">
+											<span th:text="${#dates.format(act.actDate, 'yyyy/MM/dd')}"></span>
+											<input th:value="${act.actTrm}" type="hidden">
 										</div>
 									</div>
 								</div>
@@ -256,7 +253,12 @@
 
 		<script>
 			// 경매종료일 countdown
-			// const auctionDate = Date.parse();
+			let auctionDate = $('.countdown > span').text();
+			let formattedDate = moment(auctionDate).format('yyyy-MM-dd');
+			
+			console.log(formattedDate);
+			
+			
 		</script>
 	</div>
 </body>

@@ -26,37 +26,31 @@
 		}
 
 		#step2 {
-			
+			display: none;
 		}
-		<!--datepicer 버튼 롤오버 시 손가락 모양 표시-->
-		.ui-datepicker-trigger{cursor: pointer;}
-
-		<!--datepicer input 롤오버 시 손가락 모양 표시-->
-
-		.hasDatepicker{cursor: pointer;}
 	</style>
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
 
 <body>
 	<div id="joinForm" layout:fragment="content">
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<div class="inline-blcok">
 			<h3>회원가입</h3>
 			<p>회원이 되어 다양한 해택을 경험해 보세요</p>
 		</div>
 		<form>
 			<table>
-				<thead id="step1">
+				<thead id="step1" >
 					<!-- 아이디-->
 					<tr>
 						<td>아이디</td>
-						<td><input type="text" class="" id="id"></td>
+						<td><input type="text" class="" id="id" ></td>
 						<td><button type="button" class="button" id="idCheck">중복체크</button></td>
 					</tr>
 					<tr>
 						<td></td>
-						<td colspan="2" class="explanText">(4자~12자리의 영문자, 숫자 / @,#$등 특수문자는 제외)</td>
+						<td colspan="2" class="explanText">(6자~15자리의 영문자, 숫자 / @,#$등 특수문자는 제외)</td>
 					</tr>
 					<tr>
 						<!-- 비밀번호-->
@@ -74,8 +68,7 @@
 					<tr>
 						<td>이메일</td>
 						<td><input type="email" class="textjoin1" id="joinEmail"></td>
-						<td><button type="button" class="button" id="sendEmail">인증번호
-								보내기</button></td>
+						<td><button type="button" class="button" id="sendEmail">인증번호 보내기</button></td>
 					</tr>
 					<!-- 인증하기-->
 					<tr>
@@ -129,14 +122,14 @@
 					<!-- 성별-->
 					<tr>
 						<td>성별</td>
-						<td><label><input type="radio" name="gender" id="male" checked="checked" value="M">남성</label> <label><input
-									type="radio" name="gender" id="female" value="F">여성</label></td>
+						<td><label><input type="radio" name="gender" id="male" checked="checked" value="a0">남성</label> <label><input
+									type="radio" name="gender" id="female" value="a1">여성</label></td>
 						<td></td>
 					</tr>
 					<!-- 생년월일-->
 					<tr>
 						<td>생년월일</td>
-						<td><input type="date" class="" name="birth" id="birth"></td>
+						<td><input type="text" class="" name="birth" id="birth"></td>
 						<td></td>
 					</tr>
 					<tr>
@@ -150,53 +143,39 @@
 		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js?autoload=false"></script>
 		<script src="/js/postAPI.js"></script>
 		<script>
-		//오늘 이후로 선택 안되도록
-		let now_utc = Date.now()
-		let timeOff = new Date().getTimezoneOffset()*60000;
-		let today = new Date(now_utc-timeOff).toISOString().split("T")[0];
-		$("#birth").attr("max", today);
-		  $("#birth").datepicker({
+			
+			$("#birth").datepicker({
+				dateFormat: 'yy-mm-dd' //Input Display Format 변경
+				,prevText : '이전달'        
+				,nextText : '다음달'      
+				,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+				,showMonthAfterYear: true //년도 먼저 나오고, 뒤에 월 표시
+				,changeYear: true //콤보박스에서 년 선택 가능
+				,changeMonth: true //콤보박스에서 월 선택 가능                
+				,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
+				,buttonImage: "/img/icon/icon-calendar.png" //버튼 이미지 경로
+				,buttonImageOnly: true //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
+				,buttonText: "날짜선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트                
+				,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
+				,monthNamesShort: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'] //달력의 월 부분 텍스트
+				,monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'] //달력의 월 부분 Tooltip 텍스트
+				,dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'] //달력의 요일 부분 텍스트
+				,dayNames: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'] //달력의 요일 부분 Tooltip 텍스트
+				,maxDate: "+0" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후, 0:오늘까지)          
+			});
 
-              dateFormat: 'yy-mm-dd' //Input Display Format 변경
+			//초기값을 오늘 날짜로 설정해줘야 합니다.
+			$('#birth').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)            
+			//이미지 설정
+			$('.ui-datepicker-trigger').css({'width': "25px"})
 
-              ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
 
-              ,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
 
-              ,changeYear: true //콤보박스에서 년 선택 가능
-
-              ,changeMonth: true //콤보박스에서 월 선택 가능                
-
-              ,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
-
-              ,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
-
-              ,buttonImageOnly: true //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
-
-              ,buttonText: "선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트                
-
-              ,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
-
-              ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
-
-              ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
-
-              ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
-
-              ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
-
-             
-
-              ,maxDate: "+0" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                
-
-          });
-		
 			let num;
-			let btn = document.querySelector('#sendEmail');
-			let email = document.getElementById('joinEmail');
-			btn.addEventListener('click', function (e) {
-				let emailText = email.value;
-				console.log(emailText);
+			let btn = $('#sendEmail');
+			let email = $('#joinEmail');
+			btn.on('click', function (e) {
+				let emailText = email.val();
 				if (emailText == "") {
 					alert('이메일을 입력하세요');
 					return;
@@ -209,43 +188,40 @@
 					})
 					.catch(err => console.log(err))
 			});
-			let cBtn = document.querySelector('#certify');
-			cBtn.addEventListener('click', function (e) {
-				let cNum = document.querySelector('#certifytext').value;
-
-				console.log(num)
+			let cBtn = $('#certify');
+			cBtn.on('click', function (e) {
+				let cNum = $('#certifytext').val();
 				if (cNum == num) {
-					alert('인증이 완료 되었습니다');
-					email.name = "joinEmail";
+					alert('인증성공');
+					email.data('email',email.val());
 				} else {
 					alert('인증번호를 정확히 입력하세요');
 				}
 			})
 			//정규식
-			let regId = /^[a-zA-Z0-9]{4,12}$/; // 4자~12자리의 영문자, 숫자
+			let regId = /^[a-zA-Z0-9]{6,15}$/; // 6자~15자리의 영문자, 숫자
 			let regPw = /^[a-zA-Z0-9!@#$%^&*()?_~]{8,15}$/; // 8~15자리 숫자, 영문, 특수문자 조합
 			let reqNick = /[^a-z|A-Z|0-9|ㄱ-ㅎ|가-힣]{1,8}/g; // 1~8자리  영문자, 숫자 특수문자와 공백/[^a-z|A-Z|0-9|ㄱ-ㅎ|가-힣]/g
-			let reqBirth =
-				/^(19[0-9][0-9]|20\d{2})-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/ //19XX|20XX - 0(0~9)|1(1,2) - 0(0~9)|(1,2)(0~9)|3(0,1)
+			
 
-			let id = document.querySelector('#joinId');
-			let pw = document.querySelector('#joinPw');
-			let pw2 = document.querySelector('#pwCheck');
-			let post = document.querySelector('#joinPost');
-			let adr = document.querySelector('#joinAdr');
-			let adr2 = document.querySelector('#joinAdr2');
-			let email2 = document.getElementById('joinEmail');
-			let certifytext = document.getElementById('certifytext');
-			let nickname = document.getElementById('nickname');
-			let birth = document.querySelector('#birth');
+			let id = $('#joinId');
+			let pw = $('#joinPw');
+			let pw2 = $('#pwCheck');
+			let post = $('#joinPost');
+			let adr = $('#joinAdr');
+			let adr2 = $('#joinAdr2');
+			let email2 = $('joinEmail');
+			let certifytext = $('certifytext');
+			let nickname = $('nickname');
+			let birth = $('#birth');
 			//아이디 체크
-			let idCheckBtn = document.querySelector('#idCheck');
-			idCheckBtn.addEventListener('click', function () {
+			let idCheckBtn = $('#idCheck');
+			idCheckBtn.on('click', function () {
 				if (!regId.test(id.value)) {
-					alert('아이디는 4자~12자리의 영문자, 숫자를 입력하세요');
+					alert('아이디는 6자~15자리의 영문자, 숫자를 입력하세요');
 					return;
 				} else {
-					let uid = id.value;
+					let uid = id.val();
 					fetch('userIdCheck.do?uid=' + uid)
 						.then(resolve => resolve.json())
 						.then(result => {
@@ -255,7 +231,7 @@
 								console.log(id);
 							} else if (result.retCode == 'Fail') {
 								alert('이미 있는 아이디 입니다. 다시 입력해주세요');
-								id.value = '';
+								id.val() = '';
 								if (id.name) {
 									id.removeAttribute('name');
 								}
@@ -268,8 +244,8 @@
 			})
 
 			//닉네임 중복체크
-			let nickcheckBtn = document.querySelector('#nickcheck');
-			nickcheckBtn.addEventListener('click', function () {
+			let nickcheckBtn = $('#nickcheck');
+			nickcheckBtn.on('click', function () {
 				if (reqNick.test(nickname.value)) {
 					alert('닉네임는 1~8자리 입력하세요');
 					return;
@@ -303,16 +279,16 @@
 					return false;
 				}
 				let chk = 0;
-				if (pw.value.search(/[0-9]/g) != -1) chk++;
-				if (pw.value.search(/[a-z]/ig) != -1) chk++;
-				if (pw.value.search(/[!@#$%^&*()?_~]/g) != -1) chk++;
+				//if (pw.value.search(/[0-9]/g) != -1) chk++;
+				//if (pw.value.search(/[a-z]/ig) != -1) chk++;
+				//if (pw.value.search(/[!@#$%^&*()?_~]/g) != -1) chk++;
 				if (chk < 2) {
 					alert("비밀번호는 숫자, 영문, 특수문자를 두가지이상 혼용하여야 합니다.");
 
 					return false;
 				}
 				// 동일한 문자/숫자 4이상, 연속된 문자
-				if (/(\w)\1\1\1/.test(pw.value) || isContinuedValue(pw.value)) {
+				if (/(\w)\1\1\1/.test(pw.val()) || isContinuedValue(pw.val())) {
 					alert("비밀번호에 4자 이상의 연속 또는 반복 문자 및 숫자를 사용하실 수 없습니다.");
 					return false;
 				}
@@ -328,44 +304,51 @@
 				}
 				return true;
 			}
-			let nextBtn = document.querySelector('#nextBtn');
-			nextBtn.addEventListener('click', function (e) {
-				if (!regId.test(id.value)) {
-					alert('아이디는 4자~12자리의 영문자, 숫자를 입력하세요');
+			
+			
+			let nextBtn =$('#nextBtn');
+			nextBtn.on('click', function (e) {
+				if (!regId.test(id.val())) {
+					alert('아이디는 6자~15자리의 영문자, 숫자를 입력하세요');
 					return;
-				} else if (!id.name) {
+				} else if (id.data('ok')) {//!추가하기
 					alert('아이디 중복체크를 해주세요');
 					return;
-				} else if (!pwCheck()) {
+				} else if (pwCheck()) {//!추가하기
 
 					pw.value = '';
 					pw2.value = '';
 					return;
-				} else if (post.value == '' || adr.value == '') {
-					alert('주소를 입력하세요');
-					return;
-				} else if (adr2.value == '') {
-					alert('상세주소를 입력하세요');
-					return;
-				} else if (!email2.name) {
-					alert('이메일 인증을 해주세요');
-					return;
-				} else if (!nickname.name) {
+				} 
+				else if (nickname.name) {
 					alert('닉네임 중복체크를 해주세요');
 					return;
-				} else if (!reqBirth.test(birth.value)) {
-					alert('생년월일을 정확히 입력하세요');
+				} 
+				else if (email2.name) {
+					alert('이메일 인증을 해주세요');
 					return;
-				}
-
-
-
+				} 
+				
 
 				document.querySelector('#step1').style.display = 'none';
 				document.querySelector('#step2').style.display = 'block';
 
 
 			})
+			function step2(){
+				if (post.value == '' || adr.value == '') {
+					alert('주소를 입력하세요');
+					return;
+				} 
+				else if (adr2.value == '') {
+					alert('상세주소를 입력하세요');
+					return;
+				} 
+				else if (!reqBirth.test(birth.value)) {
+					alert('생년월일을 정확히 입력하세요');
+					return;
+				}
+			}
 		</script>
 	</div>
 </body>

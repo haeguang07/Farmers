@@ -30,7 +30,9 @@ public class AuctionController {
 	public String auctionInfo(int actNo, Model model) {
 		System.out.println(actNo);
 		AuctionVO info = actService.getOneAuction(actNo);
+		AuctionVO currentHighBid = actService.calHighestBid(actNo);
 		model.addAttribute("actInfo", info);
+		model.addAttribute("hbid", currentHighBid);
 		return "market/auction/auctionInfo";
 		
 	}
