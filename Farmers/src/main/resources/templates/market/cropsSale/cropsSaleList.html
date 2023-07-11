@@ -10,8 +10,7 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>농작물 판매</title>
 
-<link rel="stylesheet" href="../tui-grid/dist/tui-grid.css" />
-<script src="../tui-gird/dist/tui-grid.js"></script>
+<link rel="stylesheet" href="/tui-grid/dist/tui-grid.css" type="text/css">
 </head>
 <body>
 	<div layout:fragment="content">
@@ -131,7 +130,8 @@
 						</div>
 						<div class="row">
 							<div class="col-lg-12">
-								<button type="button" class="btn btn-dark" style="width: 130px; height: 40px; float: right; margin-right: 30px; margin-bottom: 20px;">판매물품 등록</button>
+								<button type="button" class="btn btn-dark" style="width: 130px; height: 40px; 
+									float: right; margin-right: 30px; margin-bottom: 20px;">판매물품 등록</button>
 							</div>
 						</div>
 					</div>
@@ -140,45 +140,47 @@
 			</div>
 		</section>
 		<!-- Shop Section End -->
-	</div>
-	<script>
-		const Grid = require('tui-grid');
+		<script src="/tui-grid/dist/tui-grid.js"></script>
+		<script>
 		
-		import Grid from 'tui-grid';
-		
-		const instance = new Grid({
-			  el: document.getElementById('grid'), // Container element
-			  columns: [
-			    {
-			      header: 'Name',
-			      name: 'name'
-			    },
-			    {
-			      header: 'Artist',
-			      name: 'artist'
-			    },
-			    {
-			      header: 'Release',
-			      name: 'release'
-			    },
-			    {
-			      header: 'Genre',
-			      name: 'genre'
-			    }
-			  ],
-			  data: [
-			    {
-			      name: 'Beautiful Lies',
-			      artist: 'Birdy',
-			      release: '2016.03.26',
-			      genre: 'Pop'
-			    }
-			  ]
+	
+			$.ajax({
+				url : "cropsSaleData",
+				method : "get",
+				dataType : "JSON",
+				success : function(result) {
+					console.log(result)
+					
+					const grid = new tui.Grid({
+						el: document.getElementById('grid'), // Container element
+						data:result,
+						scrollX : false,
+						scrollY : false,
+						columns: [
+							{
+							 header: 'crpSaleNo',
+							 name: 'crpSaleNo'
+							},
+							{
+							 header: 'crpTitle',
+							 name: 'crpTitle'
+							},
+							{
+							 header: 'price',
+							 name: 'price'
+							},
+							{
+							 header: 'img',
+							 name: 'img'
+							}
+						]
+					});
+				
+			 
+				}
 			});
-
-			instance.resetData(newData); // Call API of instance's public method
-
-			Grid.applyTheme('striped'); // Call API of static method
-	</script>
+	
+</script>
+	</div>
 </body>
 </html>
