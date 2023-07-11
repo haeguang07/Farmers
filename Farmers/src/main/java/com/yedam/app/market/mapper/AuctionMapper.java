@@ -10,7 +10,10 @@ public interface AuctionMapper {
 	public List<AuctionVO> showAllList();	
 	
 	// 단건 조회
-	public AuctionVO selectAuction(int ActNo);
+	public AuctionVO selectAuction(int actNo);
+	
+	// 입찰 최고가 조회
+	public AuctionVO calHighestBid(int actNo);
 	
 	// 등록
 	public int addAuction(AuctionVO vo);
