@@ -46,10 +46,12 @@
 														<input type="text" class="form-control col-lg-9" name="fndTitle">
 													</div>
 													<hr>
+													<br>
 													<div class="row">
 														<div class="row col-lg-6">
 															<p class="myInline col-lg-6 mb-0 textLeft">판매자</p>
-															<input type="text" class="form-control col-lg-6" readonly placeholder="readonly" name="memName">
+															<input type="text" class="form-control col-lg-6" readonly th:value="${session.mem.memNo}"
+																name="memNo">
 														</div>
 														<div class="row col-lg-6" style="display: none;">
 															<p class="myInline col-lg-6 mb-0 textLeft">결제일</p>
@@ -60,11 +62,22 @@
 													<div class="row">
 														<div class="row col-lg-6">
 															<p class="myInline col-lg-6 mb-0 textLeft">목표금액</p>
-															<input type="number" class="form-control col-lg-6" name="goalPrice" value="0">
+															<input type="number" class="form-control col-lg-6" name="goalPrice" value="0" min="1">
 														</div>
 														<div class="row col-lg-6">
 															<p class="myInline col-lg-6 mb-0 textLeft">펀딩가격</p>
-															<input type="number" class="form-control col-lg-6" name="fndPrice" value="0">
+															<input type="number" class="form-control col-lg-6" name="fndPrice" value="0" min="1">
+														</div>
+													</div>
+													<br>
+													<div class="row">
+														<div class="row col-lg-6">
+															<p class="myInline col-lg-6 mb-0 textLeft">펀딩시작일</p>
+															<input type="date" class="form-control col-lg-6" name="fndStrDate">
+														</div>
+														<div class="row col-lg-6">
+															<p class="myInline col-lg-6 mb-0 textLeft">펀딩마감일</p>
+															<input type="date" class="form-control col-lg-6" name="fndEndDate">
 														</div>
 													</div>
 													<br>
@@ -81,17 +94,7 @@
 															<p class="myInline col-lg-6 mb-0 textLeft">배송시작일</p>
 															<input type="date" class="form-control col-lg-6" name="shipStrDate">
 														</div>
-													</div>
-													<br>
-													<div class="row">
-														<div class="row col-lg-6">
-															<p class="myInline col-lg-6 mb-0 textLeft">펀딩시작일</p>
-															<input type="date" class="form-control col-lg-6" name="fndStrDate">
-														</div>
-														<div class="row col-lg-6">
-															<p class="myInline col-lg-6 mb-0 textLeft">펀딩마감일</p>
-															<input type="date" class="form-control col-lg-6" name="fndEndDate">
-														</div>
+
 													</div>
 
 												</div>
@@ -141,7 +144,44 @@
 		<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
 
 		<script>
-			let dbPath;
+			$(function () {
+				let dbPath;
+				//날짜 입력 순서 정의 
+				$('[name="fndEndDate"]').on('click',function(e){
+					e.preventDefault();
+					if(!$('[name="fndStrDate"]').val()){
+						alert('펀딩시작일을 먼저 입력하세요')
+					}else{
+						$(this).unbind('click').click()
+					}
+				})
+
+				$('[name="shipStrDate"]').on('click',function(e){
+					e.preventDefault();
+					if(!$('[name="fndEndDate"]').val()){
+						alert('펀딩마감일을 먼저 입력하세요')
+					}else{
+						$(this).unbind('click').click()
+					}
+				})
+
+				//date 타입 최소 날짜 제한
+				minDateSet(new Date, $('[name="fndStrDate"]'))
+				$('[name="fndStrDate"]').change(function () {
+					minDateSet(new Date($('[name="fndStrDate"]').val()), $('[name="fndEndDate"]'))
+				})
+				$('[name="fndEndDate"]').change(function () {
+					minDateSet(new Date($('[name="fndEndDate"]').val()), $('[name="shipStrDate"]'))
+				})
+			})
+
+			//date 타입 최소 날짜 제한 함수
+			function minDateSet(date, input) {
+				var now_utc = date // 지금 날짜를 밀리초로
+				var timeOff = date.getTimezoneOffset() * 60000; // 분단위를 밀리초로 변환
+				var today = new Date(now_utc - timeOff).toISOString().split("T")[0];
+				$(input).attr("min", today);
+			}
 
 			//첨부파일 가져오기
 			$('#addFile').on('click', function () {
@@ -206,25 +246,58 @@
 
 			//ckEditor 데이터 가져오기
 			$('#addBtn').on('click', function () {
-				let ckData = editor.getData()
-				let formData = $('#myForm').serializeObject()
-				formData.desct = ckData
-				formData.rep = dbPath
-				console.log(formData)
 
-				$.ajax({
-					url:"addFunding",
-					method : "POST",
-					data : formData
-				})
-				.done(function(result){
-					alert(result);
-					location.href="fundingList"
-				})
-				.fail(function(result){
-					alert(result);
-					location.href="fundingList"
-				})
+				//데이터 입력 확인
+				if (!$('[name="fndTitle"]').val()) {
+					alert('제목을 입력하세요');
+					return;
+				} else if ($('[name="goalPrice"]').val() <= 0) {
+					alert('목표금액을 입력하세요');
+					return;
+				} else if ($('[name="fndPrice"]').val() <= 0) {
+					alert('펀딩금액을 입력하세요');
+					return;
+				} else if (!$('[name="shipStrDate"]').val()) {
+					alert('배송시작일을 입력하세요');
+					return;
+				} else if (!$('[name="fndStrDate"]').val()) {
+					alert('펀딩시작일을 입력하세요');
+					return;
+				} else if (!$('[name="fndEndDate"]').val()) {
+					alert('펀딩마감일을 입력하세요');
+					return;
+				} else if (!$('#inputFile').val()) {
+					alert('대표이미지를 설정하세요');
+					return;
+				} else {
+					let ckData = editor
+					let formData = $('#myForm').serializeObject()
+
+					//상세 설명 존재하지 않을 시 출력 내용 설정
+					if(ckData.getData() == ''){
+						ckData.setData('<p>상세 설명이 존재하지 않습니다</p>')
+						formData.desct = ckData.getData()
+					}else{
+						formData.desct = ckData.getData()
+					}
+					formData.rep = dbPath
+
+					//ajax 펀딩 등록
+					$.ajax({
+							url: "addFunding",
+							method: "POST",
+							data: formData
+						})
+						.done(function (result) {
+							alert(result);
+							location.href = "fundingList"
+						})
+						.fail(function (result) {
+							alert(result);
+							location.href = "fundingList"
+						})
+
+				}
 			})
 		</script>
 	</div>
