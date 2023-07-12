@@ -16,14 +16,14 @@
 <body>
 	<div layout:fragment="content">
 		<!-- Shop Details Section Begin -->
-		<section class="shop-details">
+		<section th:each="bnb:${bnb}" class="shop-details">
 			<!-- 이미지 부분 -->
 			<div class="product__details__pic">
 				<div class="container">
 					<div class="row">
 						<div class="col-lg-12" style="text-align: left">
 							<div class="product__details__breadcrumb">
-								<a href="/bnbList">농촌비엔비</a> <span>제목넣기</span>
+								<a href="/bnbList">농촌비엔비</a> <span th:text="|${bnb.bnbTitle}|">제목넣기</span>
 							</div>
 						</div>
 					</div>
@@ -58,7 +58,7 @@
 							<div class="tab-content">
 								<div class="tab-pane active" id="tabs-1" role="tabpanel">
 									<div class="product__details__pic__item">
-										<img src="img/bnb/001-1.jpg" alt="대표사진">
+										<img th:src="@{img/bnb/}+${bnb.rep}" alt="대표사진">
 									</div>
 								</div>
 								<!-- 								<div class="tab-pane" id="tabs-2" role="tabpanel">
@@ -89,43 +89,47 @@
 					<div class="row d-flex justify-content-center">
 						<div class="col-lg-8">
 							<div class="product__details__text">
-								<h3>경북 청도 농촌 한달살기</h3>
+								<h3 th:text="|${bnb.bnbTitle}|">제목</h3>
 								<div class="rating">
 									<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 										class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 										class="fa fa-star-o"></i> <span> - 5 Reviews</span>
 								</div>
-								<p>경북 청도에서 한달 살기 체험 해보세요! </p>
-								<h3>50,000원(1박)</h3>
-								<!-- 사이즈선택 -->
-								<!-- <div class="product__details__option">
-									<div class="product__details__option__size">
-										<span>Size:</span> <label for="xxl">xxl <input
-											type="radio" id="xxl">
-										</label> <label class="active" for="xl">xl <input type="radio"
-											id="xl">
-										</label> <label for="l">l <input type="radio" id="l">
-										</label> <label for="sm">s <input type="radio" id="sm">
-										</label>
-									</div>
-								</div> -->
-								<!-- 날짜선택 -->
+								<h4>
+									<span id="onePay" th:text="|${bnb.price}|">금액</span>원(1일)
+								</h4>
+								<p>경북 청도에서 한달 살기 체험 해보세요!</p>
+
+								<!-- 결제 -->
 								<div>
-									<label for="date"> 날짜 선택 
-										<input type="date" id="startDate" min="2023-06-05" max="2023-06-23" value="2023-06-05"> 
-										~ <input type="date" id="endDate" min="2023-06-05" max="2077-06-28" value="2023-06-22">
-									<br>
-									<p>총 일수 : </p>
-									<p>총 금액 : </p>									
-									</label>
-								</div>
-								<div class="product__details__cart__option">
-									<!-- 									<div class="quantity"> 수량
-										<div class="pro-qty">
-											<input type="text" value="1">
-										</div>
-									</div> -->
-									<a href="#" class="primary-btn">예약 및 결제하기</a>
+								
+									<table class="table">
+										<tr>
+											<th>날짜선택</th>
+											<td><input type="date" id="startDate" th:min="|${bnb.lendStrDate}|"
+												th:max="|${bnb.lendEndDate}|"> ~ 
+												<input type="date" id="endDate"
+												min="2023-06-05" max="2077-06-28" onchange="calculateDays()">
+											</td>
+										</tr>
+										<tr>
+											<th>총 일수 :</th>
+											<td><span id="dateResult"></span> 일</td>
+										</tr>
+										<tr>
+
+											<th>총 금액 :</th>
+											<td><span id="payResult"></span> 원</td>
+										</tr>
+										<tr>
+											<td colspan="2">
+												<div class="product__details__cart__option">
+													<a href="#" class="primary-btn">예약 및 결제하기</a>
+												</div>
+											</td>
+										</tr>
+									</table>
+
 								</div>
 
 							</div>
@@ -177,7 +181,7 @@
 											</div>
 											<!-- 지도 api -->
 										</div>
-											<div id="map" style="width: 750px; height: 350px;"></div>
+										<div id="map" style="width: 750px; height: 350px;"></div>
 									</div>
 									<!-- 두번째 탭: 리뷰 -->
 									<div class="tab-pane" id="tabs-6" role="tabpanel">
@@ -222,8 +226,7 @@
 												pharetras loremos.</p>
 											<div class="product__details__tab__content__item">
 												<h5>문의처</h5>
-												<p>문의처:
-												판매자 </p>
+												<p>문의처: 판매자</p>
 											</div>
 											<div class="product__details__tab__content__item">
 												<h5>Material used</h5>
@@ -248,30 +251,43 @@
 			</div>
 		</section>
 		<!-- Shop Details Section End -->
+		<!-- 지도 api -->
+		<script
+			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c573b65eabeb9b6da24ab52d832dc807"></script>
+		<script>
+			//지도 api
+			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+			mapOption = {
+				center : new kakao.maps.LatLng(37.56682, 126.97865), // 지도의 중심좌표
+				level : 3, // 지도의 확대 레벨
+				mapTypeId : kakao.maps.MapTypeId.ROADMAP
+			};
+			var map = new kakao.maps.Map(mapContainer, mapOption);
+			// 지도에 마커를 생성하고 표시한다
+			var marker = new kakao.maps.Marker({
+				position : new kakao.maps.LatLng(37.56682, 126.97865), // 마커의 좌표
+				map : map
+			});
+
+			// 날짜입력시 일수,금액 계산
+			function calculateDays() {
+				var startDate = new Date(
+						document.getElementById('startDate').value);
+				var endDate = new Date(document.getElementById('endDate').value);
+				var timeDifference = endDate.getTime() - startDate.getTime();
+				var days = timeDifference / (1000 * 3600 * 24) + 1;
+				var nights = timeDifference / (1000 * 3600 * 24);
+				// 날짜계산
+				console.log('일 수:', days);
+				var resultElement = document.getElementById('dateResult');
+				resultElement.textContent = nights + "박 " + days;
+				// 금액계산
+				var pay = document.getElementById('payResult');
+				var onePay = document.getElementById('onePay').innerText;
+				pay.textContent = days * onePay;
+			}
+		</script>
 	</div>
-	
-	<!-- 지도 api -->
-	<script
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c573b65eabeb9b6da24ab52d832dc807"></script>
-	<script>
-		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-		mapOption = {
-			center : new kakao.maps.LatLng(37.56682, 126.97865), // 지도의 중심좌표
-			level : 3, // 지도의 확대 레벨
-			mapTypeId : kakao.maps.MapTypeId.ROADMAP
-		// 지도종류
-		};
-
-		// 지도를 생성한다 
-		var map = new kakao.maps.Map(mapContainer, mapOption);
-
-		// 지도에 마커를 생성하고 표시한다
-		var marker = new kakao.maps.Marker({
-			position : new kakao.maps.LatLng(37.56682, 126.97865), // 마커의 좌표
-			map : map
-		// 마커를 표시할 지도 객체
-		});
-	</script>
 </body>
 
 </html>
