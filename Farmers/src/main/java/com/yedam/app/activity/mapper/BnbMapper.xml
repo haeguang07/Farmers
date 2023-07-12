@@ -7,11 +7,44 @@
 	<select id="selectBnbList" resultType="BnbVO">
 		select * from farmbnb
 	</select>
+	<select id="selectBnb" resultType="BnbVO">
 
-	<select id="selectBnb">
 		select * from farmbnb
 		where bnb_no= #{bnbNo}
 	</select>
 
+	<insert id="insertBnb" parameterType="BnbVO">
+		<selectKey keyProperty="bnbNo" resultType="String"
+			order="BEFORE">
+			select 'BNB' || LPAD(bnb_seq.nextval, 6, '0')
+			from dual
+		</selectKey>
+		insert into farmbnb(
+				BNB_NO,
+				MEM_NO,
+				BNB_TITLE,
+				DST1,
+				ZIP,
+				ADDR,
+				PRICE,
+				REP,
+				LEND_STR_DATE,
+				LEND_END_DATE,
+				DETA_DESCT)
+		values(#{bnbNo},
+			   #{memNo},
+			   #{bnbTitle},
+			   #{dst1},
+			   #{zip},
+			   #{addr},
+			   #{price},
+			   #{rep},
+			   #{lendStrDate},
+			   #{lendEndDate},
+			   #{detaDesct})
+	</insert>
+	
+	
+	
 </mapper>
 
