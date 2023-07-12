@@ -7,6 +7,8 @@ import com.yedam.app.market.vo.CropsSaleVO;
 public interface CropsSaleMapper {
 	// 전체조회
 	public List<CropsSaleVO> selectCropsSaleList();
+	// 전체조회(페이징)
+	public List<CropsSaleVO> selectCropsSaleListPage(int page, String category, String order, String search);
 	// 단건조회
 	public CropsSaleVO selectCropsSaleInfo(CropsSaleVO csVO);
 	// 등록
@@ -16,7 +18,7 @@ public interface CropsSaleMapper {
 	// 삭제
 	public int deleteCropsSale(String crpSaleNo);
 	// 게시글 수
-	public int getCount(String crpSaleNo);
+	public int getCount(String category, String search);
 	// 별점
 	public int totalRate();
 }

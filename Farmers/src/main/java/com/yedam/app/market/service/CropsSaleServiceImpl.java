@@ -20,6 +20,11 @@ public class CropsSaleServiceImpl implements CropsSaleService {
 	}
 
 	@Override
+	public List<CropsSaleVO> getCropsSaleListPage(int page, String category, String order, String search) {
+		return csMapper.selectCropsSaleListPage(page, category, order, search);
+	}
+	
+	@Override
 	public CropsSaleVO getCropsSaleInfo(CropsSaleVO csVO) {
 		return csMapper.selectCropsSaleInfo(csVO);
 	}
@@ -56,15 +61,16 @@ public class CropsSaleServiceImpl implements CropsSaleService {
 			return -1;
 		}
 	}
-
+	
 	@Override
-	public int getCount(String crpSaleNo) {
-		return csMapper.getCount(crpSaleNo);
+	public int getCount(String category, String search) {
+		return csMapper.getCount(category, search);
 	}
 
 	@Override
 	public int totalRate() {
 		return csMapper.totalRate();
 	}
+
 
 }
