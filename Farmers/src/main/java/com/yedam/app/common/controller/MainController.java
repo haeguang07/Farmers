@@ -21,8 +21,7 @@ public class MainController {
 	//작물지도
 	@ResponseBody
 	@GetMapping("/button")
-	public List<MainVO> getMapImg(String dstCtg) {
-		
+	public List<MainVO> getMapImg(String dstCtg) {		
 		return mainService.selectImg(dstCtg);
 	}
 	
