@@ -15,6 +15,9 @@
 	.shop__product__link__right > a {
 		text-decoration-color: none;
 	}
+	.emphasis__red{
+		color: red;
+	}
 </style>
 
 <body>
@@ -94,7 +97,7 @@
 							</div>
 						</div>
 						<div class="row" id="auctionList">
-							<div class="col-lg-4 col-md-6 col-sm-6" th:each="act : ${actList}" th:if="${act.regStts} == 'e1'">
+							<div class="col-lg-4 col-md-6 col-sm-6" th:each="act : ${actList}">
 								<div class="product__item">
 									<div class="product__item__pic set-bg" data-th-data-setbg="|/img/market/auction/${act.rep}|">
 										<!-- <span class="label">종료임박</span> -->
@@ -107,7 +110,7 @@
 										<a href="#" class="add-cart">+ 즉시 구매가 <span th:text="${#numbers.formatInteger(act.bnp, 1, 'COMMA')} +'원'"></span></a>
 										현재 입찰가 <span th:text="${#numbers.formatInteger(act.bidPrice, 1, 'COMMA')}"></span>원
 										<div class="countdown">
-											<span th:text="${#dates.format(act.actDate, 'yyyy/MM/dd')}"></span>
+											경매 종료일 <span style="color: red;" th:text="${#dates.format(act.actDate, 'yyyy/MM/dd')}"></span>
 											<input th:value="${act.actTrm}" type="hidden">
 										</div>
 									</div>
@@ -252,11 +255,21 @@
 		<!-- Search End -->
 
 		<script>
-			// 경매종료일 countdown
-			let auctionDate = $('.countdown > span').text();
-			let formattedDate = moment(auctionDate).format('yyyy-MM-dd');
+			// 경매종료일 값 구하기
+			let getDate = '';
+			let formattedDate = '';
+			let getTrm = 0;
+			$('.countdown').each(function(idx){
+				getDate = $('.countdown > span').eq(idx).text();
+				getTrm = $('.countdown > input').eq(idx).val();
+				formattedDate = new Date(getDate);
+				console.log(formattedDate + ' / ' + getTrm);
+			})
 			
-			console.log(formattedDate);
+			// 접속 시점 기준 월요일 구하기
+			
+			// 종료일 - 월요일 countdown
+			
 			
 			
 		</script>
