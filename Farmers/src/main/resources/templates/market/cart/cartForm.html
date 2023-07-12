@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{index}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Male_Fashion Template">
+    <meta name="keywords" content="Male_Fashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>cart</title>
+    <link rel="stylesheet" href="css/sungWookCss/sungook.css" type="text/css">
+    <script src="https://unpkg.com/vue@2"></script>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <!-- 제목 시작 -->
+        <div class="justify-content-center">
+            <br>
+            <h3 class="current text-center">장바구니</h3>
+        </div>
+        <!-- 제목 끝 -->
+        <!-- 본문 시작 -->
+        <section class="shopping-cart spad" style="padding-top: 10px;">
+            <div class="container">
+                <hr>
+                <br>
+                <div class="row">
+                    <!-- 사이드바 시작 -->
+                    <div class="col-lg-3">
+                        <div class="shop__sidebar">
+                            <div class="shop__sidebar__accordion">
+                                <div class="accordion" id="accordionExample">
+                                    <div class="card">
+                                        <div class="card-heading">
+                                            <a data-toggle="collapse" data-target="#collapseOne"
+                                                style="font-size: larger;">장바구니</a>
+                                        </div>
+                                        <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                <div class="shop__sidebar__categories">
+                                                    <ul>
+                                                        <li><a href="fundingList" class="mySelect"
+                                                                style="color: black;">농작물판매</a></li>
+                                                        <li><a href="#">농기구판매</a></li>
+                                                        <li><a href="#">전원마켓</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 사이드바 끝 -->
+                    <!-- 장바구니 내용 시작 -->
+                    <div class="row col-lg-9">
+                        <div class="col-lg-12" style="margin-left: 0;">
+                            <div class="shopping__cart__table" style="margin-bottom: 0px;">
+                                <hr>
+                                <table>
+                                    <thead>
+                                        <tr class="row">
+                                            <th class="col-lg-1"><input type="checkbox" class="form-check-input myZoom"
+                                                    style="margin-left: 5px;" id="allCheck"></th>
+                                            <th class="col-lg-6">상품정보</th>
+                                            <th class="col-lg-2">수량</th>
+                                            <th class="col-lg-2">가격</th>
+                                            <th class="col-lg-1">삭제</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="row product" th:each="cart : ${cartList}">
+                                            <td class="col-lg-1"><input type="checkbox" class="form-check-input myZoom"
+                                                    style="margin-left: 5px;"></td>
+                                            <td class="product__cart__item col-lg-6">
+                                                <div class="product__cart__item__pic">
+                                                    <img src="" alt="">
+                                                </div>
+                                                <div class="product__cart__item__text">
+                                                    <h6>상품명</h6>
+                                                    <h5 th:text="${cart.price}+'원'" id="price" th:data="${cart.price}">
+                                                        상품가격</h5>
+                                                </div>
+                                            </td>
+                                            <td class="quantity__item col-lg-2">
+                                                <div class="quantity">
+                                                    <div class="pro-qty-2" style="padding-top: 20px;">
+                                                        <input type="text" th:value="${cart.qty}" id="qty" class="qty" readonly>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="cart__price col-lg-2">
+                                                <p style="padding-top: 20px;" id="sumPrice">$ 30.00</p>
+                                            </td>
+                                            <td class="cart__close col-lg-1" style="padding-top: 45px;"><span><i
+                                                        class="fa fa-close"></span></i></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <hr>
+                            </div>
+                        </div>
+                        <!-- 선택 삭제 버튼 -->
+                        <div class="col-lg-12" style="margin-bottom: 10px;">
+                            <button class="primary-btn myLeft" id="add"
+                                style="width: 100px; height: 40px; padding: 0px; background-color: lightgrey; border: 0;">선택삭제</button>
+                        </div>
+                        <!-- 총액 시작 -->
+                        <div class="col-lg-12" style="padding: 0px;">
+                            <div class="cart__total">
+                                <ul>
+                                    <li>
+                                        <h5>총액 <span>$ 169.50</span></h5>
+                                    </li>
+                                </ul>
+                                <a href="#" class="primary-btn">구매하기</a>
+                            </div>
+                        </div>
+                        <!-- 총액 끝 -->
+                    </div>
+                    <!-- 장바구니 내용 끝 -->
+                </div>
+            </div>
+        </section>
+        <!-- 본문 끝 -->
+        <script th:inline="javascript">
+            //테스트
+            $(function () {
+                $( /*[[${cartList}]]*/ ).each(function (index, item) {
+                    console.log(item)
+                })
+
+
+                //로드 시 총액 계산
+                $('.product').each(function (index, item) {
+                    sumCheck1(item)
+                })
+
+                //수량 변경 시 value 변경
+                $('.fa-angle-right').on('click',function(e){
+                    sumCheck2($(e.target).closest('tr'))
+                })
+                $('.fa-angle-left').on('click',function(e){
+                    sumCheck3($(e.target).closest('tr'))
+                })
+            })
+
+            //전체 체크 선택 박스 기능
+            $('#allCheck').on('click', function () {
+                if (!$('#allCheck').is(':checked')) {
+                    $('input[type="checkbox"]').prop('checked', false)
+                } else {
+                    $('input[type="checkbox"]').prop('checked', true)
+                }
+            })
+
+
+            // 수량 * 가격 구하기 함수
+            //함수 분리 이유 (value값이 변하기 전에 해당 함수가 실행되고 value가 변경 되어 변경 되는 value값이 적용이 안됨 -> 임의로 숫자를 조정 )
+            function sumCheck1(product) {
+                let qty = $(product).find('#qty').val();
+                if(qty>0){
+
+                    let price = $(product).find('#price').attr('data')
+                    
+                    $(product).find('#sumPrice').text(priceToString(qty * price) + '원');
+                }
+            }
+            function sumCheck2(product) {
+                let qty = $(product).find('#qty').val();
+                if(qty>0){
+                let price = $(product).find('#price').attr('data')
+
+                $(product).find('#sumPrice').text(priceToString((Number(qty)+1) * price) + '원');
+                }
+            }
+            function sumCheck3(product) {
+                let qty = $(product).find('#qty').val();
+                if(qty>0){
+                let price = $(product).find('#price').attr('data')
+
+                $(product).find('#sumPrice').text(priceToString((Number(qty)-1) * price) + '원');
+                }
+            }
+
+            // 돈 콤마
+            function priceToString(price) {
+                return price.toLocaleString('ko-KR')
+            }
+        </script>
+    </div>
+</body>
+
+</html>
