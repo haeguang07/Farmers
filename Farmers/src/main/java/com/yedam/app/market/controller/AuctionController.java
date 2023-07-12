@@ -19,9 +19,9 @@ public class AuctionController {
 	// 전체조회 페이지
 	@GetMapping("auction")
 	public String auctionList(Model model) {
-		List<AuctionVO> list = actService.getAllAuctions();
+		List<AuctionVO> list = actService.getAuctionList();
 		model.addAttribute("actList", list);
-		// System.out.println(list);
+//		 System.out.println(list);
 		return "market/auction/auctionList";
 	}
 	
