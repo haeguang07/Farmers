@@ -1,8 +1,8 @@
 package com.yedam.app.market.vo;
 
-import java.util.Date;
+//import java.util.Date;
 
-import org.springframework.format.annotation.DateTimeFormat;
+//import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 
@@ -17,8 +17,8 @@ public class CropsSaleVO {
 	public int qty;
 	public String rep;
 	public String detaDesct;
-	@DateTimeFormat(pattern="yyyy-MM-dd")
-	public Date regDate;
+//	@DateTimeFormat(pattern="yyyy-MM-dd")
+	public String regDate;
 	public String regStts;
 	
 	// review

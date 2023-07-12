@@ -10,7 +10,7 @@ public interface BnbMapper {
 	public List<BnbVO> selectBnbList();
 	
 	//단건조회
-	public BnbVO selectBnb();
+	public BnbVO selectBnb(String bnbNo);
 	
 	//등록
 	public int insertBnb();

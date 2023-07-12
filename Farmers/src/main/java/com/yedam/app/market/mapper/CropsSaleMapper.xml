@@ -8,7 +8,45 @@
 	<select id="selectCropsSaleList" resultType="CropsSaleVO">
 		select crp_sale_no, crp_title, crp_ctg, price, qty, rep, reg_date, reg_stts
 		from crops_sale
-		order by reg_date
+		where reg_stts = 'e1'
+		order by reg_date desc
+	</select>
+	
+	<!-- 전체조회(페이징) -->
+	<select id="selectCropsSaleListPage" resultType="CropsSaleVO">
+		select b.*
+		from (select ROWNUM rn, a.*
+			  from (select c.crp_sale_no, c.crp_title, c.crp_ctg, c.price, c.qty, c.rep, to_char(c.reg_date, 'yyyy/mm/dd') regDate, c.reg_stts, r.rev_no, r.rate, r.board_no
+			  		from crops_sale c left join review r
+			  		on c.mem_no = r.mem_no
+			  		<where>
+			  			c.reg_stts = 'e1'
+			  			<if test="category != null and !category.equals('') and !category.equals('전체')">
+			  				and c.crp_ctg = #{category}
+			  			</if>
+			  			<if test="search != null and !search.equals('')">
+			  				and c.crp_title like '%${search}%'
+			  			</if>
+			  		</where>
+			  		<choose>
+			  			<when test="order.equals('최신순')">
+			  				order by regDate desc
+			  			</when>
+			  			<when test="order.equals('가격높은순')">
+			  				order by c.price desc
+			  			</when>
+			  			<when test="order.equals('가격낮은순')">
+			  				order by c.price asc
+			  			</when>
+			  			<when test="order.equals('리뷰순')">
+			  				order by r.rate
+			  			</when>
+			  		</choose>
+			  	   ) a
+		<![CDATA[
+			 where ROWNUM <= #{page} * 9) b
+		where b.rn > (${page} - 1) * 9
+		]]>
 	</select>
 	
 	<!-- 단건조회 -->
@@ -52,25 +90,32 @@
 	</update>
 	
 	<!-- 삭제 -->
-	<delete id="deleteCropsSale" parameterType="CropsSaleVO">
-		delete from crops_sale
+	<update id="deleteCropsSale" parameterType="CropsSaleVO">
+		update crops_sale
+		set reg_stts = 'e7'
 		where crp_sale_no = #{crpSaleNo}
-	</delete>
+	</update>
 	
 	<!-- 게시글 수 카운팅 -->
-	<select id="getCount" resultType="String">
+	<select id="getCount" resultType="int">
 		select count(*) from crops_sale
-		where crp_sale_no = #{crpSaleNo}
+		<where>
+			reg_stts = 'e1'
+			<if test="category != null and !category.equals('') and !category.equals('전체')">
+				and crp_ctg = #{category}
+			</if>
+			<if test="search != null and !search.equals('')">
+				and crp_title like '%${search}%'
+			</if>
+		</where>
 	</select>
 	
 	<!-- 별점 -->
 	<select id="totalRate" resultType="int">
 		select count(*)
-		from review join crops_sale
-		on review.mem_no = crops_sale.mem_no
-		where crops_sale.crp_sale_no = #{crpSaleNo}
+		from review r join crops_sale c
+		on r.mem_no = c.mem_no
+		where c.crp_sale_no = #{crpSaleNo}
 	</select>
-	
-	<!-- 작물 카테고리 -->
 	
 </mapper>

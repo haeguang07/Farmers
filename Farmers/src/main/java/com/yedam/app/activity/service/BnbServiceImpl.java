@@ -19,5 +19,9 @@ public class BnbServiceImpl implements BnbService {
 		return bnbMapper.selectBnbList();
 	}
 	
+	@Override
+	public BnbVO selectBnb(String bnbNo) {
+		return bnbMapper.selectBnb(bnbNo);
+	}
 }
 
