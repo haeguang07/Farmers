@@ -39,4 +39,7 @@ public class AuctionVO {
 	private int bidPrice;
 	private String sbidStts;
 	
+	// 멤버
+	private String nick;
+	
 }

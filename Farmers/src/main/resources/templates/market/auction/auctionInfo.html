@@ -5,28 +5,31 @@
 <head>
 <meta charset="UTF-8">
 <title>경매품 상세 조회</title>
+<style>
+#auctionInfo p {
+	margin-bottom: 50px;
+}
+</style>
+
 </head>
 <body>
 	<div layout:fragment="content">
-		<!-- Breadcrumb Begin -->
-		<div class="breadcrumb-option">
+		<!-- Breadcrumb Section Begin -->
+		<section class="breadcrumb-option">
 			<div class="container">
 				<div class="row">
-					<div class="col-lg-6 col-md-6 col-sm-6">
+					<div class="col-lg-12">
 						<div class="breadcrumb__text">
-							<h2>Product detail</h2>
-						</div>
-					</div>
-					<div class="col-lg-6 col-md-6 col-sm-6">
-						<div class="breadcrumb__links">
-							<a href="./index.html">Home</a> <a href="./shop.html">Shop</a> <span>Sweet
-								autumn leaves</span>
+							<h4>경매장 상세</h4>
+							<div class="breadcrumb__links">
+								<a href="../index.html">홈</a> <a href="#">농촌마켓</a> <a href="#">경매장</a> <span>상품명</span>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<!-- Breadcrumb End -->
+		</section>
+		<!-- Breadcrumb Section End -->
 
 		<!-- Shop Details Section Begin -->
 		<section class="product-details spad">
@@ -35,78 +38,77 @@
 					<div class="col-lg-6">
 						<div class="product__details__img">
 							<div class="product__details__big__img">
-								<img class="big_img" src="img/shop/details/product-big-1.jpg"
+								<img class="big_img" src="/img/market/auction/Daechu.jpg"
 									alt="">
 							</div>
 							<div class="product__details__thumb">
 								<div class="pt__item active">
-									<img data-imgbigurl="img/shop/details/product-big-2.jpg"
-										src="img/shop/details/product-big-2.jpg" alt="">
+									<img data-imgbigurl="/img/market/auction/Daechu.jpg"
+										src="/img/market/auction/Daechu.jpg" alt="">
 								</div>
 								<div class="pt__item">
-									<img data-imgbigurl="img/shop/details/product-big-1.jpg"
-										src="img/shop/details/product-big-1.jpg" alt="">
+									<img data-imgbigurl="/img/market/auction/Daechu-2.png"
+										src="/img/market/auction/Daechu-2.png" alt="">
 								</div>
 								<div class="pt__item">
-									<img data-imgbigurl="img/shop/details/product-big-4.jpg"
-										src="img/shop/details/product-big-4.jpg" alt="">
+									<img data-imgbigurl="/img/market/auction/Daechu-3.png"
+										src="/img/market/auction/Daechu-3.png" alt="">
 								</div>
 								<div class="pt__item">
-									<img data-imgbigurl="img/shop/details/product-big-3.jpg"
-										src="img/shop/details/product-big-3.jpg" alt="">
+									<img data-imgbigurl="/img/market/auction/Daechu-4.png"
+										src="/img/market/auction/Daechu-4.png" alt="">
 								</div>
 								<div class="pt__item">
-									<img data-imgbigurl="img/shop/details/product-big-5.jpg"
-										src="img/shop/details/product-big-5.jpg" alt="">
+									<img data-imgbigurl="/img/market/auction/Daechu-5.png"
+										src="/img/market/auction/Daechu-5.png" alt="">
+								</div>
+								<div class="pt__item">
+									<img data-imgbigurl="/img/market/auction/Daechu-6.png"
+										src="/img/market/auction/Daechu-6.png" alt="">
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-6">
+					<div class="col-lg-6" id="auctionInfo">
 						<div class="product__details__text">
-							<div class="product__label">Cupcake</div>
-							<h4>SWEET AUTUMN LEAVES</h4>
-							<h5>$26.41</h5>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-								eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis
-								ipsum suspendisse ultrices gravida</p>
+							<div class="product__label" th:text="${actInfo.nick}">닉네임</div>
+							<h4 th:text="${actInfo.actTitle}">상품명</h4>
+							<h5>경매종료일 <span class="countdown"></span></h5> 
+							<p><span class="date" style="display: none;" th:text="${#dates.format(actInfo.actDate, 'yyyy/MM/dd')}"></span>
+							   <span class="trm" style="display: none;" th:text="${actInfo.actTrm}"></span>
+							</p>
 							<ul>
-								<li>SKU: <span>17</span></li>
-								<li>Category: <span>Biscuit cake</span></li>
-								<li>Tags: <span>Gadgets, minimalisstic</span></li>
+								<li>판매수량: <span th:text="${actInfo.saleQty}">17</span></li>
+								<li>배송비: <span th:text="${#numbers.formatInteger(actInfo.shipPrice, 1, 'COMMA')}"></span>원</li>
+								<li>배송시작: 평균 <span th:text="${actInfo.shipDurAvg}">N</span>일, 최대 <span th:text="${actInfo.shipDurMax}">N</span>일 이내</li>
 							</ul>
+							<h5>현재 입찰 최고가 <span th:text="${#numbers.formatInteger(actInfo.bidPrice, 1, 'COMMA')}">N</span>원</h5>
 							<div class="product__details__option">
-								<div class="quantity">
+								<!-- <div class="quantity">
 									<div class="pro-qty">
 										<input type="text" value="2">
 									</div>
 								</div>
-								<a href="#" class="primary-btn">Add to cart</a> <a href="#"
-									class="heart__btn"><span class="icon_heart_alt"></span></a>
+								<a href="#" class="primary-btn">Add to cart</a>  -->
+								<div class="bidWay "></div>
+								<a href="#" class="heart__btn"><span class="icon_heart_alt"></span></a>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="product__details__tab">
-					<div class="col-lg-12">
+					<div class="col-lg-12" id="auctionInfo">
 						<ul class="nav nav-tabs" role="tablist">
 							<li class="nav-item"><a class="nav-link active"
 								data-toggle="tab" href="#tabs-1" role="tab">Description</a></li>
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
-								href="#tabs-2" role="tab">Additional information</a></li>
-							<li class="nav-item"><a class="nav-link" data-toggle="tab"
-								href="#tabs-3" role="tab">Previews(1)</a></li>
+								href="#tabs-2" role="tab">Seller information</a></li>
 						</ul>
 						<div class="tab-content">
 							<div class="tab-pane active" id="tabs-1" role="tabpanel">
 								<div class="row d-flex justify-content-center">
 									<div class="col-lg-8">
-										<p>This delectable Strawberry Pie is an extraordinary
-											treat filled with sweet and tasty chunks of delicious
-											strawberries. Made with the freshest ingredients, one bite
-											will send you to summertime. Each gift arrives in an elegant
-											gift box and arrives with a greeting card of your choice that
-											you can personalize online!</p>
+										<p th:text="${actInfo.desct}"></p>
 									</div>
 								</div>
 							</div>
@@ -122,24 +124,50 @@
 									</div>
 								</div>
 							</div>
-							<div class="tab-pane" id="tabs-3" role="tabpanel">
-								<div class="row d-flex justify-content-center">
-									<div class="col-lg-8">
-										<p>This delectable Strawberry Pie is an extraordinary
-											treat filled with sweet and tasty chunks of delicious
-											strawberries. Made with the freshest ingredients, one bite
-											will send you to summertime. Each gift arrives in an elegant
-											gift box and arrives with a greeting card of your choice that
-											you can personalize online!3</p>
-									</div>
-								</div>
-							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</section>
 		<!-- Shop Details Section End -->
+
+
+		<!-- Search Begin -->
+		<div class="search-model">
+			<div class="h-100 d-flex align-items-center justify-content-center">
+				<div class="search-close-switch">+</div>
+				<form class="search-model-form">
+					<input type="text" id="search-input" placeholder="Search here.....">
+				</form>
+			</div>
+		</div>
+		<!-- Search End -->
 	</div>
 </body>
+
+<script>
+	// 상세 조회 시 countdown 실행
+	$(function(){
+		countdown();
+	})
+	
+	function countdown(){
+		let date = $('.date').text();
+		let trm = $('.trm').text();
+		console.log(date, trm);
+		
+		let standard = new Date(date);
+		let period = Number(trm);
+		standard.setDate(standard.getDate() + period);
+		
+		$('.countdown').countdown(standard, function(event){
+			$(this).html(
+					event.strftime('%D일 %H:%M:%S')
+				)
+		})
+		
+	}
+</script>
+
+<script src="js/jquery.barfiller.js"></script>
 </html>
