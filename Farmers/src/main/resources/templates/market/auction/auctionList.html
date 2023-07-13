@@ -186,7 +186,7 @@
 			// 경매 전체 리스트 조회
 			$(function(){
 				ajaxData(1);
-				//auctionNext();
+				auctionNext();
 				
 			})
 			
@@ -200,7 +200,7 @@
 						order
 					},
 					success(data){
-						printList(data);
+						printList(data, order);
 					},
 					error(reject){
 						console.log(reject);
@@ -210,7 +210,7 @@
 			
 			
 			// 리스트 출력
-			function printList(data){
+			function printList(data, order){
 				$('#auctionList').children().remove();
 				$('#pageDiv').children().remove();
 				
@@ -221,7 +221,7 @@
 					printItem(item);
 				})
 				
-				printPage(pageData);
+				printPage(pageData, order);
 				
 			}
 			
@@ -229,13 +229,13 @@
 			function printItem(item){
 				let clone = $('#auction').clone();
 				$(clone).css({'display' : 'block'});
-				$(clone).on('click', function(){
-					location.href = `auctionInfo?actNo=${item.actNo}`
-				})
 				
 				// 데이터 넣기
 				let imageUrl = '/img/market/auction/' + item.rep;
 				$(clone).find('.set-bg').css('background-image', 'url('+ imageUrl +')');
+				$(clone).find('.set-bg').on('click', function(){
+					location.href = `auctionInfo?actNo=${item.actNo}`
+				})
 				$(clone).find('h6').text(item.actTitle);				
 				$(clone).find('.buyNow').text(number_format(item.bnp) + '원');
 				$(clone).find('.currentBid').text(number_format(item.bidPrice));
@@ -262,7 +262,7 @@
 			}
 
 			// 페이지 출력 
-			function printPage(pageData) {
+			function printPage(pageData, order) {
 				
 				let pageItem = $('#pageItem').clone()
 				$(pageItem).css({'display' : 'block'});
@@ -288,7 +288,7 @@
 						$(clone).css('border-color','orange')
 					}
 					$(clone).on('click', function () {
-						getCondition(i)
+						getCondition(i, order);
 					})
 					$(pageItem).find('#pageNumDiv').append(clone)
 				}
@@ -307,8 +307,8 @@
 			})
 			
 			// 조건 값 변경 시 컨트롤 정보 보내기
-			function getCondition(page){
-				let order = $('.order').text()
+			function getCondition(page, order){
+				// let order = $('.order').text()
 				if(page == null){
 					page = 1
 				}
@@ -316,7 +316,7 @@
 				ajaxData(page, order);
 			}
 			
-			/* // 다음 경매 미리보기 리스트
+			// 다음 경매 미리보기 리스트
 			function auctionNext(){
 				$.ajax({
 					url: "auctionNext",
@@ -351,7 +351,7 @@
 				$(clone).find('.NextBuyNow').text(number_format(item.bnp) + '원');
 				
 				$('#nextAuctionList').append(clone)
-			} */
+			}
 			
 			
 		</script>
