@@ -75,16 +75,18 @@
 						<div class="shop__product__option">
 							<div class="row">
 								<div class="col-lg-6 col-md-6 col-sm-6">
+									<!-- 
 									<div class="shop__product__option__left">
 										<p>Showing 1–12 of 126 results</p>
 									</div>
+									 -->
 								</div>
 								<div class="col-lg-6 col-md-6 col-sm-6">
 									<div class="shop__product__link__right text-right">
-										<a href="#"><span class="order">최신순</span></a> / 
-										<a href="#"><span class="order">인기순</span></a> /
-										<a href="#"><span class="order">최저가순</span></a> / 
-										<a href="#"><span class="order">최고가순</span></a>
+										<a href="#"><span class="order">인기순</span></a> / 
+										<a href="#"><span class="order">최저가순</span></a> /
+										<a href="#"><span class="order">최고가순</span></a> / 
+										<a href="#"><span class="order">마감임박순</span></a>
 									</div>
 									<!-- 
 									<div class="shop__product__option__right">
@@ -107,7 +109,7 @@
 		</section>
 		<!-- Shop Section End -->
 
-		<!-- Related Section Begin -->
+		<!-- 다음 회차 경매 미리보기 -->
 		<section class="shop spad">
 			<div class="container">
 				<div class="row">
@@ -115,116 +117,17 @@
 						<h4 class="related-title">다음 경매 미리보기</h4>
 					</div>
 				</div>
+
 				<div class="row">
-					<div class="related__products__slider owl-carousel">
-						<div class="col-lg-3">
+				<p>aaaaa</p>
+					<div class="related__products__slider owl-carousel" id="nextAuctionList">
+					<p>aaaaa</p>
+						<div class="col-lg-3" id="nextAuction">
 							<div class="product__item">
-								<div class="product__item__pic set-bg"
-									data-setbg="">
-									<div class="product__label">
-										<span>Cupcake</span>
-									</div>
-								</div>
+								<div class="product__item__pic set-bg" data-setbg=""></div>
 								<div class="product__item__text">
-									<h6>
-										<a href="#">Dozen Cupcakes</a>
-									</h6>
-									<div class="product__item__price">$32.00</div>
-									<div class="cart_add">
-										<a href="#">Add to cart</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-3">
-							<div class="product__item">
-								<div class="product__item__pic set-bg"
-									data-setbg="img/shop/product-2.jpg">
-									<div class="product__label">
-										<span>Cupcake</span>
-									</div>
-								</div>
-								<div class="product__item__text">
-									<h6>
-										<a href="#">Cookies and Cream</a>
-									</h6>
-									<div class="product__item__price">$30.00</div>
-									<div class="cart_add">
-										<a href="#">Add to cart</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-3">
-							<div class="product__item">
-								<div class="product__item__pic set-bg"
-									data-setbg="img/shop/product-3.jpg">
-									<div class="product__label">
-										<span>Cupcake</span>
-									</div>
-								</div>
-								<div class="product__item__text">
-									<h6>
-										<a href="#">Gluten Free Mini Dozen</a>
-									</h6>
-									<div class="product__item__price">$31.00</div>
-									<div class="cart_add">
-										<a href="#">Add to cart</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-3">
-							<div class="product__item">
-								<div class="product__item__pic set-bg"
-									data-setbg="img/shop/product-4.jpg">
-									<div class="product__label">
-										<span>Cupcake</span>
-									</div>
-								</div>
-								<div class="product__item__text">
-									<h6>
-										<a href="#">Cookie Dough</a>
-									</h6>
-									<div class="product__item__price">$25.00</div>
-									<div class="cart_add">
-										<a href="#">Add to cart</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-3">
-							<div class="product__item">
-								<div class="product__item__pic set-bg"
-									data-setbg="img/shop/product-5.jpg">
-									<div class="product__label">
-										<span>Cupcake</span>
-									</div>
-								</div>
-								<div class="product__item__text">
-									<h6>
-										<a href="#">Vanilla Salted Caramel</a>
-									</h6>
-									<div class="product__item__price">$05.00</div>
-									<div class="cart_add">
-										<a href="#">Add to cart</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-3">
-							<div class="product__item">
-								<div class="product__item__pic set-bg"
-									data-setbg="img/shop/product-6.jpg">
-									<div class="product__label">
-										<span>Cupcake</span>
-									</div>
-								</div>
-								<div class="product__item__text">
-									<h6>
-										<a href="#">German Chocolate</a>
-									</h6>
-									<div class="product__item__price">$14.00</div>
+									<h6>상품명</h6>
+									<div class="product__item__price"><span class="nextBuyNow"></span></div>
 									<div class="cart_add">
 										<a href="#">Add to cart</a>
 									</div>
@@ -250,11 +153,9 @@
 
 
 		<!-- clone용 auctionList -->
-		<div class="col-lg-4 col-md-6 col-sm-6" id="auction"
-			style="diplay: none;">
+		<div class="col-lg-4 col-md-6 col-sm-6" id="auction" style="display: none;">
 			<div class="product__item">
-				<div class="product__item__pic set-bg"
-					data-setbg="/img/market/auction/Daechu.jpg">
+				<div class="product__item__pic set-bg" data-setbg="">
 					<!-- <span class="label">종료임박</span> -->
 					<ul class="product__hover">
 						<li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
@@ -284,7 +185,9 @@
 		<script>
 			// 경매 전체 리스트 조회
 			$(function(){
-				ajaxData(1)
+				ajaxData(1);
+				//auctionNext();
+				
 			})
 			
 			// 리스트 데이터 아작스로 가져오기
@@ -326,13 +229,13 @@
 			function printItem(item){
 				let clone = $('#auction').clone();
 				$(clone).css({'display' : 'block'});
-				//$(clone).on('click', function(){
-				//	location.href = `auctionInfo?actNo=${item.actNo}`
-				//})
+				$(clone).on('click', function(){
+					location.href = `auctionInfo?actNo=${item.actNo}`
+				})
 				
 				// 데이터 넣기
-				$(clone).find('.set-bg').data('setbg', '/img/market/auction/' + item.rep);
-				console.log($(clone).find('.set-bg').data('setbg'));
+				let imageUrl = '/img/market/auction/' + item.rep;
+				$(clone).find('.set-bg').css('background-image', 'url('+ imageUrl +')');
 				$(clone).find('h6').text(item.actTitle);				
 				$(clone).find('.buyNow').text(number_format(item.bnp) + '원');
 				$(clone).find('.currentBid').text(number_format(item.bidPrice));
@@ -360,7 +263,6 @@
 
 			// 페이지 출력 
 			function printPage(pageData) {
-				console.log(pageData)
 				
 				let pageItem = $('#pageItem').clone()
 				$(pageItem).css({'display' : 'block'});
@@ -413,6 +315,43 @@
 
 				ajaxData(page, order);
 			}
+			
+			/* // 다음 경매 미리보기 리스트
+			function auctionNext(){
+				$.ajax({
+					url: "auctionNext",
+					method: "GET",
+					success(data){
+						printNextList(data);
+					},
+					error(reject){
+						console.log(reject);
+					}
+				})
+			}
+			
+			function printNextList(data){
+				$('#nextAuctionList').children().remove();
+				
+				let nextAuctionData = data.nextAuctionList;
+				
+				$(nextAuctionData).each((idx, item) => {
+					printNextItem(item);
+				})
+			}
+			
+			function printNextItem(item){
+				let clone = $('#nextAuction').clone();
+				$(clone).css({'display' : 'block'});
+				
+				// 데이터 넣기
+				let imageUrl = '/img/market/auction/' + item.rep;
+				$(clone).find('.set-bg').css('background-image', 'url('+ imageUrl +')');
+				$(clone).find('h6').text(item.actTitle);				
+				$(clone).find('.NextBuyNow').text(number_format(item.bnp) + '원');
+				
+				$('#nextAuctionList').append(clone)
+			} */
 			
 			
 		</script>

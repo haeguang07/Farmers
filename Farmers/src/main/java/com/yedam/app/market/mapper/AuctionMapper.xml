@@ -18,9 +18,6 @@
                         ]]>
                         GROUP BY act.act_no, act.act_title, act.act_date, act.act_trm, act.rep, act.bnp
                         <choose>
-                        	<when test="order.equals('최신순')">
-                        		ORDER BY act_no DESC
-                        	</when>
                         	<when test="order.equals('인기순')">
                         		ORDER BY bid_count DESC
                         	</when>
@@ -30,11 +27,25 @@
                         	<when test="order.equals('최고가순')">
                         		ORDER BY bid_price DESC
                         	</when>
+                        	<when test="order.equals('마감임박순')">
+                        		ORDER BY act_trm
+                        	</when>
                         </choose>
                       ) a
         <![CDATA[
             	WHERE rownum <= #{page} * 9) b
 		WHERE b.rn > (#{page}-1) * 9
+		]]>
+	</select>
+	
+	<!-- 다음 경매 리스트 조회 -->
+	<select id="getNextAuctionList" resultType="AuctionVO">
+		SELECT act.act_no, act.act_title, act.act_date, act.act_trm, act.rep, act.bnp
+		FROM auction act LEFT JOIN auction_apply apl
+		ON (act.act_no = apl.act_no)
+		WHERE act.reg_stts = 'e1'
+		<![CDATA[
+		AND act.act_date > sysdate
 		]]>
 	</select>
 	
@@ -46,27 +57,26 @@
 	            FROM auction act LEFT JOIN auction_apply apl
 	            ON (act.act_no = apl.act_no)
 	            WHERE act.reg_stts = 'e1'
+	            <![CDATA[
+				AND act.act_date > sysdate
+				]]>
 	            GROUP BY act.act_no, act.act_title, act.act_date, act.act_trm, act.rep, act.bnp
         	  )
 	</select>
 	
 	<!-- 단건 경매 정보 조회 -->
-	<select id="selectAction" resultType="AuctionVO">
-		SELECT *
-		FROM auction
-		WHERE act_no = #{actNo}
+	<select id="selectAuction" resultType="AuctionVO">
+		SELECT mem.nick, mem.mem_grd, act_title, desct, sale_qty, bnp, 
+            	act_date, act_trm, ship_price, ship_dur_avg, ship_dur_max, rep, atch_no, 
+                	NVL(MAX(apl.bid_price), 0) AS bid_price
+		FROM member mem, auction act, auction_apply apl
+		WHERE mem.mem_no = act.mem_no
+		AND act.act_no = apl.act_no
+		AND act.act_no = #{actNo}
+		GROUP BY mem.nick, mem.mem_grd, act_title, desct, sale_qty, bnp, 
+		                act_date, act_trm, ship_price, ship_dur_avg, ship_dur_max, rep, atch_no
 	</select>
 	
-	<!-- 입찰 최고가 조회 -->
-	<select id="calHighestBid" resultType="AuctionVO">
-		SELECT *
-		FROM auction_apply
-		WHERE bid_price = (
-                            SELECT MAX(bid_price)
-                            FROM auction_apply
-                            WEHRE act_no = #{actNo}
-                          )
-	</select>
 	
 	<!-- 경매 등록 -->
 	<insert id="addAuction" parameterType="AuctionVO">
