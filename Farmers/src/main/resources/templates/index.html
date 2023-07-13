@@ -19,19 +19,36 @@
 	margin-left: auto;
 }
 
+#rgImg {
+	display: inline-block;
+	margin-left: -50px;
+	height: 480px;
+	"
+}
+
+#rgDesc {
+	position: relative;
+	display: inline-block;
+	height: 480px;
+}
+
+#rgDesc span {
+	padding-top: 30%;
+	position: absolute;
+}
 </style>
 </head>
 
 <body>
 	<div class="container" layout:fragment="content">
-		
+
 		<!-- 전체 작물 지도 -->
-		<p style="text-align: center"> 지역별 작물 재배 지도</p>
+		<p style="text-align: center">지역별 작물 재배 지도</p>
 		<hr>
 		<div class="row">
 			<!-- 전체지도 -->
 			<div class="col-5">
-				<svg style="display: inline-block;" height="740" width="500"
+				<svg style="display: inline-block;" height="740" width="480"
 					viewBox="-100 80 800 900" xmlns="http://www.w3.org/2000/svg">
 					<defs>
 						<filter id="dropshadow">
@@ -96,30 +113,31 @@
 			<div class="col-7" style="display: block;">
 				<div style="display: block;">
 					<span id="spanTag"
-						style="height: 10px; text-align: left; padding-top:100px">
-						<button class="season">봄</button>
-						<button class="season">여름</button>
-						<button class="season">가을</button>
-						<button class="season">겨울</button>
+						style="height: 10px; text-align: left; padding-top: 100px">
+						<button class="season">Spring</button>
+						<button class="season">Summer</button>
+						<button class="season">Fall</button>
+						<button class="season">Winter</button>
 					</span>
 				</div>
-				<div id="rgMap">
-					<div id="rgImg" style="display:inline-block; margin-left:-50px; width:480px;height:480px;">
+				<div id="rgMap" class="row">
+					<div id="rgImg" class="col-md-8">
+						<img src="" id="thisMap">
 					</div>
-					<div id="rgDesc" style="display:inline-block;">
-					</div>
+					<div id="rgDesc" class="col-md-4" style=""></div>
 				</div>
 			</div>
 		</div>
 		<hr>
-		
+		<div id="mapNone" style="width: 1000px; height: 500px"></div>
+
+
 		<script>
 		//지역 클릭시 지역지도 나오기.
 			document.querySelectorAll('path').forEach(a => {
 				a.addEventListener('click', function () {
 					event.preventDefault();
 					let region = event.target.dataset.rg;
-					console.log('rg: ' + region);
 					//
 					fetch("main/button?dstCtg=" + region)
 						.then(response => response.json())
@@ -130,7 +148,10 @@
 								let obj = datas[i];
 								let imgVal = obj.img;
 								imgArr.push(imgVal);
-							}				
+							}		
+							//console.log(imgArr)
+							
+							
 							//설명 가져오기
 							let descArr=[];
 							for(let i=0; i<datas.length; i++){
@@ -138,58 +159,56 @@
 								let descVal = obj.desct;
 								descArr.push(descVal);
 							}
-							console.log(descArr)		
+							//지역클릭시 봄 출력
+							let btn=document.querySelectorAll('.season')[0]
+							let imgdata = btn.getAttribute('data-img')
+							let descData = btn.getAttribute('data-desc')
+															
+							let rgImg = document.querySelector('#rgImg')
+							let rgDesc= document.querySelector('#rgDesc')
 							
-								//계절버튼 클릭 이벤트															
-								let buttons = document.querySelectorAll('.season')
-								for(let i = 0; i< buttons.length; i++){
-									let button = buttons[i];
-									let data = imgArr[i];
-									let desc = descArr[i];
-									button.setAttribute('data-img',data);
-									button.setAttribute('data-desc',desc);
-									
-									button.addEventListener('click',function(){		
-										console.log(event.target)
-										let btn=document.querySelectorAll('.season')[i]
-										btn.hasClass
-										let imgdata = btn.getAttribute('data-img')
-										let descData = btn.getAttribute('data-desc')										
-										console.log(descData)
-										let rgDesc= document.querySelector('#rgDesc')
-										
-										let rgImg = document.querySelector('#rgImg')
-										//rgDesc.innerHTML='';
-										//rgImg.innerHTML='';
-										let imgTag = document.createElement('img')
-										imgTag.src= 'img/main/map/'+imgdata;
-										//rgImg.appendChild(imgTag);
-										rgImg.innerHTML=`<img src="img/main/map/${imgdata}">`;
-										//let pTag = document.createElement('p')
-										//pTag.innerText = descData;
-										//rgDesc.appendChild(pTag); 
-										rgDesc.innerHTML=`<p>${descData}</p>`;
-										})
-								}
-								//지역클릭시 봄 출력
-								let btn=document.querySelectorAll('.season')[0]
-								let imgdata = btn.getAttribute('data-img')
-								let descData = btn.getAttribute('data-desc')
-																
-								let rgImg = document.querySelector('#rgImg')
-								let rgDesc= document.querySelector('#rgDesc')
-								//rgDesc.innerHTML='';
-								//rgImg.innerHTML='';
-								
+							let imgTag = document.createElement('img')
+							imgTag.src= 'img/main/map/'+imgdata;
+							rgImg.innerHTML=`<img src="img/main/map/${imgdata}">`;								
+							rgDesc.innerHTML=`<span>${descData}</span>`;
+							let mapNone = document.getElementById('mapNone')
+							
+							for(let i =0;i<mapNone.length;i++){
+								console.log('1')
+							}
+							
+							
+							
+							//버튼에서 정보받기
+							let buttons = document.querySelectorAll('.season')
+							for(let i = 0; i< buttons.length; i++){
+								let button = buttons[i];
+								let data = imgArr[i];
+								let desc = descArr[i];
+								button.setAttribute('data-img',data);
+								button.setAttribute('data-desc',desc);
+								//미리 지도 뿌려놓기.
+								let mapNone = document.getElementById('mapNone')
 								let imgTag = document.createElement('img')
-								imgTag.src= 'img/main/map/'+imgdata;
-								//rgImg.appendChild(imgTag);
-								rgImg.innerHTML=`<img src="img/main/map/${imgdata}">`;
+								imgTag.src= 'img/main/map/'+data;
+								mapNone.append(imgTag);
 								
-								let pTag = document.createElement('p')
-								pTag.innerText = descData;
-								//rgDesc.appendChild(pTag); 
-								rgDesc.innerHTML=`<p>${descData}</p>`;
+								
+							//계절버튼 클릭 이벤트															
+								button.addEventListener('click',function(){		
+									let btn=document.querySelectorAll('.season')[i]
+									let rgDesc= document.querySelector('#rgDesc')										
+									let descData = btn.getAttribute('data-desc')																								
+									
+								let imgdata = btn.getAttribute('data-img')
+									let rgImg = document.querySelector('#rgImg')										
+									let imgTag = document.createElement('img')
+									thisMap.src= 'img/main/map/'+imgdata;
+									
+									rgImg.innerHTML=`<img src="img/main/map/${imgTag[i]}">`;
+									rgDesc.innerHTML=`<span>${descData}</span>`;
+									})
+								}								
 							})							
 						.catch(err => console.log(err))
 						})						

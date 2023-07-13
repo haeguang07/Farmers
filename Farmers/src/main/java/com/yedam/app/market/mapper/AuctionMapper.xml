@@ -3,14 +3,51 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.app.market.mapper.AuctionMapper">
-	<!-- 경매 리스트 조회 -->
-	<select id="showAuctionList" resultType="AuctionVO">
-		SELECT act.act_no, act.act_title, act.act_date, act.act_trm, act.rep, act.bnp, MAX(apl.bid_price) AS bid_price
-		FROM auction act, auction_apply apl
-		WHERE act.act_no = apl.act_no (+)
-		GROUP BY act.act_no, act.mem_no, act.act_title, act.act_date, act.act_trm, act.rep, act.reg_stts, act.bnp
-		HAVING act.reg_stts = 'e1'
-		ORDER BY 1 DESC
+	<!-- 경매 리스트 조회 (페이징) -->
+	<select id="getAuctionListPage" resultType="AuctionVO">
+		SELECT b.*
+		FROM (
+	            SELECT rownum rn, a.*
+	            FROM (
+                        SELECT act.act_no, act.act_title, act.act_date, act.act_trm, act.rep, act.bnp, count(bid_price) as bid_count, NVL(MAX(bid_price), 0) AS bid_price
+                        FROM auction act LEFT JOIN auction_apply apl
+                        ON (act.act_no = apl.act_no)
+                        WHERE act.reg_stts = 'e1'
+                        <![CDATA[
+                        AND act.act_Date <= sysdate
+                        ]]>
+                        GROUP BY act.act_no, act.act_title, act.act_date, act.act_trm, act.rep, act.bnp
+                        <choose>
+                        	<when test="order.equals('최신순')">
+                        		ORDER BY act_no DESC
+                        	</when>
+                        	<when test="order.equals('인기순')">
+                        		ORDER BY bid_count DESC
+                        	</when>
+                        	<when test="order.equals('최저가순')">
+                        		ORDER BY bid_price
+                        	</when>
+                        	<when test="order.equals('최고가순')">
+                        		ORDER BY bid_price DESC
+                        	</when>
+                        </choose>
+                      ) a
+        <![CDATA[
+            	WHERE rownum <= #{page} * 9) b
+		WHERE b.rn > (#{page}-1) * 9
+		]]>
+	</select>
+	
+	<!-- 승인된 경매 리스트 합계 -->
+	<select id="auctionTotal" resultType="int">
+		SELECT count(*)
+		FROM (
+	            SELECT act.act_no, act.act_title, act.act_date, act.act_trm, act.rep, act.bnp, count(bid_price) as bid_count, NVL(MAX(bid_price), 0) AS bid_price
+	            FROM auction act LEFT JOIN auction_apply apl
+	            ON (act.act_no = apl.act_no)
+	            WHERE act.reg_stts = 'e1'
+	            GROUP BY act.act_no, act.act_title, act.act_date, act.act_trm, act.rep, act.bnp
+        	  )
 	</select>
 	
 	<!-- 단건 경매 정보 조회 -->

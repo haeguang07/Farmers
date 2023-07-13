@@ -5,8 +5,11 @@ import java.util.List;
 import com.yedam.app.market.vo.AuctionVO;
 
 public interface AuctionService {
-		// 전체 조회
-		public List<AuctionVO> getAuctionList();	
+		// 전체 조회 (페이징)
+		public List<AuctionVO> getAuctionList(int page, String order);	
+		
+		// 경매 리스트 합계
+		public int auctionTotal();
 		
 		// 단건 조회
 		public AuctionVO getOneAuction(int actNo);
