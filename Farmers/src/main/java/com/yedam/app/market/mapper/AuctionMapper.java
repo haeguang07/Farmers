@@ -12,11 +12,11 @@ public interface AuctionMapper {
 	// 경매 리스트 합계
 	public int auctionTotal();
 	
-	// 단건 경매 정보 조회
-	public AuctionVO selectAuction(int actNo);
+	// 다음 경매 리스트
+	public List<AuctionVO> getNextAuctionList();
 	
-	// 입찰 최고가 조회
-	public AuctionVO calHighestBid(int actNo);
+	// 단건 경매 정보 조회
+	public AuctionVO selectAuction(String actNo);
 	
 	// 경매 등록
 	public int addAuction(AuctionVO vo);

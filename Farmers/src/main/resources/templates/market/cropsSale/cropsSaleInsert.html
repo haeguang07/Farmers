@@ -5,13 +5,18 @@
 <head>
 <meta charset="UTF-8">
 <title>농작물 판매 등록</title>
+<style>
+	.ck-editor__editable {
+		height: 400px;
+	}
+</style>
 </head>
 <body>
 	<div layout:fragment="content">
 		<div class="justify-content-center">
 			<h3 class="current text-center">판매물품 등록</h3>
 		</div>
-		<!-- Shop Section Begin -->
+		<!-- Shop Details Section Begin -->
 		<section class="shop-details">
 			<div class="product__details__pic" style="background-color: white;">
 				<div class="container">
@@ -26,53 +31,69 @@
 										</div>
 									</div>
 									<div class="product__details__content col-lg-8">
-										<div class="container">
-											<div class="row d-flex justify-content-center">
-												<div class="col-lg-12">
-													<div class="product__details__text">
-														<div class="row">
-															<h4 class="textLeft col-lg-2" style="display: inline; text-align: center; line-height: 40px;">상품명</h4>
-															<input type="text" class="form-control col-lg-6" name="crpTitle" style="display: inline;">
+										<form id="myForm">
+											<!-- 실제 파일 업로드 input (안보임) -->
+											<input type="file" id="inputFile" style="display: none;">
+											<div class="container">
+												<div class="row d-flex justify-content-center">
+													<div class="col-lg-12">
+														<div class="product__details__text">
+															<div class="row">
+																<h4 class="textLeft col-lg-2" style="display: inline; text-align: center; line-height: 40px;">상품명</h4>
+																<input type="text" class="form-control col-lg-6" name="crpTitle" style="display: inline;">
+															</div>
+															<hr>
+															<div class="row">
+																<p class="textLeft col-lg-2 mb-0" style="line-height: 40px;">상품 종류</p>
+																<select class="form-select form-group col-1.5" name="crpCtg">
+																	<option selected value="전체">전체</option>
+																	<option value="x0">야채</option>
+																	<option value="x1">과일</option>
+																	<option value="x2">곡물</option>
+																</select>
+															</div>
+															<div class="row">
+																<p class="textLeft col-lg-2 mb-0" style="line-height: 40px;">가격</p>
+																<input type="number" class="form-control col-lg-6" id="price" name="price" value="0">
+																<span style="margin-left: 10px; line-height: 50px;">원</span>
+															</div>
+															<div class="row">
+																<p class="textLeft col-lg-2 mb-0" style="line-height: 40px;">수량</p>
+																<input type="number" class="form-control col-lg-6" id="qty" name="qty" value="1">
+																<span style="margin-left: 10px; line-height: 50px;">개</span>
+															</div>
+															<div class="row" style="margin-bottom: 10px;">
+																<p class="textLeft col-lg-2 mb-0" style="line-height: 40px;">총액</p>
+																<span id="sumPrice" style="line-height: 40px;"></span>
+															</div>
 														</div>
-														<hr>
-														<div class="row">
-															<p class="textLeft col-lg-2 mb-0" style="line-height: 40px;">상품 종류</p>
-															<select class="form-select form-group col-1.5" name="crpCtg">
-																<option selected value="전체">전체</option>
-																<option value="야채">야채</option>
-																<option value="과일">과일</option>
-																<option value="곡물">곡물</option>
-															</select>
-														</div>
-														<div class="row">
-															<p class="textLeft col-lg-2 mb-0" style="line-height: 40px;">가격</p>
-															<input type="number" class="form-control col-lg-6" id="price" value="0">
-															<span style="margin-left: 10px; line-height: 50px;">원</span>
-														</div>
-														<div class="row">
-															<p class="textLeft col-lg-2 mb-0" style="line-height: 40px;">수량</p>
-															<input type="number" class="form-control col-lg-6" id="qty" value="1">
-															<span style="margin-left: 10px; line-height: 50px;">개</span>
-														</div>
-														<div class="row" style="margin-bottom: 10px;">
-															<p class="textLeft col-lg-2 mb-0" style="line-height: 40px;">총액</p>
-															<span id="sumPrice" style="line-height: 40px;"></span>
-														</div>
-														<button type="submit" class="btn btn-dark" style="width: 150px; float: left; margin-right: 10px;">등록</button>
-														<button type="button" class="btn btn-dark" style="width: 150px; float: left;">취소</button>
 													</div>
 												</div>
 											</div>
+										</form>
+									</div>
+								</div>
+								<div class="row col-lg-12">
+									<div class="col-lg-12">
+										<div class="product__details__tab">
+											<h6 style="font-size: 20px;"><b>상품 상세</b></h6>
+											<hr>
+											<textarea name="text" id="editor"></textarea>
 										</div>
 									</div>
 								</div>
+								<button type="submit" class="btn btn-dark mr-2" id="addBtn">등록</button>
+								<button type="button" class="btn btn-dark" id="cancel">취소</button>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</section>
-		<!-- Shop Section End -->
+		<!-- Shop Details Section End -->
+		<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+		<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
+		<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
 		
 		<script>
 			$(function() {
@@ -94,6 +115,97 @@
 			function priceToString(price) {
 				return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 			}
+			
+			let dbPath;
+
+			// 첨부파일 가져오기
+			$('#addFile').on('click', function() {
+				$('#inputFile').click();
+			});
+
+			// 첨부파일 업로드
+			$('#inputFile').change(function() {
+				var formData = new FormData(); //FormData 객체 생성
+
+				var inputFile = $("input[type='file']");
+				//input 태그의 type이 file인 것을 찯아서 inputFile 이라는 변수로 지정
+
+				var files = inputFile[0].files;
+				//files : 선택한 모든 파일을 나열하는 FileList 객체입니다
+				//multiple 특성을 지정하지 않았다면 두 개 이상의 파일을 포함하지 않습니다
+
+				for (var i = 0; i < files.length; i++) {
+					console.log(files[i]);
+					if (files[i].type.includes('image')) {
+						formData.append("uploadFiles", files[i]); //키, 값으로 append
+
+						$.ajax({
+							url: 'uploadsAjax',
+							type: 'POST',
+							processData: false, // 기본값은 true, ajax 통신을 통해 데이터를 전송할때, 기본적으로 key와 value 값을 Query String으로 변환해서 보내줌
+							contentType: false, // multipart/form-data 타입을 사용하기위해 false로 지정
+							data: formData,
+							success: function (result) {
+								console.log(result);
+								dbPath = result.dbPath;
+								$('#addFile').html('<img src="' + result.loadPath + '">');
+								console.log(dbPath);
+
+							},
+							error: function (reject) {
+								console.log(reject);
+							}
+						})
+					} else {
+						alert('이미지만 등록 가능합니다');
+					}
+				}
+
+
+			});
+			
+			// ckEditor 생성
+			let editor;
+			ClassicEditor.create(document.querySelector('#editor'), {
+				language: "ko",
+				ckfinder: {
+					uploadUrl: '/image/upload'
+				}
+			})
+			.then(newEditor => {
+				editor = newEditor;
+			})
+			.catch(error => {
+				console.error(error);
+			});
+			
+			// ckEditor 데이터 가져오기
+			$('#addBtn').on('click', function() {
+				let ckData = editor.getData();
+				let formData = $('#myForm').serializeObject();
+				formData.detaDesct = ckData;
+				formData.rep = dbPath;
+				console.log(formData);
+
+				$.ajax({
+					url:"cropsSaleInsert",
+					method : "POST",
+					data : formData
+				})
+				.done(function(result){
+					alert(result);
+					location.href="cropsSaleList";
+				})
+				.fail(function(result){
+					alert(result);
+					location.href="cropsSaleList";
+				})
+			});
+			
+			// 취소버튼 클릭 시
+			$('#cancel').on('click', function() {
+				location.href="cropsSaleList";
+			});
 		</script>
 		
 	</div>

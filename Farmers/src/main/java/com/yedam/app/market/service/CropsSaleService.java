@@ -12,7 +12,7 @@ public interface CropsSaleService {
 	// 단건조회
 	public CropsSaleVO getCropsSaleInfo(CropsSaleVO csVO);
 	// 등록
-	public int insertCropsSaleInfo(CropsSaleVO csVO);
+	public boolean insertCropsSaleInfo(CropsSaleVO csVO);
 	// 수정
 	public int updateCropsSaleInfo(CropsSaleVO csVO);
 	// 삭제

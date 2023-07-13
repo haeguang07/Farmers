@@ -22,4 +22,7 @@ public interface FundingMapper {
 	
 	//펀딩 등록
 	public int insertFunding(FundingVO vo);
+	
+	//펀딩 수정
+	public int modifyFunding(FundingVO vo);
 }
