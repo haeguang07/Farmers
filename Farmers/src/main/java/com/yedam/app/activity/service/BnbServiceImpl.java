@@ -10,18 +10,22 @@ import com.yedam.app.activity.vo.BnbVO;
 
 @Service
 public class BnbServiceImpl implements BnbService {
-	
+
 	@Autowired
-	BnbMapper bnbMapper; 
-	
+	BnbMapper bnbMapper;
+
 	@Override
-	public List<BnbVO> selectBnbList() {
-		return bnbMapper.selectBnbList();
+	public List<BnbVO> selectBnbList(String dst1, int page, String order) {
+		return bnbMapper.selectBnbList(dst1, page, order);
 	}
-	
+
 	@Override
 	public BnbVO selectBnb(String bnbNo) {
 		return bnbMapper.selectBnb(bnbNo);
 	}
-}
 
+	@Override
+	public int insertBnb(BnbVO vo) {
+		return bnbMapper.insertBnb(vo);
+	}
+}
