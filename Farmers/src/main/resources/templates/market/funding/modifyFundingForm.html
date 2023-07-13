@@ -27,7 +27,8 @@
 					<div class="row">
 						<div class="row col-lg-12">
 							<div class="col-lg-4 col-md-9 row" id="addFile">
-								<div class="col-lg-12" style="background-color: lightgrey; display: table;">
+								<img th:src="${fundingInfo.rep}" alt="">
+								<div class="col-lg-12" style="background-color: lightgrey; display: none;">
 									<p style="display: table-cell; vertical-align: middle">대표
 										이미지 등록</p>
 								</div>
@@ -43,7 +44,7 @@
 													<div class="row">
 														<h4 class="textLeft col-lg-3" style="display: inline;">상품명
 														</h4>
-														<input type="text" class="form-control col-lg-9" name="fndTitle">
+														<input type="text" class="form-control col-lg-9" name="fndTitle" th:value="${fundingInfo.fndTitle}">
 													</div>
 													<hr>
 													<br>
@@ -54,7 +55,7 @@
 																name="memNo">
 														</div>
 														<div class="row col-lg-6" style="display: none;">
-															<p class="myInline col-lg-6 mb-0 textLeft">결제일</p>
+															<p class="myInline col-lg-6 mb-0 textLeft">사용X</p>
 															<input type="date" class="form-control col-lg-6">
 														</div>
 													</div>
@@ -62,29 +63,29 @@
 													<div class="row">
 														<div class="row col-lg-6">
 															<p class="myInline col-lg-6 mb-0 textLeft">목표금액</p>
-															<input type="number" class="form-control col-lg-6" name="goalPrice" value="0" min="1">
+															<input type="number" class="form-control col-lg-6" name="goalPrice" th:value="${fundingInfo.goalPrice}" min="1">
 														</div>
 														<div class="row col-lg-6">
 															<p class="myInline col-lg-6 mb-0 textLeft">펀딩가격</p>
-															<input type="number" class="form-control col-lg-6" name="fndPrice" value="0" min="1">
+															<input type="number" class="form-control col-lg-6" name="fndPrice" th:value="${fundingInfo.fndPrice}" min="1">
 														</div>
 													</div>
 													<br>
 													<div class="row">
 														<div class="row col-lg-6">
 															<p class="myInline col-lg-6 mb-0 textLeft">펀딩시작일</p>
-															<input type="date" class="form-control col-lg-6" name="fndStrDate">
+															<input type="date" class="form-control col-lg-6" name="fndStrDate" th:value="${#dates.format(fundingInfo.fndStrDate, 'yyyy-MM-dd')}">
 														</div>
 														<div class="row col-lg-6">
 															<p class="myInline col-lg-6 mb-0 textLeft">펀딩마감일</p>
-															<input type="date" class="form-control col-lg-6" name="fndEndDate">
+															<input type="date" class="form-control col-lg-6" name="fndEndDate" th:value="${#dates.format(fundingInfo.fndEndDate, 'yyyy-MM-dd')}">
 														</div>
 													</div>
 													<br>
 													<div class="row">
 														<div class="row col-lg-6">
 															<p class="myInline col-lg-6 mb-0 textLeft">카테고리</p>
-															<select class="form-control col-lg-6" name="crpCtg">
+															<select class="form-control col-lg-6" name="crpCtg" th:value="${fundingInfo.crpCtg}">
 																<option value="야채">야채</option>
 																<option value="과일">과일</option>
 																<option value="곡물">곡물</option>
@@ -92,7 +93,7 @@
 														</div>
 														<div class="row col-lg-6">
 															<p class="myInline col-lg-6 mb-0 textLeft">배송시작일</p>
-															<input type="date" class="form-control col-lg-6" name="shipStrDate">
+															<input type="date" class="form-control col-lg-6" name="shipStrDate" th:value="${#dates.format(fundingInfo.shipStrDate, 'yyyy-MM-dd')}">
 														</div>
 
 													</div>
@@ -143,9 +144,24 @@
 		<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
 		<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
 
-		<script>
+		<script th:inline="javascript">
+			let dbPath;
 			$(function () {
-				let dbPath;
+				//카테고리 select 창 데이터 입력
+				$('.current').text(/*[[${fundingInfo.crpCtg}]]*/)
+				$('.option selected focus').toggleClass('selected focus');
+				$('.option').each(function(index, item){
+					if($(item).hasClass('selected')){
+						$(item).toggleClass('selected focus')
+					}
+					if($(item).attr("data-value") == /*[[${fundingInfo.crpCtg}]]*/){
+						$(item).addClass('selected focus')
+					}
+				})
+
+				//ckEditor 데이터 넣기
+				editor.setData(/*[[${fundingInfo.desct}]]*/)
+
 				//날짜 입력 순서 정의 
 				$('[name="fndEndDate"]').on('click',function(e){
 					e.preventDefault();
@@ -166,15 +182,32 @@
 				})
 
 				//date 타입 최소 날짜 제한
+				//페이지 로드 후 한 번 실행
 				minDateSet(new Date, $('[name="fndStrDate"]'))
+				minDateSet(new Date($('[name="fndStrDate"]').val()), $('[name="fndEndDate"]'))
+				minDateSet(new Date($('[name="fndEndDate"]').val()), $('[name="shipStrDate"]'))
+
 				$('[name="fndStrDate"]').change(function () {
 					minDateSet(new Date($('[name="fndStrDate"]').val()), $('[name="fndEndDate"]'))
+
+					//시작일 변경 시 마감일보다 크면 마감일,배송일 초기화
+					if($('[name="fndStrDate"]').val() > $('[name="fndEndDate"]').val()){
+						$('[name="fndEndDate"]').val('')
+						$('[name="shipStrDate"]').val('')
+					}
 				})
+
 				$('[name="fndEndDate"]').change(function () {
 					minDateSet(new Date($('[name="fndEndDate"]').val()), $('[name="shipStrDate"]'))
+
+					//마감일 변경시 배송일보다 크면 배송일 초기화
+					if($('[name="fndEndDate"]').val() > $('[name="shipStrDate"]').val()){
+						$('[name="shipStrDate"]').val('')
+					}
 				})
 			})
 
+			
 			//date 타입 최소 날짜 제한 함수
 			function minDateSet(date, input) {
 				var now_utc = date // 지금 날짜를 밀리초로
@@ -230,7 +263,7 @@
 			})
 
 			//ckEditor 생성
-			let editor;
+			var editor;
 			ClassicEditor.create(document.querySelector('#editor'), {
 					language: "ko",
 					ckfinder: {
@@ -266,9 +299,6 @@
 				} else if (!$('[name="fndEndDate"]').val()) {
 					alert('펀딩마감일을 입력하세요');
 					return;
-				} else if (!$('#inputFile').val()) {
-					alert('대표이미지를 설정하세요');
-					return;
 				} else {
 					let ckData = editor
 					let formData = $('#myForm').serializeObject()
@@ -280,11 +310,14 @@
 					}else{
 						formData.desct = ckData.getData()
 					}
-					formData.rep = dbPath
+					if($('#inputFile').val()){
+						formData.rep = dbPath
+					}
+					formData.fndNo = /*[[${fundingInfo.fndNo}]]*/
 
 					//ajax 펀딩 등록
 					$.ajax({
-							url: "addFunding",
+							url: "modifyFunding",
 							method: "POST",
 							data: formData
 						})

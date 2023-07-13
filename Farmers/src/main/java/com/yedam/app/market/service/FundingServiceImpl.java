@@ -39,13 +39,19 @@ public class FundingServiceImpl implements FundingService {
 
 	@Override
 	public List<FundingVO> getPolpularFnd() {
-		return fundingMapper.getPolpularFnd();
+		List<FundingVO> list = fundingMapper.getPolpularFnd();
+		System.out.println(list);
+		return list;
 	}
 
 	@Override
 	public boolean insertFunding(FundingVO vo) {
-		
 		return fundingMapper.insertFunding(vo) > 0 ;
+	}
+
+	@Override
+	public boolean modifyFunding(FundingVO vo) {
+		return fundingMapper.modifyFunding(vo) > 0;
 	}
 
 

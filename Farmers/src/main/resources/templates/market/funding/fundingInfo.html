@@ -9,7 +9,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Male-Fashion | Template</title>
-
+	<link rel="stylesheet" href="css/sungWookCss/sungook.css" type="text/css">
 </head>
 
 <body>
@@ -20,13 +20,13 @@
 			<div class="product__details__pic" style="background-color: white;">
 				<div class="container">
 					<div class="row">
-						<div class="col-lg-2">
+						<div class="col-lg-3">
 							<div class="shop__sidebar">
 								<div class="shop__sidebar__accordion">
 									<div class="accordion" id="accordionExample">
 										<div class="card">
 											<div class="card-heading">
-												<a data-toggle="collapse" data-target="#collapseOne">농촌마켓</a>
+												<a data-toggle="collapse" data-target="#collapseOne" style="font-size: larger;">농촌마켓</a>
 											</div>
 											<div id="collapseOne" class="collapse show" data-parent="#accordionExample">
 												<div class="card-body">
@@ -41,12 +41,11 @@
 												</div>
 											</div>
 										</div>
-
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="row col-lg-10">
+						<div class="row col-lg-9">
 							<div class="col-lg-4 col-md-9">
 								<div class="tab-content">
 									<div class="tab-pane active" id="tabs-1" role="tabpanel">
@@ -68,6 +67,7 @@
 														th:text="'달성률 : ' + ${fundingInfo.goalPer}+'%'">달성률</h6>
 												</div>
 												<hr>
+												<br>
 												<div class="row">
 													<p class="myInline col-lg-6 mb-0 textLeft">참여인원 <span
 															th:text="${fundingInfo.payCount} + '명'"></span></p>
@@ -90,23 +90,27 @@
 												</div>
 												<div class="product__details__cart__option row" style="margin-top: 40px;">
 													<div class="quantity col-lg-12 myZeroMargin" style="margin-right: 0px;">
-														<div class="row">
-															<div class="col-lg-6 textLeft row">
+														<div class="row memService" th:if="not ${#strings.isEmpty(session. mem)}">
+															<div class="col-lg-6 textLeft row" th:if="${session.mem.memNo} != ${fundingInfo.memNo}" >
 																<p class="myInline col-lg-4" style="margin-left: 0; margin-right: 0;">수량</p>
 																<div class="myInline col-lg-8">
-																	<input type="number" value="1" id="count" class="form-control">
+																	<input type="number" value="1" id="count" class="form-control" min="1">
 																</div>
 															</div>
-															<div class="col-lg-6 textLeft" style="margin-left: 30px;">
+															<div class="col-lg-6 textLeft" style="margin-left: 30px;" th:if="${session.mem.memNo} != ${fundingInfo.memNo}" >
 																<h6 class="myInlineBlock">총액 <span id="sumPrice"></span></h6>
 															</div>
 														</div>
 													</div>
-													<a href="#" class="primary-btn"
-														style="color: white; margin: 0 auto; margin-top: 20px; width: 500px;">구매하기</a>
-												</div>
-												<div class="product__details__btns__option">
-													<a href="#"><i class="fa fa-heart"></i>장바구니</a>
+													<div th:if="not ${#strings.isEmpty(session. mem)}" >
+														<a href="#" class="primary-btn memService"
+														style="color: white; margin: 0 auto; margin-top: 20px; width: 500px;" id="getPay" th:if="${session.mem.memNo} != ${fundingInfo.memNo}" >구매하기</a>
+														<a th:href="@{modifyFunding(fndNo=${fundingInfo.fndNo})}" class="primary-btn myService"
+														style="color: white; margin: 0 auto; margin-top: 20px; width: 500px;" id="getModify" th:if="${session.mem.memNo} == ${fundingInfo.memNo}">수정하기</a>
+														<div class="product__details__btns__option" th:if="${session.mem.memNo} != ${fundingInfo.memNo}" style="margin-top: 20px;">
+															<a href="#"><i class="fa fa-heart memService"></i>장바구니</a>
+														</div>
+													</div>
 												</div>
 											</div>
 										</div>
@@ -130,32 +134,6 @@
 														<div th:utext="${fundingInfo.desct}"></div>
 													</div>
 												</div>
-												<div class="tab-pane" id="tabs-6" role="tabpanel">
-													<div class="product__details__tab__content">
-														<div class="product__details__tab__content__item">
-															<h5>Products Infomation</h5>
-															<p>a</p>
-															<p>a</p>
-														</div>
-														<div class="product__details__tab__content__item">
-															<h5>Material used</h5>
-															<p>a</p>
-														</div>
-													</div>
-												</div>
-												<div class="tab-pane" id="tabs-7" role="tabpanel">
-													<div class="product__details__tab__content">
-														<p class="note">a</p>
-														<div class="product__details__tab__content__item">
-															<h5>Products Infomation</h5>
-															<p>a</p>
-														</div>
-														<div class="product__details__tab__content__item">
-															<h5>Material used</h5>
-															<p>a</p>
-														</div>
-													</div>
-												</div>
 											</div>
 										</div>
 									</div>
@@ -171,14 +149,14 @@
 									</div>
 									<div class="row">
 										<div class="col-lg-3 col-md-6 col-sm-6 col-sm-6"  th:each="popular : ${polurInfo}" >
-											<div class="product__item">
+											<div class="product__item" th:onclick="|location.href='@{fundingInfo(fndNo=${popular.fndNo})}'|">
 												<div class="product__item__pic set-bg" data-setbg="" style="background-image: url("${polurInfo.rep}");">
 													<span class="label">인기</span>
 												</div>
 												<div class="product__item__text">
 													<h6 th:text="${popular.fndTitle}"></h6>
 													<a href="#" class="add-cart">+ Add To Cart</a>
-													<h5 th:text="${popular.fndPrice}"></h5>
+													<h5 th:text="${popular.fndPrice}+'원'"></h5>
 												</div>
 											</div>
 										</div>
@@ -194,18 +172,18 @@
 
 		<script>
 			$(function(){
-				getSumPrice()
+				getSumPrice()			
 			})
 			$('#count').change(function(){
 				getSumPrice()
 			})
 			function getSumPrice(){	
-					$('#sumPrice').text(priceToString((Number($('#count').val()) * Number([[${fundingInfo.fndPrice}]])))+' 원')
+					$('#sumPrice').text(priceToString((Number($('#count').val()) * Number(/*[[${fundingInfo.fndPrice}]]*/)))+' 원')
 					
 			}
 			// 돈 콤마
 			function priceToString(price) {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    			return price.toLocaleString('ko-KR')
 			}
 		</script>
 	</div>
