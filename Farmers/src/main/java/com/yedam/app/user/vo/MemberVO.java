@@ -19,46 +19,49 @@ public class MemberVO implements UserDetails{
 	private String pw;
 	private String email;
 	private String nick;
+	private String loginPath;
+	private String rptCnt;
+	private String memGrd;
 
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		
-		
-		
-		return null;
+		Collection<SimpleGrantedAuthority> list = new ArrayList<SimpleGrantedAuthority>();
+		if(memGrd=="b0") {
+			list.add(new SimpleGrantedAuthority("ROLE_REGULAR"));
+			list.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+		}else if(memGrd=="b1") {
+			list.add(new SimpleGrantedAuthority("ROLE_REGULAR"));
+		}else if(memGrd=="b2") {
+			list.add(new SimpleGrantedAuthority("ROLE_Associate"));
+		}
+		return list;
 	}
 	
 
 	
 	@Override
 	public String getPassword() {
-		// TODO Auto-generated method stub
 		return pw;
 	}
 	@Override
 	public String getUsername() {
-		// TODO Auto-generated method stub
 		return id;
 	}
 	@Override
 	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 	@Override
 	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 	@Override
 	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 	
