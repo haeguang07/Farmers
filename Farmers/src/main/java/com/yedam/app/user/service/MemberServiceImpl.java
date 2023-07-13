@@ -1,4 +1,4 @@
-package com.yedam.app.security.service;
+package com.yedam.app.user.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -6,7 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.yedam.app.security.mapper.MemberMapper;
+import com.yedam.app.user.mapper.MemberMapper;
+import com.yedam.app.user.vo.MemberVO;
 @Service
 public class MemberServiceImpl implements MemberService, UserDetailsService{
 	

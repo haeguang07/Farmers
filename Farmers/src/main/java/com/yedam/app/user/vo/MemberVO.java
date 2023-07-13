@@ -1,4 +1,4 @@
-package com.yedam.app.security.service;
+package com.yedam.app.user.vo;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,14 +24,12 @@ public class MemberVO implements UserDetails{
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		
+		
+		
 		return null;
 	}
 	
-	public void setPw(String pw) {
-		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
-		String password = scpwd.encode(pw);
-		this.pw = password;
-	}
+
 	
 	@Override
 	public String getPassword() {

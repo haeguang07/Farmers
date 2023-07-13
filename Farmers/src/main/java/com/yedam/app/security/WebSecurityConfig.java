@@ -43,7 +43,9 @@ public class WebSecurityConfig {
 			.failureHandler(authenticationFailureHandler())
 			.permitAll()
 			.and()
-			.logout((logout) -> logout.permitAll());
+			.logout((logout) -> logout
+					.logoutSuccessUrl("/")
+					.permitAll());
 			
 	return http.build();
 	}	

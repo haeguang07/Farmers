@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.yedam.app.security.service.MemberService;
-import com.yedam.app.security.service.MemberVO;
 import com.yedam.app.user.service.EmailService;
+import com.yedam.app.user.service.MemberService;
 import com.yedam.app.user.vo.EmailVO;
+import com.yedam.app.user.vo.MemberVO;
 
 @RestController
 public class LoginRestController {
