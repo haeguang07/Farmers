@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.yedam.app.user.service.EmailService;
 import com.yedam.app.user.service.MemberService;
-import com.yedam.app.user.vo.EmailMessage;
+import com.yedam.app.user.vo.EmailVO;
 import com.yedam.app.user.vo.MemberVO;
 
 @RestController
@@ -26,22 +26,10 @@ public class LoginRestController {
 	@Autowired
 	EmailService emailService;
 	
-	//로그인 기능
-	@PostMapping("login")
-	public Map<String, Object> login(@RequestBody MemberVO vo, HttpServletRequest request){
-		System.out.println(vo);
-		vo = memberService.login(vo);
-		System.out.println(vo);
-		Map<String, Object> map= new HashMap<>();
-		if(vo==null) {
-			map.put("result", "fail");			
-		}else {
-			map.put("result", "success");
-			HttpSession session = request.getSession();
-			session.setAttribute("mem", vo);
-		}
-		return map;
-	}
+	
+	
+	
+	
 	//이메일 전송(인증 번호)
 	@GetMapping("sendEmail")
 	public Map<String,Object> email() {
@@ -49,7 +37,7 @@ public class LoginRestController {
 		String to ="hk97564@naver.com";
 		String title="인증번호 발송";
 		String subject="<h3>안녕하세요</h3>\n <h4>인증번호는" +random +"입니다</h4>\n";
-		EmailMessage msg = new EmailMessage(to,title,subject);
+		EmailVO msg = new EmailVO(to,title,subject);
 		emailService.sendMail(msg);
 		Map<String, Object> map = new HashMap<>();
 		map.put("random", random);
@@ -63,7 +51,7 @@ public class LoginRestController {
 			String to ="hk97564@naver.com";
 			String title="임시비밀번호 발송";
 			String subject="<h3>안녕하세요</h3>\n <h4>임시 비밀번호는" +random +"입니다</h4>\n"+ "<h4>로그인후 변경해 주세요</h4>";
-			EmailMessage msg = new EmailMessage(to,title,subject);
+			EmailVO msg = new EmailVO(to,title,subject);
 			emailService.sendMail(msg);
 			return "success";
 			
