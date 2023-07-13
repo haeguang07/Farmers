@@ -51,7 +51,7 @@
 	
 	<!-- 단건조회 -->
 	<select id="selectCropsSaleInfo" resultType="CropsSaleVO">
-		select crp_sale_no, mem_no, crp_title, crp_ctg, price, qty, rep, reg_date, reg_stts
+		select crp_sale_no, mem_no, crp_title, crp_ctg, price, qty, rep, deta_desct, reg_date, reg_stts
 		from crops_sale
 		where crp_sale_no = #{crpSaleNo}
 	</select>
@@ -62,8 +62,8 @@
 			select 'CRP' || LPAD(crp_seq.nextval, 6, '0')
 			from dual
 		</selectKey>
-		insert into crops_sale(crp_sale_no, crp_title, crp_ctg, price, qty, rep, deta_desct, reg_date)
-		values(#{crpSaleNo}, #{crpTitle}, #{crpCtg}, #{price}, #{qty}, #{rep}, #{detaDesct}, sysdate)
+		insert into crops_sale(crp_sale_no, crp_title, crp_ctg, price, qty, rep, deta_desct, reg_date, reg_stts)
+		values(#{crpSaleNo}, #{crpTitle}, #{crpCtg}, #{price}, #{qty}, #{rep}, #{detaDesct}, sysdate, 'e1')
 	</insert>
 	
 	<!-- 수정 -->
@@ -72,6 +72,12 @@
 		<set>
 			<if test="crp_title != null and !crp_title.equals('')">
 				crp_title = #{crpTitle}
+			</if>
+			<if test="crp_ctg != null and !crp_ctg.equals('')">
+				crp_ctg = #{crpCtg}
+			</if>
+			<if test="price != null and !price.equals('')">
+				price = #{price}
 			</if>
 			<if test="qty != null and !qty.equals('')">
 				, qty = #{qty}

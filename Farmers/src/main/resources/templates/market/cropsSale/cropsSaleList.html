@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>농작물 판매</title>
+<link rel="stylesheet" href="css/sungWookCss/sungook.css" type="text/css">
 </head>
 <body>
 	<div layout:fragment="content">
@@ -70,9 +71,9 @@
 											<select class="form-select form-group col-1.5"
 												aria-label="Default select example" id="category">
 												<option selected value="전체">전체</option>
-												<option value="야채">야채</option>
-												<option value="과일">과일</option>
-												<option value="곡물">곡물</option>
+												<option value="x0">야채</option>
+												<option value="x1">과일</option>
+												<option value="x2">곡물</option>
 											</select>
 											<div class="col-7">
 												<input type="text" class="form-control from-group"
@@ -85,7 +86,7 @@
 								</div>
 								<div class="col-lg-2 col-md-2 col-sm-2">
 									<div class="form-select">
-										<select>
+										<select id="order">
 											<option value="최신순">최신순</option>
 											<option value="가격높은순">가격높은순</option>
 											<option value="가격낮은순">가격낮은순</option>
@@ -149,7 +150,7 @@
 						<i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i
 							class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i
 							class="fa fa-star-o"></i>
-						<p id="date" style="display: inline-block; margin-left: 180px;">등록날짜</p>	
+						<p id="date" style="display: inline-block; margin-left: 40%;">등록날짜</p>	
 					</div>
 				</div>
 			</div>
@@ -164,15 +165,15 @@
 		</div>
 		
 		<script>
-			
+			// 등록 페이지로 이동
 			$('#add').on('click', function() {
 				location.href = "cropsSaleInsert";
 			});
-			
+			// 페이지 로드
 			$(function() {
 				ajaxData(1)
 			});
-			
+			// 리스트 불러오기
 			function ajaxData(page, category, order, search) {
 				$.ajax({
 					url : 'cropsSaleList',
@@ -184,14 +185,14 @@
 						search : search
 					}
 				})
-				.done(function(data, status, xhr) {
+				.done(function(data) {
 					printList(data);
 				})
 				.fail(function() {
 					console.log('fail');
 				});
 			}
-			
+			// 리스트 출력 함수
 			function printList(data) {
 				$('#cropsSaleDiv').children().remove();
 				$('#pageDiv').children().remove();
@@ -204,7 +205,7 @@
 				
 				printPage(pageData);
 			}
-			
+			// 리스트 생성 함수
 			function printItem(item) {
 				let clone = $('#cropsSaleItem').clone();
 				$(clone).removeClass('hideItem');
@@ -215,10 +216,11 @@
 				$(clone).find('#name').text(item.crpTitle);
 				$(clone).find('#price').text(item.price + '원');
 				$(clone).find('#date').text(item.regDate);
+				$(clone).find('#img').css('background-image', 'url('+item.rep+')');
 				
 				$('#cropsSaleDiv').append(clone);
 			}
-			
+			// 페이지 생성 및 추가
 			function printPage(pageData) {
 				console.log(pageData);
 				
@@ -254,7 +256,7 @@
 				$(pageItem).find('#pageNum')[0].remove();
 				$('#pageDiv').append(pageItem);
 			}
-			
+			// 조건 변경 시 함수
 			function getCondition(page) {
 				let search = $('#search').val();
 				let category = $('#category').val();
@@ -265,18 +267,18 @@
 				
 				ajaxData(page, category, order, search);
 			}
-			
+			// 검색 버튼 클릭 시
 			$('#searchButton').on('click', function() {
 				getCondition();
 			});
-			
+			// 카테고리 변경 시
 			$('#category').change(function() {
 				getCondition();
 			});
-			
+			// 정렬 순서 변경 시
 			$('#order').change(function() {
 				getCondition();
-			})
+			});
 		</script>
 
 	</div>

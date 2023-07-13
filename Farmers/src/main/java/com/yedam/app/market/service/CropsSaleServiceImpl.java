@@ -30,36 +30,18 @@ public class CropsSaleServiceImpl implements CropsSaleService {
 	}
 
 	@Override
-	public int insertCropsSaleInfo(CropsSaleVO csVO) {
-		int result = csMapper.insertCropsSale(csVO);
-		
-		if(result == 1) {
-			return Integer.parseInt(csVO.getCrpSaleNo());
-		} else {
-			return -1;
-		}
+	public boolean insertCropsSaleInfo(CropsSaleVO csVO) {
+		return csMapper.insertCropsSale(csVO) > 0;
 	}
 
 	@Override
 	public int updateCropsSaleInfo(CropsSaleVO csVO) {
-		int result = csMapper.updateCropsSale(csVO);
-		
-		if(result == 1) {
-			return Integer.parseInt(csVO.getCrpSaleNo());
-		} else {
-			return -1;
-		}
+		return csMapper.updateCropsSale(csVO);
 	}
 
 	@Override
 	public int deleteCropsSaleInfo(String crpSaleNo) {
-		int result = csMapper.deleteCropsSale(crpSaleNo);
-		
-		if(result == 1) {
-			return Integer.parseInt(crpSaleNo);
-		} else {
-			return -1;
-		}
+		return csMapper.deleteCropsSale(crpSaleNo);
 	}
 	
 	@Override

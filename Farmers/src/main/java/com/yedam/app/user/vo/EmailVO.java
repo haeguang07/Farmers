@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class EmailMessage {
+public class EmailVO {
 	  // 수신자
     private String to;
     

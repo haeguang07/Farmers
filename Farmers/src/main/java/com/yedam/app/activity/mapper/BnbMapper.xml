@@ -3,14 +3,35 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.app.activity.mapper.BnbMapper">
-
+	<!-- 전체조회-페이징 -->
 	<select id="selectBnbList" resultType="BnbVO">
-		select * from farmbnb
+		select b.*
+		from (select rownum rn, a.*
+		from (select * from farmbnb
+		<if test="dst1 != null and !dst1.equals('')">
+			where dst1=#{dst1}
+		</if>
+		) a
+			<![CDATA[
+			WHERE rownum <= #{page} * 9) b
+		WHERE b.rn > (#{page}-1) * 9
+			]]>
+		<choose>
+			<when test="order.equals('최신순')">
+				order by 1 desc
+			</when>
+			<when test="order.equals('낮은가격순')">
+				order by price
+			</when>
+			<when test="order.equals('높은가격순')">
+				order by price desc
+			</when>
+		</choose>
 	</select>
 	<select id="selectBnb" resultType="BnbVO">
-
 		select * from farmbnb
-		where bnb_no= #{bnbNo}
+		where
+		bnb_no= #{bnbNo}
 	</select>
 
 	<insert id="insertBnb" parameterType="BnbVO">
@@ -20,31 +41,34 @@
 			from dual
 		</selectKey>
 		insert into farmbnb(
-				BNB_NO,
-				MEM_NO,
-				BNB_TITLE,
-				DST1,
-				ZIP,
-				ADDR,
-				PRICE,
-				REP,
-				LEND_STR_DATE,
-				LEND_END_DATE,
-				DETA_DESCT)
+		BNB_NO,
+		MEM_NO,
+		BNB_TITLE,
+		DST1,
+		ZIP,
+		ADDR,
+		ADDR_DETAIL,
+		PRICE,
+		REP,
+		LEND_STR_DATE,
+		LEND_END_DATE,
+		DETA_DESCT)
 		values(#{bnbNo},
-			   #{memNo},
-			   #{bnbTitle},
-			   #{dst1},
-			   #{zip},
-			   #{addr},
-			   #{price},
-			   #{rep},
-			   #{lendStrDate},
-			   #{lendEndDate},
-			   #{detaDesct})
+		#{memNo},
+		#{bnbTitle},
+		#{dst1},
+		#{zip},
+		#{addr},
+		#{addrDetail},
+		#{price},
+		#{rep},
+		#{lendStrDate},
+		#{lendEndDate},
+		#{detaDesct})
 	</insert>
-	
-	
-	
+
+
+
+
 </mapper>
 

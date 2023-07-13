@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.yedam.app.user.mapper.MemberMapper">
- 	<select id="selectMember" parameterType="MemberVO" resultType="MemberVO">
+ 	<select id="selectMember"  resultType="MemberVO">
  		SELECT 	mem_no,
 				id,
 				pw,
@@ -11,7 +11,12 @@
 				nick
 		FROM member
 		WHERE id= #{id}
-		AND pw= #{pw}
  	</select>
- 
+ 	
+ 	<select id="selectRole" resultType="String">
+		SELECT CODE_DESCT
+		FROM   COMMON_CODE_DETAIL
+		WHERE CMMN_CODE_NO = #{cmmnCodeNo}
+	</select>
+ 	
  </mapper>

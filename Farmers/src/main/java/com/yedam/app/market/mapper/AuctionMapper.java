@@ -5,18 +5,18 @@ import java.util.List;
 import com.yedam.app.market.vo.AuctionVO;
 
 public interface AuctionMapper {
-
-	// 경매 리스트 조회
-	public List<AuctionVO> showAuctionList();	
 	
 	// 경매 리스트 조회(페이징)
-	public List<AuctionVO> getAuctionListPage(int page);
+	public List<AuctionVO> getAuctionListPage(int page, String order);
+	
+	// 경매 리스트 합계
+	public int auctionTotal();
+	
+	// 다음 경매 리스트
+	public List<AuctionVO> getNextAuctionList();
 	
 	// 단건 경매 정보 조회
-	public AuctionVO selectAuction(int actNo);
-	
-	// 입찰 최고가 조회
-	public AuctionVO calHighestBid(int actNo);
+	public AuctionVO selectAuction(String actNo);
 	
 	// 경매 등록
 	public int addAuction(AuctionVO vo);
