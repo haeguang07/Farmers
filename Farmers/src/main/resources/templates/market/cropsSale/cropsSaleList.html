@@ -50,7 +50,7 @@
 														<li><b><a href="cropsSaleList"
 																style="color: black;">농작물 판매</a></b></li>
 														<li><a href="fundingList">농작물 펀딩</a></li>
-														<li><a href="#">경매장</a></li>
+														<li><a href="auctionList">경매장</a></li>
 													</ul>
 												</div>
 											</div>
@@ -209,14 +209,15 @@
 			function printItem(item) {
 				let clone = $('#cropsSaleItem').clone();
 				$(clone).removeClass('hideItem');
-				$(clone).on('click', function() {
-					location.href = "cropsSaleInfo?crpSaleNo=" + item.crpSaleNo
-				});
 				
 				$(clone).find('#name').text(item.crpTitle);
 				$(clone).find('#price').text(item.price + '원');
 				$(clone).find('#date').text(item.regDate);
 				$(clone).find('#img').css('background-image', 'url('+item.rep+')');
+				
+				$(clone).find('#img').on('click', function() {
+					location.href = "cropsSaleInfo?crpSaleNo=" + item.crpSaleNo
+				});
 				
 				$('#cropsSaleDiv').append(clone);
 			}
@@ -253,6 +254,8 @@
 					$(pageItem).find('#pageNumDiv').append(clone);
 				}
 				
+				$(pageItem).children().css('cursor', 'pointer');
+				
 				$(pageItem).find('#pageNum')[0].remove();
 				$('#pageDiv').append(pageItem);
 			}
@@ -270,6 +273,13 @@
 			// 검색 버튼 클릭 시
 			$('#searchButton').on('click', function() {
 				getCondition();
+			});
+			// 검색 창에서 엔터 클릭 시
+			$('#search').keyup(function(event) {
+				// console.log(event);
+				if(event.keyCode == 13 || event.which == 13) {
+					getCondition();
+				}
 			});
 			// 카테고리 변경 시
 			$('#category').change(function() {
