@@ -8,15 +8,22 @@
 				id,
 				pw,
 				email,
-				nick
+				nick,
+				login_path,
+				rpt_cnt,
+				mem_grd
 		FROM member
 		WHERE id= #{id}
  	</select>
- 	
- 	<select id="selectRole" resultType="String">
-		SELECT CODE_DESCT
-		FROM   COMMON_CODE_DETAIL
-		WHERE CMMN_CODE_NO = #{cmmnCodeNo}
-	</select>
+ 	<select id="selectId" resultType="String">
+ 		SELECT id
+ 		FROM member
+ 		WHERE id=#{id}
+ 	</select>
+	<select id="selectNick" resultType="String">
+ 		SELECT nick
+ 		FROM member
+ 		WHERE nick=#{nick}
+ 	</select>
  	
  </mapper>
