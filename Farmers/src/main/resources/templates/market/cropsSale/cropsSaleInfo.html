@@ -8,99 +8,88 @@
 </head>
 <body>
 	<div layout:fragment="content">
+		<!-- Breadcrumb Section Begin -->
+		<section class="breadcrumb-option">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="breadcrumb__text">
+							<h4>농작물 판매</h4>
+							<div class="breadcrumb__links">
+								<a>농촌마켓</a>
+								<a href="cropsSaleList">농작물 판매</a>
+								<span th:text="${csInfo.crpTitle}"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Breadcrumb Section End -->
 		<!-- Shop Details Section Begin -->
-		<section class="shop-details">
-			<div class="product__details__pic">
-				<div class="container">
-					<div class="row">
-						<div class="col-lg-2">
-							<div class="shop__sidebar">
-								<div class="shop__sidebar__accordion">
-									<div class="accordion" id="accordionExample">
-										<div class="card">
-											<div class="card-heading">
-												<a data-toggle="collapse" data-target="#collapseOne">농촌마켓</a>
+		<section class="product-details spad">
+			<div class="container">
+				<div class="row">
+					<div class="row col-lg-12">
+						<div class="col-lg-4 col-md-9">
+							<div class="tab-content">
+								<div class="tab-pane active" id="tabs-1" role="tabpanel">
+									<div class="product__details__pic__item">
+										<img th:src="${csInfo.rep}" alt="">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="product__details__content col-lg-8">
+							<div class="container">
+								<div class="row d-flex justify-content-center">
+									<div class="col-lg-12">
+										<div class="product__details__text">
+											<div class="row">
+												<h4 class="textLeft col-lg-6" th:text="${csInfo.crpTitle}" style="display: inline; text-align: left; font-size: 30px;">상품명</h4>
+												<button type="button" class="btn btn-dark" style="width: 60px; height: 40px; float: right; margin-left: 90px;" id="update">수정</button>
+												<button type="button" class="btn btn-dark" style="width: 60px; height: 40px; float: right; margin-left: 10px;" id="delete">삭제</button>
 											</div>
-											<div id="collapseOne" class="collapse show"
-												data-parent="#accordionExample">
-												<div class="card-body">
-													<div class="shop__sidebar__categories">
-														<ul>
-															<li><a href="#">전원마켓</a></li>
-															<li><b><a href="cropsSaleList" class="mySelect"
-																	style="color: black;">농작물 판매</a></b></li>
-															<li><a href="fundingList">농작물 펀딩</a></li>
-															<li><a href="#">경매장</a></li>
-														</ul>
-													</div>
-												</div>
+											<hr>
+											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 25px;">가격</b> 
+												<span th:text="${#numbers.formatInteger(csInfo.price, 3, 'COMMA')} + '원'" style="font-size: 20px;"></span>
+											</p>
+											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">별점</b><span>(리뷰갯수)</span> 
+												<span class="rating">
+													<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+														class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+														class="fa fa-star-o"></i>
+												</span>
+											</p>
+											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 15px;">판매자</b> <span>판매자닉네임</span></p>
+											<div class="product__details__cart__option">
+												<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">수량 </b>
+													<span><input type="number" value="1" id="count" class="form-control" style=" width: 150px; display: inline;"></span>
+												</p>
 											</div>
+											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">총액</b> <span id="sumPrice"></span></p>
+											<button type="button" class="btn btn-dark" style="width: 150px; float: left; margin-right: 10px;">구매하기</button>
+											<button type="button" class="btn btn-dark" style="width: 150px; float: left;">장바구니 담기</button>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="row col-lg-10">
-							<div class="col-lg-4 col-md-9">
-								<div class="tab-content">
-									<div class="tab-pane active" id="tabs-1" role="tabpanel">
-										<div class="product__details__pic__item">
-											<img th:src="${csInfo.rep}" alt="">
-										</div>
-									</div>
+						<div class="row col-lg-12" style="text-align: center;">
+							<div class="col-lg-12">
+								<div class="product__details__tab">
+									<h6 style="font-size: 20px;"><b>상품 상세</b></h6>
+									<hr>
+									<p th:utext="${csInfo.detaDesct}">상세 설명</p>
 								</div>
 							</div>
-							<div class="product__details__content col-lg-8">
-								<div class="container">
-									<div class="row d-flex justify-content-center">
-										<div class="col-lg-12">
-											<div class="product__details__text">
-												<div class="row">
-													<h4 class="textLeft col-lg-6" th:text="${csInfo.crpTitle}" style="display: inline; text-align: left; font-size: 30px;">상품명</h4>
-													<button type="button" class="btn btn-dark" style="width: 60px; height: 40px; float: right; margin-left: 90px;" id="update">수정</button>
-													<button type="button" class="btn btn-dark" style="width: 60px; height: 40px; float: right; margin-left: 10px;" id="delete">삭제</button>
-												</div>
-												<hr>
-												<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 25px;">가격</b> 
-													<span th:text="${#numbers.formatInteger(csInfo.price, 3, 'COMMA')} + '원'" style="font-size: 20px;"></span>
-												</p>
-												<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">별점</b><span>(리뷰갯수)</span> 
-													<span class="rating">
-														<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-															class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-															class="fa fa-star-o"></i>
-													</span>
-												</p>
-												<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 15px;">판매자</b> <span>판매자닉네임</span></p>
-												<div class="product__details__cart__option">
-													<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">수량 </b>
-														<span><input type="number" value="1" id="count" class="form-control" style=" width: 150px; display: inline;"></span>
-													</p>
-												</div>
-												<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">총액</b> <span id="sumPrice"></span></p>
-												<button type="button" class="btn btn-dark" style="width: 150px; float: left; margin-right: 10px;">구매하기</button>
-												<button type="button" class="btn btn-dark" style="width: 150px; float: left;">장바구니 담기</button>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="row col-lg-12" style="text-align: center;">
-								<div class="col-lg-12">
-									<div class="product__details__tab">
-										<h6 style="font-size: 20px;"><b>상품 상세</b></h6>
-										<hr>
-										<p th:utext="${csInfo.detaDesct}">상세 설명</p>
-									</div>
-								</div>
-							</div>
-							<div class="row col-lg-12" style="text-align: center;">
-								<div class="col-lg-12">
-									<div class="product__details__tab">
-										<h6 style="font-size: 20px;"><b>리뷰</b></h6>
-										<hr>
-										<p>리뷰 페이징</p>
-									</div>
+						</div>
+						<div class="row col-lg-12" style="text-align: center;">
+							<div class="col-lg-12">
+								<div class="product__details__tab">
+									<h6 style="font-size: 20px;"><b>리뷰</b></h6>
+									<hr>
+									<p>리뷰 페이징</p>
 								</div>
 							</div>
 						</div>
@@ -126,11 +115,11 @@
 			function priceToString(price) {
 				return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 			}
-			
+			// 수정 버튼 클릭 시
 			$('#update').on('click', function() {
 				location.href="cropsSaleUpdate?crpSaleNo=" + /*[[${csInfo.crpSaleNo}]]*/;
 			});
-			
+			// 삭제 버튼 클릭 시
 			$('#delete').on('click', function() {
 				$.ajax({
 					url : "cropsSaleDelete?crpSaleNo=" + /*[[${csInfo.crpSaleNo}]]*/,
