@@ -35,4 +35,13 @@ public class CartCotroller {
 		List<CartVO> list = cartService.getCartList(vo);
 		return list;
 	}
+	
+	//장바구니 삭제
+	@GetMapping("deleteCart")
+	@ResponseBody
+	public boolean deleteCart(CartVO vo) {
+		System.out.println(vo);
+		boolean result = cartService.deleteCart(vo);
+		return result;
+	}
 }

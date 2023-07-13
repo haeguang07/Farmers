@@ -19,7 +19,11 @@
 			</when>
 		</choose>
 		WHERE ca.mem_no = #{memNo}
-
-
 	</select>
+	
+	<!-- 장바구니 삭제 -->
+	<delete id="deleteCart" parameterType="CartVO">
+		DELETE cart
+		WHERE cart_no = #{cartNo}
+	</delete>
 </mapper>

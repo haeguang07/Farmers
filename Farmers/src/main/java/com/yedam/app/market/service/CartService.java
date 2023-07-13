@@ -8,4 +8,7 @@ public interface CartService {
 	// 장바구니 리스트 가져오기
 	public List<CartVO> getCartList(CartVO vo);
 
+	// 장바구니 삭제
+	public boolean deleteCart(CartVO vo);
+
 }
