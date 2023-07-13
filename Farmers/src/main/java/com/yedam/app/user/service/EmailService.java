@@ -19,12 +19,12 @@ import javax.mail.internet.MimeMultipart;
 
 import org.springframework.stereotype.Service;
 
-import com.yedam.app.user.vo.EmailMessage;
+import com.yedam.app.user.vo.EmailVO;
 
 @Service
 public class EmailService {
 
-	public void sendMail(EmailMessage mail) {
+	public void sendMail(EmailVO mail) {
 		// 메일 인코딩
 		final String bodyEncoding = "UTF-8"; // 콘텐츠 인코딩
 		
