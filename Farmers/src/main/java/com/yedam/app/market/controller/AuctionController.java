@@ -1,7 +1,5 @@
 package com.yedam.app.market.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,22 +15,20 @@ public class AuctionController {
 	AuctionService actService;
 	
 	// 전체조회 페이지
-	@GetMapping("auction")
-	public String auctionList(Model model) {
-		List<AuctionVO> list = actService.getAuctionList();
-		model.addAttribute("actList", list);
+	@GetMapping("auctionList")
+	public String auctionList() {
+//		List<AuctionVO> list = actService.getAuctionList();
+//		model.addAttribute("actList", list);
 //		 System.out.println(list);
 		return "market/auction/auctionList";
 	}
 	
 	// 단건조회 페이지
 	@GetMapping("auctionInfo")
-	public String auctionInfo(int actNo, Model model) {
-		System.out.println(actNo);
-		AuctionVO info = actService.getOneAuction(actNo);
-		AuctionVO currentHighBid = actService.calHighestBid(actNo);
+	public String auctionInfo(Model model, String actNo) {
+		AuctionVO info = actService.getAuctionInfo(actNo);
 		model.addAttribute("actInfo", info);
-		model.addAttribute("hbid", currentHighBid);
+
 		return "market/auction/auctionInfo";
 		
 	}
