@@ -1,41 +1,64 @@
 package com.yedam.app.activity.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.app.activity.service.BnbService;
 import com.yedam.app.activity.vo.BnbVO;
 
 @Controller
 public class BnbController {
-	
+
 	@Autowired
-	BnbService bnbService; 
-	
-	//전체조회
+	BnbService bnbService;
+
+	// 전체조회
 	@GetMapping("bnbList")
-	public String getBnbList(Model model){
-		List<BnbVO> list = bnbService.selectBnbList();
-		model.addAttribute("list",list);
-		return "activity/bnb/bnbList";		
+	public String getBnbList(Model model) {
+		return "activity/bnb/bnbList";
 	}
-	
-	//단건조회
+
+	// 전체조회- 조건별 정렬
+	@GetMapping("bnbItem")
+	@ResponseBody
+	public Map<String, Object> getBnbList(@RequestParam(required = false, defaultValue = "1") int page,
+			@RequestParam(required = false) String region,
+			@RequestParam(required = false, defaultValue = "최신순") String order) {
+		List<BnbVO> list = bnbService.selectBnbList(region, page, order);
+		Map<String, Object> map = new HashMap<>();
+		map.put("bnb", list);
+		return map;
+	}
+
+	// 단건조회
 	@GetMapping("bnbInfo")
-	public String getBnbInfo(Model model,String bnbNo){
-		model.addAttribute("bnb",bnbService.selectBnb(bnbNo));
-		return "activity/bnb/bnbInfo";		
+	public String getBnbInfo(Model model, String bnbNo) {
+		model.addAttribute("bnb", bnbService.selectBnb(bnbNo));
+		return "activity/bnb/bnbInfo";
 	}
-	
-	//등록 페이지
-	@GetMapping("addBnbForm")
+
+	// 등록 페이지
+	@GetMapping("insertBnb")
 	public String addBnbForm(Model model, BnbVO vo) {
-		return "activity/bnb/addBnbForm";		
+		model.addAttribute("bnb", new BnbVO());
+		return "activity/bnb/addBnbForm";
 	}
-	
+
+	// 등록처리
+	@PostMapping("insertBnb")
+	public String addBnb(BnbVO vo) {
+		System.out.println(vo);
+		bnbService.insertBnb(vo);
+		return "redirect:bnbList";
+	}
 
 }
