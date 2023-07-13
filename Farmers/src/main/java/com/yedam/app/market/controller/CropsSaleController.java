@@ -36,10 +36,14 @@ public class CropsSaleController {
 	public Map<String, Object> getCropsSaleListPage(@RequestParam(required = false, defaultValue = "0") int pageNum,
 													@RequestParam(required = false) String category,
 													@RequestParam(required = false, defaultValue = "최신순") String order,
-													@RequestParam(required = false) String search, Model model) {
+													@RequestParam(required = false) String search) {
 		pageNum = pageNum == 0 ? 1 : pageNum;
 		int total = csService.getCount(category, search);
 		List<CropsSaleVO> list = csService.getCropsSaleListPage(pageNum, category, order, search);
+//		System.out.println(pageNum);
+//		System.out.println(category);
+//		System.out.println(order);
+//		System.out.println(search);
 		
 		PageVO vo = new PageVO(pageNum, total);
 		Map<String, Object> map = new HashMap<>();
@@ -52,7 +56,7 @@ public class CropsSaleController {
 	// 단건조회
 	@GetMapping("cropsSaleInfo")
 	public String getCropsSaleInfo(CropsSaleVO csVO, Model model) {
-		System.out.println(csVO);
+//		System.out.println(csVO);
 		CropsSaleVO info = csService.getCropsSaleInfo(csVO);
 		System.out.println(info);
 		model.addAttribute("csInfo", info);
@@ -69,7 +73,45 @@ public class CropsSaleController {
 	@PostMapping("cropsSaleInsert")
 	@ResponseBody
 	public String insertCropsSale(CropsSaleVO csVO) {
-		csService.insertCropsSaleInfo(csVO);
+		boolean result = csService.insertCropsSaleInfo(csVO);
+		
+		if(result) {
+			return "success";
+		} else {
+			return "fail";
+		}
+	}
+	
+	// 수정페이지 불러오기
+	@GetMapping("cropsSaleUpdate")
+	public String updateCropsSaleForm(CropsSaleVO csVO, Model model) {
+//		System.out.println(csVO);
+		CropsSaleVO find = csService.getCropsSaleInfo(csVO);
+		System.out.println(find);
+		model.addAttribute("csInfo", find);
+		return "market/cropsSale/cropsSaleUpdate";
+	}
+	
+	// 수정
+	@PostMapping("cropsSaleUpdate")
+	@ResponseBody
+	public Map<String, Object> updateCropsSale(CropsSaleVO csVO) {
+		boolean result = false;
+		int csNo = csService.updateCropsSaleInfo(csVO);
+		if(csNo > -1) {
+			result = true;
+		}
+		Map<String, Object> map = new HashMap<>();
+		map.put("result", result);
+		map.put("csNo", csNo);
+		
+		return map;
+	}
+	
+	// 삭제
+	@GetMapping("cropsSaleDelete")
+	public String deleteCropsSale(@RequestParam(required = false, defaultValue = "0", name = "crpSaleNo") String csNo) {
+		csService.deleteCropsSaleInfo(csNo);
 		return "market/cropsSale/cropsSaleList";
 	}
 }
