@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.app.market.mapper.CartMapper">
+	<select id="getCartList" resultType="CartVO"
+		parameterType="CartVO">
+		SELECT *
+		FROM cart ca JOIN
+		<choose>
+			<when test="boardCtg.equals('n8')">
+				crops_sale cr ON (board_no = crp_sale_no)
+			</when>
+			<when test="boardCtg.equals('n2')">
+				EQUIPMENT eq ON (board_no = eqp_no)
+			</when>
+			<when test="boardCtg.equals('n7')">
+				MARKET ma ON (board_no = MKT_NO)
+			</when>
+		</choose>
+		WHERE ca.mem_no = #{memNo}
+
+
+	</select>
+</mapper>

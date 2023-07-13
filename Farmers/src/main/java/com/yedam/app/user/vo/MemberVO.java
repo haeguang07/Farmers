@@ -27,12 +27,12 @@ public class MemberVO implements UserDetails{
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Collection<SimpleGrantedAuthority> list = new ArrayList<SimpleGrantedAuthority>();
-		if(memGrd=="b0") {
+		if(memGrd.equals("b0")) {
 			list.add(new SimpleGrantedAuthority("ROLE_REGULAR"));
 			list.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-		}else if(memGrd=="b1") {
+		}else if(memGrd.equals("b1")) {
 			list.add(new SimpleGrantedAuthority("ROLE_REGULAR"));
-		}else if(memGrd=="b2") {
+		}else if(memGrd.equals("b2")) {
 			list.add(new SimpleGrantedAuthority("ROLE_Associate"));
 		}
 		return list;

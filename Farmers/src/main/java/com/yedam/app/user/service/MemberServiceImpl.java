@@ -26,6 +26,29 @@ public class MemberServiceImpl implements MemberService, UserDetailsService{
 		}
 		return vo;
 	}
+
+
+
+	@Override
+	public boolean idCheck(String id) {
+		String uid=memberMapper.selectId(id);
+		System.out.println(uid);
+		if(uid != null) {
+			return false;			
+		}else {
+			return true;
+		}
+	}
+	@Override
+	public boolean nickCheck(String nick) {
+		String uNick=memberMapper.selectNick(nick);
+		System.out.println(uNick);
+		if(uNick != null) {
+			return false;			
+		}else {
+			return true;
+		}
+	}
 	
 }
 

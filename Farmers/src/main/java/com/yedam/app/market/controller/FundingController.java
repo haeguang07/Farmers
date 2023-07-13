@@ -84,15 +84,38 @@ public class FundingController {
 		return "market/funding/addFundingForm";
 	}
 
-	// 펀딩 등록 함수
+	// 펀딩 등록 기능
 	@PostMapping("addFunding")
 	@ResponseBody
 	public String addFunding(FundingVO formData) {
 		boolean result = fundingService.insertFunding(formData);
-		
-		if(result) {
-			return "success";			
-		}else {
+
+		if (result) {
+			return "success";
+		} else {
+			return "fail";
+		}
+	}
+
+	// 펀딩 수정 페이지
+	@GetMapping("modifyFunding")
+	public String modifyFundingForm(FundingVO vo, Model model) {
+		FundingVO result = fundingService.getFundingInfo(vo);
+		model.addAttribute("fundingInfo", result);
+		return "market/funding/modifyFundingForm";
+	}
+
+	// 펀딩 수정 기능
+	@PostMapping("modifyFunding")
+	@ResponseBody
+	public String modifyFunding(FundingVO vo, Model model) {
+		System.out.println("yes");
+		System.out.println(vo);
+		boolean result = fundingService.modifyFunding(vo);
+
+		if (result) {
+			return "success";
+		} else {
 			return "fail";
 		}
 	}
@@ -150,7 +173,7 @@ public class FundingController {
 		// 1,2 둘다 DB에 저장해야함
 
 		// DB에 저장할 때 java에서만 읽히는 File.separator를 /로 변환 후 DB에 저장
-		String imagePath = "/images/"+uploadFileName.replace(File.separator, "/");
+		String imagePath = "/images/" + uploadFileName.replace(File.separator, "/");
 
 		System.out.println(saveName);
 		System.out.println(savePath);
@@ -166,10 +189,11 @@ public class FundingController {
 	// 일반 첨부파일 저장
 	@PostMapping("/uploadsAjax")
 	@ResponseBody
-	public Map<String,String> uploadFile(@RequestPart MultipartFile[] uploadFiles, Model model) { // @RequestPart 첨부파일 사용 시 사용 (주로
-																						// 배열 사용)
+	public Map<String, String> uploadFile(@RequestPart MultipartFile[] uploadFiles, Model model) { // @RequestPart 첨부파일
+																									// 사용 시 사용 (주로
+		// 배열 사용)
 		Map<String, String> map = new HashMap<String, String>();
-		
+
 		for (MultipartFile uploadFile : uploadFiles) {
 
 			String originalName = uploadFile.getOriginalFilename();
@@ -205,10 +229,10 @@ public class FundingController {
 			// 1,2 둘다 DB에 저장해야함
 
 			// DB에 저장할 때 java에서만 읽히는 File.separator를 /로 변환 후 DB에 저장
-			String imagePath = "/images/"+uploadFileName.replace(File.separator, "/");
+			String imagePath = "/images/" + uploadFileName.replace(File.separator, "/");
 			System.out.println(uploadFileName);
 			System.out.println(imagePath);
-			
+
 			map.put("loadPath", loadPath);
 			map.put("dbPath", imagePath);
 		}
