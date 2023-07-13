@@ -26,10 +26,15 @@ public class BnbController {
 	
 	//단건조회
 	@GetMapping("bnbInfo")
-	public String getBnbInfo(Model model){
-		List<BnbVO> list = bnbService.selectBnbList();
-		model.addAttribute(list);
+	public String getBnbInfo(Model model,String bnbNo){
+		model.addAttribute("bnb",bnbService.selectBnb(bnbNo));
 		return "activity/bnb/bnbInfo";		
+	}
+	
+	//등록 페이지
+	@GetMapping("addBnbForm")
+	public String addBnbForm(Model model, BnbVO vo) {
+		return "activity/bnb/addBnbForm";		
 	}
 	
 

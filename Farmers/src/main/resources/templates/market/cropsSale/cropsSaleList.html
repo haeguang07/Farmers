@@ -5,19 +5,18 @@
 <head>
 <meta charset="UTF-8">
 <title>농작물 판매</title>
-<link rel="stylesheet" href="/tui-grid/dist/tui-grid.css" type="text/css">
 </head>
 <body>
 	<div layout:fragment="content">
 		<!-- Breadcrumb Section Begin -->
-		<section class="">
+		<section>
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="breadcrumb__text">
 							<h4>농작물 판매</h4>
 							<div class="breadcrumb__links">
-								<a href="./index.html">농촌마켓</a> <span>농작물 판매</span>
+								<a>농촌마켓</a> <span>농작물 판매</span>
 							</div>
 						</div>
 					</div>
@@ -26,8 +25,8 @@
 		</section>
 		<!-- Breadcrumb Section End -->
 		<div class="justify-content-center">
-            <h3 class="current text-center">농작물 판매</h3>
-        </div>
+			<h3 class="current text-center">농작물 판매</h3>
+		</div>
 		<!-- Shop Section Begin -->
 		<section class="shop">
 			<div class="container">
@@ -47,8 +46,9 @@
 												<div class="shop__sidebar__categories">
 													<ul>
 														<li><a href="#">전원마켓</a></li>
-														<li><b><a href="cropsSaleList" style="color: black;">농작물 판매</a></b></li>
-														<li><a href="#">농작물 펀딩</a></li>
+														<li><b><a href="cropsSaleList"
+																style="color: black;">농작물 판매</a></b></li>
+														<li><a href="fundingList">농작물 펀딩</a></li>
 														<li><a href="#">경매장</a></li>
 													</ul>
 												</div>
@@ -65,36 +65,38 @@
 								<div class="col-lg-10 col-md-10 col-sm-10">
 									<div>
 										<div class="row form-floating">
-											<h6 class="col-lg-2" style="text-align: center; line-height: 45px;">상품 종류</h6>
+											<h6 class="col-lg-2"
+												style="text-align: center; line-height: 45px;">상품 종류</h6>
 											<select class="form-select form-group col-1.5"
-												aria-label="Default select example">
-												<option selected>전체</option>
-												<option value="1">야채</option>
-												<option value="2">과일</option>
-												<option value="3">곡물</option>
+												aria-label="Default select example" id="category">
+												<option selected value="전체">전체</option>
+												<option value="야채">야채</option>
+												<option value="과일">과일</option>
+												<option value="곡물">곡물</option>
 											</select>
 											<div class="col-7">
-												<input type="email" class="form-control from-group"
-													id="exampleFormControlInput" placeholder="상품명을 입력하세요">
+												<input type="text" class="form-control from-group"
+													id="search" placeholder="상품명을 입력하세요">
 											</div>
-											<button type="button" class="btn btn-dark" style="width: 100px; height: 40px;">검색하기</button>
+											<button type="button" class="btn btn-dark"
+												style="width: 100px; height: 40px;" id="searchButton">검색하기</button>
 										</div>
 									</div>
 								</div>
 								<div class="col-lg-2 col-md-2 col-sm-2">
 									<div class="form-select">
 										<select>
-											<option value="">최신순</option>
-											<option value="">가격높은순</option>
-											<option value="">가격낮은순</option>
-											<option value="">리뷰순</option>
+											<option value="최신순">최신순</option>
+											<option value="가격높은순">가격높은순</option>
+											<option value="가격낮은순">가격낮은순</option>
+											<option value="리뷰순">리뷰순</option>
 										</select>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-lg-4 col-md-6 col-sm-6" th:each="cropsSale : ${csList}">
+						<div class="row" id="cropsSaleDiv">
+							<!-- <div class="col-lg-4 col-md-6 col-sm-6" th:each="cropsSale : ${csList}">
 								<div class="product__item" th:onclick="|location.href='@{cropsSaleInfo(crpSaleNo=${cropsSale.crpSaleNo})}'|">
 									<div class="product__item__pic set-bg"
 										data-setbg="img/product/product-2.jpg">
@@ -114,65 +116,169 @@
 										</div>
 									</div>
 								</div>
-							</div>
+							</div> -->
 						</div>
 						<div class="row">
-							<div class="col-lg-12">
-								<div class="product__pagination">
+							<div class="col-lg-12" id="pageDiv">
+								<!-- <div class="product__pagination">
 									<a class="active" href="#">1</a> <a href="#">2</a> <a href="#">3</a>
-								</div>
+								</div> -->
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-lg-12">
 								<button type="button" class="btn btn-dark" style="width: 130px; height: 40px; 
-									float: right; margin-right: 30px; margin-bottom: 20px;">판매물품 등록</button>
+								float: right; margin-right: 30px; margin-bottom: 20px;" id="add">판매물품 등록</button>
 							</div>
 						</div>
 					</div>
-					<div id="grid"></div>
 				</div>
 			</div>
 		</section>
 		<!-- Shop Section End -->
-		<script src="/tui-grid/dist/tui-grid.js"></script>
-		<script>
+
+		<div class="col-lg-4 col-md-6 col-sm-6 hideItem" id="cropsSaleItem">
+			<div class="product__item">
+				<div class="product__item__pic set-bg" id="img"
+					data-setbg="img/product/product-2.jpg"></div>
+				<div class="product__item__text">
+					<h6 id="name">상품명</h6>
+					<a href="#" class="add-cart">+ Add To Cart</a>
+					<p id="price">가격</p>
+					<div class="rating">
+						<i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i
+							class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i
+							class="fa fa-star-o"></i>
+						<p id="date" style="display: inline-block; margin-left: 180px;">등록날짜</p>	
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="product__pagination hideItem" id="pageItem">
+			<a class="myInline" id="prevPage">&lt;</a>
+			<div id="pageNumDiv" class="myInline">
+				<a id="pageNum"></a>
+			</div>
+			<a class="myInline" id="nextPage">&gt;</a>
+		</div>
 		
-			$.ajax({
-				url : "cropsSaleData",
-				method : "get",
-				dataType : "JSON",
-				success : function(result) {
-					console.log(result);
-					
-					const grid = new tui.Grid({
-						el: document.getElementById('grid'), // Container element
-						data : result,
-						scrollX : false,
-						scrollY : false,
-						columns: [
-							{
-							 header: 'crpSaleNo',
-							 name: 'crpSaleNo'
-							},
-							{
-							 header: 'crpTitle',
-							 name: 'crpTitle'
-							},
-							{
-							 header: 'price',
-							 name: 'price'
-							},
-							{
-							 header: 'img',
-							 name: 'img'
-							}
-						]
-					});
-				}
+		<script>
+			
+			$('#add').on('click', function() {
+				location.href = "cropsSaleInsert";
 			});
 			
+			$(function() {
+				ajaxData(1)
+			});
+			
+			function ajaxData(page, category, order, search) {
+				$.ajax({
+					url : 'cropsSaleList',
+					type : 'post',
+					data : {
+						pageNum : page,
+						category : category,
+						order : order,
+						search : search
+					}
+				})
+				.done(function(data, status, xhr) {
+					printList(data);
+				})
+				.fail(function() {
+					console.log('fail');
+				});
+			}
+			
+			function printList(data) {
+				$('#cropsSaleDiv').children().remove();
+				$('#pageDiv').children().remove();
+				let cropsSaleData = data.csList;
+				let pageData = data.pageInfo;
+				
+				$(cropsSaleData).each(function(index, item) {
+					printItem(item);
+				})
+				
+				printPage(pageData);
+			}
+			
+			function printItem(item) {
+				let clone = $('#cropsSaleItem').clone();
+				$(clone).removeClass('hideItem');
+				$(clone).on('click', function() {
+					location.href = "cropsSaleInfo?crpSaleNo=" + item.crpSaleNo
+				});
+				
+				$(clone).find('#name').text(item.crpTitle);
+				$(clone).find('#price').text(item.price + '원');
+				$(clone).find('#date').text(item.regDate);
+				
+				$('#cropsSaleDiv').append(clone);
+			}
+			
+			function printPage(pageData) {
+				console.log(pageData);
+				
+				let pageItem = $('#pageItem').clone();
+				$(pageItem).removeClass('hideItem');
+				$(pageItem).find('#prevPage').on('click', function() {
+					ajaxData(pageData.startPage - 1);
+				});
+				$(pageItem).find('#nextPage').on('click', function() {
+					ajaxData(pageData.endPage + 1);
+				});
+				
+				if(!pageData.prev) {
+					$(pageItem).find('#prevPage').hide();
+				}
+				if(!pageData.next) {
+					$(pageItem).find('#nextPage').hide();
+				}
+				
+				for(let i = pageData.startPage; i <= pageData.endPage; i++) {
+					let clone = $('#pageItem').find('#pageNum').clone();
+					$(clone).text(i);
+					if(i == pageData.pageNum) {
+						$(clone).addClass('active');
+						$(clone).css('border-color', 'orange');
+					}
+					$(clone).on('click', function() {
+						getCondition(i);
+					});
+					$(pageItem).find('#pageNumDiv').append(clone);
+				}
+				
+				$(pageItem).find('#pageNum')[0].remove();
+				$('#pageDiv').append(pageItem);
+			}
+			
+			function getCondition(page) {
+				let search = $('#search').val();
+				let category = $('#category').val();
+				let order = $('#order').val();
+				if(page == null) {
+					page = 1;
+				}
+				
+				ajaxData(page, category, order, search);
+			}
+			
+			$('#searchButton').on('click', function() {
+				getCondition();
+			});
+			
+			$('#category').change(function() {
+				getCondition();
+			});
+			
+			$('#order').change(function() {
+				getCondition();
+			})
 		</script>
+
 	</div>
 </body>
 </html>

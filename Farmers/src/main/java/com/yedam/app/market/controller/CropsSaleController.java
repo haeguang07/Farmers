@@ -1,16 +1,20 @@
 package com.yedam.app.market.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.app.market.service.CropsSaleService;
 import com.yedam.app.market.vo.CropsSaleVO;
+import com.yedam.app.market.vo.PageVO;
 
 @Controller
 public class CropsSaleController {
@@ -21,23 +25,33 @@ public class CropsSaleController {
 	// 전체조회
 	@GetMapping("cropsSaleList")
 	public String getCropsSaleAllList(Model model) {
-		List<CropsSaleVO> list = csService.getCropsSaleList();
-		model.addAttribute("csList", list);
-		System.out.println(list);
+//		List<CropsSaleVO> list = csService.getCropsSaleList();
+//		model.addAttribute("csList", list);
+//		System.out.println(list);
 		return "market/cropsSale/cropsSaleList";
 	}
 	
-	// 전체조회 리스트 데이터 불러오기
-	@GetMapping("cropsSaleData")
+	@PostMapping("cropsSaleList")
 	@ResponseBody
-	public List<CropsSaleVO>  getCropsData() {
-		List<CropsSaleVO> list = csService.getCropsSaleList();
-		return list;
+	public Map<String, Object> getCropsSaleListPage(@RequestParam(required = false, defaultValue = "0") int pageNum,
+													@RequestParam(required = false) String category,
+													@RequestParam(required = false, defaultValue = "최신순") String order,
+													@RequestParam(required = false) String search, Model model) {
+		pageNum = pageNum == 0 ? 1 : pageNum;
+		int total = csService.getCount(category, search);
+		List<CropsSaleVO> list = csService.getCropsSaleListPage(pageNum, category, order, search);
+		
+		PageVO vo = new PageVO(pageNum, total);
+		Map<String, Object> map = new HashMap<>();
+		map.put("csList", list);
+		map.put("pageInfo", vo);
+		
+		return map;
 	}
 	
 	// 단건조회
 	@GetMapping("cropsSaleInfo")
-	public String getCropsSaleInfo(Model model, CropsSaleVO csVO) {
+	public String getCropsSaleInfo(CropsSaleVO csVO, Model model) {
 		System.out.println(csVO);
 		CropsSaleVO info = csService.getCropsSaleInfo(csVO);
 		System.out.println(info);
@@ -53,7 +67,8 @@ public class CropsSaleController {
 	
 	// 등록
 	@PostMapping("cropsSaleInsert")
-	public String insertCropsSale(Model model, CropsSaleVO csVO) {
+	@ResponseBody
+	public String insertCropsSale(CropsSaleVO csVO) {
 		csService.insertCropsSaleInfo(csVO);
 		return "market/cropsSale/cropsSaleList";
 	}

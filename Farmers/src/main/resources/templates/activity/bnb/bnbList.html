@@ -8,7 +8,7 @@
 <meta name="keywords" content="Male_Fashion, unica, creative, html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>농촌비앤비</title>
+<title>농촌 비엔비</title>
 
 </head>
 <body>
@@ -47,14 +47,16 @@
 								<div class="accordion" id="accordionExample">
 									<div class="card">
 										<div class="card-heading">
-											<a data-toggle="collapse" data-target="#collapseOne"><h4>농촌체험</h4></a>
+											<a data-toggle="collapse" data-target="#collapseOne">
+												<h4>농촌체험</h4>
+											</a>
 										</div>
 										<div id="collapseOne" class="collapse show"
 											data-parent="#accordionExample">
 											<div class="card-body">
 												<div class="shop__sidebar__categories">
 													<ul class="nice-scroll">
-														<li><a href="#" style="color: black">농촌 비엔비</a></li>
+														<li><a href="bnbList" style="color: black">농촌 비엔비</a></li>
 														<li><a href="#">농촌 체험하기</a></li>
 														<li><a href="#">농촌 일자리</a></li>
 													</ul>
@@ -102,7 +104,10 @@
 											</div>
 										</div>
 									</div> -->
-
+									<div class="product__details__cart__option"
+										style="text-align:center">
+										<a href="addBnbForm" class="primary-btn">농촌비앤비 글 등록</a>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -126,6 +131,7 @@
 											<option value="">$55 - $100</option>
 										</select>
 									</div>
+
 								</div>
 							</div>
 						</div>
@@ -133,11 +139,13 @@
 						<!-- 아이템 -->
 						<div class="row">
 							<div th:each="bnb:${list}" class="col-lg-4 col-md-6 col-sm-6">
-								<a href="#">
+								<a href="bnbInfo?bnbNo=${bnb.bnbNo}">
 									<div class="product__item sale">
-										<div class="product__item__pic set-bg"
+										<div
+											th:onclick="|location.href='@{bnbInfo(bnbNo=${bnb.bnbNo})}'|"
+											class="product__item__pic set-bg"
 											data-th-data-setbg="|/img/bnb/${bnb.rep}|">
-<!-- 											<img src="img/bnb/|${bnb.rep}|"> -->
+											<!-- 											<img src="img/bnb/|${bnb.rep}|"> -->
 											<!-- <span class="label">Sale</span> -->
 											<ul class="product__hover">
 												<li><a href="#"><img src="img/icon/heart.png"
@@ -148,7 +156,7 @@
 										</div>
 										<div class="product__item__text">
 											<h5 th:text="|${bnb.bnbTitle}|">숙소명</h5>
-											<h5 th:text="|&#8361${bnb.price}(1박)|" style="color:grey">금액</h5>
+											<h5 th:text="|&#8361${bnb.price}(1박)|" style="color: grey">금액</h5>
 										</div>
 									</div>
 								</a>
