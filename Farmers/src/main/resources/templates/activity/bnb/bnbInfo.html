@@ -29,30 +29,6 @@
 					</div>
 					<div class="row">
 						<div class="col-lg-3 col-md-3">
-							<!-- 							<ul class="nav nav-tabs" role="tablist">
-								<li class="nav-item"><a class="nav-link active"
-									data-toggle="tab" href="#tabs-1" role="tab">
-										<div class="product__thumb__pic set-bg"
-											data-setbg="img/shop-details/thumb-1.png"></div>
-								</a></li>
-								<li class="nav-item"><a class="nav-link" data-toggle="tab"
-									href="#tabs-2" role="tab">
-										<div class="product__thumb__pic set-bg"
-											data-setbg="img/shop-details/thumb-2.png"></div>
-								</a></li>
-								<li class="nav-item"><a class="nav-link" data-toggle="tab"
-									href="#tabs-3" role="tab">
-										<div class="product__thumb__pic set-bg"
-											data-setbg="img/shop-details/thumb-3.png"></div>
-								</a></li>
-								<li class="nav-item"><a class="nav-link" data-toggle="tab"
-									href="#tabs-4" role="tab">
-										<div class="product__thumb__pic set-bg"
-											data-setbg="img/shop-details/thumb-4.png">
-											<i class="fa fa-play"></i>
-										</div>
-								</a></li>
-							</ul> -->
 						</div>
 						<div class="col-lg-6 col-md-9">
 							<div class="tab-content">
@@ -61,23 +37,6 @@
 										<img th:src="@{img/bnb/}+${bnb.rep}" alt="대표사진">
 									</div>
 								</div>
-								<!-- 								<div class="tab-pane" id="tabs-2" role="tabpanel">
-									<div class="product__details__pic__item">
-										<img src="img/shop-details/product-big-3.png" alt="">
-									</div>
-								</div>
-								<div class="tab-pane" id="tabs-3" role="tabpanel">
-									<div class="product__details__pic__item">
-										<img src="img/shop-details/product-big.png" alt="">
-									</div>
-								</div>
-								<div class="tab-pane" id="tabs-4" role="tabpanel">
-									<div class="product__details__pic__item">
-										<img src="img/shop-details/product-big-4.png" alt=""> <a
-											href="https://www.youtube.com/watch?v=8PJ3_p7VqHw&list=RD8PJ3_p7VqHw&start_radio=1"
-											class="video-popup"><i class="fa fa-play"></i></a>
-									</div>
-								</div> -->
 							</div>
 						</div>
 					</div>
@@ -98,19 +57,22 @@
 								<h4>
 									<span id="onePay" th:text="|${bnb.price}|">금액</span>원(1일)
 								</h4>
-								<p>경북 청도에서 한달 살기 체험 해보세요!</p>
+								<p>농촌 한달살기 체험 해보세요!</p>
 
 								<!-- 결제 -->
 								<div>
-								
+
 									<table class="table">
 										<tr>
 											<th>날짜선택</th>
-											<td><input type="date" id="startDate" th:min="|${bnb.lendStrDate}|"
-												th:max="|${bnb.lendEndDate}|"> ~ 
-												<input type="date" id="endDate"
-												min="2023-06-05" max="2077-06-28" onchange="calculateDays()">
-											</td>
+											<td><input type="date" id="startDate"
+												th:min="${#dates.format(bnb.lendStrDate,'yyyy-MM-dd')}"
+												th:max="${#dates.format(bnb.lendEndDate,'yyyy-MM-dd')}"
+												onchange="minDate()"> ~ <input type="date"
+												id="endDate"
+												th:min="${#dates.format(bnb.lendStrDate,'yyyy-MM-dd')}"
+												th:max="${#dates.format(bnb.lendEndDate,'yyyy-MM-dd')}"
+												onchange="calculateDays()"></td>
 										</tr>
 										<tr>
 											<th>총 일수 :</th>
@@ -135,7 +97,7 @@
 							</div>
 						</div>
 					</div>
-					<!-- 상세설명,리뷰,문의사항 탭 -->
+					<!-- 상세설명, 리뷰, 문의사항 탭 -->
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="product__details__tab">
@@ -190,15 +152,22 @@
 												<h5>리뷰</h5>
 												<table class="table">
 													<tr>
-														<th>날짜</th>
+														<th>별점</th>
 														<th>내용</th>
 														<th>아이디</th>
 														<th>수정</th>
 													</tr>
 													<tr>
-														<td>2023-02-05</td>
+														<td>
+															<div class="rating">
+																<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+																	class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+																	class="fa fa-star-o"></i>
+															</div>
+															<p>(2023-02-05)</p>
+														</td>
 														<td>재미있었습니다.</td>
-														<td>mem001</td>
+														<td>아이디</td>
 														<td><button>수정</button>
 															<button>삭제</button></td>
 													</tr>
@@ -285,6 +254,12 @@
 				var pay = document.getElementById('payResult');
 				var onePay = document.getElementById('onePay').innerText;
 				pay.textContent = days * onePay;
+			}
+
+			function minDate() {
+				let min = event.target.value;
+				console.log(min);
+				document.getElementById('endDate').setAttribute('min', min);
 			}
 		</script>
 	</div>

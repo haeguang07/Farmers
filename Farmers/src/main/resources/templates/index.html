@@ -134,7 +134,7 @@
 
 
 		<script>
-		//지역 클릭시 지역지도 나오기.
+			//지도 클릭 이벤트
 			document.querySelectorAll('path').forEach(a => {
 				a.addEventListener('click', function () {
 					event.preventDefault();
@@ -149,9 +149,7 @@
 								let obj = datas[i];
 								let imgVal = obj.img;
 								imgArr.push(imgVal);
-							}		
-							//console.log(imgArr)
-							
+							}													
 							
 							//설명 가져오기
 							let descArr=[];
@@ -160,25 +158,6 @@
 								let descVal = obj.desct;
 								descArr.push(descVal);
 							}
-							//지역클릭시 봄 출력
-							let btn=document.querySelectorAll('.season')[0]
-							let imgdata = btn.getAttribute('data-img')
-							let descData = btn.getAttribute('data-desc')
-															
-							let rgImg = document.querySelector('#rgImg')
-							let rgDesc= document.querySelector('#rgDesc')
-							
-							let imgTag = document.createElement('img')
-							imgTag.src= 'img/main/map/'+imgdata;
-							rgImg.innerHTML=`<img src="img/main/map/${imgdata}">`;								
-							rgDesc.innerHTML=`<span>${descData}</span>`;
-							let mapNone = document.getElementById('mapNone')
-							
-							for(let i =0;i<mapNone.length;i++){
-								console.log('1')
-							}
-							
-							
 							
 							//버튼에서 정보받기
 							let buttons = document.querySelectorAll('.season')
@@ -188,27 +167,30 @@
 								let desc = descArr[i];
 								button.setAttribute('data-img',data);
 								button.setAttribute('data-desc',desc);
-								//미리 지도 뿌려놓기.
-								let mapNone = document.getElementById('mapNone')
-								let imgTag = document.createElement('img')
-								imgTag.src= 'img/main/map/'+data;
-								mapNone.append(imgTag);
-								
 								
 							//계절버튼 클릭 이벤트															
 								button.addEventListener('click',function(){		
-									let btn=document.querySelectorAll('.season')[i]
-									let rgDesc= document.querySelector('#rgDesc')										
-									let descData = btn.getAttribute('data-desc')																								
+									let btn=document.querySelectorAll('.season')[i];
 									
-								let imgdata = btn.getAttribute('data-img')
-									let rgImg = document.querySelector('#rgImg')										
-									let imgTag = document.createElement('img')
-									thisMap.src= 'img/main/map/'+imgdata;
+									let rgImg = document.querySelector('#rgImg');										
+									let imgdata = btn.getAttribute('data-img');		
+									rgImg.innerHTML=`<img src="img/main/map/${imgdata}">`;
 									
-									rgImg.innerHTML=`<img src="img/main/map/${imgTag[i]}">`;
+									let rgDesc= document.querySelector('#rgDesc');																			
+									let descData = btn.getAttribute('data-desc');																								
 									rgDesc.innerHTML=`<span>${descData}</span>`;
 									})
+								
+							//지역클릭시 봄 출력
+							let btn=document.querySelectorAll('.season')[0];
+							
+							let rgImg = document.querySelector('#rgImg');
+							let imgdata = btn.getAttribute('data-img');
+							rgImg.innerHTML=`<img src="img/main/map/${imgdata}">`;								
+
+							let rgDesc= document.querySelector('#rgDesc');							
+							let descData = btn.getAttribute('data-desc');															
+							rgDesc.innerHTML=`<span>${descData}</span>`;
 								}								
 							})							
 						.catch(err => console.log(err))
