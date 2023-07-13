@@ -57,8 +57,8 @@
 											<div class="product__details__text">
 												<div class="row">
 													<h4 class="textLeft col-lg-6" th:text="${csInfo.crpTitle}" style="display: inline; text-align: left; font-size: 30px;">상품명</h4>
-													<button type="button" class="btn btn-dark" style="width: 60px; height: 40px; float: right; margin-left: 90px;">수정</button>
-													<button type="button" class="btn btn-dark" style="width: 60px; height: 40px; float: right; margin-left: 10px;">삭제</button>
+													<button type="button" class="btn btn-dark" style="width: 60px; height: 40px; float: right; margin-left: 90px;" id="update">수정</button>
+													<button type="button" class="btn btn-dark" style="width: 60px; height: 40px; float: right; margin-left: 10px;" id="delete">삭제</button>
 												</div>
 												<hr>
 												<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 25px;">가격</b> 
@@ -110,7 +110,7 @@
 		</section>
 		<!-- Shop Details Section End -->
 		
-		<script>
+		<script th:inline="javascript">
 			$(function() {
 				getSumPrice();
 			});
@@ -126,6 +126,23 @@
 			function priceToString(price) {
 				return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 			}
+			
+			$('#update').on('click', function() {
+				location.href="cropsSaleUpdate?crpSaleNo=" + /*[[${csInfo.crpSaleNo}]]*/;
+			});
+			
+			$('#delete').on('click', function() {
+				$.ajax({
+					url : "cropsSaleDelete?crpSaleNo=" + /*[[${csInfo.crpSaleNo}]]*/,
+					method : "get"
+				})
+				.done(function(result) {
+					location.href="cropsSaleList";
+				})
+				.fail(function(result) {
+					alert(result);
+				})
+			});
 		</script>
 		
 	</div>
