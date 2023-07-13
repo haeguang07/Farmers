@@ -13,4 +13,7 @@ public class CartVO {
 	
 	//join 데이터
 	private int price;
+	private String crpTitle; //농작물
+	private String eqpTitle; //농기구
+	private String mktTile;  //전원마켓
 }
