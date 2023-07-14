@@ -2,12 +2,16 @@ package com.yedam.app.user.vo;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.Date;
 
+import org.jasypt.encryption.StringEncryptor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
 
@@ -20,8 +24,32 @@ public class MemberVO implements UserDetails{
 	private String email;
 	private String nick;
 	private String loginPath;
-	private String rptCnt;
+	private int rptCnt;
 	private String memGrd;
+	
+	//Detail
+	private String name;
+	private int	zip;
+	private String addr;
+	private String detaAddr;
+	private String mbl;
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern ="yyyy-MM-dd")
+	private Date bDate;
+	private String gen;
+	private int pnt;
+	private String stts;
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern ="yyyy-MM-dd")
+	private Date signDate;
+	private String prof;
+	private String grdAtchFile;
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern ="yyyy-MM-dd")
+	private Date wdrAplDate;
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern ="yyyy-MM-dd")
+	private Date blckDate;
 
 	
 	@Override
@@ -30,10 +58,12 @@ public class MemberVO implements UserDetails{
 		if(memGrd.equals("b0")) {
 			list.add(new SimpleGrantedAuthority("ROLE_REGULAR"));
 			list.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+			list.add(new SimpleGrantedAuthority("ROLE_USER"));
 		}else if(memGrd.equals("b1")) {
 			list.add(new SimpleGrantedAuthority("ROLE_REGULAR"));
+			list.add(new SimpleGrantedAuthority("ROLE_USER"));
 		}else if(memGrd.equals("b2")) {
-			list.add(new SimpleGrantedAuthority("ROLE_Associate"));
+			list.add(new SimpleGrantedAuthority("ROLE_USER"));
 		}
 		return list;
 	}

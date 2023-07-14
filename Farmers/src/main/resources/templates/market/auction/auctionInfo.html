@@ -5,13 +5,145 @@
 <head>
 <meta charset="UTF-8">
 <title>경매품 상세 조회</title>
-<link rel="stylesheet" href="css/heeyoungCss/auctionInfo.css" type="text/css">
+<link rel="stylesheet" href="css/heeyoungCss/auctionInfo.css"
+	type="text/css">
+
 <style>
 #auctionInfo p {
 	margin-bottom: 50px;
 }
-</style>
 
+h5:has(.countdown) {
+	color: #DF0101;
+}
+
+.highestBid {
+	font-weight: 900;
+	color: green;
+}
+
+.bidWay {
+	margin-top: 10px;
+	border: 1px solid lightgray;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 250px;
+	border: 1px solid lightgray;
+	height: 250px;
+}
+
+.fixedOption {
+	height: 150px;
+}
+
+.roundBtn {
+	width: 35px;
+	height: 30px;
+	border-radius: 50%;
+	background-color: transparent;
+	border: 1px solid lightgray;
+	display: inline-flex; /* 수정된 부분 */
+	align-items: center; /* 수정된 부분 */
+	justify-content: center; /* 수정된 부분 */
+	color: gray;
+	margin-right: 5px; /* 수정된 부분 */
+	margin-left: 5px;
+}
+
+.bidInput {
+	display: inline-flex; /* 수정된 부분 */
+	align-items: center; /* 수정된 부분 */
+	padding-top: 10px;
+	padding-bottom: 15px;
+	padding-left: 60px;
+}
+
+.nextBtn {
+	background-color: #1f502a;
+	border-color: #1f502a;
+	color: white;
+	float: right;
+	margin-top: 10px;
+}
+
+.buyNowPrice>span {
+	margin-top: 50px;
+	margin-bottom: 30px;
+	font-size: 25px;
+	font-weight: bold;
+}
+
+label:has(.bidCount) {
+	margin-left: 60px;
+	font-size: 13px;
+	color: darkgray;
+	display: block;
+}
+
+.toggleContainer {
+	position: relative;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	width: 380px;
+	border: 3px solid #1f502a;
+	border-radius: 20px;
+	background: #1f502a;
+	font-weight: bold;
+	color: #1f502a;
+	cursor: pointer;
+	margin: auto;
+	margin-bottom: 10px;
+}
+
+.toggleContainer::before {
+	content: '';
+	position: absolute;
+	width: 50%;
+	height: 100%;
+	left: 0%;
+	border-radius: 20px;
+	background: white;
+	transition: all 0.3s;
+}
+
+.toggleCheckbox:checked+.toggleContainer::before {
+	left: 50%;
+}
+
+.toggleContainer div {
+	padding: 6px;
+	padding-left: 40px;
+	padding-right: 40px;
+	text-align: center;
+	z-index: 1;
+	text-align: center;
+}
+
+.toggleCheckbox {
+	display: none;
+}
+
+.toggleCheckbox:checked+.toggleContainer div:first-child {
+	color: white;
+	transition: color 0.3s;
+}
+
+.toggleCheckbox:checked+.toggleContainer div:last-child {
+	color: #1f502a;
+	transition: color 0.3s;
+}
+
+.toggleCheckbox+.toggleContainer div:first-child {
+	color: #1f502a;
+	transition: color 0.3s;
+}
+
+.toggleCheckbox+.toggleContainer div:last-child {
+	color: white;
+	transition: color 0.3s;
+}
+</style>
 </head>
 <body>
 	<div layout:fragment="content">
@@ -21,9 +153,10 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="breadcrumb__text">
-							<h4>경매장 상세</h4>
+							<h4>경매장</h4>
 							<div class="breadcrumb__links">
-								<a href="../index.html">홈</a> <a href="#">농촌마켓</a> <a href="#">경매장</a> <span>상품명</span>
+								<a href="#">농촌마켓</a> <a href="auctionList">경매장</a> <span
+									th:text="${actInfo.actTitle}">상품명</span>
 							</div>
 						</div>
 					</div>
@@ -39,8 +172,7 @@
 					<div class="col-lg-6">
 						<div class="product__details__img">
 							<div class="product__details__big__img">
-								<img class="big_img" src="/img/market/auction/Daechu.jpg"
-									alt="">
+								<img class="big_img" src="/img/market/auction/Daechu.jpg" alt="">
 							</div>
 							<div class="product__details__thumb">
 								<div class="pt__item active">
@@ -74,25 +206,64 @@
 						<div class="product__details__text">
 							<div class="product__label" th:text="${actInfo.nick}">닉네임</div>
 							<h4 th:text="${actInfo.actTitle}">상품명</h4>
-							<h5>경매종료일 <span class="countdown"></span></h5> 
-							<p><span class="date" style="display: none;" th:text="${#dates.format(actInfo.actDate, 'yyyy/MM/dd')}"></span>
-							   <span class="trm" style="display: none;" th:text="${actInfo.actTrm}"></span>
-							</p>
+							<h5>
+								경매종료일 <span class="countdown"></span>
+							</h5>
+							<span class="date" style="display: none;"
+								th:text="${#dates.format(actInfo.actDate, 'yyyy/MM/dd')}"></span>
+							<span class="trm" style="display: none;"
+								th:text="${actInfo.actTrm}"></span><br>
 							<ul>
 								<li>판매수량: <span th:text="${actInfo.saleQty}">17</span></li>
-								<li>배송비: <span th:text="${#numbers.formatInteger(actInfo.shipPrice, 1, 'COMMA')}"></span>원</li>
-								<li>배송시작: 평균 <span th:text="${actInfo.shipDurAvg}">N</span>일, 최대 <span th:text="${actInfo.shipDurMax}">N</span>일 이내</li>
+								<li>배송비: <span
+									th:text="${#numbers.formatInteger(actInfo.shipPrice, 1, 'COMMA')}"></span>원
+								</li>
+								<li>배송시작: 평균 <span th:text="${actInfo.shipDurAvg}">N</span>일,
+									최대 <span th:text="${actInfo.shipDurMax}">N</span>일 이내
+								</li>
 							</ul>
-							<h5>현재 입찰 최고가 <span th:text="${#numbers.formatInteger(actInfo.bidPrice, 1, 'COMMA')}">N</span>원</h5>
+							<h5>
+								<label>현재 입찰 최고가 <span class="highestBid"
+									th:text="${#numbers.formatInteger(actInfo.bidPrice, 1, 'COMMA')}">N</span>원
+								</label>
+							</h5>
 							<div class="product__details__option">
-								<!-- <div class="quantity">
-									<div class="pro-qty">
-										<input type="text" value="2">
-									</div>
+								<div class="bidWay">
+									<form action="#">
+
+										<div class="FixedOption">
+											<input type="checkbox" id="toggle" class="toggleCheckbox" />
+											<label for="toggle" class="toggleContainer">
+												<div>입찰하기</div>
+												<div>즉시구매</div>
+											</label>
+										</div>
+										<div id="vvue">
+											<label><span class="bidCount"
+												th:text="${actInfo.bidCount}">N</span>명 입찰 중!<br></label>
+											<div class="bidInput">
+												<button class="roundBtn" type="button">-</button>
+												<input type="number" class="form-control" id="bidPrice"
+													placeholder="입찰금액을 입력하세요">
+												<button class="roundBtn" type="button">+</button>
+											</div>
+											<div>
+												<span style="color: gray;"> ※ 정회원만 입찰 가능하며, 최소 입찰금액은
+													1,000원입니다.</span>
+											</div>
+											<button class="nextBtn btn btn-outline-success" type="submit">다음</button>
+										</div>
+
+										<!-- ******* 즉시구매 ******* -->
+										<!-- <div class="buyNowPrice">즉시 구매가	<span th:text="${#numbers.formatInteger(actInfo.Bnp, 1, 'COMMA')}"></span>원</div>
+										<div>
+											<span style="color: gray;"> ※ 정회원만 즉시 구매 가능합니다.
+												<br> ※ 판매자가 제시한 즉시 구매가로, 구매 즉시 결제 후 낙찰이 완료됩니다.
+											</span>
+										</div>
+										<button class="nextBtn btn btn-outline-success" type="submit">다음</button> -->
+									</form>
 								</div>
-								<a href="#" class="primary-btn">Add to cart</a>  -->
-								<div class="bidWay "></div>
-								<a href="#" class="heart__btn"><span class="icon_heart_alt"></span></a>
 							</div>
 						</div>
 					</div>
@@ -101,9 +272,9 @@
 					<div class="col-lg-12" id="auctionInfo">
 						<ul class="nav nav-tabs" role="tablist">
 							<li class="nav-item"><a class="nav-link active"
-								data-toggle="tab" href="#tabs-1" role="tab">Description</a></li>
+								data-toggle="tab" href="#tabs-1" role="tab">상세 설명</a></li>
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
-								href="#tabs-2" role="tab">Seller information</a></li>
+								href="#tabs-2" role="tab">판매자 정보</a></li>
 						</ul>
 						<div class="tab-content">
 							<div class="tab-pane active" id="tabs-1" role="tabpanel">
@@ -132,43 +303,28 @@
 		</section>
 		<!-- Shop Details Section End -->
 
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script><script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<script>
+			// 상세 조회 시 countdown 실행
+			$(function() {
+				countdown();
+			})
 
-		<!-- Search Begin -->
-		<div class="search-model">
-			<div class="h-100 d-flex align-items-center justify-content-center">
-				<div class="search-close-switch">+</div>
-				<form class="search-model-form">
-					<input type="text" id="search-input" placeholder="Search here.....">
-				</form>
-			</div>
-		</div>
-		<!-- Search End -->
+			function countdown() {
+				let date = $('.date').text();
+				let trm = $('.trm').text();
+
+				let standard = new Date(date);
+				let period = Number(trm);
+				standard.setDate(standard.getDate() + period);
+
+				$('.countdown').countdown(standard, function(event) {
+					$(this).html(event.strftime('%D일 %H:%M:%S'))
+				})
+			}
+
+			// 입찰/즉시구매 vue로 구현
+		</script>
 	</div>
 </body>
-
-<script>
-	// 상세 조회 시 countdown 실행
-	$(function(){
-		countdown();
-	})
-	
-	function countdown(){
-		let date = $('.date').text();
-		let trm = $('.trm').text();
-		console.log(date, trm);
-		
-		let standard = new Date(date);
-		let period = Number(trm);
-		standard.setDate(standard.getDate() + period);
-		
-		$('.countdown').countdown(standard, function(event){
-			$(this).html(
-					event.strftime('%D일 %H:%M:%S')
-				)
-		})
-		
-	}
-</script>
-
-<script src="js/jquery.barfiller.js"></script>
 </html>
