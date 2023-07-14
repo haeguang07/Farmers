@@ -10,5 +10,8 @@ public interface CartService {
 
 	// 장바구니 삭제
 	public boolean deleteCart(CartVO vo);
+	
+	//장바구니 등록
+	public boolean insertCart(CartVO vo);
 
 }

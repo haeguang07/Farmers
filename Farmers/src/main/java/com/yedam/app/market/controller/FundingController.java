@@ -91,9 +91,9 @@ public class FundingController {
 		boolean result = fundingService.insertFunding(formData);
 
 		if (result) {
-			return "success";
+			return "등록이 완료되었습니다";
 		} else {
-			return "fail";
+			return "등록이 실패했습니다";
 		}
 	}
 
@@ -114,9 +114,9 @@ public class FundingController {
 		boolean result = fundingService.modifyFunding(vo);
 
 		if (result) {
-			return "success";
+			return "수정이 완료되었습니다";
 		} else {
-			return "fail";
+			return "수정이 실패했습니다";
 		}
 	}
 
@@ -156,7 +156,7 @@ public class FundingController {
 		Path savePath = Paths.get(saveName);
 
 		// 불러올 때 사용할 경로
-		String loadPath = "/images/" + File.separator + uploadFileName;
+		String loadPath = "/images" + File.separator + uploadFileName;
 
 		// Paths.get() 메서드는 특정 경로의 파일 정보를 가져옵니다.(경로 정의하기)
 		System.out.println("path : " + saveName);
@@ -213,7 +213,7 @@ public class FundingController {
 
 			Path savePath = Paths.get(saveName);
 
-			String loadPath = "/images/" + File.separator + uploadFileName;
+			String loadPath = "/images" + File.separator + uploadFileName;
 			// Paths.get() 메서드는 특정 경로의 파일 정보를 가져옵니다.(경로 정의하기)
 			System.out.println("path : " + saveName);
 			try {
@@ -232,7 +232,7 @@ public class FundingController {
 			String imagePath = "/images/" + uploadFileName.replace(File.separator, "/");
 			System.out.println(uploadFileName);
 			System.out.println(imagePath);
-
+			
 			map.put("loadPath", loadPath);
 			map.put("dbPath", imagePath);
 		}

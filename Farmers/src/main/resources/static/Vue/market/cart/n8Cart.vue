@@ -38,7 +38,7 @@
             </h5>
           </li>
         </ul>
-        <a href="#" class="primary-btn">구매하기</a>
+        <a href="" class="primary-btn" v-on:click="getPay">구매하기</a>
       </div>
     </div>
     <!-- 총액 끝 -->
@@ -47,7 +47,7 @@
       <td class="col-lg-1"><input type="checkbox" class="form-check-input myZoom" style="margin-left: 5px;"></td>
       <td class="product__cart__item col-lg-6">
         <div class="product__cart__item__pic">
-          <img src="" alt="">
+          <img src="" alt="" id="cartImage">
         </div>
         <div class="product__cart__item__text">
           <h6 id="title">상품명</h6>
@@ -94,7 +94,11 @@
           let clone = $('#cartItem').clone();
           $(clone).removeClass('hideItem')
           $(clone).addClass('printItem')
-          $(clone).attr('cartNo',item.cartNo)
+          $(clone).attr('cartNo', item.cartNo)
+          $(clone).attr('boardNo', item.boardNo)
+          $(clone).attr('boardCtg', item.boardCtg)
+          $(clone).find('#cartImage').attr('src', item.rep)
+          ///////////////타이틀 바꾸기///////////////
           $(clone).find('#title').text(item.crpTitle)
           $(clone).find('#price').text(vuethis.priceToString(item.price) + '원')
           $(clone).find('#price').attr('dataPrice', item.price)
@@ -128,6 +132,7 @@
           })
           //개별 체크박스 이벤트
           $(clone).find('input[type="checkbox"]').change(function (e) {
+            vuethis.allSumPriceCheck();
             if (!$(e.target).is(':checked')) {
               $('#allCheck').prop('checked', false)
             }
@@ -148,6 +153,7 @@
         } else {
           $('input[type="checkbox"]').prop('checked', true)
         }
+        this.allSumPriceCheck()
       },
       //선택항목 삭제
       seletedDelete: function () {
@@ -166,10 +172,9 @@
       allSumPriceCheck: function () {
         let sum = 0;
         $('.printItem').each(function (idx, item) {
-          console.log($(item).find('#price').attr('dataPrice'))
-          console.log($(item).find('#qty').attr('dataQty'))
-
-          sum = sum + ($(item).find('#price').attr('dataPrice') * $(item).find('#qty').attr('dataQty'))
+          if ($(item).find('.myZoom').is(':checked')) {
+            sum = sum + ($(item).find('#price').attr('dataPrice') * $(item).find('#qty').attr('dataQty'))
+          }
         })
         $('#allSumPrice').text(this.priceToString(sum) + '원')
       },
@@ -188,6 +193,27 @@
           .fail(function () {
             console.log(result)
           })
+      },
+      //결제 넘기기
+      getPay: function (e) {
+        e.preventDefault()
+        let list = [];
+        $('.printItem').each(function (idx, item) {
+          if ($(item).find('.myZoom').is(':checked')) {
+
+            //배열에 담을 구매상품정보 객체 생성
+            let obj = {
+              boardNo: $(item).attr('boardNo'),
+              qty: $(item).find('#qty').val(),
+              boardCtg: $(item).attr('boardCtg')
+            }
+
+            //배열에 객체  담기
+            list.push(obj)
+          }
+        })
+
+        console.log(list)
       }
     },
     mounted() {

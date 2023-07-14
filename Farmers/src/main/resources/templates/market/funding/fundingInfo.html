@@ -14,38 +14,27 @@
 
 <body>
 	<div layout:fragment="content">
+		<section class="">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="breadcrumb__text">
+							<h4>Shop</h4>
+							<div class="breadcrumb__links">
+								<a href="./index.html">농촌마켓</a> <a href="fundingList">농작물펀딩</a> <span>[[${fundingInfo.fndTitle}]]</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
 		<hr>
 		<!-- Shop Details Section Begin -->
 		<section class="shop-details">
 			<div class="product__details__pic" style="background-color: white;">
 				<div class="container">
 					<div class="row">
-						<div class="col-lg-3">
-							<div class="shop__sidebar">
-								<div class="shop__sidebar__accordion">
-									<div class="accordion" id="accordionExample">
-										<div class="card">
-											<div class="card-heading">
-												<a data-toggle="collapse" data-target="#collapseOne" style="font-size: larger;">농촌마켓</a>
-											</div>
-											<div id="collapseOne" class="collapse show" data-parent="#accordionExample">
-												<div class="card-body">
-													<div class="shop__sidebar__categories">
-														<ul>
-															<li><a href="#">전원마켓</a></li>
-															<li><a href="#">농작물판매</a></li>
-															<li><a href="fundingList" class="mySelect" style="color: black;">농작물펀딩</a></li>
-															<li><a href="#">경매장</a></li>
-														</ul>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row col-lg-9">
+						<div class="row col-lg-12">
 							<div class="col-lg-4 col-md-9">
 								<div class="tab-content">
 									<div class="tab-pane active" id="tabs-1" role="tabpanel">
@@ -102,7 +91,7 @@
 															</div>
 														</div>
 													</div>
-													<div th:if="not ${#strings.isEmpty(session. mem)}" >
+													<div th:if="not ${#strings.isEmpty(session. mem)}" style="margin: 0 auto;">
 														<a href="#" class="primary-btn memService"
 														style="color: white; margin: 0 auto; margin-top: 20px; width: 500px;" id="getPay" th:if="${session.mem.memNo} != ${fundingInfo.memNo}" >구매하기</a>
 														<a th:href="@{modifyFunding(fndNo=${fundingInfo.fndNo})}" class="primary-btn myService"
@@ -170,7 +159,7 @@
 			</div>
 		</section>
 
-		<script>
+		<script th:inline="javascript">
 			$(function(){
 				getSumPrice()			
 			})

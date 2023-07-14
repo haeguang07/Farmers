@@ -10,4 +10,7 @@ public interface CartMapper {
 	
 	//장바구니 삭제
 	public int deleteCart(CartVO vo);
+	
+	//장바구니 등록
+	public int insertCart(CartVO vo);
 }

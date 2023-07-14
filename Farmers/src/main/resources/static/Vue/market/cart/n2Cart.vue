@@ -94,7 +94,8 @@
           let clone = $('#cartItem').clone();
           $(clone).removeClass('hideItem')
           $(clone).addClass('printItem')
-          $(clone).attr('cartNo',item.cartNo)
+          $(clone).attr('cartNo', item.cartNo)
+          $(clone).find('#cartImage').attr('src', item.rep)
           $(clone).find('#title').text(item.mktTitle)
           $(clone).find('#price').text(vuethis.priceToString(item.price) + '원')
           $(clone).find('#price').attr('dataPrice', item.price)
@@ -114,7 +115,7 @@
               $(clone).find('#qty').attr('dataQty', Number($(clone).find('#qty').val()))
               $(clone).find('#sumPrice').text(vuethis.priceToString(($(clone).find('#qty').val()) * (item
                 .price)) + '원')
-             
+
               vuethis.allSumPriceCheck();
             }
           })
@@ -123,11 +124,12 @@
             $(clone).find('#qty').attr('dataQty', Number($(clone).find('#qty').val()) + 1)
             $(clone).find('#sumPrice').text(vuethis.priceToString(($(clone).find('#qty').val()) * (item
               .price)) + '원')
-           
+
             vuethis.allSumPriceCheck();
           })
           //개별 체크박스 이벤트
           $(clone).find('input[type="checkbox"]').change(function (e) {
+            vuethis.allSumPriceCheck();
             if (!$(e.target).is(':checked')) {
               $('#allCheck').prop('checked', false)
             }
@@ -148,6 +150,7 @@
         } else {
           $('input[type="checkbox"]').prop('checked', true)
         }
+        this.allSumPriceCheck()
       },
       //선택항목 삭제
       seletedDelete: function () {
@@ -166,26 +169,27 @@
       allSumPriceCheck: function () {
         let sum = 0;
         $('.printItem').each(function (idx, item) {
-          console.log($(item).find('#price').attr('dataPrice'))
-          console.log($(item).find('#qty').attr('dataQty'))
-
-          sum = sum + ($(item).find('#price').attr('dataPrice') * $(item).find('#qty').attr('dataQty'))
+          if ($(item).find('.myZoom').is(':checked')) {
+            sum = sum + ($(item).find('#price').attr('dataPrice') * $(item).find('#qty').attr('dataQty'))
+          }
         })
         $('#allSumPrice').text(this.priceToString(sum) + '원')
       },
       //DB 데이터 삭제
-      deleteData : function(tr){
+      deleteData: function (tr) {
         let cNo = $(tr).attr('cartNo')
         $.ajax({
-          url : "deleteCart",
-          data : {cartNo : cNo}
-        })
-        .done(function(result){
-          console.log(result)
-        })
-        .fail(function(){
-          console.log(result)
-        })
+            url: "deleteCart",
+            data: {
+              cartNo: cNo
+            }
+          })
+          .done(function (result) {
+            console.log(result)
+          })
+          .fail(function () {
+            console.log(result)
+          })
       }
     },
     mounted() {
@@ -196,7 +200,7 @@
           method: "POST",
           data: {
             memNo: vuethis.mem.memNo,
-            boardCtg : 'n2'
+            boardCtg: 'n2'
           }
         })
         .done(function (data, status, xhr) {

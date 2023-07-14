@@ -26,4 +26,10 @@
 		DELETE cart
 		WHERE cart_no = #{cartNo}
 	</delete>
+	
+	<!-- 장바구니 등록 -->
+	<insert id="insertCart" parameterType="CartVO">
+	INSERT INTO cart
+	VALUES (('cart'||LPAD(cart_seq.NEXTVAL,13,0)),#{boardNo},#{qty},#{memNo},#{boardCtg})
+	</insert>
 </mapper>

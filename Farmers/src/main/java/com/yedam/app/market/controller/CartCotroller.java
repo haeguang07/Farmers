@@ -39,9 +39,32 @@ public class CartCotroller {
 	//장바구니 삭제
 	@GetMapping("deleteCart")
 	@ResponseBody
-	public boolean deleteCart(CartVO vo) {
+	public String deleteCart(CartVO vo) {
 		System.out.println(vo);
 		boolean result = cartService.deleteCart(vo);
-		return result;
+
+		if (result) {
+			return "삭제가 완료되었습니다";
+		} else {
+			return "삭제에 실패했습니다";
+		}
+	}
+	
+	//장바구니 등록
+	@GetMapping("insertCart")
+	@ResponseBody
+	public String insertCart(CartVO vo) {
+		int qty = vo.getQty();
+		System.out.println("작동");
+		if(qty==0) {
+			vo.setQty(1);
+		}
+		boolean result = cartService.insertCart(vo);
+		
+		if (result) {
+			return "등록이 완료되었습니다";
+		} else {
+			return "등록에 실패했습니다";
+		}
 	}
 }
