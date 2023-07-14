@@ -91,9 +91,9 @@ public class FundingController {
 		boolean result = fundingService.insertFunding(formData);
 
 		if (result) {
-			return "success";
+			return "등록이 완료되었습니다";
 		} else {
-			return "fail";
+			return "등록이 실패했습니다";
 		}
 	}
 
@@ -114,9 +114,9 @@ public class FundingController {
 		boolean result = fundingService.modifyFunding(vo);
 
 		if (result) {
-			return "success";
+			return "수정이 완료되었습니다";
 		} else {
-			return "fail";
+			return "수정이 실패했습니다";
 		}
 	}
 
@@ -232,7 +232,7 @@ public class FundingController {
 			String imagePath = "/images/" + uploadFileName.replace(File.separator, "/");
 			System.out.println(uploadFileName);
 			System.out.println(imagePath);
-
+			
 			map.put("loadPath", loadPath);
 			map.put("dbPath", imagePath);
 		}

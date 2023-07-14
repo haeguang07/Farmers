@@ -73,6 +73,9 @@
 			<if test="search != null and !search.equals('')">
 				AND fnd_title LIKE '%${search}%'
 			</if>
+			<![CDATA[
+			AND fnd_end_date + 1 > sysdate
+			]]>
 		</where>
 	</select>
 
@@ -132,13 +135,14 @@
 	<!-- 펀딩 수정 -->
 	<update id="modifyFunding" parameterType="FundingVO">
 		UPDATE funding
-		SET 
+		SET
 		fnd_title = #{fndTitle},
 		goal_price = #{goalPrice},
 		fnd_price = #{fndPrice},
 		fnd_str_date = #{fndStrDate},
 		fnd_end_date = #{fndEndDate},
-		crp_ctg = #{crpCtg},
+		crp_ctg =
+		#{crpCtg},
 		ship_str_date = #{shipStrDate},
 		desct = #{desct}
 		<if test="rep != null and !rep.equals('')">

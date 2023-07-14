@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{index}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Male_Fashion Template">
+    <meta name="keywords" content="Male_Fashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>payment</title>
+    <link rel="stylesheet" href="css/sungWookCss/sungook.css" type="text/css">
+    <script src="https://js.tosspayments.com/v1/payment-widget"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div class="justify-content-center">
+            <br>
+            <h3 class="current text-center">결제</h3>
+        </div>
+        <!-- Checkout Section Begin -->
+        <section class="checkout spad" style="padding-top: 30px;">
+            <div class="container">
+                <hr>
+                <div class="checkout__form">
+                    <form action="#">
+                        <div class="row">
+                            <!-- 정보입력란 시작 -->
+                            <div class="col-lg-12">
+                                <div class="checkout__title">
+                                    <h4 class="myInline">배송정보</h4>
+                                    <button class="form-control myInline" style="margin-left: 50px; width: 150px;"
+                                        id="memberInfo" type="button">회원정보입력</button>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="checkout__input">
+                                            <p>이름<span>*</span></p>
+                                            <input type="text" id="memName">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="checkout__input">
+                                            <p>전화번호 <span>*</span></p>
+                                            <input type="text" placeholder="'-' 제외한 번호만 입력하시오"
+                                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                id="memPhone">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6 checkout__input">
+                                        <p>배송지<span>*</span></p><input type="text" readonly placeholder="우편번호를 검색해주세요"
+                                            id="addressCode">
+                                    </div>
+                                    <div class="col-lg-3 checkout__input">
+                                        <p style="visibility: hidden;"><span>*</span></p><button class="form-control"
+                                            id="addressBtn">우편번호등록</button>
+                                    </div>
+                                </div>
+                                <div class="checkout__input">
+                                    <input type="text" placeholder="주소지" class="checkout__input__add" id="address"
+                                        readonly>
+                                    <input type="text" placeholder="상세주소" id="addressDetail">
+                                </div>
+                                <div class="row">
+                                    <div class="checkout__input col-lg-12">
+                                        <p class="">배송메모</p>
+                                        <select class="form-control">
+                                            <option value="">부재 시 경비실에 맡겨주세요.</option>
+                                            <option value="">직접입력</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr style="background-color: grey;">
+                            </div>
+                            <!-- 정보입력란 끝 -->
+                            <!-- 구매상품란 시작 -->
+                            <!-- 장바구니 내용 시작 -->
+                            <div class="row col-lg-12" style="margin-top: 50px;">
+                                <div class="col-lg-12" style="margin-left: 0;">
+                                    <div class="shopping__cart__table" style="margin-bottom: 0px;">
+                                        <h4>구매상품</h4>
+                                        <hr>
+                                        <table>
+                                            <thead>
+                                                <tr class="row">
+                                                    <th class="col-lg-1"><input type="checkbox" v-on:change="allCheck"
+                                                            class="form-check-input myZoom" style="margin-left: 5px;"
+                                                            id="allCheck"></th>
+                                                    <th class="col-lg-6">상품정보</th>
+                                                    <th class="col-lg-2">수량</th>
+                                                    <th class="col-lg-2">가격</th>
+                                                    <th class="col-lg-1">삭제</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tbody">
+                                                <!-- clone용 태그 -->
+                                                <div class="hideItem">
+                                                    <tr class="row product" id="cartItem">
+                                                        <td class="col-lg-1"><input type="checkbox"
+                                                                class="form-check-input myZoom"
+                                                                style="margin-left: 5px;"></td>
+                                                        <td class="product__cart__item col-lg-6">
+                                                            <div class="product__cart__item__pic">
+                                                                <img src="" alt="">
+                                                            </div>
+                                                            <div class="product__cart__item__text">
+                                                                <h6 id="title">상품명</h6>
+                                                                <h5 id="price">상품가격</h5>
+                                                            </div>
+                                                        </td>
+                                                        <td class="quantity__item col-lg-2">
+                                                            <div class="quantity">
+                                                                <div class="pro-qty-2" style="padding-top: 20px;">
+                                                                    <input type="text" value="1" id="qty" class="qty"
+                                                                        readonly>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="cart__price col-lg-2">
+                                                            <p style="padding-top: 20px;" id="sumPrice">총액</p>
+                                                        </td>
+                                                        <td class="cart__close col-lg-1" style="padding-top: 45px;">
+                                                            <span><i class="fa fa-close"></i></span></td>
+                                                    </tr>
+                                                </div>
+                                            </tbody>
+                                        </table>
+                                        <hr>
+                                    </div>
+                                </div>
+                                <!-- 선택 삭제 버튼 -->
+                                <div class="col-lg-12" style="margin-bottom: 10px;">
+                                    <button class="primary-btn myLeft" id="add"
+                                        style="width: 100px; height: 40px; padding: 0px; background-color: lightgrey; border: 0;"
+                                        v-on:click="seletedDelete">선택삭제</button>
+                                    <hr style="background-color: grey;">
+                                </div>
+
+                            </div>
+                            <!-- 구매상품란 끝 -->
+                            <!-- 결제 정보란 시작 -->
+                            <div class="col-lg-12">
+                                <div class="checkout__order">
+                                    <h4 class="order__title" style="font-weight: 500;">결제 정보</h4>
+                                    <ul class="checkout__total__products">
+                                        <li>보유포인트 <span><input type="text" class="form-control" id="myPoint"></span>
+                                        </li>
+                                        <li>사용포인트 <span><input type="text" class="form-control" value="0"></span></span>
+                                        </li>
+                                        <li>사용후금액 <span><input type="text" class="form-control"></span></span></li>
+                                    </ul>
+                                    <ul class="checkout__total__all">
+                                        <li>총액 <span>$750.99</span></li>
+                                        <li>할인금액 <span>$750.99</span></li>
+                                    </ul>
+                                    <h3>결제금액</h3>
+                                </div>
+                            </div>
+                            <!-- 결제 정보란 끝 -->
+                            <!-- 토스 api 시작 -->
+                            <div class="col-lg-12 row" style="margin-top: 50px;">
+                                <div id="payment-method" class="col-lg-12"></div>
+                                <div id="agreement"  class="col-lg-12"></div>
+                                <button id="payment-button" class="primary-btn col-lg-12" type="button">결제</button>
+                            </div>
+                            <!-- 토스 api 끝 -->
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        <!-- Checkout Section End -->
+        <script th:inline="javascript">
+            // 토스 api 
+            const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq"
+            const customerKey = "-tbkMhmy1QihiRzQRvZ2R" // 내 상점에서 고객을 구분하기 위해 발급한 고객의 고유 ID
+            const button = document.getElementById("payment-button")
+
+            // ------  결제위젯 초기화 ------ 
+            // 비회원 결제에는 customerKey 대신 ANONYMOUS를 사용하세요.
+            const paymentWidget = PaymentWidget(clientKey, customerKey) // 회원 결제
+            // const paymentWidget = PaymentWidget(clientKey, PaymentWidget.ANONYMOUS) // 비회원 결제
+
+            // ------  결제위젯 렌더링 ------ 
+            // 결제수단 UI를 렌더링할 위치를 지정합니다. `#payment-method`와 같은 CSS 선택자와 결제 금액 객체를 추가하세요.
+            // DOM이 생성된 이후에 렌더링 메서드를 호출하세요.
+            // https://docs.tosspayments.com/reference/widget-sdk#renderpaymentmethods선택자-결제-금액-옵션
+            paymentWidget.renderPaymentMethods("#payment-method", {
+                value: 15000
+            })
+
+            // ------  이용약관 렌더링 ------
+            // 이용약관 UI를 렌더링할 위치를 지정합니다. `#agreement`와 같은 CSS 선택자를 추가하세요.
+            // https://docs.tosspayments.com/reference/widget-sdk#renderagreement선택자
+            paymentWidget.renderAgreement('#agreement')
+
+            // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
+            // 더 많은 결제 정보 파라미터는 결제위젯 SDK에서 확인하세요.
+            // https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
+            button.addEventListener("click", function () {
+                paymentWidget.requestPayment({
+                    orderId: "g2Qz-YNB19irFkaiTYJ9J", // 주문 ID(직접 만들어주세요)
+                    orderName: "토스 티셔츠 외 2건", // 주문명
+                    successUrl: "https://my-store.com/success", // 결제에 성공하면 이동하는 페이지(직접 만들어주세요)
+                    failUrl: "https://my-store.com/fail", // 결제에 실패하면 이동하는 페이지(직접 만들어주세요)
+                    customerEmail: "customer123@gmail.com",
+                    customerName: "김토스"
+                })
+            })
+            // 토스 api 끝
+
+            //우편번호 api
+            $('#addressBtn').on('click', function () {
+
+                new daum.Postcode({
+                    oncomplete: function (data) {
+                        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+                        // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+                        console.log(data)
+                        $('#addressCode').val(data.zonecode)
+                        $('#address').val(data.address)
+                    }
+                }).open();
+            })
+            //우편번호 api 끝
+
+            //회원정보가져오기
+            var memberInfo;
+            $(function () {
+                /*<![CDATA[*/
+                let member = /*[[ ${session.mem} ]]*/ ;
+                /*]]*/
+
+                $.ajax({
+                        url: "getMemberData",
+                        method: "POST",
+                        data: {
+                            memNo: member.memNo
+                        }
+                    })
+                    .done(function (result) {
+                        memberInfo = result
+                        $('#myPoint').val(memberInfo.pnt)
+                    })
+                    .fail(function (result) {
+                        console.log('fail')
+                    })
+            })
+
+            //회원정보입력 버튼 클릭
+            $('#memberInfo').on('click', function () {
+                $('#memName').val(memberInfo.name)
+                $('#memPhone').val(memberInfo.mbl)
+                $('#addressCode').val(memberInfo.zip)
+                $('#address').val(memberInfo.addr)
+                $('#addressDetail').val(memberInfo.detaAddr)
+            })
+        </script>
+    </div>
+</body>
+
+</html>
