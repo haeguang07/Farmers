@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.app.common.service.PaymentService;
-import com.yedam.app.common.vo.MemberDetailVO;
+import com.yedam.app.common.vo.MemberPayVO;
 import com.yedam.app.common.vo.payProductVO;
 
 @Controller
@@ -28,7 +28,7 @@ public class PaymenetController {
 	
 	@PostMapping("getMemberData")
 	@ResponseBody
-	public MemberDetailVO getMemberData(String memNo){
+	public MemberPayVO getMemberData(String memNo){
 		return paymentService.getMemberData(memNo);
 	}
 }
