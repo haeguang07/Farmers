@@ -12,6 +12,9 @@ public interface BnbMapper {
 	//단건조회
 	public BnbVO selectBnb(String bnbNo);
 	
+	//총 갯수
+	public int selectCount(String dst1);
+	
 	//등록
 	public int insertBnb(BnbVO vo);
 	

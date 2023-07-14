@@ -68,7 +68,7 @@
 	<select id="selectAuction" resultType="AuctionVO">
 		SELECT mem.nick, mem.mem_grd, act_title, desct, sale_qty, bnp, 
             	act_date, act_trm, ship_price, ship_dur_avg, ship_dur_max, rep, atch_no, 
-                	NVL(MAX(apl.bid_price), 0) AS bid_price
+                	count(apl.bid_price) AS bid_count, NVL(MAX(apl.bid_price), 0) AS bid_price
 		FROM member mem, auction act, auction_apply apl
 		WHERE mem.mem_no = act.mem_no
 		AND act.act_no = apl.act_no

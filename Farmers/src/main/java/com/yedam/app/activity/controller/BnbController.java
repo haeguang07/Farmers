@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.app.activity.service.BnbService;
 import com.yedam.app.activity.vo.BnbVO;
+import com.yedam.app.market.vo.PageVO;
 
 @Controller
 public class BnbController {
@@ -30,12 +31,18 @@ public class BnbController {
 	// 전체조회- 조건별 정렬
 	@GetMapping("bnbItem")
 	@ResponseBody
-	public Map<String, Object> getBnbList(@RequestParam(required = false, defaultValue = "1") int page,
+	public Map<String, Object> getBnbList(
+			@RequestParam(required = false, defaultValue = "1") int page,
 			@RequestParam(required = false) String region,
 			@RequestParam(required = false, defaultValue = "최신순") String order) {
+		
 		List<BnbVO> list = bnbService.selectBnbList(region, page, order);
+		int total = bnbService.selectCount(region);
+		PageVO vo = new PageVO(page, total);
+		
 		Map<String, Object> map = new HashMap<>();
 		map.put("bnb", list);
+		map.put("page", vo);
 		return map;
 	}
 

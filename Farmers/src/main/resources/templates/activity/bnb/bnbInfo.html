@@ -10,7 +10,30 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>농촌비앤비 상세페이지</title>
-
+<style>
+.review-table1 {
+	margin-left: auto;
+	margin-right: auto;
+  border-spacing: 2px;
+  border-collapse: separate;
+}
+.nice-select{
+width:150px;
+margin-right:10px;
+}
+.button {
+  background-color: #000000;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+</style>
 </head>
 
 <body>
@@ -28,13 +51,12 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-lg-3 col-md-3">
-						</div>
+						<div class="col-lg-3 col-md-3"></div>
 						<div class="col-lg-6 col-md-9">
 							<div class="tab-content">
 								<div class="tab-pane active" id="tabs-1" role="tabpanel">
 									<div class="product__details__pic__item">
-										<img th:src="@{img/bnb/}+${bnb.rep}" alt="대표사진">
+										<img th:src="${bnb.rep}" alt="대표사진">
 									</div>
 								</div>
 							</div>
@@ -97,10 +119,10 @@
 							</div>
 						</div>
 					</div>
-					<!-- 상세설명, 리뷰, 문의사항 탭 -->
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="product__details__tab">
+								<!-- 상세설명, 리뷰, 문의사항 탭 -->
 								<ul class="nav nav-tabs" role="tablist">
 									<li class="nav-item"><a class="nav-link active"
 										data-toggle="tab" href="#tabs-5" role="tab">상세설명</a></li>
@@ -113,57 +135,46 @@
 									<!-- 첫번째 탭 : 상세설명 ck editor -->
 									<div class="tab-pane active" id="tabs-5" role="tabpanel">
 										<div class="product__details__tab__content">
-											<p class="note">Nam tempus turpis at metus scelerisque
-												placerat nulla deumantos solicitud felis. Pellentesque diam
-												dolor, elementum etos lobortis des mollis ut risus. Sedcus
-												faucibus an sullamcorper mattis drostique des commodo
-												pharetras loremos.</p>
-											<div class="product__details__tab__content__item">
-												<h5>Products Infomation</h5>
-												<p>A Pocket PC is a handheld computer, which features
-													many of the same capabilities as a modern PC. These handy
-													little devices allow individuals to retrieve and store
-													e-mail messages, create a contact file, coordinate
-													appointments, surf the internet, exchange text messages and
-													more. Every product that is labeled as a Pocket PC must be
-													accompanied with specific software to operate the unit and
-													must feature a touchscreen and touchpad.</p>
-												<p>As is the case with any new technology product, the
-													cost of a Pocket PC was substantial during it’s early
-													release. For approximately $700.00, consumers could
-													purchase one of top-of-the-line Pocket PCs in 2003. These
-													days, customers are finding that prices have become much
-													more reasonable now that the newness is wearing off. For
-													approximately $350.00, a new Pocket PC can now be
-													purchased.</p>
-											</div>
-											<div class="product__details__tab__content__item">
-												<h5>Material used</h5>
-												<p></p>
-											</div>
+											<p class="note">숙소 안내</p>
+											<div class="product__details__tab__content__item"
+												th:utext="|${bnb.detaDesct}|">ck editor에서 넣은 내용</div>
 											<!-- 지도 api -->
+											<div class="product__details__tab__content__item">
+												<p class="note">위치</p>
+												<div id="map" style="width: 750px; height: 300px;"></div>
+											</div>
 										</div>
-										<div id="map" style="width: 750px; height: 350px;"></div>
 									</div>
 									<!-- 두번째 탭: 리뷰 -->
 									<div class="tab-pane" id="tabs-6" role="tabpanel">
 										<div class="product__details__tab__content">
 											<div class="product__details__tab__content__item">
-												<h5>리뷰</h5>
+												
+													<div style="width:200px;">
+														<select name="star">
+																<option value="0">별점</option>
+																<option value="5">★★★★★</option>
+																<option value="4">★★★★☆</option>
+																<option value="3">★★★☆☆</option>
+																<option value="2">★★☆☆☆</option>
+																<option value="1">★☆☆☆☆</option>
+														</select>
+														</div>
+														<textarea name="" id="" cols="70" rows="2"></textarea>
+													
+													<a href="#" class="button">리뷰등록</a>
+												
+
 												<table class="table">
 													<tr>
-														<th>별점</th>
+														<th>평점</th>
 														<th>내용</th>
 														<th>아이디</th>
 														<th>수정</th>
 													</tr>
 													<tr>
 														<td>
-															<div class="rating">
-																<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-																	class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-																	class="fa fa-star-o"></i>
-															</div>
+
 															<p>(2023-02-05)</p>
 														</td>
 														<td>재미있었습니다.</td>
@@ -171,43 +182,24 @@
 														<td><button>수정</button>
 															<button>삭제</button></td>
 													</tr>
-													<tr>
-														<th>리뷰</th>
-														<td><textarea name="" id="" cols="50" rows="3"></textarea>
-														</td>
-														<td>아이디</td>
-														<td><button>등록</button></td>
-													</tr>
+
 												</table>
 											</div>
-											<!-- 											<div class="product__details__tab__content__item">
-
-											</div> -->
 										</div>
 									</div>
 									<!-- 세번째 탭 -->
 									<div class="tab-pane" id="tabs-7" role="tabpanel">
 										<div class="product__details__tab__content">
-											<p class="note">Nam tempus turpis at metus scelerisque
-												placerat nulla deumantos solicitud felis. Pellentesque diam
-												dolor, elementum etos lobortis des mollis ut risus. Sedcus
-												faucibus an sullamcorper mattis drostique des commodo
-												pharetras loremos.</p>
+											<p class="note">문의는 아래 사항으로 연락 바랍니다.</p>
 											<div class="product__details__tab__content__item">
-												<h5>문의처</h5>
-												<p>문의처: 판매자</p>
+												<h5>판매자 정보</h5>
+												<p>판매자: 김수인</p>
+												<p>전화번호: 054-4545-8584</p>
+												<p>주 소: 경상북도 청도 어쩌구</p>
 											</div>
 											<div class="product__details__tab__content__item">
 												<h5>Material used</h5>
-												<p>Polyester is deemed lower quality due to its none
-													natural quality’s. Made from synthetic materials, not
-													natural like wool. Polyester suits become creased easily
-													and are known for not being breathable. Polyester suits
-													tend to have a shine to them compared to wool and cotton
-													suits, this can make the suit look cheap. The texture of
-													velvet is luxurious and breathable. Velvet is a great
-													choice for dinner party jacket and can be worn all year
-													round.</p>
+												<p>Po.</p>
 											</div>
 										</div>
 									</div>
@@ -249,7 +241,7 @@
 				// 날짜계산
 				console.log('일 수:', days);
 				var resultElement = document.getElementById('dateResult');
-				resultElement.textContent = nights + "박 " + days;
+				resultElement.textContent = nights + " 박 " + days;
 				// 금액계산
 				var pay = document.getElementById('payResult');
 				var onePay = document.getElementById('onePay').innerText;

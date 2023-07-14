@@ -164,10 +164,22 @@
 			<a class="myInline" id="nextPage">&gt;</a>
 		</div>
 		
-		<script>
-			// 등록 페이지로 이동
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			let mem = /*[[${session.mem}]]*/;
+			/*]]>*/
+			
+			// 등록 버튼 클릭 시
 			$('#add').on('click', function() {
-				location.href = "cropsSaleInsert";
+				if(mem != null) {
+					if(mem.memGrd == 'b0' || mem.memGrd == 'b1') {
+						location.href = "cropsSaleInsert";
+					} else {
+						alert('정회원 이상의 회원만 등록이 가능합니다.');
+					}
+				} else {
+					alert('정회원 이상의 회원만 등록이 가능합니다.');
+				}
 			});
 			// 페이지 로드
 			$(function() {
@@ -214,6 +226,7 @@
 				$(clone).find('#price').text(item.price + '원');
 				$(clone).find('#date').text(item.regDate);
 				$(clone).find('#img').css('background-image', 'url('+item.rep+')');
+				$(clone).find('#img').css('cursor', 'pointer');
 				
 				$(clone).find('#img').on('click', function() {
 					location.href = "cropsSaleInfo?crpSaleNo=" + item.crpSaleNo

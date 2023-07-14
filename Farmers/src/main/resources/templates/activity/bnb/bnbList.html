@@ -20,9 +20,9 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="breadcrumb__text">
-							<h4>농촌 한달살기</h4>
+							<h4>농촌 비엔비</h4>
 							<div class="breadcrumb__links">
-								<span>농촌에서 한달살기 체험을 해보며 귀촌 생활을 직접 체험해보세요.</span>
+								<span>농촌에서 한달살기 체험을 해보며 귀촌 생활을 직접 경험해보세요:)</span>
 							</div>
 						</div>
 					</div>
@@ -35,14 +35,9 @@
 		<section class="shop spad">
 			<div class="container">
 				<div class="row">
+					<!-- 사이드바 -->
 					<div class="col-lg-3">
 						<div class="shop__sidebar">
-							<!-- <div class="shop__sidebar__search">
-                            <form action="#">
-                                <input type="text" placeholder="Search...">
-                                <button type="submit"><span class="icon_search"></span></button>
-                            </form>
-                        </div> -->
 							<div class="shop__sidebar__accordion">
 								<div class="accordion" id="accordionExample">
 									<div class="card">
@@ -64,46 +59,7 @@
 											</div>
 										</div>
 									</div>
-									<!-- 									<div class="card">
-										<div class="card-heading">
-											<a data-toggle="collapse" data-target="#collapseTwo">Branding</a>
-										</div>
-										<div id="collapseTwo" class="collapse show"
-											data-parent="#accordionExample">
-											<div class="card-body">
-												<div class="shop__sidebar__brand">
-													<ul>
-														<li><a href="#">Louis Vuitton</a></li>
-														<li><a href="#">Chanel</a></li>
-														<li><a href="#">Hermes</a></li>
-														<li><a href="#">Gucci</a></li>
-													</ul>
-												</div>
-											</div>
-										</div>
-									</div> -->
-									<!-- 가격필터 -->
-									<!-- 									<div class="card">
-										<div class="card-heading">
-											<a data-toggle="collapse" data-target="#collapseThree">Filter
-												Price</a>
-										</div>
-										<div id="collapseThree" class="collapse show"
-											data-parent="#accordionExample">
-											<div class="card-body">
-												<div class="shop__sidebar__price">
-													<ul>
-														<li><a href="#">$0.00 - $50.00</a></li>
-														<li><a href="#">$50.00 - $100.00</a></li>
-														<li><a href="#">$100.00 - $150.00</a></li>
-														<li><a href="#">$150.00 - $200.00</a></li>
-														<li><a href="#">$200.00 - $250.00</a></li>
-														<li><a href="#">250.00+</a></li>
-													</ul>
-												</div>
-											</div>
-										</div>
-									</div> -->
+									<!-- 글등록 버튼 -->
 									<div class="product__details__cart__option"
 										style="text-align: center">
 										<a href="insertBnb" class="primary-btn">농촌비앤비 글 등록</a>
@@ -112,9 +68,9 @@
 							</div>
 						</div>
 					</div>
-					<!--------------- 본문 --------------->
+					<!-- end 사이드바 -->
 					<div class="col-lg-9">
-						<!-- 정렬 -->
+						<!-- 조건검색 -->
 						<div class="shop__product__option">
 							<div class="row">
 								<div class="col-lg-6 col-md-6 col-sm-6">
@@ -147,25 +103,16 @@
 								</div>
 							</div>
 						</div>
-
+					<!--------------- 본문 --------------->
 						<!-- 아이템 -->
 						<div class="row" id="bnbList"></div>
-
 						<!-- 페이징 -->
-						<div class="row">
-							<div class="col-lg-12">
-								<div class="product__pagination">
-									<a class="active" href="#">1</a> <a href="#">2</a> <a href="#">3</a>
-									<span>...</span> <a href="#">21</a>
-								</div>
-							</div>
-						</div>
-						<!-- 페이징 end -->
+						<div class="row" id="bnbPage"></div>
 					</div>
 				</div>
 			</div>
 		</section>
-
+		<!-- 아이템 처리-->
 		<div class="col-lg-4 col-md-6 col-sm-6" id="bnbItem"
 			style="display: none">
 			<div class="product__item sale">
@@ -181,6 +128,15 @@
 				</div>
 			</div>
 		</div>
+		<!-- pageDiv -->
+		<div class="product__pagination" style="display: none;" id="pageItem">
+			<a class="myInline" id="prevPage">◁</a>
+			<div id="pageNumDiv" class="myInline">
+				<a id="pageNum">a</a>
+			</div>
+			<a class="myInline" id="nextPage">▷</a>
+		</div>
+
 
 		<script>
 		$(function(){
@@ -193,41 +149,86 @@
 				method: "get",
 				data: {page, region},
 				success(result){					
-					printData(result)
+					printData(result,region)
 				},
 				error(err){
 					console.log(err)
 				}
 			})
 		}
-
-		function printData(data){
+	//리스트 삭제후 뿌리기
+		function printData(data,region){
 			$('#bnbList').children().remove();
+			$('#bnbPage').children().remove();
 			let bnb= data.bnb;
+			let page = data.page; 
 			bnb.forEach(el => {
 				console.log(el)
 				printList(el)
 			})			
+			printPage(page,region);
 		}
-		
+		//뿌릴 리스트-클론
 		function printList(item){
 			let clone=$('#bnbItem').clone();
-			$(clone).css({'display': 'block'})
+			$(clone).css({'display': 'block'});
 			$(clone).find('.set-bg').on('click',function(){
 				location.href=`bnbInfo?bnbNo=${item.bnbNo}`
 			})
-			$(clone).find('.set-bg').data('setbg', '/img/bnb/'+item.rep);
-			$(clone).find('.set-bg').css("background-image",`url(/img/bnb/${item.rep})`)
+			$(clone).find('.set-bg').data('setbg', item.rep);
+			$(clone).find('.set-bg').css("background-image",`url(${item.rep})`)
 			$(clone).find('.bnbTitle').text(item.bnbTitle);
 			$(clone).find('.price').text(item.price+"원(1박)");
 			$('#bnbList').append(clone)
 		}
-		
+		//검색조건-지역
 		$('#selectRG').on('change', function(){
 			console.log($(this).val())
 			ajaxData(1, $(this).val())
 		})
 		
+		//페이징 함수
+		function printPage(pageData,region){
+			let pageItem = $('#pageItem').clone()
+			$(pageItem).css({'display' : 'block'});
+			$(pageItem).find('#prevPage').on('click',function(){
+				ajaxData(pageData.startPage - 1,region)
+			})
+			$(pageItem).find('#nextPage').on('click',function(){
+				ajaxData(pageData.endPage + 1,region)
+			})
+
+			if(!pageData.prev){
+				$(pageItem).find('#prevPage').hide()
+			}
+			if(!pageData.next){
+				$(pageItem).find('#nextPage').hide()
+			}
+
+			for (let i = pageData.startPage; i <= pageData.endPage; i++) {
+				let clone = $('#pageItem').find('#pageNum').clone()
+				$(clone).text(i);
+				if(i == pageData.pageNum){
+					$(clone).addClass('active')
+					$(clone).css('border-color','orange')
+				}
+				$(clone).on('click', function () {
+					getCondition(i, region);
+				})
+				$(pageItem).find('#pageNumDiv').append(clone)
+			}
+
+			$(pageItem).find('#pageNum')[0].remove()
+			$('#bnbPage').append(pageItem)
+		}
+		
+		// 조건 값 변경 시 컨트롤 정보 보내기
+		function getCondition(page, region){
+			if(page == null){
+				page = 1
+			}
+			ajaxData(page, region);
+		}
 		
 		</script>
 

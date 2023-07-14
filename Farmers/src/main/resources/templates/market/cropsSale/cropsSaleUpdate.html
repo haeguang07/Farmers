@@ -26,8 +26,11 @@
 							<div class="row">
 								<div class="row col-lg-12">
 									<div class="col-lg-4 col-md-9 row" id="addFile">
-										<div class="col-lg-12" th:src="${csInfo.rep}" 
-										th:value="${csInfo.rep}" style="display: table;"></div>
+										<!-- <div class="col-lg-12" style="background-color: lightgrey; display: table;">
+											<p style="display: table-cell; vertical-align: middle;">대표 이미지 등록</p>
+										</div> -->
+										<div class="col-lg-12" th:src="@{csInfo.rep}" 
+											th:value="${csInfo.rep}" style="display: table;"></div>
 									</div>
 									<div class="product__details__content col-lg-8">
 										<form id="myForm">
@@ -42,6 +45,7 @@
 																<input type="text" class="form-control col-lg-6" name="crpTitle" style="display: inline;" th:value="${csInfo.crpTitle}">
 															</div>
 															<hr>
+															<input type="text" th:value="${csInfo.crpSaleNo}" name="crpSaleNo" style="display: none;">
 															<div class="row">
 																<p class="textLeft col-lg-2 mb-0" style="line-height: 40px;">상품 종류</p>
 																<select class="form-select form-group col-1.5" name="crpCtg">
@@ -191,11 +195,11 @@
 					data : formData
 				})
 				.done(function(result){
-					alert(result);
+					alert("success");
 					// location.href="cropsSaleList";
 				})
 				.fail(function(result){
-					alert(result);
+					alert("fail");
 					// location.href="cropsSaleList";
 				})
 			});
