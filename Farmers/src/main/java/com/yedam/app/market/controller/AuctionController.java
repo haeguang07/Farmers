@@ -34,6 +34,10 @@ public class AuctionController {
 	}
 	
 	// 등록 페이지
+	@GetMapping("addAuction")
+	public String addAuction() {
+		return "market/auction/addAuction";
+	}
 	
 	// 등록 처리
 	
