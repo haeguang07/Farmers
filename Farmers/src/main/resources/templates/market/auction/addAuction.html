@@ -1,24 +1,306 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/layout}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{index}">
+
 <head>
-<meta charset="UTF-8">
-<title>경매품 등록 신청 폼</title>
+	<meta charset="UTF-8">
+	<meta name="description" content="Male_Fashion Template">
+	<meta name="keywords" content="Male_Fashion, unica, creative, html">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>경매품 등록 신청 폼</title>
+
+	<style>
+		.ck-editor__editable {
+			height: 400px;
+		}
+	</style>
 </head>
+
 <body>
 	<div layout:fragment="content">
-		<!-- 등록 신청 페이지 -->
-		<form th:action="@{/addAuction}" method="POST" th:object="${AuctionVO}">
-		<div>
-			<label id="actTitle">제목</label>
-			<input type="text" id="actTitle" th:field="*{actTitle}">
-		</div>
-		
-		<div>
-			<label id=""></label>
-		</div>
-		</form>
+		<hr>
+		<!-- Shop Details Section Begin -->
+		<section class="shop-details">
+			<div class="product__details__pic" style="background-color: white;">
+				<div class="container">
+					<div class="row">
+						<div class="row col-lg-12">
+							<div class="col-lg-4 col-md-9 row" id="addFile">
+								<div class="col-lg-12" style="background-color: lightgrey; display: table;">
+									<p style="display: table-cell; vertical-align: middle">대표
+										이미지 등록</p>
+								</div>
+							</div>
+							<div class="product__details__content col-lg-8">
+								<form id="myForm">
+									<!-- 실제 파일 업로드 input (안보임) -->
+									<input type="file" id="inputFile" style="display: none;">
+									<div class="container">
+										<div class="row d-flex justify-content-center row">
+											<div class="col-lg-12">
+												<div class="product__details__text">
+													<div class="row">
+														<h4 class="textLeft col-lg-3" style="display: inline;">상품명
+														</h4>
+														<input type="text" class="form-control col-lg-9" name="fndTitle">
+													</div>
+													<hr>
+													<br>
+													<div class="row">
+														<div class="row col-lg-6">
+															<p class="myInline col-lg-6 mb-0 textLeft">판매자</p>
+															<input type="text" class="form-control col-lg-6" readonly th:value="${session.mem.memNo}"
+																name="memNo">
+														</div>
+														<div class="row col-lg-6" style="display: none;">
+															<p class="myInline col-lg-6 mb-0 textLeft">결제일</p>
+															<input type="date" class="form-control col-lg-6">
+														</div>
+													</div>
+													<br>
+													<div class="row">
+														<div class="row col-lg-6">
+															<p class="myInline col-lg-6 mb-0 textLeft">목표금액</p>
+															<input type="number" class="form-control col-lg-6" name="goalPrice" value="0" min="1">
+														</div>
+														<div class="row col-lg-6">
+															<p class="myInline col-lg-6 mb-0 textLeft">펀딩가격</p>
+															<input type="number" class="form-control col-lg-6" name="fndPrice" value="0" min="1">
+														</div>
+													</div>
+													<br>
+													<div class="row">
+														<div class="row col-lg-6">
+															<p class="myInline col-lg-6 mb-0 textLeft">펀딩시작일</p>
+															<input type="date" class="form-control col-lg-6" name="fndStrDate">
+														</div>
+														<div class="row col-lg-6">
+															<p class="myInline col-lg-6 mb-0 textLeft">펀딩마감일</p>
+															<input type="date" class="form-control col-lg-6" name="fndEndDate">
+														</div>
+													</div>
+													<br>
+													<div class="row">
+														<div class="row col-lg-6">
+															<p class="myInline col-lg-6 mb-0 textLeft">카테고리</p>
+															<select class="form-control col-lg-6" name="crpCtg">
+																<option value="야채">야채</option>
+																<option value="과일">과일</option>
+																<option value="곡물">곡물</option>
+															</select>
+														</div>
+														<div class="row col-lg-6">
+															<p class="myInline col-lg-6 mb-0 textLeft">배송시작일</p>
+															<input type="date" class="form-control col-lg-6" name="shipStrDate">
+														</div>
+
+													</div>
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="row col-lg-12">
+								<div class="col-lg-12">
+									<div class="product__details__tab">
+										<div class="row">
+											<ul class="nav nav-tabs col-lg-12" role="tablist">
+												<li class="nav-item col-lg-12"><a class="nav-link active" data-toggle="tab" href="#tabs-5"
+														role="tab">상품상세</a></li>
+											</ul>
+										</div>
+										<div class="row">
+											<div class="tab-content col-lg-12">
+												<div class="tab-pane active" id="tabs-5" role="tabpanel">
+													<div class="product__details__tab__content">
+														<div>
+															<textarea name="text" id="editor"></textarea>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<br>
+									<div class="product__details__cart__option row" style="margin-top: 40px;">
+										<button class="primary-btn col-lg-12" style="color: white; margin: 0 auto; margin-top: 20px;"
+											id="addBtn">등록하기</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+
+		<!-- Shop Details Section End -->
+		<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+		<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
+		<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
+
+		<script>
+			$(function () {
+				let dbPath;
+				//날짜 입력 순서 정의 
+				$('[name="fndEndDate"]').on('click',function(e){
+					e.preventDefault();
+					if(!$('[name="fndStrDate"]').val()){
+						alert('펀딩시작일을 먼저 입력하세요')
+					}else{
+						$(this).unbind('click').click()
+					}
+				})
+
+				$('[name="shipStrDate"]').on('click',function(e){
+					e.preventDefault();
+					if(!$('[name="fndEndDate"]').val()){
+						alert('펀딩마감일을 먼저 입력하세요')
+					}else{
+						$(this).unbind('click').click()
+					}
+				})
+
+				//date 타입 최소 날짜 제한
+				minDateSet(new Date, $('[name="fndStrDate"]'))
+				$('[name="fndStrDate"]').change(function () {
+					minDateSet(new Date($('[name="fndStrDate"]').val()), $('[name="fndEndDate"]'))
+				})
+				$('[name="fndEndDate"]').change(function () {
+					minDateSet(new Date($('[name="fndEndDate"]').val()), $('[name="shipStrDate"]'))
+				})
+			})
+
+			//date 타입 최소 날짜 제한 함수
+			function minDateSet(date, input) {
+				var now_utc = date // 지금 날짜를 밀리초로
+				var timeOff = date.getTimezoneOffset() * 60000; // 분단위를 밀리초로 변환
+				var today = new Date(now_utc - timeOff).toISOString().split("T")[0];
+				$(input).attr("min", today);
+			}
+
+			//첨부파일 가져오기
+			$('#addFile').on('click', function () {
+				$('#inputFile').click()
+			})
+
+			//첨부파일 업로드
+			$('#inputFile').change(function () {
+				var formData = new FormData(); //FormData 객체 생성
+
+				var inputFile = $("input[type='file']")
+				//input 태그의 type이 file인 것을 찯아서 inputFile 이라는 변수로 지정
+
+				var files = inputFile[0].files;
+				//files : 선택한 모든 파일을 나열하는 FileList 객체입니다
+				//multiple 특성을 지정하지 않았다면 두 개 이상의 파일을 포함하지 않습니다
+
+				for (var i = 0; i < files.length; i++) {
+					console.log(files[i]);
+					if (files[i].type.includes('image')) {
+						formData.append("uploadFiles", files[i]); //키,값으로 append
+
+						$.ajax({
+							url: 'uploadsAjax',
+							type: 'POST',
+							processData: false, // 기본값은 true, ajax 통신을 통해 데이터를 전송할때, 기본적으로 key와 value 값을 Query String으로 변환해서 보내줌
+							contentType: false, // multipart/form-data 타입을 사용하기위해 false로 지정
+							data: formData,
+							success: function (result) {
+								console.log(result)
+								dbPath = result.dbPath
+								$('#addFile').html('<img src="' + result.loadPath + '">')
+								console.log(dbPath)
+
+							},
+							error: function (reject) {
+								console.log(reject)
+							}
+						})
+					} else {
+						alert('이미지만 등록 가능합니다')
+					}
+				}
+
+
+			})
+
+			//ckEditor 생성
+			let editor;
+			ClassicEditor.create(document.querySelector('#editor'), {
+					language: "ko",
+					ckfinder: {
+						uploadUrl: '/image/upload'
+					}
+				})
+				.then(newEditor => {
+					editor = newEditor;
+				})
+				.catch(error => {
+					console.error(error);
+				});
+
+			//ckEditor 데이터 가져오기
+			$('#addBtn').on('click', function () {
+
+				//데이터 입력 확인
+				if (!$('[name="fndTitle"]').val()) {
+					alert('제목을 입력하세요');
+					return;
+				} else if ($('[name="goalPrice"]').val() <= 0) {
+					alert('목표금액을 입력하세요');
+					return;
+				} else if ($('[name="fndPrice"]').val() <= 0) {
+					alert('펀딩금액을 입력하세요');
+					return;
+				} else if (!$('[name="shipStrDate"]').val()) {
+					alert('배송시작일을 입력하세요');
+					return;
+				} else if (!$('[name="fndStrDate"]').val()) {
+					alert('펀딩시작일을 입력하세요');
+					return;
+				} else if (!$('[name="fndEndDate"]').val()) {
+					alert('펀딩마감일을 입력하세요');
+					return;
+				} else if (!$('#inputFile').val()) {
+					alert('대표이미지를 설정하세요');
+					return;
+				} else {
+					let ckData = editor
+					let formData = $('#myForm').serializeObject()
+
+					//상세 설명 존재하지 않을 시 출력 내용 설정
+					if(ckData.getData() == ''){
+						ckData.setData('<p>상세 설명이 존재하지 않습니다</p>')
+						formData.desct = ckData.getData()
+					}else{
+						formData.desct = ckData.getData()
+					}
+					formData.rep = dbPath
+
+					//ajax 펀딩 등록
+					$.ajax({
+							url: "addFunding",
+							method: "POST",
+							data: formData
+						})
+						.done(function (result) {
+							alert(result);
+							location.href = "fundingList"
+						})
+						.fail(function (result) {
+							alert(result);
+							location.href = "fundingList"
+						})
+
+				}
+			})
+		</script>
 	</div>
 </body>
+
 </html>

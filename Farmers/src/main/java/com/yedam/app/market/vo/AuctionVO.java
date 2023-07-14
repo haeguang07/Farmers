@@ -27,6 +27,7 @@ public class AuctionVO {
 	private String rep;
 	private String regStts;
 	private String atchNo;
+	private String bidCount;
 	
 	// 카운트 다운
 	@DateTimeFormat(pattern="yyyy-MM-dd")
