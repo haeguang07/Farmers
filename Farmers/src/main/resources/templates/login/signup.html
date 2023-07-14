@@ -4,7 +4,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>You GuiNong? 회원가입</title>
 	<style>
 		#joinForm {
 			width: 700px;
@@ -40,6 +40,32 @@
 			<p>회원이 되어 다양한 해택을 경험해 보세요</p>
 		</div>
 		<form id="frm">
+			<!-- <h6 class="checkout__title">Billing Details</h6>
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="checkout__input">
+						<p>Fist Name<span>*</span></p>
+						<input type="text">
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="checkout__input">
+						<p>Last Name<span>*</span></p>
+						<input type="text">
+					</div>
+				</div>
+			</div>
+			<div class="checkout__input">
+				<p>Country<span>*</span></p>
+				<input type="text">
+			</div>
+			<div class="checkout__input">
+				<p>Address<span>*</span></p>
+				<input type="text" placeholder="Street Address" class="checkout__input__add">
+				<input type="text" placeholder="Apartment, suite, unite ect (optinal)">
+			</div> -->
+
+
 			<table>
 				<thead id="step1">
 					<!-- 아이디-->
@@ -126,7 +152,7 @@
 					<!-- 성별-->
 					<tr>
 						<td>성별</td>
-						<td><label><input type="radio" name="gender" id="male" checked="checked" value="a0">남성</label> <label><input
+						<td><label><input type="radio" name="gender" id="male" checked value="a0">남성</label> <label><input
 									type="radio" name="gender" id="female" value="a1">여성</label></td>
 						<td></td>
 					</tr>
@@ -233,12 +259,15 @@
 			let id = $('#id');
 			let pw = $('#pw');
 			let pw2 = $('#pwCheck');
-			let post = $('#joinPost');
-			let adr = $('#joinAdr');
-			let adr2 = $('#joinAdr2');
+			let post = $('#post');
+			let adr = $('#adr');
+			let adr2 = $('#adrDetail');
 			let email2 = $('#joinEmail');
 			let certifytext = $('#certifytext');
 			let nickname = $('#nickname');
+			let name = $('#name');
+			let mbl = $('#joinPhone');
+			let gen = $('input[type="radio"]:checked');
 			let birth = $('#birth');
 
 			//아이디 체크
@@ -356,24 +385,26 @@
 
 
 			let nextBtn = $('#nextBtn');
-			nextBtn.on('click', function (e) {
+			nextBtn.on('click', step1)
+
+			function step1() {
 				if (!regId.test(id.val())) {
 					alert('아이디는 6자~15자리의 영문자, 숫자를 입력하세요');
-					return;
+					return false;
 				} else if (!id.data('set')) {
 					alert('아이디 중복체크를 해주세요');
-					return;
+					return false;
 				} else if (!pwCheck()) {
 
 					pw.val('');
 					pw2.val('');
-					return;
+					return false;
 				} else if (!nickname.data('set')) {
 					alert('닉네임 중복체크를 해주세요');
-					return;
+					return false;
 				} else if (!email.data('set')) {
 					alert('이메일 인증을 해주세요');
-					return;
+					return false;
 				}
 
 
@@ -381,21 +412,59 @@
 				document.querySelector('#step2').style.display = 'block';
 
 
-			})
+			}
+
 
 			$('#frm').on('submit', function () {
 				event.preventDefault();
+				if (!step1()) {
+					return;
+				};
+
 				//let formData = new FormData();
 				let member = {
 					id: id.data('set'),
 					pw: pw.val(),
 					email: email.data('set'),
-					nick: nickname.data('set')
+					nick: nickname.data('set'),
+					name: name.val(),
+					zip: post.val(),
+					addr: adr.val(),
+					detaAddr: adr2.val(),
+					mbl: mbl.val(),
+					bDate: birth.val(),
+					gen: gen.val()
 				};
 				console.log(member);
 				let memberDetail = {
-
+					name: name.val(),
+					zip: post.val(),
+					addr: adr.val(),
+					detaAddr: adr2.val(),
+					mbl: mbl.val(),
+					bDate: birth.val(),
+					gen: gen.val()
 				};
+				console.log(memberDetail);
+				$.ajax({
+					url: 'signup',
+					method: 'POST',
+					data: member,
+					success(data) {
+						if (data.retCode == "Success") {
+							alert('회원가입 성공')
+							location.href = "/login";
+						} else if (data.retCode == "Fail") {
+							alert('회원가입 실패')
+							location.reload();
+						} else {
+							alert('알 수 없는 오류')
+						}
+					},
+					error(err) {
+						console.log(err)
+					}
+				})
 			})
 
 

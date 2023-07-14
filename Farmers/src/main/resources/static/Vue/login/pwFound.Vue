@@ -19,9 +19,10 @@
         </div>
     </div>
     <div v-show="box2">
-      <span>해당 이메일로 임시 비밀번호를 전송 하였습니다.</span>
+      <div><span>해당 이메일로 임시 비밀번호를 전송 하였습니다.</span><a href="login">로그인</a></div>
       <br>
-      <p>이메일이 도착하지 않았나요? <span>다시 보내기</span></p><br><br>
+      <p>이메일이 도착하지 않았나요? <span @:click="pwFound">다시 보내기</span></p><br><br>
+      
       <div class="text-right"><span @:click="back">돌아가기</span></div>
     </div>
     <div v-show="box3">조회된 회원 정보가 없습니다
@@ -47,16 +48,28 @@ export default{
   },
   methods:{
     pwFound(){
+      fetch('pwFind',{
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: this.email,
+          id: this.id
+        })
+      })
+      .then(resolve => resolve.json())
+      .then(result=>{
+        this.box1=false;
+        if(result.retCode=='Success'){
+          alert('이메일을 성공적으로 발송했습니다')
+          this.box2=true;
+        }else if(result.retCode=='Fail'){
+          this.box3=true;
+        }
+      })
+      .catch(err=> console.log(err))
 
-      this.box1=false;
-
-      //성공시
-      this.memNo='mem000001';
-      if(this.memNo!=''){
-        this.box2=true;
-      }else{
-        this.box3=true;
-      }
     },
     back(){
       this.id='',

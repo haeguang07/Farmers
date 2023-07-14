@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
- <mapper namespace="com.yedam.app.user.mapper.MemberMapper">
- 	<select id="selectMember"  resultType="MemberVO">
- 		SELECT 	mem_no,
+<mapper namespace="com.yedam.app.user.mapper.MemberMapper">
+	<select id="selectMember" resultType="MemberVO">
+		SELECT m.mem_no,
 				id,
 				pw,
 				email,
@@ -12,18 +12,74 @@
 				login_path,
 				rpt_cnt,
 				mem_grd
-		FROM member
+		FROM member m JOIN member_detail d 
+		ON(m.mem_no=d.mem_no)
 		WHERE id= #{id}
- 	</select>
- 	<select id="selectId" resultType="String">
- 		SELECT id
- 		FROM member
- 		WHERE id=#{id}
- 	</select>
+	</select>
+	<select id="selectId" resultType="String">
+		SELECT id
+		FROM member
+		WHERE id=#{id}
+	</select>
 	<select id="selectNick" resultType="String">
- 		SELECT nick
- 		FROM member
- 		WHERE nick=#{nick}
- 	</select>
- 	
- </mapper>
+		SELECT nick
+		FROM member
+		WHERE nick=#{nick}
+	</select>
+	
+	<select id="selectID" resultType="String">
+		SELECT id
+		FROM member
+		WHERE email=#{email}
+	</select>
+	<select id="selectPw" resultType="String" parameterType="memberVO">
+		SELECT mem_no
+		FROM member
+		WHERE email=#{email}
+		AND id=#{id}
+	</select>
+
+	
+	<insert id="insertMember" parameterType="MemberVO">
+		<selectKey order="BEFORE" keyProperty="memNo"
+			resultType="string">
+			SELECT 'MEM' || LPAD(mem_seq.nextval,6,'0')
+			FROM dual
+		</selectKey>
+		INSERT INTO member (mem_no,
+							id,
+							pw,
+							email,
+							nick)
+		VALUES (#{memNo}, 
+				#{id},
+				#{pw},
+				#{email},
+				#{nick})
+	</insert>
+	<insert id="insertMemberDetail" parameterType="MemberVO">
+		INSERT INTO member_detail 	(MEM_NO
+									,NAME
+									,ZIP
+									,ADDR
+									,DETA_ADDR
+									,MBL
+									,B_DATE
+									,GEN)
+		VALUES ( #{memNo},
+				 #{name},
+				 #{zip},
+				 #{addr},
+				 #{detaAddr},
+				 #{mbl},
+				 #{bDate},
+				 #{gen})
+	</insert>
+	
+	<update id="updatePw" parameterType="memberVO">
+		UPDATE member 
+		SET pw=#{pw}
+		WHERE mem_no=#{memNo}
+	
+	</update>
+</mapper>

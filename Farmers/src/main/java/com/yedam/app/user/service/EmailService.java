@@ -17,24 +17,44 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
 import javax.mail.internet.MimeMultipart;
 
+import org.jasypt.encryption.StringEncryptor;
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.yedam.app.user.vo.EmailVO;
 
 @Service
 public class EmailService {
+	@Value("${spring.mail.host}") // 프로퍼티 혹은 빈에 있는 값들을 들고올 때 사용 (Spring value로 import)
+	private String host;
+	@Value("${spring.mail.port}") 
+	private String port;
+	@Value("${spring.mail.username}") 
+	private String email;
+	@Value("${spring.mail.password}") 
+	private String password;
+	@Value("${spring.mail.properties.mail.smtp.auth}") 
+	private String auth;
+	@Value("${spring.mail.properties.mail.transport.protocol}") 
+	private String protocol;
+			
 
+	
+	
 	public void sendMail(EmailVO mail) {
+
 		// 메일 인코딩
 		final String bodyEncoding = "UTF-8"; // 콘텐츠 인코딩
 		
 		String subject = mail.getSubject();
-		String fromEmail = "hk97564@gmail.com";
+		String fromEmail = email;
 		String fromUsername = "파머스";
 		String toEmail = mail.getTo(); 
 
 		final String username = "hk97564";
-		final String password = "gllapytrjkrkseak";
+		final String password = this.password;
 
 		// 메일에 출력할 텍스트
 		StringBuffer sb = new StringBuffer();
@@ -43,13 +63,13 @@ public class EmailService {
 
 		// 메일 옵션 설정
 		Properties props = new Properties();
-		props.put("mail.transport.protocol", "smtp");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "465");
-		props.put("mail.smtp.auth", "true");
+		props.put("mail.transport.protocol", protocol);
+		props.put("mail.smtp.host", host);
+		props.put("mail.smtp.port", port);
+		props.put("mail.smtp.auth", auth);
 
 		props.put("mail.smtp.quitwait", "false");
-		props.put("mail.smtp.socketFactory.port", "465");
+		props.put("mail.smtp.socketFactory.port", port);
 		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 		props.put("mail.smtp.socketFactory.fallback", "false");
 

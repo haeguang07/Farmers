@@ -5,12 +5,18 @@ import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yedam.app.user.service.EmailService;
 import com.yedam.app.user.service.MemberService;
 import com.yedam.app.user.vo.EmailVO;
+import com.yedam.app.user.vo.MemberDetailVO;
+import com.yedam.app.user.vo.MemberVO;
 
 @RestController
 public class LoginRestController {
@@ -44,10 +50,47 @@ public class LoginRestController {
 		String subject = "<h3>안녕하세요</h3>\n <h4>임시 비밀번호는" + random + "입니다</h4>\n" + "<h4>로그인후 변경해 주세요</h4>";
 		EmailVO msg = new EmailVO(to, title, subject);
 		emailService.sendMail(msg);
-		return "success";
+		return random;
 
 	}
-
+	//아이디 찾기
+	@PostMapping("IDFound")
+	public Map<String, String> IDFound(@RequestBody MemberVO member){
+		Map<String, String> map = new HashMap<>();
+		System.out.println(member);
+		String id=memberService.idFound(member.getEmail());
+		if(id==null) {
+			map.put("retCode", "Fail");
+		}else {
+			map.put("retCode", "Success");
+			map.put("id", id);
+		}
+		
+		return map;
+	}
+	//비밀번호 찾기
+	@PostMapping("pwFind")
+	public Map<String, String> pwFind(@RequestBody MemberVO member){
+		Map<String, String> map = new HashMap<>();
+		System.out.println(member);
+		String memNo=memberService.pwFound(member);
+		if(memNo==null) {
+			map.put("retCode", "Fail");
+		}else {
+			map.put("retCode", "Success");
+			String pass=emailP(member.getEmail());
+			BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
+			String password = scpwd.encode(pass);
+			member.setPw(password); member.setMemNo(memNo);
+			System.out.println(member);
+			memberService.pwChange(member);
+		}
+		
+		return map;
+	}
+	
+	
+	
 	// 아이디 중복
 	@GetMapping("userIdCheck")
 	public Map<String, String> idCheck(String uid){
@@ -72,7 +115,23 @@ public class LoginRestController {
 		
 		return map;
 	}
+	//회원가입
+	@PostMapping("signup")
+	public Map<String, Object> signup( MemberVO member){
+		Map<String, Object> map = new HashMap<>();
+		
+		System.out.println(member);
+		if(memberService.join(member)) {
+			map.put("retCode", "Success");
+		}else {
+			map.put("retCode", "Fail");
+		}
+		
+		return map;
+	}
 	
+	
+	//램덤 13자리 문자열
 	private String getRamdom() {
 		int leftLimit = 48; // numeral '0'
 		int rightLimit = 122; // letter 'z'
