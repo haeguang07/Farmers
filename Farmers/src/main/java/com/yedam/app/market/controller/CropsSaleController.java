@@ -96,11 +96,13 @@ public class CropsSaleController {
 	@PostMapping("cropsSaleUpdate")
 	@ResponseBody
 	public Map<String, Object> updateCropsSale(CropsSaleVO csVO) {
+		System.out.println(csVO);
 		boolean result = false;
-		int csNo = csService.updateCropsSaleInfo(csVO);
-		if(csNo > -1) {
+		String csNo = csService.updateCropsSaleInfo(csVO);
+		if(csNo != null) {
 			result = true;
 		}
+		
 		Map<String, Object> map = new HashMap<>();
 		map.put("result", result);
 		map.put("csNo", csNo);

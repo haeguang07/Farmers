@@ -35,8 +35,14 @@ public class CropsSaleServiceImpl implements CropsSaleService {
 	}
 
 	@Override
-	public int updateCropsSaleInfo(CropsSaleVO csVO) {
-		return csMapper.updateCropsSale(csVO);
+	public String updateCropsSaleInfo(CropsSaleVO csVO) {
+		int result = csMapper.updateCropsSale(csVO);
+		
+		if(result == 1) {
+			return csVO.getCrpSaleNo();
+		} else {
+			return null;
+		}
 	}
 
 	@Override
