@@ -10,6 +10,9 @@ public interface BnbService {
 	
 	public BnbVO selectBnb(String bnbNo);
 	
+	public int selectCount(String dst1);
+	
 	public int insertBnb(BnbVO vo);
+	
 
 }

@@ -28,6 +28,15 @@
 			</when>
 		</choose>
 	</select>
+	
+	<select id="selectCount">
+		select count(*)
+		from farmbnb
+		<if test="dst1 != null and !dst1.equals('')">
+			where dst1=#{dst1}
+		</if>
+	</select>
+
 	<select id="selectBnb" resultType="BnbVO">
 		select * from farmbnb
 		where
@@ -41,30 +50,30 @@
 			from dual
 		</selectKey>
 		insert into farmbnb(
-					BNB_NO,
-					MEM_NO,
-					BNB_TITLE,
-					DST1,
-					ZIP,
-					ADDR,
-					ADDR_DETAIL,
-					PRICE,
-					REP,
-					LEND_STR_DATE,
-					LEND_END_DATE,
-					DETA_DESCT)
+		BNB_NO,
+		MEM_NO,
+		BNB_TITLE,
+		DST1,
+		ZIP,
+		ADDR,
+		ADDR_DETAIL,
+		PRICE,
+		REP,
+		LEND_STR_DATE,
+		LEND_END_DATE,
+		DETA_DESCT)
 		values(#{bnbNo},
-				#{memNo},
-				#{bnbTitle},
-				#{dst1},
-				#{zip},
-				#{addr},
-				#{addrDetail},
-				#{price},
-				#{rep},
-				#{lendStrDate},
-				#{lendEndDate},
-				#{detaDesct})
+		#{memNo},
+		#{bnbTitle},
+		#{dst1},
+		#{zip},
+		#{addr},
+		#{addrDetail},
+		#{price},
+		#{rep},
+		#{lendStrDate},
+		#{lendEndDate},
+		#{detaDesct})
 	</insert>
 
 

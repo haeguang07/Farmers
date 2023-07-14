@@ -46,8 +46,8 @@ margin: 0 auto;
 								<div class="product__details__content col-lg-8">
 									<form id="myForm">
 										<!-- 실제 파일 업로드 input (안보임) -->
-										<input type="file" id="inputFile" style="display: none;"
-											th:field="*{rep}">
+										<input type="file" id="inputFile" style="display: none;">
+										<input type="text" id="insertFile" style="display: none;" name="rep">
 										<div class="container">
 											<div class="row d-flex justify-content-center row">
 												<div class="col-lg-12">
@@ -252,8 +252,10 @@ margin: 0 auto;
 							success: function (result) {
 								console.log(result)
 								dbPath = result.dbPath
-								$('#addFile').html('<img src="' + result.loadPath + '">')
+								$('#addFile').html('<img src="' + result.dbPath + '">')
+								$('#insertFile').val(result.dbPath);
 								console.log(dbPath)
+								
 
 							},
 							error: function (reject) {
@@ -289,19 +291,20 @@ margin: 0 auto;
 				console.log(formData)
 
 				$.ajax({
-					url:"addFunding",
+					url:"insertBnb",
 					method : "POST",
 					data : formData
 				})
 				.done(function(result){
 					alert(result);
-					location.href="fundingList"
+					location.href="bnbList"
 				})
 				.fail(function(result){
 					alert(result);
-					location.href="fundingList"
+					location.href="bnbList"
 				})
-			}) */
+			})  */
+			 
 		</script>
 	</div>
 </body>

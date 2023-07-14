@@ -3,8 +3,37 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.app.market.mapper.MarketMapper">
-	<select id="getMarketList" resultType="MarketVO">
-		select * from market;
-	</select>
 
+	<select id="getMarketList" resultType="MarketVO">
+		select * from market
+	</select>
+	<select id="getMarketInfo" resultType="MarketVO">
+		select * from market
+		where
+		mkt_no = #{mktNo}
+	</select>
+	<insert id="insertMk">
+		<selectKey keyProperty="mktNo" resultType="String" order="BEFORE">
+			select 'MKT' || LPAD(bnb_seq.nextval, 6, '0')
+			from dual
+		</selectKey>
+		insert into market(MKT_NO,
+		MEM_NO,
+		MKT_CTG,
+		MKT_TITLE,
+		PRICE,
+		QTY,
+		REP,
+		DETA_DESCT)
+		values(#{mktNo},
+		#{memNo},
+		#{mktCtg},
+		#{mktTitle},
+		#{price},
+		#{qty},
+		#{rep},
+		#{detaDesct}
+		)
+	</insert>
 </mapper>
+
