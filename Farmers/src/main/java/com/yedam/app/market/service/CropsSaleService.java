@@ -14,7 +14,7 @@ public interface CropsSaleService {
 	// 등록
 	public boolean insertCropsSaleInfo(CropsSaleVO csVO);
 	// 수정
-	public int updateCropsSaleInfo(CropsSaleVO csVO);
+	public String updateCropsSaleInfo(CropsSaleVO csVO);
 	// 삭제
 	public int deleteCropsSaleInfo(String crpSaleNo);
 	// 게시글 수
