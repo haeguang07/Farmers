@@ -3,7 +3,7 @@ package com.yedam.app.common.vo;
 import lombok.Data;
 
 @Data
-public class MemberDetailVO {
+public class MemberPayVO {
 	private String memNo;
 	private String zip;
 	private String addr;

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yedam.app.common.mapper.PaymentMapper;
-import com.yedam.app.common.vo.MemberDetailVO;
+import com.yedam.app.common.vo.MemberPayVO;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
@@ -12,7 +12,7 @@ public class PaymentServiceImpl implements PaymentService {
 	PaymentMapper paymentMapper;
 	
 	@Override
-	public MemberDetailVO getMemberData(String memNo) {
+	public MemberPayVO getMemberData(String memNo) {
 		return paymentMapper.getMemberData(memNo);
 	}
 
