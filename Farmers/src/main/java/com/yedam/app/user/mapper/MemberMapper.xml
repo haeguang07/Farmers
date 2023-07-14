@@ -12,7 +12,7 @@
 				login_path,
 				rpt_cnt,
 				mem_grd
-		FROM member m JOIN member_detail d 
+		FROM member m LEFT JOIN member_detail d 
 		ON(m.mem_no=d.mem_no)
 		WHERE id= #{id}
 	</select>
