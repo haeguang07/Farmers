@@ -16,8 +16,8 @@
     </div>
     <div v-show="box2">
       <span>회원님의 아이디는 {{ id }} 입니다</span>
-      <br>
-      <span @:click="back">돌아가기</span>
+      <br><br><br><br>
+      <div class="text-right"><span @:click="back">돌아가기</span></div>
 
     </div>
     <div v-show="box3">조회된 회원 정보가 없습니다
@@ -43,17 +43,29 @@ export default{
   },
   methods:{
     idFound(){
-      let obj={name: this.name}
       //아래 내용을 ajax 호출하기
-      fetch('findID')
-
-      this.id='';
-      this.box1=false
-      if(this.id!=''){
-        this.box2=true;
-      }else{
-        this.box3=true;
-      }
+      fetch('IDFound',{
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: this.email
+        })
+      })
+      .then(resolve => resolve.json())
+      .then(result=>{
+        this.box1=false;
+        if(result.retCode=='Success'){
+          this.id=result.id;
+          this.box2=true;
+        }else if(result.retCode=='Fail'){
+          this.box3=true;
+        }
+      })
+      .catch(err=> console.log(err))
+      
+      
     },
     back(){
       this.name='';
