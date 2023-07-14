@@ -25,6 +25,11 @@ public class BnbServiceImpl implements BnbService {
 	}
 
 	@Override
+	public int selectCount(String dst1) {
+		return bnbMapper.selectCount(dst1);
+	}
+
+	@Override
 	public int insertBnb(BnbVO vo) {
 		return bnbMapper.insertBnb(vo);
 	}

@@ -56,10 +56,10 @@
 											<div class="card-body">
 												<div class="shop__sidebar__categories">
 													<ul class="nice-scroll">
-														<li><a href="#">농작물 판매</a></li>
-														<li><a href="#">농작물 펀딩</a></li>
-														<li><a href="#">경매장</a></li>
 														<li><a href="marketList" style="color: black">전원마켓</a></li>
+														<li><a href="cropsSaleList">농작물 판매</a></li>
+														<li><a href="fundingList">농작물 펀딩</a></li>
+														<li><a href="auctionList">경매장</a></li>
 													</ul>
 												</div>
 											</div>
@@ -107,7 +107,7 @@
 									</div> -->
 									<div class="product__details__cart__option"
 										style="text-align: center">
-										<a href="insertBnb" class="primary-btn">전원마켓 글등록</a>
+										<a href="addMk" class="primary-btn">전원마켓 글등록</a>
 									</div>
 								</div>
 							</div>
@@ -150,7 +150,25 @@
 						</div>
 
 						<!-- 아이템 -->
-						<div class="row" id="marketList"></div>
+						<div class="row" id="marketList">
+							<div class="col-lg-4 col-md-6 col-sm-6" id="marketItem"
+								style="display: none">
+								<div class="product__item sale">
+									<div class="product__item__pic set-bg">
+										<ul class="product__hover">
+											<li><a href="#"><img src="img/icon/heart.png"
+													alt="찜"></a></li>
+											<li><a href="#"><img src="img/icon/cart.png"
+													alt="카트"></a></li>
+										</ul>
+									</div>
+									<div class="product__item__text">
+										<h5 class="marketTitle">숙소명</h5>
+										<h5 class="price" style="color: grey">금액</h5>
+									</div>
+								</div>
+							</div>
+						</div>
 
 						<!-- 페이징 -->
 						<div class="row">
@@ -167,69 +185,55 @@
 			</div>
 		</section>
 
-		<div class="col-lg-4 col-md-6 col-sm-6" id="marketItem"
-			style="display: none">
-			<div class="product__item sale">
-				<div class="product__item__pic set-bg">
-					<ul class="product__hover">
-						<li><a href="#"><img src="img/icon/heart.png" alt="찜"></a></li>
-						<li><a href="#"><img src="img/icon/cart.png" alt="카트"></a></li>
-					</ul>
-				</div>
-				<div class="product__item__text">
-					<h5 class="marketTitle">숙소명</h5>
-					<h5 class="price" style="color: grey">금액</h5>
-				</div>
-			</div>
-		</div>
+
 
 		<script>
-		$(function(){
-			ajaxData(1)
-		})
-		
-		function ajaxData(page,region){
-			$.ajax({
-				url: "bnbItem",
-				method: "get",
-				data: {page, region},
-				success(result){					
-					printData(result)
-				},
-				error(err){
-					console.log(err)
-				}
+			/* $(function(){
+				ajaxData(1)
 			})
-		}
+			
+			function ajaxData(page,region){
+				$.ajax({
+					url: "bnbItem",
+					method: "get",
+					data: {page, region},
+					success(result){					
+						printData(result)
+					},
+					error(err){
+						console.log(err)
+					}
+				})
+			}
 
-		function printData(data){
-			$('#bnbList').children().remove();
-			let bnb= data.bnb;
-			bnb.forEach(el => {
-				console.log(el)
-				printList(el)
-			})			
-		}
-		
-		function printList(item){
-			let clone=$('#marketItem').clone();
-			$(clone).css({'display': 'block'})
-			$(clone).find('.set-bg').on('click',function(){
-				location.href=`bnbInfo?bnbNo=${item.bnbNo}`
+			function printData(data){
+				$('#bnbList').children().remove();
+				let bnb= data.bnb;
+				bnb.forEach(el => {
+					console.log(el)
+					printList(el)
+				})			
+			}
+			
+			function printList(item){
+				let clone=$('#marketItem').clone();
+				$(clone).css({'display': 'block'})
+				$(clone).find('.set-bg').on('click',function(){
+					location.href=`bnbInfo?bnbNo=${item.bnbNo}`
+				})
+				$(clone).find('.set-bg').data('setbg', '/img/bnb/'+item.rep);
+				$(clone).find('.set-bg').css("background-image",`url(/img/bnb/${item.rep})`)
+				$(clone).find('.bnbTitle').text(item.bnbTitle);
+				$(clone).find('.price').text(item.price+"원(1박)");
+				$('#bnbList').append(clone)
+			}
+			
+			$('#selectRG').on('change', function(){
+				console.log($(this).val())
+				ajaxData(1, $(this).val())
 			})
-			$(clone).find('.set-bg').data('setbg', '/img/bnb/'+item.rep);
-			$(clone).find('.set-bg').css("background-image",`url(/img/bnb/${item.rep})`)
-			$(clone).find('.bnbTitle').text(item.bnbTitle);
-			$(clone).find('.price').text(item.price+"원(1박)");
-			$('#bnbList').append(clone)
-		}
-		
-		$('#selectRG').on('change', function(){
-			console.log($(this).val())
-			ajaxData(1, $(this).val())
-		})
-		
-		
+			
+			 */
 		</script>
 
 	</div>

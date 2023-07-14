@@ -19,4 +19,30 @@ public class MarketServiceImpl implements MarketService {
 		return mkMapper.getMarketList();
 	}
 
+	@Override
+	public MarketVO getMarketInfo(String MktNo) {
+		return mkMapper.getMarketInfo(MktNo);
+	}
+
+	@Override
+	public int selectCount() {
+		return mkMapper.selectCount();
+	}
+
+	@Override
+	public int insertMk(MarketVO vo) {
+		return mkMapper.insertMk(vo);
+	}
+
+	@Override
+	public int updateMk() {
+		return mkMapper.updateMk();
+	}
+
+	@Override
+	public int deleteMk() {
+		return mkMapper.deleteMk();
+	}
+
+	
 }

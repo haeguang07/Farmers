@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
-xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
 <meta charset="UTF-8">
@@ -39,7 +39,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <script src="/js/mixitup.min.js"></script>
 <script src="/js/owl.carousel.min.js"></script>
 <script src="/js/json.min.js"></script>
-
+<style>
+</style>
 </head>
 
 <body>
@@ -57,7 +58,9 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				<div class="row">
 					<div class="col-lg-6 col-md-7">
 						<div class="header__top__left">
+							
 							<p sec:authorize="isAuthenticated()"><span th:text="${session.mem.nick}"></span>님 환영합니다</p>
+
 						</div>
 					</div>
 					<div class="col-lg-6 col-md-5">
@@ -91,7 +94,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					<nav class="header__menu mobile-menu" style="padding-top: 50px;">
 						<ul>
 							<li class="active"><a href="/">홈으로</a></li>
-							<li><a href="farmGuide">귀농귀촌</a>
+							<li><a href="#">귀농귀촌</a>
 								<ul class="dropdown">
 									<li><a href="farmGuide">귀농귀촌 가이드</a></li>
 									<li><a href="farmEdu">지원사업/교육</a></li>
@@ -106,12 +109,12 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 									<li><a href="expList">농촌 체험하기</a></li>
 									<li><a href="#">농촌 일자리</a></li>
 								</ul></li>
-							<li><a href="#">농촌마켓</a>
+							<li><a href="marketList">농촌마켓</a>
 								<ul class="dropdown">
-									<li><a href="#">농작물 판매</a></li>
+									<li><a href="marketList">전원마켓</a></li>
+									<li><a href="cropsSaleList">농작물 판매</a></li>
 									<li><a href="fundingList">농작물 펀딩</a></li>
 									<li><a href="auction">경매장</a></li>
-									<li><a href="market">전원마켓</a></li>
 								</ul></li>
 							<li><a href="#">게시판</a>
 								<ul class="dropdown">
@@ -124,9 +127,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				</div>
 				<div class="col-lg-3 col-md-3">
 					<div class="header__nav__option" style="padding-top: 50px;">
-
-						<!-- 알림 아이콘 -->
 						<div class="notification-box">
+							<!-- 알림 아이콘 -->
 							<a href="#"><img src="img/icon/bell.png" width="19px"
 								id="bell" alt=""></a>
 							<!-- 알림 모달팝업창 -->
@@ -156,8 +158,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 								</div>
 							</div>
 							<!--장바구니 아이콘 -->
-							<span th:if="not ${#strings.isEmpty(session. mem)}">
-								<a th:href="@{cart(memNo=${session.mem.memNo})}"><img
+							<span th:if="not ${#strings.isEmpty(session. mem)}"> <a
+								th:href="@{cart(memNo=${session.mem.memNo})}"><img
 									src="img/icon/cart.png" alt=""> <span>0</span></a>
 							</span>
 						</div>
@@ -225,6 +227,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		// 모달 팝업 열기
 		function openModal() {
 			modal.style.display = 'block';
+			//modal.style.z-index = '9999999999';
 		}
 
 		// 모달 팝업 닫기
