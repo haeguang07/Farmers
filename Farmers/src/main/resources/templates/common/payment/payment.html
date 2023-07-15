@@ -56,8 +56,8 @@
                                             id="addressCode">
                                     </div>
                                     <div class="col-lg-3 checkout__input">
-                                        <p style="visibility: hidden;"><span>*</span></p><button class="form-control"
-                                            id="addressBtn">우편번호등록</button>
+                                        <p style="visibility: hidden;"><span>*</span></p><button type="button"
+                                            class="form-control" id="addressBtn">우편번호등록</button>
                                     </div>
                                 </div>
                                 <div class="checkout__input">
@@ -87,46 +87,34 @@
                                         <table>
                                             <thead>
                                                 <tr class="row">
-                                                    <th class="col-lg-1"><input type="checkbox" v-on:change="allCheck"
-                                                            class="form-check-input myZoom" style="margin-left: 5px;"
-                                                            id="allCheck"></th>
                                                     <th class="col-lg-6">상품정보</th>
-                                                    <th class="col-lg-2">수량</th>
                                                     <th class="col-lg-2">가격</th>
-                                                    <th class="col-lg-1">삭제</th>
+                                                    <th class="col-lg-2">수량</th>
+                                                    <th class="col-lg-2">총액</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="tbody">
-                                                <!-- clone용 태그 -->
-                                                <div class="hideItem">
-                                                    <tr class="row product" id="cartItem">
-                                                        <td class="col-lg-1"><input type="checkbox"
-                                                                class="form-check-input myZoom"
-                                                                style="margin-left: 5px;"></td>
-                                                        <td class="product__cart__item col-lg-6">
-                                                            <div class="product__cart__item__pic">
-                                                                <img src="" alt="">
-                                                            </div>
-                                                            <div class="product__cart__item__text">
-                                                                <h6 id="title">상품명</h6>
-                                                                <h5 id="price">상품가격</h5>
-                                                            </div>
-                                                        </td>
-                                                        <td class="quantity__item col-lg-2">
-                                                            <div class="quantity">
-                                                                <div class="pro-qty-2" style="padding-top: 20px;">
-                                                                    <input type="text" value="1" id="qty" class="qty"
-                                                                        readonly>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td class="cart__price col-lg-2">
-                                                            <p style="padding-top: 20px;" id="sumPrice">총액</p>
-                                                        </td>
-                                                        <td class="cart__close col-lg-1" style="padding-top: 45px;">
-                                                            <span><i class="fa fa-close"></i></span></td>
-                                                    </tr>
-                                                </div>
+                                                <!-- 상품정보 item -->
+                                                <tr class="row product" id="cartItem"
+                                                    th:each="product : ${productList}">
+                                                    <td class="product__cart__item col-lg-6">
+                                                        <div class="product__cart__item__pic">
+                                                            <img src="" alt="">
+                                                        </div>
+                                                        <div class="product__cart__item__text">
+                                                            <h6 th:text="${product.title}" id="productName">상품명</h6>
+                                                        </div>
+                                                    </td>
+                                                    <td class="cart__price col-lg-2">
+                                                        <p style="padding-top: 20px;" th:text="${#numbers.formatInteger(product.price, 3, 'COMMA')}+원">가격</p>
+                                                    </td>
+                                                    <td class="cart__price col-lg-2">
+                                                        <p style="padding-top: 20px;" th:text="${product.qty}">수량</p>
+                                                    </td>
+                                                    <td class="cart__price col-lg-2">
+                                                        <p style="padding-top: 20px;" th:text="${#numbers.formatInteger(product.price*product.qty, 3, 'COMMA')}+원" class="sumPrice" th:data-val="${product.price * product.qty}">총액</p>                                                                                    
+                                                    </td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                         <hr>
@@ -147,24 +135,21 @@
                                 <div class="checkout__order">
                                     <h4 class="order__title" style="font-weight: 500;">결제 정보</h4>
                                     <ul class="checkout__total__products">
-                                        <li>보유포인트 <span><input type="text" class="form-control" id="myPoint"></span>
+                                        <li>보유포인트 <span><input type="number" class="form-control" id="myPoint" readonly></span>
                                         </li>
-                                        <li>사용포인트 <span><input type="text" class="form-control" value="0"></span></span>
+                                        <li>사용포인트 <span><input type="number" class="form-control" value="0" id="usePoint" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"></span>
                                         </li>
-                                        <li>사용후금액 <span><input type="text" class="form-control"></span></span></li>
                                     </ul>
                                     <ul class="checkout__total__all">
-                                        <li>총액 <span>$750.99</span></li>
-                                        <li>할인금액 <span>$750.99</span></li>
+                                        <li>총액 <span id="allSumPrice">$750.99</span></li>
                                     </ul>
-                                    <h3>결제금액</h3>
                                 </div>
                             </div>
                             <!-- 결제 정보란 끝 -->
                             <!-- 토스 api 시작 -->
                             <div class="col-lg-12 row" style="margin-top: 50px;">
                                 <div id="payment-method" class="col-lg-12"></div>
-                                <div id="agreement"  class="col-lg-12"></div>
+                                <div id="agreement" class="col-lg-12"></div>
                                 <button id="payment-button" class="primary-btn col-lg-12" type="button">결제</button>
                             </div>
                             <!-- 토스 api 끝 -->
@@ -175,59 +160,7 @@
         </section>
         <!-- Checkout Section End -->
         <script th:inline="javascript">
-            // 토스 api 
-            const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq"
-            const customerKey = "-tbkMhmy1QihiRzQRvZ2R" // 내 상점에서 고객을 구분하기 위해 발급한 고객의 고유 ID
-            const button = document.getElementById("payment-button")
-
-            // ------  결제위젯 초기화 ------ 
-            // 비회원 결제에는 customerKey 대신 ANONYMOUS를 사용하세요.
-            const paymentWidget = PaymentWidget(clientKey, customerKey) // 회원 결제
-            // const paymentWidget = PaymentWidget(clientKey, PaymentWidget.ANONYMOUS) // 비회원 결제
-
-            // ------  결제위젯 렌더링 ------ 
-            // 결제수단 UI를 렌더링할 위치를 지정합니다. `#payment-method`와 같은 CSS 선택자와 결제 금액 객체를 추가하세요.
-            // DOM이 생성된 이후에 렌더링 메서드를 호출하세요.
-            // https://docs.tosspayments.com/reference/widget-sdk#renderpaymentmethods선택자-결제-금액-옵션
-            paymentWidget.renderPaymentMethods("#payment-method", {
-                value: 15000
-            })
-
-            // ------  이용약관 렌더링 ------
-            // 이용약관 UI를 렌더링할 위치를 지정합니다. `#agreement`와 같은 CSS 선택자를 추가하세요.
-            // https://docs.tosspayments.com/reference/widget-sdk#renderagreement선택자
-            paymentWidget.renderAgreement('#agreement')
-
-            // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
-            // 더 많은 결제 정보 파라미터는 결제위젯 SDK에서 확인하세요.
-            // https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
-            button.addEventListener("click", function () {
-                paymentWidget.requestPayment({
-                    orderId: "g2Qz-YNB19irFkaiTYJ9J", // 주문 ID(직접 만들어주세요)
-                    orderName: "토스 티셔츠 외 2건", // 주문명
-                    successUrl: "https://my-store.com/success", // 결제에 성공하면 이동하는 페이지(직접 만들어주세요)
-                    failUrl: "https://my-store.com/fail", // 결제에 실패하면 이동하는 페이지(직접 만들어주세요)
-                    customerEmail: "customer123@gmail.com",
-                    customerName: "김토스"
-                })
-            })
-            // 토스 api 끝
-
-            //우편번호 api
-            $('#addressBtn').on('click', function () {
-
-                new daum.Postcode({
-                    oncomplete: function (data) {
-                        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
-                        // 예제를 참고하여 다양한 활용법을 확인해 보세요.
-                        console.log(data)
-                        $('#addressCode').val(data.zonecode)
-                        $('#address').val(data.address)
-                    }
-                }).open();
-            })
-            //우편번호 api 끝
-
+            
             //회원정보가져오기
             var memberInfo;
             $(function () {
@@ -259,6 +192,112 @@
                 $('#address').val(memberInfo.addr)
                 $('#addressDetail').val(memberInfo.detaAddr)
             })
+
+            //전체 계산 금액 계산
+            $(function(){
+                let allSumPrice = 0;
+                $('.sumPrice').each(function(idx,item){
+                    console.log(Number($(item).attr('data-val')))
+                    allSumPrice = Number(allSumPrice) + Number($(item).attr('data-val'))
+                })
+                console.log(allSumPrice)
+                $('#allSumPrice').text(priceToString(allSumPrice)+'원')
+                $('#allSumPrice').attr('data-val',allSumPrice)
+                payPrice = allSumPrice;
+            })
+
+            //돈 콤마
+            function priceToString(price) {
+                return price.toLocaleString('ko-KR')
+            }
+
+            //포인트 계산
+            //사용 후 금액 계산
+            var payPrice;
+            $('#usePoint').change(function(){
+                $('#myPoint').val(memberInfo.pnt)
+                if($('#myPoint').val() >= $('#usePoint').val()){
+                    $('#myPoint').val( $('#myPoint').val() - $('#usePoint').val())
+                    let afterPrice = Number($('#allSumPrice').attr('data-val'))-Number($('#usePoint').val())
+                    $('#allSumPrice').text(priceToString(afterPrice)+'원')
+                    payPrice = afterPrice;
+                }else{
+                    alert('보유포인트를 초과된 입력입니다')
+                    $('#usePoint').val(0)
+                }
+            })
+
+            //input 태그 엔터 막기
+            $('input[type="text"],input[type="number"]').keydown(function() {
+                if (event.keyCode === 13) {
+                     event.preventDefault();
+                 };
+            });
+
+            $(function(){
+                // 토스 api 
+                const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq"
+                const customerKey = "-tbkMhmy1QihiRzQRvZ2R" // 내 상점에서 고객을 구분하기 위해 발급한 고객의 고유 ID
+                const button = document.getElementById("payment-button")
+                let orderName;
+                if(/*[[${#lists.size(productList) > 1}]]*/){
+                    orderName = $('#productName').text()+" 외 "+ /*[[${#lists.size(productList) - 1 +"건"}]]*/
+                }else{
+                    orderName = $('#productName').text()
+                }
+    
+                // ------  결제위젯 초기화 ------ 
+                // 비회원 결제에는 customerKey 대신 ANONYMOUS를 사용하세요.
+                const paymentWidget = PaymentWidget(clientKey, customerKey) // 회원 결제
+                // const paymentWidget = PaymentWidget(clientKey, PaymentWidget.ANONYMOUS) // 비회원 결제
+    
+                // ------  결제위젯 렌더링 ------ 
+                // 결제수단 UI를 렌더링할 위치를 지정합니다. `#payment-method`와 같은 CSS 선택자와 결제 금액 객체를 추가하세요.
+                // DOM이 생성된 이후에 렌더링 메서드를 호출하세요.
+                // https://docs.tosspayments.com/reference/widget-sdk#renderpaymentmethods선택자-결제-금액-옵션
+                paymentMethods = paymentWidget.renderPaymentMethods("#payment-method", Number(payPrice))
+                
+                //paymentMethods.updateAmount 결제 가격 변경 함수
+                $('#usePoint').change(function(){
+                    paymentMethods.updateAmount(Number(payPrice), "포인트")
+                })
+                // ------  이용약관 렌더링 ------
+                // 이용약관 UI를 렌더링할 위치를 지정합니다. `#agreement`와 같은 CSS 선택자를 추가하세요.
+                // https://docs.tosspayments.com/reference/widget-sdk#renderagreement선택자
+                paymentWidget.renderAgreement('#agreement')
+    
+                // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
+                // 더 많은 결제 정보 파라미터는 결제위젯 SDK에서 확인하세요.
+                // https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
+                button.addEventListener("click", function () {
+                    paymentWidget.requestPayment({
+                        orderId: "g2Qz-YNB19irFkaiTYJ9J", // 주문 ID(직접 만들어주세요)
+                        orderName: orderName, // 주문명
+                        successUrl: "http://localhost:8085/successPage?a=a", // 결제에 성공하면 이동하는 페이지(직접 만들어주세요)
+                        failUrl: "https://my-store.com/fail", // 결제에 실패하면 이동하는 페이지(직접 만들어주세요)
+                        customerEmail: memberInfo.email,
+                        customerName: memberInfo.name
+                    })
+                })
+                // 토스 api 끝
+            })
+
+            //우편번호 api
+            $('#addressBtn').on('click', function () {
+
+                new daum.Postcode({
+                    oncomplete: function (data) {
+                        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+                        // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+                        console.log(data)
+                        $('#addressCode').val(data.zonecode)
+                        $('#address').val(data.address)
+                        $('#addressDetail').val('')
+                    }
+                }).open();
+            })
+            //우편번호 api 끝
+
         </script>
     </div>
 </body>

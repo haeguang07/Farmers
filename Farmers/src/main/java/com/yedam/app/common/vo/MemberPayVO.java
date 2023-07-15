@@ -11,4 +11,5 @@ public class MemberPayVO {
 	private int pnt;
 	private String name;
 	private String mbl;
+	private String email;
 }

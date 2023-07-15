@@ -99,7 +99,7 @@
           $(clone).attr('boardCtg', item.boardCtg)
           $(clone).find('#cartImage').attr('src', item.rep)
           ///////////////타이틀 바꾸기///////////////
-          $(clone).find('#title').text(item.crpTitle)
+          $(clone).find('#title').text(item.title)
           $(clone).find('#price').text(vuethis.priceToString(item.price) + '원')
           $(clone).find('#price').attr('dataPrice', item.price)
           $(clone).find('#qty').val(item.qty)
@@ -197,7 +197,7 @@
       //결제 넘기기
       getPay: function (e) {
         e.preventDefault()
-        let list = [];
+        let productList = [];
         $('.printItem').each(function (idx, item) {
           if ($(item).find('.myZoom').is(':checked')) {
 
@@ -209,11 +209,13 @@
             }
 
             //배열에 객체  담기
-            list.push(obj)
+            productList.push(obj)
           }
         })
 
-        console.log(list)
+        //상품객체배열을 json 변환 후 결제피이지 파라미터로 보냄 (한글, 특수문자가 url 인코딩이 안되서 encodeURI 사용)
+        //파라미터를 url에서 가리고 싶으면 form 태그 생성 해서 사용 (https://amongthestar.tistory.com/178)
+        location.href = "payment?productList="+encodeURI(JSON.stringify(productList));
       }
     },
     mounted() {

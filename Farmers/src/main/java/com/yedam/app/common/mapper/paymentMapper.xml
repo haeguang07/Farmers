@@ -2,10 +2,26 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  <mapper namespace="com.yedam.app.common.mapper.PaymentMapper">
-  	<select id="getMemberData" resultType="MemberPayVO">
-  		SELECT * 
-  		FROM member JOIN member_detail USING(mem_no) 
-  		WHERE mem_no = #{memNo}
-  	</select>
-  </mapper>
+<mapper namespace="com.yedam.app.common.mapper.PaymentMapper">
+	<!-- 결제 회원 정보 -->
+	<select id="getMemberData" resultType="MemberPayVO">
+		SELECT *
+		FROM member JOIN
+		member_detail USING(mem_no)
+		WHERE mem_no = #{memNo}
+	</select>
+	
+	<!-- 상품정보 -->
+	<select id="getProductInfo" statementType="CALLABLE" parameterType="PayProductVO" resultType="PayProductVO">
+		{
+			CALL getpayproduct(
+			#{boardNo, mode=IN , jdbcType=VARCHAR},
+			#{boardCtg, mode=IN , jdbcType=VARCHAR},
+			#{title, mode=OUT , jdbcType=VARCHAR},
+			#{price, mode=OUT , jdbcType=VARCHAR},
+			#{rep, mode=OUT , jdbcType=VARCHAR}
+			)
+			 
+		}
+	</select>
+</mapper>
