@@ -20,8 +20,8 @@ public class FarmLendServiceImpl implements FarmLendService {
 	}
 
 	@Override
-	public List<FarmLendVO> getFarmLendListPage() {
-		return flMapper.selectFarmLendListPage();
+	public List<FarmLendVO> getFarmLendListPage(int page, String addr, String daddr, String mcrp, String price, String area) {
+		return flMapper.selectFarmLendListPage(page, addr, daddr, mcrp, price, area);
 	}
 
 	@Override
@@ -51,8 +51,8 @@ public class FarmLendServiceImpl implements FarmLendService {
 	}
 
 	@Override
-	public int getCount() {
-		return flMapper.getCount();
+	public int getCount(String addr, String daddr, String mcrp, String price, String area) {
+		return flMapper.getCount(addr, daddr, mcrp, price, area);
 	}
 
 }

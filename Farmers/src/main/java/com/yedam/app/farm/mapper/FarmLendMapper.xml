@@ -6,7 +6,7 @@
 	
 	<!-- 전체조회 -->
 	<select id="selectFarmLendList" resultType="FarmLendVO">
-		select f.frld_lend_no, f.zip, f.addr, f.deta_addr, f.area, f.lend_str_date, f.lend_end_date, f.reg_date, f.reg_stts, f.lagt, f.mem_no, m.mcrp
+		select f.frld_lend_no, f.zip, f.addr, f.deta_addr, f.area, f.lend_str_date, f.lend_end_date, f.lend_price, f.reg_date, f.reg_stts, f.lagt, f.mem_no, m.mcrp
 		from farm_lend f left join main_crops m
 		on f.frld_lend_no = m.frld_lend_no
 		where f.reg_stts = 'e1'
@@ -14,10 +14,40 @@
 	</select>
 	
 	<!-- 전체조회(페이징) -->
+	<select id="selectFarmLendListPage" resultType="FarmLendVO">
+		select b.*
+		from (select ROWNUM rn, a.*
+			  from (select f.frld_lend_no, f.zip, f.addr, f.deta_addr, f.area, f.lend_str_date, f.lend_end_date, f.lend_price, f.reg_date, f.reg_stts, f.legt, f.mem_no, m.mcrp
+			  		from farm_lend f left join main_crops m
+			  		on f.frld_lend_no = m.frld_lend_no
+			  		<where>
+			  			f.reg_stts = 'e1'
+			  			<if test="addr != null and !addr.equals('') and !addr.equals('도')">
+			  				and f.addr = #{addr}
+			  			</if>
+			  			<if test="daddr != null and !daddr.equals('') and !daddr.equals('시·군')">
+			  				and f.deta_addr = #{daddr}
+			  			</if>
+			  			<if test="mcrp != null and !mcrp.equals('') and !mcrp.equals('작물 선택')">
+			  				and m.mcrp = #{mcrp}
+			  			</if>
+			  			<if test="price != null and !price.equals('') and !price.equals('희망가 선택')">
+			  				and f.lend_price = #{price}
+			  			</if>
+			  			<if test="area != null and !area.equals('') and !area.equals('면적 선택')">
+			  				and f.area = #{area}
+			  			</if>
+			  		</where>
+			  		) a
+		<![CDATA[
+			  where ROWNUM <= #{page} * 9) b
+		where b.rn > (${page} -1) * 9
+		]]>
+	</select>
 	
 	<!-- 단건조회 -->
 	<select id="selectFarmLendInfo" resultType="FarmLendVO">
-		select f.frld_lend_no, f.zip, f.addr, f.deta_addr, f.area, f.desct, f.lend_str_date, f.lend_end_date, f.reg_date, f.reg_stts, f.lagt, f.mem_no, m.mcrp
+		select f.frld_lend_no, f.zip, f.addr, f.deta_addr, f.area, f.desct, f.lend_str_date, f.lend_end_date, f.lend_price, f.atch_no, f.reg_date, f.reg_stts, f.lagt, f.mem_no, m.mcrp
 		from farm_lend f left join main_crops m
 		on f.frld_lend_no = m.frld_lend_no
 		where f.frld_lend_no = #{frldLendNo}
@@ -25,26 +55,12 @@
 	
 	<!-- 등록 -->
 	<insert id="insertFarmLend" parameterType="FarmLendVO">
-		<selectKey keyProperty="frldNo" resultType="String" order="BEFORE">
-			select 'FRLD' || LPAD(frld_seq.nextval, 5, '0')
-			from dual
-		</selectKey>
-		insert into farm_lend(frld_lend_no, zip, addr, deta_addr, area, lend_str_date, lend_end_date, reg_date, reg_stts, lagt, mem_no)
-		values(#{frldNo}, #{zip}, #{addr}, #{detaAddr}, #{area}, #{lendStrDate}, #{lendEndDate}, sysdate, 'e1', #{lagt}, #{memNo})
+		<!-- 프로시저 호출 -->
 	</insert>
 	
 	<!-- 수정 -->
 	<update id="updateFarmLend" parameterType="FarmLendVO">
-		update farm_lend
-		<set>
-			<if test="desct != null and !desct.equals('')">
-				desct = #{desct}
-			</if>
-			<if test="regDate == null">
-				, reg_date = sysdate
-			</if>
-		</set>
-		where frld_lend_no = #{frldLendNo}
+		<!-- 프로시저 호출 -->
 	</update>
 	
 	<!-- 삭제 -->
@@ -56,7 +72,27 @@
 	
 	<!-- 게시글 수 카운팅 -->
 	<select id="getCount" resultType="int">
-		
+		select count(*)
+		from farm_lend join main_crops
+		on farm_lend.frld_lend_no = main_crops.frld_lend_no
+		<where>
+			reg_stts = 'e1'
+			<if test="addr != null and !addr.equals('') and !addr.equals('도')">
+				and f.addr = #{addr}
+			</if>
+			<if test="daddr != null and !daddr.equals('') and !daddr.equals('시·군')">
+				and f.deta_addr = #{daddr}
+			</if>
+			<if test="mcrp != null and !mcrp.equals('') and !mcrp.equals('작물 선택')">
+				and m.mcrp = #{mcrp}
+			</if>
+			<if test="price != null and !price.equals('') and !price.equals('희망가 선택')">
+				and f.lend_price = #{price}
+			</if>
+			<if test="area != null and !area.equals('') and !area.equals('면적 선택')">
+				and f.area = #{area}
+			</if>
+		</where>
 	</select>
 	
 </mapper>

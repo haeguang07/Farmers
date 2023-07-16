@@ -8,7 +8,7 @@ public interface FarmLendService {
 	// 전체조회
 	public List<FarmLendVO> getFarmLendList();
 	// 전체조회(페이징)
-	public List<FarmLendVO> getFarmLendListPage();
+	public List<FarmLendVO> getFarmLendListPage(int page, String addr, String daddr, String mcrp, String price, String area);
 	// 단건조회
 	public FarmLendVO getFarmLendInfo(FarmLendVO flVO);
 	// 등록
@@ -18,5 +18,5 @@ public interface FarmLendService {
 	// 삭제
 	public int deleteFarmLendInfo(String frldNo);
 	// 게시글 수
-	public int getCount();
+	public int getCount(String addr, String daddr, String mcrp, String price, String area);
 }

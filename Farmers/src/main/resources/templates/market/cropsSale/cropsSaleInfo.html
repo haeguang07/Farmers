@@ -5,7 +5,7 @@
 	layout:decorate="~{index}">
 <head>
 <meta charset="UTF-8">
-<title>농작물 판매 상세</title>
+<title>농작물 판매 상세 조회</title>
 </head>
 <body>
 	<div layout:fragment="content">
@@ -170,11 +170,11 @@
 				$.ajax({
 					url : "cropsSaleDelete",
 					method : "POST",
-					data : boardNo
+					data : 'boardNo=' + boardNo
 				})
 				.done(function(result) {
 					console.log(result);
-					// location.href="cropsSaleList";
+					location.href="cropsSaleList";
 				})
 				.fail(function(result) {
 					alert(result);
