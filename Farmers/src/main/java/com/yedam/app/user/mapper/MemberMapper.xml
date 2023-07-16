@@ -59,21 +59,51 @@
 	</insert>
 	<insert id="insertMemberDetail" parameterType="MemberVO">
 		INSERT INTO member_detail 	(MEM_NO
+									<if test="name.equals('') and name != null">
 									,NAME
+									</if>
+									<if test="zip != 0">
 									,ZIP
+									</if>
+									<if test="addr.equals('') and addr != null">
 									,ADDR
+									</if>
+									<if test="detaAddr.equals('') and detaAddr != null">
 									,DETA_ADDR
+									</if>
+									<if test="mbl.equals('') and mbl != null">
 									,MBL
+									</if>
+									<if test="bDate.equals('') and bDate != null">
 									,B_DATE
-									,GEN)
-		VALUES ( #{memNo},
-				 #{name},
-				 #{zip},
-				 #{addr},
-				 #{detaAddr},
-				 #{mbl},
-				 #{bDate},
-				 #{gen})
+									</if>
+									<if test="gen.equals('') and gen != null">
+									,GEN
+									</if>
+									)
+		VALUES ( #{memNo}
+				<if test="name.equals('') and name != null">
+				 ,#{name}
+				 </if>
+				<if test="zip != 0">
+				 ,#{zip}
+				 </if>
+				<if test="addr.equals('') and addr != null">
+				 ,#{addr}
+				 </if>
+				<if test="detaAddr.equals('') and detaAddr != null">
+				 ,#{detaAddr}
+				 </if>
+				<if test="mbl.equals('') and mbl != null">
+				 ,#{mbl}
+				 </if>
+				<if test="bDate.equals('') and bDate != null">
+				 ,#{bDate}
+				 </if>
+				<if test="bDate.equals('') and bDate != null">
+				 ,#{gen}
+				 </if>
+				 )
 	</insert>
 	
 	<update id="updatePw" parameterType="memberVO">
