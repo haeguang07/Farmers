@@ -32,8 +32,8 @@ public class BnbController {
 	@GetMapping("bnbItem")
 	@ResponseBody
 	public Map<String, Object> getBnbList(
-			@RequestParam(required = false, defaultValue = "1") int page,
 			@RequestParam(required = false) String region,
+			@RequestParam(required = false, defaultValue = "1") int page,
 			@RequestParam(required = false, defaultValue = "최신순") String order) {
 		
 		List<BnbVO> list = bnbService.selectBnbList(region, page, order);
