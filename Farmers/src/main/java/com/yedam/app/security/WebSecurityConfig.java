@@ -16,8 +16,8 @@ public class WebSecurityConfig {
 	@Bean
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
-	
 	}
+	
 	@Bean
 	AuthenticationSuccessHandler authenticationSuccessHandler() {
 		return new CustomSuccessHandler();
