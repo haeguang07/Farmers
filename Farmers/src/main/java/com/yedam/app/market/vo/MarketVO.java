@@ -2,6 +2,8 @@ package com.yedam.app.market.vo;
 
 import java.util.Date;
 
+import lombok.Data;
+@Data
 public class MarketVO {
 
 //	MKT_NO	전원마켓 번호
