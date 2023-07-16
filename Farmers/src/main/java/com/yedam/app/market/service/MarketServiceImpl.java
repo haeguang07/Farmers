@@ -15,8 +15,8 @@ public class MarketServiceImpl implements MarketService {
 	MarketMapper mkMapper;
 
 	@Override
-	public List<MarketVO> getMarketList() {
-		return mkMapper.getMarketList();
+	public List<MarketVO> getMarketList(String mktCtg, int page, String order) {
+		return mkMapper.getMarketList(mktCtg,page,order);
 	}
 
 	@Override
@@ -25,8 +25,8 @@ public class MarketServiceImpl implements MarketService {
 	}
 
 	@Override
-	public int selectCount() {
-		return mkMapper.selectCount();
+	public int selectCount(String mktCtg) {
+		return mkMapper.selectCount(mktCtg);
 	}
 
 	@Override
