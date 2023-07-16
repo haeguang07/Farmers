@@ -1,7 +1,10 @@
 package com.yedam.app.user.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import com.yedam.app.user.vo.NaverVO;
 
 @Controller
 public class UserContorller {
@@ -28,7 +31,10 @@ public class UserContorller {
 	public String join() {
 		return "login/signup";
 	}
-	
+	@GetMapping("login_callback")
+	public String callbackNaber() {
+		return "login/login";
+	}
 	
 	
 }
