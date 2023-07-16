@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.app.farm.mapper.FarmLendMapper">
+	
+	<!-- 전체조회 -->
+	<select id="selectFarmLendList" resultType="FarmLendVO">
+		select f.frld_lend_no, f.zip, f.addr, f.deta_addr, f.area, f.lend_str_date, f.lend_end_date, f.reg_date, f.reg_stts, f.lagt, f.mem_no, m.mcrp
+		from farm_lend f left join main_crops m
+		on f.frld_lend_no = m.frld_lend_no
+		where f.reg_stts = 'e1'
+		order by f.reg_date desc
+	</select>
+	
+	<!-- 전체조회(페이징) -->
+	
+	<!-- 단건조회 -->
+	<select id="selectFarmLendInfo" resultType="FarmLendVO">
+		select f.frld_lend_no, f.zip, f.addr, f.deta_addr, f.area, f.desct, f.lend_str_date, f.lend_end_date, f.reg_date, f.reg_stts, f.lagt, f.mem_no, m.mcrp
+		from farm_lend f left join main_crops m
+		on f.frld_lend_no = m.frld_lend_no
+		where f.frld_lend_no = #{frldLendNo}
+	</select>
+	
+	<!-- 등록 -->
+	<insert id="insertFarmLend" parameterType="FarmLendVO">
+		<selectKey keyProperty="frldNo" resultType="String" order="BEFORE">
+			select 'FRLD' || LPAD(frld_seq.nextval, 5, '0')
+			from dual
+		</selectKey>
+		insert into farm_lend(frld_lend_no, zip, addr, deta_addr, area, lend_str_date, lend_end_date, reg_date, reg_stts, lagt, mem_no)
+		values(#{frldNo}, #{zip}, #{addr}, #{detaAddr}, #{area}, #{lendStrDate}, #{lendEndDate}, sysdate, 'e1', #{lagt}, #{memNo})
+	</insert>
+	
+	<!-- 수정 -->
+	<update id="updateFarmLend" parameterType="FarmLendVO">
+		update farm_lend
+		<set>
+			<if test="desct != null and !desct.equals('')">
+				desct = #{desct}
+			</if>
+			<if test="regDate == null">
+				, reg_date = sysdate
+			</if>
+		</set>
+		where frld_lend_no = #{frldLendNo}
+	</update>
+	
+	<!-- 삭제 -->
+	<update id="deleteFarmLend" parameterType="FarmLendVO">
+		update farm_lend
+		set reg_stts = 'e6'
+		where frld_lend_no = #{frldLendNo}
+	</update>
+	
+	<!-- 게시글 수 카운팅 -->
+	<select id="getCount" resultType="int">
+		
+	</select>
+	
+</mapper>

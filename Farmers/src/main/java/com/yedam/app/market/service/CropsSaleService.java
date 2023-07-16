@@ -16,7 +16,7 @@ public interface CropsSaleService {
 	// 수정
 	public String updateCropsSaleInfo(CropsSaleVO csVO);
 	// 삭제
-	public int deleteCropsSaleInfo(String crpSaleNo);
+	public int deleteCropsSaleInfo(String boardNo);
 	// 게시글 수
 	public int getCount(String category, String search);
 	// 별점
