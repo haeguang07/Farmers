@@ -3,10 +3,10 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.app.market.mapper.CropsSaleMapper">
-
+	
 	<!-- 전체조회 -->
 	<select id="selectCropsSaleList" resultType="CropsSaleVO">
-		select crp_sale_no, c.mem_no, crp_title, crp_ctg, price, qty, rep, reg_date, reg_stts
+		select board_no, mem_no, title, crp_ctg, price, qty, rep, reg_date, reg_stts
 		from crops_sale
 		where reg_stts = 'e1'
 		order by reg_date desc
@@ -16,7 +16,7 @@
 	<select id="selectCropsSaleListPage" resultType="CropsSaleVO">
 		select b.*
 		from (select ROWNUM rn, a.*
-			  from (select c.crp_sale_no, c.mem_no, c.crp_title, c.crp_ctg, c.price, c.qty, c.rep, c.reg_date, c.reg_stts, r.rev_no, r.rate, r.board_no
+			  from (select c.board_no, c.mem_no, c.title, c.crp_ctg, c.price, c.qty, c.rep, c.reg_date, c.reg_stts, r.rev_no, r.rate
 			  		from crops_sale c left join review r
 			  		on c.mem_no = r.mem_no
 			  		<where>
@@ -25,7 +25,7 @@
 			  				and c.crp_ctg = #{category}
 			  			</if>
 			  			<if test="search != null and !search.equals('')">
-			  				and c.crp_title like '%${search}%'
+			  				and c.title like '%${search}%'
 			  			</if>
 			  		</where>
 			  		<choose>
@@ -51,28 +51,28 @@
 	
 	<!-- 단건조회 -->
 	<select id="selectCropsSaleInfo" resultType="CropsSaleVO">
-		select c.crp_sale_no, c.mem_no, c.crp_title, c.crp_ctg, c.price, c.qty, c.rep, c.deta_desct, c.reg_date, c.reg_stts, m.nick, m.mem_grd
+		select c.board_no, c.mem_no, c.title, c.crp_ctg, c.price, c.qty, c.rep, c.deta_desct, c.reg_date, c.reg_stts, m.nick, m.mem_grd
 		from crops_sale c left join member m
 		on c.mem_no = m.mem_no
-		where c.crp_sale_no = #{crpSaleNo}
+		where c.board_no = #{boardNo}
 	</select>
 	
 	<!-- 등록 -->
 	<insert id="insertCropsSale" parameterType="CropsSaleVO">
-		<selectKey keyProperty="crpSaleNo" resultType="String" order="BEFORE">
+		<selectKey keyProperty="boardNo" resultType="String" order="BEFORE">
 			select 'CRP' || LPAD(crp_seq.nextval, 6, '0')
 			from dual
 		</selectKey>
-		insert into crops_sale(crp_sale_no, mem_no, crp_title, crp_ctg, price, qty, rep, deta_desct, reg_date, reg_stts)
-		values(#{crpSaleNo}, #{memNo}, #{crpTitle}, #{crpCtg}, #{price}, #{qty}, #{rep}, #{detaDesct}, sysdate, 'e1')
+		insert into crops_sale(board_no, mem_no, title, crp_ctg, price, qty, rep, deta_desct, reg_date, reg_stts)
+		values(#{boardNo}, #{memNo}, #{title}, #{crpCtg}, #{price}, #{qty}, #{rep}, #{detaDesct}, sysdate, 'e1')
 	</insert>
 	
 	<!-- 수정 -->
 	<update id="updateCropsSale" parameterType="CropsSaleVO">
 		update crops_sale
 		<set>
-			<if test="crpTitle != null and !crpTitle.equals('')">
-				crp_title = #{crpTitle}
+			<if test="title != null and !title.equals('')">
+				title = #{title}
 			</if>
 			<if test="crpCtg != null and !crpCtg.equals('')">
 				, crp_ctg = #{crpCtg}
@@ -93,14 +93,14 @@
 				, reg_date = sysdate
 			</if>
 		</set>
-		where crp_sale_no = #{crpSaleNo}
+		where board_no = #{boardNo}
 	</update>
 	
 	<!-- 삭제 -->
 	<update id="deleteCropsSale" parameterType="CropsSaleVO">
 		update crops_sale
 		set reg_stts = 'e7'
-		where crp_sale_no = #{crpSaleNo}
+		where board_no = #{boardNo}
 	</update>
 	
 	<!-- 게시글 수 카운팅 -->
@@ -112,7 +112,7 @@
 				and crp_ctg = #{category}
 			</if>
 			<if test="search != null and !search.equals('')">
-				and crp_title like '%${search}%'
+				and title like '%${search}%'
 			</if>
 		</where>
 	</select>
@@ -122,7 +122,7 @@
 		select count(*)
 		from review r join crops_sale c
 		on r.mem_no = c.mem_no
-		where c.crp_sale_no = #{crpSaleNo}
+		where c.board_no = #{boardNo}
 	</select>
 	
 </mapper>

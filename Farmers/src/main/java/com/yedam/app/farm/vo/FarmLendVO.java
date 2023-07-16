@@ -8,8 +8,8 @@ import lombok.Data;
 
 @Data
 public class FarmLendVO {
+	// farm_lend
 	public String frldLendNo;
-	public String memNo;
 	public int zip;
 	public String addr;
 	public String detaAddr;
@@ -25,4 +25,8 @@ public class FarmLendVO {
 	public Date regDate;
 	public String regStts;
 	public String lagt;
+	public String memNo;
+	
+	// main_crops
+	public String mcrp;
 }

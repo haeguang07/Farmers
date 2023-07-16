@@ -39,15 +39,15 @@ public class CropsSaleServiceImpl implements CropsSaleService {
 		int result = csMapper.updateCropsSale(csVO);
 		
 		if(result == 1) {
-			return csVO.getCrpSaleNo();
+			return csVO.getBoardNo();
 		} else {
 			return null;
 		}
 	}
 
 	@Override
-	public int deleteCropsSaleInfo(String crpSaleNo) {
-		return csMapper.deleteCropsSale(crpSaleNo);
+	public int deleteCropsSaleInfo(String boardNo) {
+		return csMapper.deleteCropsSale(boardNo);
 	}
 	
 	@Override
