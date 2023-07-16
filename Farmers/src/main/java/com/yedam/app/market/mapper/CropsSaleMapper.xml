@@ -44,7 +44,7 @@
 			  		</choose>
 			  	   ) a
 		<![CDATA[
-			 where ROWNUM <= #{page} * 9) b
+			  where ROWNUM <= #{page} * 9) b
 		where b.rn > (${page} - 1) * 9
 		]]>
 	</select>
