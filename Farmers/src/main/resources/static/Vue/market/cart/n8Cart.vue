@@ -44,7 +44,7 @@
     <!-- 총액 끝 -->
     <!-- clone용 태그 -->
     <tr class="row product hideItem" id="cartItem">
-      <td class="col-lg-1"><input type="checkbox" class="form-check-input myZoom" style="margin-left: 5px;"></td>
+      <td class="col-lg-1"><input type="checkbox" class="form-check-input myZoom mySelect" style="margin-left: 5px;"></td>
       <td class="product__cart__item col-lg-6">
         <div class="product__cart__item__pic">
           <img src="" alt="" id="cartImage">
@@ -197,25 +197,30 @@
       //결제 넘기기
       getPay: function (e) {
         e.preventDefault()
-        let productList = [];
-        $('.printItem').each(function (idx, item) {
-          if ($(item).find('.myZoom').is(':checked')) {
+        //선택한 상품이 있는지 체크
+        if ($('.mySelect').is(':checked')) {
+          let productList = [];
+          $('.printItem').each(function (idx, item) {
+            if ($(item).find('.myZoom').is(':checked')) {
 
-            //배열에 담을 구매상품정보 객체 생성
-            let obj = {
-              boardNo: $(item).attr('boardNo'),
-              qty: $(item).find('#qty').val(),
-              boardCtg: $(item).attr('boardCtg')
+              //배열에 담을 구매상품정보 객체 생성
+              let obj = {
+                boardNo: $(item).attr('boardNo'),
+                qty: $(item).find('#qty').val(),
+                boardCtg: $(item).attr('boardCtg')
+              }
+
+              //배열에 객체  담기
+              productList.push(obj)
             }
+          })
 
-            //배열에 객체  담기
-            productList.push(obj)
-          }
-        })
-
-        //상품객체배열을 json 변환 후 결제피이지 파라미터로 보냄 (한글, 특수문자가 url 인코딩이 안되서 encodeURI 사용)
-        //파라미터를 url에서 가리고 싶으면 form 태그 생성 해서 사용 (https://amongthestar.tistory.com/178)
-        location.href = "payment?productList="+encodeURI(JSON.stringify(productList));
+          //상품객체배열을 json 변환 후 결제피이지 파라미터로 보냄 (한글, 특수문자가 url 인코딩이 안되서 encodeURI 사용)
+          //파라미터를 url에서 가리고 싶으면 form 태그 생성 해서 사용 (https://amongthestar.tistory.com/178)
+          location.href = "payment?productList=" + encodeURI(JSON.stringify(productList));
+        } else {
+          alert('구매할 상품을 선택해주세요.')
+        }
       }
     },
     mounted() {

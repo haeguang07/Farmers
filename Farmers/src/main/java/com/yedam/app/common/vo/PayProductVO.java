@@ -7,6 +7,8 @@ public class PayProductVO {
 	private String boardNo;
 	private int qty;
 	private String boardCtg;
+	private String payNo;
+	private String memNo;
 	//private String codeDesct; 테이블명
 	
 	private String title;

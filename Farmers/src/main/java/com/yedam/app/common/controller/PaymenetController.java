@@ -18,6 +18,7 @@ import com.google.gson.reflect.TypeToken;
 import com.yedam.app.common.service.PaymentService;
 import com.yedam.app.common.vo.MemberPayVO;
 import com.yedam.app.common.vo.PayProductVO;
+import com.yedam.app.common.vo.PaymentVO;
 
 @Controller
 public class PaymenetController {
@@ -48,13 +49,51 @@ public class PaymenetController {
 		return paymentService.getMemberData(memNo);
 	}
 
-	//결제성공 페이지
-	@GetMapping("successPage")
-	public String successPage() {
+	// 결제처리 페이지
+	@GetMapping("payLoad")
+	public String payLoadPage() {
+		return "common/payment/payLoad";
+	}
+
+	// 결제 정보 입력
+	@PostMapping("insertPayment")
+	@ResponseBody
+	public Map<String, String> insertPayment(@RequestParam(value = "paymentData") String data) {
+		Gson gson = new Gson();
+		PaymentVO vo = gson.fromJson(data, PaymentVO.class);
+		System.out.println(vo);
+		paymentService.insertPaymnet(vo);
+		System.out.println(vo);
+		Map<String, String> map = new HashMap<String, String>();
+
+		map.put("payNo", vo.getPayNo());
+
+		return map;
+	}
+
+	// 결제 상세 정보 입력
+	@PostMapping("insertPayDetail")
+	@ResponseBody
+	public String insertPayDetail(@RequestParam(value = "payDetailData") String data) {
+		System.out.println(data);
+		Gson gson = new Gson();
+		List<PayProductVO> list = gson.fromJson(data, new TypeToken<ArrayList<PayProductVO>>() {
+		}.getType());
+		for (PayProductVO vo : list) {
+			System.out.println(vo);
+			paymentService.insertPayDetail(vo);
+		}
+
+		return "success";
+	}
+
+	// 결제 완료 시 이동 페이지
+	@GetMapping("paySuccess")
+	public String successPage(String result, Model model) {
+		model.addAttribute("result", result);
 		return "common/payment/paySuccess";
 	}
-	
-	
+
 	// map으로 procedure 값 받아오기 테스트
 	@GetMapping("procedureTest1")
 	@ResponseBody
@@ -81,6 +120,5 @@ public class PaymenetController {
 		System.out.println(vo);
 		return vo;
 	}
-
 
 }
