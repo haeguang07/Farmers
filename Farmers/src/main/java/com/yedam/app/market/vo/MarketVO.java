@@ -17,10 +17,10 @@ public class MarketVO {
 //	REG_DATE	등록 일자
 //	REG_STTS	등록 상태
 
-	private String mktNo;
+	private String boardNo;
 	private String memNo;
 	private String mktCtg;
-	private String mktTitle;
+	private String title;
 	private String price;
 	private String qty;
 	private String rep;

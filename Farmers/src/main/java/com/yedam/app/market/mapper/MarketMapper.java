@@ -10,7 +10,7 @@ public interface MarketMapper {
 	public List<MarketVO> getMarketList(String mktCtg, int page, String order);
 	
 	//단건조회
-	public MarketVO getMarketInfo(String MktNo);
+	public MarketVO getMarketInfo(String boardNo);
 	
 	//총 갯수
 	public int selectCount(String mktCtg);

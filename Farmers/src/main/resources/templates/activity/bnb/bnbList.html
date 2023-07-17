@@ -93,10 +93,10 @@
 								<div class="col-lg-6 col-md-6 col-sm-6">
 									<div class="shop__product__option__right">
 										<p>정렬:</p>
-										<select>
-											<option value="">Low To High</option>
-											<option value="">$0 - $55</option>
-											<option value="">$55 - $100</option>
+										<select id="order">
+											<option value="최신순">최신순</option>
+											<option value="낮은가격순">낮은가격순</option>
+											<option value="높은가격순">높은가격순</option>
 										</select>
 									</div>
 
@@ -123,7 +123,7 @@
 					</ul>
 				</div>
 				<div class="product__item__text">
-					<h5 class="bnbTitle">숙소명</h5>
+					<h5 class="title">숙소명</h5>
 					<h5 class="price" style="color: grey">금액</h5>
 				</div>
 			</div>
@@ -143,45 +143,53 @@
 			ajaxData(1)
 		})
 		
-		function ajaxData(page,region){
+		function ajaxData(page,region,order){
 			$.ajax({
 				url: "bnbItem",
 				method: "get",
-				data: {page, region},
+				data: {page, region,order},
 				success(result){					
-					printData(result,region)
+					printData(result,region,order)
 				},
 				error(err){
 					console.log(err)
 				}
 			})
 		}
-	//리스트 삭제후 뿌리기
-		function printData(data,region){
+		//리스트 삭제후 뿌리기
+		function printData(data,region,order){
 			$('#bnbList').children().remove();
 			$('#bnbPage').children().remove();
 			let bnb= data.bnb;
 			let page = data.page; 
 			bnb.forEach(el => {
-				console.log('여기')
 				console.log(el)
 				printList(el)
 			})			
-			printPage(page,region);
+			printPage(page,region,order);
 		}
 		//뿌릴 리스트-클론
 		function printList(item){
 			let clone=$('#bnbItem').clone();
 			$(clone).css({'display': 'block'});
 			$(clone).find('.set-bg').on('click',function(){
-				location.href=`bnbInfo?bnbNo=${item.bnbNo}`
+				location.href=`bnbInfo?boardNo=${item.boardNo}`
 			})
 			$(clone).find('.set-bg').data('setbg', item.rep);
 			$(clone).find('.set-bg').css("background-image",`url(${item.rep})`)
-			$(clone).find('.bnbTitle').text(item.bnbTitle);
+			$(clone).find('.title').text(item.title);
+			item.price=number_format(item.price);
 			$(clone).find('.price').text(item.price+"원(1박)");
 			$('#bnbList').append(clone)
 		}
+		//천단위 콤마찍기 함수
+		function number_format(num) {								
+			console.log(num)
+			console.log(typeof num)
+			if(num==null) return 0;
+			return num.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+		} 
+		
 		//검색조건-지역
 		$('#selectRG').on('change', function(){
 			console.log($(this).val())
@@ -189,14 +197,14 @@
 		})
 		
 		//페이징 함수
-		function printPage(pageData,region){
+		function printPage(pageData,region,order){
 			let pageItem = $('#pageItem').clone()
 			$(pageItem).css({'display' : 'block'});
 			$(pageItem).find('#prevPage').on('click',function(){
-				ajaxData(pageData.startPage - 1,region)
+				ajaxData(pageData.startPage - 1,region,order)
 			})
 			$(pageItem).find('#nextPage').on('click',function(){
-				ajaxData(pageData.endPage + 1,region)
+				ajaxData(pageData.endPage + 1,region,order)
 			})
 
 			if(!pageData.prev){
@@ -214,7 +222,7 @@
 					$(clone).css('border-color','orange')
 				}
 				$(clone).on('click', function () {
-					getCondition(i, region);
+					getCondition(i, region,order);
 				})
 				$(pageItem).find('#pageNumDiv').append(clone)
 			}
@@ -224,12 +232,20 @@
 		}
 		
 		// 조건 값 변경 시 컨트롤 정보 보내기
-		function getCondition(page, region){
+		function getCondition(page, region,order){
 			if(page == null){
 				page = 1
 			}
-			ajaxData(page, region);
+			ajaxData(page, region,order);
 		}
+		
+		$('#order').on('change',function(){
+			let rg= $('#selectRG').val();
+			let od= $(this).val();
+			
+			ajaxData(1,rg,od);
+			
+		})
 		
 		</script>
 

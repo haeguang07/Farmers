@@ -8,7 +8,7 @@
 		select b.*
 		from (select rownum rn, a.*
 		from (select * from market
-		<if test="mktCtg != null and !mktCtg.equals('')">
+		<if test="mktCtg != null and !mktCtg.equals('') and !mktCtg.equals('전체')">
 			where mkt_ctg=#{mktCtg}
 		</if>
 		) a
@@ -38,26 +38,27 @@
 	<select id="getMarketInfo" resultType="MarketVO">
 		select * from market
 		where
-		mkt_no = #{mktNo}
+		board_no = #{boardNo}
 	</select>
 	<insert id="insertMk">
-		<selectKey keyProperty="mktNo" resultType="String"
+		<selectKey keyProperty="boardNo" resultType="String"
 			order="BEFORE">
 			select 'MKT' || LPAD(bnb_seq.nextval, 6, '0')
 			from dual
 		</selectKey>
-		insert into market(MKT_NO,
+		insert into market(
+		board_no,
 		MEM_NO,
 		MKT_CTG,
-		MKT_TITLE,
+		TITLE,
 		PRICE,
 		QTY,
 		REP,
 		DETA_DESCT)
-		values(#{mktNo},
+		values(#{boardNo},
 		#{memNo},
 		#{mktCtg},
-		#{mktTitle},
+		#{title},
 		#{price},
 		#{qty},
 		#{rep},

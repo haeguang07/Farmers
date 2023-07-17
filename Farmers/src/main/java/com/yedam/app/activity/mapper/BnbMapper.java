@@ -10,7 +10,7 @@ public interface BnbMapper {
 	public List<BnbVO> selectBnbList(String dst1, int page, String order);
 	
 	//단건조회
-	public BnbVO selectBnb(String bnbNo);
+	public BnbVO selectBnb(String boardNo);
 	
 	//총 갯수
 	public int selectCount(String dst1);
