@@ -35,7 +35,7 @@ public class BnbController {
 			@RequestParam(required = false) String region,
 			@RequestParam(required = false, defaultValue = "1") int page,
 			@RequestParam(required = false, defaultValue = "최신순") String order) {
-		
+		System.out.println(order);
 		List<BnbVO> list = bnbService.selectBnbList(region, page, order);
 		int total = bnbService.selectCount(region);
 		PageVO vo = new PageVO(page, total);
@@ -48,8 +48,8 @@ public class BnbController {
 
 	// 단건조회
 	@GetMapping("bnbInfo")
-	public String getBnbInfo(Model model, String bnbNo) {
-		model.addAttribute("bnb", bnbService.selectBnb(bnbNo));
+	public String getBnbInfo(Model model, String boardNo) {
+		model.addAttribute("bnb", bnbService.selectBnb(boardNo));
 		return "activity/bnb/bnbInfo";
 	}
 

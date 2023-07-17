@@ -22,12 +22,18 @@ public class MemberServiceImpl implements MemberService, UserDetailsService{
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		System.out.println(username);
+		
 		MemberVO vo = memberMapper.selectMember(username);
 		System.out.println(vo);
 		if(vo == null) {
 			throw new UsernameNotFoundException("no User");
 		}
+		return vo;
+	}
+	//아이디로 조회
+	@Override
+	public MemberVO getMember(String id) {
+		MemberVO vo = memberMapper.selectMember(id);
 		return vo;
 	}
 
@@ -36,7 +42,6 @@ public class MemberServiceImpl implements MemberService, UserDetailsService{
 	@Override
 	public boolean idCheck(String id) {
 		String uid=memberMapper.selectId(id);
-		System.out.println(uid);
 		if(uid != null) {
 			return false;			
 		}else {
@@ -60,8 +65,10 @@ public class MemberServiceImpl implements MemberService, UserDetailsService{
 	@Override
 	public boolean join(MemberVO vo) {
 		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
-		String password = scpwd.encode(vo.getPw());
-		vo.setPw(password);
+		vo.setPw(scpwd.encode(vo.getPw()));
+		if(vo.getId()==null) {
+			vo.setId(memberMapper.newId(vo.getLoginPath()));
+		}
 		int result=memberMapper.insertMember(vo);
 		int result2 = memberMapper.insertMemberDetail(vo);
 		if(result*result2==1) {

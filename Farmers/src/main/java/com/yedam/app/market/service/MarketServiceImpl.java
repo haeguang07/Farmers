@@ -20,8 +20,8 @@ public class MarketServiceImpl implements MarketService {
 	}
 
 	@Override
-	public MarketVO getMarketInfo(String MktNo) {
-		return mkMapper.getMarketInfo(MktNo);
+	public MarketVO getMarketInfo(String boardNo) {
+		return mkMapper.getMarketInfo(boardNo);
 	}
 
 	@Override

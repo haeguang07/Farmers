@@ -10,9 +10,9 @@ import lombok.Data;
 public class BnbVO {
 
 	// farmbnb
-	private String bnbNo;
+	private String boardNo;
 	private String memNo;
-	private String bnbTitle;
+	private String title;
 	private String dst1;
 	private String zip;
 	private String addr;

@@ -7,6 +7,8 @@ import java.net.URISyntaxException;
 import com.yedam.app.user.vo.MemberVO;
 
 public interface MemberService {
+	//단건조회
+	public MemberVO getMember(String id);
 	// 중복체크
 	public boolean idCheck(String id);
 	public boolean nickCheck(String nick);
