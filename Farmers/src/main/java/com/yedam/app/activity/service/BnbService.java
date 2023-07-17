@@ -8,7 +8,7 @@ public interface BnbService {
 	
 	public List<BnbVO> selectBnbList(String dst1, int page, String order);
 	
-	public BnbVO selectBnb(String bnbNo);
+	public BnbVO selectBnb(String boardNo);
 	
 	public int selectCount(String dst1);
 	
