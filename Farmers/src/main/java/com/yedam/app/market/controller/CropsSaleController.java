@@ -22,7 +22,7 @@ public class CropsSaleController {
 	@Autowired
 	CropsSaleService csService;
 	
-	// 전체조회
+	// 리스트 전체조회
 	@GetMapping("cropsSaleList")
 	public String getCropsSaleAllList(Model model) {
 //		List<CropsSaleVO> list = csService.getCropsSaleList();
@@ -31,6 +31,7 @@ public class CropsSaleController {
 		return "market/cropsSale/cropsSaleList";
 	}
 	
+	// 리스트 전체조회(페이징)
 	@PostMapping("cropsSaleList")
 	@ResponseBody
 	public Map<String, Object> getCropsSaleListPage(@RequestParam(required = false, defaultValue = "0") int pageNum,
@@ -63,13 +64,13 @@ public class CropsSaleController {
 		return "market/cropsSale/cropsSaleInfo";
 	}
 	
-	// 등록페이지 불러오기
+	// 등록 페이지 불러오기
 	@GetMapping("cropsSaleInsert")
 	public String insertCropsSaleForm() {
 		return "market/cropsSale/cropsSaleInsert";
 	}
 	
-	// 등록
+	// 등록 기능
 	@PostMapping("cropsSaleInsert")
 	@ResponseBody
 	public String insertCropsSale(CropsSaleVO csVO) {
@@ -82,7 +83,7 @@ public class CropsSaleController {
 		}
 	}
 	
-	// 수정페이지 불러오기
+	// 수정 페이지 불러오기
 	@GetMapping("cropsSaleUpdate")
 	public String updateCropsSaleForm(CropsSaleVO csVO, Model model) {
 //		System.out.println(csVO);
@@ -92,28 +93,30 @@ public class CropsSaleController {
 		return "market/cropsSale/cropsSaleUpdate";
 	}
 	
-	// 수정
+	// 수정 기능
 	@PostMapping("cropsSaleUpdate")
 	@ResponseBody
 	public Map<String, Object> updateCropsSale(CropsSaleVO csVO) {
 		System.out.println(csVO);
 		boolean result = false;
-		String csNo = csService.updateCropsSaleInfo(csVO);
-		if(csNo != null) {
+		String boardNo = csService.updateCropsSaleInfo(csVO);
+		if(boardNo != null) {
 			result = true;
 		}
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("result", result);
-		map.put("csNo", csNo);
+		map.put("boardNo", boardNo);
 		
 		return map;
 	}
 	
-	// 삭제
-	@GetMapping("cropsSaleDelete")
-	public String deleteCropsSale(@RequestParam(required = false, defaultValue = "0", name = "crpSaleNo") String csNo) {
-		csService.deleteCropsSaleInfo(csNo);
+	// 삭제 기능
+	@PostMapping("cropsSaleDelete")
+	@ResponseBody
+	public String deleteCropsSale(String boardNo) {
+		System.out.println(boardNo);
+		csService.deleteCropsSaleInfo(boardNo);
 		return "market/cropsSale/cropsSaleList";
 	}
 }

@@ -7,13 +7,13 @@ import com.yedam.app.market.vo.MarketVO;
 public interface MarketMapper {
 	
 	//전체조회
-	public List<MarketVO> getMarketList();
+	public List<MarketVO> getMarketList(String mktCtg, int page, String order);
 	
 	//단건조회
 	public MarketVO getMarketInfo(String MktNo);
 	
 	//총 갯수
-	public int selectCount();
+	public int selectCount(String mktCtg);
 	
 	//등록
 	public int insertMk(MarketVO vo);

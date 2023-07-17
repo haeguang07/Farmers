@@ -2,20 +2,29 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<!-- <meta name="google-signin-client_id"
+	content="5451165657-p64sdjhn8mtk739vafsknpcr0kpb7gtn.apps.googleusercontent.com"> -->
 <title>You GuiNong? 로그인</title>
 <link rel="stylesheet" href="/css/login/login.css" type="text/css">
 <script src="/js/jquery-3.3.1.min.js"></script>
 <script src="/js/json.min.js"></script>
 <style>
-.simple_login_logo{
+.simple_login_logo {
 	cursor: pointer;
+	margin: 0;
 }
 </style>
+<script type="text/javascript"
+	src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js"
+	charset="utf-8"></script>
+<script type="text/javascript"
+	src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 </head>
 <body>
-<!-- /*0706 로그인페이지(간편로그인 해야함) */ -->
-<div id="loginForm">
-	
+
+	<!-- /*0706 로그인페이지(간편로그인 해야함) */ -->
+	<div id="loginForm">
+
 		<form id="frm" th:action="@{/login}" method="post">
 			<div class="imgcontainer">
 				<img src="/img/logo.png" alt="Avatar" class="avatar">
@@ -23,35 +32,97 @@
 
 			<div class="container">
 				<ul id="logininput">
-					<li>
-						<label for="uname"><b>아이디</b></label> 
-						<input type="text" placeholder="아이디를 입력하세요" id="id" name="username" required>
+					<li><label for="uname"><b>아이디</b></label> <input type="text"
+						placeholder="아이디를 입력하세요" id="id" name="username" required>
 					</li>
-					<li>
-						<label for="psw"><b>비밀번호</b></label> 
-						<input type="password" placeholder="패스워드를 입력하세요" id="pw" name="pw" required>
-					</li>
+					<li><label for="psw"><b>비밀번호</b></label> <input
+						type="password" placeholder="패스워드를 입력하세요" id="pw" name="pw"
+						required></li>
 				</ul>
 				<div id="login_button">
 					<button type="submit" id="login">로그인</button>
-					<button type="button" id="join" >회원가입</button>
+					<button type="button" id="join">회원가입</button>
 				</div>
 				<span class="psw"><a href="IDFound">아이디/비밀번호찾기</a></span>
 			</div>
 			<div id="simple_login">
 				<br>
 				<p>SNS아이디로 간편하게 로그인</p>
-				<img src="/img/logo_google.png" id="googleLogin" class="simple_login_logo">
-				<img src="/img/logo_naver.png" id="naverLogin" class="simple_login_logo">
-				<img src="/img/logo_kakao.png" id="kakaoLogin" class="simple_login_logo">
+				
+				<!--<img src="/img/logo_google.png" id="googleLogin" 
+					class="simple_login_logo">-->
+				<span id="naver_id_login" ></span> <img src="/img/logo_kakao.png"
+					id="kakaoLogin" onclick="kakaologin()" class="simple_login_logo">
 			</div>
 		</form>
 	</div>
-	
-	<script>
+	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+	<!-- <script src="https://apis.google.com/js/platform.js" async defer></script> -->
+	<script type="text/javascript">
+		//네아로
+		var naver_id_login = new naver_id_login("Q38MDDlCsmJD6vKMCJe2","http://localhost:8085/naverLogin");
+		var state = naver_id_login.getUniqState();
+		naver_id_login.setButton("green", 1, 40);
+		naver_id_login.setDomain("http://localhost:8085");
+		naver_id_login.setState(state);
+		naver_id_login.init_naver_id_login();
 		
+		if (naver_id_login != null) {
+			naver_id_login.get_naver_userprofile("naverSignInCallback()");
+		} else {
+			alert('네이버 로그인 실패');
+			window.location.replace("/login")
+		}
+		function naverSignInCallback() {
+			console.log(naver_id_login)
+			let obj = {
+				email : naver_id_login.getProfileData('email'),
+				nick : naver_id_login.getProfileData('nickname'),
+				name : naver_id_login.getProfileData('name'),
+				birthday : naver_id_login.getProfileData('birthday'),
+				gender : naver_id_login.getProfileData('gender')
+			}
+			console.log(obj)
+
+		}
+
+		
+		//카카오 로그인
+		window.Kakao.init("d7b5b77634c5eb957a63c797fb883dae")
+
+	    function kakaologin() {
+	      window.Kakao.Auth.login({
+	        scope: 'account_email, gender, profile_nickname,profile_image,birthday',
+	        success: function (obj) {
+	          console.log(obj)
+	          window.Kakao.API.request({
+	            url: '/v2/user/me',
+	            success: res => {
+	              const kakao_account = res.kakao_account
+	              console.log(kakao_account);
+	              let gender=null;
+	              if(kakao_account.gender=='male'){
+	            	  gender='a0';
+	              }else if(kakao_account.gender=='female'){
+	            	  gender='a1';
+	              }
+	              let obj={
+	            		  gender,
+	            		  email:kakao_account.email,
+	            		  nickname:kakao_account.profile.nickname,
+	            		  prof:kakao_account.profile.profile_image_url
+	              }
+	              console.log(obj)
+	            }
+	          })
+	        }
+	      })
+	    }
+
+
+
 	</script>
-	
-	
+
+
 </body>
 </html>

@@ -120,18 +120,11 @@
 							<div class="row">
 								<div class="col-lg-6 col-md-6 col-sm-6">
 									<div class="shop__product__option__left">
-										<select class="form-control col-lg-6" name="dst1"
-											id="selectRG">
-											<option value="">지역선택</option>
-											<option value="k0">경기도</option>
-											<option value="k1">강원특별자치도</option>
-											<option value="k2">충청북도</option>
-											<option value="k3">충청남도</option>
-											<option value="k4">경상북도</option>
-											<option value="k5">경상남도</option>
-											<option value="k6">전라북도</option>
-											<option value="k7">전라남도</option>
-											<option value="k8">제주특별자치도</option>
+										<select class="form-control col-lg-6" name="mktCtg" id="selectCtg">
+											<option value="카테고리">분류선택</option>
+											<option value="가드닝">가드닝</option>
+											<option value="인테리어">인테리어</option>
+											<option value="잡화">잡화</option>
 										</select>
 									</div>
 								</div>
@@ -150,54 +143,53 @@
 						</div>
 
 						<!-- 아이템 -->
-						<div class="row" id="marketList">
-							<div class="col-lg-4 col-md-6 col-sm-6" id="marketItem"
-								style="display: none">
-								<div class="product__item sale">
-									<div class="product__item__pic set-bg">
-										<ul class="product__hover">
-											<li><a href="#"><img src="img/icon/heart.png"
-													alt="찜"></a></li>
-											<li><a href="#"><img src="img/icon/cart.png"
-													alt="카트"></a></li>
-										</ul>
-									</div>
-									<div class="product__item__text">
-										<h5 class="marketTitle">숙소명</h5>
-										<h5 class="price" style="color: grey">금액</h5>
-									</div>
-								</div>
-							</div>
-						</div>
+						<div class="row" id="mkList"></div>
 
 						<!-- 페이징 -->
-						<div class="row">
-							<div class="col-lg-12">
-								<div class="product__pagination">
-									<a class="active" href="#">1</a> <a href="#">2</a> <a href="#">3</a>
-									<span>...</span> <a href="#">21</a>
-								</div>
-							</div>
-						</div>
+						<div class="row" id="mkPage"></div>
 						<!-- 페이징 end -->
 					</div>
 				</div>
 			</div>
 		</section>
-
+		<!-- 아이템 처리 -->
+		<div class="col-lg-4 col-md-6 col-sm-6" id="marketItem"
+			style="display: none">
+			<div class="product__item sale">
+				<div class="product__item__pic set-bg">
+					<ul class="product__hover">
+						<li><a href="#"><img src="img/icon/heart.png" alt="찜"></a></li>
+						<li><a href="#"><img src="img/icon/cart.png" alt="카트"></a></li>
+					</ul>
+				</div>
+				<div class="product__item__text">
+					<h5 class="mktTitle">상품명</h5>
+					<h5 class="price" style="color: grey">금액</h5>
+				</div>
+			</div>
+		</div>
+		<!-- 페이징처리 -->
+		<div class="product__pagination" style="display: none;" id="pageItem">
+			<a class="myInline" id="prevPage">◁</a>
+			<div id="pageNumDiv" class="myInline">
+				<a id="pageNum">a</a>
+			</div>
+			<a class="myInline" id="nextPage">▷</a>
+		</div>
 
 
 		<script>
-			/* $(function(){
+			$(function(){
 				ajaxData(1)
 			})
 			
-			function ajaxData(page,region){
+			function ajaxData(page,mktCtg){
 				$.ajax({
-					url: "bnbItem",
+					url: "marketItem",
 					method: "get",
-					data: {page, region},
-					success(result){					
+					data: {page, mktCtg},
+					success(result){	
+						console.log(result)
 						printData(result)
 					},
 					error(err){
@@ -205,35 +197,79 @@
 					}
 				})
 			}
-
-			function printData(data){
-				$('#bnbList').children().remove();
-				let bnb= data.bnb;
-				bnb.forEach(el => {
+ 
+			function printData(data,mktCtg){
+				$('#mkList').children().remove();
+				$('#mkPage').children().remove();
+				let mk= data.mk; //controller에서 넘긴 값
+				mk.forEach(el => {
 					console.log(el)
 					printList(el)
 				})			
 			}
 			
+			//뿌릴 리스트-클론
 			function printList(item){
 				let clone=$('#marketItem').clone();
 				$(clone).css({'display': 'block'})
 				$(clone).find('.set-bg').on('click',function(){
-					location.href=`bnbInfo?bnbNo=${item.bnbNo}`
+					location.href=`mkInfo?mktNo=${item.mktNo}`
 				})
-				$(clone).find('.set-bg').data('setbg', '/img/bnb/'+item.rep);
-				$(clone).find('.set-bg').css("background-image",`url(/img/bnb/${item.rep})`)
-				$(clone).find('.bnbTitle').text(item.bnbTitle);
-				$(clone).find('.price').text(item.price+"원(1박)");
-				$('#bnbList').append(clone)
+				$(clone).find('.set-bg').data('setbg', item.rep);
+				$(clone).find('.set-bg').css("background-image",`url(${item.rep})`)
+				$(clone).find('.mktTitle').text(item.mktTitle);
+				$(clone).find('.price').text(item.price+"원");
+				$('#mkList').append(clone)
 			}
 			
-			$('#selectRG').on('change', function(){
+			$('#selectCtg').on('change', function(){
 				console.log($(this).val())
 				ajaxData(1, $(this).val())
 			})
 			
-			 */
+		//페이징 함수
+		function printPage(pageData,mktCtg){
+			let pageItem = $('#pageItem').clone()
+			$(pageItem).css({'display' : 'block'});
+			$(pageItem).find('#prevPage').on('click',function(){
+				ajaxData(pageData.startPage - 1,mktCtg)
+			})
+			$(pageItem).find('#nextPage').on('click',function(){
+				ajaxData(pageData.endPage + 1,mktCtg)
+			})
+
+			if(!pageData.prev){
+				$(pageItem).find('#prevPage').hide()
+			}
+			if(!pageData.next){
+				$(pageItem).find('#nextPage').hide()
+			}
+
+			for (let i = pageData.startPage; i <= pageData.endPage; i++) {
+				let clone = $('#pageItem').find('#pageNum').clone()
+				$(clone).text(i);
+				if(i == pageData.pageNum){
+					$(clone).addClass('active')
+					$(clone).css('border-color','orange')
+				}
+				$(clone).on('click', function () {
+					getCondition(i, mktCtg);
+				})
+				$(pageItem).find('#pageNumDiv').append(clone)
+			}
+
+			$(pageItem).find('#pageNum')[0].remove()
+			$('#mkPage').append(pageItem)
+		}
+		
+		// 조건 값 변경 시 컨트롤 정보 보내기
+		function getCondition(page, mktCtg){
+			if(page == null){
+				page = 1
+			}
+			ajaxData(page, mktCtg);
+		}
+		 
 		</script>
 
 	</div>
