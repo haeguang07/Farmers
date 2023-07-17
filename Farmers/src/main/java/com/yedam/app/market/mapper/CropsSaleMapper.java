@@ -16,7 +16,7 @@ public interface CropsSaleMapper {
 	// 수정
 	public int updateCropsSale(CropsSaleVO csVO);
 	// 삭제
-	public int deleteCropsSale(String crpSaleNo);
+	public int deleteCropsSale(String boardNo);
 	// 게시글 수
 	public int getCount(String category, String search);
 	// 별점

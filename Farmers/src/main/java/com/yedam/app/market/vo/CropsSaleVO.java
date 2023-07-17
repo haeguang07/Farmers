@@ -11,9 +11,9 @@ import lombok.Data;
 @Data
 public class CropsSaleVO {
 	// crops_sale
-	public String crpSaleNo;
+	public String boardNo;
 	public String memNo;
-	public String crpTitle;
+	public String title;
 	public String crpCtg;
 	public int price;
 	public int qty;
@@ -27,7 +27,6 @@ public class CropsSaleVO {
 	// review
 	public String revNo;
 	public int rate;
-	public String boardNo;
 	
 	// member
 	public String nick;

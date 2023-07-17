@@ -4,7 +4,7 @@
 	layout:decorate="~{index}">
 <head>
 <meta charset="UTF-8">
-<title>농작물 판매</title>
+<title>농작물 판매 리스트 조회</title>
 <link rel="stylesheet" href="css/sungWookCss/sungook.css" type="text/css">
 </head>
 <body>
@@ -222,14 +222,14 @@
 				let clone = $('#cropsSaleItem').clone();
 				$(clone).removeClass('hideItem');
 				
-				$(clone).find('#name').text(item.crpTitle);
+				$(clone).find('#name').text(item.title);
 				$(clone).find('#price').text(item.price + '원');
 				$(clone).find('#date').text(item.regDate);
 				$(clone).find('#img').css('background-image', 'url('+item.rep+')');
 				$(clone).find('#img').css('cursor', 'pointer');
 				
 				$(clone).find('#img').on('click', function() {
-					location.href = "cropsSaleInfo?crpSaleNo=" + item.crpSaleNo
+					location.href = "cropsSaleInfo?boardNo=" + item.boardNo
 				});
 				
 				$('#cropsSaleDiv').append(clone);

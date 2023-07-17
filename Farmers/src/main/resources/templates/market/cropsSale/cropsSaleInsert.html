@@ -40,7 +40,7 @@
 														<div class="product__details__text">
 															<div class="row">
 																<h4 class="textLeft col-lg-2" style="display: inline; text-align: center; line-height: 40px;">상품명</h4>
-																<input type="text" class="form-control col-lg-6" name="crpTitle" style="display: inline;">
+																<input type="text" class="form-control col-lg-6" name="title" style="display: inline;">
 															</div>
 															<hr>
 															<input type="text" th:value="${session.mem.memNo}" name="memNo" style="display: none;">
@@ -189,7 +189,7 @@
 				console.log(formData);
 
 				$.ajax({
-					url:"cropsSaleInsert",
+					url : "cropsSaleInsert",
 					method : "POST",
 					data : formData
 				})
