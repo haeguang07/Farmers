@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{index}">
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{index}">
 
 <head>
 	<meta charset="UTF-8">
@@ -10,12 +11,6 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>MyPage</title>
 	<link rel="stylesheet" href="css/sungWookCss/sungook.css" type="text/css">
-	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-	<script src="https://unpkg.com/vue-router@4"></script>
-	<script src="https://cdn.jsdelivr.net/npm/vue3-sfc-loader/dist/vue3-sfc-loader.js"></script>
-	<script src="js/Vue-load.js"></script>
-	<script src="js/myPageRouter.js"></script>
-	<script src="https://unpkg.com/vuex@4.0.0/dist/vuex.global.js"></script>
 </head>
 
 <body>
@@ -40,8 +35,7 @@
 									<div class="accordion" id="accordionExample">
 										<div class="card">
 											<div class="">
-												<a data-toggle="collapse" data-target="#collapseOne" style="font-weight: 900;"><router-link to="/" class="" aria-current="page" style="color: black;">회원정보
-												</router-link></a>
+												<a href="myPage" data-target="#collapseOne" style="font-weight: 900; color: black;">회원정보</a>
 											</div>
 										</div>
 										<div class="card">
@@ -52,17 +46,15 @@
 												<div class="card-body">
 													<div class="shop__sidebar__brand">
 														<ul>
-															<li><a href="#"><router-link to="/myBoardVue" class="" aria-current="page">나의 농지대여
-															</router-link></a></li>
-															<li><a href="#"><router-link to="/myBoardVue" class="" aria-current="page">나의 일자리 
-															</router-link></a></li>
-															<li><a href="#"><router-link to="/myBoardVue" class="" aria-current="page" >나의 농기구대여/거래</router-link></a></li>
-															<li><a href="#"><router-link to="/myBoardVue" class="" aria-current="page">나의 농작물 거래</router-link></a></li>
-															<li><a href="#"><router-link to="/myBoardVue" class="" aria-current="page">나의 펀딩</router-link></a></li>
-															<li><a href="#"><router-link to="/myBoardVue" class="" aria-current="page">나의 전원마켓</router-link></a></li>
-															<li><a href="#"><router-link to="/myBoardVue" class="" aria-current="page">나의 경매장</router-link></a></li>
-															<li><a href="#"><router-link to="/myBoardVue" class="" aria-current="page">나의 농촌비앤비</router-link></a></li>
-															<li><a href="#"><router-link to="/myBoardVue" class="" aria-current="page">나의 게시글</router-link></a></li>
+															<li><a href="#">나의 농지대여</a></li>
+															<li><a href="#">나의 일자리 </a></li>
+															<li><a href="#">나의 농기구대여/거래</a></li>
+															<li><a href="#">나의 농작물 거래</a></li>
+															<li><a href="#">나의 펀딩</a></li>
+															<li><a href="#">나의 전원마켓</a></li>
+															<li><a href="#">나의 경매장</a></li>
+															<li><a href="#">나의 농촌비앤비</a></li>
+															<li><a href="#">나의 게시글</a></li>
 														</ul>
 													</div>
 												</div>
@@ -70,20 +62,17 @@
 										</div>
 										<div class="card">
 											<div class="">
-												<a data-toggle="collapse" data-target="#collapseThree" style="font-weight: 900;"><router-link to="/myBoardVue" class="" aria-current="page" style="color: black;">나의 알림
-												</router-link></a>
+												<a data-toggle="collapse" data-target="#collapseThree" style="font-weight: 900;">나의 알림</a>
 											</div>
 										</div>
 										<div class="card">
 											<div class="">
-												<a data-toggle="collapse" data-target="#collapseFour" style="font-weight: 900;"><router-link to="/" class="" aria-current="page" style="color: black;">나의 구매내역
-												</router-link></a>
+												<a data-toggle="collapse" data-target="#collapseFour" style="font-weight: 900;">나의 구매내역</a>
 											</div>
 										</div>
 										<div class="card">
 											<div class="">
-												<a data-toggle="collapse" data-target="#collapseFive" style="font-weight: 900;"><router-link to="/" class="" aria-current="page" style="color: black;">회원정보
-												</router-link></a>
+												<a data-toggle="collapse" data-target="#collapseFive" style="font-weight: 900;">회원정보</a>
 											</div>
 										</div>
 									</div>
@@ -92,7 +81,7 @@
 						</div>
 						<!-- 사이드바 끝 -->
 						<div class="col-lg-9">
-							<router-view></router-view>
+							<article layout:fragment="myPageContent"></article>
 						</div>
 					</div>
 				</div>
@@ -101,30 +90,7 @@
 
 		</div>
 		<script th:inline="javascript">
-			//vuex
-			const {
-				createStore
-			} = Vuex
-			//vuex 객체
-			const store = createStore({
-				state() {
-					return {
-						mem: /*[[${session.mem}]]*/
-					}
-				}
-			})
 
-			const {
-				createApp
-			} = Vue;
-			createApp({
-					data() {
-						return {}
-					},
-					methods: {}
-				}).use(router)
-				.use(store) //vuex 객체 연결
-				.mount('#app'); //use(router 객체 이름)
 		</script>
 	</div>
 </body>

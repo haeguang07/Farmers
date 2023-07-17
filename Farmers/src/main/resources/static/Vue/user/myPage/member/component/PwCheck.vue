@@ -34,11 +34,7 @@
     mounted() {
       let thisVue = this;
       $('#checkBtn').on('click',function(){
-        if(this.pw == $('#pwCheck').val()){
-          console.log('match')
-        }else{
-          console.log('long')
-        }
+        $('#pwCheckDiv').css('display','none')
       })
     }
   }

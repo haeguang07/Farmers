@@ -224,11 +224,11 @@
 				let clone = $('#fundingItem').clone();
 				$(clone).removeClass('hideItem')
 				$(clone).on('click', function () {
-					location.href = "fundingInfo?fndNo=" + item.fndNo
+					location.href = "fundingInfo?boardNo=" + item.boardNo
 				})
 
 				//데이터 집어넣기
-				$(clone).find('#name').text(item.fndTitle)
+				$(clone).find('#name').text(item.title)
 				$(clone).find('#price').text(item.fndPrice + '원')
 				if (item.dday != 0) {
 					$(clone).find('#dday').text('D-' + item.dday)

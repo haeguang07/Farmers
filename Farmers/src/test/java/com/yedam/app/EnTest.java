@@ -9,7 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 //@SpringBootTest
 public class EnTest {
-	//@Test
+	@Test
 	public void encTest() {
 		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
 		String password = scpwd.encode("1111");
@@ -17,7 +17,7 @@ public class EnTest {
 		
 	}
 	
-	@Test
+	//@Test
 	public void test() {
 		
 		PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();

@@ -1,6 +1,6 @@
 const routes = [{
   path: '/',
-  component: Vue.defineAsyncComponent(() => loadModule('../Vue/user/myPage/member.vue', options))
+  component: Vue.defineAsyncComponent(() => loadModule('../Vue/user/myPage/member/app.vue', options))
 },
   {
   path: '/myBoardVue',
