@@ -1,23 +1,15 @@
 package com.yedam.app.user.vo;
 
-import java.lang.reflect.Field;
+import lombok.Data;
 
-public class NaverVO extends Object{
+@Data
+public class NaverVO{
+	private String email;
+	private String name;
+	private String nickName;
+	private String gender;
+	private String profileImage;
 	
-	@Override
-	public String toString() {
-		String str="";
-		 for (Field field : this.getClass().getDeclaredFields()) {
-			 field.setAccessible(true);
-		     Object value = null;
-			try {
-				value = field.get(this);
-			} catch (IllegalArgumentException | IllegalAccessException e) {
-				e.printStackTrace();
-			}
-			str +=   (String)value;
-		 }
-		 return str;
-	}
+	
 	
 }
