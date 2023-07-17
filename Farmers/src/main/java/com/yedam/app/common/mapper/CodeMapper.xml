@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.app.common.mapper.CodeMapper">
+	
+	<!-- 상세 코드 조회 -->
+	<select id="getCodeList" resultType="CodeVO">
+		select cmmn_deta_code, code_desct
+		from common_code_detail
+		where cmmn_code_no = #{cmmnDetaCode}
+		order by cmmn_deta_code
+	</select>
+	
+</mapper>

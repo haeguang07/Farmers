@@ -8,7 +8,7 @@ public interface FarmLendMapper {
 	// 전체조회
 	public List<FarmLendVO> selectFarmLendList();
 	// 전체조회(페이징)
-	public List<FarmLendVO> selectFarmLendListPage(int page, String addr, String daddr, String mcrp, String price, String area);
+	public List<FarmLendVO> selectFarmLendListPage(int page, String dst1, String dst2, String mcrp, String price, String area);
 	// 단건조회
 	public FarmLendVO selectFarmLendInfo(FarmLendVO flVO);
 	// 등록
@@ -16,7 +16,7 @@ public interface FarmLendMapper {
 	// 수정
 	public int updateFarmLend(FarmLendVO flVO);
 	// 삭제
-	public int deleteFarmLend(String frldNo);
+	public int deleteFarmLend(String boardNo);
 	// 게시글 수
-	public int getCount(String addr, String daddr, String mcrp, String price, String area);
+	public int getCount(String dst1, String dst2, String mcrp, String price, String area);
 }

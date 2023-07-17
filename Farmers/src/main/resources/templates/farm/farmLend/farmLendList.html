@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>농지 대여 리스트 조회</title>
+<link rel="stylesheet" href="css/sungWookCss/sungook.css" type="text/css">
 </head>
 <body>
 	<div layout:fragment="content">
@@ -42,12 +43,12 @@
 											<div class="card-body">
 												<div class="shop__sidebar__categories">
 													<ul>
-														<li><a href="#">귀농귀촌 가이드</a></li>
-														<li><a href="#">지원사업/교육</a></li>
-														<li><b><a href=""
+														<li><a href="farmGuide">귀농귀촌 가이드</a></li>
+														<li><a href="farmEdu">지원사업/교육</a></li>
+														<li><b><a href="farmLendList"
 																style="color: black;">농지대여</a></b></li>
 														<li><a href="#">농기구 대여/판매</a></li>
-														<li><a href="#">금손 귀농인</a></li>
+														<li><a href="skilled">금손 귀농인</a></li>
 													</ul>
 												</div>
 											</div>
@@ -65,67 +66,40 @@
 										<h6 class="col-lg-2"
 												style="text-align: center; line-height: 45px;">지역 선택</h6>
 										<select class="form-select form-group col-1.5 mr-2"
-											aria-label="Default select example" id="addr">
-											<option selected value="도">도</option>
-											<option value="k0">경기도</option>
-											<option value="k1">강원특별자치도</option>
-											<option value="k2">충청북도</option>
-											<option value="k3">충청남도</option>
-											<option value="k4">경상북도</option>
-											<option value="k5">경상남도</option>
-											<option value="k6">전라북도</option>
-											<option value="k7">전라남도</option>
-											<option value="k8">제주특별자치도</option>
+											aria-label="Default select example" id="dst1">
+											<option value="">도</option>
+											<option th:each="cd : ${dst1}" th:text="${cd.codeDesct}" 
+												th:value="${cd.cmmnDetaCode}"></option>
 										</select>
 										<select class="form-select form-group col-1.5 mr-2"
-											aria-label="Default select example" id="daddr">
-											<option value="시·군">시·군</option>
+											aria-label="Default select example" id="dst2">
+											<option value="">시·군</option>
 										</select>
 										<select class="form-select form-group col-1.5 mr-2"
 											aria-label="Default select example" id="mcrp">
-											<option value="작물 선택">작물 선택</option>
+											<option value="">작물 선택</option>
+											<option th:each="cd : ${mcrp}" th:text="${cd.codeDesct}" 
+												th:value="${cd.cmmnDetaCode}"></option>
 										</select>
 										<select class="form-select form-group col-1.5 mr-2"
 											aria-label="Default select example" id="price">
-											<option value="희망가 선택">희망가 선택</option>
+											<option value="">희망가 선택</option>
+											<option th:each="cd : ${price}" th:text="${cd.codeDesct}" 
+												th:value="${cd.cmmnDetaCode}"></option>
 										</select>
 										<select class="form-select form-group col-1.5 mr-2"
 											aria-label="Default select example" id="area">
-											<option value="면적 선택">면적 선택</option>
+											<option value="">면적 선택</option>
+											<option th:each="cd : ${area}" th:text="${cd.codeDesct}" 
+												th:value="${cd.cmmnDetaCode}"></option>
 										</select>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="row" id="cropsSaleDiv">
-							<!-- <div class="col-lg-4 col-md-6 col-sm-6" th:each="cropsSale : ${csList}">
-								<div class="product__item" th:onclick="|location.href='@{cropsSaleInfo(crpSaleNo=${cropsSale.crpSaleNo})}'|">
-									<div class="product__item__pic set-bg"
-										data-setbg="img/product/product-2.jpg">
-										<ul class="product__hover">
-											<li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-										</ul>
-									</div>
-									<div class="product__item__text">
-										<h6 th:text="${cropsSale.crpTitle}">상품명</h6>
-										<a href="#" class="add-cart">+ Add To Cart</a>
-										<p th:text="${cropsSale.price} + '원'">가격</p>
-										<div class="rating">
-											<i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i
-												class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i
-												class="fa fa-star-o"></i>
-											<p th:text="${#dates.format(cropsSale.regDate, 'yyyy/MM/dd')}" style="display: inline-block; margin-left: 120px;">등록날짜</p>
-										</div>
-									</div>
-								</div>
-							</div> -->
-						</div>
+						<div class="row" id="farmLendDiv"></div>
 						<div class="row">
-							<div class="col-lg-12" id="pageDiv">
-								<!-- <div class="product__pagination">
-									<a class="active" href="#">1</a> <a href="#">2</a> <a href="#">3</a>
-								</div> -->
-							</div>
+							<div class="col-lg-12" id="pageDiv"></div>
 						</div>
 						<div class="row">
 							<div class="col-lg-12">
@@ -137,6 +111,158 @@
 				</div>
 			</div>
 		</section>
+		
+		<div class="col-lg-4 col-md-6 col-sm-6 hideItem" id="farmLendItem">
+			<div class="product__item">
+				<div class="product__item__text">
+					<p id="number">번호</p>
+					<p id="addr">주소지</p>
+					<p id="crops">재배 작물</p>
+					<p id="area2">면적</p>
+					<p id="price2">희망가</p>
+					<p id="date">등록날짜</p>	
+				</div>
+			</div>
+		</div>
+
+		<div class="product__pagination hideItem" id="pageItem">
+			<a class="myInline" id="prevPage">&lt;</a>
+			<div id="pageNumDiv" class="myInline">
+				<a id="pageNum"></a>
+			</div>
+			<a class="myInline" id="nextPage">&gt;</a>
+		</div>
+		
+		<script th:inline="javascript">
+			// 페이지 로드
+			$(function() {
+				ajaxData(1)
+			});
+			// 리스트 불러오기
+			function ajaxData(page, dst1, dst2, mcrp, price, area) {
+				$.ajax({
+					url : 'farmLendList',
+					type : 'post',
+					data : {
+						pageNum : page,
+						dst1 : dst1,
+						dst2 : dst2,
+						mcrp : mcrp,
+						price : price,
+						area : area
+					}
+				})
+				.done(function(data) {
+					console.log(data);
+					printList(data);
+				})
+				.fail(function() {
+					console.log('fail');
+				});
+			}
+			// 리스트 출력 함수
+			function printList(data) {
+				$('#farmLendDiv').children().remove();
+				$('#pageDiv').children().remove();
+				let farmLendData = data.flList;
+				let pageData = data.pageInfo;
+				
+				$(farmLendData).each(function(index, item) {
+					printItem(item);
+				})
+				
+				printPage(pageData);
+			}
+			// 리스트 생성 함수
+			function printItem(item) {
+				let clone = $('#farmLendItem').clone();
+				$(clone).removeClass('hideItem');
+				
+				$(clone).find('#number').text(item.boardNo);
+				$(clone).find('#addr').text(item.addr + ' ' + item.detaAddr);
+				$(clone).find('#crops').text(item.mcrp);
+				$(clone).find('#area2').text(item.area + '(m²)');
+				$(clone).find('#price2').text(item.lendPrice + '원');
+				$(clone).find('#date').text(item.regDate);
+				
+				$(clone).find('#addr').on('click', function() {
+					location.href = "farmLendInfo?boardNo=" + item.boardNo
+				});
+				
+				$('#farmLendDiv').append(clone);
+			}
+			// 페이지 생성 및 추가
+			function printPage(pageData) {
+				console.log(pageData);
+				
+				let pageItem = $('#pageItem').clone();
+				$(pageItem).removeClass('hideItem');
+				$(pageItem).find('#prevPage').on('click', function() {
+					ajaxData(pageData.startPage - 1);
+				});
+				$(pageItem).find('#nextPage').on('click', function() {
+					ajaxData(pageData.endPage + 1);
+				});
+				
+				if(!pageData.prev) {
+					$(pageItem).find('#prevPage').hide();
+				}
+				if(!pageData.next) {
+					$(pageItem).find('#nextPage').hide();
+				}
+				
+				for(let i = pageData.startPage; i <= pageData.endPage; i++) {
+					let clone = $('#pageItem').find('#pageNum').clone();
+					$(clone).text(i);
+					if(i == pageData.pageNum) {
+						$(clone).addClass('active');
+						$(clone).css('border-color', 'orange');
+					}
+					$(clone).on('click', function() {
+						getCondition(i);
+					});
+					$(pageItem).find('#pageNumDiv').append(clone);
+				}
+				
+				$(pageItem).children().css('cursor', 'pointer');
+				
+				$(pageItem).find('#pageNum')[0].remove();
+				$('#pageDiv').append(pageItem);
+			}
+			// 조건 변경 시 함수
+			function getCondition(page) {
+				let dst1 = $('#dst1').val();
+				let dst2 = $('#dst2').val();
+				let mcrp = $('#mcrp').val();
+				let price = $('#price').val();
+				let area = $('#area').val();
+				if(page == null) {
+					page = 1;
+				}
+				
+				ajaxData(page, dst1, dst2, mcrp, price, area);
+			}
+			// 지역1 카테고리 변경 시
+			$('#dst1').change(function() {
+				getCondition();
+			});
+			// 지역2 카테고리 변경 시
+			$('#dst2').change(function() {
+				getCondition();
+			});
+			// 주요 재배 작물 카테고리 변경 시
+			$('#mcrp').change(function() {
+				getCondition();
+			});
+			// 가격 카테고리 변경 시
+			$('#price').change(function() {
+				getCondition();
+			});
+			// 면적 카테고리 변경 시
+			$('#area').change(function() {
+				getCondition();
+			});
+		</script>
 	</div>
 </body>
 </html>
