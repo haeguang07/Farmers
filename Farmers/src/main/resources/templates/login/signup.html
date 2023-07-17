@@ -178,6 +178,7 @@
 					,
 				prevText: '이전달',
 				nextText: '다음달',
+				 yearRange: 'c-50:c+50',//년도 선택 셀렉트박스를 현재 년도에서 이전, 이후로 얼마의 범위를 표시할것인가.
 				showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
 					,
 				showMonthAfterYear: true //년도 먼저 나오고, 뒤에 월 표시
@@ -417,35 +418,33 @@
 
 			$('#frm').on('submit', function () {
 				event.preventDefault();
-				if (step1()) {
+				if (!step1()) {
 					return;
 				};
+				let zip =post.val();
+				let mbl= mbl.val();
+				if(zip=='' || mbl==''){
+					if(!prompt('아직 입력하지 않은 정보가 있습니다\n그대로 회원가입을 하시겠습니까?')){
+						return;
+					}
 
-				//let formData = new FormData();
+				}
+
 				let member = {
 					id: id.data('set'),
 					pw: pw.val(),
 					email: email.data('set'),
 					nick: nickname.data('set'),
 					name: name.val(),
-					zip: post.val(),
+					zip,
 					addr: adr.val(),
 					detaAddr: adr2.val(),
-					mbl: mbl.val(),
+					mbl,
 					bDate: birth.val(),
 					gen: gen.val()
 				};
 				console.log(member);
-				let memberDetail = {
-					name: name.val(),
-					zip: post.val(),
-					addr: adr.val(),
-					detaAddr: adr2.val(),
-					mbl: mbl.val(),
-					bDate: birth.val(),
-					gen: gen.val()
-				};
-				console.log(memberDetail);
+
 				$.ajax({
 					url: 'signup',
 					method: 'POST',
@@ -469,39 +468,41 @@
 
 
 			function isContinuedValue(value) {
-				console.log("value = " + value);
 				var intCnt1 = 0;
 				var intCnt2 = 0;
 				var temp0 = "";
 				var temp1 = "";
 				var temp2 = "";
 				var temp3 = "";
-
 				for (var i = 0; i < value.length - 3; i++) {
-
 					temp0 = value.charAt(i);
 					temp1 = value.charAt(i + 1);
 					temp2 = value.charAt(i + 2);
 					temp3 = value.charAt(i + 3);
-
-
 					if (temp0.charCodeAt(0) - temp1.charCodeAt(0) == 1 &&
 						temp1.charCodeAt(0) - temp2.charCodeAt(0) == 1 &&
 						temp2.charCodeAt(0) - temp3.charCodeAt(0) == 1) {
 						intCnt1 = intCnt1 + 1;
 					}
-
 					if (temp0.charCodeAt(0) - temp1.charCodeAt(0) == -1 &&
 						temp1.charCodeAt(0) - temp2.charCodeAt(0) == -1 &&
 						temp2.charCodeAt(0) - temp3.charCodeAt(0) == -1) {
 						intCnt2 = intCnt2 + 1;
 					}
-
 				}
-
-
 				return (intCnt1 > 0 || intCnt2 > 0);
 			}
+			
+			//새로고침/뒤로가기 변경사항 확인 알림창
+			window.onbeforeunload = function(e) {
+			    var dialogText = 'Dialog text here';
+			    e.returnValue = dialogText;
+			    return dialogText;
+			};
+
+			
+			
+			
 		</script>
 	</div>
 </body>

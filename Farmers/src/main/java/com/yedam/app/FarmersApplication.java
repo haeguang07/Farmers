@@ -12,5 +12,6 @@ public class FarmersApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(FarmersApplication.class, args);
 	}
+	
 
 }
