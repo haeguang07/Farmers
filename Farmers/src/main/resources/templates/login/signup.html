@@ -417,7 +417,7 @@
 
 			$('#frm').on('submit', function () {
 				event.preventDefault();
-				if (!step1()) {
+				if (step1()) {
 					return;
 				};
 

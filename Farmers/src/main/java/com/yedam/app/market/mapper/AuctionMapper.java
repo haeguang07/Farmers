@@ -16,7 +16,10 @@ public interface AuctionMapper {
 	public List<AuctionVO> getNextAuctionList();
 	
 	// 단건 경매 정보 조회
-	public AuctionVO selectAuction(String actNo);
+	public AuctionVO selectAuction(String boardNo);
+	
+	// 입찰하기
+	public int bidAuction(AuctionVO vo);
 	
 	// 경매 등록
 	public int addAuction(AuctionVO vo);

@@ -30,8 +30,13 @@ public class AuctionServiceImpl implements AuctionService {
 	}
 	
 	@Override
-	public AuctionVO getAuctionInfo(String actNo) {
-		return auctionMapper.selectAuction(actNo);
+	public AuctionVO getAuctionInfo(String boardNo) {
+		return auctionMapper.selectAuction(boardNo);
+	}
+	
+	@Override
+	public boolean bidAuction(AuctionVO vo) {
+		return auctionMapper.bidAuction(vo) > 0;
 	}
 
 	@Override
@@ -46,7 +51,7 @@ public class AuctionServiceImpl implements AuctionService {
 	}
 
 	@Override
-	public boolean deleteAuction(int ActNo) {
+	public boolean deleteAuction(String boardNo) {
 		// TODO Auto-generated method stub
 		return false;
 	}

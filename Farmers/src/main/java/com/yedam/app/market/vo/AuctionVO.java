@@ -12,8 +12,8 @@ import lombok.Data;
 public class AuctionVO {
 
 	// 경매
-	private String actNo;
-	private String actTitle;
+	private String boardNo;
+	private String title;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	@JsonFormat(pattern ="yyyy-MM-dd")
 	private Date actDate;
@@ -37,7 +37,7 @@ public class AuctionVO {
 	// 경매 신청
 	private String aplNo;
 	private String memNo;
-	private int bidPrice;
+	private int price;
 	private String sbidStts;
 	
 	// 멤버
