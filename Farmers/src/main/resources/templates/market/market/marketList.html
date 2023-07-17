@@ -163,7 +163,7 @@
 					</ul>
 				</div>
 				<div class="product__item__text">
-					<h5 class="marketTitle">상품명</h5>
+					<h5 class="mktTitle">상품명</h5>
 					<h5 class="price" style="color: grey">금액</h5>
 				</div>
 			</div>
@@ -188,7 +188,8 @@
 					url: "marketItem",
 					method: "get",
 					data: {page, mktCtg},
-					success(result){					
+					success(result){	
+						console.log(result)
 						printData(result)
 					},
 					error(err){
@@ -196,12 +197,12 @@
 					}
 				})
 			}
-
+ 
 			function printData(data,mktCtg){
 				$('#mkList').children().remove();
 				$('#mkPage').children().remove();
-				let mkt= data.mkt;
-				mkt.forEach(el => {
+				let mk= data.mk; //controller에서 넘긴 값
+				mk.forEach(el => {
 					console.log(el)
 					printList(el)
 				})			
@@ -268,7 +269,7 @@
 			}
 			ajaxData(page, mktCtg);
 		}
-			
+		 
 		</script>
 
 	</div>
