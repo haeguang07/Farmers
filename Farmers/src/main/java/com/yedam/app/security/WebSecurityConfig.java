@@ -1,5 +1,6 @@
 package com.yedam.app.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,14 +11,21 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import com.yedam.app.user.service.MemberService;
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
+	@Autowired
+	MemberService memberService;
+
+	
 	@Bean
 	PasswordEncoder passwordEncoder() {
+		
 		return new BCryptPasswordEncoder();
-	
 	}
+	
 	@Bean
 	AuthenticationSuccessHandler authenticationSuccessHandler() {
 		return new CustomSuccessHandler();
@@ -45,7 +53,8 @@ public class WebSecurityConfig {
 			.and()
 			.logout((logout) -> logout
 					.logoutSuccessUrl("/")
-					.permitAll());
+					.permitAll())
+			;
 			
 	return http.build();
 	}	

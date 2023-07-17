@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yedam.app.common.service.CodeService;
 import com.yedam.app.farm.service.FarmLendService;
 import com.yedam.app.farm.vo.FarmLendVO;
 import com.yedam.app.market.vo.PageVO;
@@ -22,9 +23,16 @@ public class FarmLendController {
 	@Autowired
 	FarmLendService flService;
 	
+	@Autowired
+	CodeService codeService;
+	
 	// 리스트 전체조회
 	@GetMapping("farmLendList")
 	public String getFarmLendAllList(Model model) {
+		model.addAttribute("dst1", codeService.getCodeList("0K"));
+		model.addAttribute("mcrp", codeService.getCodeList("1E"));
+		model.addAttribute("price", codeService.getCodeList("1C"));
+		model.addAttribute("area", codeService.getCodeList("1D"));
 		return "farm/farmLend/farmLendList";
 	}
 	
@@ -32,29 +40,33 @@ public class FarmLendController {
 	@PostMapping("farmLendList")
 	@ResponseBody
 	public Map<String, Object> getFarmLendListPage(@RequestParam(required = false, defaultValue = "0") int pageNum, 
-												   @RequestParam(required = false) String addr,
-												   @RequestParam(required = false) String daddr,
+												   @RequestParam(required = false) String dst1,
+												   @RequestParam(required = false) String dst2,
 												   @RequestParam(required = false) String mcrp,
 												   @RequestParam(required = false) String price,
 												   @RequestParam(required = false) String area) {
 		pageNum = pageNum == 0 ? 1 : pageNum;
-		int total = flService.getCount(addr, daddr, mcrp, price, area);
-		List<FarmLendVO> list = flService.getFarmLendListPage(pageNum, addr, daddr, mcrp, price, area);
+		int total = flService.getCount(dst1, dst2, mcrp, price, area);
+		List<FarmLendVO> list = flService.getFarmLendListPage(pageNum, dst1, dst2, mcrp, price, area);
 		
 		PageVO vo = new PageVO(pageNum, total);
 		Map<String, Object> map = new HashMap<>();
 		map.put("flList", list);
 		map.put("pageInfo", vo);
+		if(dst1 != null) {
+			map.put("dst2", codeService.getCodeList(dst1));
+		}
 		
 		return map;
 	}
+	
 	
 	// 단건조회
 	@GetMapping("farmLendInfo")
 	public String getFarmLendInfo(FarmLendVO flVO, Model model) {
 		FarmLendVO info = flService.getFarmLendInfo(flVO);
 		model.addAttribute("flInfo", info);
-		return "";
+		return "farm/farmLend/farmLendInfo";
 	}
 	
 	// 등록 페이지 불러오기
@@ -104,8 +116,8 @@ public class FarmLendController {
 	// 삭제 기능
 	@PostMapping("farmLendDelete")
 	@ResponseBody
-	public String deleteFarmLend(String frldNo) {
-		flService.deleteFarmLendInfo(frldNo);
+	public String deleteFarmLend(String boardNo) {
+		flService.deleteFarmLendInfo(boardNo);
 		return "farm/farmLend/farmLendList";
 	}
 }

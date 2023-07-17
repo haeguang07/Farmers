@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.yedam.app.market.service.AuctionService;
 import com.yedam.app.market.vo.AuctionVO;
@@ -25,8 +26,8 @@ public class AuctionController {
 	
 	// 단건조회 페이지
 	@GetMapping("auctionInfo")
-	public String auctionInfo(Model model, String actNo) {
-		AuctionVO info = actService.getAuctionInfo(actNo);
+	public String auctionInfo(Model model, String boardNo) {
+		AuctionVO info = actService.getAuctionInfo(boardNo);
 		model.addAttribute("actInfo", info);
 
 		return "market/auction/auctionInfo";

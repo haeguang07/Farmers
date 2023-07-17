@@ -9,23 +9,23 @@
 		FROM (
 	            SELECT rownum rn, a.*
 	            FROM (
-                        SELECT act.act_no, act.act_title, act.act_date, act.act_trm, act.rep, act.bnp, count(bid_price) as bid_count, NVL(MAX(bid_price), 0) AS bid_price
+                        SELECT act.board_no, act.title, act.act_date, act.act_trm, act.rep, act.bnp, count(price) as bid_count, NVL(MAX(price), 0) AS price
                         FROM auction act LEFT JOIN auction_apply apl
-                        ON (act.act_no = apl.act_no)
+                        ON (act.board_no = apl.board_no)
                         WHERE act.reg_stts = 'e1'
                         <![CDATA[
                         AND act.act_Date <= sysdate
                         ]]>
-                        GROUP BY act.act_no, act.act_title, act.act_date, act.act_trm, act.rep, act.bnp
+                        GROUP BY act.board_no, act.title, act.act_date, act.act_trm, act.rep, act.bnp
                         <choose>
                         	<when test="order.equals('인기순')">
                         		ORDER BY bid_count DESC
                         	</when>
                         	<when test="order.equals('최저가순')">
-                        		ORDER BY bid_price
+                        		ORDER BY price
                         	</when>
                         	<when test="order.equals('최고가순')">
-                        		ORDER BY bid_price DESC
+                        		ORDER BY price DESC
                         	</when>
                         	<when test="order.equals('마감임박순')">
                         		ORDER BY act_trm
@@ -40,9 +40,9 @@
 	
 	<!-- 다음 경매 리스트 조회 -->
 	<select id="getNextAuctionList" resultType="AuctionVO">
-		SELECT act.act_no, act.act_title, act.act_date, act.act_trm, act.rep, act.bnp
+		SELECT act.board_no, act.title, act.act_date, act.act_trm, act.rep, act.bnp
 		FROM auction act LEFT JOIN auction_apply apl
-		ON (act.act_no = apl.act_no)
+		ON (act.board_no = apl.board_no)
 		WHERE act.reg_stts = 'e1'
 		<![CDATA[
 		AND act.act_date > sysdate
@@ -53,29 +53,43 @@
 	<select id="auctionTotal" resultType="int">
 		SELECT count(*)
 		FROM (
-	            SELECT act.act_no, act.act_title, act.act_date, act.act_trm, act.rep, act.bnp, count(bid_price) as bid_count, NVL(MAX(bid_price), 0) AS bid_price
+	            SELECT act.board_no, act.title, act.act_date, act.act_trm, act.rep, act.bnp, count(price) as bid_count, NVL(MAX(price), 0) AS price
 	            FROM auction act LEFT JOIN auction_apply apl
-	            ON (act.act_no = apl.act_no)
+	            ON (act.board_no = apl.board_no)
 	            WHERE act.reg_stts = 'e1'
 	            <![CDATA[
 				AND act.act_date > sysdate
 				]]>
-	            GROUP BY act.act_no, act.act_title, act.act_date, act.act_trm, act.rep, act.bnp
+	            GROUP BY act.board_no, act.title, act.act_date, act.act_trm, act.rep, act.bnp
         	  )
 	</select>
 	
 	<!-- 단건 경매 정보 조회 -->
 	<select id="selectAuction" resultType="AuctionVO">
-		SELECT mem.nick, mem.mem_grd, act_title, desct, sale_qty, bnp, 
+		SELECT mem.nick, mem.mem_grd, title, desct, sale_qty, bnp, 
             	act_date, act_trm, ship_price, ship_dur_avg, ship_dur_max, rep, atch_no, 
-                	count(apl.bid_price) AS bid_count, NVL(MAX(apl.bid_price), 0) AS bid_price
+                	count(apl.price) AS bid_count, NVL(MAX(apl.price), 0) AS price
 		FROM member mem, auction act, auction_apply apl
 		WHERE mem.mem_no = act.mem_no
-		AND act.act_no = apl.act_no
-		AND act.act_no = #{actNo}
-		GROUP BY mem.nick, mem.mem_grd, act_title, desct, sale_qty, bnp, 
+		AND act.board_no = apl.board_no
+		AND act.board_no = #{boardNo}
+		GROUP BY mem.nick, mem.mem_grd, title, desct, sale_qty, bnp, 
 		                act_date, act_trm, ship_price, ship_dur_avg, ship_dur_max, rep, atch_no
 	</select>
+	
+	
+	<!-- 입찰하기 -->
+	<insert id="bidAuction" parameterType="AuctionVO">
+		<selectKey keyProperty="aplNo"
+				   resultType="String"
+				   order="BEFORE">
+			SELECT 'APL' || LPAD(act_seq.nextval, 6, '0')
+			FROM dual
+		</selectKey>
+		INSERT INTO auction_apply
+		VALUES (#{aplNo}, #{memNo}, #{boardNo}, #{Price}, 'F1')
+	</insert>
+	
 	
 	
 	<!-- 경매 등록 -->
@@ -87,7 +101,7 @@
 			FROM dual
 		</selectKey>
 		INSERT INTO auction (
-								act_no
+								board_no
 								, mem_no
 								, act_title
 								, act_date
