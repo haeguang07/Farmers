@@ -31,9 +31,9 @@ public class UserContorller {
 	public String join() {
 		return "login/signup";
 	}
-	@GetMapping("login_callback")
+	@GetMapping("naverLogin")
 	public String callbackNaber() {
-		return "login/login";
+		return "login/naverCallback";
 	}
 	
 	

@@ -19,6 +19,7 @@ public class MemberServiceImpl implements MemberService, UserDetailsService{
 	@Autowired
 	StringEncryptor jasyptStringEncryptor;
 
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		System.out.println(username);
@@ -85,6 +86,10 @@ public class MemberServiceImpl implements MemberService, UserDetailsService{
 		
 		return memberMapper.updatePw(vo)==1;
 	}
+
+
+	
+
 
 
 	
