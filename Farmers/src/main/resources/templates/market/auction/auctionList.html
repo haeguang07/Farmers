@@ -234,11 +234,11 @@
 				let imageUrl = '/img/market/auction/' + item.rep;
 				$(clone).find('.set-bg').css('background-image', 'url('+ imageUrl +')');
 				$(clone).find('.set-bg').on('click', function(){
-					location.href = `auctionInfo?actNo=${item.actNo}`
+					location.href = `auctionInfo?boardNo=${item.boardNo}`
 				})
-				$(clone).find('h6').text(item.actTitle);				
+				$(clone).find('h6').text(item.title);				
 				$(clone).find('.buyNow').text(number_format(item.bnp) + '원');
-				$(clone).find('.currentBid').text(number_format(item.bidPrice));
+				$(clone).find('.currentBid').text(number_format(item.price));
 				
 				
 				// 경매 기간별 카운트 다운
@@ -347,7 +347,7 @@
 				// 데이터 넣기
 				let imageUrl = '/img/market/auction/' + item.rep;
 				$(clone).find('.set-bg').css('background-image', 'url('+ imageUrl +')');
-				$(clone).find('h6').text(item.actTitle);				
+				$(clone).find('h6').text(item.title);				
 				$(clone).find('.NextBuyNow').text(number_format(item.bnp) + '원');
 				
 				$('#nextAuctionList').append(clone)
