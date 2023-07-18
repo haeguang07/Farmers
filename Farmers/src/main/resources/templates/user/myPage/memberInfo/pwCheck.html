@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{user/myPage/myPage}">
+
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Male_Fashion Template">
+<meta name="keywords" content="Male_Fashion, unica, creative, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>MyPage</title>
+<link rel="stylesheet" href="css/sungWookCss/sungook.css"
+	type="text/css">
+</head>
+
+<body>
+	<div layout:fragment="myPageContent">
+			<!-- 장바구니 내용 시작 -->
+			<div class="" style="margin: 0 auto;"> 
+				<!-- Contact Section Begin -->
+				<section class="contact spad">
+					<div class="container"
+						style="border: 2px solid grey; padding-top: 50px;">
+						<div class="row">
+							<div class="col-lg-12 col-md-12">
+								<div class="contact__text">
+									<div class="section-title" style="text-align: center;">
+										<h4>비밀번호 확인</h4>
+										<p>본인 인증이 필요한 페이지입니다</p>
+										<br> <label style="margin-right: 30px;">비밀번호확인</label><input
+											id="pwCheck" type="password" class="form-control"
+											style="display: inline; width: 300px; margin-right: 30px;">
+										<button type="button" class="form-control"
+											style="width: 100px; display: inline;" id="checkBtn">확인</button>
+									</div>
+								</div>
+							</div>
+				</section>
+				<!-- Contact Section End -->
+			</div>
+			<!-- 장바구니 내용 끝 -->
+		<script th:inline="javascript">
+			$('#checkBtn').on('click',function(){
+				$.ajax({
+					url : "myPwCheck",
+					data : {
+						pw : $('#pwCheck').val(),
+						memNo : /*[[${session.mem.memNo}]]*/
+					}
+				})
+				.done(function(result){
+					console.log(result)
+					if(result){
+						location.href="memberInfo?memNo="+ /*[[${session.mem.memNo}]]*/
+					}else{
+						alert('비밀번호가 틀렸습니다')
+					}
+				})
+				.fail(function(){
+					console.log('fail')
+				})
+			})
+		</script>
+	</div>
+</body>
+
+</html>
