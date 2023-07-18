@@ -59,7 +59,7 @@
                                     <div class="col-lg-6">
                                         <div class="checkout__input">
                                             <p style="display: inline;">닉네임<span>*</span></p><button type="button"
-                                                class="form-control "
+                                                class="form-control form-control-sm"
                                                 style="display: inline; width: 100px; margin-left: 30px;"
                                                 id="nickCheck">중복체크</button>
                                             <input type="text" th:value="${memberInfo.nick}" name="nick">
@@ -78,7 +78,7 @@
                                     <div class="col-lg-6">
                                         <div class="checkout__input">
                                             <p>이메일<span>*</span></p>
-                                            <input type="text" th:value="${memberInfo.email}" name="email">
+                                            <input type="text" th:value="${memberInfo.email}" name="email" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -108,7 +108,11 @@
                                     <div class="col-lg-6">
                                         <div class="checkout__input">
                                             <p>성별<span></span></p>
-                                            <input type="text" th:value="${memberInfo.gen}" name="gen">
+                                            <select th:value="${memberInfo.gen}" name="gen">
+                                                <option value="" >선택</option>
+                                                <option value="a0" th:selected="${memberInfo.gen}=='a0'">남성</option>
+                                                <option value="a1" th:selected="${memberInfo.gen}=='a1'">여성</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -197,7 +201,7 @@
 
             $(function(){
                 //날짜 타입으로 변환
-                let date = new Date(/*[[${memberInfo.bDate}]]*/).toISOString().substring(0, 10)
+                let date = (/*[[${memberInfo.bDate}]]*/).split('T')[0]
                 $('[name=bDate]').val(date)
             })
 
@@ -219,9 +223,11 @@
 
             //비밀번호 변경 input
             $('#changePw').on('click',function(){
-                $('#pwInput').toggleClass('hideItem')
-                $('#pw').val('');
-                $('#pwCheck').val('');
+                if(confirm('비밀번호를 변경/취소 하시겠습니까?')){
+                    $('#pwInput').toggleClass('hideItem')
+                    $('#pw').val('');
+                    $('#pwCheck').val('');
+                }
             })
 
             //수정완료 시
@@ -233,6 +239,7 @@
                 }else if(!$('[name=email]').val()){
                     alert('이메일을 입력해주세요')
                 }else{
+                    alert('회원정보 수정완료')
                     $('#member').submit();
                 }
             })

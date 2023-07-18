@@ -127,6 +127,5 @@
 		UPDATE member 
 		SET pw=#{pw}
 		WHERE mem_no=#{memNo}
-	
 	</update>
 </mapper>

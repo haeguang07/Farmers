@@ -19,7 +19,42 @@
 	</select>
 	
 	<!-- 회원정보수정 프로시저-->
-	<update id="modifyMember">
-		
+	<select id="modifyMember" parameterType="MemberVO" resultType="MemberVO">
+		{
+		CALL modify_member(
+		#{id, mode=IN , jdbcType=VARCHAR},
+		#{pw, mode=IN , jdbcType=VARCHAR},
+		#{name, mode=IN , jdbcType=VARCHAR},
+		#{nick, mode=IN , jdbcType=VARCHAR},
+		#{mbl, mode=IN , jdbcType=VARCHAR},
+		#{email, mode=IN , jdbcType=VARCHAR},
+		#{zip, mode=IN , jdbcType=VARCHAR},
+		#{addr, mode=IN , jdbcType=VARCHAR},
+		#{detaAddr, mode=IN , jdbcType=VARCHAR},
+		#{bDate, mode=IN , jdbcType=VARCHAR},
+		#{gen, mode=IN , jdbcType=VARCHAR}
+		)
+
+		}
+	</select>
+	
+	<!-- 등업신청 -->
+	<insert id="upgradeGrade" parameterType="AttachVO">
+		INSERT INTO attachment (ATCH_FILE_NO,MEM_NO,ATCH_FILE_NAME,UPL_FILE_NAME,UPL_DATE,BOARD_NO)
+		VALUES ('ATCH'||LPAD(ATCH_NO_SEQ.NEXTVAL,13,0),#{memNo},#{atchFileName},#{uplFileName},sysdate,'grade'||LPAD(grade_seq.NEXTVAL,12,0))
+	</insert>
+	
+	<!-- 포인트 내역 조회 -->
+	<select id="pointHistory" parameterType="String" resultType="PointsVO">
+		SELECT *
+		FROM points
+		WHERE mem_no = #{memNo}
+	</select>
+	
+	<!-- 회원탈퇴 -->
+	<update id="secession" parameterType="String">
+		UPDATE member_detail
+		SET stts = 'c1'
+		WHERE mem_no = #{memNo}
 	</update>
 </mapper>

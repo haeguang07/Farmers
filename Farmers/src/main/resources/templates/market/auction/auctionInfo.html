@@ -159,7 +159,7 @@ label:has(.bidCount) {
 						<div class="breadcrumb__text">
 							<h4>경매장</h4>
 							<div class="breadcrumb__links">
-								<a href="#">농촌마켓</a> <a href="auctionList">경매장</a> <span
+								<a href="marketList">농촌마켓</a> <a href="auctionList">경매장</a> <span
 									th:text="${actInfo.title}">상품명</span>
 							</div>
 						</div>
@@ -208,7 +208,7 @@ label:has(.bidCount) {
 					</div>
 					<div class="col-lg-6" id="auctionInfo">
 						<div class="product__details__text">
-							<input type="text" style="display: none;" th:text="${actInfo.boardNo}">
+							<input type="text" id="boardNo" style="display: none;" th:value="${actInfo.boardNo}">
 							<div class="product__label" th:text="${actInfo.nick}">닉네임</div>
 							<h4 th:text="${actInfo.title}">상품명</h4>
 							<h5>
@@ -248,7 +248,7 @@ label:has(.bidCount) {
 											<div class="bidInput">
 												<button class="roundBtn" type="button">-</button>
 												<input type="number" step="500" class="form-control" id="bidPrice"
-													placeholder="입찰금액을 입력하세요.">
+													oninput="number_format()" placeholder="입찰금액을 입력하세요.">
 												<button class="roundBtn" type="button">+</button>
 											</div>
 											<div>
@@ -313,7 +313,18 @@ label:has(.bidCount) {
 		</section>
 		<!-- Shop Details Section End -->
 
-		<script>
+		<script th:inline="javascript">
+			// 세션 정보
+			let mem;
+			/*<![CDATA[*/
+			let bool= [[${not #strings.isEmpty(session.mem)}]];
+			if(bool){
+				mem = [[${session.mem}]]		
+			}
+			/*]]>*/
+			console.log(mem)
+			
+			
 			// 상세 조회 시 countdown 실행
 			$(function() {
 				countdown();
@@ -351,19 +362,21 @@ label:has(.bidCount) {
 			$('#bidPrice').change(function(){
 				let inputVal = $(this).val();
 				let value = parseInt(inputVal);
+				let balence = value % 500;
 				
 				if(value < 1000){
 					$('#bidPrice').val('1000');
 					$('#bidPrice').focus();
 					alert('입찰금액은 최소 1000원부터입니다.');
-				}
-				
-				let balence = value % 500;
-				if (balence !== 0){
-					// 입력한 값에서 가까운 내림한 500원 단위 값 출력
-					let roundedValue = value - balence;
-					$('#bidPrice').val(roundedValue);
-					alert('500원 단위로 입력 가능합니다.');		
+				}else {
+					if (balence !== 0){
+						// 입력한 값에서 가까운 내림한 500원 단위 값 출력
+						let roundedValue = value - balence;
+						$('#bidPrice').val(roundedValue);
+						alert('500원 단위로 입력 가능합니다.');
+					}else {
+						$('#bidPrice').val(inputVal);
+					}
 				}
 			})
 			
@@ -392,46 +405,54 @@ label:has(.bidCount) {
 				}
 			})
 			
-			// 입찰 기능
-			
-			/*<![CDATA[*/
-			let memNo = `[[${session.mem.memNo}]]`
-			/*]]>*/
-			console.log(memNo);
-			
+			// 입찰 기능			
 			$('.nextBtn').on('click', function(){
-				// APL_NO(시퀀스), MEM_NO(세션), ACT_NO(값), BID_PRICE(값), SBID_STTS(디폴트 값)
-				let boardNo = $('#auctionInfo').eq(0).val();
-				let price = $('#bidPrice').val();
-				console.log(mem.memNo, boardNo, price);
+				event.preventDefault();
+				let inputVal = $('#bidPrice').val();
 				
-				if(bidPrice < 1000){
-					event.preventDefault();
-					$('#bidPrice').val('1000');
-					alert('입찰금액은 최소 1000원입니다.');
-					$('#bidPrice').focus();
+				if(!bool){
+					alert('로그인 후 이용 가능합니다.');
+					return;
 				}else {
-					
-						$.ajax({
-							url: "bidAuction",
-							method: "POST",
-							headers: {
-								'Content-Type' : 'application/json'
-							},
-							body: JSON.stringify({memNo,boardNo,price}.serializeObject()),
-							success(data){
-								console.log(data);
-							},
-							error(reject){
-								console.log(reject);
-							}								
-						})
+					if(inputVal == ''){
+						alert('입찰 금액을 입력하세요.');
+					}else {
+						// APL_NO(시퀀스), MEM_NO(세션), ACT_NO(값), BID_PRICE(값), SBID_STTS(디폴트 값)
+						let boardNo = $('#boardNo').val();
+						let price = $('#bidPrice').val();
+						let memNo = mem.memNo;
+						let vo = {memNo,boardNo,price};
+						console.log(JSON.stringify(vo));
 						
-					
+						if(bidPrice < 1000){
+							event.preventDefault();
+							$('#bidPrice').val('1000');
+							alert('입찰금액은 최소 1000원입니다.');
+							$('#bidPrice').focus();
+						}else {
+							
+							$.ajax({
+								url: "bidAuction",
+								method: "POST",
+								headers: {
+									'Content-Type' : 'application/json'
+								},
+								data: JSON.stringify(vo),
+								success(data){
+									console.log(data);
+								},
+								error(reject){
+									console.log(reject);
+								}								
+							})
+						}
+					}
 				}
 			})
 		
-			
+			function number_format(){
+				$('#bidPrice').val().toString().replace(/\B(?=(\d{3})+(?!\d))/g,',');
+			}	
 		</script>
 	</div>
 </body>

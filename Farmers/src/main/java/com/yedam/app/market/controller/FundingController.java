@@ -232,9 +232,13 @@ public class FundingController {
 			String imagePath = "/images/" + uploadFileName.replace(File.separator, "/");
 			System.out.println(uploadFileName);
 			System.out.println(imagePath);
+			System.out.println(uuid);
+			System.out.println(originalName);
 			
 			map.put("loadPath", loadPath);
 			map.put("dbPath", imagePath);
+			map.put("uuidName", uuid);
+			map.put("originName", originalName);
 		}
 		return map;
 	}
