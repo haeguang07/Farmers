@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yedam.app.common.service.CodeService;
 import com.yedam.app.market.service.CropsSaleService;
 import com.yedam.app.market.vo.CropsSaleVO;
 import com.yedam.app.market.vo.PageVO;
@@ -21,6 +22,9 @@ public class CropsSaleController {
 	
 	@Autowired
 	CropsSaleService csService;
+	
+	@Autowired
+	CodeService codeService;
 	
 	// 리스트 전체조회
 	@GetMapping("cropsSaleList")
@@ -61,6 +65,7 @@ public class CropsSaleController {
 		CropsSaleVO info = csService.getCropsSaleInfo(csVO);
 		System.out.println(info);
 		model.addAttribute("csInfo", info);
+		model.addAttribute("codeInfo", codeService.getCodeList("0N"));
 		return "market/cropsSale/cropsSaleInfo";
 	}
 	

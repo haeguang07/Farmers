@@ -2,10 +2,59 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  <mapper namespace="com.yedam.app.common.mapper.PaymentMapper">
-  	<select id="getMemberData" resultType="MemberDetailVO">
-  		SELECT * 
-  		FROM member JOIN member_detail USING(mem_no) 
-  		WHERE mem_no = #{memNo}
-  	</select>
-  </mapper>
+<mapper namespace="com.yedam.app.common.mapper.PaymentMapper">
+	<!-- 결제 회원 정보 -->
+	<select id="getMemberData" resultType="MemberPayVO">
+		SELECT *
+		FROM member JOIN
+		member_detail USING(mem_no)
+		WHERE mem_no = #{memNo}
+	</select>
+
+	<!-- 상품정보 -->
+	<select id="getProductInfo" statementType="CALLABLE"
+		parameterType="PayProductVO" resultType="PayProductVO">
+		{
+		CALL getpayproduct(
+		#{boardNo, mode=IN , jdbcType=VARCHAR},
+		#{boardCtg, mode=IN , jdbcType=VARCHAR},
+		#{title, mode=OUT , jdbcType=VARCHAR},
+		#{price, mode=OUT , jdbcType=VARCHAR},
+		#{rep, mode=OUT , jdbcType=VARCHAR}
+		)
+
+		}
+	</select>
+
+	<!-- payment 테이블 insert 프로시저-->
+	<select id="insertPaymnet" parameterType="PaymentVO" statementType="CALLABLE" resultType="PaymentVO">
+		{
+		CALL insert_payment (
+		#{payNo, mode=OUT , jdbcType = VARCHAR},
+		#{memNo, mode=IN , jdbcType = VARCHAR},
+		#{rcvName, mode=IN , jdbcType = VARCHAR},
+		#{rcvMbl, mode=IN , jdbcType = VARCHAR},
+		#{rcvAddr, mode=IN , jdbcType = VARCHAR},
+		#{rcvDetaAddr, mode=IN , jdbcType = VARCHAR},
+		#{usePnt, mode=IN , jdbcType = VARCHAR},
+		#{payMthd, mode=IN , jdbcType = VARCHAR},
+		#{totalPayPrice, mode=IN , jdbcType = VARCHAR},
+		#{payCode, mode=IN , jdbcType = VARCHAR}
+		)
+		}
+	</select>
+
+	<!--payment_detail 테이블 입력 프로시저 -->
+	<select id="insertPayDetail" parameterType="PayProductVO">
+		{
+		CALL insert_pay_detail (
+		#{boardNo, mode=IN , jdbcType = VARCHAR},
+		#{payNo, mode=IN , jdbcType = VARCHAR},
+		#{memNo, mode=IN , jdbcType = VARCHAR},
+		#{qty, mode=IN , jdbcType = VARCHAR},
+		#{price, mode=IN , jdbcType = VARCHAR},
+		#{boardCtg, mode=IN , jdbcType = VARCHAR}
+		)
+		}
+	</select>
+</mapper>

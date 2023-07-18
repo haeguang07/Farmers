@@ -65,10 +65,9 @@ public class WebSecurityConfig {
 					.logoutSuccessUrl("/")
 					.invalidateHttpSession(true)
 					.permitAll())
-			.oauth2Login()
-			.userInfoEndpoint()
-			//.userService(null);
-			;
+			.headers().frameOptions().sameOrigin() //팝업창 띄우기 
+
+;
 			
 	return http.build();
 	}	

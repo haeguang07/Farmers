@@ -27,11 +27,6 @@ public class CartCotroller {
 	@PostMapping("cart")
 	@ResponseBody
 	public List<CartVO> getCartList(CartVO vo){
-		if(vo.getBoardCtg() == null) {
-			System.out.println(vo.getBoardCtg());
-			vo.setBoardCtg("n8");
-			System.out.println(vo.getBoardCtg());
-		}
 		List<CartVO> list = cartService.getCartList(vo);
 		return list;
 	}

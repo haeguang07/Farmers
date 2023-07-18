@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="Male_Fashion Template">
+	<meta name="keywords" content="Male_Fashion, unica, creative, html">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>upgrade</title>
+	<!-- Google Font -->
+	<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+		rel="stylesheet">
+
+	<!-- Css Styles -->
+	<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+	<link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+	<link rel="stylesheet" href="/css/nice-select.css" type="text/css">
+	<link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/style.css" type="text/css">
+	<!-- 알림창 css -->
+	<link rel="stylesheet" href="/css/suinCss/alarm.css" type="text/css">
+
+	<!-- Js Plugins -->
+	<script src="/js/jquery-3.3.1.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/jquery.nice-select.min.js"></script>
+	<script src="/js/jquery.nicescroll.min.js"></script>
+	<script src="/js/jquery.magnific-popup.min.js"></script>
+	<script src="/js/jquery.countdown.min.js"></script>
+	<script src="/js/jquery.slicknav.js"></script>
+	<script src="/js/mixitup.min.js"></script>
+	<script src="/js/owl.carousel.min.js"></script>
+	<script src="/js/json.min.js"></script>
+
+</head>
+
+<body>
+	<hr>
+	<!-- Shop Details Section Begin -->
+	<section class="shop-details">
+		<div class="product__details__pic" style="background-color: white;">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<h3>등업신청</h3>
+						<hr>
+						<p style="color: lightgrey;">* 등본의 주소와 회원주소가 동일 시 관리자 확인 후 등업이 완료됩니다</p>
+					</div>
+					<div class="product__details__content col-lg-12">
+						<div class="row col-lg-12">
+							<div class="col-lg-12 checkout__input">
+								<h5>회원주소</h5>
+								<hr>
+							</div>
+							<div class="checkout__input col-lg-12">
+								<input type="text" readonly placeholder="우편번호" id="addressCode" style="width: 300px;"
+									th:value="${member.zip}">
+							</div>
+						</div>
+						<div class="checkout__input col-lg-12 ">
+							<input type="text" placeholder="주소지" id="address" readonly th:value="${member.addr}">
+						</div>
+						<div class="checkout__input col-lg-12 ">
+							<input type="text" placeholder="상세주소" id="addressDetail" readonly th:value="${member.detaAddr}">
+							<hr>
+						</div>
+						<div class="col-lg-12 checkout__input">
+							<h5>등본 파일 등록</h5>
+							<hr>
+						</div>
+						<div class="col-lg-12">
+							<input type="file" class="form-control" id="fileInput">
+						</div>
+						<div class="col-lg-12 checkout__input row" style="margin-left: 0px; margin-right: 0px;">
+							<button class="primary-btn col-lg-12" style="color: white; margin: 0 auto; margin-top: 20px;"
+								id="addBtn">등록하기</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+	</section>
+
+	<script th:inline="javascript">
+		let dbPath;
+		let uuid;
+		let origin;
+
+		//첨부파일 가져오기
+		// $('#addFile').on('click', function () {
+		// 	$('#inputFile').click()
+		// })
+
+		//첨부파일 업로드
+		$('#fileInput').change(function () {
+			var formData = new FormData(); //FormData 객체 생성
+
+			var inputFile = $("input[type='file']")
+			//input 태그의 type이 file인 것을 찯아서 inputFile 이라는 변수로 지정
+
+			var files = inputFile[0].files;
+			//files : 선택한 모든 파일을 나열하는 FileList 객체입니다
+			//multiple 특성을 지정하지 않았다면 두 개 이상의 파일을 포함하지 않습니다
+			console.log(inputFile)
+			for (var i = 0; i < files.length; i++) {
+				console.log(files[i]);
+				formData.append("uploadFiles", files[i]); //키,값으로 append
+
+				$.ajax({
+					url: 'uploadsAjax',
+					type: 'POST',
+					processData: false, // 기본값은 true, ajax 통신을 통해 데이터를 전송할때, 기본적으로 key와 value 값을 Query String으로 변환해서 보내줌
+					contentType: false, // multipart/form-data 타입을 사용하기위해 false로 지정
+					data: formData,
+					success: function (result) {
+						console.log(result)
+						dbPath = result.dbPath
+						uuid = result.uuidName
+						origin = result.originName
+					},
+					error: function (reject) {
+						console.log(reject)
+					}
+				})
+			}
+		})
+
+		//등업신청 등록
+		$('#addBtn').on('click', function () {
+			if ($('#fileInput').val()) {
+				console.log(uuid)
+				console.log(origin)
+
+				let vo = {
+					memNo: /*[[${session.mem.memNo}]]*/ ,
+					atchFileName: origin,
+					uplFileName : uuid,
+				}
+
+				$.ajax({
+					url: 'upgradeMember',
+					type: 'POST',
+					data: vo,
+					success: function (result) {
+						console.log(result)
+						if(result){
+							alert("등업신청이 완료되었습니다")
+						}else{
+							alert('등업신청이 실패하였습니다')
+						}
+					},
+					error: function (reject) {
+						console.log(reject)
+					}
+				})
+			} else {
+				alert("등본 파일을 업로드해주세요")
+			}
+		})
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" 
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" 
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+	layout:decorate="~{index}">
+<head>
+<meta charset="UTF-8">
+<title>농지 대여 상세 조회</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<!-- Breadcrumb Section Begin -->
+		<section class="breadcrumb-option">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="breadcrumb__text">
+							<h4>농지 대여</h4>
+							<div class="breadcrumb__links">
+								<a>귀농귀촌</a>
+								<a href="farmLendList">농지 대여</a>
+								<span th:text="${flInfo.addr}">주소지</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Breadcrumb Section End -->
+		<!-- Shop Details Section Begin -->
+		<section class="product-details spad">
+			<div class="container">
+				<div class="row">
+					<div class="row col-lg-12">
+						<div class="product__details__content col-lg-12">
+							<div class="container">
+								<div class="row d-flex justify-content-center">
+									<div class="col-lg-12">
+										<div class="product__details__text">
+											<div class="row">
+												<h4 class="textLeft col-lg-9" th:text="${flInfo.addr} + ' ' + ${flInfo.detaAddr}" style="display: inline; text-align: left; font-size: 30px;">상품명</h4>
+												<p style="margin-bottom: 20px;" class="mr-2"><b style="font-size: 15px;">작성자</b> <span th:text="${flInfo.nick}">작성자</span></p>
+												<p style="margin-bottom: 20px;"><b style="font-size: 15px;">작성자</b> <span th:text="${#dates.format(flInfo.regDate, 'yyyy/MM/dd')}">작성날짜</span></p>
+											</div>
+											<hr>
+											<!-- 카카오 지도 api -->
+											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 25px;">면적 : </b><span th:text="${flInfo.area}"></span> <span>(m²)</span></p>
+											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">주요 재배 작물 : </b> <span th:text="${flInfo.mcrp}">작물 목록</span></p>
+											<p style="margin-bottom: 20px; text-align: left;" th:text="${flInfo.desct}">내용</p>
+											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 25px;">가격 : </b> 
+												<span th:text="${#numbers.formatInteger(flInfo.lendPrice, 3, 'COMMA')} + '원'" style="font-size: 20px;"></span>
+												<span>(1일)</span>
+											</p>
+											<button type="button" class="btn btn-dark mr-2" style="width: 150px; float: left;" id="apply">신청하기</button>
+											<button type="button" class="btn btn-dark" style="width: 150px; float: left;">목록으로</button>
+											<div th:if="not ${#strings.isEmpty(session.mem)}">
+												<button type="button" class="btn btn-dark mr-2" style="width: 150px;" id="update" 
+													th:if="${session.mem.memNo} == ${flInfo.memNo} or ${session.mem.memGrd == 'b0'}">수정하기</button>
+												<button type="button" class="btn btn-dark" style="width: 150px;" id="delete" 
+													th:if="${session.mem.memNo} == ${flInfo.memNo} or ${session.mem.memGrd == 'b0'}">삭제하기</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Shop Details Section End -->
+	</div>
+</body>
+</html>
