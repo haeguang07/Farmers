@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{index}">
 <head>
@@ -59,10 +60,12 @@
 											</div>
 										</div>
 									</div>
-									<!-- 글등록 버튼 -->
-									<div class="product__details__cart__option"
-										style="text-align: center">
-										<a href="insertBnb" class="primary-btn">농촌비앤비 글 등록</a>
+									<!-- 글등록 버튼 - (정회원)인 경우에만 버튼 보임-->
+									<div sec:authorize="hasRole('ROLE_REGULAR')">
+										<div class="product__details__cart__option" 
+												style="text-align: center">
+												<a href="insertBnb" class="primary-btn">농촌비앤비 글 등록</a>
+											</div>
 									</div>
 								</div>
 							</div>
@@ -103,7 +106,7 @@
 								</div>
 							</div>
 						</div>
-					<!--------------- 본문 --------------->
+						<!--------------- 본문 --------------->
 						<!-- 아이템 -->
 						<div class="row" id="bnbList"></div>
 						<!-- 페이징 -->
@@ -251,7 +254,7 @@
 
 	</div>
 	<!-- Shop Section End -->
-	
+
 </body>
 
 </html>

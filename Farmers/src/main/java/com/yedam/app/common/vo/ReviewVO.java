@@ -22,5 +22,7 @@ public class ReviewVO {
 	private Date wrtDate;
 	private String boardNo;
 	private String img;
+	
+	private String nick;
 
 }
