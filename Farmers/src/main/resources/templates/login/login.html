@@ -11,7 +11,6 @@
 <style>
 .simple_login_logo {
 	cursor: pointer;
-	margin: 0;
 }
 </style>
 <script type="text/javascript"
@@ -48,98 +47,29 @@
 			<div id="simple_login">
 				<br>
 				<p>SNS아이디로 간편하게 로그인</p>
-				
+
 				<!--<img src="/img/logo_google.png" id="googleLogin" 
 					class="simple_login_logo">-->
-				<span id="naver_id_login" ></span> <img src="/img/logo_kakao.png"
-					id="kakaoLogin" onclick="kakaologin()" class="simple_login_logo">
+				<img src="/img/logo_naver.png" id="naver" class="simple_login_logo">
+				<img src="/img/logo_kakao.png" id="kakao" class="simple_login_logo">
+				<img src="/img/logo_google.png" id="google"
+					class="simple_login_logo">
 			</div>
 		</form>
 	</div>
 
 	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-	<!-- <script src="https://apis.google.com/js/platform.js" async defer></script> -->
+	<script src="https://apis.google.com/js/platform.js" async defer></script>
 	<script type="text/javascript">
-		//네아로
-		var naver_id_login = new naver_id_login("Q38MDDlCsmJD6vKMCJe2","http://localhost:8085/login");
-		var state = naver_id_login.getUniqState();
-		naver_id_login.setButton("green", 1, 40);
-		naver_id_login.setDomain("http://localhost:8085");
-		naver_id_login.setState(state);
-		naver_id_login.init_naver_id_login();
-		
-		if (naver_id_login != null) {
-			naver_id_login.get_naver_userprofile("naverSignInCallback()");
-		} else {
-			alert('네이버 로그인 실패');
-			window.location.replace("/login")
-		}
-		function naverSignInCallback() {
-			console.log(naver_id_login)
-			let member = {
-				email : naver_id_login.getProfileData('email'),
-				nick : naver_id_login.getProfileData('nickname'),
-				name : naver_id_login.getProfileData('name'),
-				birthday : naver_id_login.getProfileData('birthday'),
-				gender : naver_id_login.getProfileData('gender'),
-				loginPath:"naver"
-			}
-			console.log(member);
-			snsLogin(member);
 
+
+		$('.simple_login_logo').on('click', snsLogin)
+
+		function snsLogin() {
+			let path = $(this).attr('id');
+			location.href = `/oauth2/authorization/${path}`
 		}
 
-		
-		//카카오 로그인
-		window.Kakao.init("d7b5b77634c5eb957a63c797fb883dae")
-
-	    function kakaologin() {
-	      window.Kakao.Auth.login({
-	        scope: 'account_email, gender, profile_nickname,profile_image,birthday',
-	        success: function (obj) {
-	          console.log(obj)
-	          window.Kakao.API.request({
-	            url: '/v2/user/me',
-	            success: res => {
-	              const kakao_account = res.kakao_account
-	              console.log(kakao_account);
-	              let gender=null;
-	              if(kakao_account.gender=='male'){
-	            	  gender='a0';
-	              }else if(kakao_account.gender=='female'){
-	            	  gender='a1';
-	              }
-	              let member={
-	            		  gender,
-	            		  email:kakao_account.email,
-	            		  nick:kakao_account.profile.nickname,
-	            		  prof:kakao_account.profile.profile_image_url,
-	            		  loginPath:"kakao"
-	              }
-	              console.log(member);
-	              snsLogin(member);
-	            }
-	          })
-	        }
-	      })
-	    }
-
-	//sns로그인(cors 해결)
-	function snsLogin(member){
-	/* 	 if(typeof member.nick=="undefined" || member.nick==null){
-			$.ajax("https://nickname.hwanmoo.kr/?format=json&count=1")
-			.done(data=>{
-				console.log(data)
-			})
-		}  */
-		let form =$('<form />').attr({method:'POST', action:'/snsLogin',display:"hidden"}).append($("<button/>").attr('type','submit'))
-		for(let key in member){
-			$('<input/>').attr({name:key,value:member[key]}).appendTo(form);
-		}
-		$("body").append(form);
-		console.log()
-		form.submit();
-	}
 	</script>
 
 

@@ -1,15 +1,17 @@
 package com.yedam.app.user.controller;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yedam.app.security.PrincipalDetails;
 import com.yedam.app.user.service.MemberService;
-import com.yedam.app.user.vo.MemberVO;
 
 @Controller
 public class UserContorller {
@@ -35,28 +37,32 @@ public class UserContorller {
 		return "login/signup";
 	}
 
-	@GetMapping("naverLogin")
-	public String callbackNaber() {
-		return "login/naverCallback";
-	}
+	@GetMapping("/oauth/loginInfo")
+    @ResponseBody
+    public String oauthLoginInfo(Authentication authentication, @AuthenticationPrincipal OAuth2User oAuth2UserPrincipal){
+        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+        Map<String, Object> attributes = oAuth2User.getAttributes();
+        System.out.println(attributes);
+        // PrincipalOauth2UserService의 getAttributes내용과 같음
 
-	// 간편로그인
-	@PostMapping("snsLogin")
-	public String snsLogin(MemberVO member,HttpServletRequest request) throws ServletException {
-		System.out.println(member);
-		
-		String id = memberService.idFound(member.getEmail());
-		if (id == null) {
-			member.setPw("test");
-			memberService.join(member);
-			System.out.println(member);
-			member.setPw("test");
-		} else {
-			member.setId(id);
-			member= memberService.getMember(id);
-		}
-		request.login(member.getId(), member.getPassword());
-		return "redirect:/";
-	}
+        Map<String, Object> attributes1 = oAuth2UserPrincipal.getAttributes();
+        // attributes == attributes1
+
+       return attributes.toString();     //세션에 담긴 user가져올 수 있음음
+    }
+    
+    @GetMapping("/loginInfo")
+    @ResponseBody
+    public String loginInfo(Authentication authentication, @AuthenticationPrincipal PrincipalDetails principalDetails){
+        String result = "";
+
+        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+        if(principal.getMemberVO().getLoginPath() == null) {
+            result = result + "Form 로그인 : " + principal;
+        }else{
+            result = result + "OAuth2 로그인 : " + principal;
+        }
+        return result; 
+    }
 
 }

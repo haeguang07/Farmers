@@ -32,6 +32,19 @@
 		FROM member
 		WHERE email=#{email}
 	</select>
+	<select id="selectByEmail" resultType="MemberVO">
+		SELECT m.mem_no,
+				id,
+				pw,
+				email,
+				nick,
+				login_path,
+				rpt_cnt,
+				mem_grd
+		FROM member m LEFT JOIN member_detail d 
+		ON(m.mem_no=d.mem_no)
+		WHERE email=#{email}
+	</select>
 	<select id="selectPw" resultType="String" parameterType="memberVO">
 		SELECT mem_no
 		FROM member
