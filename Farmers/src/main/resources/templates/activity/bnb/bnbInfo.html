@@ -256,9 +256,7 @@
 			//리뷰-조회
 			$(document).ready(function() {		
 				reviewAjax();
-				
 			});
-
 			 function reviewAjax(){			
 			 $('#reviewTable>tbody').children().remove();
 			 $.ajax({
@@ -293,48 +291,48 @@
 			}
 			
 			//별찍기 함수
-			
 		      function makeStars(num) {
 		       let stars = '';
 		       for (let i=0; i<num; i++) {
 		            stars += '★';
 		          }
-		       for(let j=num; j<5;j++){
+		       for(let j=num; j<5; j++){
 		          	stars += '☆';
 		          }
 		       return stars;
 		       }
 
 			
-			//리뷰등록기능
-			
-		  	/*<![CDATA[*/
-			let mem= /*[[${session.mem}]]*/;
-			 /*]]>*/	
-
+			//리뷰 등록 기능	
 			 $('#addBtn').on('click',function(){
-				let star = $('#star').val();
-				let text = $('#reviewText').val(); 
-				let day= new Date();
-			 	let today = day.getFullYear()+'/'+day.getMonth()+'/'+day.getDate();
-				//
-				$.ajax({
-					url : `bnbInfo/review`, 
-					method : 'POST',
-					data : {memNo:mem.memNo, 
-							rate:star,
-							revDesct:text,
-							boardNo: boardNo,
-							wrtDate:today}, 
-					dataType : 'json',
-					success : function(result) {
-						console.log(result); 
-						reviewAjax();
-					},
-					error : function(error) {
-						console.error(error); 
-					}
-				});
+			  	/*<![CDATA[*/
+				let mem= /*[[${session.mem}]]*/;
+				 /*]]>*/	
+				if(mem==null) {
+					return alert('로그인 필요')
+				}
+				else{
+					let star = $('#star').val();
+					let text = $('#reviewText').val(); 
+					let day= new Date();
+				 	//let today = day.getFullYear()+'/'+day.getMonth()+'/'+day.getDate();
+					$.ajax({
+						url : `bnbInfo/review`, 
+						method : 'POST',
+						data : {memNo:mem.memNo, 
+								rate:star,
+								revDesct:text,
+								boardNo: boardNo}, 
+						dataType : 'json',
+						success : function(result) {
+							console.log(result); 
+							reviewAjax();							
+						},
+						error : function(error) {
+							console.log(error); 
+						}
+					});
+				}
 			})
 			 
 		</script>
