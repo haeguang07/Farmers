@@ -20,8 +20,9 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 	@Autowired
 	MemberMapper memberMapper;
 	
-	@Autowired 
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	/*
+	 * @Autowired private BCryptPasswordEncoder bCryptPasswordEncoder;
+	 */
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
