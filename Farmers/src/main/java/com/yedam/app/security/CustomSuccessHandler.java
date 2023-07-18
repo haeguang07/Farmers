@@ -19,7 +19,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler{
 			Authentication authentication) throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
-	    MemberVO vo = (MemberVO) authentication.getPrincipal();
+	    MemberVO vo = ((PrincipalDetails)authentication.getPrincipal()).getMemberVO();
 	    if(vo!=null) {
 	    	session.setAttribute("mem", vo);
 	    }

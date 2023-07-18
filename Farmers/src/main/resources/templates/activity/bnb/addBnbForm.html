@@ -16,12 +16,13 @@
 	height: 400px;
 }
 
-.textLeft{
-align-vertical:center;
+.textLeft {
+	align-vertical: center;
 }
-.primary-btn col-lg-2{
-color: white; 
-margin: 0 auto;
+
+.primary-btn col-lg-2 {
+	color: white;
+	margin: 0 auto;
 }
 </style>
 </head>
@@ -47,7 +48,8 @@ margin: 0 auto;
 									<form id="myForm">
 										<!-- 실제 파일 업로드 input (안보임) -->
 										<input type="file" id="inputFile" style="display: none;">
-										<input type="text" id="insertFile" style="display: none;" name="rep">
+										<input type="text" id="insertFile" style="display: none;"
+											name="rep">
 										<div class="container">
 											<div class="row d-flex justify-content-center row">
 												<div class="col-lg-12">
@@ -56,7 +58,7 @@ margin: 0 auto;
 															<h4 class="textLeft col-lg-3" style="display: inline;">숙소명
 															</h4>
 															<input type="text" class="form-control col-lg-8"
-																name="bnbTitle" th:field="*{bnbTitle}">
+																name="title" th:field="*{title}">
 														</div>
 														<hr>
 														<div class="row">
@@ -69,7 +71,8 @@ margin: 0 auto;
 															</div>
 															<div class="row col-lg-6">
 																<p class="myInline col-lg-6 mb-0 textLeft">지역선택</p>
-																<select class="form-control col-lg-6" name="crpCtg" th:field="*{dst1}">
+																<select class="form-control col-lg-6" name="crpCtg"
+																	th:field="*{dst1}">
 																	<option value="k0">경기도</option>
 																	<option value="k1">강원특별자치도</option>
 																	<option value="k2">충청북도</option>
@@ -120,12 +123,14 @@ margin: 0 auto;
 															<div class="row col-lg-6">
 																<p class="myInline col-lg-6 mb-0 textLeft">예약 가능 날짜</p>
 																<input type="date" class="form-control col-lg-6"
-																	name="lendStrDate" th:field="*{lendStrDate}" onchange="minDate()">
+																	name="lendStrDate" th:field="*{lendStrDate}"
+																	onchange="minDate()">
 															</div>
 															<div class="row col-lg-4">
 																<p class="myInline col-lg-3 mb-0 textLeft">ㅡ</p>
 																<input type="date" class="form-control col-lg-9"
-																	name="lendEndDate" th:field="*{lendEndDate}" id="endDate">
+																	name="lendEndDate" th:field="*{lendEndDate}"
+																	id="endDate">
 															</div>
 														</div>
 
@@ -150,7 +155,8 @@ margin: 0 auto;
 													<div class="tab-pane active" id="tabs-5" role="tabpanel">
 														<div class="product__details__tab__content">
 															<div>
-																<textarea name="text" id="editor" th:field="*{detaDesct}"></textarea>
+																<textarea name="text" id="editor"
+																	th:field="*{detaDesct}"></textarea>
 															</div>
 														</div>
 													</div>
@@ -159,8 +165,10 @@ margin: 0 auto;
 										</div>
 										<br>
 										<div style="margin-top: 0px;">
-											<button type="submit" class="primary-btn col-lg-2" id="addBtn">등록하기</button>											 
-											<button type="button" class="primary-btn col-lg-2" th:onclick="|location.href='@{/bnbList}'|">뒤로가기</button>
+											<button type="submit" class="primary-btn col-lg-2"
+												id="addBtn">등록하기</button>
+											<button type="button" class="primary-btn col-lg-2"
+												th:onclick="|location.href='@{/bnbList}'|">뒤로가기</button>
 										</div>
 									</div>
 								</div>
@@ -174,6 +182,8 @@ margin: 0 auto;
 		<!-- 우편번호 api -->
 		<script
 			src="http://dmaps.daum.net/map_js_init/postcode.v2.js?autoload=false"></script>
+		<script
+			src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=c573b65eabeb9b6da24ab52d832dc807&libraries=services"></script>
 		<script>
 		function postCode() {
 			daum.postcode.load(function () {
@@ -199,18 +209,23 @@ margin: 0 auto;
 						}
 						document.getElementById("post").value = data.zonecode;
 						document.getElementById("adr").value = addr;
-						document.getElementById("adrDetail").focus();
-					}
-				}).open();
-			});
-		}
-		
-		function minDate() {
-			let min = event.target.value;
-			console.log(min);
-			document.getElementById('endDate').setAttribute('min', min);
-		}
-		</script>
+						// 주소를 카카오지도 API의 지오코딩(Geocoding) 서비스를 이용하여 위도와 경도로 변환
+	                    var geocoder = new kakao.maps.services.Geocoder();
+	                    geocoder.addressSearch(addr, function (result, status) {
+	                        if (status === kakao.maps.services.Status.OK) {
+	                            // 변환된 위도와 경도 출력
+	                            console.log('위도:', result[0].y);
+	                            console.log('경도:', result[0].x);
+	                        } else {
+	                            alert('주소를 찾을 수 없습니다.');
+	                        }
+	                    });
+	                    document.getElementById("adrDetail").focus();
+	                }
+	            }).open();
+	        });
+	    }
+	</script>
 
 		<!-- ck 에디터-->
 		<script
@@ -239,7 +254,7 @@ margin: 0 auto;
 				//multiple 특성을 지정하지 않았다면 두 개 이상의 파일을 포함하지 않습니다
 
 				for (var i = 0; i < files.length; i++) {
-					console.log(files[i]);
+					//console.log(files[i]);
 					if (files[i].type.includes('image')) {
 						formData.append("uploadFiles", files[i]); //키,값으로 append
 
@@ -254,9 +269,7 @@ margin: 0 auto;
 								dbPath = result.dbPath
 								$('#addFile').html('<img src="' + result.dbPath + '">')
 								$('#insertFile').val(result.dbPath);
-								console.log(dbPath)
-								
-
+								console.log(dbPath)					
 							},
 							error: function (reject) {
 								console.log(reject)
@@ -282,29 +295,13 @@ margin: 0 auto;
 					console.error(error);
 				});
 
-			//ckEditor 데이터 가져오기
-			/* $('#addBtn').on('click', function () {
-				let ckData = editor.getData()
-				let formData = $('#myForm').serializeObject()
-				formData.desct = ckData
-				formData.rep = dbPath
-				console.log(formData)
-
-				$.ajax({
-					url:"insertBnb",
-					method : "POST",
-					data : formData
-				})
-				.done(function(result){
-					alert(result);
-					location.href="bnbList"
-				})
-				.fail(function(result){
-					alert(result);
-					location.href="bnbList"
-				})
-			})  */
-			 
+			
+			//최소날짜 
+			function minDate() {
+				let min = event.target.value;
+				console.log(min);
+				document.getElementById('endDate').setAttribute('min', min);
+			}
 		</script>
 	</div>
 </body>
