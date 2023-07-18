@@ -3,7 +3,7 @@ package com.yedam.app.security;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -20,9 +20,10 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 	@Autowired
 	MemberMapper memberMapper;
 	
-	/*
-	 * @Autowired private BCryptPasswordEncoder bCryptPasswordEncoder;
-	 */
+	
+	 @Autowired 
+	 private  PasswordEncoder passwordEncoder;
+	 
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -44,7 +45,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         String username = provider+"_"+providerId;  			
 
         String uuid = UUID.randomUUID().toString().substring(0, 6);
-        String password = bCryptPasswordEncoder.encode("패스워드"+uuid); 
+        String password = passwordEncoder.encode("패스워드"+uuid); 
 
         String email = oAuth2UserInfo.getEmail();	//수정
         //Role role = Role.ROLE_USER;
