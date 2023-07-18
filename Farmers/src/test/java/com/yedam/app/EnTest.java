@@ -31,7 +31,7 @@ public class EnTest {
 		config.setIvGeneratorClassName("org.jasypt.iv.RandomIvGenerator");
 		config.setStringOutputType("base64");
 		encryptor.setConfig(config);
-		String enc=encryptor.encrypt("1111");
+		String enc=encryptor.encrypt("0fm75JPjoSxes3UoaNUHInXp7beqPnvq");
 		System.out.println(enc);
 		String dec = encryptor.decrypt(enc);
 		System.out.println(dec);
