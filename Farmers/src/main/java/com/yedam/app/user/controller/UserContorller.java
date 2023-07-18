@@ -1,12 +1,18 @@
 package com.yedam.app.user.controller;
 
+import java.util.Collections;
+import java.util.Map;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.app.user.service.MemberService;
 import com.yedam.app.user.vo.MemberVO;
@@ -35,9 +41,11 @@ public class UserContorller {
 		return "login/signup";
 	}
 
-	@GetMapping("naverLogin")
-	public String callbackNaber() {
-		return "login/naverCallback";
+	@GetMapping("/oauth2/authorization/naver")
+	@ResponseBody
+	public Map<String,Object> callbackNaver(@AuthenticationPrincipal OAuth2User principal) {
+		System.out.println(principal);
+		return Collections.singletonMap("name", principal.getAttribute("name"));
 	}
 
 	// 간편로그인

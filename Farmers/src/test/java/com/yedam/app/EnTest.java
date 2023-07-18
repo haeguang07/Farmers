@@ -7,7 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 //@SpringBootTest
 public class EnTest {
-	@Test
+	//@Test
 	public void encTest() {
 		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
 		String password = scpwd.encode("");
@@ -17,7 +17,7 @@ public class EnTest {
 		
 	}
 	
-	//@Test
+	@Test
 	public void test() {
 		
 		PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
@@ -31,7 +31,7 @@ public class EnTest {
 		config.setIvGeneratorClassName("org.jasypt.iv.RandomIvGenerator");
 		config.setStringOutputType("base64");
 		encryptor.setConfig(config);
-		String enc=encryptor.encrypt("debug");
+		String enc=encryptor.encrypt("1111");
 		System.out.println(enc);
 		String dec = encryptor.decrypt(enc);
 		System.out.println(dec);

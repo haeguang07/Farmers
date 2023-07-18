@@ -61,33 +61,14 @@
 	<!-- <script src="https://apis.google.com/js/platform.js" async defer></script> -->
 	<script type="text/javascript">
 		//네아로
-		var naver_id_login = new naver_id_login("Q38MDDlCsmJD6vKMCJe2","http://localhost:8085/login");
+		var naver_id_login = new naver_id_login("Q38MDDlCsmJD6vKMCJe2","http://localhost:8085/oauth2/authorization/naver");
 		var state = naver_id_login.getUniqState();
 		naver_id_login.setButton("green", 1, 40);
 		naver_id_login.setDomain("http://localhost:8085");
 		naver_id_login.setState(state);
 		naver_id_login.init_naver_id_login();
 		
-		if (naver_id_login != null) {
-			naver_id_login.get_naver_userprofile("naverSignInCallback()");
-		} else {
-			alert('네이버 로그인 실패');
-			window.location.replace("/login")
-		}
-		function naverSignInCallback() {
-			console.log(naver_id_login)
-			let member = {
-				email : naver_id_login.getProfileData('email'),
-				nick : naver_id_login.getProfileData('nickname'),
-				name : naver_id_login.getProfileData('name'),
-				birthday : naver_id_login.getProfileData('birthday'),
-				gender : naver_id_login.getProfileData('gender'),
-				loginPath:"naver"
-			}
-			console.log(member);
-			snsLogin(member);
-
-		}
+		
 
 		
 		//카카오 로그인

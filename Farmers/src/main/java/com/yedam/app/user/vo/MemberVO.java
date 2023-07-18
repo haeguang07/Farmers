@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
-import org.jasypt.encryption.StringEncryptor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,11 +11,19 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+
 public class MemberVO implements UserDetails{
-	
+
 	private String memNo;
 	private String id;
 	private String pw;
@@ -52,6 +58,14 @@ public class MemberVO implements UserDetails{
 	private Date blckDate;
 
 	
+	@Builder
+    public MemberVO(String email, String nickname, String loginPath) {
+        this.email = email;
+        this.nick = nickname;
+        this.loginPath = loginPath;
+    }
+	
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Collection<SimpleGrantedAuthority> list = new ArrayList<SimpleGrantedAuthority>();
@@ -65,6 +79,7 @@ public class MemberVO implements UserDetails{
 		}else if(memGrd.equals("b2")) {
 			list.add(new SimpleGrantedAuthority("ROLE_USER"));
 		}
+	
 		return list;
 	}
 	

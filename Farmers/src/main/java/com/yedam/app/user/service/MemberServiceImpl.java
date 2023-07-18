@@ -71,7 +71,7 @@ public class MemberServiceImpl implements MemberService, UserDetailsService{
 		}
 		int result=memberMapper.insertMember(vo);
 		int result2 = memberMapper.insertMemberDetail(vo);
-		if(result*result2==1) {
+		if(result*result2>0) {
 			return true;
 		}
 		return false;
