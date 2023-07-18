@@ -121,24 +121,7 @@
 
 				<div class="row">
 					<p>aaaaa</p>
-					<div class="related__products__slider owl-carousel"
-						id="nextAuctionList">
-						<p>aaaaa</p>
-						<div class="col-lg-3" id="nextAuction">
-							<div class="product__item">
-								<div class="product__item__pic set-bg" data-setbg=""></div>
-								<div class="product__item__text">
-									<h6>상품명</h6>
-									<div class="product__item__price">
-										<span class="nextBuyNow"></span>
-									</div>
-									<div class="cart_add">
-										<a href="#">Add to cart</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+					<div class="related__products__slider owl-carousel" id="nextAuctionList"></div>
 				</div>
 			</div>
 		</section>
@@ -186,13 +169,27 @@
 			<a class="myInline" id="nextPage">▷</a>
 		</div>
 
+		<!-- 경매 미리보기 clone -->
+		<div class="col-lg-3" id="nextAuction">
+			<div class="product__item">
+				<div class="product__item__pic set-bg" data-setbg=""></div>
+				<div class="product__item__text">
+					<h6>상품명</h6>
+					<div class="product__item__price">
+						<span class="nextBuyNow"></span>
+					</div>
+					<div class="cart_add">
+						<a href="#">Add to cart</a>
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<script>
-			// 경매 전체 리스트 조회
+			// 경매장 전체 조회 실행
 			$(function(){
 				ajaxData(1);
-				auctionNext();
-				
+				previewNextAuction();
 			})
 			
 			// 리스트 데이터 아작스로 가져오기
@@ -250,6 +247,7 @@
 				// 경매 기간별 카운트 다운
 				let standard = new Date(item.actDate);
 				let period = Number(item.actTrm);
+				console.log(standard, period);
 				standard.setDate(standard.getDate() + period);
 				
 				$(clone).find('.bidEndDate').countdown(standard, function(event){
@@ -355,7 +353,23 @@
 				})
 			}
 			
-			function printNextItem(item){
+			// 경매 미리보기 리스트 출력
+			function previewNextAuction(){
+				
+				// 아작스
+				$.ajax({
+					url: "auctionNext",
+					method: "GET",
+					success(data){
+						printList(data);
+						console.log(data);
+					},
+					error(reject){
+						console.log(reject);
+					}
+				})
+				
+				
 				let clone = $('#nextAuction').clone();
 				$(clone).css({'display' : 'block'});
 				
@@ -367,7 +381,7 @@
 				
 				$('#nextAuctionList').append(clone)
 			}
-			
+		
 			
 		</script>
 	</div>

@@ -15,7 +15,6 @@ import com.yedam.app.user.service.EmailService;
 import com.yedam.app.user.service.MemberService;
 import com.yedam.app.user.vo.EmailVO;
 import com.yedam.app.user.vo.MemberVO;
-import com.yedam.app.user.vo.OauthCodeVO;
 
 @RestController
 public class LoginRestController {
@@ -128,12 +127,14 @@ public class LoginRestController {
 		
 		return map;
 	}
-	//카카오
-	@GetMapping("kakao")
-	public void kakao(OauthCodeVO vo) {
-		System.out.println(vo);
-		
-	}
+	/*
+	 * //카카오
+	 * 
+	 * @GetMapping("kakao") public void kakao(OauthCodeVO vo) {
+	 * System.out.println(vo);
+	 * 
+	 * }
+	 */
 	
 	
 	
