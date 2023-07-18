@@ -58,10 +58,11 @@
 											<div class="card-body">
 												<div class="shop__sidebar__categories">
 													<ul class="nice-scroll">
-														<li><a href="#">농작물 판매</a></li>
-														<li><a href="#">농작물 펀딩</a></li>
-														<li><b><a href="#" style="color: black;">경매장</a></b></li>
-														<li><a href="#">전원마켓</a></li>
+														<li><a href="marketList">전원마켓</a></li>
+														<li><a href="cropsSaleList">농작물 판매</a></li>
+														<li><a href="fundingList">농작물 펀딩</a></li>
+														<li><b><a href="auctionList"
+																style="color: black;">경매장</a></b></li>
 													</ul>
 												</div>
 											</div>
@@ -83,10 +84,10 @@
 								</div>
 								<div class="col-lg-6 col-md-6 col-sm-6">
 									<div class="shop__product__link__right text-right">
-										<a href="#"><span class="order">인기순</span></a> / 
-										<a href="#"><span class="order">최저가순</span></a> /
-										<a href="#"><span class="order">최고가순</span></a> / 
-										<a href="#"><span class="order">마감임박순</span></a>
+										<a href="#"><span class="order">인기순</span></a> / <a href="#"><span
+											class="order">최저가순</span></a> / <a href="#"><span
+											class="order">최고가순</span></a> / <a href="#"><span
+											class="order">마감임박순</span></a>
 									</div>
 									<!-- 
 									<div class="shop__product__option__right">
@@ -119,15 +120,18 @@
 				</div>
 
 				<div class="row">
-				<p>aaaaa</p>
-					<div class="related__products__slider owl-carousel" id="nextAuctionList">
 					<p>aaaaa</p>
+					<div class="related__products__slider owl-carousel"
+						id="nextAuctionList">
+						<p>aaaaa</p>
 						<div class="col-lg-3" id="nextAuction">
 							<div class="product__item">
 								<div class="product__item__pic set-bg" data-setbg=""></div>
 								<div class="product__item__text">
 									<h6>상품명</h6>
-									<div class="product__item__price"><span class="nextBuyNow"></span></div>
+									<div class="product__item__price">
+										<span class="nextBuyNow"></span>
+									</div>
 									<div class="cart_add">
 										<a href="#">Add to cart</a>
 									</div>
@@ -153,13 +157,14 @@
 
 
 		<!-- clone용 auctionList -->
-		<div class="col-lg-4 col-md-6 col-sm-6" id="auction" style="display: none;">
+		<div class="col-lg-4 col-md-6 col-sm-6" id="auction"
+			style="display: none;">
 			<div class="product__item">
 				<div class="product__item__pic set-bg" data-setbg="">
-					<!-- <span class="label">종료임박</span> -->
-					<ul class="product__hover">
+					<span id="lastAuctionDay"></span>
+					<!-- <ul class="product__hover">
 						<li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-					</ul>
+					</ul> -->
 				</div>
 				<div class="product__item__text">
 					<h6>상품명</h6>
@@ -191,12 +196,12 @@
 			})
 			
 			// 리스트 데이터 아작스로 가져오기
-			function ajaxData(page, order){
+			function ajaxData(pageNum, order){
 				$.ajax({
 					url: "auction",
 					method: "GET",
 					data: {
-						page,
+						pageNum,
 						order
 					},
 					success(data){
@@ -229,6 +234,7 @@
 			function printItem(item){
 				let clone = $('#auction').clone();
 				$(clone).css({'display' : 'block'});
+				$(clone).find('#lastAuctionDay').removeClass('label').text('');
 				
 				// 데이터 넣기
 				let imageUrl = '/img/market/auction/' + item.rep;
@@ -252,7 +258,16 @@
 						)
 				})
 				
-				$('#auctionList').append(clone)
+				// 경매 종료 기간이 24시간 이내 일 경우, 종료임박 라벨 표시
+				let now = new Date();
+				let diff = standard - now
+				let dayhours = 24 * 60 * 60 * 1000;
+				
+				if((diff/dayhours) < 1){
+					$(clone).find('#lastAuctionDay').addClass('label').text('종료임박');
+				}
+				
+				$('#auctionList').append(clone);
 				
 			}
 			
@@ -307,13 +322,13 @@
 			})
 			
 			// 조건 값 변경 시 컨트롤 정보 보내기
-			function getCondition(page, order){
+			function getCondition(pageNum, order){
 				// let order = $('.order').text()
-				if(page == null){
-					page = 1
+				if(pageNum == null){
+					pageNum = 1
 				}
 
-				ajaxData(page, order);
+				ajaxData(pageNum, order);
 			}
 			
 			// 다음 경매 미리보기 리스트

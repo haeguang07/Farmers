@@ -13,9 +13,7 @@
                         FROM auction act LEFT JOIN auction_apply apl
                         ON (act.board_no = apl.board_no)
                         WHERE act.reg_stts = 'e1'
-                        <![CDATA[
-                        AND act.act_Date <= sysdate
-                        ]]>
+                        AND act.act_Date BETWEEN (sysdate - interval '6' day) AND sysdate
                         GROUP BY act.board_no, act.title, act.act_date, act.act_trm, act.rep, act.bnp
                         <choose>
                         	<when test="order.equals('인기순')">
@@ -57,23 +55,21 @@
 	            FROM auction act LEFT JOIN auction_apply apl
 	            ON (act.board_no = apl.board_no)
 	            WHERE act.reg_stts = 'e1'
-	            <![CDATA[
-				AND act.act_date > sysdate
-				]]>
+				AND act.act_Date BETWEEN (sysdate - interval '6' day) AND sysdate
 	            GROUP BY act.board_no, act.title, act.act_date, act.act_trm, act.rep, act.bnp
         	  )
 	</select>
 	
 	<!-- 단건 경매 정보 조회 -->
 	<select id="selectAuction" resultType="AuctionVO">
-		SELECT mem.nick, mem.mem_grd, title, desct, sale_qty, bnp, 
+		SELECT mem.nick, mem.mem_grd, act.board_no, title, desct, sale_qty, bnp, 
             	act_date, act_trm, ship_price, ship_dur_avg, ship_dur_max, rep, atch_no, 
                 	count(apl.price) AS bid_count, NVL(MAX(apl.price), 0) AS price
 		FROM member mem, auction act, auction_apply apl
 		WHERE mem.mem_no = act.mem_no
 		AND act.board_no = apl.board_no
 		AND act.board_no = #{boardNo}
-		GROUP BY mem.nick, mem.mem_grd, title, desct, sale_qty, bnp, 
+		GROUP BY mem.nick, mem.mem_grd, act.board_no, title, desct, sale_qty, bnp, 
 		                act_date, act_trm, ship_price, ship_dur_avg, ship_dur_max, rep, atch_no
 	</select>
 	
@@ -87,14 +83,14 @@
 			FROM dual
 		</selectKey>
 		INSERT INTO auction_apply
-		VALUES (#{aplNo}, #{memNo}, #{boardNo}, #{Price}, 'F1')
+		VALUES (#{aplNo}, #{memNo}, #{boardNo}, #{price}, 'F1')
 	</insert>
 	
 	
 	
 	<!-- 경매 등록 -->
 	<insert id="addAuction" parameterType="AuctionVO">
-		<selectKey keyProperty="actNo"
+		<selectKey keyProperty="boardNo"
 				   resultType="String"
 				   order="BEFORE">
 			SELECT 'ACT' || LPAD(act_seq.nextval, 6, '0')
@@ -103,7 +99,7 @@
 		INSERT INTO auction (
 								board_no
 								, mem_no
-								, act_title
+								, title
 								, act_date
 								, desct
 								, sale_qty
@@ -118,9 +114,9 @@
 								, atch_no
 								</if>
 							)
-		VALUES ( #{actNo}
-				 , 'mem000001'
-				 , #{actTitle}
+		VALUES ( #{boardNo}
+				 , #{memNo}
+				 , #{title}
 				 , #{act_date}
 				 , #{desct}
 				 , #{saleQty}
@@ -132,9 +128,10 @@
 				 , #{rep}
 				 , 'e0'
 				<if test="atchNo != null and !atchNo.equals('')">
-				, #{attachNo}
+				, #{atchNo}
 				</if>
 				)
 	</insert>
+
 
 </mapper>
