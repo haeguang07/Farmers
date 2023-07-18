@@ -8,7 +8,7 @@
 	<meta name="keywords" content="Male_Fashion, unica, creative, html">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Male-Fashion | Template</title>
+	<title>FundingInfo</title>
 	<link rel="stylesheet" href="css/sungWookCss/sungook.css" type="text/css">
 </head>
 
@@ -21,7 +21,7 @@
 						<div class="breadcrumb__text">
 							<h4>Shop</h4>
 							<div class="breadcrumb__links">
-								<a href="./index.html">농촌마켓</a> <a href="fundingList">농작물펀딩</a> <span>[[${fundingInfo.fndTitle}]]</span>
+								<a href="./index.html">농촌마켓</a> <a href="fundingList">농작물펀딩</a> <span>[[${fundingInfo.title}]]</span>
 							</div>
 						</div>
 					</div>
@@ -50,7 +50,7 @@
 										<div class="col-lg-12">
 											<div class="product__details__text">
 												<div class="row">
-													<h4 class="textLeft col-lg-6" th:text="${fundingInfo.fndTitle}" style="display: inline;">상품명
+													<h4 class="textLeft col-lg-6" th:text="${fundingInfo.title}" style="display: inline;">상품명
 													</h4>
 													<h5 class="col-lg-6" style="display: inline; text-align: right;"
 														th:text="'달성률 : ' + ${fundingInfo.goalPer}+'%'">달성률</h6>
@@ -94,7 +94,7 @@
 													<div th:if="not ${#strings.isEmpty(session. mem)}" style="margin: 0 auto;">
 														<a href="#" class="primary-btn memService"
 														style="color: white; margin: 0 auto; margin-top: 20px; width: 500px;" id="getPay" th:if="${session.mem.memNo} != ${fundingInfo.memNo}" >구매하기</a>
-														<a th:href="@{modifyFunding(fndNo=${fundingInfo.fndNo})}" class="primary-btn myService"
+														<a th:href="@{modifyFunding(boardNo=${fundingInfo.boardNo})}" class="primary-btn myService"
 														style="color: white; margin: 0 auto; margin-top: 20px; width: 500px;" id="getModify" th:if="${session.mem.memNo} == ${fundingInfo.memNo}">수정하기</a>
 														<div class="product__details__btns__option" th:if="${session.mem.memNo} != ${fundingInfo.memNo}" style="margin-top: 20px;">
 															<a href="#"><i class="fa fa-heart memService"></i>장바구니</a>
@@ -138,12 +138,12 @@
 									</div>
 									<div class="row">
 										<div class="col-lg-3 col-md-6 col-sm-6 col-sm-6"  th:each="popular : ${polurInfo}" >
-											<div class="product__item" th:onclick="|location.href='@{fundingInfo(fndNo=${popular.fndNo})}'|">
+											<div class="product__item" th:onclick="|location.href='@{fundingInfo(boardNo=${popular.boardNo})}'|">
 												<div class="product__item__pic set-bg" data-setbg="" style="background-image: url("${polurInfo.rep}");">
 													<span class="label">인기</span>
 												</div>
 												<div class="product__item__text">
-													<h6 th:text="${popular.fndTitle}"></h6>
+													<h6 th:text="${popular.title}"></h6>
 													<a href="#" class="add-cart">+ Add To Cart</a>
 													<h5 th:text="${popular.fndPrice}+'원'"></h5>
 												</div>

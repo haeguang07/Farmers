@@ -10,9 +10,9 @@ import lombok.Data;
 
 @Data
 public class FundingVO {
-	private String fndNo;
+	private String boardNo;
 	private String memNo;
-	private String fndTitle;
+	private String title;
 	private String desct;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	@JsonFormat(pattern ="yyyy-MM-dd")

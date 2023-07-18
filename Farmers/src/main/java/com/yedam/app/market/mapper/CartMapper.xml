@@ -9,7 +9,7 @@
 		FROM cart ca JOIN
 		<choose>
 			<when test="boardCtg.equals('n8')">
-				crops_sale cr ON (board_no = crp_sale_no)
+				crops_sale cr USING (board_no)
 			</when>
 			<when test="boardCtg.equals('n2')">
 				EQUIPMENT eq ON (board_no = eqp_no)
