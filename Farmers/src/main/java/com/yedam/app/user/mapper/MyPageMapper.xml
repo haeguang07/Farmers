@@ -31,7 +31,7 @@
 		#{zip, mode=IN , jdbcType=VARCHAR},
 		#{addr, mode=IN , jdbcType=VARCHAR},
 		#{detaAddr, mode=IN , jdbcType=VARCHAR},
-		#{bDate, mode=IN , jdbcType=VARCHAR},
+		#{bDate, mode=IN , jdbcType=DATE},
 		#{gen, mode=IN , jdbcType=VARCHAR}
 		)
 

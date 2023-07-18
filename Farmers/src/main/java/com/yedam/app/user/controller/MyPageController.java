@@ -67,6 +67,7 @@ public class MyPageController {
 	// 회원정보 수정
 	@PostMapping("memberModify")
 	public String memberModify(MemberVO vo){
+		System.out.println(vo);
 		System.out.println(vo.getPw());
 		myPageService.modifyMember(vo);
 		return "user/myPage/memberInfo/pwCheck";
