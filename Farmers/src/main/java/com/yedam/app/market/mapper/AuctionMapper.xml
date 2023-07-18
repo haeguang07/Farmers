@@ -36,17 +36,6 @@
 		]]>
 	</select>
 	
-	<!-- 다음 경매 리스트 조회 -->
-	<select id="getNextAuctionList" resultType="AuctionVO">
-		SELECT act.board_no, act.title, act.act_date, act.act_trm, act.rep, act.bnp
-		FROM auction act LEFT JOIN auction_apply apl
-		ON (act.board_no = apl.board_no)
-		WHERE act.reg_stts = 'e1'
-		<![CDATA[
-		AND act.act_date > sysdate
-		]]>
-	</select>
-	
 	<!-- 승인된 경매 리스트 합계 -->
 	<select id="auctionTotal" resultType="int">
 		SELECT count(*)
@@ -86,7 +75,16 @@
 		VALUES (#{aplNo}, #{memNo}, #{boardNo}, #{price}, 'F1')
 	</insert>
 	
-	
+	<!-- 다음 경매 리스트 조회 -->
+	<select id="getNextAuctionList" resultType="AuctionVO">
+		SELECT act.board_no, act.title, act.act_date, act.act_trm, act.rep, act.bnp
+		FROM auction act LEFT JOIN auction_apply apl
+		ON (act.board_no = apl.board_no)
+		WHERE act.reg_stts = 'e1'
+		<![CDATA[
+		AND act.act_date > sysdate
+		]]>
+	</select>
 	
 	<!-- 경매 등록 -->
 	<insert id="addAuction" parameterType="AuctionVO">
@@ -133,5 +131,6 @@
 				)
 	</insert>
 
+	
 
 </mapper>
