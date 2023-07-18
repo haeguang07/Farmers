@@ -23,16 +23,16 @@ public class AuctionRestController {
 	
 	// 전체 경매 리스트(페이징)
 	@GetMapping("auction")
-	public Map<String, Object> auctionListPage(@RequestParam(required = false, defaultValue = "0") int page,
+	public Map<String, Object> auctionListPage(@RequestParam(required = false, defaultValue = "0") int pageNum,
 				@RequestParam(required = false, defaultValue = "인기순") String order) {
 		
 		Map<String, Object> map = new HashMap<>();
 		
-		page = (page == 0 ? 1 : page);
-		List<AuctionVO> list = actService.getAuctionList(page, order);
+		pageNum = (pageNum == 0 ? 1 : pageNum);
+		List<AuctionVO> list = actService.getAuctionList(pageNum, order);
 		
 		int total = actService.auctionTotal();
-		PageVO dto = new PageVO(page, total);
+		PageVO dto = new PageVO(pageNum, total);
 		
 		map.put("auctionList", list);
 		map.put("page", dto);
@@ -67,6 +67,22 @@ public class AuctionRestController {
 		}
 		
 		return map;
-	}		
+	}
+	
+	// 경매 등록
+	@PostMapping("auction")
+	public Map<String, Object> InsertAuction(@RequestBody AuctionVO vo){
+		
+		Map<String, Object> map = new HashMap<>();
+		boolean result = actService.InsertAuction(vo);
+		
+		if(result) {
+			map.put("retCode", "Success");
+		}else {
+			map.put("retCode", "Fail");
+		}
+		
+		return map;
+	}
 	
 }
