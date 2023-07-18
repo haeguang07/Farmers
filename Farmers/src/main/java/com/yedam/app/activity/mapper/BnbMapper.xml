@@ -18,7 +18,7 @@
 			]]>
 		<choose>
 			<when test="order.equals('최신순')">
-				order by 1 desc
+				order by board_no desc
 			</when>
 			<when test="order.equals('낮은가격순')">
 				order by price
@@ -50,30 +50,30 @@
 			from dual
 		</selectKey>
 		insert into farmbnb(
-		board_no,
-		MEM_NO,
-		TITLE,
-		DST1,
-		ZIP,
-		ADDR,
-		ADDR_DETAIL,
-		PRICE,
-		REP,
-		LEND_STR_DATE,
-		LEND_END_DATE,
-		DETA_DESCT)
+					board_no,
+					MEM_NO,
+					TITLE,
+					DST1,
+					ZIP,
+					ADDR,
+					ADDR_DETAIL,
+					PRICE,
+					REP,
+					LEND_STR_DATE,
+					LEND_END_DATE,
+					DETA_DESCT)
 		values(#{boardNo},
-		#{memNo},
-		#{title},
-		#{dst1},
-		#{zip},
-		#{addr},
-		#{addrDetail},
-		#{price},
-		#{rep},
-		#{lendStrDate},
-		#{lendEndDate},
-		#{detaDesct})
+				#{memNo},
+				#{title},
+				#{dst1},
+				#{zip},
+				#{addr},
+				#{addrDetail},
+				#{price},
+				#{rep},
+				#{lendStrDate},
+				#{lendEndDate},
+				#{detaDesct})
 	</insert>
 
 
