@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.yedam.app.security.PrincipalDetails;
 import com.yedam.app.user.mapper.MemberMapper;
 import com.yedam.app.user.vo.MemberVO;
 @Service
@@ -28,7 +29,7 @@ public class MemberServiceImpl implements MemberService, UserDetailsService{
 		if(vo == null) {
 			throw new UsernameNotFoundException("no User");
 		}
-		return vo;
+		return new PrincipalDetails(vo);
 	}
 	//아이디로 조회
 	@Override
@@ -66,9 +67,7 @@ public class MemberServiceImpl implements MemberService, UserDetailsService{
 	public boolean join(MemberVO vo) {
 		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
 		vo.setPw(scpwd.encode(vo.getPw()));
-		if(vo.getId()==null) {
-			vo.setId(memberMapper.newId(vo.getLoginPath()));
-		}
+
 		int result=memberMapper.insertMember(vo);
 		int result2 = memberMapper.insertMemberDetail(vo);
 		if(result*result2>0) {

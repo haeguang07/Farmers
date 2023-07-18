@@ -19,6 +19,8 @@ import com.yedam.app.user.service.MemberService;
 public class WebSecurityConfig {
 	@Autowired
 	MemberService memberService;
+	@Autowired
+	PrincipalOauth2UserService principalOauth2UserService;
 	
 	@Bean
     public RestTemplate restTemplate() {
@@ -61,11 +63,19 @@ public class WebSecurityConfig {
 				.failureHandler(authenticationFailureHandler())
 				.permitAll()
 			.and()
+				.headers().frameOptions().sameOrigin() //팝업창 띄우기
+			.and()
 			.logout((logout) -> logout
 					.logoutSuccessUrl("/")
 					.invalidateHttpSession(true)
 					.permitAll())
-			.headers().frameOptions().sameOrigin() //팝업창 띄우기 
+			.oauth2Login()				// OAuth2기반의 로그인인 경우
+            .loginPage("/login")		// 인증이 필요한 URL에 접근하면 /loginForm으로 이동
+            .successHandler(authenticationSuccessHandler())		// 로그인 성공하면 "/" 으로 이동
+            .failureHandler(authenticationFailureHandler())		// 로그인 실패 시 /loginForm으로 이동
+            .userInfoEndpoint()			// 로그인 성공 후 사용자정보를 가져온다
+            .userService(principalOauth2UserService)	//사용자정보를 처리할 때 사용한다
+        
 
 ;
 			
