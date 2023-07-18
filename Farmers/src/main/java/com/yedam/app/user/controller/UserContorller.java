@@ -1,14 +1,9 @@
 package com.yedam.app.user.controller;
 
-import java.util.Collections;
-import java.util.Map;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,11 +38,11 @@ public class UserContorller {
 
 	@GetMapping("/oauth2/authorization/naver")
 	@ResponseBody
-	public Map<String,Object> callbackNaver(@AuthenticationPrincipal OAuth2User principal) {
-		System.out.println(principal);
-		return Collections.singletonMap("name", principal.getAttribute("name"));
-	}
-
+	/*
+	 * public Map<String,Object> callbackNaver(@AuthenticationPrincipal OAuth2User
+	 * principal) { System.out.println(principal); return
+	 * Collections.singletonMap("name", principal.getAttribute("name")); }
+	 */
 	// 간편로그인
 	@PostMapping("snsLogin")
 	public String snsLogin(MemberVO member,HttpServletRequest request) throws ServletException {
