@@ -9,32 +9,41 @@
 <meta name="keywords" content="Male_Fashion, unica, creative, html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>농촌비앤비 상세페이지</title>
+<title>전원마켓 상세페이지</title>
+<style>
+.table td {
+	text-align: right;
+	padding-right: 80px;
+}
 
+#getNum {
+	width: 150px;
+}
+</style>
 </head>
 
 <body>
 	<div layout:fragment="content">
 		<!-- Shop Details Section Begin -->
-		<section th:each="bnb:${bnb}" class="shop-details">
+		<section th:each="mk:${mk}" class="shop-details">
+
 			<!-- 이미지 부분 -->
 			<div class="product__details__pic">
 				<div class="container">
 					<div class="row">
 						<div class="col-lg-12" style="text-align: left">
 							<div class="product__details__breadcrumb">
-								<a href="/bnbList">농촌비엔비</a> <span th:text="|${bnb.bnbTitle}|">제목넣기</span>
+								<a href="/mkList">전원마켓</a> <span th:text="|${mk.title}|"></span>
 							</div>
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-lg-3 col-md-3">
-						</div>
+						<div class="col-lg-3 col-md-3"></div>
 						<div class="col-lg-6 col-md-9">
 							<div class="tab-content">
 								<div class="tab-pane active" id="tabs-1" role="tabpanel">
 									<div class="product__details__pic__item">
-										<img th:src="@{img/bnb/}+${bnb.rep}" alt="대표사진">
+										<img th:src="${mk.rep}" alt="대표사진">
 									</div>
 								</div>
 							</div>
@@ -48,47 +57,40 @@
 					<div class="row d-flex justify-content-center">
 						<div class="col-lg-8">
 							<div class="product__details__text">
-								<h3 th:text="|${bnb.bnbTitle}|">제목</h3>
+								<h3 th:text="|${mk.title}|">상품명</h3>
 								<div class="rating">
 									<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 										class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 										class="fa fa-star-o"></i> <span> - 5 Reviews</span>
 								</div>
 								<h4>
-									<span id="onePay" th:text="|${bnb.price}|">금액</span>원(1일)
+									<span id="onePay" th:text="|${mk.price}|" style="display: none"></span>
+									<span
+										th:text="${#numbers.formatInteger(mk.price==null?0:mk.price,0,'COMMA')}">(금액)</span>원
+
 								</h4>
-								<p>농촌 한달살기 체험 해보세요!</p>
 
 								<!-- 결제 -->
 								<div>
 
 									<table class="table">
+
 										<tr>
-											<th>날짜선택</th>
-											<td><input type="date" id="startDate"
-												th:min="${#dates.format(bnb.lendStrDate,'yyyy-MM-dd')}"
-												th:max="${#dates.format(bnb.lendEndDate,'yyyy-MM-dd')}"
-												onchange="minDate()"> ~ <input type="date"
-												id="endDate"
-												th:min="${#dates.format(bnb.lendStrDate,'yyyy-MM-dd')}"
-												th:max="${#dates.format(bnb.lendEndDate,'yyyy-MM-dd')}"
-												onchange="calculateDays()"></td>
-										</tr>
-										<tr>
-											<th>총 일수 :</th>
-											<td><span id="dateResult"></span> 일</td>
+											<th>수량 :</th>
+											<td><input type="number" id="getNum" min="1" value="0"
+												onchange="getPay()"> 개</td>
 										</tr>
 										<tr>
 
-											<th>총 금액 :</th>
-											<td><span id="payResult"></span> 원</td>
+											<th>금액 :</th>
+											<td><b><span id="payResult"></span></b> 원</td>
 										</tr>
 										<tr>
-											<td colspan="2">
+											<th colspan="2">
 												<div class="product__details__cart__option">
-													<a href="#" class="primary-btn">예약 및 결제하기</a>
+													<a href="#" class="primary-btn">결제하기</a>
 												</div>
-											</td>
+											</th>
 										</tr>
 									</table>
 
@@ -113,57 +115,42 @@
 									<!-- 첫번째 탭 : 상세설명 ck editor -->
 									<div class="tab-pane active" id="tabs-5" role="tabpanel">
 										<div class="product__details__tab__content">
-											<p class="note">Nam tempus turpis at metus scelerisque
-												placerat nulla deumantos solicitud felis. Pellentesque diam
-												dolor, elementum etos lobortis des mollis ut risus. Sedcus
-												faucibus an sullamcorper mattis drostique des commodo
-												pharetras loremos.</p>
-											<div class="product__details__tab__content__item">
-												<h5>Products Infomation</h5>
-												<p>A Pocket PC is a handheld computer, which features
-													many of the same capabilities as a modern PC. These handy
-													little devices allow individuals to retrieve and store
-													e-mail messages, create a contact file, coordinate
-													appointments, surf the internet, exchange text messages and
-													more. Every product that is labeled as a Pocket PC must be
-													accompanied with specific software to operate the unit and
-													must feature a touchscreen and touchpad.</p>
-												<p>As is the case with any new technology product, the
-													cost of a Pocket PC was substantial during it’s early
-													release. For approximately $700.00, consumers could
-													purchase one of top-of-the-line Pocket PCs in 2003. These
-													days, customers are finding that prices have become much
-													more reasonable now that the newness is wearing off. For
-													approximately $350.00, a new Pocket PC can now be
-													purchased.</p>
-											</div>
-											<div class="product__details__tab__content__item">
-												<h5>Material used</h5>
-												<p></p>
-											</div>
-											<!-- 지도 api -->
+											<p class="note">상세설명</p>
+											<div class="product__details__tab__content__item"
+												th:utext="|${mk.detaDesct}|">(ck editor에서 넣은 내용)</div>
+
 										</div>
-										<div id="map" style="width: 750px; height: 350px;"></div>
 									</div>
 									<!-- 두번째 탭: 리뷰 -->
 									<div class="tab-pane" id="tabs-6" role="tabpanel">
 										<div class="product__details__tab__content">
 											<div class="product__details__tab__content__item">
-												<h5>리뷰</h5>
+												<div id="리뷰등록칸">
+													<div style="width: 200px;">
+														<select name="star">
+															<option value="0">별점</option>
+															<option value="5">★★★★★</option>
+															<option value="4">★★★★☆</option>
+															<option value="3">★★★☆☆</option>
+															<option value="2">★★☆☆☆</option>
+															<option value="1">★☆☆☆☆</option>
+														</select>
+													</div>
+													<textarea name="" id="" cols="70" rows="2"></textarea>
+
+													<a href="#" class="button">리뷰등록</a>
+												</div>
+
 												<table class="table">
 													<tr>
-														<th>별점</th>
+														<th>평점</th>
 														<th>내용</th>
 														<th>아이디</th>
 														<th>수정</th>
 													</tr>
 													<tr>
 														<td>
-															<div class="rating">
-																<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-																	class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-																	class="fa fa-star-o"></i>
-															</div>
+
 															<p>(2023-02-05)</p>
 														</td>
 														<td>재미있었습니다.</td>
@@ -171,43 +158,24 @@
 														<td><button>수정</button>
 															<button>삭제</button></td>
 													</tr>
-													<tr>
-														<th>리뷰</th>
-														<td><textarea name="" id="" cols="50" rows="3"></textarea>
-														</td>
-														<td>아이디</td>
-														<td><button>등록</button></td>
-													</tr>
+
 												</table>
 											</div>
-											<!-- 											<div class="product__details__tab__content__item">
-
-											</div> -->
 										</div>
 									</div>
 									<!-- 세번째 탭 -->
 									<div class="tab-pane" id="tabs-7" role="tabpanel">
 										<div class="product__details__tab__content">
-											<p class="note">Nam tempus turpis at metus scelerisque
-												placerat nulla deumantos solicitud felis. Pellentesque diam
-												dolor, elementum etos lobortis des mollis ut risus. Sedcus
-												faucibus an sullamcorper mattis drostique des commodo
-												pharetras loremos.</p>
+											<p class="note">문의는 아래 사항으로 연락 바랍니다.</p>
 											<div class="product__details__tab__content__item">
-												<h5>문의처</h5>
-												<p>문의처: 판매자</p>
+												<h5>판매자 정보</h5>
+												<p>판매자: 000</p>
+												<p>전화번호: 054-4545-8584</p>
+												<p>주 소: 경기도 ~</p>
 											</div>
 											<div class="product__details__tab__content__item">
 												<h5>Material used</h5>
-												<p>Polyester is deemed lower quality due to its none
-													natural quality’s. Made from synthetic materials, not
-													natural like wool. Polyester suits become creased easily
-													and are known for not being breathable. Polyester suits
-													tend to have a shine to them compared to wool and cotton
-													suits, this can make the suit look cheap. The texture of
-													velvet is luxurious and breathable. Velvet is a great
-													choice for dinner party jacket and can be worn all year
-													round.</p>
+												<p>Po.</p>
 											</div>
 										</div>
 									</div>
@@ -220,46 +188,18 @@
 			</div>
 		</section>
 		<!-- Shop Details Section End -->
-		<!-- 지도 api -->
-		<script
-			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c573b65eabeb9b6da24ab52d832dc807"></script>
 		<script>
-			//지도 api
-			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-			mapOption = {
-				center : new kakao.maps.LatLng(37.56682, 126.97865), // 지도의 중심좌표
-				level : 3, // 지도의 확대 레벨
-				mapTypeId : kakao.maps.MapTypeId.ROADMAP
-			};
-			var map = new kakao.maps.Map(mapContainer, mapOption);
-			// 지도에 마커를 생성하고 표시한다
-			var marker = new kakao.maps.Marker({
-				position : new kakao.maps.LatLng(37.56682, 126.97865), // 마커의 좌표
-				map : map
-			});
-
-			// 날짜입력시 일수,금액 계산
-			function calculateDays() {
-				var startDate = new Date(
-						document.getElementById('startDate').value);
-				var endDate = new Date(document.getElementById('endDate').value);
-				var timeDifference = endDate.getTime() - startDate.getTime();
-				var days = timeDifference / (1000 * 3600 * 24) + 1;
-				var nights = timeDifference / (1000 * 3600 * 24);
-				// 날짜계산
-				console.log('일 수:', days);
-				var resultElement = document.getElementById('dateResult');
-				resultElement.textContent = nights + "박 " + days;
-				// 금액계산
-				var pay = document.getElementById('payResult');
-				var onePay = document.getElementById('onePay').innerText;
-				pay.textContent = days * onePay;
+			//천단위 콤마찍기 함수
+			function number_format(num) {
+				return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 			}
-
-			function minDate() {
-				let min = event.target.value;
-				console.log(min);
-				document.getElementById('endDate').setAttribute('min', min);
+			//토탈금액 함수
+			function getPay() {
+				let num = Number($('#getNum').val());
+				let pay = Number($('#onePay').text());
+				let total = num * pay
+				total = number_format(total);
+				$('#payResult').text(total);
 			}
 		</script>
 	</div>

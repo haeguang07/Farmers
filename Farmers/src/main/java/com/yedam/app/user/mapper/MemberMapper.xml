@@ -12,12 +12,12 @@
 				login_path,
 				rpt_cnt,
 				mem_grd
-		FROM member m JOIN member_detail d 
+		FROM member m LEFT JOIN member_detail d 
 		ON(m.mem_no=d.mem_no)
 		WHERE id= #{id}
 	</select>
 	<select id="selectId" resultType="String">
-		SELECT id
+		SELECT RPAD(SUBSTR(id,1,3),LENGTH(id),'*')
 		FROM member
 		WHERE id=#{id}
 	</select>
@@ -38,7 +38,10 @@
 		WHERE email=#{email}
 		AND id=#{id}
 	</select>
-
+	<select id="newId">
+		SELECT #{loginPath} || LPAD(login_seq.nextval,6,'0')
+		FROM dual
+	</select>
 	
 	<insert id="insertMember" parameterType="MemberVO">
 		<selectKey order="BEFORE" keyProperty="memNo"
@@ -46,34 +49,78 @@
 			SELECT 'MEM' || LPAD(mem_seq.nextval,6,'0')
 			FROM dual
 		</selectKey>
+
 		INSERT INTO member (mem_no,
 							id,
 							pw,
 							email,
-							nick)
+							nick
+							<if test="loginPath != null and !loginPath.equals('')">
+							,login_path
+							</if>
+							)
 		VALUES (#{memNo}, 
 				#{id},
 				#{pw},
 				#{email},
-				#{nick})
+				#{nick}
+				<if test="loginPath != null and !loginPath.equals('')">
+				,#{loginPath}
+				</if>)
 	</insert>
 	<insert id="insertMemberDetail" parameterType="MemberVO">
 		INSERT INTO member_detail 	(MEM_NO
+									<if test="name != null and !name.equals('')">
 									,NAME
+									</if>
+									<if test="zip != 0">
 									,ZIP
+									</if>
+									<if test="addr != null and !addr.equals('') ">
 									,ADDR
+									</if>
+									<if test="detaAddr != null and !detaAddr.equals('')">
 									,DETA_ADDR
+									</if>
+									<if test="mbl != null and !mbl.equals('') ">
 									,MBL
+									</if>
+									<if test="bDate != null">
 									,B_DATE
-									,GEN)
-		VALUES ( #{memNo},
-				 #{name},
-				 #{zip},
-				 #{addr},
-				 #{detaAddr},
-				 #{mbl},
-				 #{bDate},
-				 #{gen})
+									</if>
+									<if test="gen != null and !gen.equals('') ">
+									,GEN
+									</if>
+									<if test="prof != null and !prof.equals('') ">
+									,prof
+									</if>
+									)
+		VALUES ( #{memNo}
+				<if test="name != null and !name.equals('')">
+				 ,#{name}
+				 </if>
+				<if test="zip != 0">
+				 ,#{zip}
+				 </if>
+				<if test="addr != null and !addr.equals('') ">
+				 ,#{addr}
+				 </if>
+				<if test="detaAddr != null and !detaAddr.equals('')">
+				 ,#{detaAddr}
+				 </if>
+				<if test="mbl != null and !mbl.equals('') ">
+				 ,#{mbl}
+				 </if>
+				<if test="bDate != null">
+				 ,#{bDate}
+				 </if>
+				<if test="gen != null and !gen.equals('') ">
+				 ,#{gen}
+				 </if>
+				 <if test="prof != null and !prof.equals('') ">
+				 ,#{prof}
+				 </if>
+				 )
 	</insert>
 	
 	<update id="updatePw" parameterType="memberVO">

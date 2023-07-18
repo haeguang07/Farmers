@@ -17,9 +17,6 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
 import javax.mail.internet.MimeMultipart;
 
-import org.jasypt.encryption.StringEncryptor;
-import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 

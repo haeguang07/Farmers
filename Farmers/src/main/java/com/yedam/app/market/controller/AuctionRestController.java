@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -50,5 +52,21 @@ public class AuctionRestController {
 		
 		return map;
 	}
+	
+	// 입찰하기
+	@PostMapping("bidAuction")
+	public Map<String, Object> bidAuction(@RequestBody AuctionVO vo){
+		
+		Map<String, Object> map = new HashMap<>();
+		boolean result = actService.bidAuction(vo);
+		
+		if(result) {
+			map.put("retCode", "Success");
+		}else {
+			map.put("retCode", "Fail");
+		}
+		
+		return map;
+	}		
 	
 }

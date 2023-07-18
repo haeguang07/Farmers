@@ -30,5 +30,7 @@ public class CropsSaleVO {
 	
 	// member
 	public String nick;
+	
+	// member_detail
 	public String memGrd;
 }

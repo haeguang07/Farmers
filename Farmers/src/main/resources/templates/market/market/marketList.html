@@ -120,8 +120,9 @@
 							<div class="row">
 								<div class="col-lg-6 col-md-6 col-sm-6">
 									<div class="shop__product__option__left">
-										<select class="form-control col-lg-6" name="mktCtg" id="selectCtg">
-											<option value="카테고리">분류선택</option>
+										<select class="form-control col-lg-6" name="mktCtg"
+											id="selectCtg">
+											<option value="전체">카테고리</option>
 											<option value="가드닝">가드닝</option>
 											<option value="인테리어">인테리어</option>
 											<option value="잡화">잡화</option>
@@ -131,10 +132,10 @@
 								<div class="col-lg-6 col-md-6 col-sm-6">
 									<div class="shop__product__option__right">
 										<p>정렬:</p>
-										<select>
-											<option value="">Low To High</option>
-											<option value="">$0 - $55</option>
-											<option value="">$55 - $100</option>
+										<select id="order">
+											<option value="최신순">최신순</option>
+											<option value="낮은가격순">낮은가격순</option>
+											<option value="높은가격순">높은가격순</option>
 										</select>
 									</div>
 
@@ -163,7 +164,7 @@
 					</ul>
 				</div>
 				<div class="product__item__text">
-					<h5 class="marketTitle">상품명</h5>
+					<h5 class="title">상품명</h5>
 					<h5 class="price" style="color: grey">금액</h5>
 				</div>
 			</div>
@@ -183,12 +184,13 @@
 				ajaxData(1)
 			})
 			
-			function ajaxData(page,mktCtg){
+			function ajaxData(page,mktCtg,order){
 				$.ajax({
 					url: "marketItem",
 					method: "get",
-					data: {page, mktCtg},
-					success(result){					
+					data: {page, mktCtg,order},
+					success(result){	
+						console.log(result)
 						printData(result)
 					},
 					error(err){
@@ -196,45 +198,52 @@
 					}
 				})
 			}
-
-			function printData(data,mktCtg){
+ 
+			function printData(data,mktCtg,order){
 				$('#mkList').children().remove();
 				$('#mkPage').children().remove();
-				let mkt= data.mkt;
-				mkt.forEach(el => {
+				let mk= data.mk; //controller에서 넘긴 값
+				let page=data.page;
+				mk.forEach(el => {
 					console.log(el)
-					printList(el)
+					printList(el)					
 				})			
+				printPage(page,mktCtg,order);
 			}
 			
+
 			//뿌릴 리스트-클론
 			function printList(item){
 				let clone=$('#marketItem').clone();
 				$(clone).css({'display': 'block'})
 				$(clone).find('.set-bg').on('click',function(){
-					location.href=`mkInfo?mktNo=${item.mktNo}`
+					location.href=`mkInfo?boardNo=${item.boardNo}`
 				})
 				$(clone).find('.set-bg').data('setbg', item.rep);
 				$(clone).find('.set-bg').css("background-image",`url(${item.rep})`)
-				$(clone).find('.mktTitle').text(item.mktTitle);
+				$(clone).find('.title').text(item.title);
+				item.price=number_format(item.price);
 				$(clone).find('.price').text(item.price+"원");
 				$('#mkList').append(clone)
 			}
 			
-			$('#selectCtg').on('change', function(){
-				console.log($(this).val())
-				ajaxData(1, $(this).val())
-			})
+			//천단위 콤마찍기 함수
+			function number_format(num) {	
+				if(num==null) return 0;
+				return num.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+			}
+			
+
 			
 		//페이징 함수
-		function printPage(pageData,mktCtg){
+		function printPage(pageData,mktCtg,order){
 			let pageItem = $('#pageItem').clone()
 			$(pageItem).css({'display' : 'block'});
 			$(pageItem).find('#prevPage').on('click',function(){
-				ajaxData(pageData.startPage - 1,mktCtg)
+				ajaxData(pageData.startPage - 1,mktCtg,order)
 			})
 			$(pageItem).find('#nextPage').on('click',function(){
-				ajaxData(pageData.endPage + 1,mktCtg)
+				ajaxData(pageData.endPage + 1,mktCtg,order)
 			})
 
 			if(!pageData.prev){
@@ -252,7 +261,7 @@
 					$(clone).css('border-color','orange')
 				}
 				$(clone).on('click', function () {
-					getCondition(i, mktCtg);
+					getCondition(i, mktCtg,order);
 				})
 				$(pageItem).find('#pageNumDiv').append(clone)
 			}
@@ -262,13 +271,28 @@
 		}
 		
 		// 조건 값 변경 시 컨트롤 정보 보내기
-		function getCondition(page, mktCtg){
+		function getCondition(page, mktCtg,order){
 			if(page == null){
 				page = 1
 			}
-			ajaxData(page, mktCtg);
+			ajaxData(page, mktCtg,order);
 		}
+
+		//카테고리 검색
+		$('#selectCtg').on('change', function(){
+			console.log($(this).val())
+			ajaxData(1, $(this).val())
+		})
+		
+		
+		//조건별 검색
+		$('#order').on('change',function(){
+			let Ctg= $('#selectCtg').val();
+			let od= $(this).val();
 			
+			ajaxData(1,Ctg,od);
+			
+		})
 		</script>
 
 	</div>

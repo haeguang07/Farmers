@@ -9,7 +9,7 @@
 	type="text/css">
 
 <style>
-#auctionInfo p {
+.tab-pane p {
 	margin-bottom: 50px;
 }
 
@@ -75,10 +75,14 @@ h5:has(.countdown) {
 }
 
 label:has(.bidCount) {
-	margin-left: 60px;
+	margin-left: 80px;
 	font-size: 13px;
 	color: darkgray;
 	display: block;
+}
+
+.toggleshow {
+	display: none;
 }
 
 .toggleContainer {
@@ -156,7 +160,7 @@ label:has(.bidCount) {
 							<h4>경매장</h4>
 							<div class="breadcrumb__links">
 								<a href="#">농촌마켓</a> <a href="auctionList">경매장</a> <span
-									th:text="${actInfo.actTitle}">상품명</span>
+									th:text="${actInfo.title}">상품명</span>
 							</div>
 						</div>
 					</div>
@@ -204,8 +208,9 @@ label:has(.bidCount) {
 					</div>
 					<div class="col-lg-6" id="auctionInfo">
 						<div class="product__details__text">
+							<input type="text" style="display: none;" th:text="${actInfo.boardNo}">
 							<div class="product__label" th:text="${actInfo.nick}">닉네임</div>
-							<h4 th:text="${actInfo.actTitle}">상품명</h4>
+							<h4 th:text="${actInfo.title}">상품명</h4>
 							<h5>
 								경매종료일 <span class="countdown"></span>
 							</h5>
@@ -224,13 +229,12 @@ label:has(.bidCount) {
 							</ul>
 							<h5>
 								<label>현재 입찰 최고가 <span class="highestBid"
-									th:text="${#numbers.formatInteger(actInfo.bidPrice, 1, 'COMMA')}">N</span>원
+									th:text="${#numbers.formatInteger(actInfo.price, 1, 'COMMA')}">N</span>원
 								</label>
 							</h5>
 							<div class="product__details__option">
 								<div class="bidWay">
 									<form action="#">
-
 										<div class="FixedOption">
 											<input type="checkbox" id="toggle" class="toggleCheckbox" />
 											<label for="toggle" class="toggleContainer">
@@ -238,30 +242,36 @@ label:has(.bidCount) {
 												<div>즉시구매</div>
 											</label>
 										</div>
-										<div id="vvue">
+										<div id="doBid">
 											<label><span class="bidCount"
 												th:text="${actInfo.bidCount}">N</span>명 입찰 중!<br></label>
 											<div class="bidInput">
 												<button class="roundBtn" type="button">-</button>
-												<input type="number" class="form-control" id="bidPrice"
-													placeholder="입찰금액을 입력하세요">
+												<input type="number" step="500" class="form-control" id="bidPrice"
+													placeholder="입찰금액을 입력하세요.">
 												<button class="roundBtn" type="button">+</button>
 											</div>
 											<div>
-												<span style="color: gray;"> ※ 정회원만 입찰 가능하며, 최소 입찰금액은
-													1,000원입니다.</span>
+												<span style="color: gray;"> ※ 정회원만 입찰 가능합니다.<br>
+													※ 최소 입찰금액은 1,000원이며, 500원 단위로 입찰 가능합니다.</span>
 											</div>
 											<button class="nextBtn btn btn-outline-success" type="submit">다음</button>
 										</div>
 
 										<!-- ******* 즉시구매 ******* -->
-										<!-- <div class="buyNowPrice">즉시 구매가	<span th:text="${#numbers.formatInteger(actInfo.Bnp, 1, 'COMMA')}"></span>원</div>
-										<div>
-											<span style="color: gray;"> ※ 정회원만 즉시 구매 가능합니다.
-												<br> ※ 판매자가 제시한 즉시 구매가로, 구매 즉시 결제 후 낙찰이 완료됩니다.
+										<div id="buyNow" class="toggleshow">
+											<div class="buyNowPrice">
+												<br>
+												<p>
+													즉시 구매가 <span
+														th:text="${#numbers.formatInteger(actInfo.bnp, 1, 'COMMA')}"></span>원
+												</p>
+											</div>
+											<span style="color: gray;"> ※ 정회원만 즉시 구매 가능합니다. <br>
+												※ 판매자가 제시한 즉시 구매가로, 구매 즉시 결제 후 낙찰이 완료됩니다.<br>
 											</span>
+											<button class="nextBtn btn btn-outline-success" type="submit">다음</button>
 										</div>
-										<button class="nextBtn btn btn-outline-success" type="submit">다음</button> -->
 									</form>
 								</div>
 							</div>
@@ -303,7 +313,6 @@ label:has(.bidCount) {
 		</section>
 		<!-- Shop Details Section End -->
 
-		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script><script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 		<script>
 			// 상세 조회 시 countdown 실행
 			$(function() {
@@ -323,7 +332,106 @@ label:has(.bidCount) {
 				})
 			}
 
-			// 입찰/즉시구매 vue로 구현
+			// 입찰/즉시구매 토글로 구현
+			$('#toggle').on('click', function(){
+				let bidWay = $(this).prop("checked");
+				
+				if (bidWay) {
+					console.log('buyNow');
+					$('#doBid').addClass('toggleshow');
+					$('#buyNow').toggleClass();
+				}else {
+					console.log('doBid');
+					$('#buyNow').toggleClass("toggleshow");
+					$('#doBid').toggleClass("toggleshow");
+				}
+			})
+			
+			// 입찰 input 값 음수 제한, 500단위 입력
+			$('#bidPrice').change(function(){
+				let inputVal = $(this).val();
+				let value = parseInt(inputVal);
+				
+				if(value < 1000){
+					$('#bidPrice').val('1000');
+					$('#bidPrice').focus();
+					alert('입찰금액은 최소 1000원부터입니다.');
+				}
+				
+				let balence = value % 500;
+				if (balence !== 0){
+					// 입력한 값에서 가까운 내림한 500원 단위 값 출력
+					let roundedValue = value - balence;
+					$('#bidPrice').val(roundedValue);
+					alert('500원 단위로 입력 가능합니다.');		
+				}
+			})
+			
+			// 버튼 -, + 기능
+			$('.roundBtn').on('click', function(){
+				let btnVal = $(this).text();
+				let price = $('#bidPrice').val();
+				
+				if(btnVal == '-'){
+					let dec = Number(price);
+					dec = dec - 500;
+						if(dec == 1000){						
+						}else if(dec < 1000){
+							alert('입찰금액은 최소 1000원부터입니다.');
+							dec = 1000;
+						}
+					$('#bidPrice').val(dec);
+				}else if(btnVal == '+'){
+					let inc = Number(price);
+					if(inc === 0){
+						inc = 1000;
+					} else {
+						inc = inc + 500;
+					}
+					$('#bidPrice').val(inc);
+				}
+			})
+			
+			// 입찰 기능
+			
+			/*<![CDATA[*/
+			let memNo = `[[${session.mem.memNo}]]`
+			/*]]>*/
+			console.log(memNo);
+			
+			$('.nextBtn').on('click', function(){
+				// APL_NO(시퀀스), MEM_NO(세션), ACT_NO(값), BID_PRICE(값), SBID_STTS(디폴트 값)
+				let boardNo = $('#auctionInfo').eq(0).val();
+				let price = $('#bidPrice').val();
+				console.log(mem.memNo, boardNo, price);
+				
+				if(bidPrice < 1000){
+					event.preventDefault();
+					$('#bidPrice').val('1000');
+					alert('입찰금액은 최소 1000원입니다.');
+					$('#bidPrice').focus();
+				}else {
+					
+						$.ajax({
+							url: "bidAuction",
+							method: "POST",
+							headers: {
+								'Content-Type' : 'application/json'
+							},
+							body: JSON.stringify({memNo,boardNo,price}.serializeObject()),
+							success(data){
+								console.log(data);
+							},
+							error(reject){
+								console.log(reject);
+							}								
+						})
+						
+					
+				}
+			})
+		
+			
 		</script>
 	</div>
 </body>

@@ -49,8 +49,8 @@ public class MarketController {
 
 	// 단건조회
 	@GetMapping("mkInfo")
-	public String getMkInfo(Model model, String mktNo) {
-		model.addAttribute("mk", mkService.getMarketInfo(mktNo));
+	public String getMkInfo(Model model, String boardNo) {
+		model.addAttribute("mk", mkService.getMarketInfo(boardNo));
 		return "market/market/marketInfo";
 	}
 

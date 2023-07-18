@@ -121,6 +121,11 @@
 			<artifactId>gson</artifactId>
 			<version>2.9.0</version>
 		</dependency>
+		<!-- 간편로그인 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-client</artifactId>
+		</dependency>-->
 
 	</dependencies>
 

@@ -15,7 +15,10 @@ public interface AuctionService {
 		public List<AuctionVO> getNextAuctionList();
 		
 		// 단건 경매 정보 조회
-		public AuctionVO getAuctionInfo(String actNo);
+		public AuctionVO getAuctionInfo(String boardNo);
+		
+		// 입찰하기
+		public boolean bidAuction(AuctionVO vo);
 		
 		// 등록
 		public boolean InsertAuction(AuctionVO vo);
@@ -24,5 +27,6 @@ public interface AuctionService {
 		public boolean updateAuction(AuctionVO vo);
 		
 		// 삭제
-		public boolean deleteAuction(int ActNo);
+		public boolean deleteAuction(String boardNo);
 }
+ 

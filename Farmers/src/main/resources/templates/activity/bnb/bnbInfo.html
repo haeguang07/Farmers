@@ -10,29 +10,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>농촌비앤비 상세페이지</title>
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/css/suinCss/review.css">
 <style>
-.review-table1 {
-	margin-left: auto;
-	margin-right: auto;
-  border-spacing: 2px;
-  border-collapse: separate;
+#dateTb td {
+	text-align: right;
+	padding-right: 80px;
 }
-.nice-select{
-width:150px;
-margin-right:10px;
-}
-.button {
-  background-color: #000000;
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-}
+
 </style>
 </head>
 
@@ -46,7 +32,7 @@ margin-right:10px;
 					<div class="row">
 						<div class="col-lg-12" style="text-align: left">
 							<div class="product__details__breadcrumb">
-								<a href="/bnbList">농촌비엔비</a> <span th:text="|${bnb.bnbTitle}|">제목넣기</span>
+								<a href="/bnbList">농촌비엔비</a> <span th:text="|${bnb.title}|">제목넣기</span>
 							</div>
 						</div>
 					</div>
@@ -70,23 +56,25 @@ margin-right:10px;
 					<div class="row d-flex justify-content-center">
 						<div class="col-lg-8">
 							<div class="product__details__text">
-								<h3 th:text="|${bnb.bnbTitle}|">제목</h3>
+								<h3 th:text="|${bnb.title}|">제목</h3>
 								<div class="rating">
 									<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 										class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 										class="fa fa-star-o"></i> <span> - 5 Reviews</span>
 								</div>
 								<h4>
-									<span id="onePay" th:text="|${bnb.price}|">금액</span>원(1일)
+									<span id="onePay" th:text="|${bnb.price}|"
+										style="display: none"></span> <span
+										th:text="${#numbers.formatInteger(bnb.price==null?0:bnb.price,0,'COMMA')}">금액</span>원(1일)
 								</h4>
 								<p>농촌 한달살기 체험 해보세요!</p>
 
 								<!-- 결제 -->
 								<div>
 
-									<table class="table">
+									<table class="table" id="dateTb">
 										<tr>
-											<th>날짜선택</th>
+											<th>날짜 선택</th>
 											<td><input type="date" id="startDate"
 												th:min="${#dates.format(bnb.lendStrDate,'yyyy-MM-dd')}"
 												th:max="${#dates.format(bnb.lendEndDate,'yyyy-MM-dd')}"
@@ -97,20 +85,20 @@ margin-right:10px;
 												onchange="calculateDays()"></td>
 										</tr>
 										<tr>
-											<th>총 일수 :</th>
+											<th>총 일수</th>
 											<td><span id="dateResult"></span> 일</td>
 										</tr>
 										<tr>
 
-											<th>총 금액 :</th>
-											<td><span id="payResult"></span> 원</td>
+											<th>총 금액</th>
+											<td><b><span id="payResult"></span></b> 원</td>
 										</tr>
 										<tr>
-											<td colspan="2">
+											<th colspan="2">
 												<div class="product__details__cart__option">
 													<a href="#" class="primary-btn">예약 및 결제하기</a>
 												</div>
-											</td>
+											</th>
 										</tr>
 									</table>
 
@@ -149,41 +137,36 @@ margin-right:10px;
 									<div class="tab-pane" id="tabs-6" role="tabpanel">
 										<div class="product__details__tab__content">
 											<div class="product__details__tab__content__item">
-												
-													<div style="width:200px;">
-														<select name="star">
+												<div id="reviewArea">
+													<!-- 리뷰 등록 폼 -->
+													<div class="review-form">
+														<div class="row1">
+															<label for="star">별점:</label> <select id="star">
 																<option value="0">별점</option>
 																<option value="5">★★★★★</option>
 																<option value="4">★★★★☆</option>
 																<option value="3">★★★☆☆</option>
 																<option value="2">★★☆☆☆</option>
 																<option value="1">★☆☆☆☆</option>
-														</select>
+															</select>
 														</div>
-														<textarea name="" id="" cols="70" rows="2"></textarea>
-													
-													<a href="#" class="button">리뷰등록</a>
-												
 
-												<table class="table">
-													<tr>
-														<th>평점</th>
-														<th>내용</th>
-														<th>아이디</th>
-														<th>수정</th>
-													</tr>
-													<tr>
-														<td>
+														<div class="row1">
+															<label for="reviewText">리뷰:</label>
+															<textarea id="reviewText" rows="2" cols="30"></textarea>
+															<input type="submit" value="등록">
+														</div>
+													</div>
 
-															<p>(2023-02-05)</p>
-														</td>
-														<td>재미있었습니다.</td>
-														<td>아이디</td>
-														<td><button>수정</button>
-															<button>삭제</button></td>
-													</tr>
-
-												</table>
+													<table class="table" style="text-align:center">
+														<tr>
+															<th>별점</th>
+															<th>내용</th>
+															<th>아이디</th>
+															<th>삭제</th>
+														</tr>
+													</table>
+												</div>
 											</div>
 										</div>
 									</div>
@@ -193,7 +176,7 @@ margin-right:10px;
 											<p class="note">문의는 아래 사항으로 연락 바랍니다.</p>
 											<div class="product__details__tab__content__item">
 												<h5>판매자 정보</h5>
-												<p>판매자: 김수인</p>
+												<p>판매자: 000</p>
 												<p>전화번호: 054-4545-8584</p>
 												<p>주 소: 경상북도 청도 어쩌구</p>
 											</div>
@@ -245,15 +228,24 @@ margin-right:10px;
 				// 금액계산
 				var pay = document.getElementById('payResult');
 				var onePay = document.getElementById('onePay').innerText;
-				pay.textContent = days * onePay;
+				let total = days * onePay;
+				total = number_format(total);
+				pay.textContent = total;
 			}
-
+			//최소날짜 설정
 			function minDate() {
 				let min = event.target.value;
 				console.log(min);
 				document.getElementById('endDate').setAttribute('min', min);
 			}
+
+			//천단위 콤마찍기 함수
+			function number_format(num) {
+				return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+			}
 		</script>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 	</div>
 </body>
 
