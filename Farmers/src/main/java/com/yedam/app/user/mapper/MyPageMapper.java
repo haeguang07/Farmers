@@ -2,6 +2,7 @@ package com.yedam.app.user.mapper;
 
 import java.util.List;
 
+import com.yedam.app.common.vo.PaymentVO;
 import com.yedam.app.user.vo.AttachVO;
 import com.yedam.app.user.vo.MemberVO;
 import com.yedam.app.user.vo.PointsVO;
@@ -24,5 +25,11 @@ public interface MyPageMapper {
 	
 	//회원탈퇴
 	public int secession(String memNo);
+	
+	//결제번호 조회
+	public List<PaymentVO> myPayNo(String memNo);
+	
+	//결제내역 조회
+	public PaymentVO myPayList(PaymentVO vo);
 
 }

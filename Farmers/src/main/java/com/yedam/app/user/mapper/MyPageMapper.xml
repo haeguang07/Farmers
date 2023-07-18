@@ -57,4 +57,30 @@
 		SET stts = 'c1'
 		WHERE mem_no = #{memNo}
 	</update>
+	
+	<!-- 결제번호 조회 -->
+	<select id="myPayNo" parameterType="String" resultType="PaymentVO">
+	SELECT pay_no
+	FROM payment
+	WHERE mem_no = #{memNo}
+	</select>
+	
+	<!-- 결제내역 프로시저 (pay_no로 조회) -->
+	<select id="myPayList" statementType="CALLABLE"
+		parameterType="PaymentVO" resultType="PaymentVO">
+	{
+		CALL myPayList(
+		#{payNo, mode=IN , jdbcType=VARCHAR},
+		#{boardCtg, mode=OUT , jdbcType=VARCHAR},
+		#{totalPayPrice, mode=OUT , jdbcType=VARCHAR},
+		#{payMthd, mode=OUT , jdbcType=VARCHAR},
+		#{payDate, mode=OUT , jdbcType=DATE},
+		#{boardNo, mode=OUT , jdbcType=VARCHAR},
+		#{title, mode=OUT , jdbcType=VARCHAR},
+		#{rep, mode=OUT , jdbcType=VARCHAR},
+		#{count, mode=OUT , jdbcType=VARCHAR}
+		)
+
+		}
+	</select>
 </mapper>

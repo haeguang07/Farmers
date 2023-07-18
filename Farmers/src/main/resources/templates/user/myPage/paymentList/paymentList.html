@@ -52,7 +52,14 @@
 								</tr>
 							</thead>
 							<tbody>
-								
+								<tr th:each=" pay : ${payList}">
+									<td><img th:src="${pay.rep}" alt=""></td>
+									<td th:text="${pay.boardCtg}"></td>
+									<td th:text="${pay.title} +'외 '+ ${pay.count} +'건'"></td>
+									<td th:text="${#numbers.formatInteger(pay.totalPayPrice, 3, 'COMMA')}"></td>
+									<td th:text="${#dates.format(pay.payDate, 'yyyy/MM/dd')}"></td>
+									<td th:text="${pay.payMthd}"></td>
+								</tr>
 							</tbody>
 						</table>
 					</div>

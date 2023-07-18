@@ -1,5 +1,6 @@
 package com.yedam.app.user.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.yedam.app.common.vo.PaymentVO;
 import com.yedam.app.user.service.MyPageService;
 import com.yedam.app.user.vo.AttachVO;
 import com.yedam.app.user.vo.MemberVO;
@@ -128,7 +130,17 @@ public class MyPageController {
 	
 	//////////////결제 내역 페이지 //////////////
 	@GetMapping("myPayList")
-	public String myPayList() {
+	public String myPayList(String memNo,Model model) {
+		System.out.println(memNo);
+		List<PaymentVO> list = myPageService.myPayNo(memNo);
+		List<PaymentVO> getInfoList = new ArrayList<PaymentVO>();
+		for (PaymentVO vo : list) {
+			System.out.println(vo);
+			myPageService.myPayList(vo);
+			System.out.println(vo);
+			getInfoList.add(vo);
+		}
+		model.addAttribute("payList", getInfoList);
 		return "user/myPage/paymentList/paymentList";
 	}
 	
