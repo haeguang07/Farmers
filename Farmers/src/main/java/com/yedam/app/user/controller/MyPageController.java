@@ -132,13 +132,10 @@ public class MyPageController {
 	//////////////결제 내역 페이지 //////////////
 	@GetMapping("myPayList")
 	public String myPayList(String memNo,Model model) {
-		System.out.println(memNo);
 		List<PaymentVO> list = myPageService.myPayNo(memNo);
 		List<PaymentVO> getInfoList = new ArrayList<PaymentVO>();
-		for (PaymentVO vo : list) {
-			System.out.println(vo);
+		for (PaymentVO vo : list) {	
 			myPageService.myPayList(vo);
-			System.out.println(vo);
 			getInfoList.add(vo);
 		}
 		model.addAttribute("payList", getInfoList);
