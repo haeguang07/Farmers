@@ -39,6 +39,26 @@
 			console.log(obj)
 
 		}
+		if (naver_id_login != null) {
+			naver_id_login.get_naver_userprofile("naverSignInCallback()");
+		} else {
+			alert('네이버 로그인 실패');
+			window.location.replace("/login")
+		}
+		function naverSignInCallback() {
+			console.log(naver_id_login)
+			let member = {
+				email : naver_id_login.getProfileData('email'),
+				nick : naver_id_login.getProfileData('nickname'),
+				name : naver_id_login.getProfileData('name'),
+				birthday : naver_id_login.getProfileData('birthday'),
+				gender : naver_id_login.getProfileData('gender'),
+				loginPath:"naver"
+			}
+			console.log(member);
+			snsLogin(member);
+
+		}
 	</script>
 </body>
 </html>

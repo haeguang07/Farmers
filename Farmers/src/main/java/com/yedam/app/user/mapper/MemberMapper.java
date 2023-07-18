@@ -5,6 +5,8 @@ import com.yedam.app.user.vo.MemberVO;
 public interface MemberMapper {
 	// 회원 조회
 	public MemberVO selectMember(String id);
+	//회원조회 (이메일)--간편로그인용
+	public MemberVO selectByEmail(String email);
 
 	// 아이디중복
 	public String selectId(String id);
@@ -23,6 +25,5 @@ public interface MemberMapper {
 	public String selectPw(MemberVO vo);
 	//비밀번호 변경(memNo와 변경후 pw 필요)
 	public int updatePw(MemberVO vo);
-	//간편로그인 아이디
-	public String newId(String loginPath);
+
 }
