@@ -69,11 +69,13 @@
 	
 	<!-- 단건조회 -->
 	<select id="selectFarmLendInfo" resultType="FarmLendVO">
-		select f.board_no, f.zip, f.addr, f.deta_addr, f.area, f.desct, f.lend_str_date, f.lend_end_date, f.lend_price, f.atch_no, f.reg_date, f.reg_stts, f.lagt, mem_no, LISTAGG(m.mcrp, ', ') WITHIN GROUP(ORDER BY m.mcrp) AS mcrp, member.nick
-		from farm_lend f left join main_crops m
+		select f.board_no, f.zip, f.addr, f.deta_addr, f.area, f.desct, f.lend_str_date, f.lend_end_date, f.lend_price, f.atch_no, f.reg_date, f.reg_stts, f.lagt, mem_no, LISTAGG(m.code_desct, ', ') WITHIN GROUP(ORDER BY m.mcrp) AS mcrp, member.nick
+		from farm_lend f left join (select mc.mcrp, mc.board_no, cc.cmmn_deta_code, cc.code_desct, cc.cmmn_code_no, cc.condition1, cc.condition2
+									from main_crops mc join common_code_detail cc
+									on (mc.mcrp = cc.cmmn_deta_code)) m
 		on f.board_no = m.board_no
 		join member using(mem_no)
-		where f.board_no = #{boardNo}
+		where f.board_no = 'FRLD00001'
 		group by f.board_no, f.zip, f.addr, f.deta_addr, f.area, f.desct, f.lend_str_date, f.lend_end_date, f.lend_price, f.atch_no, f.reg_date, f.reg_stts, f.lagt, mem_no, member.nick
 	</select>
 	

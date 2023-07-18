@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" 
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{index}">
+<head>
+<meta charset="UTF-8">
+<title>농지 내놓기</title>
+<link rel="stylesheet" href="css/sungWookCss/sungook.css" type="text/css">
+</head>
+	<div layout:fragment="content">
+		<div class="justify-content-center">
+			<h3 class="current text-center">농지 내놓기</h3>
+		</div>
+		<!-- Checkout Section Begin -->
+		<section class="checkout spad" style="padding-top: 30px;">
+			<div class="container">
+			<hr>
+				<div class="checkout__form">
+					<form action="#">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="row">
+									<div class="col-lg-6 checkout__input">
+										<p>주소</p>
+										<input type="text" readonly placeholder="우편번호를 검색해주세요" id="addressCode">
+									</div>
+									<div class="col-lg-3 checkout__input">
+										<p style="visibility: hidden;"><span>*</span></p><button type="button"
+											class="form-control" id="addressBtn">우편번호등록</button>
+									</div>
+								</div>
+								<div class="checkout__input">
+									<input type="text" placeholder="주소지" class="checkout__input__add" id="address" readonly>
+									<input type="text" placeholder="상세주소" id="addressDetail">
+								</div>
+								<div class="checkout__input">
+									<p>면적</p>
+									<input type="text" class="col-lg-3" readonly><span style="display: inline;">(m²)</span> <!-- 면적 -->
+								</div>
+								<div class="checkout__input">
+									<p>주요 재배 작물</p>
+									<div class="row">
+										<select class="form-select form-group ml-3 mr-2">
+											<option selected disabled value="">선택하세요</option>
+										</select>
+										<select class="form-select form-group mr-2">
+											<option selected disabled value="">선택하세요</option>
+										</select>
+										<select class="form-select form-group">
+											<option selected disabled value="">선택하세요</option>
+										</select>
+									</div>
+								</div>
+								<div class="checkout__input">
+									<p>설명</p>
+									<textarea></textarea>
+								</div>
+								<div class="mb-3">
+									<p>대여 기간</p>
+									<input type="date">
+									~
+									<input type="date">
+								</div>
+								<div class="checkout__input">
+									<p>대여 가격</p>
+									<input type="text">
+								</div>
+								<div class="checkout__input">
+									<p>제출 서류</p>
+									<p>파일 선택(여러개넣기)<span> ?(제출서류목록)</span></p>
+								</div>
+								<p style="line-height: 40px; text-align: right;">합계 : <span id="sumPrice" style="line-height: 40px;"></span></p>
+							</div>
+							<button type="button" class="btn btn-dark mr-2">등록</button>
+							<button type="button" class="btn btn-dark mr-2">임시 저장</button>
+							<button type="button" class="btn btn-dark">취소</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</section>
+		<!-- Checkout Section End -->
+	</div>
+</body>
+</html>

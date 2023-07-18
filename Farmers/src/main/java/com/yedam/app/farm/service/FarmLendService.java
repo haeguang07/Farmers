@@ -12,7 +12,7 @@ public interface FarmLendService {
 	// 단건조회
 	public FarmLendVO getFarmLendInfo(FarmLendVO flVO);
 	// 등록
-	public boolean insertFarmLendInfo(FarmLendVO flVO);
+	public boolean insertFarmLendInfo(FarmLendVO flVO, String first, String second, String third);
 	// 수정
 	public String updateFarmLendInfo(FarmLendVO flVO);
 	// 삭제
