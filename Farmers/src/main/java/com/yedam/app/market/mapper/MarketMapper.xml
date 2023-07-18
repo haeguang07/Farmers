@@ -18,7 +18,7 @@
 			]]>
 		<choose>
 			<when test="order.equals('최신순')">
-				order by 1 desc
+				order by board_no desc
 			</when>
 			<when test="order.equals('낮은가격순')">
 				order by price
@@ -47,23 +47,23 @@
 			from dual
 		</selectKey>
 		insert into market(
-		board_no,
-		MEM_NO,
-		MKT_CTG,
-		TITLE,
-		PRICE,
-		QTY,
-		REP,
-		DETA_DESCT)
+				board_no,
+				MEM_NO,
+				MKT_CTG,
+				TITLE,
+				PRICE,
+				QTY,
+				REP,
+				DETA_DESCT)
 		values(#{boardNo},
-		#{memNo},
-		#{mktCtg},
-		#{title},
-		#{price},
-		#{qty},
-		#{rep},
-		#{detaDesct}
-		)
+				#{memNo},
+				#{mktCtg},
+				#{title},
+				#{price},
+				#{qty},
+				#{rep},
+				#{detaDesct}
+				)
 	</insert>
 </mapper>
 

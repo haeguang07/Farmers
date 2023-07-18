@@ -36,4 +36,7 @@ public class FarmLendVO {
 	
 	// main_crops
 	public String mcrp;
+	
+	// member
+	public String nick;
 }
