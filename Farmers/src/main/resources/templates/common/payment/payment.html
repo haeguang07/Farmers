@@ -219,7 +219,7 @@
             var payPrice;
             $('#usePoint').change(function(){
                 $('#myPoint').val(memberInfo.pnt)
-                if($('#myPoint').val() >= $('#usePoint').val()){
+                if(Number($('#myPoint').val()) >= Number($('#usePoint').val())){
                     $('#myPoint').val( $('#myPoint').val() - $('#usePoint').val())
                     let afterPrice = Number($('#allSumPrice').attr('data-val'))-Number($('#usePoint').val())
                     $('#allSumPrice').text(priceToString(afterPrice)+'원')

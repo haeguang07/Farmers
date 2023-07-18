@@ -54,6 +54,7 @@ public class WebSecurityConfig {
 			.logout((logout) -> logout
 					.logoutSuccessUrl("/")
 					.permitAll())
+			.headers().frameOptions().sameOrigin() //팝업창 띄우기 
 			;
 			
 	return http.build();

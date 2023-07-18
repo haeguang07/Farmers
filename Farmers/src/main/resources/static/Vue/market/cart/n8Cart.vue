@@ -124,7 +124,7 @@
           })
           $(clone).find('.fa-angle-right').on('click', function () {
             $(clone).find('#qty').val(Number($(clone).find('#qty').val()) + 1)
-            $(clone).find('#qty').attr('dataQty', Number($(clone).find('#qty').val()) + 1)
+            $(clone).find('#qty').attr('dataQty', Number($(clone).find('#qty').val()))
             $(clone).find('#sumPrice').text(vuethis.priceToString(($(clone).find('#qty').val()) * (item
               .price)) + '원')
 
@@ -230,7 +230,8 @@
           url: "cart",
           method: "POST",
           data: {
-            memNo: vuethis.mem.memNo
+            memNo: vuethis.mem.memNo,
+            boardCtg : 'n8'
           }
         })
         .done(function (data, status, xhr) {
