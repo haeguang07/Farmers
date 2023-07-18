@@ -18,7 +18,6 @@
 	text-align: right;
 	padding-right: 80px;
 }
-
 </style>
 </head>
 
@@ -154,17 +153,23 @@
 														<div class="row1">
 															<label for="reviewText">리뷰:</label>
 															<textarea id="reviewText" rows="2" cols="30"></textarea>
-															<input type="submit" value="등록">
+															<input id="addBtn" type="submit" value="등록">
 														</div>
 													</div>
 
-													<table class="table" style="text-align:center">
-														<tr>
-															<th>별점</th>
-															<th>내용</th>
-															<th>아이디</th>
-															<th>삭제</th>
-														</tr>
+													<table id="reviewTable" class="table"
+														style="text-align: center">
+														<thead>
+															<tr>
+																<th>번호</th>
+																<th>별점</th>
+																<th>내용</th>
+																<th>작성자</th>
+																<th>삭제</th>
+															</tr>
+														</thead>
+														<tbody>
+														</tbody>
 													</table>
 												</div>
 											</div>
@@ -198,8 +203,8 @@
 		<!-- 지도 api -->
 		<script
 			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c573b65eabeb9b6da24ab52d832dc807"></script>
-		<script>
-			//지도 api
+		<script th:inline="javascript">
+			///////지도 api
 			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 			mapOption = {
 				center : new kakao.maps.LatLng(37.56682, 126.97865), // 지도의 중심좌표
@@ -212,8 +217,7 @@
 				position : new kakao.maps.LatLng(37.56682, 126.97865), // 마커의 좌표
 				map : map
 			});
-
-			// 날짜입력시 일수,금액 계산
+			//////// 결제시 날짜 기능
 			function calculateDays() {
 				var startDate = new Date(
 						document.getElementById('startDate').value);
@@ -239,13 +243,101 @@
 				document.getElementById('endDate').setAttribute('min', min);
 			}
 
-			//천단위 콤마찍기 함수
+			///// 금액-천단위 콤마찍기 함수
 			function number_format(num) {
 				return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 			}
+
+			///// 리뷰 기능		
+		  	/*<![CDATA[*/
+			let boardNo= /*[[${bnb.boardNo}]]*/;
+			 /*]]>*/
+			 
+			//리뷰-조회
+			$(document).ready(function() {		
+				reviewAjax();
+				
+			});
+
+			 function reviewAjax(){			
+			 $('#reviewTable>tbody').children().remove();
+			 $.ajax({
+					url : `bnbInfo/review`, 
+					method : 'GET',
+					data : {boardNo}, 
+					dataType : 'json',
+					success : function(list) {
+						console.log(list); 
+						printReview(list);						
+					},
+					error : function(error) {
+						console.error(error); 
+					}
+				});
+			 }
+
+			function printReview(list){
+				list.forEach(el => {
+			      let rate = el.rate;
+ 			      let review = el.revDesct;
+ 			      let nick = el.nick; 	
+			      let del = $('<button>삭제</button>');
+			      let newRow = ($('<tr>').append($('<td>').text('1'))
+								        .append($('<td>').text(makeStars(rate)))
+								        .append($('<td>').text(review))
+								        .append($('<td>').text(nick))
+								        .append($('<td>').append(del))    
+			       				 )             
+			      $('#reviewTable>tbody').append(newRow)							
+				})
+			}
+			
+			//별찍기 함수
+			
+		      function makeStars(num) {
+		       let stars = '';
+		       for (let i=0; i<num; i++) {
+		            stars += '★';
+		          }
+		       for(let j=num; j<5;j++){
+		          	stars += '☆';
+		          }
+		       return stars;
+		       }
+
+			
+			//리뷰등록기능
+			
+		  	/*<![CDATA[*/
+			let mem= /*[[${session.mem}]]*/;
+			 /*]]>*/	
+
+			 $('#addBtn').on('click',function(){
+				let star = $('#star').val();
+				let text = $('#reviewText').val(); 
+				let day= new Date();
+			 	let today = day.getFullYear()+'/'+day.getMonth()+'/'+day.getDate();
+				//
+				$.ajax({
+					url : `bnbInfo/review`, 
+					method : 'POST',
+					data : {memNo:mem.memNo, 
+							rate:star,
+							revDesct:text,
+							boardNo: boardNo,
+							wrtDate:today}, 
+					dataType : 'json',
+					success : function(result) {
+						console.log(result); 
+						reviewAjax();
+					},
+					error : function(error) {
+						console.error(error); 
+					}
+				});
+			})
+			 
 		</script>
-		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 	</div>
 </body>
 
