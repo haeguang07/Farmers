@@ -15,10 +15,14 @@
 		<script src="/js/vue3-sfc-loader.js"></script>
 		<script src="/js/vue-load.js"></script>
 		<div id="app" class="container">
-        <div class="nav nav-tabs">
-            <span @click="IdClick" :class="{ active: isId }" class="nav-link">아이디찾기</span>
-            <span @click="pwClick" :class="{ active: isPw }" class="nav-link">비밀번호</span>
-        </div>
+            <div class="row">
+                <div class="col-3"></div>
+                <div class="nav nav-tabs col-4 text-center">
+                    <span @click="IdClick" :class="{ active: isId }" class="nav-link">아이디찾기</span>
+                    <span @click="pwClick" :class="{ active: isPw }" class="nav-link">비밀번호</span>
+                </div>
+                <div class="col-3"></div>
+            </div>
 			<my-id-found v-show="isId"></my-id-found>
 			<my-pw-found v-show="isPw"></my-pw-found>
 		</div>
