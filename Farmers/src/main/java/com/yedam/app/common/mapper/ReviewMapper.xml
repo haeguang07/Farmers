@@ -5,6 +5,7 @@
 <mapper namespace="com.yedam.app.common.mapper.ReviewMapper">
 	<select id="getReview" resultType="ReviewVO">
 		select r.board_no,
+				r.rev_no,
 				r.mem_no,
 				m.nick,
 				r.rate,
