@@ -24,6 +24,21 @@
 	color: white;
 	margin: 0 auto;
 }
+
+.product__details__text {
+	display: flex;
+	flex-direction: column;
+}
+
+.myInline {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.row col-lg-12 {
+	margin: auto 0;
+}
 </style>
 </head>
 
@@ -55,22 +70,21 @@
 												<div class="col-lg-12">
 													<div class="product__details__text">
 														<div class="row">
-															<h4 class="textLeft col-lg-3" style="display: inline;">숙소명
-															</h4>
+															<h4 class="myInline col-lg-3">숙소명</h4>
 															<input type="text" class="form-control col-lg-8"
-																name="title" th:field="*{title}">
+																name="title" th:field="*{title}"
+																style="margin-left: -15px">
 														</div>
 														<hr>
 														<div class="row">
 															<div class="row col-lg-6">
 																<p class="myInline col-lg-6 mb-0 textLeft">판매자</p>
 																<input type="text" class="form-control col-lg-6"
-																	readonly placeholder="readonly" name="memNo"
-																	th:field="*{memNo}">
+																	name="memNo" th:value="${session.mem.memNo}" readonly>
 																<!-- th:value="${session.mem.}"> -->
 															</div>
 															<div class="row col-lg-6">
-																<p class="myInline col-lg-6 mb-0 textLeft">지역선택</p>
+																<p class="myInline col-lg-5 mb-0 textLeft">지역선택</p>
 																<select class="form-control col-lg-6" name="crpCtg"
 																	th:field="*{dst1}">
 																	<option value="k0">경기도</option>
@@ -100,15 +114,23 @@
 														</div>
 														<br>
 														<div class="row">
-															<div class="row col-lg-3"></div>
-															<div class="row col-lg-6" style="margin-left: 2px">
-																<input type="text" class="form-control col-lg-12"
-																	id="adr" name="address" th:field="*{addr}">
-															</div>
-															<div class="row col-lg-4">
-																<input type="text" class="form-control col-lg-11"
-																	id="adrDetail" name="address" th:field="*{addrDetail}">
-															</div>
+															<p class="myInline col-lg-3 mb-0 textLeft"></p>
+															<input type="text" class="form-control col-lg-8" id="adr"
+																name="address" th:field="*{addr}"
+																style="margin-left: -15px">
+														</div>
+														<br>
+														<div class="row">
+															<p class="myInline col-lg-3 mb-0 textLeft"></p>
+															<input type="text" class="form-control col-lg-8"
+																id="adrDetail" name="address" th:field="*{addrDetail}"
+																style="margin-left: -15px">
+														</div>
+														<!-- 위도, 경도 -->
+														<div class="row" style="display: none">
+															<input type="text" name="lati" id="latitude"
+																th:field="*{lati}"> <input type="text"
+																name="longi" id="longitude" th:field="*{longi}">
 														</div>
 														<br>
 														<div class="row">
@@ -121,26 +143,25 @@
 														<br>
 														<div class="row">
 															<div class="row col-lg-6">
-																<p class="myInline col-lg-6 mb-0 textLeft">예약 가능 날짜</p>
+																<p class="myInline col-lg-6 mb-0 textLeft">예약(시작)</p>
 																<input type="date" class="form-control col-lg-6"
 																	name="lendStrDate" th:field="*{lendStrDate}"
 																	onchange="minDate()">
 															</div>
-															<div class="row col-lg-4">
-																<p class="myInline col-lg-3 mb-0 textLeft">ㅡ</p>
-																<input type="date" class="form-control col-lg-9"
+															<div class="row col-lg-6">
+																<p class="myInline col-lg-5 mb-0 textLeft">예약(종료)</p>
+																<input type="date" class="form-control col-lg-6"
 																	name="lendEndDate" th:field="*{lendEndDate}"
 																	id="endDate">
 															</div>
 														</div>
-
 													</div>
 												</div>
 											</div>
 										</div>
 									</form>
 								</div>
-								<div class="row col-lg-12">
+								<div class="row col-lg-12" style="margin-top: 30px">
 									<div class="col-lg-12">
 										<div class="product__details__tab">
 											<div class="row">
@@ -164,7 +185,7 @@
 											</div>
 										</div>
 										<br>
-										<div style="margin-top: 0px;">
+										<div style="margin-top: 10px;">
 											<button type="submit" class="primary-btn col-lg-2"
 												id="addBtn">등록하기</button>
 											<button type="button" class="primary-btn col-lg-2"
@@ -214,8 +235,13 @@
 	                    geocoder.addressSearch(addr, function (result, status) {
 	                        if (status === kakao.maps.services.Status.OK) {
 	                            // 변환된 위도와 경도 출력
-	                            console.log('위도:', result[0].y);
-	                            console.log('경도:', result[0].x);
+	                            let lati = result[0].y;	                            
+	                            let longi = result[0].x;
+	                            console.log('위도,경도: ',lati,',',longi);
+	                            
+	                            document.getElementById('latitude').value=lati;
+	                            document.getElementById('longitude').value=longi;
+	                            
 	                        } else {
 	                            alert('주소를 찾을 수 없습니다.');
 	                        }
@@ -300,8 +326,11 @@
 			function minDate() {
 				let min = event.target.value;
 				console.log(min);
+				document.getElementById('endDate').value = '';
 				document.getElementById('endDate').setAttribute('min', min);
 			}
+			
+			
 		</script>
 	</div>
 </body>
