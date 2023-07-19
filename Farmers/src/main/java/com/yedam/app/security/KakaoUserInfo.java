@@ -52,5 +52,34 @@ public class KakaoUserInfo implements OAuth2UserInfo{
     public String getName() {
         return attributesProfile.get("nickname").toString();
     }
+
+	@Override
+	public String getNick() {
+		
+		return attributesProfile.get("nickname").toString();
+	}
+
+	@Override
+	public String getGender() {
+		String gen = attributesAccount.get("gender").toString();
+		String gender=null;
+		switch (gen) {
+		case "female":
+			gender="a1";
+			break;
+		case "male":
+			gender="a0";
+			break;
+		default:
+			gender=null;
+			break;
+		}
+		return gender;
+	}
+
+	@Override
+	public String getProf() {
+		return attributesProfile.get("profile_image_url").toString();
+	}
 	
 }

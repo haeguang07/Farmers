@@ -1,6 +1,7 @@
 package com.yedam.app.security;
 
 import java.util.Map;
+import java.util.UUID;
 
 public class NaverUserInfo implements OAuth2UserInfo {
 	 private Map<String, Object> attributes; //OAuth2User.getAttributes();
@@ -18,7 +19,7 @@ public class NaverUserInfo implements OAuth2UserInfo {
 
 	    @Override
 	    public String getProviderId() {
-	        return attributesResponse.get("id").toString();
+	        return attributesResponse.get("id").toString().substring(0, 22);
 	    }
 
 	    @Override
@@ -35,4 +36,32 @@ public class NaverUserInfo implements OAuth2UserInfo {
 	    public String getName() {
 	        return attributesResponse.get("name").toString();
 	    }
+
+		@Override
+		public String getNick() {
+			 return attributesResponse.get("nickname").toString();
+		}
+
+		@Override
+		public String getGender() {
+			String gen=attributesResponse.get("gender").toString();
+			String gender=null;
+			switch (gen) {
+			case "F":
+				gender="a1";
+				break;
+			case "M":
+				gender="a0";
+				break;
+			default:
+				gender=null;
+				break;
+			}
+			return gender;
+		}
+
+		@Override
+		public String getProf() {
+			return attributesResponse.get("profile_image").toString();
+		}
 }
