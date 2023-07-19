@@ -27,6 +27,8 @@ public class BnbVO {
 	private Date regDate;
 	private String regStts;
 	private String lendStts;
+	private double lati;
+	private double longi;
 
 	// farmbnb_apply
 	private String aplNo;
