@@ -24,25 +24,31 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
 		OAuth2User oAuth2User = super.loadUser(userRequest);
 
-		OAuth2UserInfo oAuth2UserInfo = null; // 추가
+		OAuth2UserInfo oAuth2UserInfo = null;
 		String provider = userRequest.getClientRegistration().getRegistrationId();
 
-		// 추가
+		
 		if (provider.equals("google")) {
 			oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
 		} else if (provider.equals("naver")) {
 			oAuth2UserInfo = new NaverUserInfo(oAuth2User.getAttributes());
-		}else if(provider.equals("kakao")){	//추가
+		}else if(provider.equals("kakao")){
             oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
         }
 
-		String providerId = oAuth2UserInfo.getProviderId(); // 수정
-		String username = provider + "_" + providerId;
+		String providerId = oAuth2UserInfo.getProviderId(); 
 
 		String uuid = UUID.randomUUID().toString().substring(0, 6);
+		String username = provider + "_" + uuid;
 		String password = scpwd.encode("패스워드" + uuid);
+		if(oAuth2UserInfo.getNick()!=null) {
+			username= oAuth2UserInfo.getNick();
+		}
+		String name = oAuth2UserInfo.getName();
+		String prof =oAuth2UserInfo.getProf();
+		String email = oAuth2UserInfo.getEmail(); 
+		String gender = oAuth2UserInfo.getGender();
 
-		String email = oAuth2UserInfo.getEmail(); // 수정
 
 		MemberVO byEmail = memberMapper.selectByEmail(email);
 
@@ -53,7 +59,9 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 			byEmail.setNick(username);
 			byEmail.setPw(password);
 			byEmail.setLoginPath(provider);
-
+			byEmail.setGen(gender);
+			byEmail.setProf(prof);
+			byEmail.setName(name);
 			byEmail.setId(providerId);
 			byEmail.setMemGrd("b0");
 			memberMapper.insertMember(byEmail);

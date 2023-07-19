@@ -8,7 +8,7 @@
 	<style>
 		#joinForm {
 			width: 700px;
-			margin: 0 auto;
+			margin: 30px auto;
 		}
 
 		.explanText {
@@ -21,12 +21,19 @@
 			width: 20%;
 		}
 
-		.inline-blcok {
-			display: inline-block;
+		.button{
+			margin-top: 30px;
 		}
 
 		#step2 {
 			display: none;
+		}
+		.checkout__input input{
+			margin-bottom: 0px;
+			margin-top: 10px;
+		}
+		.checkout__input{
+			margin-top: 10px;
 		}
 	</style>
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -35,185 +42,172 @@
 <body>
 	<div id="joinForm" layout:fragment="content">
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-		<div class="inline-blcok">
-			<h3>회원가입</h3>
-			<p>회원이 되어 다양한 해택을 경험해 보세요</p>
-		</div>
 		<form id="frm">
-			<!-- <h6 class="checkout__title">Billing Details</h6>
+		<div id="step1">
+			<h6 class="checkout__title">회원가입</h6>
 			<div class="row">
 				<div class="col-lg-6">
 					<div class="checkout__input">
-						<p>Fist Name<span>*</span></p>
-						<input type="text">
+						<p>아이디<span>*</span></p>
+						<input type="text" id="id">
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="checkout__input col-lg-6">
+						<p style="visibility: hidden;"><span>*</span></p>
+						<button type="button" class="button form-control" id="idCheck">중복체크</button>
+					</div>
+				</div>
+			</div>
+			<div class="explanText row">(6자~15자리의 영문자, 숫자 / @,#$등 특수문자는 제외)</div>
+			<div class="row" id="pwInput">
+                 <div class="col-lg-6">
+                     <div class="checkout__input">
+                         <p>비밀번호<span>*</span></p>
+                         <input type="password" name="pw" id="pw">
+                     </div>
+                 </div>
+                 <div class="col-lg-6">
+                     <div class="checkout__input">
+                         <p>비밀번호확인<span>*</span></p>
+                         <input type="password" id="pwCheck">
+                     </div>
+                 </div>
+             </div>
+             <div class="explanText row">영문, 숫자, 특수문자 중 2가지 조합하여 8자~15자리</div>
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="checkout__input">
+						<p>이메일<span>*</span></p>
+						<input type="email"  id="joinEmail">
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="checkout__input col-lg-7">
+						<p style="visibility: hidden;"><span>*</span></p>
+						<button type="button" class="button form-control" id="sendEmail">인증번호 보내기</button>
+					</div>
+				</div>
+			</div>
+			<div class="row" >
+				<div class="col-lg-6">
+					<div class="checkout__input">
+						<p>인증번호입력<span>*</span></p>
+						<input type="text" id="certifytext" placeholder="인증번호입력">
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="checkout__input col-lg-6">
+						<p style="visibility: hidden;"><span>*</span></p>
+						<button type="button" class="button form-control" id="certify">인증하기</button>
+					</div>
+				</div>
+			</div>
+			<div class="row" >
+				<div class="col-lg-6">
+					<div class="checkout__input">
+						<p>닉네임<span>*</span></p>
+						<input type="text" id="nickname">
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="checkout__input col-lg-6">
+						<p style="visibility: hidden;"><span>*</span></p>
+						<button type="button" class="button form-control" id="nickcheck">중복체크</button>
+					</div>
+				</div>
+			</div>
+  			<div class="explanText row">특수문자를 제외한 2~8자리 입력하세요</div>
+  			<div class="row">
+  				<div class="col-lg-4"></div>
+  				<div class="col-lg-3">
+  					<button type="button" class="form-control"id="nextBtn">다음단계</button>
+  				</div>
+  				<div class="col-lg-4"></div>
+  			</div>
+		</div>
+		<div id="step2">
+			<h6 class="checkout__title">선택사항 입력</h6>
+			<div class="row" >
+				<div class="col-lg-4">
+					<div class="checkout__input">
+						<p>주소<span></span></p>
+						<input type="text" id="post" style="width: 200px;" placeholder="우편번호" readonly>
+					</div>
+				</div>
+				<div class="col-lg-5">
+					<div class="checkout__input col-lg-6">
+						<p style="visibility: hidden;"><span>*</span></p>
+						<button type="button" class="button form-control" id="postBtn" onclick="postCode()">우편번호</button>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="checkout__input col-lg-10">
+					<input type="text" id="adr" placeholder="주소" readonly>
+				</div>
+			</div>
+			<div class="row">
+				<div class="checkout__input col-lg-6">
+					<input type="text" id="adrDetail" placeholder=상세주소 >
+				</div>
+			</div>
+			<div class="row" >
+				<div class="col-lg-6">
+					<div class="checkout__input">
+						<p>이름<span></span></p>
+						<input type="text" id="name" >
 					</div>
 				</div>
 				<div class="col-lg-6">
 					<div class="checkout__input">
-						<p>Last Name<span>*</span></p>
-						<input type="text">
+						<p>전화번호<span></span></p>
+						<input type="text" id="joinPhone" name="moble">
 					</div>
 				</div>
 			</div>
-			<div class="checkout__input">
-				<p>Country<span>*</span></p>
-				<input type="text">
+			<div class="explanText row">
+				<div class="col-lg-6">이름을 입력하세요</div>
+				<div class="col-lg-6">-를 입력하지 않고 숫자만 입력하세요</div>
 			</div>
-			<div class="checkout__input">
-				<p>Address<span>*</span></p>
-				<input type="text" placeholder="Street Address" class="checkout__input__add">
-				<input type="text" placeholder="Apartment, suite, unite ect (optinal)">
-			</div> -->
-
-
-			<table>
-				<thead id="step1">
-					<!-- 아이디-->
-					<tr>
-						<td>아이디</td>
-						<td><input type="text" class="" id="id"></td>
-						<td><button type="button" class="button" id="idCheck">중복체크</button></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td colspan="2" class="explanText">(6자~15자리의 영문자, 숫자 / @,#$등 특수문자는 제외)</td>
-					</tr>
-					<tr>
-						<!-- 비밀번호-->
-						<td>비밀번호</td>
-						<td><input type="password" class="" name="pw" id="pw"></td>
-						<td class="explanText">영문, 숫자, 특수문자 중 2가지 조합하여 8자~15자리</td>
-					</tr>
-					<!-- 비밀번호 확인-->
-					<tr>
-						<td>비밀번호 확인</td>
-						<td><input type="password" class="" name="pwCheck" id="pwCheck"></td>
-						<td class="explanText">비밀번호를 다시 한번 입력해주세요</td>
-					</tr>
-					<!-- 이메일-->
-					<tr>
-						<td>이메일</td>
-						<td><input type="email" class="textjoin1" id="joinEmail"></td>
-						<td><button type="button" class="button" id="sendEmail">인증번호 보내기</button></td>
-					</tr>
-					<!-- 인증하기-->
-					<tr>
-						<td></td>
-						<td><input type="text" class="textjoin1" name="certify" id="certifytext" placeholder="인증번호입력">
-						<td><button type="button" class="button" id="certify">인증하기</button></td>
-					</tr>
-					<!-- 닉네임 -->
-					<tr>
-						<td>닉네임</td>
-						<td><input type="text" class="textjoin1" id="nickname"></td>
-						<td><button type="button" class="button" id="nickcheck">중복체크</button></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td class="explanText">특수문자를 제외한 2~8자리 입력하세요</td>
-					</tr>
-
-					<tr>
-						<td></td>
-						<td><button type="button" id="nextBtn">다음단계</button></td>
-					</tr>
-				</thead>
-
-				<!-- 추가 사항 -->
-				<!-- 주소-->
-				<tbody id="step2">
-					<tr>
-						<td>주소</td>
-						<td><input type="text" class="" name="post" id="post" style="width: 90px;" placeholder="우편번호" readonly>
-							<button type="button" class="button" id="postBtn" onclick="postCode()">우편번호 찾기</button></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td colspan="2"><input type="text" class="" name="adr" id="adr" style="width: 400px;" placeholder="주소"
-								readonly></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><input type="text" class="textjoin1" name="adrDetail" id="adrDetail" placeholder="상세주소"></td>
-
-					</tr>
-					<!-- 이름 -->
-					<tr>
-						<td>이름</td>
-						<td><input type="text" class="" id="name" name="name"></td>
-						<td class="explanText">이름을 입력하세요</td>
-					</tr>
-					<!-- 전화번호-->
-					<tr>
-						<td>전화번호</td>
-						<td><input type="text" class="" id="joinPhone" name="moble"></td>
-						<td class="explanText">-를 입력하지 않고 숫자만 입력하세요</td>
-					</tr>
-					<!-- 성별-->
-					<tr>
-						<td>성별</td>
-						<td><label><input type="radio" name="gender" id="male" checked value="a0">남성</label> <label><input
-									type="radio" name="gender" id="female" value="a1">여성</label></td>
-						<td></td>
-					</tr>
-					<!-- 생년월일-->
-					<tr>
-						<td>생년월일</td>
-						<td><input type="text" class="" name="birth" id="birth"></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><button type="submit" id="join">회원 가입</button></td>
-					</tr>
-				</tbody>
-			</table>
+			<div class="row" >
+				<div class="col-lg-6">
+					<div class="checkout__input">
+						<p>생년월일<span></span></p>
+						<input type="text" id="birth" style="width: 80%">
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="checkout__input">
+						<p>성별<span></span></p>
+						<select id="gender">
+							<option value="a0" selected >남성</option>
+							<option value="a1" >여성</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+  				<div class="col-lg-4"></div>
+  				<div class="col-lg-3">
+  					<button type="submit" class="form-control" id="join">회원 가입</button>
+  				</div>
+  				<div class="col-lg-4"></div>
+  			</div>
+		</div>
+			
 		</form>
+		
 
 		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js?autoload=false"></script>
 		<script src="/js/postAPI.js"></script>
+		<script src="/js/login/dateInput.js"></script>
+		<script src="/js/login/pwCheck.js"></script>
 		<script>
-			$("#birth").datepicker({
-				dateFormat: 'yy-mm-dd' //Input Display Format 변경
-					,
-				prevText: '이전달',
-				nextText: '다음달',
-				 yearRange: 'c-50:c+50',//년도 선택 셀렉트박스를 현재 년도에서 이전, 이후로 얼마의 범위를 표시할것인가.
-				showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
-					,
-				showMonthAfterYear: true //년도 먼저 나오고, 뒤에 월 표시
-					,
-				changeYear: true //콤보박스에서 년 선택 가능
-					,
-				changeMonth: true //콤보박스에서 월 선택 가능                
-					,
-				showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
-					,
-				buttonImage: "/img/icon/icon-calendar.png" //버튼 이미지 경로
-					,
-				buttonImageOnly: true //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
-					,
-				buttonText: "날짜선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트                
-					,
-				yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
-					,
-				monthNamesShort: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'] //달력의 월 부분 텍스트
-					,
-				monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'] //달력의 월 부분 Tooltip 텍스트
-					,
-				dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'] //달력의 요일 부분 텍스트
-					,
-				dayNames: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'] //달력의 요일 부분 Tooltip 텍스트
-					,
-				maxDate: "+0" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후, 0:오늘까지)          
-			});
+			// dateInput 꾸미기
+			dateInput("birth",0)
 
-			//초기값을 오늘 날짜로 설정해줘야 합니다.
-			$('#birth').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)            
-			//이미지 설정
-			$('.ui-datepicker-trigger').css({
-				'width': "25px"
-			})
+			
 			//이메일 인증번호 보내기
 			let num;
 			let btn = $('#sendEmail');
@@ -231,8 +225,12 @@
 						emailText
 					},
 					success(data) {
-						num = data.random;
-						console.log(num);
+						if(data.retCode=="Success"){
+							num = data.random;
+							console.log(num);							
+						}else if(data.retCode=="Fail"){
+							alert('이미 있는 이메일입니다')
+						}
 					},
 					error(err) {
 						console.log(err)
@@ -253,13 +251,11 @@
 			})
 			//정규식
 			let regId = /^[a-zA-Z0-9]{6,15}$/; // 6자~15자리의 영문자, 숫자
-			let regPw = /^[a-zA-Z0-9!@#$%^&*()?_~]{8,15}$/; // 8~15자리 숫자, 영문, 특수문자 조합
+			
 			let reqNick = /^[가-힣a-zA-Z0-9]{2,8}$/g; // 2~8자리  영문자, 숫자 특수문자와 공백/[^a-z|A-Z|0-9|ㄱ-ㅎ|가-힣]/g
 
 
 			let id = $('#id');
-			let pw = $('#pw');
-			let pw2 = $('#pwCheck');
 			let post = $('#post');
 			let adr = $('#adr');
 			let adr2 = $('#adrDetail');
@@ -268,7 +264,7 @@
 			let nickname = $('#nickname');
 			let name = $('#name');
 			let mbl = $('#joinPhone');
-			let gen = $('input[type="radio"]:checked');
+			let gen = $('#gender');
 			let birth = $('#birth');
 
 			//아이디 체크
@@ -350,40 +346,7 @@
 
 				}
 			})
-
-			//비밀번호 체크
-			function pwCheck() {
-				if (!regPw.test(pw.value)) {
-					alert("비밀번호는 숫자, 영문, 특수문자 조합으로 8~15자리를 사용해야 합니다.");
-					return false;
-				}
-				let chk = 0;
-				if (pw[0].value.search(/[0-9]/g) != -1) chk++;
-				if (pw[0].value.search(/[a-z]/ig) != -1) chk++;
-				if (pw[0].value.search(/[!@#$%^&*()?_~]/g) != -1) chk++;
-				if (chk < 2) {
-					alert("비밀번호는 숫자, 영문, 특수문자를 두가지이상 혼용하여야 합니다.");
-
-					return false;
-				}
-				// 동일한 문자/숫자 4이상, 연속된 문자
-				if (/(\w)\1\1\1/.test(pw.val()) || isContinuedValue(pw.val())) {
-					alert("비밀번호에 4자 이상의 연속 또는 반복 문자 및 숫자를 사용하실 수 없습니다.");
-					return false;
-				}
-				// 아이디 포함 여부
-				if (pw[0].value.search(id.val()) > -1) {
-					alert("ID가 포함된 비밀번호는 사용하실 수 없습니다.");
-					return false;
-				}
-				// 기존 비밀번호와 새 비밀번호 일치 여부
-				if (pw[0].value != pw2[0].value) {
-					alert("기존 비밀본호와 새 비밀번호가 일치하지 않습니다.");
-					return false;
-				}
-				return true;
-			}
-
+			
 
 			let nextBtn = $('#nextBtn');
 			nextBtn.on('click', step1)
@@ -395,10 +358,9 @@
 				} else if (!id.data('set')) {
 					alert('아이디 중복체크를 해주세요');
 					return false;
-				} else if (!pwCheck()) {
-
-					pw.val('');
-					pw2.val('');
+				} else if (!pwCheck('pw','pwpwCheck','id')) {
+					$('#pw2').val('');
+					$('#pwpwCheck').val('');
 					return false;
 				} else if (!nickname.data('set')) {
 					alert('닉네임 중복체크를 해주세요');
@@ -408,10 +370,9 @@
 					return false;
 				}
 
-
-				document.querySelector('#step1').style.display = 'none';
-				document.querySelector('#step2').style.display = 'block';
-
+				$('#step1').css({"display":"none"});
+				$('#step2').css({"display":"block"});
+				return true;
 
 			}
 
@@ -422,28 +383,27 @@
 					return;
 				};
 				let zip =post.val();
-				let mbl= mbl.val();
-				if(zip=='' || mbl==''){
-					if(!prompt('아직 입력하지 않은 정보가 있습니다\n그대로 회원가입을 하시겠습니까?')){
+				let mblVal= mbl.val();
+				if(zip=='' || mblVal==''){
+					if(!confirm('아직 입력하지 않은 정보가 있습니다\n그대로 회원가입을 하시겠습니까?')){
 						return;
 					}
 
 				}
 
 				let member = {
-					id: id.data('set'),
-					pw: pw.val(),
-					email: email.data('set'),
-					nick: nickname.data('set'),
-					name: name.val(),
+					id: $('#id').data('set'),
+					pw: $('#pw').val(),
+					email: $('#joinEmail').data('set'),
+					nick: $('#nickname').data('set'),
+					name: $('#name').val(),
 					zip,
 					addr: adr.val(),
 					detaAddr: adr2.val(),
-					mbl,
+					mbl:mbl.val(),
 					bDate: birth.val(),
 					gen: gen.val()
 				};
-				console.log(member);
 
 				$.ajax({
 					url: 'signup',
@@ -467,38 +427,9 @@
 			})
 
 
-			function isContinuedValue(value) {
-				var intCnt1 = 0;
-				var intCnt2 = 0;
-				var temp0 = "";
-				var temp1 = "";
-				var temp2 = "";
-				var temp3 = "";
-				for (var i = 0; i < value.length - 3; i++) {
-					temp0 = value.charAt(i);
-					temp1 = value.charAt(i + 1);
-					temp2 = value.charAt(i + 2);
-					temp3 = value.charAt(i + 3);
-					if (temp0.charCodeAt(0) - temp1.charCodeAt(0) == 1 &&
-						temp1.charCodeAt(0) - temp2.charCodeAt(0) == 1 &&
-						temp2.charCodeAt(0) - temp3.charCodeAt(0) == 1) {
-						intCnt1 = intCnt1 + 1;
-					}
-					if (temp0.charCodeAt(0) - temp1.charCodeAt(0) == -1 &&
-						temp1.charCodeAt(0) - temp2.charCodeAt(0) == -1 &&
-						temp2.charCodeAt(0) - temp3.charCodeAt(0) == -1) {
-						intCnt2 = intCnt2 + 1;
-					}
-				}
-				return (intCnt1 > 0 || intCnt2 > 0);
-			}
 			
-			//새로고침/뒤로가기 변경사항 확인 알림창
-			window.onbeforeunload = function(e) {
-			    var dialogText = 'Dialog text here';
-			    e.returnValue = dialogText;
-			    return dialogText;
-			};
+			
+
 
 			
 			

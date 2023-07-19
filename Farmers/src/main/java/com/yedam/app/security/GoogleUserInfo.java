@@ -34,4 +34,20 @@ public class GoogleUserInfo implements OAuth2UserInfo {
 	public String getName() {
 		return attributes.get("name").toString();
 	}
+
+	@Override
+	public String getNick() {
+		return null;
+	}
+
+	@Override
+	public String getGender() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getProf() {
+		return attributes.get("picture").toString();
+	}
 }

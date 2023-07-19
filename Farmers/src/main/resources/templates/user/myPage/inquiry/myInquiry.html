@@ -17,6 +17,18 @@
 			width: 1500px;
 			height: 900px;
 		}
+
+		.miniBtn {
+			width: 100px;
+		}
+
+		.right {
+			float: right;
+		}
+
+		.marginT30 {
+			margin-top: 30px;
+		}
 	</style>
 </head>
 
@@ -38,7 +50,7 @@
 			</div>
 		</section> -->
 		<div class="justify-content-center">
-			<h3 class="current text-center">나의 구매내역</h3>
+			<h3 class="current text-center">문의하기</h3>
 		</div>
 		<!-- Shop Section Begin -->
 		<section class="shop myMargin">
@@ -49,31 +61,26 @@
 						<table id="myTable">
 							<thead>
 								<tr>
-									<th>이미지</th>
-									<th>카테고리</th>
-									<th>상품명</th>
-									<th>결제금액</th>
-									<th>결제일</th>
-									<th>결제방법</th>
+									<th>번호</th>
+									<th>문의카테고리</th>
+									<th>문의제목</th>
+									<th>문의날짜</th>
+									<th>답변상태</th>
 								</tr>
 							</thead>
 							<tbody>
-								<th:block th:each="pay : ${payList}">
-									<tr th:data-payNo="${pay.payNo}">
-										<td><img th:src="${pay.rep}" alt="" width="100px" height="100px" th:if="not ${#strings.isEmpty(pay. rep)}">
-											<div style="width: 100px; height: 100px;" th:if="${#strings.isEmpty(pay. rep)}">
-												<p style="text-align: center;line-height : 100px;">이미지없음</p>
-											</div>
-									</td>
-									<td th:text="${pay.boardCtg}"></td>
-									<td th:text="${pay.title} +'외 '+ ${pay.count-1} +'건'"></td>
-									<td th:text="${#numbers.formatInteger(pay.totalPayPrice, 3, 'COMMA')}"></td>
-									<td th:text="${#dates.format(pay.payDate, 'yyyy/MM/dd')}"></td>
-									<td th:text="${pay.payMthd}"></td>
+								<th:block th:each="inq : ${inqList}">
+									<tr>
+										<td id="inqNo" th:text="${inq.inqNo}"></td>
+										<td th:text="${inq.inqCtg}"></td>
+										<td th:text="${inq.inqTitle}"></td>
+										<td th:text="${#dates.format(inq.inqDate, 'yyyy/MM/dd')}"></td>
+									<td th:text="${inq.replStts}"></td>
 								</tr>
 								</th:block>
 							</tbody>
 						</table>
+						<button type="button" class="form-control miniBtn right marginT30" id="addBtn">문의하기</button>
 					</div>
 				</div>
 			</div>
@@ -85,7 +92,7 @@
 			$(function () {
 				$('#myTable').DataTable({
 					language: lang_kor,
-					order: [ [ 4, "desc" ] ] 
+					order: [ [ 0, "desc" ] ] 
 				});
 			})
 
@@ -114,15 +121,24 @@
 					"sortDescending": " :  내림차순 정렬"
 				}
 			};
-				// 구매상세내역 이동
+
+			//문의하기 등록
+		// 모달창
+		$('#addBtn').magnificPopup({
+					items:[{
+					src:"addInpuiry",
+				}],
+				type: 'iframe'
+					})
+
+				// 문의상세 이동
 				$('tr').on('click','td',function(e){
-					console.log($(e.target).closest('tr').attr('data-payNo'))
-					let payNo = $(e.target).closest('tr').attr('data-payNo')
+					let iqnNo = $(e.target).closest('tr').find('#inqNo').text()
 					
-					// 모달창
+					// // 모달창
 					$.magnificPopup.open({
 					items:[{
-					src:"myPayDetail?payNo="+payNo,
+					src:"inquiryInfo?inqNo="+iqnNo,
 					type: 'iframe'
 					}]
 					})
