@@ -71,7 +71,8 @@ public class FarmLendController {
 	
 	// 등록 페이지 불러오기
 	@GetMapping("farmLendInsert")
-	public String insertFarmLendForm() {
+	public String insertFarmLendForm(Model model) {
+		model.addAttribute("mcrp", codeService.getCodeList("1E"));
 		return "farm/farmLend/farmLendInsert";
 	}
 	

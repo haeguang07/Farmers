@@ -70,7 +70,7 @@ public class AuctionRestController {
 	}
 	
 	// 경매 등록
-	@PostMapping("auction")
+	@PostMapping("insertAuction")
 	public Map<String, Object> InsertAuction(@RequestBody AuctionVO vo){
 		
 		Map<String, Object> map = new HashMap<>();
