@@ -1,24 +1,30 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{index}">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="description" content="Male_Fashion Template">
-	<meta name="keywords" content="Male_Fashion, unica, creative, html">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>전원마켓 등록 페이지</title>
+<meta charset="UTF-8">
+<meta name="description" content="Male_Fashion Template">
+<meta name="keywords" content="Male_Fashion, unica, creative, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>전원마켓 등록 페이지</title>
 
-	<style>
-		.ck-editor__editable {
-			height: 400px;
-		}
-		.primary-btn col-lg-2 {
-			color: white;
-			margin: 0 auto;
-		}
-	</style>
+<style>
+.ck-editor__editable {
+	height: 400px;
+}
+
+.primary-btn col-lg-2 {
+	color: white;
+	margin: 0 auto;
+}
+
+.row col-lg-12 {
+	margin: auto 0;
+}
+</style>
 </head>
 
 <body>
@@ -32,36 +38,42 @@
 						<div class="row">
 							<div class="row col-lg-12">
 								<div class="col-lg-4 col-md-9 row" id="addFile">
-									<div class="col-lg-12" style="background-color: lightgrey; display: table;">
-										<p style="display: table-cell; vertical-align: middle">
-											대표 이미지 등록</p>
+									<div class="col-lg-12"
+										style="background-color: lightgrey; display: table;">
+										<p style="display: table-cell; vertical-align: middle">대표
+											이미지 등록</p>
 									</div>
 								</div>
 								<div class="product__details__content col-lg-8">
 									<form id="myForm">
 										<!-- 실제 파일 업로드 input (안보임) -->
 										<input type="file" id="inputFile" style="display: none;">
-										<input type="text" id="insertFile" style="display: none;" name="rep" th:field="*{rep}">
+										<input type="text" id="insertFile" style="display: none;"
+											name="rep" th:field="*{rep}">
 										<div class="container">
 											<div class="row d-flex justify-content-center row">
 												<div class="col-lg-12">
 													<div class="product__details__text">
 														<div class="row">
 															<h4 class="textLeft col-lg-3" style="display: inline;">상품명</h4>
-															<input type="text" class="form-control col-lg-8" name="mktTitle" th:field="*{mktTitle}">
+															<input type="text" class="form-control col-lg-8"
+																name="title" th:field="*{title}"
+																style="margin-left: -15px">
 														</div>
 														<hr>
 														<div class="row">
 															<div class="row col-lg-6">
 																<p class="myInline col-lg-6 mb-0 textLeft">판매자</p>
-																<input type="text" class="form-control col-lg-6" name="memNo" th:field="*{memNo}" readonly>
+																<input type="text" class="form-control col-lg-6"
+																	name="memNo" readonly th:value="${session.mem.memNo}">
 															</div>
 														</div>
 														<br>
 														<div class="row">
 															<div class="row col-lg-6">
 																<p class="myInline col-lg-6 mb-0 textLeft">카테고리</p>
-																<select class="form-control col-lg-6" name="mktCtg" th:field="*{mktCtg}">
+																<select class="form-control col-lg-6" name="mktCtg"
+																	th:field="*{mktCtg}">
 																	<option value="가드닝">가드닝</option>
 																	<option value="인테리어">인테리어</option>
 																	<option value="잡화">잡화</option>
@@ -72,11 +84,13 @@
 														<div class="row">
 															<div class="row col-lg-6">
 																<p class="myInline col-lg-6 mb-0 textLeft">금액</p>
-																<input type="number" class="form-control col-lg-6" name="price" min="1" th:field="*{price}">
+																<input type="number" class="form-control col-lg-6"
+																	name="price" min="1" th:field="*{price}">
 															</div>
 															<div class="row col-lg-6">
 																<p class="myInline col-lg-6 mb-0 textLeft">판매수량</p>
-																<input type="number" class="form-control col-lg-6" name="qty" min="1" th:field="*{qty}">
+																<input type="number" class="form-control col-lg-6"
+																	name="qty" min="1" th:field="*{qty}">
 															</div>
 														</div>
 													</div>
@@ -85,13 +99,14 @@
 										</div>
 									</form>
 								</div>
-								<div class="row col-lg-12">
+								<div class="row col-lg-12" style="margin-top: 30px">
 									<div class="col-lg-12">
 										<div class="product__details__tab">
 											<div class="row">
 												<ul class="nav nav-tabs col-lg-12" role="tablist">
-													<li class="nav-item col-lg-12"><a class="nav-link active" data-toggle="tab" href="#tabs-5"
-															role="tab">상세 설명</a></li>
+													<li class="nav-item col-lg-12"><a
+														class="nav-link active" data-toggle="tab" href="#tabs-5"
+														role="tab">상세 설명</a></li>
 												</ul>
 											</div>
 											<div class="row">
@@ -99,7 +114,8 @@
 													<div class="tab-pane active" id="tabs-5" role="tabpanel">
 														<div class="product__details__tab__content">
 															<div>
-																<textarea name="text" id="editor" th:field="*{detaDesct}"></textarea>
+																<textarea name="text" id="editor"
+																	th:field="*{detaDesct}"></textarea>
 															</div>
 														</div>
 													</div>
@@ -107,8 +123,9 @@
 											</div>
 										</div>
 										<br>
-										<div style="margin-top: 0px;">
-											<button type="submit" class="primary-btn col-lg-2" id="addBtn">등록하기</button>
+										<div style="margin-top: 10px;">
+											<button type="submit" class="primary-btn col-lg-2"
+												id="addBtn">등록하기</button>
 											<button type="button" class="primary-btn col-lg-2"
 												th:onclick="|location.href='@{/marketList}'|">뒤로가기</button>
 										</div>
@@ -123,8 +140,10 @@
 
 
 		<!-- ck 에디터-->
-		<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
-		<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
+		<script
+			src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+		<script
+			src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
 		<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
 
 		<script>

@@ -10,7 +10,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>농촌 비엔비</title>
-
+<style>
+.product__pagination {
+	margin: auto;
+}
+</style>
 </head>
 <body>
 	<div layout:fragment="content">
@@ -62,10 +66,10 @@
 									</div>
 									<!-- 글등록 버튼 - (정회원)인 경우에만 버튼 보임-->
 									<div sec:authorize="hasRole('ROLE_REGULAR')">
-										<div class="product__details__cart__option" 
-												style="text-align: center">
-												<a href="insertBnb" class="primary-btn">농촌비앤비 글 등록</a>
-											</div>
+										<div class="product__details__cart__option"
+											style="text-align: center">
+											<a href="insertBnb" class="primary-btn">농촌비앤비 글등록</a>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -121,13 +125,11 @@
 			<div class="product__item sale">
 				<div class="product__item__pic set-bg">
 					<ul class="product__hover">
-						<li><a href="#"><img src="img/icon/heart.png" alt="찜"></a></li>
-						<li><a href="#"><img src="img/icon/cart.png" alt="카트"></a></li>
 					</ul>
 				</div>
 				<div class="product__item__text">
 					<h5 class="title">숙소명</h5>
-					<h5 class="price" style="color: grey">금액</h5>
+					<h6 class="price" style="color: grey">금액</h6>
 				</div>
 			</div>
 		</div>
