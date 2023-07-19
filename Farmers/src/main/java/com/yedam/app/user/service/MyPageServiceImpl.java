@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yedam.app.common.vo.PaymentVO;
 import com.yedam.app.user.mapper.MyPageMapper;
 import com.yedam.app.user.vo.AttachVO;
+import com.yedam.app.user.vo.InquiryVO;
 import com.yedam.app.user.vo.MemberVO;
 import com.yedam.app.user.vo.PointsVO;
 
@@ -43,6 +45,31 @@ public class MyPageServiceImpl implements MyPageService {
 	@Override
 	public boolean secession(String memNo) {
 		return myPageMapper.secession(memNo) > 0;
+	}
+
+	@Override
+	public PaymentVO myPayList(PaymentVO vo) {
+		return myPageMapper.myPayList(vo);
+	}
+
+	@Override
+	public List<PaymentVO> myPayNo(String memNo) {
+		return myPageMapper.myPayNo(memNo);
+	}
+
+	@Override
+	public List<InquiryVO> myInquiry(String memNo) {
+		return myPageMapper.myInquiry(memNo);
+	}
+
+	@Override
+	public boolean addInquiry(InquiryVO vo) {
+		return myPageMapper.addInquiry(vo) > 0;
+	}
+
+	@Override
+	public InquiryVO myInquiryInfo(String inqNo) {
+		return myPageMapper.myInquiryInfo(inqNo);
 	}
 
 }
