@@ -1,6 +1,7 @@
 package com.yedam.app.common.vo;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -18,6 +19,9 @@ public class PaymentVO {
 	private int totalPayPrice;
 	private String payCode;
 	private Date payDate;
+	
+	//paymentDetail List
+	List<PaymentDetailVO> paymentDetails;
 	
 	//결제내역조회
 	private String boardCtg;

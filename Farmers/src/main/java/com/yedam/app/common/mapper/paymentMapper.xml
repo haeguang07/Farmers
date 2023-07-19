@@ -13,7 +13,7 @@
 
 	<!-- 상품정보 -->
 	<select id="getProductInfo" statementType="CALLABLE"
-		parameterType="PayProductVO" resultType="PayProductVO">
+		parameterType="PaymentDetailVO" resultType="PaymentDetailVO">
 		{
 		CALL getpayproduct(
 		#{boardNo, mode=IN , jdbcType=VARCHAR},
@@ -57,4 +57,32 @@
 		)
 		}
 	</select>
-</mapper>
+	
+	<!-- resultMap 사용 -->
+	<resultMap type="PaymentVO" id="paymentResult">
+		<result property="payNo" column="pay_no"/>
+		<result property="memNo" column="mem_no"/>
+		<result property="rcvName" column="rcv_name"/>
+		<result property="rcvMbl" column="rcv_mbl"/>
+		<result property="rcvAddr" column="rcv_addr"/>
+		<result property="rcvDetaAddr" column="rcv_deta_addr"/>
+		<result property="usePnt" column="use_pnt"/>
+		<result property="payMthd" column="pay_mthd"/>
+		<result property="totalPayPrice" column="total_pay_price"/>
+		<result property="payCode" column="pay_code"/>
+		<result property="payDate" column="pay_date"/>
+		<collection property="paymentDetails" javaType="ArrayList" column="payNo = pay_no" ofType="PaymentDetailsVO" select="selectDetailForPay"></collection>
+	</resultMap>
+	 
+	<select id="getPayList" resultMap="paymentResult">
+		SELECT *
+		FROM payment
+		WHERE pay_no = #{payNo}
+	</select>
+	
+	<select id="selectDetailForPay" resultType="PaymentDetailVO">
+		SELECT *
+		FROM payment_detail
+		WHERE pay_no = #{payNo}
+	</select>
+</mapper> 

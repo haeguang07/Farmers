@@ -83,4 +83,25 @@
 
 		}
 	</select>
+	
+	<!-- 문의내역 조회 -->
+	<select id="myInquiry" parameterType="String" resultType="InquiryVO">
+		SELECT *
+		FROM inquiry
+		WHERE mem_no = #{memNo}
+		ORDER BY 1 desc
+	</select>
+	
+	<!-- 문의등록 -->
+	<insert id="addInquiry" parameterType="InquiryVO">
+	INSERT INTO inquiry (inq_no , mem_no , inq_title, inq_ctg , inq_desct, repl_stts, inq_date)
+	VALUES (('inq'||LPAD(inquiry_seq.NEXTVAL,13,0)), #{memNo},#{inqTitle},#{inqCtg},#{inqDesct},'b0',sysdate)
+	</insert>
+	
+	<!-- 문의상세조회 -->
+	<select id="myInquiryInfo" parameterType="String" resultType="InquiryVO">
+		SELECT *
+		FROM inquiry
+		WHERE inq_no = #{inqNo}
+	</select>
 </mapper>

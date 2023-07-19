@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.yedam.app.common.vo.PaymentVO;
 import com.yedam.app.user.vo.AttachVO;
+import com.yedam.app.user.vo.InquiryVO;
 import com.yedam.app.user.vo.MemberVO;
 import com.yedam.app.user.vo.PointsVO;
 
@@ -26,9 +27,18 @@ public interface MyPageService {
 	// 회원탈퇴
 	public boolean secession(String memNo);
 
+	// 문의내역 조회
+	public List<InquiryVO> myInquiry(String memNo);
+
 	// 결제번호 조회
 	public List<PaymentVO> myPayNo(String memNo);
 
 	// 결제내역 조회
 	public PaymentVO myPayList(PaymentVO vo);
+
+	// 문의 등록
+	public boolean addInquiry(InquiryVO vo);
+
+	// 문의 상세 정보
+	public InquiryVO myInquiryInfo(String inqNo);
 }
