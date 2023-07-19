@@ -1,6 +1,7 @@
 <template>
+
   <div class="border">
-    <div >
+    <div>
         <h3>아이디 찾기</h3>
     </div>
     <div v-show="box1">
@@ -9,20 +10,24 @@
         <div class="text-center">
               <div><label>이메일</label><input type="text" id="email" name="email" v-model="email"></div>
           </div>
-          <div class="text-center">
-              <button type="button" class="button" @:click="idFound">아이디 찾기</button>
+          <div class="row">
+          	<div class="col-3"> </div>
+	          <div class="text-center col-6">
+	              <button type="button" class="button form-control" @:click="idFound">아이디 찾기</button>
+	          </div>
+	        <div class="col-3"> </div>
           </div>
       </div>
     </div>
     <div v-show="box2">
       <span>회원님의 아이디는 {{ id }} 입니다</span>
       <br><br><br><br>
-      <div class="text-right"><span @:click="back">돌아가기</span></div>
+      <div class="text-right"><span @:click="back" class="back">돌아가기</span></div>
 
     </div>
     <div v-show="box3">조회된 회원 정보가 없습니다
      <br><br><br><br>
-      <div class="text-right"><span @:click="back">돌아가기</span></div>
+      <div class="text-right"><span @:click="back" class="back">돌아가기</span></div>
      </div>
   </div>
 
@@ -98,4 +103,7 @@ export default{
 	  color : blue;
 	  cursor: pointer;
 	}
+  .back{
+    font-size: small;
+  }
 </style>

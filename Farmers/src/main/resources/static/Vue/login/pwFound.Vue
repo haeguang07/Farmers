@@ -13,21 +13,24 @@
                    <label>이메일</label><input type="text" id="email" name="email" v-model="email">
                 </div>
             </div>
-            <div class="text-center">
-              <button type="button" class="button" @:click="pwFound">임시 비밀번호 발급</button>
+            <div class="row">
+          		<div class="col-3"> </div>
+            	<div class="text-center col-6">
+              		<button type="button" class="button form-control" @:click="pwFound">임시 비밀번호 발급</button>
+            	</div>
             </div>
         </div>
     </div>
     <div v-show="box2">
       <div><span>해당 이메일로 임시 비밀번호를 전송 하였습니다.</span><a href="login">로그인</a></div>
       <br>
-      <p>이메일이 도착하지 않았나요? <span @:click="pwFound">다시 보내기</span></p><br><br>
+      <p>이메일이 도착하지 않았나요? <span @:click="pwFound" class="back">다시 보내기</span></p><br><br>
       
-      <div class="text-right"><span @:click="back">돌아가기</span></div>
+      <div class="text-right"><span @:click="back" class="back">돌아가기</span></div>
     </div>
     <div v-show="box3">조회된 회원 정보가 없습니다
       <br><br><br>
-      <div class="text-right"><span @:click="back">돌아가기</span></div>
+      <div class="text-right"><span @:click="back" class="back">돌아가기</span></div>
     </div>
 
   </div>
@@ -101,4 +104,7 @@ export default{
 	  color : blue;
 	  cursor: pointer;
 	}
+  .back{
+    font-size: small;
+  }
 </style>

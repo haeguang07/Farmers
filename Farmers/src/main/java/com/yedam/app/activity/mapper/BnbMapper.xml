@@ -61,7 +61,9 @@
 					REP,
 					LEND_STR_DATE,
 					LEND_END_DATE,
-					DETA_DESCT)
+					DETA_DESCT,
+					LATI,
+					LONGI)
 		values(#{boardNo},
 				#{memNo},
 				#{title},
@@ -73,7 +75,9 @@
 				#{rep},
 				#{lendStrDate},
 				#{lendEndDate},
-				#{detaDesct})
+				#{detaDesct},
+				#{lati},
+				#{longi})
 	</insert>
 
 
