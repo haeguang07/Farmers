@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{user/myPage/myPage}">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="Male_Fashion Template">
+	<meta name="keywords" content="Male_Fashion, unica, creative, html">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Funding</title>
+	<link rel="stylesheet" href="css/sungWookCss/sungook.css" type="text/css">
+	<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" type="text/css">
+	<style>
+		.mfp-content {
+			width: 1500px;
+			height: 800px;
+		}
+
+		.miniBtn {
+			width: 100px;
+		}
+
+		.right {
+			float: right;
+		}
+
+		.marginT30 {
+			margin-top: 30px;
+		}
+	</style>
+</head>
+
+<body>
+	<div layout:fragment="myPageContent">
+		<div class="justify-content-center">
+			<h3 class="current text-center">나의 알림</h3>
+		</div>
+		<!-- Shop Section Begin -->
+		<section class="shop myMargin">
+			<div class="container">
+				<hr>
+				<div class="row">
+					<div class="col-lg-12">
+						<table id="myTable">
+							<thead>
+								<tr>
+									<!-- <th data-orderable="false"><input type="checkbox"></th> -->
+									<th>알림번호</th>
+									<th>알림제목</th>
+									<th>알림날짜</th>
+									<th>확인여부</th>
+									<!-- <th data-orderable="false">삭제</th> -->
+								</tr>
+							</thead>
+							<tbody>
+								<div th:if="not ${#strings.isEmpty(alertList)}">
+									<tr th:each="alert : ${alertList}">
+										<!-- <td><input type="checkbox"></td> -->
+										<td th:text="${alert.alrtNo}"></td>
+										<td th:text="${alert.alrtTitle}"></td>
+										<td th:text="${#dates.format(alert.alrtDate, 'yyyy/MM/dd')}"></td>
+										<td th:text="${alert.alrtStts}" class="stts"></td>
+										<!-- <td><button class="form-control">삭제</button></td> -->
+									</tr>
+								</div>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Shop Section End -->
+
+		<script>
+			// dataTables
+			$(function() {
+				$('#myTable').DataTable({
+					language : lang_kor,
+					order: [ [ 2, "desc" ] ] 
+				});
+			})
+
+			// 한글 설정
+			var lang_kor = {
+				"decimal" : "",
+				"emptyTable" : "데이터가 없습니다.",
+				"info" : "_START_ - _END_ (총 _TOTAL_ 개)",
+				"infoEmpty" : "0명",
+				"infoFiltered" : "(전체 _MAX_ 명 중 검색결과)",
+				"infoPostFix" : "",
+				"thousands" : ",",
+				"lengthMenu" : "_MENU_ 개씩 보기",
+				"loadingRecords" : "로딩중...",
+				"processing" : "처리중...",
+				"search" : "검색 : ",
+				"zeroRecords" : "검색된 데이터가 없습니다.",
+				"paginate" : {
+					"first" : "첫 페이지",
+					"last" : "마지막 페이지",
+					"next" : "다음",
+					"previous" : "이전"
+				},
+				"aria" : {
+					"sortAscending" : " :  오름차순 정렬",
+					"sortDescending" : " :  내림차순 정렬"
+				}
+			};
+		</script>
+	</div>
+</body>
+
+</html>

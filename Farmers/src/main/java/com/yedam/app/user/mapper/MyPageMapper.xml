@@ -104,4 +104,12 @@
 		FROM inquiry
 		WHERE inq_no = #{inqNo}
 	</select>
+	
+	<!-- 알림리스트 조회 -->
+	<select id="alertList" parameterType="String" resultType="AlertVO">
+		SELECT *
+		FROM alert
+		WHERE mem_no = #{memNO}
+		ORDER BY 1 desc
+	</select>
 </mapper>

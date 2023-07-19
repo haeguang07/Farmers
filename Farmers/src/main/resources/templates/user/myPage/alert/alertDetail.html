@@ -80,13 +80,13 @@
 							<hr>
 							<div class="row">
 								<span class="col-md-2">제목 : </span>
-								<span class="col-md-6" th:text="${inqInfo.inqTitle}">진짜제목</span>
-								<span class="col-md-2" th:text="${inqInfo.memNo}">작성자</span>
-								<span class="col-md-2" th:text="${#dates.format(inqInfo.inqDate, 'yyyy/MM/dd')}">작성일</span>
+								<span class="col-md-6" >진짜제목</span>
+								<span class="col-md-2" >작성자</span>
+								<span class="col-md-2">작성일</span>
 							</div>
 							<hr>
 							<div>
-								<p th:utext="${inqInfo.inqDesct}">내용</p>
+								<p >내용</p>
 							</div>
 							<hr>
 						</div>
@@ -95,7 +95,7 @@
 					<div class="col-lg-12">
 						<h5 class="textCenter">답변</h5>
 						<hr>
-						<div th:if="${inqInfo.replStts} == 'd1'">
+						<div >
 							<div class="row">
 								<span class="col-md-2">제목</span><span class="col-md-6">작성자</span><span class="col-md-2">작성자</span><span class="col-md-2">작성일</span>
 							</div>
@@ -104,7 +104,7 @@
 								<p>내용</p>
 							</div>
 						</div>
-						<div th:if="${inqInfo.replStts} == 'd0'">
+						<div>
 							<p>답변이 존재하지 않습니다</p>
 						</div>
 							<hr>

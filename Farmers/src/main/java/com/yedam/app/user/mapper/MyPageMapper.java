@@ -3,6 +3,7 @@ package com.yedam.app.user.mapper;
 import java.util.List;
 
 import com.yedam.app.common.vo.PaymentVO;
+import com.yedam.app.user.vo.AlertVO;
 import com.yedam.app.user.vo.AttachVO;
 import com.yedam.app.user.vo.InquiryVO;
 import com.yedam.app.user.vo.MemberVO;
@@ -41,5 +42,8 @@ public interface MyPageMapper {
 	
 	//문의 상세 정보
 	public InquiryVO myInquiryInfo(String inqNo);
+	
+	//알림 리스트
+	public List<AlertVO> alertList(String memNo);
 
 }

@@ -16,6 +16,7 @@ import com.yedam.app.common.service.PaymentService;
 import com.yedam.app.common.vo.PaymentDetailVO;
 import com.yedam.app.common.vo.PaymentVO;
 import com.yedam.app.user.service.MyPageService;
+import com.yedam.app.user.vo.AlertVO;
 import com.yedam.app.user.vo.AttachVO;
 import com.yedam.app.user.vo.InquiryVO;
 import com.yedam.app.user.vo.MemberVO;
@@ -206,5 +207,25 @@ public class MyPageController {
 		InquiryVO vo = myPageService.myInquiryInfo(inqNo);
 		model.addAttribute("inqInfo", vo);
 		return "user/myPage/inquiry/inquiryDetail";
+	}
+	
+	///////////////////알림 페이지///////////////////
+	@GetMapping("alertList")
+	public String alertList(String memNo,Model model){
+		List<AlertVO> list = myPageService.alertList(memNo);
+		for (AlertVO vo : list) {
+			if(vo.getAlrtStts().equals("L1")) {
+				vo.setAlrtStts("미열람");
+			}else {
+				vo.setAlrtStts("열람");
+			}
+		}
+		model.addAttribute("alertList", list);
+		return "user/myPage/alert/alertList";
+	}
+	
+	@GetMapping("alertInfo")
+	public String alretInfo(String alrtNo,Model moedel) {
+		return "";
 	}
 }
