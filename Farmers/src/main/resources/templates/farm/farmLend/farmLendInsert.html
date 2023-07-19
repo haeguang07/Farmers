@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>농지 내놓기</title>
 <link rel="stylesheet" href="css/sungWookCss/sungook.css" type="text/css">
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 	<div layout:fragment="content">
 		<div class="justify-content-center">
@@ -16,70 +17,177 @@
 			<div class="container">
 			<hr>
 				<div class="checkout__form">
-					<form action="#">
+					<form action="myForm">
 						<div class="row">
 							<div class="col-lg-12">
 								<div class="row">
-									<div class="col-lg-6 checkout__input">
+									<div class="checkout__input col-lg-6">
 										<p>주소</p>
-										<input type="text" readonly placeholder="우편번호를 검색해주세요" id="addressCode">
+										<input type="text" readonly placeholder="우편번호를 검색해주세요" id="addressCode" name="zip">
 									</div>
 									<div class="col-lg-3 checkout__input">
-										<p style="visibility: hidden;"><span>*</span></p><button type="button"
-											class="form-control" id="addressBtn">우편번호등록</button>
+										<p class="mb-3" style="visibility: hidden;"><span>*</span></p>
+										<button type="button" class="form-control" id="addressBtn">우편번호등록</button>
 									</div>
 								</div>
 								<div class="checkout__input">
-									<input type="text" placeholder="주소지" class="checkout__input__add" id="address" readonly>
-									<input type="text" placeholder="상세주소" id="addressDetail">
+									<input type="text" placeholder="주소지" class="checkout__input__add" id="address" name="addr" readonly>
+									<input type="text" placeholder="상세주소" id="addressDetail" name="detaAddr">
 								</div>
 								<div class="checkout__input">
 									<p>면적</p>
-									<input type="text" class="col-lg-3" readonly><span style="display: inline;">(m²)</span> <!-- 면적 -->
+									<input type="number" class="col-lg-3" name="area">
+									<p style="display: inline;">(m²)</p> <!-- 면적 -->
 								</div>
 								<div class="checkout__input">
 									<p>주요 재배 작물</p>
 									<div class="row">
-										<select class="form-select form-group ml-3 mr-2">
-											<option selected disabled value="">선택하세요</option>
+										<select class="form-select form-group ml-3 mr-2" id="first" name="first">
+											<option selected disabled value="">작물 선택</option>
+											<option th:each="cd : ${mcrp}" th:text="${cd.codeDesct}" 
+												th:value="${cd.cmmnDetaCode}"></option>
 										</select>
-										<select class="form-select form-group mr-2">
-											<option selected disabled value="">선택하세요</option>
+										<select class="form-select form-group mr-2" id="second" name="second">
+											<option selected disabled value="">작물 선택</option>
+											<option th:each="cd : ${mcrp}" th:text="${cd.codeDesct}" 
+												th:value="${cd.cmmnDetaCode}"></option>
 										</select>
-										<select class="form-select form-group">
-											<option selected disabled value="">선택하세요</option>
+										<select class="form-select form-group" id="third" name="third">
+											<option selected disabled value="">작물 선택</option>
+											<option th:each="cd : ${mcrp}" th:text="${cd.codeDesct}" 
+												th:value="${cd.cmmnDetaCode}"></option>
 										</select>
 									</div>
 								</div>
 								<div class="checkout__input">
 									<p>설명</p>
-									<textarea></textarea>
+									<textarea rows="3" cols="80" style="font-size: 15px;"></textarea>
 								</div>
 								<div class="mb-3">
 									<p>대여 기간</p>
-									<input type="date">
-									~
-									<input type="date">
+									<input type="date" name="lendStrDate"> <!-- 대여 시작 일자 -->
+									~ 
+									<input type="date" id="date" name="lendEndDate"> <!-- 대여 종료 일자 -->
 								</div>
 								<div class="checkout__input">
 									<p>대여 가격</p>
-									<input type="text">
+									<input type="number" class="col-lg-4" value="1" min="1" id="price" name="lendPrice">
+									<p style="display: inline; vertical-align: middle;">(일 기준)</p>
 								</div>
 								<div class="checkout__input">
 									<p>제출 서류</p>
-									<p>파일 선택(여러개넣기)<span> ?(제출서류목록)</span></p>
+									<button type="button" class="form-control col-lg-2" id="btnUpload">첨부 파일</button>
+									<span> ?(제출서류목록)</span>
+									<input type="file" multiple="multiple" id="inputFile" name="atchNo" style="display: none;">
 								</div>
 								<p style="line-height: 40px; text-align: right;">합계 : <span id="sumPrice" style="line-height: 40px;"></span></p>
 							</div>
-							<button type="button" class="btn btn-dark mr-2">등록</button>
+							<button type="button" class="btn btn-dark mr-2" id="addBtn">등록</button>
 							<button type="button" class="btn btn-dark mr-2">임시 저장</button>
-							<button type="button" class="btn btn-dark">취소</button>
+							<button type="button" class="btn btn-dark" id="cancel">취소</button>
 						</div>
 					</form>
 				</div>
 			</div>
 		</section>
 		<!-- Checkout Section End -->
+		
+		<script>
+			// 우편번호 api
+			$('#addressBtn').on('click', function() {
+				
+				new daum.Postcode({
+					oncomplete : function(data) {
+						console.log(data);
+						$('#addressCode').val(data.zonecode);
+						$('#address').val(data.address);
+						$('#addressDetail').val('');
+					}
+				}).open();
+			})
+			
+			let strDate = $('[name="lendStrDate"]');
+			let endDate = $('[name="lendEndDate"]');
+			
+			// 날짜 입력 순서 정의
+			endDate.on('click', function(e) {
+				e.preventDefault();
+				if(!strDate.val()) {
+					alert('대여 시작 일자를 선택하세요');
+				} else {
+					$(this).unbind('click').click();
+				}
+			});
+			
+			// date 타입 최소 날짜 제한
+			minDateSet(new Date, strDate)
+			strDate.change(function() {
+				minDateSet(new Date(strDate.val()), endDate)
+			});
+			
+			//date 타입 최소 날짜 제한 함수
+			function minDateSet(date, input) {
+				let now_utc = date // 지금 날짜를 밀리초로
+				let timeOff = date.getTimezoneOffset() * 60000; // 분단위를 밀리초로 변환
+				let today = new Date(now_utc - timeOff).toISOString().split("T")[0];
+				$(input).attr("min", today);
+			}
+			
+			$(function() {
+				getSumPrice();
+			});
+			
+			$('#price').change(function() {
+				getSumPrice();
+			});
+			
+			$('#date').change(function() {
+				getSumPrice();
+			});
+			
+			function getSumPrice() {
+				let start = new Date(strDate.val());
+				let end = new Date(endDate.val());
+				let diffTime = Math.abs(end - start);
+				let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+				console.log(diffDays);
+				if(isNaN(diffDays)) {
+					$('#sumPrice').text('0원');
+				} else {
+					$('#sumPrice').text(priceToString(Number($('#price').val()) * Number(diffDays)) + '원');
+				}
+			}
+			
+			function priceToString(price) {
+				return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+			}
+			
+			let dbPath;
+			
+			// 첨부파일 가져오기
+			$('#btnUpload').on('click', function(e) {
+				e.preventDefault();
+				$('#inputFile').click();
+			});
+			
+			// 첨부파일 업로드
+			$('inputFile').on('change', function() {
+				
+			});
+			
+			// 등록 버튼 클릭 시
+			$('#addBtn').on('click', function() {
+				let formData = new FormData();
+				formData = $('#myForm').serializeObject();
+				console.log(formData);
+			});
+			
+			// 취소 버튼 클릭 시
+			$('#cancel').on('click', function() {
+				location.href="farmLendList";
+			});
+		</script>
+		
 	</div>
 </body>
 </html>
