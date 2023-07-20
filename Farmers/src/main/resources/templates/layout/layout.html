@@ -58,20 +58,21 @@
 				<div class="row">
 					<div class="col-lg-6 col-md-7">
 						<div class="header__top__left">
-							<p sec:authorize="isAuthenticated()">
-								<span th:text="${session.mem.nick}"></span>님 환영합니다
+							<p sec:authorize="isAuthenticated()">🍀				
+							<span th:text="${session.mem.nick}"></span>님 환영합니다
 							</p>
 						</div>
 					</div>
 					<div class="col-lg-6 col-md-5">
 						<div class="header__top__right">
 							<div class="header__top__links">
-								<a href="join" sec:authorize="isAnonymous()" >회원가입</a> 
-								<a href="login" sec:authorize="isAnonymous()">로그인</a>
-								<a th:href="@{/logout}" sec:authorize="isAuthenticated()" >로그아웃</a>
+								<a href="join" sec:authorize="isAnonymous()">회원가입</a> <a
+									href="login" sec:authorize="isAnonymous()">로그인</a> <a
+									th:href="@{/logout}" sec:authorize="isAuthenticated()">로그아웃</a>
 							</div>
 							<div class="header__top__hover" sec:authorize="isAuthenticated()">
-								<span><a href="myPage" style="color : white;">마이페이지 <i class="arrow_carrot-down"></a></i></span>
+								<span><a href="myPage" style="color: white;">마이페이지 <i
+										class="arrow_carrot-down"></a></i></span>
 								<ul>
 									<li>나의 활동</li>
 									<li>구매 내역</li>
@@ -88,7 +89,7 @@
 				<div class="col-lg-3 col-md-3">
 					<!-- 파머스 로고 -->
 					<div class="header__logo">
-						<a href="/"><img src="img/logo.png" style="width: 2" alt=""></a>
+						<a href="/"><img src="/img/logo.png" style="width: 2" alt=""></a>
 					</div>
 				</div>
 				<div class="col-lg-6 col-md-6">
@@ -115,7 +116,7 @@
 									<li><a href="marketList">전원마켓</a></li>
 									<li><a href="cropsSaleList">농작물 판매</a></li>
 									<li><a href="fundingList">농작물 펀딩</a></li>
-									<li><a href="auction">경매장</a></li>
+									<li><a href="auctionList">경매장</a></li>
 								</ul></li>
 							<li><a href="#">게시판</a>
 								<ul class="dropdown">
@@ -129,9 +130,8 @@
 				<div class="col-lg-3 col-md-3">
 					<div class="header__nav__option" style="padding-top: 50px;">
 						<div class="notification-box">
-							<!-- 알림 아이콘 -->
-							<a href="#"><img src="img/icon/bell.png" width="19px"
-								id="bell" alt=""></a>
+
+
 							<!-- 알림 모달팝업창 -->
 							<div class="modal">
 								<div class="modal-content">
@@ -158,10 +158,13 @@
 									</div>
 								</div>
 							</div>
-							<!--장바구니 아이콘 -->
-							<span th:if="not ${#strings.isEmpty(session. mem)}"> 
-							<a th:href="@{cart(memNo=${session.mem.memNo})}">
-							<img src="img/icon/cart.png" alt=""> <span>0</span></a>
+							<!--알림 , 장바구니 아이콘 -->
+							<span th:if="not ${#strings.isEmpty(session. mem)}"> <a
+								href="#"><img src="/img/icon/bell.png" width="19px"
+									id="bell" alt=""></a> <a
+								th:href="@{cart(memNo=${session.mem.memNo})}"> <img
+									src="/img/icon/cart.png" alt=""> <span>0</span>
+							</a>
 							</span>
 						</div>
 
@@ -184,7 +187,7 @@
 				<div class="col-lg-4 col-md-6 col-sm-6">
 					<div class="footer__about">
 						<div class="footer__logo">
-							<a href="/"><img src="img/logo.png" style="width: 2" alt=""></a>
+							<a href="/"><img src="/img/logo.png" style="width: 2" alt=""></a>
 						</div>
 
 					</div>

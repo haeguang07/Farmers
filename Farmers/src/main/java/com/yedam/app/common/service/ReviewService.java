@@ -11,4 +11,7 @@ public interface ReviewService {
 
 	// 리뷰등록
 	public int addReview(ReviewVO vo);
+	
+	// 게시글의 리뷰 수
+	public int getCount(String boardNo);
 }

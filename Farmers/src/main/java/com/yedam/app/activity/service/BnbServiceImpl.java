@@ -33,4 +33,15 @@ public class BnbServiceImpl implements BnbService {
 	public int insertBnb(BnbVO vo) {
 		return bnbMapper.insertBnb(vo);
 	}
+
+	@Override
+	public int updateBnb(BnbVO vo) {
+		return bnbMapper.updateBnb(vo);
+	}
+
+	@Override
+	public int deleteBnb(String boardNo) {
+		return bnbMapper.deleteBnb(boardNo);
+	}
+
 }
