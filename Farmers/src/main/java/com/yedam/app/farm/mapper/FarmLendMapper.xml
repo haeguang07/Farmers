@@ -81,7 +81,27 @@
 	
 	<!-- 등록 -->
 	<insert id="insertFarmLend" parameterType="FarmLendVO">
-		<!-- 프로시저 호출 -->
+		call add_farmlend(
+			#{zip},
+			#{addr},
+			#{detaAddr},
+			#{area},
+			#{desct},
+			#{lendStrDate},
+			#{lendEndDate},
+			#{lendPrice},
+			sysdate,
+			'e1',
+			#{memNo},
+			#{dst1},
+			#{dst2},
+			#{lati},
+			#{longi},
+			#{memNo},
+			#{files, typeHandler=com.yedam.app.farm.service.OracleArrayStructHandler},
+			#{uplDate},
+			#{mcrp, typeHandler=com.yedam.app.farm.service.OracleArrayHandler}
+		)
 	</insert>
 	
 	<!-- 수정 -->

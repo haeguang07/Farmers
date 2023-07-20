@@ -83,23 +83,23 @@
 								</div>
 								<div class="checkout__input">
 									<p>면적</p>
-									<input type="number" class="col-lg-3" name="area">
+									<input type="number" class="col-lg-3" value="0" min="0" name="area">
 									<p style="display: inline;">(m²)</p> <!-- 면적 -->
 								</div>
 								<div class="checkout__input">
 									<p>주요 재배 작물</p>
 									<div class="row">
-										<select class="form-select form-group ml-3 mr-2" id="first" name="first">
+										<select class="form-select form-group ml-3 mr-2" id="first" name="mcrp">
 											<option selected disabled value="">작물 선택</option>
 											<option th:each="cd : ${mcrp}" th:text="${cd.codeDesct}" 
 												th:value="${cd.cmmnDetaCode}"></option>
 										</select>
-										<select class="form-select form-group mr-2" id="second" name="second">
+										<select class="form-select form-group mr-2" id="second" name="mcrp">
 											<option selected disabled value="">작물 선택</option>
 											<option th:each="cd : ${mcrp}" th:text="${cd.codeDesct}" 
 												th:value="${cd.cmmnDetaCode}"></option>
 										</select>
-										<select class="form-select form-group" id="third" name="third">
+										<select class="form-select form-group" id="third" name="mcrp">
 											<option selected disabled value="">작물 선택</option>
 											<option th:each="cd : ${mcrp}" th:text="${cd.codeDesct}" 
 												th:value="${cd.cmmnDetaCode}"></option>
@@ -134,14 +134,14 @@
 												지적도 등본<br>
 												토지 이용계획 확인서<br>
 												부동산 종합 증명서<br>
-												(토지대장, 지적도, 토지이용계획확인서 제출 생략 가능)<br>
+												(토지대장, 지적도, 토지 이용계획 확인서 제출 생략 가능)<br>
 												부동산(토지) 등기부 등본<br>
 												농지원부, 농가경영등록체확인서 등 농업인 확인서류(농업인의 경우)<br>
 												재산세(지방세 세목별) 과세증명(농업인의 경우)
 											</p>
 										</div>
 									</div>
-									<input type="file" id="inputFile" name="atchNo" style="display: none;" multiple>
+									<input type="file" id="inputFile" name="files" style="display: none;" multiple>
 								</div>
 								<p style="line-height: 40px; text-align: right;">합계 : <span id="sumPrice" style="line-height: 40px;"></span></p>
 							</div>
@@ -273,19 +273,87 @@
 			
 			// 첨부파일 업로드
 			$('inputFile').on('change', function() {
-				
+				var formData = new FormData(); //FormData 객체 생성
+
+				var inputFile = $("input[type='file']");
+				//input 태그의 type이 file인 것을 찾아서 inputFile 이라는 변수로 지정
+
+				var files = inputFile[0].files;
+				//files : 선택한 모든 파일을 나열하는 FileList 객체입니다
+				//multiple 특성을 지정하지 않았다면 두 개 이상의 파일을 포함하지 않습니다
+
+				for (var i = 0; i < files.length; i++) {
+					console.log(files[i]);
+					formData.append("uploadFiles", files[i]); //키, 값으로 append
+
+					$.ajax({
+						url: 'uploadsAjax',
+						type: 'POST',
+						processData: false, // 기본값은 true, ajax 통신을 통해 데이터를 전송할때, 기본적으로 key와 value 값을 Query String으로 변환해서 보내줌
+						contentType: false, // multipart/form-data 타입을 사용하기위해 false로 지정
+						data: formData,
+						success: function (result) {
+							console.log(result);
+							dbPath = result.dbPath;
+							console.log(dbPath);
+
+						},
+						error: function (reject) {
+							console.log(reject);
+						}
+					})
+				}
 			});
 			
 			// 등록 버튼 클릭 시
 			$('#addBtn').on('click', function() {
-				let formData = new FormData();
-				formData = $('#myForm').serializeObject();
-				console.log(formData);
+				//데이터 입력 확인
+				if (!$('[name="zip"]').val() || !$('[name="addr"]').val() || !$('[name="detaAddr"]').val()) {
+					alert('주소를 입력하세요');
+					return;
+				} else if ($('[name="area"]').val() <= 0) {
+					alert('면적을 입력하세요');
+					return;
+				} else if ($('[name="mcrp"]').val() <= 0) {
+					alert('주요 재배 작물을 선택하세요');
+					return;
+				} else if (!$('[name="lendStrDate"]').val()) {
+					alert('대여시작일을 입력하세요');
+					return;
+				} else if (!$('[name="lendEndDate"]').val()) {
+					alert('대여마감일을 입력하세요');
+					return;
+				} else if ($('#price').val() < 2) {
+					alert('가격을 설정하세요');
+					return;
+				} 
+				/* else if (!$('[name="files"]').val() < 5) {
+					alert('필수 첨부파일을 참고하여 첨부하세요');
+					return;
+				} */
+				else {
+					let formData = $('#myForm').serializeObject();
+					console.log(formData);
+					// console.log(dbPath);
+					$.ajax({
+						url : "farmLendInsert",
+						method : "POST",
+						data : formData
+					})
+					.done(function(result) {
+						alert(result);
+						// location.href = "farmLendList";
+					})
+					.fail(function(result) {
+						alert(result);
+						// location.href = "farmLendList";
+					})
+				}
 			});
 			
 			// 취소 버튼 클릭 시
 			$('#cancel').on('click', function() {
-				location.href="farmLendList";
+				location.href = "farmLendList";
 			});
 		</script>
 		
