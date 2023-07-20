@@ -71,11 +71,13 @@ public class AuctionRestController {
 	
 	// 경매 등록
 	@PostMapping("insertAuction")
-	public Map<String, Object> InsertAuction(@RequestBody AuctionVO vo){
+	public Map<String, Object> InsertAuction(AuctionVO vo){
 		
+		System.out.println(vo);
+		 
 		Map<String, Object> map = new HashMap<>();
 		boolean result = actService.InsertAuction(vo);
-		
+				
 		if(result) {
 			map.put("retCode", "Success");
 		}else {
