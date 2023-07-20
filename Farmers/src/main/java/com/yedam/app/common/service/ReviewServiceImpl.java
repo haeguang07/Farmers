@@ -24,4 +24,9 @@ public class ReviewServiceImpl implements ReviewService {
 		return revMapper.addReview(vo);
 	}
 
+	@Override
+	public int getCount(String boardNo) {
+		return 0;
+	}
+
 }

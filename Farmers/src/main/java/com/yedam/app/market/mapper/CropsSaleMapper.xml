@@ -38,7 +38,7 @@
 			  			<when test="order.equals('가격낮은순')">
 			  				order by c.price asc
 			  			</when>
-			  			<when test="order.equals('리뷰순')">
+			  			<when test="order.equals('별점순')">
 			  				order by r.rate
 			  			</when>
 			  		</choose>

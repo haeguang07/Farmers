@@ -1,6 +1,7 @@
 package com.yedam.app.farm.vo;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -29,14 +30,18 @@ public class FarmLendVO {
 	@JsonFormat(pattern="yyyy/MM/dd")
 	public Date regDate;
 	public String regStts;
-	public String lagt;
 	public String memNo;
 	public String dst1;
 	public String dst2;
+	public double lati;
+	public double longi;
 	
 	// main_crops
 	public String mcrp;
 	
 	// member
 	public String nick;
+	
+	//신청목록
+	private List<FarmLendApplyVO> applys;
 }

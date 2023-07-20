@@ -5,8 +5,51 @@
 <head>
 <meta charset="UTF-8">
 <title>농지 내놓기</title>
-<link rel="stylesheet" href="css/sungWookCss/sungook.css" type="text/css">
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<link rel="stylesheet" href="/css/sungWookCss/sungook.css" type="text/css">
+<style>
+#menu div {
+    position: relative;
+    display: inline-block;
+}
+
+#explain {
+    display: block;
+    width: 30px;
+    padding: 2px 16px;
+    cursor: pointer;
+}
+.arrow_box {
+  display: none;
+  position: absolute;
+  width: 270px;
+  padding: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;  
+  border-radius: 8px;
+  background: rgb(255, 255, 255);
+  color: #fff;
+  font-size: 14px;
+}
+
+.arrow_box:after {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  margin-left: -10px;
+  border: solid transparent;
+  border-color: rgba(51, 51, 51, 0);
+  border-bottom-color: rgb(255, 255, 255);
+  border-width: 10px;
+  pointer-events: none;
+  content: " ";
+}
+
+#explain:hover + p.arrow_box {
+  display: block;
+}
+</style>
 </head>
 	<div layout:fragment="content">
 		<div class="justify-content-center">
@@ -17,7 +60,7 @@
 			<div class="container">
 			<hr>
 				<div class="checkout__form">
-					<form action="myForm">
+					<form id="myForm">
 						<div class="row">
 							<div class="col-lg-12">
 								<div class="row">
@@ -33,6 +76,10 @@
 								<div class="checkout__input">
 									<input type="text" placeholder="주소지" class="checkout__input__add" id="address" name="addr" readonly>
 									<input type="text" placeholder="상세주소" id="addressDetail" name="detaAddr">
+								</div>
+								<div class="row" style="display: none">
+									<input type="text" name="lati" id="latitude">
+									<input type="text" name="longi" id="longitude">
 								</div>
 								<div class="checkout__input">
 									<p>면적</p>
@@ -77,8 +124,24 @@
 								<div class="checkout__input">
 									<p>제출 서류</p>
 									<button type="button" class="form-control col-lg-2" id="btnUpload">첨부 파일</button>
-									<span> ?(제출서류목록)</span>
-									<input type="file" multiple="multiple" id="inputFile" name="atchNo" style="display: none;">
+									<div id="menu">
+										<div>
+											<span id="explain">?</span>
+											<p class="arrow_box">
+												<b style="font-size: 20px;">제출 서류 목록</b><br>
+												주민등록등본(초본) 또는 신분증(사본)<br>
+												토지대장 등본<br>
+												지적도 등본<br>
+												토지 이용계획 확인서<br>
+												부동산 종합 증명서<br>
+												(토지대장, 지적도, 토지이용계획확인서 제출 생략 가능)<br>
+												부동산(토지) 등기부 등본<br>
+												농지원부, 농가경영등록체확인서 등 농업인 확인서류(농업인의 경우)<br>
+												재산세(지방세 세목별) 과세증명(농업인의 경우)
+											</p>
+										</div>
+									</div>
+									<input type="file" id="inputFile" name="atchNo" style="display: none;" multiple>
 								</div>
 								<p style="line-height: 40px; text-align: right;">합계 : <span id="sumPrice" style="line-height: 40px;"></span></p>
 							</div>
@@ -91,19 +154,56 @@
 			</div>
 		</section>
 		<!-- Checkout Section End -->
+		<!-- 우편번호 api -->
+		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js?autoload=false"></script>
+		<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=c573b65eabeb9b6da24ab52d832dc807&libraries=services"></script>
 		
 		<script>
 			// 우편번호 api
 			$('#addressBtn').on('click', function() {
-				
-				new daum.Postcode({
-					oncomplete : function(data) {
-						console.log(data);
-						$('#addressCode').val(data.zonecode);
-						$('#address').val(data.address);
-						$('#addressDetail').val('');
-					}
-				}).open();
+				daum.postcode.load(function () {
+					new daum.Postcode({
+						oncomplete: function (data) {
+							var addr = '';
+							var extraAddr = '';
+							if (data.userSelectedType === 'R') {
+								addr = data.roadAddress;
+							} else {
+								addr = data.jibunAddress;
+							}
+							if (data.userSelectedType === 'R') {
+								if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+									extraAddr += data.bname;
+								}
+								if (data.buildingName !== '' && data.apartment === 'Y') {
+									extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+								}
+								if (extraAddr !== '') {
+									extraAddr = ' (' + extraAddr + ')';
+								}
+							}
+							document.getElementById("addressCode").value = data.zonecode;
+							document.getElementById("address").value = addr;
+							// 주소를 카카오지도 API의 지오코딩(Geocoding) 서비스를 이용하여 위도와 경도로 변환
+		                    var geocoder = new kakao.maps.services.Geocoder();
+		                    geocoder.addressSearch(addr, function (result, status) {
+		                        if (status === kakao.maps.services.Status.OK) {
+		                            // 변환된 위도와 경도 출력
+		                            let lati = result[0].y;	                            
+		                            let longi = result[0].x;
+		                            console.log('위도, 경도 : ', lati, ', ', longi);
+		                            
+		                            document.getElementById('latitude').value = lati;
+		                            document.getElementById('longitude').value = longi;
+		                            
+		                        } else {
+		                            alert('주소를 찾을 수 없습니다.');
+		                        }
+		                    });
+		                    document.getElementById("addressDetail").focus();
+		                }
+		            }).open();
+		        });
 			})
 			
 			let strDate = $('[name="lendStrDate"]');
@@ -145,12 +245,13 @@
 				getSumPrice();
 			});
 			
+			// 합계 출력
 			function getSumPrice() {
 				let start = new Date(strDate.val());
 				let end = new Date(endDate.val());
 				let diffTime = Math.abs(end - start);
 				let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-				console.log(diffDays);
+				// console.log(diffDays);
 				if(isNaN(diffDays)) {
 					$('#sumPrice').text('0원');
 				} else {

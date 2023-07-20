@@ -234,7 +234,7 @@ public class FundingController {
 			System.out.println(imagePath);
 			System.out.println(uuid);
 			System.out.println(originalName);
-			
+
 			map.put("loadPath", loadPath);
 			map.put("dbPath", imagePath);
 			map.put("uuidName", uuid);

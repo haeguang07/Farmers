@@ -10,7 +10,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>유귀농 경매장</title>
-<link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
+<link rel="stylesheet" href="css/heeyoungCss/auctionList.css"
+	type="text/css">
 </head>
 <style>
 .shop__product__link__right>a {
@@ -120,8 +121,7 @@
 				</div>
 
 				<div class="row">
-					<p>aaaaa</p>
-					<div class="related__products__slider owl-carousel" id="nextAuctionList"></div>
+					<div class="related__products__slider" id="nextAuctionList"></div>
 				</div>
 			</div>
 		</section>
@@ -170,18 +170,10 @@
 		</div>
 
 		<!-- 경매 미리보기 clone -->
-		<div class="col-lg-3" id="nextAuction">
+		<div class="col-lg-3" id="nextAuction" style="display: none;">
 			<div class="product__item">
 				<div class="product__item__pic set-bg" data-setbg=""></div>
-				<div class="product__item__text">
-					<h6>상품명</h6>
-					<div class="product__item__price">
-						<span class="nextBuyNow"></span>
-					</div>
-					<div class="cart_add">
-						<a href="#">Add to cart</a>
-					</div>
-				</div>
+					<h6 class="item__title">상품명</h6>
 			</div>
 		</div>
 
@@ -247,7 +239,6 @@
 				// 경매 기간별 카운트 다운
 				let standard = new Date(item.actDate);
 				let period = Number(item.actTrm);
-				console.log(standard, period);
 				standard.setDate(standard.getDate() + period);
 				
 				$(clone).find('.bidEndDate').countdown(standard, function(event){
@@ -329,8 +320,11 @@
 				ajaxData(pageNum, order);
 			}
 			
-			// 다음 경매 미리보기 리스트
-			function auctionNext(){
+			
+			// 다음 경매 미리보기 리스트 출력
+			function previewNextAuction(){
+				
+				// 아작스
 				$.ajax({
 					url: "auctionNext",
 					method: "GET",
@@ -342,33 +336,18 @@
 					}
 				})
 			}
-			
+		
 			function printNextList(data){
-				$('#nextAuctionList').children().remove();
 				
 				let nextAuctionData = data.nextAuctionList;
 				
 				$(nextAuctionData).each((idx, item) => {
 					printNextItem(item);
 				})
+
 			}
 			
-			// 경매 미리보기 리스트 출력
-			function previewNextAuction(){
-				
-				// 아작스
-				$.ajax({
-					url: "auctionNext",
-					method: "GET",
-					success(data){
-						printList(data);
-						console.log(data);
-					},
-					error(reject){
-						console.log(reject);
-					}
-				})
-				
+			function printNextItem(item){
 				
 				let clone = $('#nextAuction').clone();
 				$(clone).css({'display' : 'block'});
@@ -376,12 +355,13 @@
 				// 데이터 넣기
 				let imageUrl = '/img/market/auction/' + item.rep;
 				$(clone).find('.set-bg').css('background-image', 'url('+ imageUrl +')');
-				$(clone).find('h6').text(item.title);				
-				$(clone).find('.NextBuyNow').text(number_format(item.bnp) + '원');
+				$(clone).find('.item__title').text(item.title);
 				
-				$('#nextAuctionList').append(clone)
+				console.log(clone);
+				
+				$('#nextAuctionList').append(clone);
+				
 			}
-		
 			
 		</script>
 	</div>
