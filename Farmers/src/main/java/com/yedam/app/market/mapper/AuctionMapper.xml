@@ -115,7 +115,7 @@
 		VALUES ( #{boardNo}
 				 , #{memNo}
 				 , #{title}
-				 , #{act_date}
+				 , #{actDate}
 				 , #{desct}
 				 , #{saleQty}
 				 , #{bnp}
@@ -124,7 +124,7 @@
 				 , #{shipDurAvg}
 				 , #{shipDurMax}
 				 , #{rep}
-				 , 'e0'
+				 , 'e1'
 				<if test="atchNo != null and !atchNo.equals('')">
 				, #{atchNo}
 				</if>

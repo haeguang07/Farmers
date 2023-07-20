@@ -31,6 +31,10 @@
 #reviewTable {
 	width: 100%;
 }
+
+.sellBtn bttn {
+	
+}
 </style>
 
 </head>
@@ -41,6 +45,7 @@
 		<section th:each="bnb:${bnb}" class="shop-details">
 			<!-- 이미지 부분 -->
 			<div class="product__details__pic">
+
 				<div class="container">
 					<div class="row">
 						<div class="col-lg-12" style="text-align: left">
@@ -102,7 +107,6 @@
 											<td><span id="dateResult"></span> 일</td>
 										</tr>
 										<tr>
-
 											<th>총 금액</th>
 											<td><b><span id="payResult"></span></b> 원</td>
 										</tr>
@@ -219,7 +223,14 @@
 							</div>
 						</div>
 					</div>
-					<br> <br> <br> <br>
+					<hr>
+					<th:block th:if="${session.mem}!=null">
+						<div class="product__details__cart__option"	style="text-align:center"
+							th:if="${session.mem.memNo} == ${bnb.memNo}">
+							<a th:href="@{update/updateBnb(boardNo=${bnb.boardNo})}" class="primary-btn">글 수정</a> 
+							<a href="#"	class="primary-btn">글 삭제</a>
+						</div>
+					</th:block>
 				</div>
 			</div>
 		</section>
@@ -227,8 +238,6 @@
 		<!-- dataTable -->
 		<script
 			src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-
-
 		<!-- 지도 api -->
 		<script
 			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c573b65eabeb9b6da24ab52d832dc807"></script>
@@ -285,6 +294,7 @@
 				return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 			}
 
+			
 			// 데이터테이블 - 한글 설정
 			var lang_kor = {
 	        "decimal" : "",
@@ -354,7 +364,7 @@
 				
 				let data=list;
 				
-				//데이타테이블 만들기
+				//dataTable 만들기
 				$('#reviewTable').DataTable({
 					destroy: true,
 					language : lang_kor,  
