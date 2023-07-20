@@ -98,7 +98,7 @@ public class BnbController {
 		BnbVO result = bnbService.selectBnb(boardNo);
 		List<CodeVO> codeVo = codeService.getCodeList("0K");
 		model.addAttribute("dst",codeVo);
-		model.addAttribute("bnb", result);
+		model.addAttribute("bnb",result);
 		return "activity/bnb/updateBnbForm";
 	}
 
@@ -107,7 +107,15 @@ public class BnbController {
 	public String updateBnb(BnbVO vo) {
 		System.out.println(vo);
 		int result = bnbService.updateBnb(vo);
+		
 		return "redirect:bnbInfo";
+	}
+	
+	//삭제
+	@PostMapping("deleteBnb")
+	public String deleteBnb(String boardNo) {
+		
+		return "redirect:bnbList";
 	}
 
 }
