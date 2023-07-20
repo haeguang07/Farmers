@@ -79,12 +79,9 @@ public class FarmLendController {
 	// 등록 기능
 	@PostMapping("farmLendInsert")
 	@ResponseBody
-	public String insertFarmLend(FarmLendVO flVO, String first, String second, String third) {
-		boolean result = flService.insertFarmLendInfo(flVO, first, second, third);
+	public String insertFarmLend(FarmLendVO flVO) {
+		boolean result = flService.insertFarmLendInfo(flVO);
 		System.out.println(flVO);
-		System.out.println(first);
-		System.out.println(second);
-		System.out.println(third);
 		
 		if(result) {
 			return "success";
