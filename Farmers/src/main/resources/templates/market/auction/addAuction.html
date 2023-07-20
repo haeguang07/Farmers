@@ -81,20 +81,12 @@
 						// 경매 신청날짜 옵션 지정 (select box 디자인 때문에 ul li로 변경 되는 문제 때문에 바로 아래에 스크립트 작성함.)
 						let thisDate = new Date();
 						let day = thisDate.getDay();
-						let calcDate = thisDate.getDate() - day + ((
-							day == 0 ?
-							1 :
-							8
-						) + 0);
+						let calcDate = thisDate.getDate() - day + ((day == 0 ? 1 : 8) + 0);
 
-						let nextDate = new Date(thisDate.setDate(calcDate))
-							.toISOString()
-							.substring(0, 10);
+						let nextDate = new Date(thisDate.setDate(calcDate)).toISOString().substring(0, 10);
 						let nextNextDate = new Date(nextDate);
 						nextNextDate.setDate(nextNextDate.getDate() + 7);
-						nextNextDate = nextNextDate
-							.toISOString()
-							.substring(0, 10);
+						nextNextDate = nextNextDate.toISOString().substring(0, 10);
 						console.log(nextDate, nextNextDate);
 
 						$("select[name='actDate']").append(
