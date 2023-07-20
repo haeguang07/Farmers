@@ -39,7 +39,7 @@
                                     <div class="col-lg-6">
                                         <div class="checkout__input">
                                             <p>이름<span>*</span></p>
-                                            <input type="text" readonly th:value="${memberInfo.name}">
+                                            <input type="text" readonly th:value="|${#strings.defaultString(memberInfo.name, '')}|">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -53,7 +53,7 @@
                                     <div class="col-lg-6">
                                         <div class="checkout__input">
                                             <p>연락처<span>*</span></p>
-                                            <input type="text" readonly th:value="${memberInfo.mbl}">
+                                            <input type="text" readonly th:value="|${#strings.defaultString(memberInfo.mbl, '')}|">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -66,7 +66,7 @@
                                 <div class="row">
                                     <div class="col-lg-6 checkout__input">
                                         <p>배송지<span>*</span></p><input type="text" readonly placeholder="우편번호를 검색해주세요"
-                                            id="addressCode" th:value="${memberInfo.zip}">
+                                            id="addressCode" th:value="|${#strings.defaultString(memberInfo.zip, '')}|">
                                     </div>
                                     <div class="col-lg-3 checkout__input">
                                         <p style="visibility: hidden;"><span>*</span></p>
@@ -74,22 +74,26 @@
                                 </div>
                                 <div class="checkout__input">
                                     <input type="text" placeholder="주소지" class="checkout__input__add" id="address"
-                                        readonly th:value="${memberInfo.addr}">
+                                        readonly th:value="|${#strings.defaultString(memberInfo.addr, '')}|">
                                     <input type="text" placeholder="상세주소" id="addressDetail" readonly
-                                        th:value="${memberInfo.detaAddr}">
+                                    th:value="|${#strings.defaultString(memberInfo.detaAddr, '')}|">
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="checkout__input">
                                             <p>생년월일<span>*</span></p>
-                                            <input type="text" readonly th:value="${#dates.format(memberInfo.bDate, 'yyyy/MM/dd')}">
+                                            <input type="text" readonly th:value="|${#strings.defaultString(memberInfo.bDate, '')}|">
+                                            <!-- #dates.format(memberInfo.bDate, 'yyyy/MM/dd') -->
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="checkout__input">
                                             <p>성별<span>*</span></p>
-                                            <input type="text" readonly value="남성" th:if="${#strings.equals(memberInfo.gen, 'a0')}">
-                                            <input type="text" readonly value="여성" th:if="${#strings.equals(memberInfo.gen, 'a1')}">
+                                            <input type="text" readonly th:if="${#strings.isEmpty(memberInfo.gen)}">
+                                            <div th:if="${not #strings.isEmpty(memberInfo.gen)}">
+                                                <input type="text" readonly value="남성" th:if="${#strings.equals(memberInfo.gen, 'a0')}">
+                                                <input type="text" readonly value="여성" th:if="${#strings.equals(memberInfo.gen, 'a1')}">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -111,7 +115,7 @@
                                                 class="form-control form-control-sm"
                                                 style="display: inline; width: 100px; margin-left: 30px;"
                                                 id="pointHistory">내역조회</button>
-                                            <input type="text" readonly th:value="${memberInfo.pnt}">
+                                            <input type="text" readonly th:value="|${#strings.defaultString(memberInfo.pnt, '')}|">
                                         </div>
                                     </div>
                                 </div>
@@ -119,7 +123,8 @@
                                     <div class="col-lg-6">
                                         <div class="checkout__input">
                                             <p>가입날짜<span>*</span></p>
-                                            <input type="text" readonly th:value="${#dates.format(memberInfo.signDate, 'yyyy/MM/dd')}">
+                                            <input type="text" readonly th:value="|${#strings.defaultString(memberInfo.signDate, '')}|">
+                                            <!-- th:value="${#dates.format(memberInfo.signDate, 'yyyy/MM/dd')}" -->
                                         </div>
                                     </div>
                                 </div>

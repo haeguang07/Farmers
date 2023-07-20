@@ -35,9 +35,13 @@
 <body>
 	<div layout:fragment="myPageContent">
 		<div class="justify-content-center">
-			<h3 class="current text-center">나의 알림</h3>
+			<h3 class="current text-center">나의 농지대여</h3>
 		</div>
 		<!-- Shop Section Begin -->
+		<div class="row">
+			<button type="button" class="form-control col-lg-3 miniBtn">등록</button>
+			<button type="button" class="form-control col-lg-3 miniBtn">신청</button>
+		</div>
 		<section class="shop myMargin">
 			<div class="container">
 				<hr>
@@ -45,29 +49,17 @@
 					<div class="col-lg-12">
 						<table id="myTable">
 							<thead>
-								<tr>
-									<!-- <th data-orderable="false"><input type="checkbox"></th> -->
+								<tr>									
 									<th>알림번호</th>
 									<th>알림제목</th>
 									<th>알림날짜</th>
 									<th>확인여부</th>
-									<!-- <th data-orderable="false">삭제</th> -->
 								</tr>
 							</thead>
 							<tbody>
-								<div th:if="not ${#strings.isEmpty(alertList)}">
-									<tr th:each="alert : ${alertList}">
-										<!-- <td><input type="checkbox"></td> -->
-										<td th:text="${alert.alrtNo}" id="alrtNo"></td>
-										<td th:text="${alert.alrtTitle}"></td>
-										<td th:text="${#dates.format(alert.alrtDate, 'yyyy/MM/dd')}"></td>
-										<td th:text="${alert.alrtStts}" class="stts"></td>
-										<!-- <td><button class="form-control">삭제</button></td> -->
-									</tr>
-								</div>
+
 							</tbody>
 						</table>
-						<!-- <button type="button" class="form-control miniBtn">선택삭제</button> -->
 					</div>
 				</div>
 			</div>
@@ -109,38 +101,8 @@
 				}
 			};
 			
-			// 알림상세 이동
-			$('tr').on('click','td',function(e){
-					console.log($(e.target).closest('tr').find('#alrtNo').text())
-					let alrtNo = $(e.target).closest('tr').find('#alrtNo').text()
-					
-					// 모달창
-					$.magnificPopup.open({
-					items:[{
-					src:"alertInfo?alrtNo="+alrtNo,
-					type: 'iframe'
-					}]
-					})
-					console.log($(e.target).closest('tr').find('.stts').text())
-					if($(e.target).closest('tr').find('.stts').text() == "미열람"){
-						console.log('실행 ')
-						$.ajax({
-							url : "changeAlretStts",
-							data : {alrtNo : alrtNo}
-						})
-					.done(function(result){
-						console.log(result)
-						if(result){
-							$(e.target).closest('tr').find('.stts').text('열람')
-						}else{
-							console.log('수정 실패')
-						}
-					})
-					.fail(function(result){
-						alert('수정실패')
-					})
-				}
-				})
+			
+			
 		</script>
 	</div>
 </body>
