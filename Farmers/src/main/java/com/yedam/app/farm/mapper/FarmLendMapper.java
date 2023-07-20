@@ -12,7 +12,7 @@ public interface FarmLendMapper {
 	// 단건조회
 	public FarmLendVO selectFarmLendInfo(FarmLendVO flVO);
 	// 등록
-	public int insertFarmLend(FarmLendVO flVO, String first, String second, String third);
+	public int insertFarmLend(FarmLendVO flVO);
 	// 수정
 	public int updateFarmLend(FarmLendVO flVO);
 	// 삭제

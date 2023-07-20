@@ -30,8 +30,8 @@ public class FarmLendServiceImpl implements FarmLendService {
 	}
 
 	@Override
-	public boolean insertFarmLendInfo(FarmLendVO flVO, String first, String second, String third) {
-		return flMapper.insertFarmLend(flVO, first, second, third) > 0;
+	public boolean insertFarmLendInfo(FarmLendVO flVO) {
+		return flMapper.insertFarmLend(flVO) > 0;
 	}
 
 	@Override

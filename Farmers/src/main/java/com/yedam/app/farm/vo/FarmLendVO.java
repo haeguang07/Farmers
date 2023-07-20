@@ -36,12 +36,18 @@ public class FarmLendVO {
 	public double lati;
 	public double longi;
 	
+	// attachment
+	public List<FileVO> files;
+	@DateTimeFormat(pattern="yyyy/MM/dd")
+	@JsonFormat(pattern="yyyy/MM/dd")
+	public Date uplDate;
+	
 	// main_crops
-	public String mcrp;
+	public String[] mcrp;
 	
 	// member
 	public String nick;
 	
-	//신청목록
+	// 신청목록
 	private List<FarmLendApplyVO> applys;
 }
