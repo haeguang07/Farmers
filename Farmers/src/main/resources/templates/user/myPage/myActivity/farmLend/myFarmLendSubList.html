@@ -48,28 +48,36 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12">
-						<h3>포인트 내역</h3>
+						<h3>신청내역</h3>
+						<p th:text="${vo.addr}">제목</p>
 						<hr>
 					</div>
 					<div class="col-lg-12">
 						<table id="myTable">
 							<thead>
 								<tr>
-									<th>사용일자</th>
-									<th>분류</th>
-									<th>포인트</th>
-									<th>사용처</th>
-									<th>반영포인트</th>
+									<th>번호</th>
+									<th>신청자</th>
+									<th>시작일자</th>
+									<th>종료일자</th>
+									<th>대여합계</th>
+									<th>처리</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="point : ${points}">
-									<td th:text="${#dates.format(point.useDate, 'yyyy/MM/dd')}"></td>
-									<td th:text="${point.pntStts}"></td>
-									<td th:text="${point.pnt}" th:style="${point.pntStts == '사용' ? 'color: red;' : 'color: blue;'}"></td>
-									<td th:text="${point.pntRcrd}"></td>
-									<td th:text="${point.leftPnt}"></td>
-								</tr>
+								<th:block th:if="not ${#strings.isEmpty(list)}">
+									<tr th:each="li : ${list}">
+										<td th:text="${li.aplNo}"></td>
+										<td th:text="${li.memNo}"></td>
+										<td th:text="${#dates.format(li.rsvStrDate, 'yyyy/MM/dd')}"></td>
+										<td th:text="${#dates.format(li.rsvEndDate, 'yyyy/MM/dd')}"></td>
+										<td>?</td>
+										<td th:if="${#strings.equals(vo.regStts, 'e1')}">
+											<button type="button" class="form-control" id="accept">수락</button>
+											<button type="button" class="form-control" id="refuse">거절</button></td>
+										<td th:if="${#strings.equals(vo.regStts, 'e6')}" th:text="${li.aplStts}"></td>
+									</tr>
+								</th:block>
 							</tbody>
 						</table>
 					</div>
@@ -79,6 +87,7 @@
 	</section>
 
 	<script>
+
 		// dataTables
 		$(function () {
 			$('#myTable').DataTable({
@@ -112,6 +121,15 @@
         }
     };
 
+		//수락 버튼 클릭 시
+		$('#accept').on('click',function(){
+			alert('수락')
+		})
+
+		//거절 버튼 클릭 시
+		$('#refuse').on('click',function(){
+			alert('거절')
+		})
 	</script>
 </body>
 

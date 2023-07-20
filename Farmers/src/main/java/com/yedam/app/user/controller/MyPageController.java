@@ -15,7 +15,10 @@ import com.google.gson.Gson;
 import com.yedam.app.common.service.PaymentService;
 import com.yedam.app.common.vo.PaymentDetailVO;
 import com.yedam.app.common.vo.PaymentVO;
+import com.yedam.app.farm.vo.FarmLendApplyVO;
+import com.yedam.app.farm.vo.FarmLendVO;
 import com.yedam.app.user.service.MyPageService;
+import com.yedam.app.user.vo.AlertVO;
 import com.yedam.app.user.vo.AttachVO;
 import com.yedam.app.user.vo.InquiryVO;
 import com.yedam.app.user.vo.MemberVO;
@@ -40,12 +43,9 @@ public class MyPageController {
 	@ResponseBody
 	public boolean pwCheck(String pw, String memNo) {
 		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
-		System.out.println(pw);
 
 		MemberVO vo = myPageService.checkPassword(memNo);
-		System.out.println(vo.getPw());
 		boolean result = scpwd.matches(pw, vo.getPw());
-		System.out.println(result);
 
 		return result;
 	}
@@ -53,7 +53,9 @@ public class MyPageController {
 	// 회원정보 페이지
 	@GetMapping("memberInfo")
 	public String memberInfo(String memNo, Model model) {
+		System.out.println(memNo);
 		MemberVO vo = myPageService.getMemberInfo(memNo);
+		System.out.println(vo);
 
 		model.addAttribute("memberInfo", changCode(vo));
 
@@ -73,6 +75,9 @@ public class MyPageController {
 	@PostMapping("memberModify")
 	public String memberModify(MemberVO vo) {
 		System.out.println(vo);
+		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
+		
+		vo.setPw(scpwd.encode(vo.getPw()));
 		System.out.println(vo.getPw());
 		myPageService.modifyMember(vo);
 		return "user/myPage/memberInfo/pwCheck";
@@ -100,6 +105,13 @@ public class MyPageController {
 	@GetMapping("pointHistory")
 	public String pointHistory(String memNo, Model model) {
 		List<PointsVO> list = myPageService.pointHistory(memNo);
+		for (PointsVO vo : list) {
+			if(vo.getPntStts().equals("use")) {
+				vo.setPntStts("사용");
+			}else if(vo.getPntStts().equals("get")) {
+				vo.setPntStts("적립");
+			}
+		}
 		model.addAttribute("points", list);
 		return "user/myPage/memberInfo/pointHistory";
 	}
@@ -199,12 +211,84 @@ public class MyPageController {
 		System.out.println(vo);
 		return myPageService.addInquiry(vo);
 	}
-	
-	//문의 상세 페이지
+
+	// 문의 상세 페이지
 	@GetMapping("inquiryInfo")
-	public String inquiryInfo(String inqNo,Model model) {
+	public String inquiryInfo(String inqNo, Model model) {
 		InquiryVO vo = myPageService.myInquiryInfo(inqNo);
 		model.addAttribute("inqInfo", vo);
 		return "user/myPage/inquiry/inquiryDetail";
+	}
+
+	/////////////////// 알림 페이지///////////////////
+	// 알림 리스트 페이지
+	@GetMapping("alertList")
+	public String alertList(String memNo, Model model) {
+		List<AlertVO> list = myPageService.alertList(memNo);
+		for (AlertVO vo : list) {
+			if (vo.getAlrtStts().equals("L1")) {
+				vo.setAlrtStts("미열람");
+			} else {
+				vo.setAlrtStts("열람");
+			}
+		}
+		model.addAttribute("alertList", list);
+		return "user/myPage/alert/alertList";
+	}
+
+	// 알림 상세 페이지
+	@GetMapping("alertInfo")
+	public String alretInfo(String alrtNo, Model model) {
+		System.out.println(alrtNo);
+		AlertVO vo = myPageService.alertInfo(alrtNo);
+		System.out.println(vo);
+		model.addAttribute("alertInfo", vo);
+		return "user/myPage/alert/alertDetail";
+	}
+
+	// 알림 상태 변경
+	@GetMapping("changeAlretStts")
+	@ResponseBody
+	public boolean changeAlertStts(String alrtNo) {
+		System.out.println(alrtNo);
+		return myPageService.updateAlrtStts(alrtNo);
+	}
+
+	/////////////////////// 나의 활동(농지대여)////////////////////
+	// 농지대여 리스트 페이지
+	@GetMapping("myFarmLendListForm")
+	public String myFarmLendListForm() {
+		return "user/myPage/myActivity/farmLend/myFarmLendList";
+	}
+	
+	//ajax 농지대여 등록 리스트
+	@GetMapping("myFarmLendList")
+	@ResponseBody
+	public List<FarmLendVO> myFarmLendList(String memNo) {
+		return myPageService.myFarmLendList(memNo);
+	}
+	
+	//ajax 농지대여 신청 리스트
+	@GetMapping("subFarmLendList")
+	@ResponseBody
+	public List<FarmLendApplyVO> subFarmLendList(String memNo){
+		return myPageService.subFarmLendList(memNo);
+	}
+	
+	//나의 농지대여 신청자 리스트
+	@GetMapping("myPage/myFarmLendSubList")
+	public String myFarmLendSubList(String boardNo,Model model) {
+		FarmLendVO vo = myPageService.myFarmLendInfo(boardNo);
+		List<FarmLendApplyVO> list = vo.getApplys();
+		System.out.println(vo);
+		model.addAttribute("vo", vo);
+		model.addAttribute("list", list);
+		return "user/myPage/myActivity/farmLend/myFarmLendSubList";
+	}
+	
+	//농지대여 나의 신청 상세 정보
+	@GetMapping("myPage/FarmLendMySubInfo")
+	public String FarmLendMySubInfo() {
+		return "user/myPage/myActivity/farmLend/farmLendMySubInfo";
 	}
 }

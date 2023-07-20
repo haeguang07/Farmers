@@ -3,6 +3,9 @@ package com.yedam.app.user.service;
 import java.util.List;
 
 import com.yedam.app.common.vo.PaymentVO;
+import com.yedam.app.farm.vo.FarmLendApplyVO;
+import com.yedam.app.farm.vo.FarmLendVO;
+import com.yedam.app.user.vo.AlertVO;
 import com.yedam.app.user.vo.AttachVO;
 import com.yedam.app.user.vo.InquiryVO;
 import com.yedam.app.user.vo.MemberVO;
@@ -41,4 +44,22 @@ public interface MyPageService {
 
 	// 문의 상세 정보
 	public InquiryVO myInquiryInfo(String inqNo);
+
+	// 알림 리스트
+	public List<AlertVO> alertList(String memNo);
+
+	// 알림 상세
+	public AlertVO alertInfo(String alrtNo);
+
+	// 알림 열람 변경
+	public boolean updateAlrtStts(String alrtNo);
+
+	// 농지대여 등록 리스트
+	public List<FarmLendVO> myFarmLendList(String memNo);
+
+	// 농지대여 신청 리스트
+	public List<FarmLendApplyVO> subFarmLendList(String memNo);
+
+	// 농지대여 상세 정보
+	public FarmLendVO myFarmLendInfo(String boardNo);
 }
