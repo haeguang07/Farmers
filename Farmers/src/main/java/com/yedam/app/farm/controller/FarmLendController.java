@@ -81,6 +81,10 @@ public class FarmLendController {
 	@ResponseBody
 	public String insertFarmLend(FarmLendVO flVO, String first, String second, String third) {
 		boolean result = flService.insertFarmLendInfo(flVO, first, second, third);
+		System.out.println(flVO);
+		System.out.println(first);
+		System.out.println(second);
+		System.out.println(third);
 		
 		if(result) {
 			return "success";

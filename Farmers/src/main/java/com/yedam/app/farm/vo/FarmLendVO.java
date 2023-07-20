@@ -29,10 +29,11 @@ public class FarmLendVO {
 	@JsonFormat(pattern="yyyy/MM/dd")
 	public Date regDate;
 	public String regStts;
-	public String lagt;
 	public String memNo;
 	public String dst1;
 	public String dst2;
+	public double lati;
+	public double longi;
 	
 	// main_crops
 	public String mcrp;

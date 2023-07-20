@@ -88,7 +88,7 @@
 				<div class="col-lg-3 col-md-3">
 					<!-- 파머스 로고 -->
 					<div class="header__logo">
-						<a href="/"><img src="img/logo.png" style="width: 2" alt=""></a>
+						<a href="/"><img src="/img/logo.png" style="width: 2" alt=""></a>
 					</div>
 				</div>
 				<div class="col-lg-6 col-md-6">
@@ -130,7 +130,7 @@
 					<div class="header__nav__option" style="padding-top: 50px;">
 						<div class="notification-box">
 							<!-- 알림 아이콘 -->
-							<a href="#"><img src="img/icon/bell.png" width="19px"
+							<a href="#"><img src="/img/icon/bell.png" width="19px"
 								id="bell" alt=""></a>
 							<!-- 알림 모달팝업창 -->
 							<div class="modal">
@@ -161,7 +161,7 @@
 							<!--장바구니 아이콘 -->
 							<span th:if="not ${#strings.isEmpty(session. mem)}"> 
 							<a th:href="@{cart(memNo=${session.mem.memNo})}">
-							<img src="img/icon/cart.png" alt=""> <span>0</span></a>
+							<img src="/img/icon/cart.png" alt=""> <span>0</span></a>
 							</span>
 						</div>
 
@@ -184,7 +184,7 @@
 				<div class="col-lg-4 col-md-6 col-sm-6">
 					<div class="footer__about">
 						<div class="footer__logo">
-							<a href="/"><img src="img/logo.png" style="width: 2" alt=""></a>
+							<a href="/"><img src="/img/logo.png" style="width: 2" alt=""></a>
 						</div>
 
 					</div>

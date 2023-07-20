@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.app.common.service.CodeService;
+import com.yedam.app.common.service.ReviewService;
+import com.yedam.app.common.vo.ReviewVO;
 import com.yedam.app.market.service.CropsSaleService;
 import com.yedam.app.market.vo.CropsSaleVO;
 import com.yedam.app.market.vo.PageVO;
@@ -25,6 +27,9 @@ public class CropsSaleController {
 	
 	@Autowired
 	CodeService codeService;
+	
+	@Autowired
+	ReviewService revService;
 	
 	// 리스트 전체조회
 	@GetMapping("cropsSaleList")
@@ -60,12 +65,16 @@ public class CropsSaleController {
 	
 	// 단건조회
 	@GetMapping("cropsSaleInfo")
-	public String getCropsSaleInfo(CropsSaleVO csVO, Model model) {
+	public String getCropsSaleInfo(CropsSaleVO csVO, String boardNo, Model model) {
 //		System.out.println(csVO);
 		CropsSaleVO info = csService.getCropsSaleInfo(csVO);
 		System.out.println(info);
 		model.addAttribute("csInfo", info);
 		model.addAttribute("codeInfo", codeService.getCodeList("0N"));
+		System.out.println(revService.getReview(boardNo));
+		System.out.println(revService.getCount(boardNo));
+		model.addAttribute("review", revService.getReview(boardNo));
+		model.addAttribute("reviewCount", revService.getCount(boardNo));
 		return "market/cropsSale/cropsSaleInfo";
 	}
 	
@@ -123,5 +132,22 @@ public class CropsSaleController {
 		System.out.println(boardNo);
 		csService.deleteCropsSaleInfo(boardNo);
 		return "market/cropsSale/cropsSaleList";
+	}
+	
+	// 리뷰 리스트 조회
+	@GetMapping("cropsSaleInfo/review")
+	@ResponseBody
+	public List<ReviewVO> getReview(String boardNo) {
+		System.out.println(boardNo);
+		return revService.getReview(boardNo);
+	}
+	
+	// 리뷰 등록 기능
+	@PostMapping("cropsSaleInfo/review")
+	@ResponseBody
+	public ReviewVO addReview(ReviewVO reviewVO) {
+		revService.addReview(reviewVO);
+		System.out.println(reviewVO);
+		return reviewVO;
 	}
 }
