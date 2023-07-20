@@ -99,6 +99,9 @@
 		</set>
 		WHERE board_no = #{boardNo}
 	</update>
+	<delete id="deleteBnb">
+	delete 
+	</delete>
 
 </mapper>
 
