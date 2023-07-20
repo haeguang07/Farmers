@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="Male_Fashion Template">
+	<meta name="keywords" content="Male_Fashion, unica, creative, html">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Cart</title>
+	<link rel="stylesheet" href="css/sungWookCss/sungook.css" type="text/css">
+	<!-- Google Font -->
+	<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+		rel="stylesheet">
+
+	<!-- Css Styles -->
+	<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+	<link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+	<link rel="stylesheet" href="/css/nice-select.css" type="text/css">
+	<link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/style.css" type="text/css">
+
+
+	<!-- Js Plugins -->
+	<script src="/js/jquery-3.3.1.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/jquery.nice-select.min.js"></script>
+	<script src="/js/jquery.nicescroll.min.js"></script>
+	<script src="/js/jquery.magnific-popup.min.js"></script>
+	<script src="/js/jquery.countdown.min.js"></script>
+	<script src="/js/jquery.slicknav.js"></script>
+	<script src="/js/mixitup.min.js"></script>
+	<script src="/js/owl.carousel.min.js"></script>
+	<script src="/js/json.min.js"></script>
+
+	<!-- datatables -->
+	<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" type="text/css">
+
+	<style>
+		.textCenter {
+			text-align: center;
+		}
+
+		.miniBtn {
+			width: 100px;
+		}
+
+		.right {
+			float: right;
+		}
+
+		.image {
+			width: 100px;
+			height: 100px;
+		}
+
+		li {
+			margin-bottom: 10px;
+		}
+	</style>
+
+</head>
+
+<body>
+	<!-- 본문 시작 -->
+	<section class="shopping-cart spad" style="padding-top: 10px; margin-top: 100px;">
+		<div class="container">
+			<div class="row">
+				<!-- 사이드바 시작 -->
+				<div class="row col-lg-12">
+					<div class="col-lg-12">
+						<div class="shopping__cart__table" style="margin-bottom: 0px;">
+							<h4 class="textCenter">나의 알림</h4>
+							<hr>
+							<h5 class="textCenter" th:text="${alertInfo.alrtTitle}">제목</h5>
+							<hr>
+							<div class="row" th:utext="${alertInfo.alrtDesct}">
+							</div>
+							<hr>
+						</div>
+						<div>
+							<button type="button" class="form-control" style="width: 500px; margin: 0 auto;">해당 페이지로 이동</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<script th:inline="javascript">
+		
+	</script>
+</body>
+
+</html>

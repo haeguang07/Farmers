@@ -1,9 +1,5 @@
 package com.yedam.app.user.service;
 
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-
 import com.yedam.app.user.vo.MemberVO;
 
 public interface MemberService {
@@ -12,6 +8,7 @@ public interface MemberService {
 	// 중복체크
 	public boolean idCheck(String id);
 	public boolean nickCheck(String nick);
+	public boolean emailCheck(String email);
 	//회원가입
 	public boolean join(MemberVO vo);
 	//아이디 찾기
@@ -20,7 +17,7 @@ public interface MemberService {
 	public String pwFound(MemberVO vo);
 	//비밀 번호 변경
 	public boolean pwChange(MemberVO vo);
-	//네아로
+	
 	 
 }
 

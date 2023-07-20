@@ -71,7 +71,7 @@
 		<result property="totalPayPrice" column="total_pay_price"/>
 		<result property="payCode" column="pay_code"/>
 		<result property="payDate" column="pay_date"/>
-		<collection property="paymentDetails" javaType="ArrayList" column="payNo = pay_no" ofType="PaymentDetailsVO" select="selectDetailForPay"></collection>
+		<collection property="paymentDetails" javaType="ArrayList" column="payNo = pay_no" ofType="PaymentDetailVO" select="selectDetailForPay"></collection>
 	</resultMap>
 	 
 	<select id="getPayList" resultMap="paymentResult">

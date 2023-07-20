@@ -1,6 +1,7 @@
 package com.yedam.app.farm.vo;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -40,4 +41,7 @@ public class FarmLendVO {
 	
 	// member
 	public String nick;
+	
+	//신청목록
+	private List<FarmLendApplyVO> applys;
 }

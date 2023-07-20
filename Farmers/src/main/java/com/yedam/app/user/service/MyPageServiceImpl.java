@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yedam.app.common.vo.PaymentVO;
+import com.yedam.app.farm.vo.FarmLendApplyVO;
+import com.yedam.app.farm.vo.FarmLendVO;
 import com.yedam.app.user.mapper.MyPageMapper;
+import com.yedam.app.user.vo.AlertVO;
 import com.yedam.app.user.vo.AttachVO;
 import com.yedam.app.user.vo.InquiryVO;
 import com.yedam.app.user.vo.MemberVO;
@@ -70,6 +73,36 @@ public class MyPageServiceImpl implements MyPageService {
 	@Override
 	public InquiryVO myInquiryInfo(String inqNo) {
 		return myPageMapper.myInquiryInfo(inqNo);
+	}
+
+	@Override
+	public List<AlertVO> alertList(String memNo) {
+		return myPageMapper.alertList(memNo);
+	}
+
+	@Override
+	public AlertVO alertInfo(String alrtNo) {
+		return myPageMapper.alertInfo(alrtNo);
+	}
+
+	@Override
+	public boolean updateAlrtStts(String alrtNo) {
+		return myPageMapper.updateAlrtStts(alrtNo) > 0;
+	}
+
+	@Override
+	public List<FarmLendVO> myFarmLendList(String memNo) {
+		return myPageMapper.myFarmLendList(memNo);
+	}
+
+	@Override
+	public List<FarmLendApplyVO> subFarmLendList(String memNo) {
+		return myPageMapper.subFarmLendList(memNo);
+	}
+
+	@Override
+	public FarmLendVO myFarmLendInfo(String boardNo) {
+		return myPageMapper.myFarmLendInfo(boardNo);
 	}
 
 }
