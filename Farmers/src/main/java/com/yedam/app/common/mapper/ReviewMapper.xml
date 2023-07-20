@@ -35,4 +35,8 @@
 				sysdate,
 				#{boardNo})
 	</insert>
+	<select id="getCount" resultType="int">
+		select count(*) from review
+		where board_no = #{boardNo}
+	</select>
 </mapper>

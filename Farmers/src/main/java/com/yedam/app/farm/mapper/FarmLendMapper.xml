@@ -6,7 +6,7 @@
 	
 	<!-- 전체조회 -->
 	<select id="selectFarmLendList" resultType="FarmLendVO">
-		select f.board_no, f.zip, f.addr, f.deta_addr, f.area, f.lend_str_date, f.lend_end_date, f.lend_price, f.reg_date, f.reg_stts, f.lagt, f.mem_no, f.dst1, f.dst2, m.mcrp
+		select f.board_no, f.zip, f.addr, f.deta_addr, f.area, f.lend_str_date, f.lend_end_date, f.lend_price, f.reg_date, f.reg_stts, f.mem_no, f.dst1, f.dst2, m.mcrp
 		from farm_lend f left join main_crops m
 		on f.board_no = m.board_no
 		where f.reg_stts = 'e1'
@@ -18,15 +18,15 @@
 		select c.*
 		from (select ROWNUM rn, b.*
 			  from (select d.*
-      				from (select a.board_no, a.zip, a.addr, a.deta_addr, a.area, a.lend_str_date, a.lend_end_date, a.lend_price, a.reg_date, a.reg_stts, a.lagt, a.mem_no, a.dst1, a.dst2, LISTAGG(a.mcrp, ', ') WITHIN GROUP(ORDER BY a.mcrp) AS mcrp
+      				from (select a.board_no, a.zip, a.addr, a.deta_addr, a.area, a.lend_str_date, a.lend_end_date, a.lend_price, a.reg_date, a.reg_stts, a.mem_no, a.dst1, a.dst2, LISTAGG(a.mcrp, ', ') WITHIN GROUP(ORDER BY a.mcrp) AS mcrp
 						  from (select e.*, f.code_desct as mcrp
-								from (select f.board_no, f.zip, f.addr, f.deta_addr, f.area, f.lend_str_date, f.lend_end_date, f.lend_price, f.reg_date, f.reg_stts, f.lagt, f.mem_no, f.dst1, f.dst2, m.mcrp as code
+								from (select f.board_no, f.zip, f.addr, f.deta_addr, f.area, f.lend_str_date, f.lend_end_date, f.lend_price, f.reg_date, f.reg_stts, f.mem_no, f.dst1, f.dst2, m.mcrp as code
 									  from farm_lend f left join main_crops m
 									  on f.board_no = m.board_no
 									  <include refid="criteria"></include>
 									  ) e join common_code_detail f
 	                      on e.code= f.CMMN_deta_code ) a
-					group by a.board_no, a.zip, a.addr, a.deta_addr, a.area, a.lend_str_date, a.lend_end_date, a.lend_price, a.reg_date, a.reg_stts, a.lagt, a.mem_no, a.dst1, a.dst2
+					group by a.board_no, a.zip, a.addr, a.deta_addr, a.area, a.lend_str_date, a.lend_end_date, a.lend_price, a.reg_date, a.reg_stts, a.mem_no, a.dst1, a.dst2
 					) d
 			  <if test="mcrp != null and !mcrp.equals('')">
 				  where mcrp like (select '%'|| code_desct ||'%'
@@ -69,14 +69,14 @@
 	
 	<!-- 단건조회 -->
 	<select id="selectFarmLendInfo" resultType="FarmLendVO">
-		select f.board_no, f.zip, f.addr, f.deta_addr, f.area, f.desct, f.lend_str_date, f.lend_end_date, f.lend_price, f.atch_no, f.reg_date, f.reg_stts, f.lagt, mem_no, LISTAGG(m.code_desct, ', ') WITHIN GROUP(ORDER BY m.mcrp) AS mcrp, member.nick
+		select f.board_no, f.zip, f.addr, f.deta_addr, f.area, f.desct, f.lend_str_date, f.lend_end_date, f.lend_price, f.atch_no, f.reg_date, f.reg_stts, f.lati, f.longi, mem_no, LISTAGG(m.code_desct, ', ') WITHIN GROUP(ORDER BY m.mcrp) AS mcrp, member.nick
 		from farm_lend f left join (select mc.mcrp, mc.board_no, cc.cmmn_deta_code, cc.code_desct, cc.cmmn_code_no, cc.condition1, cc.condition2
 									from main_crops mc join common_code_detail cc
 									on (mc.mcrp = cc.cmmn_deta_code)) m
 		on f.board_no = m.board_no
 		join member using(mem_no)
 		where f.board_no = 'FRLD00001'
-		group by f.board_no, f.zip, f.addr, f.deta_addr, f.area, f.desct, f.lend_str_date, f.lend_end_date, f.lend_price, f.atch_no, f.reg_date, f.reg_stts, f.lagt, mem_no, member.nick
+		group by f.board_no, f.zip, f.addr, f.deta_addr, f.area, f.desct, f.lend_str_date, f.lend_end_date, f.lend_price, f.atch_no, f.reg_date, f.reg_stts, f.lati, f.longi, mem_no, member.nick
 	</select>
 	
 	<!-- 등록 -->

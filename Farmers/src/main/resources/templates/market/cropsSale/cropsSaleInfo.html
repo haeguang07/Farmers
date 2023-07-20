@@ -6,6 +6,13 @@
 <head>
 <meta charset="UTF-8">
 <title>농작물 판매 상세 조회</title>
+<link rel="stylesheet" href="/css/suinCss/review.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" type="text/css">
+<style>
+#reviewTable {
+	width: 100%;
+}
+</style>
 </head>
 <body>
 	<div layout:fragment="content">
@@ -59,7 +66,8 @@
 											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 25px;">가격</b> 
 												<span th:text="${#numbers.formatInteger(csInfo.price, 3, 'COMMA')} + '원'" style="font-size: 20px;"></span>
 											</p>
-											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">별점</b><span>(리뷰갯수)</span> 
+											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">별점</b>
+											<span>(리뷰갯수)</span> 
 												<span class="rating">
 													<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 														class="fa fa-star"></i> <i class="fa fa-star"></i> <i
@@ -86,21 +94,64 @@
 								</div>
 							</div>
 						</div>
-						<div class="row col-lg-12" style="text-align: center;">
-							<div class="col-lg-12">
-								<div class="product__details__tab">
-									<h6 style="font-size: 20px;"><b>상품 상세</b></h6>
-									<hr>
-									<p th:utext="${csInfo.detaDesct}">상세 설명</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="product__details__tab">
+							<ul class="nav nav-tabs" role="tablist">
+								<li class="nav-item"><a class="nav-link active"
+									data-toggle="tab" href="#tabs-5" role="tab">상품 상세</a></li>
+								<li class="nav-item"><a class="nav-link" data-toggle="tab"
+									href="#tabs-6" role="tab">리뷰</a></li>
+							</ul>
+							<div class="tab-content">
+								<div class="tab-pane active" id="tabs-5" role="tabpanel">
+									<div class="product__details__tab__content">
+										<div class="product__details__tab__content__item"
+											th:utext="${csInfo.detaDesct}">상세 설명</div>
+									</div>
 								</div>
-							</div>
-						</div>
-						<div class="row col-lg-12" style="text-align: center;">
-							<div class="col-lg-12">
-								<div class="product__details__tab">
-									<h6 style="font-size: 20px;"><b>리뷰</b></h6>
-									<hr>
-									<p>리뷰 페이징</p>
+								<div class="tab-pane" id="tabs-6" role="tabpanel">
+									<div class="product__details__tab__content">
+										<div class="product__details__tab__content__item">
+											<div id="reviewArea">
+												<!-- 리뷰 등록 폼 -->
+												<div class="review-form">
+													<div class="row1">
+														<label for="star">별점:</label>
+														<select id="star">
+															<option value="5">★★★★★</option>
+															<option value="4">★★★★☆</option>
+															<option value="3">★★★☆☆</option>
+															<option value="2">★★☆☆☆</option>
+															<option value="1">★☆☆☆☆</option>
+															<option value="0">☆☆☆☆☆</option>
+														</select>
+													</div>
+													<div class="row1">
+														<label for="reviewText">리뷰:</label>
+														<textarea id="reviewText" rows="2" cols="30"></textarea>
+														<input id="addBtn" type="submit" value="등록">
+													</div>
+												</div>
+												<table id="reviewTable" class="table"
+												style="text-align: center">
+													<thead>
+														<tr style="text-align: center">
+															<th>번호</th>
+															<th>별점</th>
+															<th>내용</th>
+															<th>작성자</th>
+															<th>삭제</th>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -109,6 +160,7 @@
 			</div>
 		</section>
 		<!-- Shop Details Section End -->
+		<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 		
 		<script th:inline="javascript">
 			// 데이터에 있는 수량보다 높게 입력하려고 했을 때 실행되는 함수
@@ -122,12 +174,29 @@
 			
 			/*<![CDATA[*/
 			let mem = /*[[${session.mem}]]*/;
+			let boardNo = /*[[${csInfo.boardNo}]]*/;
 			/*]]>*/
 			
 			// 구매하기 버튼 클릭 시
 			$('#buy').on('click', function() {
+				let boardCtg = /*[[${codeInfo}]]*/
 				if(mem != null) {
+					// 구매 페이지로 보낼 배열
+					let productList = [];
 					
+					// 배열에 담을 구매 상품 정보 객체 생성
+					let obj = {
+							boardNo : boardNo,
+							qty : $('#count').val(),
+							boardCtg : boardCtg[7].cmmnDetaCode
+					}
+					
+					// 배열에 객체 담기
+					productList.push(obj);
+					
+					// 상품 객체 배열을 json 변환 후 결제 페이지로 파라미터를 보냄
+					// (한글, 특수문자가 url 인코딩이 안되서 encodeURI 사용)
+					location.href = "payment?productList=" + encodeURI(JSON.stringify(productList));
 				} else {
 					alert('회원만 이용할 수 있습니다. 로그인 해주세요');
 					// 로그인이나 회원가입 페이지로 넘어가기
@@ -136,7 +205,6 @@
 			
 			// 장바구니 담기 버튼 클릭 시
 			$('#cart').on('click', function() {
-				let boardNo = /*[[${csInfo.boardNo}]]*/;
 				let qty = $('#count').val();
 				let boardCtg = /*[[${codeInfo}]]*/
 				if(mem != null) {
@@ -172,11 +240,10 @@
 			}
 			// 수정 버튼 클릭 시
 			$('#update').on('click', function() {
-				location.href="cropsSaleUpdate?boardNo=" + /*[[${csInfo.boardNo}]]*/;
+				location.href="cropsSaleUpdate?boardNo=" + boardNo;
 			});
 			// 삭제 버튼 클릭 시
 			$('#delete').on('click', function() {
-				let boardNo = /*[[${csInfo.boardNo}]]*/;
 				console.log(boardNo);
 				$.ajax({
 					url : "cropsSaleDelete",
@@ -191,6 +258,148 @@
 					alert(result);
 				})
 			});
+			
+			// 리뷰 리스트 조회
+			$(function() {
+				reviewAjax();
+			});
+			
+			function reviewAjax() {
+				$('#reviewTable>tbody').children().remove();
+				$.ajax({
+					url : "cropsSaleInfo/review",
+					method : "GET",
+					data : 'boardNo=' + boardNo,
+					dataType : 'json'
+				})
+				.done(function(result) {
+					console.log(result);
+					printReview(result);
+				})
+				.fail(function(result) {
+					alert(result);
+				})
+			}
+			
+			function printReview(list) {
+				let data = list;
+				
+				// 데이터 테이블 생성
+				$('#reviewTable').DataTable({
+					destroy : true,
+					language : lang_kor,
+					searching : false,
+					data : data,
+					columns : [
+						{
+							data : 'num',
+							orderable : true,
+							render : function(data, type, row, meta) {
+								return meta.row + 1;
+							}
+						},
+						{
+							data : 'rate',
+							render : function(data, type, row) {
+								return makeStars(data);
+							}
+						},
+						{
+							data : 'revDesct', width : '400px'
+						},
+						{
+							data : 'nick',
+							orderable : false
+						},
+						{
+							data : 'button',
+							orderable : false,
+							render : function(data, type, row) {
+								return '<button type="button" id="delBtn" class="form-control">삭제</button>';
+							}
+						},
+						{
+							data : 'revNo',
+							render : function(data, type, row) {
+								return '<span style="display: none;">' + data + '</span>';
+							}
+						}
+					],
+					autoWidth : false
+				});
+			}
+			
+			// 별찍기
+			function makeStars(num) {
+				let stars = '';
+				for(let i=0; i<num; i++) {
+					stars += '★';
+				}
+				for(let j=num; j<5; j++) {
+					stars += '☆';
+				}
+				return stars;
+			}
+			
+			// 데이터 테이블 한글 설정
+			var lang_kor = {
+		        "decimal" : "",
+		        "emptyTable" : "데이터가 없습니다.",
+		        "info" : "_START_ - _END_ (총 _TOTAL_ 개)",
+		        "infoEmpty" : "0명",
+		        "infoFiltered" : "(전체 _MAX_ 명 중 검색결과)",
+		        "infoPostFix" : "",
+		        "thousands" : ",",
+		        "lengthMenu" : "_MENU_ 개씩 보기",
+		        "loadingRecords" : "로딩중...",
+		        "processing" : "처리중...",
+		        "search" : "검색 : ",
+		        "zeroRecords" : "검색된 데이터가 없습니다.",
+		        "paginate" : {
+		            "first" : "첫 페이지",
+		            "last" : "마지막 페이지",
+		            "next" : "다음",
+		            "previous" : "이전"
+		        },
+		        "aria" : {
+		            "sortAscending" : " :  오름차순 정렬",
+		            "sortDescending" : " :  내림차순 정렬"
+		        }
+	    	};
+			
+			// 리뷰 등록 기능
+			$('#addBtn').on('click', function() {
+				if(mem == null) {
+					alert('로그인이 필요한 시스템입니다.')
+				} else {
+					let star = $('#star').val();
+					let text = $('#reviewText').val();
+					let day = new Date();
+					
+					$.ajax({
+						url : "cropsSaleInfo/review",
+						method : "POST",
+						data : {
+							memNo : mem.memNo,
+							rate : star,
+							revDesct : text,
+							boardNo : boardNo
+						},
+						dataType : 'json'
+					})
+					.done(function(result) {
+						console.log(result);
+						reviewAjax();
+						// 작성한 리뷰 값 초기화
+						$('#reviewText').val('');
+						$('#star').val(5);
+						$('#star').niceSelect('update');
+					})
+					.fail(function(result) {
+						alert(result);
+					})
+				}
+			})
 		</script>
 		
 	</div>
