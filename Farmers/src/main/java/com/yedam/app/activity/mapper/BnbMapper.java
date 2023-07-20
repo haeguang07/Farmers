@@ -19,12 +19,10 @@ public interface BnbMapper {
 	public int insertBnb(BnbVO vo);
 	
 	//수정
-	public int updateBnb();
+	public int updateBnb(BnbVO vo);
 		
 	//삭제
-	public int deleteBnb();
-
-	
+	public int deleteBnb(String boardNo);
 	
 }
 

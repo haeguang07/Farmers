@@ -28,7 +28,7 @@
 			</when>
 		</choose>
 	</select>
-	
+
 	<select id="selectCount">
 		select count(*)
 		from farmbnb
@@ -50,36 +50,55 @@
 			from dual
 		</selectKey>
 		insert into farmbnb(
-					board_no,
-					MEM_NO,
-					TITLE,
-					DST1,
-					ZIP,
-					ADDR,
-					ADDR_DETAIL,
-					PRICE,
-					REP,
-					LEND_STR_DATE,
-					LEND_END_DATE,
-					DETA_DESCT,
-					LATI,
-					LONGI)
+		board_no,
+		MEM_NO,
+		TITLE,
+		DST1,
+		ZIP,
+		ADDR,
+		ADDR_DETAIL,
+		PRICE,
+		REP,
+		LEND_STR_DATE,
+		LEND_END_DATE,
+		DETA_DESCT,
+		LATI,
+		LONGI)
 		values(#{boardNo},
-				#{memNo},
-				#{title},
-				#{dst1},
-				#{zip},
-				#{addr},
-				#{addrDetail},
-				#{price},
-				#{rep},
-				#{lendStrDate},
-				#{lendEndDate},
-				#{detaDesct},
-				#{lati},
-				#{longi})
+		#{memNo},
+		#{title},
+		#{dst1},
+		#{zip},
+		#{addr},
+		#{addrDetail},
+		#{price},
+		#{rep},
+		#{lendStrDate},
+		#{lendEndDate},
+		#{detaDesct},
+		#{lati},
+		#{longi})
 	</insert>
 
+	<update id="updateBnb" parameterType="BnbVO">
+		UPDATE farmbnb set
+		price=#{price}
+		<set>
+			<if test="rep != null and !rep.equals('')">
+				,rep=#{rep}
+			</if>
+			<if test="lendStrDate != null and !lendStrDate.equals('')">
+				,LEND_STR_DATE=#{lendStrDate}
+			</if>
+			<if test="lendEndDate != null and !lendEndDate.equals('')">
+				,LEND_END_DATE=#{lendEndDate}
+			</if>
+			<if test="detaDesct != null and !detaDesct.equals('')">
+				,DETA_DESCT=#{detaDesct}
+			</if>
+		</set>
+		WHERE board_no = #{boardNo}
+	</update>
 
 </mapper>
 

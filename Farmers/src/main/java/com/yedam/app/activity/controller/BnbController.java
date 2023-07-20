@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.app.activity.service.BnbService;
 import com.yedam.app.activity.vo.BnbVO;
+import com.yedam.app.common.service.CodeService;
 import com.yedam.app.common.service.ReviewService;
+import com.yedam.app.common.vo.CodeVO;
 import com.yedam.app.common.vo.ReviewVO;
 import com.yedam.app.market.vo.PageVO;
 
@@ -25,6 +27,8 @@ public class BnbController {
 	BnbService bnbService;
 	@Autowired
 	ReviewService revService;
+	@Autowired
+	CodeService codeService;
 
 	// 전체조회
 	@GetMapping("bnbList")
@@ -63,8 +67,8 @@ public class BnbController {
 		System.out.println(boardNo);
 		return revService.getReview(boardNo);
 	}
-	
-	//리뷰등록	
+
+	// 리뷰등록
 	@ResponseBody
 	@PostMapping("bnbInfo/review")
 	public ReviewVO addReview(ReviewVO vo) {
@@ -73,20 +77,37 @@ public class BnbController {
 		return vo;
 	}
 
-
 	// 등록 페이지
-	@GetMapping("insertBnb")
+	@GetMapping("add/insertBnb")
 	public String addBnbForm(Model model, BnbVO vo) {
 		model.addAttribute("bnb", new BnbVO());
 		return "activity/bnb/addBnbForm";
 	}
 
 	// 등록처리
-	@PostMapping("insertBnb")
+	@PostMapping("add/insertBnb")
 	public String addBnb(BnbVO vo) {
 		System.out.println(vo);
 		bnbService.insertBnb(vo);
 		return "redirect:bnbList";
+	}
+
+	// 수정페이지
+	@GetMapping("update/updateBnb")
+	public String updateBnbForm(Model model, String boardNo) {
+		BnbVO result = bnbService.selectBnb(boardNo);
+		List<CodeVO> codeVo = codeService.getCodeList("0K");
+		model.addAttribute("dst",codeVo);
+		model.addAttribute("bnb", result);
+		return "activity/bnb/updateBnbForm";
+	}
+
+	// 수정처리
+	@PostMapping("update/updateBnb")
+	public String updateBnb(BnbVO vo) {
+		System.out.println(vo);
+		int result = bnbService.updateBnb(vo);
+		return "redirect:bnbInfo";
 	}
 
 }
