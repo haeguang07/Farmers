@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+
+<head>
+	<meta charset="UTF-8">
+	<title>You GuiNong? 회원가입</title>
+	<link rel="stylesheet" href="/css/user/login/sginup.css">
+	<link rel="stylesheet" href="/css/jQueryUI.css">
+</head>
+
+<body>
+	<div id="joinForm" layout:fragment="content">
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<form id="frm">
+		<div id="step1">
+			<h6 class="checkout__title">회원가입</h6>
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="checkout__input">
+						<p>아이디<span>*</span></p>
+						<input type="text" id="id">
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="checkout__input col-lg-6">
+						<p style="visibility: hidden;"><span>*</span></p>
+						<button type="button" class="button form-control" id="idCheck">중복체크</button>
+					</div>
+				</div>
+			</div>
+			<div class="explanText row">(6자~15자리의 영문자, 숫자 / @,#$등 특수문자는 제외)</div>
+			<div class="row" id="pwInput">
+                 <div class="col-lg-6">
+                     <div class="checkout__input">
+                         <p>비밀번호<span>*</span></p>
+                         <input type="password" name="pw" id="pw">
+                     </div>
+                 </div>
+                 <div class="col-lg-6">
+                     <div class="checkout__input">
+                         <p>비밀번호확인<span>*</span></p>
+                         <input type="password" id="pwCheck">
+                     </div>
+                 </div>
+             </div>
+             <div class="explanText row">영문, 숫자, 특수문자 중 2가지 조합하여 8자~15자리</div>
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="checkout__input">
+						<p>이메일<span>*</span></p>
+						<input type="email"  id="joinEmail">
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="checkout__input col-lg-7">
+						<p style="visibility: hidden;"><span>*</span></p>
+						<button type="button" class="button form-control" id="sendEmail">인증번호 보내기</button>
+					</div>
+				</div>
+			</div>
+			<div class="row" >
+				<div class="col-lg-6">
+					<div class="checkout__input">
+						<p>인증번호입력<span>*</span></p>
+						<input type="text" id="certifytext" placeholder="인증번호입력">
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="checkout__input col-lg-6">
+						<p style="visibility: hidden;"><span>*</span></p>
+						<button type="button" class="button form-control" id="certify">인증하기</button>
+					</div>
+				</div>
+			</div>
+			<div class="row" >
+				<div class="col-lg-6">
+					<div class="checkout__input">
+						<p>닉네임<span>*</span></p>
+						<input type="text" id="nickname">
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="checkout__input col-lg-6">
+						<p style="visibility: hidden;"><span>*</span></p>
+						<button type="button" class="button form-control" id="nickcheck">중복체크</button>
+					</div>
+				</div>
+			</div>
+  			<div class="explanText row">특수문자를 제외한 2~8자리 입력하세요</div>
+  			<div class="row">
+  				<div class="col-lg-4"></div>
+  				<div class="col-lg-3">
+  					<button type="button" class="form-control"id="nextBtn">다음단계</button>
+  				</div>
+  				<div class="col-lg-4"></div>
+  			</div>
+		</div>
+		<div id="step2">
+			<h6 class="checkout__title">선택사항 입력</h6>
+			<div class="row" >
+				<div class="col-lg-4">
+					<div class="checkout__input">
+						<p>주소<span></span></p>
+						<input type="text" id="post" style="width: 200px;" placeholder="우편번호" readonly>
+					</div>
+				</div>
+				<div class="col-lg-5">
+					<div class="checkout__input col-lg-6">
+						<p style="visibility: hidden;"><span>*</span></p>
+						<button type="button" class="button form-control" id="postBtn" onclick="postCode()">우편번호</button>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="checkout__input col-lg-10">
+					<input type="text" id="adr" placeholder="주소" readonly>
+				</div>
+			</div>
+			<div class="row">
+				<div class="checkout__input col-lg-6">
+					<input type="text" id="adrDetail" placeholder=상세주소 >
+				</div>
+			</div>
+			<div class="row" >
+				<div class="col-lg-6">
+					<div class="checkout__input">
+						<p>이름<span></span></p>
+						<input type="text" id="name" >
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="checkout__input">
+						<p>전화번호<span></span></p>
+						<input type="text" id="joinPhone" name="moble">
+					</div>
+				</div>
+			</div>
+			<div class="explanText row">
+				<div class="col-lg-6">이름을 입력하세요</div>
+				<div class="col-lg-6">-를 입력하지 않고 숫자만 입력하세요</div>
+			</div>
+			<div class="row" >
+				<div class="col-lg-6">
+					<div class="checkout__input">
+						<p>생년월일<span></span></p>
+						<input type="text" id="birth" style="width: 80%">
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="checkout__input">
+						<p>성별<span></span></p>
+						<select id="gender">
+							<option value="a0" selected >남성</option>
+							<option value="a1" >여성</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+  				<div class="col-lg-4"></div>
+  				<div class="col-lg-3">
+  					<button type="submit" class="form-control" id="join">회원 가입</button>
+  				</div>
+  				<div class="col-lg-4"></div>
+  			</div>
+		</div>
+			
+		</form>
+		
+
+		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js?autoload=false">/</script>
+		<script src="/js/postAPI.js"></script>
+		<script src="/js/user/login/dateInput.js"></script>
+		<script src="/js/user/login/pwCheck.js"></script>
+		<script src="js/user/login/sginup.js"></script>
+	</div>
+</body>
+
+</html>
