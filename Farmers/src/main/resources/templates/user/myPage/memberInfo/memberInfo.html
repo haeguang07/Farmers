@@ -82,8 +82,8 @@
                                     <div class="col-lg-6">
                                         <div class="checkout__input">
                                             <p>생년월일<span>*</span></p>
-                                            <input type="text" readonly th:value="|${#strings.defaultString(memberInfo.bDate, '')}|">
-                                            <!-- #dates.format(memberInfo.bDate, 'yyyy/MM/dd') -->
+                                            <!-- 삼항연산자 사용 null 처리 , 함수 동시  사용 방법 1-->
+                                            <input type="text" readonly th:value="${memberInfo.signDate==null? '': #dates.format(memberInfo.signDate, 'yyyy/MM/dd')}">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -123,8 +123,8 @@
                                     <div class="col-lg-6">
                                         <div class="checkout__input">
                                             <p>가입날짜<span>*</span></p>
-                                            <input type="text" readonly th:value="|${#strings.defaultString(memberInfo.signDate, '')}|">
-                                            <!-- th:value="${#dates.format(memberInfo.signDate, 'yyyy/MM/dd')}" -->
+                                             <!-- 삼항연산자 사용 null 처리 , 함수 동시  사용 방법 2-->
+                                            <input type="text" readonly th:attr="value=${memberInfo.signDate==null? '': #dates.format(memberInfo.signDate, 'yyyy/MM/dd')}">
                                         </div>
                                     </div>
                                 </div>
