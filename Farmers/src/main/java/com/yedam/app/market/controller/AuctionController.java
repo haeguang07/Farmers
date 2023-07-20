@@ -41,6 +41,7 @@ public class AuctionController {
 	}
 	
 	// 등록 처리
+
 	
 	// 수정 페이지
 	

@@ -1,83 +1,107 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{index}">
 
 <head>
-<meta charset="UTF-8">
-<meta name="description" content="Male_Fashion Template">
-<meta name="keywords" content="Male_Fashion, unica, creative, html">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>경매품 등록 신청 폼</title>
+	<meta charset="UTF-8">
+	<meta name="description" content="Male_Fashion Template">
+	<meta name="keywords" content="Male_Fashion, unica, creative, html">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>경매품 등록 신청 폼</title>
 
-<style>
-.ck-editor__editable {
-	height: 400px;
-}
+	<style>
+		.ck-editor__editable {
+			height: 400px;
+		}
 
-/* 개인 css */
-h3 {
-	font-weight: bold;
-	margin-bottom: 30px;
-}
-h5 {
-	font-weight: bold;
-	color: gray;
-}
-#selectAuctionDate {
-	margin: 20px;
-}
-.hidden {
-	display: none;
-}
-label {
-	margin-right: 25px;
-	width: 50px;
-}
-.inline input {
-	display: inline-block;
-    width: 100%;
-    height: calc(1.5em + 0.75rem + 2px);
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-}
-</style>
+		/* 개인 css */
+		h3 {
+			font-weight: bold;
+			margin-bottom: 30px;
+		}
+
+		h5 {
+			font-weight: bold;
+			color: gray;
+		}
+
+		#selectAuctionDate {
+			margin: 20px;
+		}
+
+		.hidden {
+			display: none;
+		}
+
+		label {
+			margin-right: 25px;
+			width: 50px;
+		}
+
+		.inline input {
+			display: inline-block;
+			width: 100%;
+			height: calc(1.5em + 0.75rem + 2px);
+			padding: 0.375rem 0.75rem;
+			font-size: 1rem;
+			font-weight: 400;
+			line-height: 1.5;
+			color: #495057;
+			background-color: #fff;
+			background-clip: padding-box;
+			border: 1px solid #ced4da;
+			border-radius: 0.25rem;
+			transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+		}
+	</style>
 </head>
 
 <body>
 	<div layout:fragment="content">
 		<hr>
+
 		<!-- Shop Details Section Begin -->
 		<section class="shop-details">
 			<div class="product__details__pic" style="background-color: white;">
 				<div class="container">
-					<h3>경매품 등록 신청</h3><hr>
+					<h3>경매품 등록 신청</h3>
+					<hr>
 					<div class="row" id="selectAuctionDate">
 						<div class="col-9"></div>
-						<div class="col-3"> <!-- 더 오른쪽 + 길이 늘리기 -->
-							<select class="form-control col-lg-8" name="nextActDate">
-								<option value="" selected>경매 시작일 선택</option>
-								<option value="oneWeekLater"></option>
-								<option value="twoWeekLater"></option>
+						<div class="col-3">
+							<!-- 더 오른쪽 + 길이 늘리기 -->
+							<select class="form-control col-lg-8" name="actDate" id="sel">
+								<option value="" selected="selected">경매 신청일 선택</option>
 							</select>
 						</div>
 					</div>
+
+					<script>
+						// 경매 신청날짜 옵션 지정 (select box 디자인 때문에 ul li로 변경 되는 문제 때문에 바로 아래에 스크립트 작성함.)
+						let thisDate = new Date();
+						let day = thisDate.getDay();
+						let calcDate = thisDate.getDate() - day + ((day == 0 ? 1 : 8) + 0);
+
+						let nextDate = new Date(thisDate.setDate(calcDate)).toISOString().substring(0, 10);
+						let nextNextDate = new Date(nextDate);
+						nextNextDate.setDate(nextNextDate.getDate() + 7);
+						nextNextDate = nextNextDate.toISOString().substring(0, 10);
+						console.log(nextDate, nextNextDate);
+
+						$("select[name='actDate']").append(
+							$('<option />').attr('value', 'oneWeekLater').text(nextDate)
+						);
+						$("select[name='actDate']").append(
+							$('<option />').attr('value', 'twoWeekLater').text(nextNextDate)
+						);
+					</script>
+
 					<div class="row">
 						<div class="row col-lg-12">
 							<div class="col-lg-4 col-md-9 row" id="addFile">
-								<div class="col-lg-12"
-									style="background-color: lightgrey; display: table;">
-									<p style="display: table-cell; vertical-align: middle">이미지
-										등록</p>
+								<div class="col-lg-12" style="background-color: lightgrey; display: table;">                         
+									<p style="display: table-cell; vertical-align: middle">이미지 등록</p>
 								</div>
 							</div>
 							<div class="product__details__content col-lg-8">
@@ -92,17 +116,19 @@ label {
 														<h5 class="textLeft col-lg-3" style="display: inline;">제목
 														</h5>
 														<input type="text" class="form-control col-lg-9"
-															name="actTitle">
+															name="title">
 													</div>
 													<hr>
 													<br>
 													<div class="row">
 														<div class="row col-lg-6">
 															<p class="myInline col-lg-6 mb-0 textLeft">판매자</p>
-															<input type="text" class="form-control col-lg-6 hidden" readonly
-																th:value="${session.mem.memNo}" name="memNo">
-															<input type="text" class="form-control col-lg-6" readonly
-																th:value="${session.mem.nick}" name="nick">
+															<input type="text" class="form-control col-lg-6 hidden"
+																readonly="readonly" th:value="${session.mem.memNo}"
+																name="memNo">
+															<input type="text" class="form-control col-lg-6"
+																readonly="readonly" th:value="${session.mem.nick}"
+																name="nick">
 														</div>
 													</div>
 													<br>
@@ -110,55 +136,82 @@ label {
 														<div class="row col-lg-6">
 															<p class="myInline col-lg-6 mb-0 textLeft">판매수량</p>
 															<input type="number" class="form-control col-lg-6"
-																name="numOfSale" value="0" min="1">
+																name="saleQty" value="0" min="1">
 														</div>
 														<div class="row col-lg-6">
 															<p class="myInline col-lg-6 mb-0 textLeft">즉시구매가</p>
 															<input type="number" class="form-control col-lg-6"
-																name="buyNowPrice" value="0" min="1">
+																name="bnp" value="0" min="1">
 														</div>
 													</div>
 													<br>
 													<div class="row">
 														<div class="row col-lg-12">
 															<p class="myInline col-lg-3 mb-0 textLeft">경매기간</p>
-															<label class="form-check-label"><input type="radio" class="form-check-input"
-																name="auctionPeriod"> 1일 </label>
-															<label class="form-check-label"><input type="radio" class="form-check-input"
-																name="auctionPeriod"> 2일 </label>
-															<label class="form-check-label"><input type="radio" class="form-check-input"
-																name="auctionPeriod"> 3일 </label>
-															<label class="form-check-label"><input type="radio" class="form-check-input"
-																name="auctionPeriod"> 4일 </label>
-															<label class="form-check-label"><input type="radio" class="form-check-input"
-																name="auctionPeriod"> 5일 </label>
-															<label class="form-check-label"><input type="radio" class="form-check-input"
-																name="auctionPeriod"> 6일 </label>
-															<label class="form-check-label"><input type="radio" class="form-check-input"
-																name="auctionPeriod" checked> 7일 </label>
+															<label class="form-check-label"><input type="radio"
+																	class="form-check-input" name="actTrm" value="1">
+																1일
+															</label>
+															<label class="form-check-label"><input type="radio"
+																	class="form-check-input" name="actTrm" value="2">
+																2일
+															</label>
+															<label class="form-check-label"><input type="radio"
+																	class="form-check-input" name="actTrm" value="3">
+																3일
+															</label>
+															<label class="form-check-label"><input type="radio"
+																	class="form-check-input" name="actTrm" value="4">
+																4일
+															</label>
+															<label class="form-check-label"><input type="radio"
+																	class="form-check-input" name="actTrm" value="5">
+																5일
+															</label>
+															<label class="form-check-label"><input type="radio"
+																	class="form-check-input" name="actTrm" value="6">
+																6일
+															</label>
+															<label class="form-check-label"><input type="radio"
+																	class="form-check-input" name="actTrm" value="7"
+																	checked="checked">
+																7일
+															</label>
 														</div>
 													</div>
 													<br>
 													<div class="row">
 														<div class="row col-lg-12">
 															<p class="myInline col-lg-3 mb-0 textLeft">배송비</p>
-															<label class="form-check-label"><input type="radio" class="form-check-input"
-																name="shippingCost"> 무료 </label>
-															<label class="form-check-label"><input type="radio" class="form-check-input"
-																name="shippingCost"> 유료 </label>
-															<span><input type="text" class="form-control col-sm-8" style="display: inline-block;" name="shippingCost"> 원</span>
+															<label class="form-check-label"><input type="radio"
+																	class="form-check-input" name="shipPrice" value="0" checked>
+																무료
+															</label>
+															<label class="form-check-label"><input type="radio"
+																	class="form-check-input" name="shipPrice" value="">
+																유료
+															</label>
+															<span><input type="text" class="form-control col-sm-8"
+																	style="display: inline-block;" id="shipPrice" readonly>
+																원</span>
 														</div>
 													</div>
 													<br>
 													<div class="row">
 														<div class="col-md-6">
 															<span class="col-lg-6 mb-0 textLeft">배송소요기간</span>
-															<span class="inline col-lg-6 text-left">평균 <input type="number" class="form-control col-lg-3"
-																name="avgShippingDay" value="0" min="1" > 일</span>
+															<span class="inline col-lg-6 text-left">평균
+																<input type="number" class="form-control col-lg-3"
+																	name="shipDurAvg" value="0" min="1">
+																일
+															</span>
 														</div>
 														<div class="col-lg-4">
-															<span class="inline col-lg-6 text-left">최대 <input type="number" class="form-control col-lg-3"
-																name="maxShippingDay" value="0" min="1"> 일</span>
+															<span class="inline col-lg-6 text-left">최대
+																<input type="number" class="form-control col-lg-3"
+																	name="shipDurMax" value="0" min="1">
+																일
+															</span>
 														</div>
 													</div>
 													<br>
@@ -173,9 +226,10 @@ label {
 									<div class="product__details__tab">
 										<div class="row">
 											<ul class="nav nav-tabs col-lg-12" role="tablist">
-												<li class="nav-item col-lg-12"><a
-													class="nav-link active" data-toggle="tab" href="#tabs-5"
-													role="tab">상품상세</a></li>
+												<li class="nav-item col-lg-12">
+													<a class="nav-link active" data-toggle="tab" href="#tabs-5"
+														role="tab">상품상세</a>
+												</li>
 											</ul>
 										</div>
 										<div class="row">
@@ -191,8 +245,7 @@ label {
 										</div>
 									</div>
 									<br>
-									<div class="product__details__cart__option row"
-										style="margin-top: 40px;">
+									<div class="product__details__cart__option row" style="margin-top: 40px;">
 										<button class="primary-btn col-lg-12"
 											style="color: white; margin: 0 auto; margin-top: 20px;"
 											id="addBtn">등록하기</button>
@@ -205,7 +258,6 @@ label {
 			</div>
 		</section>
 
-
 		<!-- Shop Details Section End -->
 		<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
 		<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
@@ -216,6 +268,8 @@ label {
 			$('#addFile').on('click', function () {
 				$('#inputFile').click()
 			})
+			
+			let dbPath;
 
 			//첨부파일 업로드
 			$('#inputFile').change(function () {
@@ -225,8 +279,8 @@ label {
 				//input 태그의 type이 file인 것을 찯아서 inputFile 이라는 변수로 지정
 
 				var files = inputFile[0].files;
-				//files : 선택한 모든 파일을 나열하는 FileList 객체입니다
-				//multiple 특성을 지정하지 않았다면 두 개 이상의 파일을 포함하지 않습니다
+				// files : 선택한 모든 파일을 나열하는 FileList 객체입니다 multiple 특성을 지정하지 않았다면 두 개 이상의 파일을
+				// 포함하지 않습니다
 
 				for (var i = 0; i < files.length; i++) {
 					console.log(files[i]);
@@ -242,7 +296,8 @@ label {
 							success: function (result) {
 								console.log(result)
 								dbPath = result.dbPath
-								$('#addFile').html('<img src="' + result.loadPath + '">')
+								$('#addFile')
+									.html('<img src="' + result.loadPath + '">')
 								console.log(dbPath)
 
 							},
@@ -255,12 +310,37 @@ label {
 					}
 				}
 
-
 			})
+			
+			
+			// 배송비 input 이벤트
+			$('#shipPrice').on('change', function(){
+				
+				let shipPrice = $('[name="shipPrice"]:checked');
+				
+				if(shipPrice.val()!="0"){
+					shipPrice.val($(this).val());	
+				}
+			})
+			
+			// 배송비 radio 버튼 비활성화 이벤트
+			$('[name="shipPrice"]').on('click', function(){
+				
+				let input = $('#shipPrice');
+				
+				if($(this).val()=="0"){
+					input.attr('readonly', true);
+				}else{
+					input.attr('readonly', false);
+				}
+				
+			})
+			
 
 			//ckEditor 생성
 			let editor;
-			ClassicEditor.create(document.querySelector('#editor'), {
+			ClassicEditor
+				.create(document.querySelector('#editor'), {
 					language: "ko",
 					ckfinder: {
 						uploadUrl: '/image/upload'
@@ -277,37 +357,41 @@ label {
 			$('#addBtn').on('click', function () {
 
 				//데이터 입력 확인
-				if (!$('[name="actTitle"]').val()) {
+				if ($('.current').text() == '경매 신청일 선택') {
+					alert('경매 신청일을 선택하세요');
+					return;
+				} else if (!$('[name="title"]').val()) {
 					alert('제목을 입력하세요');
 					return;
-				} else if ($('[name="numOfSale"]').val() <= 0) {
+				} else if ($('[name="saleQty"]').val() <= 0) {
 					alert('판매수량을 입력하세요');
 					return;
-				} else if ($('[name="buyNowPrice"]').val() <= 0) {
+				} else if ($('[name="bnp"]').val() <= 0) {
 					alert('즉시 구매가를 입력하세요');
 					return;
-				} else if (!$('[name="shippingCost"]').val()) {
+				} else if ($('[name="shipPrice"]').val()=="") {
 					alert('배송비 항목을 입력하세요');
 					return;
-				} else if (!$('[name="avgShippingDay"]').val()) {
+				} else if (!$('[name="shipDurAvg"]').val()) {
 					alert('배송 평균소요시간을 입력하세요');
 					return;
-				} else if (!$('[name="maxShippingDay"]').val()) {
+				} else if (!$('[name="shipDurMax"]').val()) {
 					alert('배송 최대소요시간을 입력하세요');
 					return;
 				} else {
 					let ckData = editor
-					let formData = $('#myForm').serializeObject()
+					let formData = $('#myForm').serializeObject();
+					formData.actDate = $('.current').text();
 
 					//상세 설명 존재하지 않을 시 출력 내용 설정
-					if(ckData.getData() == ''){
+					if (ckData.getData() == '') {
 						ckData.setData('<p>상세 설명이 존재하지 않습니다</p>')
 						formData.desct = ckData.getData()
-					}else{
+					} else {
 						formData.desct = ckData.getData()
 					}
 					formData.rep = dbPath
-
+					console.log(formData);
 					//ajax 경매 등록
 					$.ajax({
 							url: "insertAuction",
@@ -315,34 +399,15 @@ label {
 							data: formData
 						})
 						.done(function (result) {
-							alert(result);
-							location.href = "auctionList"
+							alert(result.retCode);
+							// location.href = "auctionList"
 						})
 						.fail(function (result) {
-							alert(result);
-							location.href = "auctionList"
-					})
+							alert(result.body);
+							// location.href = "auctionList"
+						}) 
 				}
 			})
-			
-			
-			// 경매 신청(시작)날짜 옵션 지정
-			$(function(){
-				getNextMondays();
-			})
-			
-			function getNextMondays(){
-				let thisDate = new Date();
-				let day = thisDate.getDay();
-				let calcDate = thisDate.getDate() - day + ((day == 0 ? 1 : 8) + 0);
-
-				let nextDate = new Date(thisDate.setDate(calcDate)).toISOString().substring(0, 10);
-				let nextNextDate = new Date(nextDate);
-				nextNextDate.setDate(nextNextDate.getDate() + 7);
-				nextNextDate.toISOString().substring(0, 10);
-				console.log(nextNextDate);
-				
-			}
 		</script>
 	</div>
 </body>
