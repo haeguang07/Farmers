@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="Male_Fashion Template">
+	<meta name="keywords" content="Male_Fashion, unica, creative, html">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<!-- Google Font -->
+	<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+		rel="stylesheet">
+
+
+	<!-- Css Styles -->
+	<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+	<link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+	<link rel="stylesheet" href="/css/nice-select.css" type="text/css">
+	<link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/style.css" type="text/css">
+	<!-- 알림창 css -->
+	<link rel="stylesheet" href="/css/suinCss/alarm.css" type="text/css">
+
+	<!-- Js Plugins -->
+	<script src="/js/jquery-3.3.1.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/jquery.nice-select.min.js"></script>
+	<script src="/js/jquery.nicescroll.min.js"></script>
+	<script src="/js/jquery.magnific-popup.min.js"></script>
+	<script src="/js/jquery.countdown.min.js"></script>
+	<script src="/js/jquery.slicknav.js"></script>
+	<script src="/js/mixitup.min.js"></script>
+	<script src="/js/owl.carousel.min.js"></script>
+	<script src="/js/json.min.js"></script>
+	<title>AddFunding</title>
+
+	<style>
+		.ck-editor__editable {
+			height: 400px;
+		}
+		.marginR20{
+			margin-right: 20px;
+		}
+	</style>
+</head>
+
+<body>
+
+	<hr>
+	<!-- Shop Details Section Begin -->
+	<section class="shop-details">
+		<div class="product__details__pic" style="background-color: white;">
+			<div class="container">
+				<div class="row">
+					<div class="row col-lg-12">
+						<div class="product__details__content col-lg-8">
+							<form id="myForm">
+								<div class="container">
+									<div class="row d-flex justify-content-center row">
+										<div class="col-lg-12">
+											<div class="product__details__text">
+												<div class="row">
+													<h4 class="textLeft col-lg-3" style="display: inline;">문의하기
+													</h4>
+												</div>
+												<hr>
+												<br>
+												<div class="row">
+													<div class="row col-lg-12">
+														<p class="marginR20">카테고리</p>
+														<select class="form-control" name="inqCtg" style="width: 200px;">
+															<option value="f0">계정문의</option>
+															<option value="f1">이용문의</option>
+															<option value="f2">결제문의</option>
+															<option value="f3">배송문의</option>
+															<option value="f4">반품문의</option>
+															<option value="f5">포인트문의</option>
+															<option value="f6">이벤트문의</option>
+															<option value="f7">오류문의</option>
+															<option value="f8">건의사항</option>
+														</select>
+													</div>
+													<div class="row col-lg-12">
+														<p style="margin-right: 50px;">제목</p>
+														<input type="text" class="form-control" name="inqTitle" style="width: 500px;">
+													</div>
+												</div>
+												<hr>
+												<div class="row">
+													<textarea class="col-lg-12" name="text" id="editor"></textarea>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="row col-lg-12">
+							<div class="col-lg-12">
+								<div class="product__details__cart__option row" style="margin-top: 40px;">
+									<button class="primary-btn col-lg-12" style="color: white; margin: 0 auto; margin-top: 20px;"
+										id="addBtn">등록하기</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	<!-- Shop Details Section End -->
+	<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+	<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
+	<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
+
+	<script th:inline="javascript">
+		//ckEditor 생성
+		let editor;
+		ClassicEditor.create(document.querySelector('#editor'), {
+				language: "ko",
+				ckfinder: {
+					uploadUrl: '/image/upload'
+				}
+			})
+			.then(newEditor => {
+				editor = newEditor;
+			})
+			.catch(error => {
+				console.error(error);
+			});
+
+		//ckEditor 데이터 가져오기
+		$('#addBtn').on('click', function () {
+			let ckData = editor
+
+			//데이터 입력 확인
+			if (!$('[name="inqTitle"]').val()) {
+				alert('제목을 입력하세요');
+				return;
+			} else if(ckData.getData() == '') { 
+				alert('문의내용을 입력해주세요')
+			}else {
+				let formData = $('#myForm').serializeObject()
+				formData.inqDesct = ckData.getData()
+				formData.memNo = /*[[${session.mem.memNo}]]*/
+
+				// //ajax 펀딩 등록
+				$.ajax({
+						url: "addInpuiry",
+						method: "POST",
+						data: formData
+					})
+					.done(function (result) {
+						if(result){
+							alert('문의등록이 완료되었습니다')
+						}else{
+							alert('문의등록에 실패하였습니다')
+							
+						}
+					})
+					.fail(function (result) {
+						alert('문의등록에 실패하였습니다')
+						
+					})
+
+			}
+		})
+	
+	</script>
+</body>
+
+</html>

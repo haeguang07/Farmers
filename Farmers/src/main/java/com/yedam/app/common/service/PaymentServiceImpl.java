@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.yedam.app.common.mapper.PaymentMapper;
 import com.yedam.app.common.vo.MemberPayVO;
 import com.yedam.app.common.vo.PayProductVO;
+import com.yedam.app.common.vo.PaymentDetailVO;
 import com.yedam.app.common.vo.PaymentVO;
 
 @Service
@@ -19,7 +20,7 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 
 	@Override
-	public PayProductVO getProductInfo(PayProductVO vo) {
+	public PaymentDetailVO getProductInfo(PaymentDetailVO vo) {
 		return paymentMapper.getProductInfo(vo);
 	}
 
@@ -31,6 +32,11 @@ public class PaymentServiceImpl implements PaymentService {
 	@Override
 	public void insertPayDetail(PayProductVO vo) {
 		paymentMapper.insertPayDetail(vo);
+	}
+
+	@Override
+	public PaymentVO getPayList(String payNo) {
+		return paymentMapper.getPayList(payNo);
 	}
 
 }
