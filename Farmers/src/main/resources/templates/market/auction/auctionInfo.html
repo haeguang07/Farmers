@@ -412,10 +412,10 @@ label:has(.bidCount) {
 				if(!bool){
 					alert('로그인 후 이용 가능합니다.');
 					return;
+				}else if(inputVal == ''){
+					alert('입찰 금액을 입력하세요.');
+					return;
 				}else {
-					if(inputVal == ''){
-						alert('입찰 금액을 입력하세요.');
-					}else {
 						// APL_NO(시퀀스), MEM_NO(세션), ACT_NO(값), BID_PRICE(값), SBID_STTS(디폴트 값)
 						let boardNo = $('#boardNo').val();
 						let price = $('#bidPrice').val();
@@ -449,9 +449,6 @@ label:has(.bidCount) {
 				}
 			})
 		
-			function number_format(){
-				$('#bidPrice').val().toString().replace(/\B(?=(\d{3})+(?!\d))/g,',');
-			}	
 		</script>
 	</div>
 </body>

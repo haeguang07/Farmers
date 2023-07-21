@@ -6,30 +6,45 @@
 	<resultMap type="BoardVO" id="boardResult">
 		<result property="boardNo" column="board_no"/>
 		<result property="memNo" column="mem_no"/>
+		<result property="postCtg" column="post_ctg"/>
 		<result property="dst1" column="dst1"/>
 		<result property="dst2" column="dst2"/>
 		<result property="title" column="title"/>
 		<result property="img" column="img"/>
 		<result property="desct" column="desct"/>
 		<result property="wrtDate" column="wrt_date"/>
+		<result property="hitCount" column="hit_count"/>
 		<result property="nick" column="nick"/>	
 		<collection property="replys" javaType="ArrayList" column="boardNo = board_No" ofType="ReplyVO" select="selReplyList"></collection>
 		<collection property="recoms" javaType="ArrayList" column="boardNo = board_No" ofType="RecomVO" select="getRecomNum"></collection>
 	</resultMap>
 	
-	<select id="noticeList" resultMap="boardResult">
-		SELECT board_no, m.mem_no, nick, dst1, dst2, title, img, desct, wrt_date
+	<!-- 게시판 공지사항, 커뮤니티, 이벤트 전체/상세 조회 -->
+	<select id="boardList" resultMap="boardResult">
+		SELECT board_no, m.mem_no, nick, post_ctg, dst1, dst2, title, img, desct, wrt_date, hit_count
 		FROM board b, member m
-		<where>
-			WHERE b.mem_no = m.mem_no
-			<if test="boardNo ">
-				AND 
+		Where b.mem_no = m.mem_no
+		AND post_ctg = #{postCtg}			
+			<if test="boardNo != null and !boardNo.equals('')">
+				AND board_no = #{boardNo}
 			</if>
-		</where>
-		
+		ORDER BY wrt_date DESC
 	</select>
 
-
-
+	<!-- 커뮤니티 댓글 조회 -->
+	<select id="selReplyList" resultType="ReplyVO">
+		SELECT cmt_no, mem_no, cmt_desct, board_no, rcm_num, wrt_date
+		FROM reply
+		WHERE board_no = #{boardNo}
+		ORDER BY wrt_date DESC
+	</select>
+	
+	<!-- 게시글 추천 수 조회 -->
+	<select id="getRecomNum" resultType="RecomVO">
+		SELECT mem_no, board_no
+		FROM recommendation
+		WHERE board_no = #{boardNo}
+	</select>
+	
 
 </mapper>

@@ -38,9 +38,12 @@
 	</select>
 
 	<select id="selectBnb" resultType="BnbVO">
-		select * from farmbnb
-		where
-		board_no= #{boardNo}
+		select * 
+		from farmbnb f join 
+			(select mem_no, name, id, email, zip, nick, addr, deta_addr, mbl
+             from member natural join member_detail) m
+		on f.mem_no = m.mem_no
+		where board_no= #{boardNo}
 	</select>
 
 	<insert id="insertBnb" parameterType="BnbVO">
@@ -81,9 +84,9 @@
 	</insert>
 
 	<update id="updateBnb" parameterType="BnbVO">
-		UPDATE farmbnb set
-		price=#{price}
+		UPDATE farmbnb 
 		<set>
+		    price=#{price}
 			<if test="rep != null and !rep.equals('')">
 				,rep=#{rep}
 			</if>
@@ -99,8 +102,10 @@
 		</set>
 		WHERE board_no = #{boardNo}
 	</update>
-	<delete id="deleteBnb">
-	delete 
+	
+	<delete id="deleteBnb" parameterType="String">
+		delete from farmbnb
+		where board_no= #{boardNo}
 	</delete>
 
 </mapper>

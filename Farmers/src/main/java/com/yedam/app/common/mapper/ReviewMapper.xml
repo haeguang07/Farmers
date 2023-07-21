@@ -5,38 +5,44 @@
 <mapper namespace="com.yedam.app.common.mapper.ReviewMapper">
 	<select id="getReview" resultType="ReviewVO">
 		select r.board_no,
-				r.rev_no,
-				r.mem_no,
-				m.nick,
-				r.rate,
-				r.rev_desct, 
-				r.wrt_date,
-				r.img
+		r.rev_no,
+		r.mem_no,
+		m.nick,
+		r.rate,
+		r.rev_desct,
+		r.wrt_date,
+		r.img
 		from review r left join member m
 		on r.mem_no = m.mem_no
-		where board_no = #{boardNo}
+		where board_no =
+		#{boardNo}
 	</select>
 	<insert id="addReview" parameterType="ReviewVO">
 		<selectKey keyProperty="revNo" resultType="String"
 			order="BEFORE">
-			select 'REV' || LPAD(rev_seq.nextval, 6, '0') 
+			select 'REV' || LPAD(rev_seq.nextval, 6, '0')
 			from dual
 		</selectKey>
 		insert into review(REV_NO,
-					MEM_NO,
-					RATE,
-					REV_DESCT,
-					WRT_DATE,
-					BOARD_NO)
+		MEM_NO,
+		RATE,
+		REV_DESCT,
+		WRT_DATE,
+		BOARD_NO)
 		values(#{revNo},
-				#{memNo},
-				#{rate},
-				#{revDesct},
-				sysdate,
-				#{boardNo})
+		#{memNo},
+		#{rate},
+		#{revDesct},
+		sysdate,
+		#{boardNo})
 	</insert>
 	<select id="getCount" resultType="int">
-		select count(*) from review
+		select count(*) as count
+		from review
 		where board_no = #{boardNo}
 	</select>
+	<delete id="delReview" parameterType="String">
+		delete from review
+		where rev_no = #{revNo}
+	</delete>
 </mapper>

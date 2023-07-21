@@ -1,5 +1,11 @@
 package com.yedam.app.board.mapper;
 
-public class BoardMapper {
+import java.util.List;
 
+import com.yedam.app.board.vo.BoardVO;
+
+public interface BoardMapper {
+
+	public List<BoardVO> boardList(BoardVO vo);
+	
 }

@@ -185,7 +185,7 @@
 									</div>
 									<br>
 									<div style="margin-top: 10px;">
-										<button type="submit" class="primary-btn col-lg-2" id="udtBtn">수정하기</button>
+										<button type="button" class="primary-btn col-lg-2" id="udtBtn">수정하기</button>
 										<button type="button" class="primary-btn col-lg-2"
 											th:onclick="|location.href='@{/bnbInfo(boardNo=${bnb.boardNo})}'|">뒤로가기</button>
 									</div>
@@ -266,7 +266,7 @@
 				$('#inputFile').click()
 			})
 
-			//첨부파일 업로드
+			//첨부파일 업로드 - 대표이미지
 			$('#inputFile').change(function () {
 				var formData = new FormData(); //FormData 객체 생성
 
@@ -325,7 +325,7 @@
 				});
 
 			
-			//최소날짜 
+			//날짜 최소값 설정
 			function minDate() {
 				let min = event.target.value;
 				console.log(min);
@@ -352,38 +352,36 @@
 				} else {
 					let ckData = editor
 					let formData = $('#myForm').serializeObject()
-
+					console.log(formData);
 					//상세 설명 존재하지 않을 시 출력 내용 설정
 					if(ckData.getData() == ''){
 						ckData.setData('<p>상세 설명이 존재하지 않습니다</p>')
-						formData.desct = ckData.getData()
+						formData.detaDesct = ckData.getData()
 					}else{
-						formData.desct = ckData.getData()
+						formData.detaDesct = ckData.getData()
 					}
 					if($('#inputFile').val()){
 						formData.rep = dbPath
 					}
 					formData.boardNo = /*[[${bnb.boardNo}]]*/
 
-					//ajax 펀딩 등록
+					//ajax 수정처리
 					$.ajax({
-							url: "update/updateBnb",
+							url: "/update/updateBnb",
 							method: "POST",
 							data: formData
 						})
 						.done(function (result) {
 							console.log('성공');
 							alert(result);
-							location.href = "/bnbList"
+							location.href = "/bnbInfo?boardNo="+/*[[${bnb.boardNo}]]*/
 						})
 						.fail(function (result) {
 							console.log('실패');
 							alert(result);
-							location.href = "/bnbList"
 						})
 				}
-			})
-			
+			})			
 			
 		</script>
 	</div>
