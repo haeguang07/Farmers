@@ -12,10 +12,10 @@
 				crops_sale cr USING (board_no)
 			</when>
 			<when test="boardCtg.equals('n2')">
-				EQUIPMENT eq ON (board_no = eqp_no)
+				EQUIPMENT eq USING (board_no)
 			</when>
 			<when test="boardCtg.equals('n7')">
-				MARKET ma ON (board_no = MKT_NO)
+				MARKET ma USING (board_no)
 			</when>
 		</choose>
 		WHERE ca.mem_no = #{memNo}

@@ -72,10 +72,10 @@
 								<th:block th:each="inq : ${inqList}">
 									<tr>
 										<td id="inqNo" th:text="${inq.inqNo}"></td>
-										<td th:text="${inq.inqCtg}"></td>
+										<td th:text="${inq.codeDesct}"></td>
 										<td th:text="${inq.inqTitle}"></td>
 										<td th:text="${#dates.format(inq.inqDate, 'yyyy/MM/dd')}"></td>
-									<td th:text="${inq.replStts}"></td>
+									<td th:text="${inq.replCodeDesct}"></td>
 								</tr>
 								</th:block>
 							</tbody>

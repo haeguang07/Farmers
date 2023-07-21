@@ -57,6 +57,7 @@
 			width: 100px;
 			height: 100px;
 		}
+
 		li {
 			margin-bottom: 10px;
 		}
@@ -101,7 +102,8 @@
 										<td th:text="${prod.title}">2</td>
 										<td th:text="${prod.qty}">4</td>
 										<td th:text="${#numbers.formatInteger(prod.price, 3, 'COMMA')}">5</td>
-										<td th:text="${prod.qty} * ${prod.price}">6</td>
+										<td th:text="${#numbers.formatInteger(prod.qty * prod.price , 3, 'COMMA')}">5</td>
+										<!-- <td th:text="${prod.qty} * ${prod.price}">6</td> -->
 										<td th:text="${prod.shipStts}" id="stts">7</td>
 									</tr>
 								</tbody>
@@ -117,7 +119,7 @@
 							<ul>
 								<li><h5>총액 <span th:text="${#numbers.formatInteger(payInfo.totalPayPrice, 3, 'COMMA')}">0</span></h5></li>
 								<li><h5>사용포인트 <span th:text="${payInfo.usePnt}">0</span></h5></li>
-								<li><h5>결제방법 <span th:text="${payInfo.payMthd}">0</span></h5></li>
+								<li><h5>결제방법 <span th:text="${payInfo.payMthd == 'NORMAL' ? '일반결제' : '기타결제'}">0</span></h5></li>
 								<li><h5>결제날짜 <span th:text="${#dates.format(payInfo.payDate, 'yyyy/MM/dd')}">0</span></h5></li>
 							</ul>
 						</div>
@@ -130,6 +132,7 @@
 	<script th:inline="javascript">
 		// dataTables
 		$(function () {
+
 			$('#productTable').DataTable({
 				// 언어설정
 				language: lang_kor,
@@ -183,7 +186,38 @@
 
 			if(bool){
 				if(confirm('환불하시겠습니까?')){
-
+					$.ajax({
+						url : "https://api.tosspayments.com/v1/payments/"+/*[[${payInfo.payCode}]]*/+"/cancel",
+						beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization","Basic dGVzdF9za196WExrS0V5cE5BcldtbzUwblgzbG1lYXhZRzVSOg== ");
+        },
+						ContentType: 'application/json',
+						data : {
+							"cancleReason" : "취소"
+						}
+					})
+					.done(function(result){
+					$.ajax({
+						url:"refund",
+						data : {
+							payNo : /*[[${payInfo.payNo}]]*/
+						}
+					})
+					.done(function(result){
+						if(result){
+							alert('환불이 완료되었습니다')
+						}else{
+							alert('환불실패')
+						}
+					})
+					.fail(function(){
+						alert('ajax 실패')
+					})
+					})
+					.fail(function(data, textStatus, errorThrown){
+					alert('환불에 실패하였습니다')
+					console.log(data)
+					})
 				}
 			}else{
 				alert('환불할 수 없는 상태입니다')

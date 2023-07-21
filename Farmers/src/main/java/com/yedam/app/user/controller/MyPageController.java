@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
 import com.yedam.app.common.service.PaymentService;
 import com.yedam.app.common.vo.PaymentDetailVO;
 import com.yedam.app.common.vo.PaymentVO;
 import com.yedam.app.farm.vo.FarmLendApplyVO;
 import com.yedam.app.farm.vo.FarmLendVO;
+import com.yedam.app.market.vo.AuctionVO;
 import com.yedam.app.user.service.MyPageService;
 import com.yedam.app.user.vo.AlertVO;
 import com.yedam.app.user.vo.AttachVO;
@@ -85,10 +85,8 @@ public class MyPageController {
 
 	// 등업신청 페이지
 	@GetMapping("upgradeMember")
-	public String upgradeMemberForm(String member, Model model) {
-		Gson gson = new Gson();
-		MemberVO vo = gson.fromJson(member, MemberVO.class);
-		System.out.println(vo);
+	public String upgradeMemberForm(MemberVO vo, Model model) {
+	
 		model.addAttribute("member", vo);
 		return "user/myPage/memberInfo/upgrade";
 	}
@@ -165,22 +163,6 @@ public class MyPageController {
 		PaymentVO vo = paymentService.getPayList(payNo);
 		List<PaymentDetailVO> list = vo.getPaymentDetails();
 		for (PaymentDetailVO paymentDetailVO : list) {
-			String ship = paymentDetailVO.getShipStts();
-			if (ship.equals("B0")) {
-				paymentDetailVO.setShipStts("결제대기");
-			} else if (ship.equals("B1")) {
-				paymentDetailVO.setShipStts("결제완료");
-			} else if (ship.equals("B2")) {
-				paymentDetailVO.setShipStts("배송 전");
-			} else if (ship.equals("B3")) {
-				paymentDetailVO.setShipStts("배송 중");
-			} else if (ship.equals("B4")) {
-				paymentDetailVO.setShipStts("배송 완료");
-			} else if (ship.equals("B5")) {
-				paymentDetailVO.setShipStts("환불 대기");
-			} else if (ship.equals("B6")) {
-				paymentDetailVO.setShipStts("환불 완료");
-			}
 			paymentService.getProductInfo(paymentDetailVO);
 		}
 		System.out.println(list);
@@ -188,12 +170,22 @@ public class MyPageController {
 		model.addAttribute("prodInfo", list);
 		return "user/myPage/paymentList/paymentDetail";
 	}
+	
+	//결제 환불 처리
+	@GetMapping("refund")
+	@ResponseBody
+	public boolean refund(String payNo) {
+		System.out.println(payNo);
+		return myPageService.refund(payNo);
+	}
+	
 
 	////////////////////// 나의 문의//////////////////////
 	// 나의 문의 페이지
 	@GetMapping("myInquiry")
 	public String myInquiry(String memNo, Model model) {
 		List<InquiryVO> list = myPageService.myInquiry(memNo);
+		System.out.println(list);
 		model.addAttribute("inqList", list);
 		return "user/myPage/inquiry/myInquiry";
 	}
@@ -265,7 +257,11 @@ public class MyPageController {
 	@GetMapping("myFarmLendList")
 	@ResponseBody
 	public List<FarmLendVO> myFarmLendList(String memNo) {
-		return myPageService.myFarmLendList(memNo);
+		List<FarmLendVO> list =  myPageService.myFarmLendList(memNo);
+		for (FarmLendVO farmLendVO : list) {
+			
+		}
+		return list;
 	}
 	
 	//ajax 농지대여 신청 리스트
@@ -280,7 +276,6 @@ public class MyPageController {
 	public String myFarmLendSubList(String boardNo,Model model) {
 		FarmLendVO vo = myPageService.myFarmLendInfo(boardNo);
 		List<FarmLendApplyVO> list = vo.getApplys();
-		System.out.println(vo);
 		model.addAttribute("vo", vo);
 		model.addAttribute("list", list);
 		return "user/myPage/myActivity/farmLend/myFarmLendSubList";
@@ -288,7 +283,41 @@ public class MyPageController {
 	
 	//농지대여 나의 신청 상세 정보
 	@GetMapping("myPage/FarmLendMySubInfo")
-	public String FarmLendMySubInfo() {
+	public String FarmLendMySubInfo(String aplNo,Model model) {
+		FarmLendApplyVO vo = myPageService.mySubInfo(aplNo);
+		model.addAttribute("aplInfo", vo);
 		return "user/myPage/myActivity/farmLend/farmLendMySubInfo";
+	}
+	
+	//나의 농지대여 신청 삭제
+	@GetMapping("myPage/deleteMyFarmSub")
+	@ResponseBody
+	public boolean deleteMyFarmSub(String aplNo) {
+		System.out.println("A");
+		System.out.println(aplNo);
+		return myPageService.deleteMyFarmSub(aplNo);
+	}
+	
+	//////////////////////경매장 페이지///////////////////////
+	//경매장 리스트 페이지
+	@GetMapping("myPage/myAuctionForm")
+	public String myAuctionForm() {
+		return "user/myPage/myActivity/auction/myAuctionList";
+	}
+	
+	//내 경매 등록 리스트
+	@GetMapping("myPage/myAuctionList")
+	@ResponseBody
+	public List<AuctionVO> myAuctionList(String memNo){
+		System.out.println(memNo);
+		System.out.println(myPageService.myActionList(memNo));
+		return myPageService.myActionList(memNo);	
+	}
+	
+	//내 입찰 경매 리스트
+	@GetMapping("myPage/myBidList")
+	@ResponseBody
+	public List<AuctionVO> myBidList(String memNo){
+		return myPageService.myBidList(memNo);
 	}
 }

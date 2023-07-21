@@ -29,6 +29,7 @@ import com.yedam.app.market.service.FundingService;
 import com.yedam.app.market.vo.FundingVO;
 import com.yedam.app.market.vo.PageVO;
 
+// 김성욱 2023/07/21  펀딩관리
 @Controller
 public class FundingController {
 	@Autowired
@@ -110,8 +111,6 @@ public class FundingController {
 	@PostMapping("modifyFunding")
 	@ResponseBody
 	public String modifyFunding(FundingVO vo, Model model) {
-		System.out.println("yes");
-		System.out.println(vo);
 		boolean result = fundingService.modifyFunding(vo);
 
 		if (result) {
@@ -285,10 +284,6 @@ public class FundingController {
 
 			// DB에 저장할 때 java에서만 읽히는 File.separator를 /로 변환 후 DB에 저장
 			String imagePath = "/images/" + uploadFileName.replace(File.separator, "/");
-			System.out.println(uploadFileName);
-			System.out.println(imagePath);
-			System.out.println(uuid);
-			System.out.println(originalName);
 
 			map.put("loadPath", loadPath);
 			map.put("dbPath", imagePath);

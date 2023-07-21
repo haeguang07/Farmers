@@ -1,6 +1,8 @@
 package com.yedam.app.common.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +28,7 @@ public class PaymenetController {
 	@Autowired
 	PaymentService paymentService;
 
-	@GetMapping("payment")
+	@GetMapping("payment") //requestBody 사용 가능
 	public String payment(@RequestParam(value = "productList") String productList, Model model) {
 
 		// json으로 받은 결제상품정보 List<PayProductVO>로 변환
@@ -65,11 +67,8 @@ public class PaymenetController {
 		System.out.println(vo);
 		paymentService.insertPaymnet(vo);
 		System.out.println(vo);
-		Map<String, String> map = new HashMap<String, String>();
 
-		map.put("payNo", vo.getPayNo());
-
-		return map;
+		return Collections.singletonMap("payNo", vo.getPayNo());
 	}
 
 	// 결제 상세 정보 입력
