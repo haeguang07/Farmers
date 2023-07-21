@@ -13,29 +13,29 @@
 
 	<!-- 펀딩 리스트 조회 (페이징) -->
 	<select id="getFundingListPage" resultType="FundingVO">
-		SELECT b.*
-		FROM
-		(SELECT rownum rn , a.*
-		FROM (SELECT *
-		FROM funding LEFT
-		JOIN (SELECT board_no, TRUNC(fnd_end_date - sysdate) as dday, priceSum,
-		payCount, TRUNC((priceSum/goal_price)*100,2) as goalPer
-		FROM funding
-		LEFT JOIN (SELECT board_no, sum(price*qty) as
-		priceSum,
-		sum(qty) as
-		payCount
-		FROM payment_detail
-		GROUP BY board_no)
-		USING(board_no))
+		SELECT b.*		FROM		(SELECT rownum rn , a.*		FROM (
+		SELECT *
+		  FROM funding 
+		  LEFT JOIN ( SELECT board_no, TRUNC(fnd_end_date - sysdate) as dday, priceSum,
+				      		payCount, TRUNC((priceSum/goal_price)*100,2) as goalPer
+					FROM funding
+					LEFT JOIN (SELECT board_no, sum(price*qty) as
+										priceSum,
+										sum(qty) as
+										payCount
+								FROM payment_detail
+								GROUP BY board_no
+							)
+				USING(board_no)
+		     )
 		USING (board_no)
 		<where>
 			AND reg_stts = 'e1'
 			<![CDATA[
-			AND fnd_end_date + 1 > sysdate
+			AND fnd_end_date >= TRUNC(sysdate)
 			]]>
 			<if
-				test="category != null and !category.equals('') and !category.equals('전체')">
+				test="category != null and !category.equals('') ">
 				AND crp_ctg = #{category}
 			</if>
 			<if test="search != null and !search.equals('')">
@@ -74,7 +74,7 @@
 				AND title LIKE '%${search}%'
 			</if>
 			<![CDATA[
-			AND fnd_end_date + 1 > sysdate
+			AND fnd_end_date >=  TRUNC(sysdate)
 			]]>
 		</where>
 	</select>
@@ -141,8 +141,7 @@
 		fnd_price = #{fndPrice},
 		fnd_str_date = #{fndStrDate},
 		fnd_end_date = #{fndEndDate},
-		crp_ctg =
-		#{crpCtg},
+		crp_ctg =	#{crpCtg},
 		ship_str_date = #{shipStrDate},
 		desct = #{desct}
 		<if test="rep != null and !rep.equals('')">

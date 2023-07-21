@@ -68,10 +68,10 @@
 								<th:block th:if="not ${#strings.isEmpty(list)}">
 									<tr th:each="li : ${list}">
 										<td th:text="${li.aplNo}"></td>
-										<td th:text="${li.memNo}"></td>
+										<td th:text="${li.name}"></td>
 										<td th:text="${#dates.format(li.rsvStrDate, 'yyyy/MM/dd')}"></td>
 										<td th:text="${#dates.format(li.rsvEndDate, 'yyyy/MM/dd')}"></td>
-										<td>?</td>
+										<td th:text="${#numbers.formatInteger(li.allPrice, 3, 'COMMA')}"></td>
 										<td th:if="${#strings.equals(vo.regStts, 'e1')}">
 											<button type="button" class="form-control" id="accept">수락</button>
 											<button type="button" class="form-control" id="refuse">거절</button></td>

@@ -67,6 +67,21 @@ export default{
         if(result.retCode=='Success'){
           alert('이메일을 성공적으로 발송했습니다')
           this.box2=true;
+          //성공시 이메일 발송
+          fetch('sendEmailPw',{
+            method:'post',
+            headers: {
+            "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+            email: this.email,
+            id: this.id,
+            memNo: result.memNO
+          })
+          .then(resolve=> resolve.json())
+          .then(data=> console.log(data))
+          .catch(err=>console.log(err))
+          })
         }else if(result.retCode=='Fail'){
           this.box3=true;
         }

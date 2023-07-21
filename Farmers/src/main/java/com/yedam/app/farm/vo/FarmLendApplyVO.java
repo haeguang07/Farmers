@@ -26,4 +26,18 @@ public class FarmLendApplyVO {
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	@JsonFormat(pattern ="yyyy-MM-dd")
 	private Date aplDate;
+	
+	//상세코드
+	private String codeDesct;
+	
+	//대여일수
+	private int allPrice;
+	
+	//주소
+	private String addr;
+	private String detaAddr;
+	
+	//작성자
+	private String name;
+	private String mbl;
 }

@@ -48,4 +48,8 @@ public class FarmLendVO {
 	
 	// farm_lend_apply (신청목록)
 	private List<FarmLendApplyVO> applys;
+	
+	//상세코드
+	private String codeDesct;
+
 }

@@ -31,7 +31,7 @@ public class CartCotroller {
 		return list;
 	}
 	
-	//장바구니 삭제
+	//장바구니 삭제 -> list로 받아서 삭제
 	@GetMapping("deleteCart")
 	@ResponseBody
 	public String deleteCart(CartVO vo) {
@@ -50,7 +50,6 @@ public class CartCotroller {
 	@ResponseBody
 	public String insertCart(CartVO vo) {
 		int qty = vo.getQty();
-		System.out.println("작동");
 		if(qty==0) {
 			vo.setQty(1);
 		}

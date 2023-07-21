@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class PaymentDetailVO {
 	//payment_detail
-	private String patDetaNo;
+	private String payDetaNo;
 	private String boardNo;
 	private String payNo;
 	private int qty;
