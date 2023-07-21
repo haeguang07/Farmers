@@ -1,12 +1,11 @@
 package com.yedam.app.market.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.yedam.app.market.vo.CropsSaleVO;
 
 public interface CropsSaleService {
-	// 전체조회
-	public List<CropsSaleVO> getCropsSaleList();
 	// 전체조회(페이징)
 	public List<CropsSaleVO> getCropsSaleListPage(int page, String category, String order, String search);
 	// 단건조회
@@ -20,5 +19,5 @@ public interface CropsSaleService {
 	// 게시글 수
 	public int getCount(String category, String search);
 	// 별점
-	public int totalRate();
+	public Map<String, Object> totalRate(String boardNo);
 }

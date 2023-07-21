@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.yedam.app.user.vo.AttachVO;
 
 import lombok.Data;
 
@@ -13,21 +14,21 @@ import lombok.Data;
 public class FarmLendVO {
 	// farm_lend
 	public String boardNo;
-	public int zip;
+	public String zip;
 	public String addr;
 	public String detaAddr;
 	public int area;
 	public String desct;
-	@DateTimeFormat(pattern="yyyy/MM/dd")
-	@JsonFormat(pattern="yyyy/MM/dd")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd")
 	public Date lendStrDate;
-	@DateTimeFormat(pattern="yyyy/MM/dd")
-	@JsonFormat(pattern="yyyy/MM/dd")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd")
 	public Date lendEndDate;
 	public int lendPrice;
 	public String atchNo;
-	@DateTimeFormat(pattern="yyyy/MM/dd")
-	@JsonFormat(pattern="yyyy/MM/dd")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd")
 	public Date regDate;
 	public String regStts;
 	public String memNo;
@@ -36,18 +37,15 @@ public class FarmLendVO {
 	public double lati;
 	public double longi;
 	
-	// attachment
-	public List<FileVO> files;
-	@DateTimeFormat(pattern="yyyy/MM/dd")
-	@JsonFormat(pattern="yyyy/MM/dd")
-	public Date uplDate;
+	// attachment (파일목록)
+	public List<AttachVO> files;
 	
-	// main_crops
+	// main_crops (주요 재배 작물 배열)
 	public String[] mcrp;
 	
 	// member
 	public String nick;
 	
-	// 신청목록
+	// farm_lend_apply (신청목록)
 	private List<FarmLendApplyVO> applys;
 }

@@ -1,12 +1,11 @@
 package com.yedam.app.market.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import com.yedam.app.market.vo.CropsSaleVO;
 
 public interface CropsSaleMapper {
-	// 전체조회
-	public List<CropsSaleVO> selectCropsSaleList();
 	// 전체조회(페이징)
 	public List<CropsSaleVO> selectCropsSaleListPage(int page, String category, String order, String search);
 	// 단건조회
@@ -20,5 +19,5 @@ public interface CropsSaleMapper {
 	// 게시글 수
 	public int getCount(String category, String search);
 	// 별점
-	public int totalRate();
+	public Map<String, Object> totalRate(String boardNo);
 }

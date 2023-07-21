@@ -1,6 +1,7 @@
 package com.yedam.app.market.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,11 +14,6 @@ public class CropsSaleServiceImpl implements CropsSaleService {
 	
 	@Autowired
 	CropsSaleMapper csMapper;
-	
-	@Override
-	public List<CropsSaleVO> getCropsSaleList() {
-		return csMapper.selectCropsSaleList();
-	}
 
 	@Override
 	public List<CropsSaleVO> getCropsSaleListPage(int page, String category, String order, String search) {
@@ -56,8 +52,8 @@ public class CropsSaleServiceImpl implements CropsSaleService {
 	}
 
 	@Override
-	public int totalRate() {
-		return csMapper.totalRate();
+	public Map<String, Object> totalRate(String boardNo) {
+		return csMapper.totalRate(boardNo);
 	}
 
 

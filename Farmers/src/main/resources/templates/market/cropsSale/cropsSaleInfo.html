@@ -67,11 +67,13 @@
 												<span th:text="${#numbers.formatInteger(csInfo.price, 3, 'COMMA')} + '원'" style="font-size: 20px;"></span>
 											</p>
 											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">별점</b>
-											<span>(리뷰갯수)</span> 
+											(<span th:text="${reviewCount.count}">리뷰갯수</span>) [[${reviewCount.star}]]
 												<span class="rating">
-													<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-														class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-														class="fa fa-star-o"></i>
+													<i class="fa fa-star" ></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star-o"></i>
 												</span>
 											</p>
 											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 15px;">판매자</b> <span th:text="${csInfo.nick}">판매자닉네임</span></p>
