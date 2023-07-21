@@ -32,4 +32,11 @@ public class InquiryVO {
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	@JsonFormat(pattern ="yyyy-MM-dd")
 	private Date replDate;
+	
+	//상세코드
+	private String codeDesct; //문의 카테고리
+	private String replCodeDesct; //답변여부
+	
+	//작성회원정보
+	private String name;
 }

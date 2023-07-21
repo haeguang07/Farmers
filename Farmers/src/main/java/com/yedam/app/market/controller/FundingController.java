@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,7 @@ import com.yedam.app.market.service.FundingService;
 import com.yedam.app.market.vo.FundingVO;
 import com.yedam.app.market.vo.PageVO;
 
+// 김성욱 2023/07/21  펀딩관리
 @Controller
 public class FundingController {
 	@Autowired
@@ -109,8 +111,6 @@ public class FundingController {
 	@PostMapping("modifyFunding")
 	@ResponseBody
 	public String modifyFunding(FundingVO vo, Model model) {
-		System.out.println("yes");
-		System.out.println(vo);
 		boolean result = fundingService.modifyFunding(vo);
 
 		if (result) {
@@ -130,6 +130,7 @@ public class FundingController {
 		// jsonView 라고 쓴다고 무조건 json 형식으로 가는건 아니고 @Configuration 어노테이션을 단
 		// WebConfig 파일에 MappingJackson2JsonView 객체를 리턴하는 jsonView 매서드를 만들어서 bean으로
 		// 등록해야함
+		
 		ModelAndView mav = new ModelAndView("jsonView");
 
 		// ckeditor 에서 파일을 보낼 때 upload : [파일] 형식으로 해서 넘어오기 때문에 upload라는 키의 밸류를 받아서
@@ -185,7 +186,60 @@ public class FundingController {
 
 		return mav;
 	}
+	
+	// 다중 첨부파일 저장 (김승환/230721)
+	@PostMapping("/uploadsAjaxMulti")
+	@ResponseBody
+	public List<Map<String, String>> uploadFileMulti(@RequestPart MultipartFile[] uploadFiles, Model model) { // @RequestPart 첨부파일
+		
+		List<Map<String, String>> list = new ArrayList<>();
+		for (MultipartFile uploadFile : uploadFiles) {
+			
+			Map<String, String> map = new HashMap<String, String>();
 
+			String originalName = uploadFile.getOriginalFilename();
+			String fileName = originalName.substring(originalName.lastIndexOf("//") + 1);
+
+			System.out.println("fileName : " + fileName);
+
+			// 날짜 폴더 생성
+			String folderPath = makeFolder();
+			// UUID
+			String uuid = UUID.randomUUID().toString();
+			// 저장할 파일 이름 중간에 "_"를 이용하여 구분
+
+			String uploadFileName = folderPath + File.separator + uuid + "_" + fileName;
+
+			String saveName = uploadPath + File.separator + uploadFileName;
+
+			Path savePath = Paths.get(saveName);
+
+			String loadPath = "/images" + File.separator + uploadFileName;
+			// Paths.get() 메서드는 특정 경로의 파일 정보를 가져옵니다.(경로 정의하기)
+			System.out.println("path : " + saveName);
+			try {
+				uploadFile.transferTo(savePath);
+				// uploadFile에 파일을 업로드 하는 메서드 transferTo(file)
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			// DB에 해당 경로 저장
+			// 1) 사용자가 업로드 할 때 사용한 파일명
+			// 2) 실제 서버에 업로드할 때 사용한 경로
+			// 1,2 둘다 DB에 저장해야함
+
+			// DB에 저장할 때 java에서만 읽히는 File.separator를 /로 변환 후 DB에 저장
+			String imagePath = "/images/" + uploadFileName.replace(File.separator, "/");
+
+			map.put("atchFileName", imagePath);
+			map.put("uplFileName", originalName);
+			
+			list.add(map);
+		}
+		return list;
+	}
+	
 	// 일반 첨부파일 저장
 	@PostMapping("/uploadsAjax")
 	@ResponseBody
@@ -230,10 +284,6 @@ public class FundingController {
 
 			// DB에 저장할 때 java에서만 읽히는 File.separator를 /로 변환 후 DB에 저장
 			String imagePath = "/images/" + uploadFileName.replace(File.separator, "/");
-			System.out.println(uploadFileName);
-			System.out.println(imagePath);
-			System.out.println(uuid);
-			System.out.println(originalName);
 
 			map.put("loadPath", loadPath);
 			map.put("dbPath", imagePath);

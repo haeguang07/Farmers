@@ -4,16 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.app.farm.mapper.FarmLendMapper">
 	
-	<!-- 전체조회 -->
-	<select id="selectFarmLendList" resultType="FarmLendVO">
-		select f.board_no, f.zip, f.addr, f.deta_addr, f.area, f.lend_str_date, f.lend_end_date, f.lend_price, f.reg_date, f.reg_stts, f.mem_no, f.dst1, f.dst2, m.mcrp
-		from farm_lend f left join main_crops m
-		on f.board_no = m.board_no
-		where f.reg_stts = 'e1'
-		order by f.reg_date desc
-	</select>
-	
-	<!-- 전체조회(페이징) -->
+	<!-- 농지 대여 전체조회(페이징) -->
 	<select id="selectFarmLendListPage" resultType="FarmLendVO">
 		select c.*
 		from (select ROWNUM rn, b.*
@@ -40,7 +31,7 @@
 		]]>
 	</select>
 	
-	<!-- 페이징 조건 -->
+	<!-- 농지 대여 페이징 조건 -->
 	<sql id="criteria">
 	<where>
 		f.reg_stts = 'e1'
@@ -80,8 +71,9 @@
 	</select>
 	
 	<!-- 등록 -->
-	<insert id="insertFarmLend" parameterType="FarmLendVO">
+	<insert id="insertFarmLend" statementType="CALLABLE">
 		call add_farmlend(
+			#{files, typeHandler=com.yedam.app.farm.service.OracleArrayStructHandler},
 			#{zip},
 			#{addr},
 			#{detaAddr},
@@ -90,16 +82,12 @@
 			#{lendStrDate},
 			#{lendEndDate},
 			#{lendPrice},
-			sysdate,
 			'e1',
 			#{memNo},
 			#{dst1},
 			#{dst2},
 			#{lati},
 			#{longi},
-			#{memNo},
-			#{files, typeHandler=com.yedam.app.farm.service.OracleArrayStructHandler},
-			#{uplDate},
 			#{mcrp, typeHandler=com.yedam.app.farm.service.OracleArrayHandler}
 		)
 	</insert>

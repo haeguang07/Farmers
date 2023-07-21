@@ -5,8 +5,6 @@ import java.util.List;
 import com.yedam.app.farm.vo.FarmLendVO;
 
 public interface FarmLendMapper {
-	// 전체조회
-	public List<FarmLendVO> selectFarmLendList();
 	// 전체조회(페이징)
 	public List<FarmLendVO> selectFarmLendListPage(int page, String dst1, String dst2, String mcrp, String price, String area);
 	// 단건조회

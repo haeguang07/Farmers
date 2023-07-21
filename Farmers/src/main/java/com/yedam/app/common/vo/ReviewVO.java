@@ -24,5 +24,6 @@ public class ReviewVO {
 	private String img;
 	
 	private String nick;
+	private int count;
 
 }

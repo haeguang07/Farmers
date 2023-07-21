@@ -57,6 +57,7 @@ public class BnbController {
 	@GetMapping("bnbInfo")
 	public String getBnbInfo(Model model, String boardNo) {
 		model.addAttribute("bnb", bnbService.selectBnb(boardNo));
+		model.addAttribute("rev",revService.getCount(boardNo));
 		return "activity/bnb/bnbInfo";
 	}
 
@@ -64,7 +65,7 @@ public class BnbController {
 	@ResponseBody
 	@GetMapping("bnbInfo/review")
 	public List<ReviewVO> getReview(String boardNo) {
-		System.out.println(boardNo);
+		System.out.println(boardNo);		
 		return revService.getReview(boardNo);
 	}
 
@@ -75,6 +76,19 @@ public class BnbController {
 		revService.addReview(vo);
 		System.out.println(vo);
 		return vo;
+	}
+
+	// 리뷰삭제
+	@ResponseBody
+	@GetMapping("bnbInfo/revDel")
+	public String delReview(String revNo) {
+		System.out.println(revNo);
+		int result = revService.delReview(revNo);
+		if (result > 0) {
+			return "delete!";
+		} else {
+			return "fail";
+		}
 	}
 
 	// 등록 페이지
@@ -89,7 +103,7 @@ public class BnbController {
 	public String addBnb(BnbVO vo) {
 		System.out.println(vo);
 		bnbService.insertBnb(vo);
-		return "redirect:bnbList";
+		return "redirect:/bnbList";
 	}
 
 	// 수정페이지
@@ -97,17 +111,29 @@ public class BnbController {
 	public String updateBnbForm(Model model, String boardNo) {
 		BnbVO result = bnbService.selectBnb(boardNo);
 		List<CodeVO> codeVo = codeService.getCodeList("0K");
-		model.addAttribute("dst",codeVo);
+		model.addAttribute("dst", codeVo);
 		model.addAttribute("bnb", result);
 		return "activity/bnb/updateBnbForm";
 	}
 
 	// 수정처리
 	@PostMapping("update/updateBnb")
+	@ResponseBody
 	public String updateBnb(BnbVO vo) {
 		System.out.println(vo);
 		int result = bnbService.updateBnb(vo);
-		return "redirect:bnbInfo";
+		if (result > 0) {
+			return "수정 완료";
+		} else {
+			return "수정 실패";
+		}
+	}
+
+	// 삭제
+	@GetMapping("deleteBnb")
+	public String deleteBnb(String boardNo) {
+		bnbService.deleteBnb(boardNo);
+		return "redirect:bnbList";
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import com.yedam.app.common.vo.PaymentVO;
 import com.yedam.app.farm.vo.FarmLendApplyVO;
 import com.yedam.app.farm.vo.FarmLendVO;
+import com.yedam.app.market.vo.AuctionVO;
 import com.yedam.app.user.vo.AlertVO;
 import com.yedam.app.user.vo.AttachVO;
 import com.yedam.app.user.vo.InquiryVO;
@@ -35,6 +36,9 @@ public interface MyPageMapper {
 
 	// 결제내역 조회
 	public PaymentVO myPayList(PaymentVO vo);
+	
+	//결제환불
+	public int refund(String payNo);
 
 	// 문의내역 조회
 	public List<InquiryVO> myInquiry(String memNo);
@@ -62,5 +66,18 @@ public interface MyPageMapper {
 	
 	//농지대여 상세 정보
 	public FarmLendVO myFarmLendInfo(String boardNo);
+	
+	//농지대여 나의 신청 상세 정보
+	public FarmLendApplyVO mySubInfo(String aplNo);
+	
+	//농지대여 나의 신청 삭제
+	public int deleteMyFarmSub(String aplNo);
+	
+	//나의 경매장 등록 리스트
+	public List<AuctionVO> myActionList(String memNo);
+	
+	//나의 입찰 리스트
+	public List<AuctionVO> myBidList(String memNo);
+	
 
 }

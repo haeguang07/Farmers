@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.yedam.app.common.vo.PaymentVO;
 import com.yedam.app.farm.vo.FarmLendApplyVO;
 import com.yedam.app.farm.vo.FarmLendVO;
+import com.yedam.app.market.vo.AuctionVO;
 import com.yedam.app.user.mapper.MyPageMapper;
 import com.yedam.app.user.vo.AlertVO;
 import com.yedam.app.user.vo.AttachVO;
@@ -59,6 +60,12 @@ public class MyPageServiceImpl implements MyPageService {
 	public List<PaymentVO> myPayNo(String memNo) {
 		return myPageMapper.myPayNo(memNo);
 	}
+	
+
+	@Override
+	public boolean refund(String payNo) {
+		return myPageMapper.refund(payNo) > 0;
+	}
 
 	@Override
 	public List<InquiryVO> myInquiry(String memNo) {
@@ -104,5 +111,28 @@ public class MyPageServiceImpl implements MyPageService {
 	public FarmLendVO myFarmLendInfo(String boardNo) {
 		return myPageMapper.myFarmLendInfo(boardNo);
 	}
+
+	@Override
+	public FarmLendApplyVO mySubInfo(String aplNo) {
+		return myPageMapper.mySubInfo(aplNo);
+	}
+
+	@Override
+	public boolean deleteMyFarmSub(String aplNo) {
+		return myPageMapper.deleteMyFarmSub(aplNo) > 0;
+	}
+
+	@Override
+	public List<AuctionVO> myActionList(String memNo) {
+		return myPageMapper.myActionList(memNo);
+	}
+
+	@Override
+	public List<AuctionVO> myBidList(String memNo) {
+		return myPageMapper.myBidList(memNo);
+	}
+
+
+
 
 }
