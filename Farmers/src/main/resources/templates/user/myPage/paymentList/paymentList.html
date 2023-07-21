@@ -66,10 +66,11 @@
 											</div>
 									</td>
 									<td th:text="${pay.boardCtg}"></td>
-									<td th:text="${pay.title} +'외 '+ ${pay.count-1} +'건'"></td>
+									<!-- "${memberInfo.signDate==null? '': #dates.format(memberInfo.signDate, 'yyyy/MM/dd')}" -->
+									<td th:text="${pay.count == 1 ? pay.title : pay.title + '외 '+ (pay.count-1) +'건'}"></td>
 									<td th:text="${#numbers.formatInteger(pay.totalPayPrice, 3, 'COMMA')}"></td>
 									<td th:text="${#dates.format(pay.payDate, 'yyyy/MM/dd')}"></td>
-									<td th:text="${pay.payMthd}"></td>
+									<td th:text="${pay.payMthd == 'NORMAL'? '일반결제' : '기타결제'}"></td>
 								</tr>
 								</th:block>
 							</tbody>

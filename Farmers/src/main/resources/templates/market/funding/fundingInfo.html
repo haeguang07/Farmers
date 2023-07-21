@@ -96,9 +96,6 @@
 														style="color: white; margin: 0 auto; margin-top: 20px; width: 500px;" id="getPay" th:if="${session.mem.memNo} != ${fundingInfo.memNo}" >구매하기</a>
 														<a th:href="@{modifyFunding(boardNo=${fundingInfo.boardNo})}" class="primary-btn myService"
 														style="color: white; margin: 0 auto; margin-top: 20px; width: 500px;" id="getModify" th:if="${session.mem.memNo} == ${fundingInfo.memNo}">수정하기</a>
-														<div class="product__details__btns__option" th:if="${session.mem.memNo} != ${fundingInfo.memNo}" style="margin-top: 20px;">
-															<a href="#"><i class="fa fa-heart memService"></i>장바구니</a>
-														</div>
 													</div>
 												</div>
 											</div>
@@ -148,6 +145,9 @@
 													<h5 th:text="${popular.fndPrice}+'원'"></h5>
 												</div>
 											</div>
+										</div>
+										<div th:if=" ${#strings.isEmpty($polurInfo)}" class="col-lg-12">
+											<p>인기 상품이 존재하지 않습니다</p>
 										</div>
 									</div>
 								</div>

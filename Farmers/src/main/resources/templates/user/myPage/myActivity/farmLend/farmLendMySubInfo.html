@@ -74,21 +74,39 @@
 							<hr>
 							<h5 class="textCenter">제목</h5>
 							<hr>
-							<div class="row" >
+							<div class="row">
 								<div class="col-md-12">
 									<h6 class="textCenter">신청자 정보</h6>
 									<hr>
 								</div>
-								<div>
-									<p>이름 : <span>홍길동</span></p>
-									<p>연락처 : <span> 01000000000</span></p>
-									<a href="#">다운로드</a>
-									<hr>
+								<div class="row col-md-12">
+									<div class="col-md-6">
+										<p >이름 : <span th:text="${aplInfo.name}">홍길동</span></p>
+									</div>
+									<div class="col-md-6">
+										<p>연락처 : <span th:text="${aplInfo.mbl}"> 01000000000</span></p>
+									</div>
+									<div class="col-md-6">
+										<p>시작 날짜 : <span th:text="${#dates.format(aplInfo.rsvStrDate, 'yyyy/MM/dd')}">홍길동</span></p>
+									</div>
+									<div class="col-md-6">
+										<p>끝 날짜 : <span th:text="${#dates.format(aplInfo.rsvEndDate, 'yyyy/MM/dd')}"> 01000000000</span></p>
+									</div>
+								</div>
+								<div class="row col-md-12">
+									<div class="col-md-6">
+										<p>신청상태 : <span th:text="${aplInfo.aplStts == 'e0' ? '승인대기' : '승인완료' }">몰라</span></p>
+									</div>
+									<div class="col-md-6">
+										<a href="#">다운로드</a>
+									</div>
 								</div>
 							</div>
 						</div>
 						<div>
-							<button type="button" class="form-control" style="width: 500px; margin: 0 auto;">신청 취소</button>
+							<hr>
+							<button type="button" class="form-control" style="width: 500px; margin: 0 auto;" id="cancle">신청
+								취소</button>
 						</div>
 					</div>
 				</div>
@@ -96,7 +114,25 @@
 		</div>
 	</section>
 	<script th:inline="javascript">
-		
+		$('#cancle').on('click', function () {
+			console.log('a')
+			$.ajax({
+					url: "/myPage/deleteMyFarmSub",
+					data: {
+						aplNo : /*[[${aplInfo.aplNo}]]*/
+					}
+				})
+				.done(function (result) {
+					if(result){
+						alert('신청을 취소하였습니다')
+					}else{
+						alert('신청을 실패했습니다')
+					}
+				})
+				.fail(function () {
+					alert('ajax실패')
+				})
+		})
 	</script>
 </body>
 
