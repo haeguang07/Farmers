@@ -26,7 +26,12 @@ public class ReviewServiceImpl implements ReviewService {
 
 	@Override
 	public int getCount(String boardNo) {
-		return 0;
+		return revMapper.getCount(boardNo);
+	}
+
+	@Override
+	public int delReview(String revNo) {
+		return revMapper.delReview(revNo);
 	}
 
 }

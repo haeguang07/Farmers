@@ -2,24 +2,33 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{index}">
-
 <head>
 <meta charset="UTF-8">
 <meta name="description" content="Male_Fashion Template">
 <meta name="keywords" content="Male_Fashion, unica, creative, html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>농촌비앤비 상세페이지</title>
 <link rel="stylesheet"
 	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/css/suinCss/review.css">
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css"
 	type="text/css">
+<!-- 리뷰등록폼 -->
+<link rel="stylesheet" href="/css/suinCss/review.css">
+<title>농촌비앤비 상세페이지</title>
 <style>
 #dateTb td {
 	text-align: right;
 	padding-right: 80px;
+}
+
+.tab-pane {
+	margin-bottom: 100px;
+}
+
+.boldFont {
+	font-size: large;
+	font-weight: bold;
 }
 
 #map {
@@ -27,16 +36,7 @@
 	height: 300px;
 	margin: 20px 5px;
 }
-
-#reviewTable {
-	width: 100%;
-}
-
-.sellBtn bttn {
-	
-}
 </style>
-
 </head>
 
 <body>
@@ -75,22 +75,27 @@
 						<div class="col-lg-8">
 							<div class="product__details__text">
 								<h3 th:text="|${bnb.title}|">제목</h3>
+								<span id="onePay" th:text="|${bnb.price}|" style="display: none"></span>
 								<div class="rating">
 									<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 										class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-										class="fa fa-star-o"></i> <span> - 5 Reviews</span>
+										class="fa fa-star-o"></i> <span>[[${rev}]]</span> Reviews
+									<p>
+										(판매자: <span th:text="|${bnb.id}|"></span>)
+									</p>
 								</div>
-								<h4>
-									<span id="onePay" th:text="|${bnb.price}|"
-										style="display: none"></span> <span
-										th:text="${#numbers.formatInteger(bnb.price==null?0:bnb.price,0,'COMMA')}">금액</span>원(1일)
-								</h4>
 								<p>농촌 한달살기 체험 해보세요!</p>
-
 								<!-- 결제 -->
 								<div>
 
 									<table class="table" id="dateTb">
+										<tr>
+											<th>금액(1일)</th>
+											<td class="boldFont"><span
+												th:text="${#numbers.formatInteger(bnb.price==null?0:bnb.price,0,'COMMA')}"></span>원
+											</td>
+
+										</tr>
 										<tr>
 											<th>날짜 선택</th>
 											<td><input type="date" id="startDate"
@@ -108,7 +113,8 @@
 										</tr>
 										<tr>
 											<th>총 금액</th>
-											<td><b><span id="payResult"></span></b> 원</td>
+											<td class="boldFont"><b><span id="payResult"></span></b>
+												원</td>
 										</tr>
 										<tr>
 											<th colspan="2">
@@ -165,6 +171,23 @@
 										<div class="product__details__tab__content">
 											<div class="product__details__tab__content__item">
 												<div id="reviewArea">
+													<table id="reviewTable" class="table"
+														style="text-align: center">
+														<thead>
+															<tr style="text-align: center">
+																<th>번호</th>
+																<th>별점</th>
+																<th>
+																	<!-- 리뷰넘버자리 -->
+																</th>
+																<th>리뷰 내용</th>
+																<th>작성자</th>
+																<th>삭제</th>
+															</tr>
+														</thead>
+														<tbody>
+														</tbody>
+													</table>
 													<!-- 리뷰 등록 폼 -->
 													<div class="review-form">
 														<div class="row1">
@@ -184,21 +207,6 @@
 															<input id="addBtn" type="submit" value="등록">
 														</div>
 													</div>
-
-													<table id="reviewTable" class="table"
-														style="text-align: center">
-														<thead>
-															<tr style="text-align: center">
-																<th>번호</th>
-																<th>별점</th>
-																<th>내용</th>
-																<th>작성자</th>
-																<th>삭제</th>
-															</tr>
-														</thead>
-														<tbody>
-														</tbody>
-													</table>
 												</div>
 											</div>
 										</div>
@@ -206,16 +214,31 @@
 									<!-- 세번째 탭 -->
 									<div class="tab-pane" id="tabs-7" role="tabpanel">
 										<div class="product__details__tab__content">
-											<p class="note">문의는 아래 사항으로 연락 바랍니다.</p>
-											<div class="product__details__tab__content__item">
+											<!-- <p class="note" style="color: grey">문의는 아래 사항으로 연락 바랍니다.</p> -->
+											<div class="product__details__tab__content__item"
+												style="margin: 40px;">
+
 												<h5>판매자 정보</h5>
-												<p>판매자: 000</p>
-												<p>전화번호: 054-4545-8584</p>
-												<p>주 소: 경상북도 청도 어쩌구</p>
-											</div>
-											<div class="product__details__tab__content__item">
-												<h5>Material used</h5>
-												<p>Po.</p>
+												<table class="table seller">
+													<tr>
+														<td>판 매 자</td>
+														<td><span th:text="|${bnb.name}|"></span></td>
+													</tr>
+													<tr>
+														<td>전화번호</td>
+														<td><span th:text="|${bnb.mbl}|"></span></td>
+													</tr>
+													<tr>
+														<td>이 메 일</td>
+														<td><span th:text="|${bnb.email}|"></span></td>
+													</tr>
+													<tr>
+														<td>주 소</td>
+														<td><span
+															th:text="|${bnb.addr}, ${bnb.detaAddr} (${bnb.zip})|"></span>
+														</td>
+													</tr>
+												</table>
 											</div>
 										</div>
 									</div>
@@ -225,10 +248,13 @@
 					</div>
 					<hr>
 					<th:block th:if="${session.mem}!=null">
-						<div class="product__details__cart__option"	style="text-align:center"
+						<div class="product__details__cart__option"
+							style="text-align: center"
 							th:if="${session.mem.memNo} == ${bnb.memNo}">
-							<a th:href="@{update/updateBnb(boardNo=${bnb.boardNo})}" class="primary-btn">글 수정</a> 
-							<a href="#"	class="primary-btn">글 삭제</a>
+							<a th:href="@{update/updateBnb(boardNo=${bnb.boardNo})}"
+								class="primary-btn">글 수정</a> <a
+								th:href="@{deleteBnb(boardNo=${bnb.boardNo})}"
+								class="primary-btn" id="deleteButton">글 삭제</a>
 						</div>
 					</th:block>
 				</div>
@@ -338,7 +364,7 @@
 					data : {boardNo}, 
 					dataType : 'json',
 					success : function(list) {
-						console.log(list); 
+						//console.log(list); 
 						printReview(list);						
 					},
 					error : function(error) {
@@ -372,31 +398,39 @@
 					data: data,
 					columns:[
 						{data: 'num',
-							orderable: true, // 정렬 기능 비활성화
+							width: '10%',
+							orderable: true,
 					        render: function (data, type, row, meta) {
 						            // meta.row는 0부터 시작하는 행의 인덱스입니다.
 						            // 순번은 1부터 시작해야 하므로 meta.row + 1을 반환합니다.
 						            return meta.row + 1;
 						          }
 						},
-						{data: 'rate',
+						{data: null,
+							width: '10%',
 							render: function (data, type, row) {
-			                		return makeStars(data);
+			                		return makeStars(row.rate)+'<br>'+formatDate(row.wrtDate);
 			                		}
 						},
-						{data: 'revDesct', width: '400px'},
-						{data: 'nick'},
-						{data: 'button',
+						//리뷰넘버- 비활성처리
+						{data:'revNo',
+							width: '0%',
+							orderable: false,   // 정렬 기능 비활성화
 							render: function (data, type, row) {
-				            		return '<button class="delBtn form-control">삭제</button>';
+		            				return '<h6 style="display:none;">'+data+'</h6>';
 				          			}
 						},
-						{data:'revNo',
+						{data: 'revDesct'},
+						{data: 'nick', width: '10%'},
+						{data: 'button',
+							width: '10%',
 							render: function (data, type, row) {
-		            				return '<span style="display:none;">'+data+'</span>';
-	          			}}
+				            		return '<button class="revDel form-control">삭제</button>';
+				          			}
+						}						
 					],
-				    autoWidth: false // autoWidth 옵션 비활성화
+				    autoWidth: false, // autoWidth 옵션 비활성화
+				    order: [0, 'desc'] //
 				});
 				
 			}//데이터테이블 종료
@@ -413,6 +447,15 @@
 		          }
 		       return stars;
 		       }
+			
+			//날짜포맷변경 
+		      function formatDate(dateString) {
+		    	  const date = new Date(dateString);
+		    	  const year = date.getFullYear();
+		    	  const month = String(date.getMonth() + 1).padStart(2, '0');
+		    	  const day = String(date.getDate()).padStart(2, '0');
+		    	  return `(${year}/${month}/${day})`;
+		    	}
 
 			
 			//리뷰 등록 기능	
@@ -423,7 +466,13 @@
 				if(mem==null) {
 					return alert('로그인 필요')
 				}
-				else{
+				else if($('#star').val()=='0'){
+					return alert('별점을 선택하세요')					
+				}
+				else if($('#reviewText').val()==''){
+					return alert('리뷰를 입력하세요')	
+				}
+				else{					
 					let star = $('#star').val();
 					let text = $('#reviewText').val(); 
 					let day= new Date();
@@ -439,6 +488,7 @@
 						success : function(result) {
 							console.log(result); 
 							reviewAjax();							
+							$('#reviewText').val('');
 						},
 						error : function(error) {
 							console.log(error); 
@@ -446,8 +496,54 @@
 					});
 				}
 			})
-			 
+	
+		//리뷰삭제 버튼 이벤트		
+		$('#reviewTable').on('click', '.revDel', function() {
+		  var confirmDelete = confirm("리뷰를 삭제하시겠습니까?");
+		
+		  if (confirmDelete) {
+		    let rowData = $('#reviewTable').DataTable().row($(this).closest('tr'));
+		    let revNo = rowData.data().revNo;
+		    console.log("리뷰 삭제 번호:", revNo);
+		
+		    $.ajax({
+		      url: 'bnbInfo/revDel',
+		      method: 'GET',
+		      data: { revNo: revNo },
+		    //  dataType: 'json',
+		      success: function(result) {
+		    	  debugger
+		        console.log("리뷰 삭제 결과:", result);
+		        rowData.remove().draw(); 
+		        //reviewAjax();
+		        alert('리뷰 삭제 완료');
+		      },
+		      error: function(error) {
+		        console.log("리뷰 삭제 오류:", error);
+		      }
+		    });
+		  } else {
+		    console.log("삭제 취소");
+		  }
+		});
 			
+		//삭제 팝업 이벤트
+		function delPopUp(event) {
+		  var confirmDelete = confirm("글을 삭제하시겠습니까?");
+		
+		  // 사용자가 "확인" 버튼을 눌렀을 때만 삭제 링크로 이동합니다.
+		  if (!confirmDelete) {
+		    event.preventDefault(); // 이벤트의 기본 동작을 막아서 링크로 이동하지 않게 합니다.
+		    console.log("삭제 취소");
+		  } else {
+		    console.log("삭제 완료");
+		  }
+		}
+		
+		//글삭제
+	    $('#deleteButton').on('click',delPopUp);
+		
+		
 		</script>
 	</div>
 </body>
