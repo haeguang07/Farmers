@@ -35,6 +35,11 @@ const routes = [{
     path: '/farmbnb',
     //component: Vue.defineAsyncComponent(() => loadModule('../Vue/user/myPage/farmbnb.vue', options))
   }
+  ,
+  {
+    path: '/inquiry',
+    component: Vue.defineAsyncComponent(() => loadModule('../Vue/user/myPage/inquiry.vue', options))
+  }
 ]
 
 const router = VueRouter.createRouter({
