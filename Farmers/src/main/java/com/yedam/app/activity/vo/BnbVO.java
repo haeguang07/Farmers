@@ -38,4 +38,14 @@ public class BnbVO {
 	private Date aplDate;
 	private int lendTotal;
 
+	//member, detail
+	private String id;
+	private String email;
+	private String nick;
+	private String name;
+	private String detaAddr;
+	private String mbl;
+	
+	//review
+	private int count;
 }

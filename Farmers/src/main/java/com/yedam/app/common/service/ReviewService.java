@@ -14,4 +14,7 @@ public interface ReviewService {
 	
 	// 게시글의 리뷰 수
 	public int getCount(String boardNo);
+	
+	//리뷰삭제
+	public int delReview(String revNo);
 }
