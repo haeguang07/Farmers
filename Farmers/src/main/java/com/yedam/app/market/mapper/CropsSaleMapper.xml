@@ -4,15 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.app.market.mapper.CropsSaleMapper">
 	
-	<!-- 전체조회 -->
-	<select id="selectCropsSaleList" resultType="CropsSaleVO">
-		select board_no, mem_no, title, crp_ctg, price, qty, rep, reg_date, reg_stts
-		from crops_sale
-		where reg_stts = 'e1'
-		order by reg_date desc
-	</select>
-	
-	<!-- 전체조회(페이징) -->
+	<!-- 농작물 판매 전체조회(페이징) -->
 	<select id="selectCropsSaleListPage" resultType="CropsSaleVO">
 		select b.*
 		from (select ROWNUM rn, a.*
@@ -39,7 +31,7 @@
 			  				order by c.price asc
 			  			</when>
 			  			<when test="order.equals('별점순')">
-			  				order by r.rate
+			  				order by r.rate desc
 			  			</when>
 			  		</choose>
 			  	   ) a
@@ -51,7 +43,7 @@
 	
 	<!-- 단건조회 -->
 	<select id="selectCropsSaleInfo" resultType="CropsSaleVO">
-		select c.board_no, c.mem_no, c.title, c.crp_ctg, c.price, c.qty, c.rep, c.deta_desct, c.reg_date, c.reg_stts, m.nick, m.mem_grd
+		select c.board_no, c.mem_no, c.title, c.crp_ctg, c.price, c.qty, c.rep, c.deta_desct, c.reg_date, c.reg_stts, m.nick
 		from crops_sale c left join member m
 		on c.mem_no = m.mem_no
 		where c.board_no = #{boardNo}
@@ -118,11 +110,11 @@
 	</select>
 	
 	<!-- 별점 -->
-	<select id="totalRate" resultType="int">
-		select count(*)
-		from review r join crops_sale c
-		on r.mem_no = c.mem_no
-		where c.board_no = #{boardNo}
+	<!-- 따옴표 써주면 대, 소문자 구분 해준다(안쓰면 무조건 대문자) -->
+	<select id="totalRate" resultType="map">
+		select count(*) "count", round(avg(rate), 1) "star"
+		from review
+		where board_no = #{boardNo}
 	</select>
 	
 </mapper>

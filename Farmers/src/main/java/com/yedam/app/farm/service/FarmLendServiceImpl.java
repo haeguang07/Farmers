@@ -15,11 +15,6 @@ public class FarmLendServiceImpl implements FarmLendService {
 	FarmLendMapper flMapper;
 	
 	@Override
-	public List<FarmLendVO> getFarmLendList() {
-		return flMapper.selectFarmLendList();
-	}
-
-	@Override
 	public List<FarmLendVO> getFarmLendListPage(int page, String dst1, String dst2, String mcrp, String price, String area) {
 		return flMapper.selectFarmLendListPage(page, dst1, dst2, mcrp, price, area);
 	}
@@ -30,8 +25,8 @@ public class FarmLendServiceImpl implements FarmLendService {
 	}
 
 	@Override
-	public boolean insertFarmLendInfo(FarmLendVO flVO, String first, String second, String third) {
-		return flMapper.insertFarmLend(flVO, first, second, third) > 0;
+	public boolean insertFarmLendInfo(FarmLendVO flVO) {
+		return flMapper.insertFarmLend(flVO) > 0;
 	}
 
 	@Override

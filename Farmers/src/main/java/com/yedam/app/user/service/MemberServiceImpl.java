@@ -53,11 +53,20 @@ public class MemberServiceImpl implements MemberService, UserDetailsService{
 	@Override
 	public boolean nickCheck(String nick) {
 		String uNick=memberMapper.selectNick(nick);
-		System.out.println(uNick);
 		if(uNick != null) {
 			return false;			
 		}else {
 			return true;
+		}
+	}
+	//이메일 중복
+	@Override
+	public boolean emailCheck(String email) {
+		MemberVO vo = memberMapper.selectByEmail(email);
+		if(vo==null) {
+			return true;
+		}else {
+			return false;			
 		}
 	}
 
@@ -87,6 +96,7 @@ public class MemberServiceImpl implements MemberService, UserDetailsService{
 		
 	return memberMapper.selectPw(vo);
 	}
+	//비밀번호 변경
 	@Override
 	public boolean pwChange(MemberVO vo) {
 		

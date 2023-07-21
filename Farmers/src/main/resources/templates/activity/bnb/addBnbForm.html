@@ -47,7 +47,7 @@
 		<hr>
 		<!-- Shop Details Section Begin -->
 		<section class="shop-details">
-			<form th:action="@{/insertBnb}" method="POST" th:object="${bnb}">
+			<form th:action="@{/add/insertBnb}" method="POST" th:object="${bnb}" id="myForm">
 				<div class="product__details__pic" style="background-color: white;">
 					<div class="container">
 						<div class="row">
@@ -60,105 +60,103 @@
 									</div>
 								</div>
 								<div class="product__details__content col-lg-8">
-									<form id="myForm">
-										<!-- 실제 파일 업로드 input (안보임) -->
-										<input type="file" id="inputFile" style="display: none;">
-										<input type="text" id="insertFile" style="display: none;"
-											name="rep">
-										<div class="container">
-											<div class="row d-flex justify-content-center row">
-												<div class="col-lg-12">
-													<div class="product__details__text">
-														<div class="row">
-															<h4 class="myInline col-lg-3">숙소명</h4>
-															<input type="text" class="form-control col-lg-8"
-																name="title" th:field="*{title}"
-																style="margin-left: -15px">
+									<!-- 실제 파일 업로드 input (안보임) -->
+									<input type="file" id="inputFile" style="display: none;">
+									<input type="text" id="insertFile" style="display: none;"
+										name="rep">
+									<div class="container">
+										<div class="row d-flex justify-content-center row">
+											<div class="col-lg-12">
+												<div class="product__details__text">
+													<div class="row">
+														<h4 class="myInline col-lg-3">숙소명</h4>
+														<input type="text" class="form-control col-lg-8"
+															name="title" th:field="*{title}"
+															style="margin-left: -15px">
+													</div>
+													<hr>
+													<div class="row">
+														<div class="row col-lg-6">
+															<p class="myInline col-lg-6 mb-0 textLeft">판매자</p>
+															<input type="text" class="form-control col-lg-6"
+																name="memNo" th:value="${session.mem.memNo}" readonly>
 														</div>
-														<hr>
-														<div class="row">
-															<div class="row col-lg-6">
-																<p class="myInline col-lg-6 mb-0 textLeft">판매자</p>
-																<input type="text" class="form-control col-lg-6"
-																	name="memNo" th:value="${session.mem.memNo}" readonly>
-															</div>
-															<div class="row col-lg-6">
-																<p class="myInline col-lg-5 mb-0 textLeft">지역선택</p>
-																<select class="form-control col-lg-6" name="crpCtg"
-																	th:field="*{dst1}">
-																	<option value="k0">경기도</option>
-																	<option value="k1">강원특별자치도</option>
-																	<option value="k2">충청북도</option>
-																	<option value="k3">충청남도</option>
-																	<option value="k4">경상북도</option>
-																	<option value="k5">경상남도</option>
-																	<option value="k6">전라북도</option>
-																	<option value="k7">전라남도</option>
-																	<option value="k8">제주특별자치도</option>
-																</select>
-															</div>
+														<div class="row col-lg-6">
+															<p class="myInline col-lg-5 mb-0 textLeft">지역선택</p>
+															<select class="form-control col-lg-6" name="crpCtg"
+																th:field="*{dst1}">
+																<option value="k0">경기도</option>
+																<option value="k1">강원특별자치도</option>
+																<option value="k2">충청북도</option>
+																<option value="k3">충청남도</option>
+																<option value="k4">경상북도</option>
+																<option value="k5">경상남도</option>
+																<option value="k6">전라북도</option>
+																<option value="k7">전라남도</option>
+																<option value="k8">제주특별자치도</option>
+															</select>
+														</div>
 
+													</div>
+													<br>
+													<div class="row">
+														<div class="row col-lg-6">
+															<p class="myInline col-lg-6 mb-0 textLeft">우편번호</p>
+															<input type="text" class="form-control col-lg-6"
+																id="post" name="addrNum" readonly th:field="*{zip}">
 														</div>
-														<br>
-														<div class="row">
-															<div class="row col-lg-6">
-																<p class="myInline col-lg-6 mb-0 textLeft">주소</p>
-																<input type="text" class="form-control col-lg-6"
-																	id="post" name="addrNum" readonly th:field="*{zip}">
-															</div>
-															<div class="row col-lg-6">
-																<button type="button" onclick="postCode()">우편번호
-																	찾기</button>
-															</div>
+														<div class="row col-lg-6">
+															<button type="button" onclick="postCode()">우편번호
+																찾기</button>
 														</div>
-														<br>
-														<div class="row">
-															<p class="myInline col-lg-3 mb-0 textLeft"></p>
-															<input type="text" class="form-control col-lg-8" id="adr"
-																name="address" th:field="*{addr}"
-																style="margin-left: -15px">
+													</div>
+													<br>
+													<div class="row">
+														<p class="myInline col-lg-3 mb-0 textLeft">주소</p>
+														<input type="text" class="form-control col-lg-8" id="adr"
+															name="address" th:field="*{addr}"
+															style="margin-left: -15px">
+													</div>
+													<br>
+													<div class="row">
+														<p class="myInline col-lg-3 mb-0 textLeft">상세주소</p>
+														<input type="text" class="form-control col-lg-8"
+															id="adrDetail" name="addrDetail" th:field="*{addrDetail}"
+															style="margin-left: -15px">
+													</div>
+													<!-- 위도, 경도 -->
+													<div class="row" style="display: none">
+														<input type="text" name="lati" id="latitude"
+															th:field="*{lati}"> <input type="text"
+															name="longi" id="longitude" th:field="*{longi}">
+													</div>
+													<br>
+													<div class="row">
+														<div class="row col-lg-6">
+															<p class="myInline col-lg-6 mb-0 textLeft">금액(1일)</p>
+															<input type="number" class="form-control col-lg-6"
+																name="price" value="0" th:field="*{price}">
 														</div>
-														<br>
-														<div class="row">
-															<p class="myInline col-lg-3 mb-0 textLeft"></p>
-															<input type="text" class="form-control col-lg-8"
-																id="adrDetail" name="address" th:field="*{addrDetail}"
-																style="margin-left: -15px">
+													</div>
+													<br>
+													<div class="row">
+														<div class="row col-lg-6">
+															<p class="myInline col-lg-6 mb-0 textLeft">예약(시작)</p>
+															<input type="date" class="form-control col-lg-6"
+																name="lendStrDate" th:field="*{lendStrDate}"
+																onchange="minDate()">
 														</div>
-														<!-- 위도, 경도 -->
-														<div class="row" style="display: none">
-															<input type="text" name="lati" id="latitude"
-																th:field="*{lati}"> <input type="text"
-																name="longi" id="longitude" th:field="*{longi}">
-														</div>
-														<br>
-														<div class="row">
-															<div class="row col-lg-6">
-																<p class="myInline col-lg-6 mb-0 textLeft">금액(1일)</p>
-																<input type="number" class="form-control col-lg-6"
-																	name="price" value="0" th:field="*{price}">
-															</div>
-														</div>
-														<br>
-														<div class="row">
-															<div class="row col-lg-6">
-																<p class="myInline col-lg-6 mb-0 textLeft">예약(시작)</p>
-																<input type="date" class="form-control col-lg-6"
-																	name="lendStrDate" th:field="*{lendStrDate}"
-																	onchange="minDate()">
-															</div>
-															<div class="row col-lg-6">
-																<p class="myInline col-lg-5 mb-0 textLeft">예약(종료)</p>
-																<input type="date" class="form-control col-lg-6"
-																	name="lendEndDate" th:field="*{lendEndDate}"
-																	id="endDate">
-															</div>
+														<div class="row col-lg-6">
+															<p class="myInline col-lg-5 mb-0 textLeft">예약(종료)</p>
+															<input type="date" class="form-control col-lg-6"
+																name="lendEndDate" th:field="*{lendEndDate}"
+																id="endDate">
 														</div>
 													</div>
 												</div>
 											</div>
 										</div>
-									</form>
+									</div>
 								</div>
 								<div class="row col-lg-12" style="margin-top: 30px">
 									<div class="col-lg-12">
@@ -185,7 +183,7 @@
 										</div>
 										<br>
 										<div style="margin-top: 10px;">
-											<button type="submit" class="primary-btn col-lg-2"
+											<button type="button" class="primary-btn col-lg-2"
 												id="addBtn">등록하기</button>
 											<button type="button" class="primary-btn col-lg-2"
 												th:onclick="|location.href='@{/bnbList}'|">뒤로가기</button>
@@ -284,7 +282,7 @@
 						formData.append("uploadFiles", files[i]); //키,값으로 append
 
 						$.ajax({
-							url: 'uploadsAjax',
+							url: '/uploadsAjax',
 							type: 'POST',
 							processData: false, // 기본값은 true, ajax 통신을 통해 데이터를 전송할때, 기본적으로 key와 value 값을 Query String으로 변환해서 보내줌
 							contentType: false, // multipart/form-data 타입을 사용하기위해 false로 지정
@@ -329,6 +327,51 @@
 				document.getElementById('endDate').setAttribute('min', min);
 			}
 			
+			//등록하기 버튼 예외처리
+			
+			$('#addBtn').on('click', function () {
+
+				//데이터 입력 확인
+				if (!$('[name="title"]').val()) {
+					alert('제목을 입력하세요');
+					return;
+				} else if ($('[name="crpCtg"]').val() <= 0) {
+					alert('지역을 선택하세요');
+					return;
+				} else if ($('[name="addrNum"]').val() =="") {
+					alert('우편번호를 입력하세요');
+					return;
+				} else if (!$('[name="addrDetail"]').val()) {
+					alert('상세주소를 입력하세요');
+					return;			
+				} else if ($('[name="price"]').val() <= 0) {
+					alert('금액을 입력하세요');
+					return;
+				} else if (!$('[name="lendStrDate"]').val()) {
+					alert('예약 시작일을 입력하세요');
+					return;
+				} else if (!$('[name="lendEndDate"]').val()) {
+					alert('예약 종료일을 입력하세요');
+					return;
+				} else {
+/* 					let ckData = editor
+					let formData = $('#myForm').serializeObject()
+					console.log(formData);
+					//상세 설명 존재하지 않을 시 출력 내용 설정
+					if(ckData.getData() == ''){
+						ckData.setData('<p>상세 설명이 존재하지 않습니다</p>')
+						formData.desct = ckData.getData()
+					}else{
+						formData.desct = ckData.getData()
+					}
+					if($('#inputFile').val()){
+						formData.rep = dbPath
+					}
+					formData.boardNo = /*[[${bnb.boardNo}]]*/ ;
+
+					$('#myForm').submit();
+				}
+			})
 			
 		</script>
 	</div>

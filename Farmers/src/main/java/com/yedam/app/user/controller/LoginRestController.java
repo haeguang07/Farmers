@@ -5,12 +5,18 @@ import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.yedam.app.security.PrincipalDetails;
+import com.yedam.app.user.mapper.MemberMapper;
 import com.yedam.app.user.service.EmailService;
 import com.yedam.app.user.service.MemberService;
 import com.yedam.app.user.vo.EmailVO;
@@ -27,6 +33,7 @@ public class LoginRestController {
 	// 이메일 전송(인증 번호)
 	@GetMapping("sendEmail")
 	public Map<String, Object> email(String emailText) {
+		
 		int random = (int) (Math.random() * 100000) + 100000;
 		String to = emailText;
 		String title = "인증번호 발송";
@@ -113,6 +120,18 @@ public class LoginRestController {
 		
 		return map;
 	}
+	//이메일 중복
+	@GetMapping("emailCheck")
+	public Map<String, String> emailCheck(String emailText){
+		Map<String, String> map = new HashMap<>();
+		if(memberService.emailCheck(emailText)){
+			map.put("retCode", "Success");
+		}else {
+			map.put("retCode", "Fail");
+		}
+		return map;
+	}
+	
 	//회원가입
 	@PostMapping("signup")
 	public Map<String, Object> signup( MemberVO member){
@@ -127,15 +146,28 @@ public class LoginRestController {
 		
 		return map;
 	}
-	/*
-	 * //카카오
-	 * 
-	 * @GetMapping("kakao") public void kakao(OauthCodeVO vo) {
-	 * System.out.println(vo);
-	 * 
-	 * }
-	 */
 	
+	//로그인 정보보기
+	@GetMapping("info/oauth/login")
+    public Map<String, Object> oauthLoginInfo(Authentication authentication, @AuthenticationPrincipal OAuth2User oAuth2UserPrincipal){
+        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+        Map<String, Object> attributes = oAuth2User.getAttributes();
+        System.out.println(attributes);
+        // PrincipalOauth2UserService의 getAttributes내용과 같음
+       return attributes;     //세션에 담긴 user가져올 수 있음음
+    }    
+    @GetMapping("info/loginInfo")
+    public String loginInfo(Authentication authentication, @AuthenticationPrincipal PrincipalDetails principalDetails){
+        String result = "";
+
+        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+        if(principal.getMemberVO().getLoginPath() == null) {
+            result = result + "Form 로그인 : " + principal;
+        }else{
+            result = result + "OAuth2 로그인 : " + principal;
+        }
+        return result; 
+    }
 	
 	
 	

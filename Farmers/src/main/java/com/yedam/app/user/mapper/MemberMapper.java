@@ -13,7 +13,6 @@ public interface MemberMapper {
 
 	// 닉네임중복
 	public String selectNick(String nick);
-
 	// 회원 가입
 	public int insertMember(MemberVO memberVO);
 

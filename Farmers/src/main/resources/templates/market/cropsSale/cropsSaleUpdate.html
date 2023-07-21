@@ -195,8 +195,13 @@
 					data : formData
 				})
 				.done(function(result){
-					alert("success");
-					location.href="cropsSaleList";
+					if(result.result == 'true') {
+						alert("success");
+						location.href="cropsSaleList";
+					} else {
+						alert("fail");
+						location.href="cropsSaleList";
+					}
 				})
 				.fail(function(result){
 					alert("fail");

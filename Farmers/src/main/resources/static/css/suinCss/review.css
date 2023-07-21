@@ -1,34 +1,44 @@
 @charset "UTF-8";
 
- /* 리뷰등록폼 CSS */
-    .review-form {
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin: 0 30px 30px;
-    background-color: #f9f9f9;
-    }
+/* 리뷰등록폼 CSS */
+.review-form {
+	display: flex;
+	flex-direction: column;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	margin: 50px 30px 10px;
+	background-color: #f9f9f9;
+}
 
-    .review-form label,
-    .review-form textarea,
-    .review-form input[type="submit"],
-    .review-form select {
-      margin: 5px;
-    }
+.review-form label, .review-form textarea, .review-form input[type="submit"],
+	.review-form select {
+	margin: 5px;
+}
 
-    .review-form .row1 {
-      display: flex;
-    }
-    .review-form select {
-      margin-right: 10px;
-    }
+.review-form .row1 {
+	display: flex;
+}
 
-    .review-form textarea {
-      flex: 1;
-    }
+.review-form select {
+	margin-right: 10px;
+}
 
-    .review-form input[type="submit"] {
-      flex: 0.1;
-    }
+.review-form textarea {
+	flex: 1;
+}
+
+.review-form input[type="submit"] {
+	flex: 0.1;
+}
+
+/* 리뷰테이블 */
+
+#reviewTable th {
+	text-align: center;
+}
+
+.dataTables_wrapper .dataTables_length {
+	float: right;
+	margin-right: 50px;
+}

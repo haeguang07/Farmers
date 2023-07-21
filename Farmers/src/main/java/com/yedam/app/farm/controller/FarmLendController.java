@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -79,18 +80,11 @@ public class FarmLendController {
 	// 등록 기능
 	@PostMapping("farmLendInsert")
 	@ResponseBody
-	public String insertFarmLend(FarmLendVO flVO, String first, String second, String third) {
-		boolean result = flService.insertFarmLendInfo(flVO, first, second, third);
+	public String insertFarmLend(@RequestBody FarmLendVO flVO) {
+		flService.insertFarmLendInfo(flVO);
 		System.out.println(flVO);
-		System.out.println(first);
-		System.out.println(second);
-		System.out.println(third);
 		
-		if(result) {
-			return "success";
-		} else {
-			return "fail";
-		}
+		return "success";
 	}
 	
 	// 수정 페이지 불러오기
