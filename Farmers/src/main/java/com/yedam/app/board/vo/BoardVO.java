@@ -14,6 +14,7 @@ public class BoardVO {
 	
 	private String boardNo;
 	private String memNo;
+	private String postCtg;
 	private String dst1;
 	private String dst2;
 	private String title;
@@ -22,6 +23,7 @@ public class BoardVO {
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	@JsonFormat(pattern ="yyyy-MM-dd")
 	private Date wrtDate;
+	private int hitCount;
 	
 	private String nick;
 	
