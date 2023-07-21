@@ -53,7 +53,7 @@
 											</p>
 											<div class="row mb-2">
 												<button type="button" class="btn btn-dark mr-2" style="width: 150px; float: left;" id="apply">신청하기</button>
-												<button type="button" class="btn btn-dark" style="width: 150px; float: left;">목록으로</button>
+												<button type="button" class="btn btn-dark" style="width: 150px; float: left;" id="toList">목록으로</button>
 											</div>
 											<div class="row" th:if="not ${#strings.isEmpty(session.mem)}">
 												<button type="button" class="btn btn-dark mr-2" style="width: 150px;" id="update" 
@@ -71,6 +71,45 @@
 			</div>
 		</section>
 		<!-- Shop Details Section End -->
+		<!-- 카카오 지도 api -->
+		<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c573b65eabeb9b6da24ab52d832dc807"></script>
+		<script>
+			// 지도 api
+			var latitude = document.getElementById('lati').innerText;
+			var longitude = document.getElementById('longi').innerText;
+			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+			mapOption = {
+				center : new kakao.maps.LatLng(latitude,longitude), // 지도의 중심좌표
+				level : 3, // 지도의 확대 레벨
+				mapTypeId : kakao.maps.MapTypeId.ROADMAP
+			};
+			var map = new kakao.maps.Map(mapContainer, mapOption);
+			// 지도에 마커를 생성하고 표시한다			
+			var marker = new kakao.maps.Marker({
+				position : new kakao.maps.LatLng(latitude,longitude), // 마커의 좌표
+				map : map
+			});
+			
+			// 신청하기 버튼 클릭 시
+			$('#apply').on('click', function() {
+				
+			});
+			
+			// 목록으로 버튼 클릭 시
+			$('#toList').on('click', function() {
+				location.href = "farmLendList";
+			});
+			
+			// 수정하기 버튼 클릭 시
+			$('#update').on('click', function() {
+				
+			});
+			
+			// 삭제하기 버튼 클릭 시
+			$('#delete').on('click', function() {
+				
+			});
+		</script>
 	</div>
 </body>
 </html>

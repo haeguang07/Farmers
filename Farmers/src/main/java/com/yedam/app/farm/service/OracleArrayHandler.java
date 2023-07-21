@@ -15,8 +15,8 @@ public class OracleArrayHandler implements TypeHandler<Object> {
 	
 	@Override
 	public void setParameter(PreparedStatement ps, int i, Object parameter, JdbcType jdbcType) throws SQLException {
-		OracleConnection conn = ps.getConnection().unwrap(OracleConnection.class); 		
-		Array reportsArray = (Array)conn.createOracleArray("STRINGARRAY", (String[]) parameter);		
+		OracleConnection conn = ps.getConnection().unwrap(OracleConnection.class);
+		Array reportsArray = (Array)conn.createOracleArray("STRINGARRAY", (String[]) parameter);
 		ps.setArray(i, reportsArray);
 	}
 
