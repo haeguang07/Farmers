@@ -17,7 +17,7 @@ public class AdminRestController {
 	@Autowired
 	AdminService adminService;
 	
-	@GetMapping("memberList")
+	@GetMapping("members")
 	public Map<String, Object> memberList(){
 		Map<String, Object> map = new HashMap<>();
 		List<MemberVO> list = adminService.getMemberList();

@@ -33,7 +33,7 @@ public class LoginRestController {
 	// 이메일 전송(인증 번호)
 	@GetMapping("sendEmail")
 	public Map<String, Object> email(String emailText) {
-		
+
 		int random = (int) (Math.random() * 100000) + 100000;
 		String to = emailText;
 		String title = "인증번호 발송";
@@ -46,133 +46,133 @@ public class LoginRestController {
 
 	}
 
+	// 아이디 찾기
+	@PostMapping("IDFound")
+	public Map<String, String> IDFound(@RequestBody MemberVO member) {
+		Map<String, String> map = new HashMap<>();
+		System.out.println(member);
+		String id = memberService.idFound(member.getEmail());
+		if (id == null) {
+			map.put("retCode", "Fail");
+		} else {
+			map.put("retCode", "Success");
+			map.put("id", id);
+		}
+
+		return map;
+	}
+
+	// 비밀번호 찾기
+	@PostMapping("pwFind")
+	public Map<String, String> pwFind(@RequestBody MemberVO member) {
+		Map<String, String> map = new HashMap<>();
+		System.out.println(member);
+		String memNo = memberService.pwFound(member);
+		if (memNo == null) {
+			map.put("retCode", "Fail");
+		} else {
+			map.put("retCode", "Success");
+			map.put("memNO", memNo);
+		}
+		return map;
+	}
+	
+	@PostMapping("sendEmailPw")
 	// 이메일 전송(비밀번호 번호)
-	@GetMapping("sendEmailPw")
-	public String emailP(String emailText) {
+	public String emailP(@RequestBody MemberVO member) {
 		String random = getRamdom();
-		String to = emailText;
+		String to = member.getEmail();
 		String title = "임시비밀번호 발송";
 		String subject = "<h3>안녕하세요</h3>\n <h4>임시 비밀번호는" + random + "입니다</h4>\n" + "<h4>로그인후 변경해 주세요</h4>";
 		EmailVO msg = new EmailVO(to, title, subject);
 		emailService.sendMail(msg);
+		
+		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
+		String password = scpwd.encode(random);
+		member.setPw(password);
+		System.out.println(member);
+		memberService.pwChange(member);
 		return random;
+	}
 
-	}
-	//아이디 찾기
-	@PostMapping("IDFound")
-	public Map<String, String> IDFound(@RequestBody MemberVO member){
-		Map<String, String> map = new HashMap<>();
-		System.out.println(member);
-		String id=memberService.idFound(member.getEmail());
-		if(id==null) {
-			map.put("retCode", "Fail");
-		}else {
-			map.put("retCode", "Success");
-			map.put("id", id);
-		}
-		
-		return map;
-	}
-	//비밀번호 찾기
-	@PostMapping("pwFind")
-	public Map<String, String> pwFind(@RequestBody MemberVO member){
-		Map<String, String> map = new HashMap<>();
-		System.out.println(member);
-		String memNo=memberService.pwFound(member);
-		if(memNo==null) {
-			map.put("retCode", "Fail");
-		}else {
-			map.put("retCode", "Success");
-			String pass=emailP(member.getEmail());
-			BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
-			String password = scpwd.encode(pass);
-			member.setPw(password); member.setMemNo(memNo);
-			System.out.println(member);
-			memberService.pwChange(member);
-		}
-		
-		return map;
-	}
-	
-	
-	
 	// 아이디 중복
 	@GetMapping("userIdCheck")
-	public Map<String, String> idCheck(String uid){
+	public Map<String, String> idCheck(String uid) {
 		Map<String, String> map = new HashMap<>();
-		if(memberService.idCheck(uid)) {
+		if (memberService.idCheck(uid)) {
 			map.put("retCode", "Success");
-		}else {
+		} else {
 			map.put("retCode", "Fail");
 		}
-		
-		return map;
-	}
-	//닉네임 중복
-	@GetMapping("nickCheck")
-	public Map<String, String> nickCheck(String nick){
-		Map<String, String> map = new HashMap<>();
-		if(memberService.nickCheck(nick)) {
-			map.put("retCode", "Success");
-		}else {
-			map.put("retCode", "Fail");
-		}
-		
-		return map;
-	}
-	//이메일 중복
-	@GetMapping("emailCheck")
-	public Map<String, String> emailCheck(String emailText){
-		Map<String, String> map = new HashMap<>();
-		if(memberService.emailCheck(emailText)){
-			map.put("retCode", "Success");
-		}else {
-			map.put("retCode", "Fail");
-		}
-		return map;
-	}
-	
-	//회원가입
-	@PostMapping("signup")
-	public Map<String, Object> signup( MemberVO member){
-		Map<String, Object> map = new HashMap<>();
-		
-		System.out.println(member);
-		if(memberService.join(member)) {
-			map.put("retCode", "Success");
-		}else {
-			map.put("retCode", "Fail");
-		}
-		
-		return map;
-	}
-	
-	//로그인 정보보기
-	@GetMapping("info/oauth/login")
-    public Map<String, Object> oauthLoginInfo(Authentication authentication, @AuthenticationPrincipal OAuth2User oAuth2UserPrincipal){
-        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        Map<String, Object> attributes = oAuth2User.getAttributes();
-        System.out.println(attributes);
-        // PrincipalOauth2UserService의 getAttributes내용과 같음
-       return attributes;     //세션에 담긴 user가져올 수 있음음
-    }    
-    @GetMapping("info/loginInfo")
-    public String loginInfo(Authentication authentication, @AuthenticationPrincipal PrincipalDetails principalDetails){
-        String result = "";
 
-        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
-        if(principal.getMemberVO().getLoginPath() == null) {
-            result = result + "Form 로그인 : " + principal;
-        }else{
-            result = result + "OAuth2 로그인 : " + principal;
-        }
-        return result; 
-    }
-	
-	
-	
-	
-	//램덤 13자리 문자열
+		return map;
+	}
+
+	// 닉네임 중복
+	@GetMapping("nickCheck")
+	public Map<String, String> nickCheck(String nick) {
+		Map<String, String> map = new HashMap<>();
+		if (memberService.nickCheck(nick)) {
+			map.put("retCode", "Success");
+		} else {
+			map.put("retCode", "Fail");
+		}
+
+		return map;
+	}
+
+	// 이메일 중복
+	@GetMapping("emailCheck")
+	public Map<String, String> emailCheck(String emailText) {
+		Map<String, String> map = new HashMap<>();
+		if (memberService.emailCheck(emailText)) {
+			map.put("retCode", "Success");
+		} else {
+			map.put("retCode", "Fail");
+		}
+		return map;
+	}
+
+	// 회원가입
+	@PostMapping("signup")
+	public Map<String, Object> signup(MemberVO member) {
+		Map<String, Object> map = new HashMap<>();
+
+		System.out.println(member);
+		if (memberService.join(member)) {
+			map.put("retCode", "Success");
+		} else {
+			map.put("retCode", "Fail");
+		}
+
+		return map;
+	}
+
+	// 로그인 정보보기
+	@GetMapping("info/oauth/login")
+	public Map<String, Object> oauthLoginInfo(Authentication authentication,
+			@AuthenticationPrincipal OAuth2User oAuth2UserPrincipal) {
+		OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+		Map<String, Object> attributes = oAuth2User.getAttributes();
+		System.out.println(attributes);
+		// PrincipalOauth2UserService의 getAttributes내용과 같음
+		return attributes; // 세션에 담긴 user가져올 수 있음음
+	}
+
+	@GetMapping("info/loginInfo")
+	public String loginInfo(Authentication authentication, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+		String result = "";
+
+		PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+		if (principal.getMemberVO().getLoginPath() == null) {
+			result = result + "Form 로그인 : " + principal;
+		} else {
+			result = result + "OAuth2 로그인 : " + principal;
+		}
+		return result;
+	}
+
+	// 램덤 13자리 문자열
 	private String getRamdom() {
 		int leftLimit = 48; // numeral '0'
 		int rightLimit = 122; // letter 'z'
