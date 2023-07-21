@@ -68,8 +68,8 @@ export default{
 	      columns: this.columns ,
 	      rowHeaders: [
           {
-            type: 'rowNum',
-            header: "순번",
+            type: 'checkbox',
+            header: "",
             width: 50,
           }
         ]
