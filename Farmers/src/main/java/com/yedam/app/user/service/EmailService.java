@@ -26,29 +26,26 @@ import com.yedam.app.user.vo.EmailVO;
 public class EmailService {
 	@Value("${spring.mail.host}") // 프로퍼티 혹은 빈에 있는 값들을 들고올 때 사용 (Spring value로 import)
 	private String host;
-	@Value("${spring.mail.port}") 
+	@Value("${spring.mail.port}")
 	private String port;
-	@Value("${spring.mail.username}") 
+	@Value("${spring.mail.username}")
 	private String email;
-	@Value("${spring.mail.password}") 
+	@Value("${spring.mail.password}")
 	private String password;
-	@Value("${spring.mail.properties.mail.smtp.auth}") 
+	@Value("${spring.mail.properties.mail.smtp.auth}")
 	private String auth;
-	@Value("${spring.mail.properties.mail.transport.protocol}") 
+	@Value("${spring.mail.properties.mail.transport.protocol}")
 	private String protocol;
-			
 
-	
-	
-	public void sendMail(EmailVO mail) {
+	public boolean sendMail(EmailVO mail) {
 
 		// 메일 인코딩
 		final String bodyEncoding = "UTF-8"; // 콘텐츠 인코딩
-		
+
 		String subject = mail.getSubject();
 		String fromEmail = email;
 		String fromUsername = "파머스";
-		String toEmail = mail.getTo(); 
+		String toEmail = mail.getTo();
 
 		final String username = "hk97564";
 		final String password = this.password;
@@ -111,11 +108,11 @@ public class EmailService {
 			// 메일 발송
 			Transport.send(message);
 
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
+			return false;
 		}
-
-		
 
 	}
 }

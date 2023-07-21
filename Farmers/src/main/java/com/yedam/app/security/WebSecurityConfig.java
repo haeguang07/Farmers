@@ -10,17 +10,22 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
+import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
 import org.springframework.web.client.RestTemplate;
 
 import com.yedam.app.user.service.MemberService;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig {
+public class WebSecurityConfig  {
 	@Autowired
 	MemberService memberService;
 	@Autowired
 	PrincipalOauth2UserService principalOauth2UserService;
+	
+	private static final ClearSiteDataHeaderWriter.Directive[] SOURCE = 
+	 {ClearSiteDataHeaderWriter.Directive.CACHE, ClearSiteDataHeaderWriter.Directive.COOKIES, ClearSiteDataHeaderWriter.Directive.STORAGE, ClearSiteDataHeaderWriter.Directive.EXECUTION_CONTEXTS};
 	
 	@Bean
     public RestTemplate restTemplate() {
@@ -68,6 +73,7 @@ public class WebSecurityConfig {
 			.logout((logout) -> logout
 					.logoutSuccessUrl("/")
 					.invalidateHttpSession(true)
+					.addLogoutHandler(new HeaderWriterLogoutHandler(new ClearSiteDataHeaderWriter(SOURCE)))
 					.permitAll())
 			.oauth2Login()				// OAuth2기반의 로그인인 경우
             .loginPage("/login")		// 인증이 필요한 URL에 접근하면 /loginForm으로 이동

@@ -1,7 +1,7 @@
 const routes = [{
     path: '/',
     alias: ['/memberManagement'],
-    //component: Vue.defineAsyncComponent(() => loadModule('../Vue/user/admin/member/memberManagement.vue', options))
+    component: Vue.defineAsyncComponent(() => loadModule('../Vue/user/admin/memberManagement.vue', options))
   },
   {
     path: '/farmLend',
