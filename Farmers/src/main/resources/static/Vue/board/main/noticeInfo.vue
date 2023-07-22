@@ -1,5 +1,6 @@
 <script>
   export default {
+    name:'noticeInfo',
     data() {
       return {
         boardInfo: [],
@@ -14,29 +15,34 @@
     mounted(){
       let vue = this;
       let postCtg = 'i2';
+      console.log(this.boardNo)
 
-      $.ajax({
-        url: "boardInfo",
-        method: "GET",
-        data: { postCtg,
-                boardNo },
-        success: function(data){
-          vue.boardInfo = data.boardInfo;
-          console.log(vue.boardInfo);
-        },
-        error: function(err){
-          console.log(err);
-        }
-      })
+    //   $.ajax({
+    //     url: "boardInfo",
+    //     method: "GET",
+    //     data: { postCtg,
+    //             boardNo },
+    //     success: function(data){
+    //       vue.boardInfo = data.boardInfo;
+    //       console.log(vue.boardInfo);
+    //     },
+    //     error: function(err){
+    //       console.log(err);
+    //     }
+    //   })
       
     },
-    props: {
-        
+    props: { 
+        boardNo: {
+      type: String,
+      default: "1",
     }
+}
   }
 </script>
 
 <template>
+    <h1 v-s></h1>
     <section class="blog-details spad">
         <div class="container">
             <div class="row d-flex justify-content-center">

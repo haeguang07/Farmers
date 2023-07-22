@@ -60,7 +60,7 @@
           $(vue.boards).each(function(idx, item){
             let tr = $('<tr>')
             tr.append($('<td>').text('aa'))
-            tr.append($('<td>').append($('<button v-on:click="aaa()">')))
+            tr.append($('<td>').append($('<button>').text('버튼').on('click', () => vue.gets(item.boardNo))))
               tr.append($('<td>').text('aa'))
                 tr.append($('<td>').text('aa'))
                   tr.append($('<td>').text('aa'))
@@ -83,10 +83,10 @@
         }
       })
     },
-    method : {
-      aaa: function() {
-        console.log('gg')
-        //this.$router.push('/boardInfo')
+    methods : {
+      gets: function(pram) {
+        console.log(pram)
+        this.$router.push({name:'noticeInfo', params: {boardNo : pram}})
       }
     }
   }
