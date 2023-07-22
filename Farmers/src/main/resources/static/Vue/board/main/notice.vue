@@ -3,7 +3,6 @@
     data() {
       return {
         boards: [],
-        postCtg: 'i2',
         lang_kor : {
 	        "decimal" : "",
 	        "emptyTable" : "데이터가 없습니다.",
@@ -27,7 +26,8 @@
 	            "sortAscending" : " :  오름차순 정렬",
 	            "sortDescending" : " :  내림차순 정렬"
 	        }
-        },
+        }
+        /*,
           columns : [
               {data : 'num',
                 render: function (data, type, row, meta) {
@@ -40,33 +40,53 @@
               {data : 'nick'},
               {data : 'wrtDate'},
               {data : 'hitCount'}
-            ]
+            ] */
         }
       
     },
     mounted(){
-      this.boardList();
-      
-    },
-    methods: {
-      boardList() {
-        // 선택한 카테고리 값을 서버에 전달하여 해당 카테고리의 게시판 목록 조회
-        fetch(`boards?postCtg=${this.postCtg}`)
-        .then(resp => resp.json())
-        .then(data => {
-          this.boards = data.boardList;
-          console.log(data);
-          let vue = this;
+      let vue = this;
+      let postCtg = 'i2';
+
+      $.ajax({
+        url: "boardList",
+        method: "GET",
+        data: { postCtg },
+        success: function(data){
+          vue.boards = data.boardList;
+          console.log(vue.boards);
+
+          //let tr = $('#myTable tbody').append('<tr />');
+          $(vue.boards).each(function(idx, item){
+            let tr = $('<tr>')
+            tr.append($('<td>').text('aa'))
+            tr.append($('<td>').append($('<button v-on:click="aaa()">')))
+              tr.append($('<td>').text('aa'))
+                tr.append($('<td>').text('aa'))
+                  tr.append($('<td>').text('aa'))
+
+            $('#tbody').append(tr)
+          })
+
+          
+
           $('#myTable').DataTable({
             destroy: true,
             language : vue.lang_kor,  
             ordering : false,
-            searching: false,    //검색란 표시 설정
-            data: vue.boards,
-            columns: vue.columns
+            searching: false   //검색란 표시 설정
+            // data: vue.boards
           })
-        })
-        .catch(err => console.log(err))
+        },
+        error: function(err){
+          console.log(err);
+        }
+      })
+    },
+    method : {
+      aaa: function() {
+        console.log('gg')
+        //this.$router.push('/boardInfo')
       }
     }
   }
@@ -89,6 +109,15 @@
               <th class="col-lg-2">조회수</th>
             </tr>
           </thead>
+          <tbody id="tbody">
+            <!-- <tr v-for="board in boards">
+              <td>1</td>
+              <td><router-link :to="{name:'boardInfo', params: {'boardNo' : board.boardNo}}">{{ board.title }}</router-link></td>
+              <td>{{ board.nick }}</td>
+              <td>{{ board.wrtDate }}</td>
+              <td>{{ board.hitCount }}</td>
+            </tr> -->
+          </tbody>
         </table>
         <hr>
       </div>
@@ -103,5 +132,7 @@
   .center {
     text-align: center;
   }
+  #myTable {
+    width: 100%
+  }
 </style>
-
