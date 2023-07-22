@@ -27,6 +27,8 @@ public class BoardVO {
 	
 	private String nick;
 	
+	private int recomCount;
+	
 	List<ReplyVO> replys;
 	List<RecomVO> recoms;
 	
