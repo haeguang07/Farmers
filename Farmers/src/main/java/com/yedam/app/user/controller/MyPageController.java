@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yedam.app.activity.vo.BnbVO;
 import com.yedam.app.common.service.PaymentService;
 import com.yedam.app.common.vo.PaymentDetailVO;
 import com.yedam.app.common.vo.PaymentVO;
@@ -350,4 +351,19 @@ public class MyPageController {
 		return "user/myPage/myActivity/funding/myFundingSubList";
 	}
 
+	
+	////////////////////////////나의 농촌 bnb 페이지/////////////////////////////
+	//나의 bnb 리스트
+	@GetMapping("myPage/myBnbList")
+	public String myBnbList(String memNo, Model model) {
+		List<BnbVO> list = myPageService.myBnbList(memNo);
+		model.addAttribute("bnbList", list);
+		return "user/myPage/myActivity/bnb/myBnbList";
+	}
+	
+	/////////////////////나의 농작물 판매 페이지 ////////////////////////////////
+	@GetMapping("myPage/myCropsSaleList")
+	public String myCropsSaleList(String memNo,Model model) {
+		return "user/myPage/myActivity/cropsSale/myCropsSaleList";
+	}
 }

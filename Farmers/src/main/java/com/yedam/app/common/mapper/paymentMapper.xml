@@ -57,12 +57,10 @@
 		CALL
 		insert_pay_detail (
 		#{boardNo, mode=IN , jdbcType = VARCHAR},
-		#{payNo,
-		mode=IN , jdbcType = VARCHAR},
+		#{payNo,mode=IN , jdbcType = VARCHAR},
 		#{memNo, mode=IN , jdbcType = VARCHAR},
 		#{qty, mode=IN , jdbcType = VARCHAR},
-		#{price, mode=IN , jdbcType =
-		VARCHAR},
+		#{price, mode=IN , jdbcType =VARCHAR},
 		#{boardCtg, mode=IN , jdbcType = VARCHAR}
 		)
 		}

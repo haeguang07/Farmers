@@ -335,4 +335,14 @@
       		  WHERE board_no =#{boardNo}) a
 		LEFT JOIN payment b USING (pay_no)
 	</select>
+	
+	<!-- 나의 농촌비앤비 리스트 -->
+	<select id="myBnbList" parameterType="String" resultType="BnbVO">
+		SELECT board_no,
+			   title,
+			   reg_date,
+			   FIND_CODE_NAME(reg_stts) reg_stts
+		FROM farmbnb
+		WHERE mem_no = #{memNo}
+	</select>
 </mapper>

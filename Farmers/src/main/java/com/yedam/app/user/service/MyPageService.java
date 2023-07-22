@@ -2,6 +2,7 @@ package com.yedam.app.user.service;
 
 import java.util.List;
 
+import com.yedam.app.activity.vo.BnbVO;
 import com.yedam.app.common.vo.PaymentDetailVO;
 import com.yedam.app.common.vo.PaymentVO;
 import com.yedam.app.farm.vo.FarmLendApplyVO;
@@ -90,5 +91,8 @@ public interface MyPageService {
 
 	// 나의 펀딩 구매자 리스트
 	public List<PaymentDetailVO> myFundingPayList(String boardNo);
+
+	//나의 Bnb 리스트
+	public List<BnbVO> myBnbList (String memNo);
 
 }

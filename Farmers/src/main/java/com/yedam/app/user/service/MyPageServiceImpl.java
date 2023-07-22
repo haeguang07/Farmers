@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yedam.app.activity.vo.BnbVO;
 import com.yedam.app.common.vo.PaymentDetailVO;
 import com.yedam.app.common.vo.PaymentVO;
 import com.yedam.app.farm.vo.FarmLendApplyVO;
@@ -148,6 +149,11 @@ public class MyPageServiceImpl implements MyPageService {
 	@Override
 	public List<PaymentDetailVO> myFundingPayList(String boardNo) {
 		return myPageMapper.myFundingPayList(boardNo);
+	}
+
+	@Override
+	public List<BnbVO> myBnbList(String memNo) {
+		return myPageMapper.myBnbList(memNo);
 	}
 
 
