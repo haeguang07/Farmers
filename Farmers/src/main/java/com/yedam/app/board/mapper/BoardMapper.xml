@@ -19,8 +19,36 @@
 		<collection property="recoms" javaType="ArrayList" column="boardNo = board_No" ofType="RecomVO" select="getRecomNum"></collection>
 	</resultMap>
 	
-	<!-- 게시판 공지사항, 커뮤니티, 이벤트 전체/상세 조회 -->
-	<select id="boardList" resultMap="boardResult">
+	<!-- 게시판 전체 조회 -->
+	<select id="boardList" resultType="BoardVO">
+		SELECT b.board_no
+  			   , m.nick
+  			   , b.post_ctg
+		       , b.dst1
+		       , b.dst2
+		       , b.title
+		       , b.img
+		       , b.wrt_date
+		       , b.hit_count
+		       , COUNT(r.mem_no) AS recom_count
+		FROM board b
+		LEFT JOIN member m ON b.mem_no = m.mem_no
+		LEFT JOIN recommendation r ON b.board_no = r.board_no
+		WHERE b.post_ctg = #{postCtg}
+		GROUP BY b.board_no
+		         , m.nick
+		         , b.post_ctg
+		         , b.dst1
+		         , b.dst2
+		         , b.title
+		         , b.img
+		         , b.wrt_date
+		         , b.hit_count
+		ORDER BY b.wrt_date DESC
+	</select>
+	
+	<!-- 게시판 공지사항, 커뮤니티, 이벤트 상세 조회 -->
+	<select id="getBoardInfo" resultMap="boardResult">
 		SELECT board_no, m.mem_no, nick, post_ctg, dst1, dst2, title, img, desct, wrt_date, hit_count
 		FROM board b, member m
 		Where b.mem_no = m.mem_no
