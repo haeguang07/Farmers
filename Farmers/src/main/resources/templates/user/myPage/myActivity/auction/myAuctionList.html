@@ -114,7 +114,8 @@
 							width: "15%",
 							targets: 5
 						}
-					]
+					],
+					order : [3, 'desc']
 				});
 			}
 
@@ -252,42 +253,42 @@
 			}
 
 			// //tr 이동
-			// $(document).on("click", "tr", function (e) {
-			// 	if (!$(e.currentTarget).hasClass('th')) {
-			// 		console.log($(e.currentTarget).attr('no'))
-			// 		location.href = "farmLendInfo?boardNo=" + $(e.currentTarget).attr('no')
-			// 	}
-			// })
+			$(document).on("click", "tr", function (e) {
+				if (!$(e.currentTarget).hasClass('th')) {
+					console.log($(e.currentTarget).attr('no'))
+					location.href = "/auctionInfo?boardNo=" + $(e.currentTarget).attr('no')
+				}
+			})
 
-			// //td 버튼 이벤트 (등록 리스트)
-			// $(document).on("click", ".myBtn", function (e) {
-			// 	e.stopPropagation()
+			//td 버튼 이벤트 (등록 리스트)
+			$(document).on("click", ".myBtn", function (e) {
+				e.stopPropagation()
 
-			// 	// 모달창
-			// 	$.magnificPopup.open({
-			// 		items: [{
-			// 			src: "/myPage/myFarmLendSubList?boardNo=" + $(e.target).closest('tr').attr('no'),
-			// 			type: 'iframe'
-			// 		}]
-			// 	})
-			// })
+				// 모달창
+				$.magnificPopup.open({
+					items: [{
+						src: "/myPage/myAuctionBidForm?boardNo="+$(e.target).closest('tr').attr('no'),
+						type: 'iframe'
+					}]
+				})
+			})
 
 			// //td 버튼 이벤트 (신청 리스트)
-			// $(document).on("click", ".subBtn", function (e) {
-			// 	e.stopPropagation()
+			$(document).on("click", ".subBtn", function (e) {
+				e.stopPropagation()
 
-			// 	// 모달창
-			// 	$.magnificPopup.open({
-			// 		items: [{
-			// 			src: "/myPage/FarmLendMySubInfo?aplNo=" + $(e.target).closest('tr').attr('aplNo'),
-			// 			type: 'iframe'
-			// 		}]
-			// 	})
-			// })
+				// 모달창
+				$.magnificPopup.open({
+					items: [{
+						src: "/myPage/myAuctionBidForm?boardNo=" + $(e.target).closest('tr').attr('no'),
+						type: 'iframe'
+					}]
+				})
+			})
 
-			// function priceToString(price) {
-			// 	return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-			// }
+			function priceToString(price) {
+				return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+			}
 		</script>
 	</div>
 </body>

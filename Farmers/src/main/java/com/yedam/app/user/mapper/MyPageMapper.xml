@@ -294,4 +294,45 @@
 		JOIN auction USING (board_no)
 		GROUP BY board_no, title, rep, act_date, reg_stts
 	</select>
+	
+	<!-- 나의 경매의 입찰 리스트 -->
+	<select id="myAuctionBidList" parameterType="String" resultType="AuctionApplyVO">
+		SELECT board_no, 
+			   apl_no,
+			   FIND_MEMBER_NICK(a.mem_no) nick,
+			   a.mem_no memNo, 
+			   price , 
+			   title, 
+			   FIND_CODE_NAME(sbid_stts) sbid_stts 
+		FROM auction_apply a RIGHT JOIN auction b USING (board_no)
+		WHERE board_no = #{boardNo}
+		ORDER BY price DESC
+	</select>
+	
+	<!-- 나의 펀딩 리스트 -->
+	<select id="myFundingList" parameterType="String" resultType="FundingVO">
+		SELECT board_no, 
+			   mem_no , 
+			   title, 
+			   fnd_str_date , 
+			   fnd_end_date , 
+			   find_code_name(reg_stts) reg_stts
+		FROM funding
+		WHERE mem_no = #{memNo}
+	</select>
+	
+	<!-- 나의 펀딩의 구매자 목록 -->
+	<select id="myFundingPayList" parameterType="String" resultType="PaymentDetailVO">
+		SELECT title, 
+			   qty, 
+			   pay_date, 
+			   (qty * price) total_price, 
+			   FIND_MEMBER_NICK(b.mem_no) nick, 
+			   FIND_CODE_NAME(ship_stts) ship_stts,
+			   pay_deta_no
+		FROM (SELECT *
+      		  FROM payment_detail RIGHT JOIN funding USING (board_no) 
+      		  WHERE board_no =#{boardNo}) a
+		LEFT JOIN payment b USING (pay_no)
+	</select>
 </mapper>

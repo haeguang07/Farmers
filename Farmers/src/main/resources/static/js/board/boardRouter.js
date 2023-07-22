@@ -14,6 +14,13 @@ const routes = [{
   path: '/event/:boardNo',
   component: Vue.defineAsyncComponent(() => loadModule('../Vue/board/main/eventInfo.vue', options))
 }
+,
+{
+  path: '/noticeInfo/:boardNo',
+  component: Vue.defineAsyncComponent(() => loadModule('../Vue/board/main/noticeInfo.vue', options)),
+  name : 'noticeInfo',
+  props : true
+}
 ]
 
 const router = VueRouter.createRouter({

@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>MyPage</title>
-<link rel="stylesheet" href="css/sungWookCss/sungook.css"
+<link rel="stylesheet" href="/css/sungWookCss/sungook.css"
 	type="text/css">
 <style>
 .href {
@@ -42,7 +42,7 @@
 									<div class="accordion" id="accordionExample">
 										<div class="card">
 											<div class="">
-												<a href="myPage" data-target="#collapseOne"
+												<a href="/myPage/myPage" data-target="#collapseOne"
 													class="href">회원정보</a>
 											</div>
 										</div>
@@ -56,11 +56,11 @@
 												<div class="card-body">
 													<div class="shop__sidebar__brand">
 														<ul>
-															<li><a href="myFarmLendListForm">나의 농지대여</a></li>
+															<li><a href="/myPage/myFarmLendListForm">나의 농지대여</a></li>
 															<!-- <li><a href="#">나의 일자리 </a></li> -->
 															<!-- <li><a href="#">나의 농기구대여/거래</a></li> -->
 															<li><a href="#">나의 농작물 거래</a></li>
-															<li><a href="#">나의 펀딩</a></li>
+															<li><a th:href="@{/myPage/myFundingForm(memNo=${session.mem.memNo})}">나의 펀딩</a></li>
 															<li><a href="#">나의 전원마켓</a></li>
 															<li><a href="/myPage/myAuctionForm">나의 경매장</a></li>
 															<li><a href="#">나의 농촌비앤비</a></li>
@@ -72,13 +72,13 @@
 										</div>
 										<div class="card">
 											<div class="">
-												<a th:href="@{alertList(memNo=${session.mem.memNo})}" data-target="#collapseThree"
+												<a th:href="@{/myPage/alertList(memNo=${session.mem.memNo})}" data-target="#collapseThree"
 													class="href">나의 알림</a>
 											</div>
 										</div>
 										<div class="card">
 											<div class="">
-												<a th:href="@{myPayList(memNo=${session.mem.memNo})}"
+												<a th:href="@{/myPage/myPayList(memNo=${session.mem.memNo})}"
 													data-target="#collapseFour"
 													class="href">나의 구매내역</a>
 											</div>
@@ -92,7 +92,7 @@
 										</div>
 										<div class="card">
 											<div class="">
-												<a th:href="@{myInquiry(memNo=${session.mem.memNo})}"
+												<a th:href="@{/myPage/myInquiry(memNo=${session.mem.memNo})}"
 													data-target="#collapseFive"
 													class="href">문의하기</a>
 											</div>
