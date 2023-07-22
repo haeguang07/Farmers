@@ -2,10 +2,13 @@ package com.yedam.app.user.service;
 
 import java.util.List;
 
+import com.yedam.app.common.vo.PaymentDetailVO;
 import com.yedam.app.common.vo.PaymentVO;
 import com.yedam.app.farm.vo.FarmLendApplyVO;
 import com.yedam.app.farm.vo.FarmLendVO;
+import com.yedam.app.market.vo.AuctionApplyVO;
 import com.yedam.app.market.vo.AuctionVO;
+import com.yedam.app.market.vo.FundingVO;
 import com.yedam.app.user.vo.AlertVO;
 import com.yedam.app.user.vo.AttachVO;
 import com.yedam.app.user.vo.InquiryVO;
@@ -78,5 +81,14 @@ public interface MyPageService {
 
 	// 나의 입찰 리스트
 	public List<AuctionVO> myBidList(String memNo);
+
+	// 내 경매의 입찰 리스트
+	public List<AuctionApplyVO> myAuctionBidList(String boardNo);
+
+	// 나의 펀딩 리스트
+	public List<FundingVO> myFundingList(String memNo);
+
+	// 나의 펀딩 구매자 리스트
+	public List<PaymentDetailVO> myFundingPayList(String boardNo);
 
 }

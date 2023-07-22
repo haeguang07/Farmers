@@ -16,7 +16,9 @@ import com.yedam.app.common.vo.PaymentDetailVO;
 import com.yedam.app.common.vo.PaymentVO;
 import com.yedam.app.farm.vo.FarmLendApplyVO;
 import com.yedam.app.farm.vo.FarmLendVO;
+import com.yedam.app.market.vo.AuctionApplyVO;
 import com.yedam.app.market.vo.AuctionVO;
+import com.yedam.app.market.vo.FundingVO;
 import com.yedam.app.user.service.MyPageService;
 import com.yedam.app.user.vo.AlertVO;
 import com.yedam.app.user.vo.AttachVO;
@@ -33,13 +35,13 @@ public class MyPageController {
 
 	////////////// 회원정보 페이지//////////////
 	// 마이페이지 (기본화면)
-	@GetMapping("myPage")
+	@GetMapping("myPage/myPage")
 	public String myPage() {
 		return "user/myPage/memberInfo/pwCheck";
 	}
 
 	// 마이페이지 비번 체크
-	@GetMapping("myPwCheck")
+	@GetMapping("myPage/myPwCheck")
 	@ResponseBody
 	public boolean pwCheck(String pw, String memNo) {
 		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
@@ -51,7 +53,7 @@ public class MyPageController {
 	}
 
 	// 회원정보 페이지
-	@GetMapping("memberInfo")
+	@GetMapping("myPage/memberInfo")
 	public String memberInfo(String memNo, Model model) {
 		System.out.println(memNo);
 		MemberVO vo = myPageService.getMemberInfo(memNo);
@@ -63,7 +65,7 @@ public class MyPageController {
 	}
 
 	// 회원정보 수정 페이지
-	@GetMapping("memberModify")
+	@GetMapping("myPage/memberModify")
 	public String memberInfoModify(String memNo, Model model) {
 		MemberVO vo = myPageService.getMemberInfo(memNo);
 		model.addAttribute("memberInfo", changCode(vo));
@@ -72,7 +74,7 @@ public class MyPageController {
 	}
 
 	// 회원정보 수정
-	@PostMapping("memberModify")
+	@PostMapping("myPage/memberModify")
 	public String memberModify(MemberVO vo) {
 		System.out.println(vo);
 		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
@@ -84,7 +86,7 @@ public class MyPageController {
 	}
 
 	// 등업신청 페이지
-	@GetMapping("upgradeMember")
+	@GetMapping("myPage/upgradeMember")
 	public String upgradeMemberForm(MemberVO vo, Model model) {
 	
 		model.addAttribute("member", vo);
@@ -92,7 +94,7 @@ public class MyPageController {
 	}
 
 	// 등업신청 기능
-	@PostMapping("upgradeMember")
+	@PostMapping("myPage/upgradeMember")
 	@ResponseBody
 	public boolean upgradeMember(AttachVO vo) {
 		System.out.println(vo);
@@ -100,7 +102,7 @@ public class MyPageController {
 	}
 
 	// 포인트내역 페이지
-	@GetMapping("pointHistory")
+	@GetMapping("myPage/pointHistory")
 	public String pointHistory(String memNo, Model model) {
 		List<PointsVO> list = myPageService.pointHistory(memNo);
 		for (PointsVO vo : list) {
@@ -115,7 +117,7 @@ public class MyPageController {
 	}
 
 	// 회원탈퇴
-	@GetMapping("secession")
+	@GetMapping("myPage/secession")
 	@ResponseBody
 	public boolean secession(String memNo) {
 		boolean result = myPageService.secession(memNo);
@@ -145,7 +147,7 @@ public class MyPageController {
 
 	////////////// 결제 내역 페이지 //////////////
 	// 결제내역
-	@GetMapping("myPayList")
+	@GetMapping("myPage/myPayList")
 	public String myPayList(String memNo, Model model) {
 		List<PaymentVO> list = myPageService.myPayNo(memNo);
 		List<PaymentVO> getInfoList = new ArrayList<PaymentVO>();
@@ -158,7 +160,7 @@ public class MyPageController {
 	}
 
 	// 결제상세내역
-	@GetMapping("myPayDetail")
+	@GetMapping("myPage/myPayDetail")
 	public String myPayDetail(String payNo, Model model) {
 		PaymentVO vo = paymentService.getPayList(payNo);
 		List<PaymentDetailVO> list = vo.getPaymentDetails();
@@ -172,7 +174,7 @@ public class MyPageController {
 	}
 	
 	//결제 환불 처리
-	@GetMapping("refund")
+	@GetMapping("myPage/refund")
 	@ResponseBody
 	public boolean refund(String payNo) {
 		System.out.println(payNo);
@@ -182,7 +184,7 @@ public class MyPageController {
 
 	////////////////////// 나의 문의//////////////////////
 	// 나의 문의 페이지
-	@GetMapping("myInquiry")
+	@GetMapping("myPage/myInquiry")
 	public String myInquiry(String memNo, Model model) {
 		List<InquiryVO> list = myPageService.myInquiry(memNo);
 		System.out.println(list);
@@ -191,13 +193,13 @@ public class MyPageController {
 	}
 
 	// 문의 등록 페이지
-	@GetMapping("addInpuiry")
+	@GetMapping("myPage/addInpuiry")
 	public String addInquiryForm() {
 		return "user/myPage/inquiry/addInquiryForm";
 	}
 
 	// 문의 등록
-	@PostMapping("addInpuiry")
+	@PostMapping("myPage/addInpuiry")
 	@ResponseBody
 	public boolean addInquiry(InquiryVO vo) {
 		System.out.println(vo);
@@ -205,7 +207,7 @@ public class MyPageController {
 	}
 
 	// 문의 상세 페이지
-	@GetMapping("inquiryInfo")
+	@GetMapping("myPage/inquiryInfo")
 	public String inquiryInfo(String inqNo, Model model) {
 		InquiryVO vo = myPageService.myInquiryInfo(inqNo);
 		model.addAttribute("inqInfo", vo);
@@ -214,7 +216,7 @@ public class MyPageController {
 
 	/////////////////// 알림 페이지///////////////////
 	// 알림 리스트 페이지
-	@GetMapping("alertList")
+	@GetMapping("myPage/alertList")
 	public String alertList(String memNo, Model model) {
 		List<AlertVO> list = myPageService.alertList(memNo);
 		for (AlertVO vo : list) {
@@ -229,7 +231,7 @@ public class MyPageController {
 	}
 
 	// 알림 상세 페이지
-	@GetMapping("alertInfo")
+	@GetMapping("myPage/alertInfo")
 	public String alretInfo(String alrtNo, Model model) {
 		System.out.println(alrtNo);
 		AlertVO vo = myPageService.alertInfo(alrtNo);
@@ -239,7 +241,7 @@ public class MyPageController {
 	}
 
 	// 알림 상태 변경
-	@GetMapping("changeAlretStts")
+	@GetMapping("myPage/changeAlretStts")
 	@ResponseBody
 	public boolean changeAlertStts(String alrtNo) {
 		System.out.println(alrtNo);
@@ -248,13 +250,13 @@ public class MyPageController {
 
 	/////////////////////// 나의 활동(농지대여)////////////////////
 	// 농지대여 리스트 페이지
-	@GetMapping("myFarmLendListForm")
+	@GetMapping("myPage/myFarmLendListForm")
 	public String myFarmLendListForm() {
 		return "user/myPage/myActivity/farmLend/myFarmLendList";
 	}
 	
 	//ajax 농지대여 등록 리스트
-	@GetMapping("myFarmLendList")
+	@GetMapping("myPage/myFarmLendList")
 	@ResponseBody
 	public List<FarmLendVO> myFarmLendList(String memNo) {
 		List<FarmLendVO> list =  myPageService.myFarmLendList(memNo);
@@ -265,7 +267,7 @@ public class MyPageController {
 	}
 	
 	//ajax 농지대여 신청 리스트
-	@GetMapping("subFarmLendList")
+	@GetMapping("myPage/subFarmLendList")
 	@ResponseBody
 	public List<FarmLendApplyVO> subFarmLendList(String memNo){
 		return myPageService.subFarmLendList(memNo);
@@ -320,4 +322,32 @@ public class MyPageController {
 	public List<AuctionVO> myBidList(String memNo){
 		return myPageService.myBidList(memNo);
 	}
+	
+	//내 경매의 입찰 리스트
+	@GetMapping("myPage/myAuctionBidForm")
+	public String myAuctionBidForm(String boardNo,Model model) {
+		List<AuctionApplyVO> list = myPageService.myAuctionBidList(boardNo);
+		System.out.println(list);
+		model.addAttribute("bidList", list);
+		return "user/myPage/myActivity/auction/myAuctionBidList";
+	}
+	
+	////////////////나의 펀딩 페이지////////////////////////////
+	//나의 펀딩 리스트
+	@GetMapping("myPage/myFundingForm")
+	public String myFundingForm(String memNo,Model model) {
+		List<FundingVO> list = myPageService.myFundingList(memNo);
+		model.addAttribute("fundingList", list);
+		return "user/myPage/myActivity/funding/myFundingList";
+	}
+	
+	//나의 펀딩 구매 목록
+	@GetMapping("myPage/myFundingSubList")
+	public String myFundingSubList(String boardNo,Model model) {
+		List<PaymentDetailVO> list = myPageService.myFundingPayList(boardNo);
+		System.out.println(list);
+		model.addAttribute("payList", list);
+		return "user/myPage/myActivity/funding/myFundingSubList";
+	}
+
 }
