@@ -38,14 +38,22 @@ public class BnbVO {
 	private Date aplDate;
 	private int lendTotal;
 
-	//member, detail
+	// member, detail
 	private String id;
 	private String email;
 	private String nick;
 	private String name;
-	private String detaAddr;
+	private String memAdr;
+	private String memAdrdeta;
 	private String mbl;
-	
-	//review
+
+	// review
 	private int count;
+
+	// cart 데이터
+	private String cartNo;
+	private int qty;
+	private String boardCtg;
+	private String codeDesct; // 상세코드로 테이블명 조회
+
 }

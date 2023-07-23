@@ -15,12 +15,12 @@ public interface MarketService {
 	// 총 갯수
 	public int selectCount(String mktCtg);
 
-	// 등록
+	//등록
 	public int insertMk(MarketVO vo);
-
-	// 수정
-	public int updateMk();
-
-	// 삭제
-	public int deleteMk();
+	
+	//수정
+	public int updateMk(MarketVO vo);
+		
+	//삭제
+	public int deleteMk(String boardNo);
 }

@@ -63,7 +63,7 @@ public class BnbController {
 
 	// 리뷰조회
 	@ResponseBody
-	@GetMapping("bnbInfo/review")
+	@GetMapping("rev/review")
 	public List<ReviewVO> getReview(String boardNo) {
 		System.out.println(boardNo);		
 		return revService.getReview(boardNo);
@@ -71,7 +71,7 @@ public class BnbController {
 
 	// 리뷰등록
 	@ResponseBody
-	@PostMapping("bnbInfo/review")
+	@PostMapping("rev/review")
 	public ReviewVO addReview(ReviewVO vo) {
 		revService.addReview(vo);
 		System.out.println(vo);
@@ -80,12 +80,12 @@ public class BnbController {
 
 	// 리뷰삭제
 	@ResponseBody
-	@GetMapping("bnbInfo/revDel")
+	@GetMapping("rev/revDel")
 	public String delReview(String revNo) {
 		System.out.println(revNo);
 		int result = revService.delReview(revNo);
 		if (result > 0) {
-			return "delete!";
+			return "delete success!";
 		} else {
 			return "fail";
 		}
