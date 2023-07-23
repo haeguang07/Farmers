@@ -19,9 +19,9 @@ public interface MarketMapper {
 	public int insertMk(MarketVO vo);
 	
 	//수정
-	public int updateMk();
+	public int updateMk(MarketVO vo);
 		
 	//삭제
-	public int deleteMk();
+	public int deleteMk(String boardNo);
 	
 }

@@ -35,14 +35,14 @@ public class MarketServiceImpl implements MarketService {
 	}
 
 	@Override
-	public int updateMk() {
-		return mkMapper.updateMk();
+	public int updateMk(MarketVO vo) {
+		return mkMapper.updateMk(vo);
 	}
 
 	@Override
-	public int deleteMk() {
-		return mkMapper.deleteMk();
+	public int deleteMk(String boardNo) {
+		return mkMapper.deleteMk(boardNo);
 	}
 
-	
+
 }
