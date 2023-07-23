@@ -144,18 +144,18 @@
 			// 	}
 			// })
 
-			// //td 버튼 이벤트
-			// $(document).on("click", ".sub", function (e) {
-			// 	e.stopPropagation()
+			//td 버튼 이벤트
+			$(document).on("click", ".sub", function (e) {
+				e.stopPropagation()
 
-			// 	// 모달창
-			// 	$.magnificPopup.open({
-			// 		items: [{
-			// 			src: "/myPage/myFundingSubList?boardNo="+$(e.target).closest('tr').attr('no'),
-			// 			type: 'iframe'
-			// 		}]
-			// 	})
-			// })
+				// 모달창
+				$.magnificPopup.open({
+					items: [{
+						src: "/myPage/myFundingSubList?boardNo="+$(e.target).closest('tr').attr('no'),
+						type: 'iframe'
+					}]
+				})
+			})
 		</script>
 	</div>
 </body>

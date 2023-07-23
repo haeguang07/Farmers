@@ -12,6 +12,7 @@ import com.yedam.app.farm.vo.FarmLendApplyVO;
 import com.yedam.app.farm.vo.FarmLendVO;
 import com.yedam.app.market.vo.AuctionApplyVO;
 import com.yedam.app.market.vo.AuctionVO;
+import com.yedam.app.market.vo.CropsSaleVO;
 import com.yedam.app.market.vo.FundingVO;
 import com.yedam.app.user.mapper.MyPageMapper;
 import com.yedam.app.user.vo.AlertVO;
@@ -154,6 +155,11 @@ public class MyPageServiceImpl implements MyPageService {
 	@Override
 	public List<BnbVO> myBnbList(String memNo) {
 		return myPageMapper.myBnbList(memNo);
+	}
+
+	@Override
+	public List<CropsSaleVO> myCropsSaleList(String memNo) {
+		return myPageMapper.myCropsSaleList(memNo);
 	}
 
 

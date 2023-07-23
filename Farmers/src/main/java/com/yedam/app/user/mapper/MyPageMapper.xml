@@ -345,4 +345,16 @@
 		FROM farmbnb
 		WHERE mem_no = #{memNo}
 	</select>
+	
+	<!-- 나의 농작물 판매 리스트 -->
+	<select id="myCropsSaleList" parameterType="String" resultType="CropsSaleVO">
+		SELECT board_no, 
+			   title, 
+			   FIND_CODE_NAME(crp_ctg) crp_ctg, 
+			   price, qty, 
+			   reg_date, 
+			   FIND_CODE_NAME(reg_stts) reg_stts
+		FROM crops_sale
+		WHERE mem_no = #{memNo}
+	</select>
 </mapper>

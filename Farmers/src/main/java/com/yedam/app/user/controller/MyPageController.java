@@ -19,6 +19,7 @@ import com.yedam.app.farm.vo.FarmLendApplyVO;
 import com.yedam.app.farm.vo.FarmLendVO;
 import com.yedam.app.market.vo.AuctionApplyVO;
 import com.yedam.app.market.vo.AuctionVO;
+import com.yedam.app.market.vo.CropsSaleVO;
 import com.yedam.app.market.vo.FundingVO;
 import com.yedam.app.user.service.MyPageService;
 import com.yedam.app.user.vo.AlertVO;
@@ -364,6 +365,9 @@ public class MyPageController {
 	/////////////////////나의 농작물 판매 페이지 ////////////////////////////////
 	@GetMapping("myPage/myCropsSaleList")
 	public String myCropsSaleList(String memNo,Model model) {
+		List<CropsSaleVO> list = myPageService.myCropsSaleList(memNo);
+		System.out.println(list);
+		model.addAttribute("cropsList", list);
 		return "user/myPage/myActivity/cropsSale/myCropsSaleList";
 	}
 }

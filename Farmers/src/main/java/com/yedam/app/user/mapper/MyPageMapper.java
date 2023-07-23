@@ -9,6 +9,7 @@ import com.yedam.app.farm.vo.FarmLendApplyVO;
 import com.yedam.app.farm.vo.FarmLendVO;
 import com.yedam.app.market.vo.AuctionApplyVO;
 import com.yedam.app.market.vo.AuctionVO;
+import com.yedam.app.market.vo.CropsSaleVO;
 import com.yedam.app.market.vo.FundingVO;
 import com.yedam.app.user.vo.AlertVO;
 import com.yedam.app.user.vo.AttachVO;
@@ -94,6 +95,9 @@ public interface MyPageMapper {
 	
 	//나의 Bnb 리스트
 	public List<BnbVO> myBnbList (String memNo);
+	
+	//나의 농작물 판매 리스트
+	public List<CropsSaleVO> myCropsSaleList (String memNo);
 	
 
 }
