@@ -113,7 +113,7 @@
 									<div sec:authorize="hasRole('ROLE_REGULAR')">
 										<div class="product__details__cart__option"
 											style="text-align: center">
-											<a href="addMk" class="primary-btn">전원마켓 글등록</a>
+											<a href="/add/insertMk" class="primary-btn">전원마켓 글등록</a>
 										</div>
 									</div>
 								</div>
@@ -272,7 +272,6 @@
 				})
 				$(pageItem).find('#pageNumDiv').append(clone)
 			}
-
 			$(pageItem).find('#pageNum')[0].remove()
 			$('#mkPage').append(pageItem)
 		}
@@ -291,18 +290,16 @@
 			ajaxData(1, $(this).val())
 		})
 		
-		
 		//조건별 검색
 		$('#order').on('change',function(){
 			let Ctg= $('#selectCtg').val();
 			let od= $(this).val();
-			
 			ajaxData(1,Ctg,od);
-			
 		})
 		</script>
 
 	</div>
+	
 	<!-- Shop Section End -->
 </body>
 

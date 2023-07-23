@@ -40,7 +40,8 @@
 	<select id="selectBnb" resultType="BnbVO">
 		select * 
 		from farmbnb f join 
-			(select mem_no, name, id, email, zip, nick, addr, deta_addr, mbl
+			(select mem_no, name, id, email, zip, nick,
+                    addr as mem_adr, deta_addr as mem_adrDeta, mbl
              from member natural join member_detail) m
 		on f.mem_no = m.mem_no
 		where board_no= #{boardNo}

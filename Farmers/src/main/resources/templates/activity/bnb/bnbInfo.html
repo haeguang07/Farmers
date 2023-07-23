@@ -15,6 +15,7 @@
 	type="text/css">
 <!-- 리뷰등록폼 -->
 <link rel="stylesheet" href="/css/suinCss/review.css">
+
 <title>농촌비앤비 상세페이지</title>
 <style>
 #dateTb td {
@@ -23,7 +24,7 @@
 }
 
 .tab-pane {
-	margin-bottom: 100px;
+	margin-bottom: 50px;
 }
 
 .boldFont {
@@ -37,6 +38,7 @@
 	margin: 20px 5px;
 }
 </style>
+
 </head>
 
 <body>
@@ -80,9 +82,6 @@
 									<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 										class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 										class="fa fa-star-o"></i> <span>[[${rev}]]</span> Reviews
-									<p>
-										(판매자: <span th:text="|${bnb.id}|"></span>)
-									</p>
 								</div>
 								<p>농촌 한달살기 체험 해보세요!</p>
 								<!-- 결제 -->
@@ -124,9 +123,7 @@
 											</th>
 										</tr>
 									</table>
-
 								</div>
-
 							</div>
 						</div>
 					</div>
@@ -149,7 +146,7 @@
 										<div class="product__details__tab__content">
 											<p class="note">■ 숙소 안내</p>
 											<div class="product__details__tab__content__item"
-												th:utext="|${bnb.detaDesct}|">ck editor에서 넣은 내용</div>
+												th:utext="|${bnb.detaDesct}|">(ck editor에서 넣은 내용)</div>
 											<!-- 지도 api -->
 											<div class="product__details__tab__content__item">
 												<p class="note" style="margin-bottom: 10px">■ 위치 정보</p>
@@ -222,7 +219,7 @@
 												<table class="table seller">
 													<tr>
 														<td>판 매 자</td>
-														<td><span th:text="|${bnb.name}|"></span></td>
+														<td><span th:text="|${bnb.name} (아이디: ${bnb.id})|"></span></td>
 													</tr>
 													<tr>
 														<td>전화번호</td>
@@ -235,7 +232,7 @@
 													<tr>
 														<td>주 소</td>
 														<td><span
-															th:text="|${bnb.addr}, ${bnb.detaAddr} (${bnb.zip})|"></span>
+															th:text="|${bnb.memAdr}, ${bnb.memAdrdeta} (우:${bnb.zip})|"></span>
 														</td>
 													</tr>
 												</table>
@@ -260,7 +257,8 @@
 				</div>
 			</div>
 		</section>
-		<!-- Shop Details Section End -->
+		
+		
 		<!-- dataTable -->
 		<script
 			src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
@@ -273,18 +271,17 @@
 			var longitude = document.getElementById('longi').innerText;
 			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 			mapOption = {
-				center : new kakao.maps.LatLng(latitude,longitude), // 지도의 중심좌표
+				center : new kakao.maps.LatLng(latitude, longitude), // 지도의 중심좌표
 				level : 3, // 지도의 확대 레벨
 				mapTypeId : kakao.maps.MapTypeId.ROADMAP
 			};
 			var map = new kakao.maps.Map(mapContainer, mapOption);
 			// 지도에 마커를 생성하고 표시한다			
 			var marker = new kakao.maps.Marker({
-				position : new kakao.maps.LatLng(latitude,longitude), // 마커의 좌표
+				position : new kakao.maps.LatLng(latitude, longitude), // 마커의 좌표
 				map : map
 			});
-			
-					
+
 			//////// 결제시 날짜 기능
 			function calculateDays() {
 				var startDate = new Date(
@@ -304,7 +301,7 @@
 				total = number_format(total);
 				pay.textContent = total;
 			}
-			
+
 			//최소날짜 설정
 			function minDate() {
 				let min = event.target.value;
@@ -320,230 +317,221 @@
 				return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 			}
 
+			//삭제 팝업 이벤트
+			function delPopUp(event) {
+				var confirmDelete = confirm("글을 삭제하시겠습니까?");
+
+				// 사용자가 "확인" 버튼을 눌렀을 때만 삭제 링크로 이동합니다.
+				if (!confirmDelete) {
+					event.preventDefault(); // 이벤트의 기본 동작을 막아서 링크로 이동하지 않게 합니다.
+					console.log("삭제 취소");
+				} else {
+					console.log("삭제 완료");
+				}
+			}
+
+			//글삭제
+			$('#deleteButton').on('click', delPopUp);
+			
 			
 			// 데이터테이블 - 한글 설정
 			var lang_kor = {
-	        "decimal" : "",
-	        "emptyTable" : "데이터가 없습니다.",
-	        "info" : "_START_ - _END_ (총 _TOTAL_ 개)",
-	        "infoEmpty" : "0명",
-	        "infoFiltered" : "(전체 _MAX_ 명 중 검색결과)",
-	        "infoPostFix" : "",
-	        "thousands" : ",",
-	        "lengthMenu" : "_MENU_ 개씩 보기",
-	        "loadingRecords" : "로딩중...",
-	        "processing" : "처리중...",
-	        "search" : "검색 : ",
-	        "zeroRecords" : "검색된 데이터가 없습니다.",
-	        "paginate" : {
-	            "first" : "첫 페이지",
-	            "last" : "마지막 페이지",
-	            "next" : "다음",
-	            "previous" : "이전"
-	        },
-	        "aria" : {
-	            "sortAscending" : " :  오름차순 정렬",
-	            "sortDescending" : " :  내림차순 정렬"
-	        }
-	    	};
-			
+			  "decimal": "",
+			  "emptyTable": "데이터가 없습니다.",
+			  "info": "_START_ - _END_ (총 _TOTAL_ 개)",
+			  "infoEmpty": "0명",
+			  "infoFiltered": "(전체 _MAX_ 명 중 검색결과)",
+			  "infoPostFix": "",
+			  "thousands": ",",
+			  "lengthMenu": "_MENU_ 개씩 보기",
+			  "loadingRecords": "로딩중...",
+			  "processing": "처리중...",
+			  "search": "검색 : ",
+			  "zeroRecords": "검색된 데이터가 없습니다.",
+			  "paginate": {
+			    "first": "첫 페이지",
+			    "last": "마지막 페이지",
+			    "next": "다음",
+			    "previous": "이전"
+			  },
+			  "aria": {
+			    "sortAscending": " :  오름차순 정렬",
+			    "sortDescending": " :  내림차순 정렬"
+			  }
+			};
+
 			///// 리뷰 기능		
-		  	/*<![CDATA[*/
-			let boardNo= /*[[${bnb.boardNo}]]*/;
-			 /*]]>*/
-			 
-			//리뷰-조회
-			$(document).ready(function() {		
-				reviewAjax();
+			/*<![CDATA[*/
+			let boardNo = /*[[${bnb.boardNo}]]*/ ;
+			/*]]>*/
+
+			//리뷰 조회 기능
+			$(document).ready(function () {
+			  reviewAjax();
 			});
-			 function reviewAjax(){			
-			 $('#reviewTable>tbody').children().remove();
-			 $.ajax({
-					url : `bnbInfo/review`, 
-					method : 'GET',
-					data : {boardNo}, 
-					dataType : 'json',
-					success : function(list) {
-						//console.log(list); 
-						printReview(list);						
-					},
-					error : function(error) {
-						console.error(error); 
-					}
-				});
-			 }
 
-			function printReview(list){
-/* 				list.forEach(el => {
-			      let rate = el.rate;
- 			      let review = el.revDesct;
- 			      let nick = el.nick; 	
-			      let del = $('<button>삭제</button>');
-			      let newRow = ($('<tr>').append($('<td>'))
-								        .append($('<td>').text(makeStars(rate)))
-								        .append($('<td>').text(review))
-								        .append($('<td>').text(nick))
-								        .append($('<td>').append(del))    
-			       				 )             
-			      $('#reviewTable>tbody').append(newRow)							
-				}) */
-				
-				let data=list;
-				
-				//dataTable 만들기
-				$('#reviewTable').DataTable({
-					destroy: true,
-					language : lang_kor,  
-					searching: false,    //검색란 표시 설정
-					data: data,
-					columns:[
-						{data: 'num',
-							width: '10%',
-							orderable: true,
-					        render: function (data, type, row, meta) {
-						            // meta.row는 0부터 시작하는 행의 인덱스입니다.
-						            // 순번은 1부터 시작해야 하므로 meta.row + 1을 반환합니다.
-						            return meta.row + 1;
-						          }
-						},
-						{data: null,
-							width: '10%',
-							render: function (data, type, row) {
-			                		return makeStars(row.rate)+'<br>'+formatDate(row.wrtDate);
-			                		}
-						},
-						//리뷰넘버- 비활성처리
-						{data:'revNo',
-							width: '0%',
-							orderable: false,   // 정렬 기능 비활성화
-							render: function (data, type, row) {
-		            				return '<h6 style="display:none;">'+data+'</h6>';
-				          			}
-						},
-						{data: 'revDesct'},
-						{data: 'nick', width: '10%'},
-						{data: 'button',
-							width: '10%',
-							render: function (data, type, row) {
-				            		return '<button class="revDel form-control">삭제</button>';
-				          			}
-						}						
-					],
-				    autoWidth: false, // autoWidth 옵션 비활성화
-				    order: [0, 'desc'] //
-				});
-				
-			}//데이터테이블 종료
-			
-			
+			function reviewAjax() {
+			  $('#reviewTable>tbody').children().remove();
+			  $.ajax({
+			    url: `rev/review`,
+			    method: 'GET',
+			    data: {
+			      boardNo
+			    },
+			    dataType: 'json',
+			    success: function (list) {
+			      //console.log(list); 
+			      printReview(list);
+			    },
+			    error: function (error) {
+			      console.error(error);
+			    }
+			  });
+			}
+
+			//dataTable 만들기
+			function printReview(list) {
+			  let data = list;
+			  $('#reviewTable').DataTable({
+			    destroy: true,
+			    language: lang_kor,
+			    searching: false, //검색란 표시 설정
+			    data: data,
+			    columns: [{
+			        data: 'num',
+			        width: '10%',
+			        orderable: true,
+			        render: function (data, type, row, meta) {
+			          // meta.row는 0부터 시작하는 행의 인덱스입니다.
+			          // 순번은 1부터 시작해야 하므로 meta.row + 1을 반환합니다.
+			          return meta.row + 1;
+			        }
+			      },
+			      {
+			        data: null,
+			        width: '10%',
+			        render: function (data, type, row) {
+			          return makeStars(row.rate) + '<br>' + formatDate(row.wrtDate);
+			        }
+			      },
+			      {
+			        data: 'revNo', //리뷰넘버(안보이게)
+			        width: '0%',
+			        orderable: false, // 정렬 기능 비활성화
+			        render: function (data, type, row) {
+			          return '<h6 style="display:none;">' + data + '</h6>';
+			        }
+			      },
+			      {
+			        data: 'revDesct'
+			      },
+			      {
+			        data: 'nick',
+			        width: '10%'
+			      },
+			      {
+			        data: 'button',
+			        width: '10%',
+			        render: function (data, type, row) {
+			          return '<button class="revDel form-control">삭제</button>';
+			        }
+			      }
+			    ],
+			    autoWidth: false, // autoWidth 옵션 비활성화
+			    order: [0, 'desc'] //
+			  });
+
+			} //데이터테이블 종료
+
+
 			//별찍기 함수
-		      function makeStars(num) {
-		       let stars = '';
-		       for (let i=0; i<num; i++) {
-		            stars += '★';
-		          }
-		       for(let j=num; j<5; j++){
-		          	stars += '☆';
-		          }
-		       return stars;
-		       }
-			
-			//날짜포맷변경 
-		      function formatDate(dateString) {
-		    	  const date = new Date(dateString);
-		    	  const year = date.getFullYear();
-		    	  const month = String(date.getMonth() + 1).padStart(2, '0');
-		    	  const day = String(date.getDate()).padStart(2, '0');
-		    	  return `(${year}/${month}/${day})`;
-		    	}
+			function makeStars(num) {
+			  let stars = '';
+			  for (let i = 0; i < num; i++) {
+			    stars += '★';
+			  }
+			  for (let j = num; j < 5; j++) {
+			    stars += '☆';
+			  }
+			  return stars;
+			}
 
+			//날짜포맷변경 
+			function formatDate(dateString) {
+			  const date = new Date(dateString);
+			  const year = date.getFullYear();
+			  const month = String(date.getMonth() + 1).padStart(2, '0');
+			  const day = String(date.getDate()).padStart(2, '0');
+			  return `(${year}/${month}/${day})`;
+			}
 			
 			//리뷰 등록 기능	
-			 $('#addBtn').on('click',function(){
-			  	/*<![CDATA[*/
-				let mem= /*[[${session.mem}]]*/;
-				 /*]]>*/	
-				if(mem==null) {
-					return alert('로그인 필요')
-				}
-				else if($('#star').val()=='0'){
-					return alert('별점을 선택하세요')					
-				}
-				else if($('#reviewText').val()==''){
-					return alert('리뷰를 입력하세요')	
-				}
-				else{					
-					let star = $('#star').val();
-					let text = $('#reviewText').val(); 
-					let day= new Date();
-				 	//let today = day.getFullYear()+'/'+day.getMonth()+'/'+day.getDate();
-					$.ajax({
-						url : `bnbInfo/review`, 
-						method : 'POST',
-						data : {memNo:mem.memNo, 
-								rate:star,
-								revDesct:text,
-								boardNo: boardNo}, 
-						dataType : 'json',
-						success : function(result) {
-							console.log(result); 
-							reviewAjax();							
-							$('#reviewText').val('');
-						},
-						error : function(error) {
-							console.log(error); 
-						}
-					});
-				}
+			$('#addBtn').on('click', function () {
+			  /*<![CDATA[*/
+			  let mem = /*[[${session.mem}]]*/ ;
+			  /*]]>*/
+			  if (mem == null) {
+			    return alert('로그인 필요')
+			  } else if ($('#star').val() == '0') {
+			    return alert('별점을 선택하세요')
+			  } else if ($('#reviewText').val() == '') {
+			    return alert('리뷰를 입력하세요')
+			  } else {
+			    let star = $('#star').val();
+			    let text = $('#reviewText').val();
+			    let day = new Date();
+			    //let today = day.getFullYear()+'/'+day.getMonth()+'/'+day.getDate();
+			    $.ajax({
+			      url: `rev/review`,
+			      method: 'POST',
+			      data: {
+			        memNo: mem.memNo,
+			        rate: star,
+			        revDesct: text,
+			        boardNo: boardNo
+			      },
+			      dataType: 'json',
+			      success: function (result) {
+			        console.log(result);
+			        reviewAjax();
+			        $('#reviewText').val('');
+			      },
+			      error: function (error) {
+			        console.log(error);
+			      }
+			    });
+			  }
 			})
-	
-		//리뷰삭제 버튼 이벤트		
-		$('#reviewTable').on('click', '.revDel', function() {
-		  var confirmDelete = confirm("리뷰를 삭제하시겠습니까?");
-		
-		  if (confirmDelete) {
-		    let rowData = $('#reviewTable').DataTable().row($(this).closest('tr'));
-		    let revNo = rowData.data().revNo;
-		    console.log("리뷰 삭제 번호:", revNo);
-		
-		    $.ajax({
-		      url: 'bnbInfo/revDel',
-		      method: 'GET',
-		      data: { revNo: revNo },
-		    //  dataType: 'json',
-		      success: function(result) {
-		    	  debugger
-		        console.log("리뷰 삭제 결과:", result);
-		        rowData.remove().draw(); 
-		        //reviewAjax();
-		        alert('리뷰 삭제 완료');
-		      },
-		      error: function(error) {
-		        console.log("리뷰 삭제 오류:", error);
-		      }
-		    });
-		  } else {
-		    console.log("삭제 취소");
-		  }
-		});
-			
-		//삭제 팝업 이벤트
-		function delPopUp(event) {
-		  var confirmDelete = confirm("글을 삭제하시겠습니까?");
-		
-		  // 사용자가 "확인" 버튼을 눌렀을 때만 삭제 링크로 이동합니다.
-		  if (!confirmDelete) {
-		    event.preventDefault(); // 이벤트의 기본 동작을 막아서 링크로 이동하지 않게 합니다.
-		    console.log("삭제 취소");
-		  } else {
-		    console.log("삭제 완료");
-		  }
-		}
-		
-		//글삭제
-	    $('#deleteButton').on('click',delPopUp);
-		
-		
+
+			//리뷰 삭제 기능	
+			$('#reviewTable').on('click', '.revDel', function () {
+			  var confirmDelete = confirm("리뷰를 삭제하시겠습니까?");
+
+			  if (confirmDelete) {
+			    let rowData = $('#reviewTable').DataTable().row($(this).closest('tr'));
+			    let revNo = rowData.data().revNo;
+			    console.log("리뷰 삭제 번호:", revNo);
+
+			    $.ajax({
+			      url: 'rev/revDel',
+			      method: 'GET',
+			      data: {
+			        revNo: revNo
+			      },
+			      //  dataType: 'json',
+			      success: function (result) {
+			        console.log("리뷰 삭제 결과:", result);
+			        rowData.remove().draw();
+			        alert('리뷰 삭제 완료');
+			      },
+			      error: function (error) {
+			        console.log("리뷰 삭제 오류:", error);
+			      }
+			    });
+			  } else {
+			    console.log("삭제 취소");
+			  }
+			});
 		</script>
 	</div>
 </body>
