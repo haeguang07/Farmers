@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -38,8 +39,8 @@ public class AdminRestController {
 		 return adminService.getInqueryList(searchVO);
 	}
 	@PutMapping("/admin/members/update")
-	public List<MemberVO> memberUpdate(List<MemberVO> list){
-		
+	public List<MemberVO> memberUpdate(@RequestBody List<MemberVO> list){
+		adminService.modifyMemberStts(list);
 		SearchVO vo= new SearchVO();  
 		return memberList(vo);
 	}

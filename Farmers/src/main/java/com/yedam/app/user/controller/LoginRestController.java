@@ -172,14 +172,7 @@ public class LoginRestController {
 		}
 		return result;
 	}
-	
-	@RequestMapping("redis")
-	public String test1(HttpSession session) {
-		
-		session.setAttribute("email","test");
-		
-		return "test";
-	}
+
 	
 	
 	
