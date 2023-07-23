@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,15 +26,28 @@ public class BoardRestController {
 		return mv;
 	}
 	
-	// 메인 게시판 전체 조회 및 단건 조회
-	@GetMapping("boards")
-	public Map<String, Object> boardList(BoardVO vo){
+	// 메인 게시판 전체 조회
+	@GetMapping("boardList")
+	public Map<String, Object> boardList(@RequestParam(required = false, defaultValue = "i2") String postCtg){
 		
 		Map<String, Object> map = new HashMap<>();
 		
-		List<BoardVO> list = boardService.boardList(vo);
+		List<BoardVO> list = boardService.boardList(postCtg);
 		
 		map.put("boardList", list);
+		
+		return map;
+	}
+	
+	// 메인 게시판 상세 조회
+	@GetMapping("boardInfo")
+	public Map<String, Object> boardInfo(BoardVO vo){
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		List<BoardVO> list = boardService.getBoardInfo(vo);
+		
+		map.put("boardInfo", list);
 		
 		return map;
 	}

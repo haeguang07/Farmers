@@ -26,14 +26,17 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
 		OAuth2UserInfo oAuth2UserInfo = null;
 		String provider = userRequest.getClientRegistration().getRegistrationId();
-
+		String loginPath ="";
 		
 		if (provider.equals("google")) {
 			oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
+			loginPath="구글";
 		} else if (provider.equals("naver")) {
 			oAuth2UserInfo = new NaverUserInfo(oAuth2User.getAttributes());
+			loginPath="네이버";
 		}else if(provider.equals("kakao")){
             oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
+            loginPath="카카오";
         }
 
 		String providerId = oAuth2UserInfo.getProviderId(); 
@@ -58,7 +61,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 			byEmail.setEmail(email);
 			byEmail.setNick(username);
 			byEmail.setPw(password);
-			byEmail.setLoginPath(provider);
+			byEmail.setLoginPath(loginPath);
 			byEmail.setGen(gender);
 			byEmail.setProf(prof);
 			byEmail.setName(name);
