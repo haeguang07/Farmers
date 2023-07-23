@@ -114,7 +114,7 @@ public class MarketController {
 	}
 
 	// 장바구니 등록
-	@GetMapping("insertCart")
+	@GetMapping("mk/insertCart")
 	@ResponseBody
 	public String insertCart(CartVO vo) {
 		int qty = vo.getQty();
