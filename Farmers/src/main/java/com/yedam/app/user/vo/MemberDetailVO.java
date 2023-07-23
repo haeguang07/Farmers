@@ -32,4 +32,5 @@ public class MemberDetailVO {
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	@JsonFormat(pattern ="yyyy-MM-dd")
 	private Date blckDate;
+	
 }

@@ -4,30 +4,53 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.app.user.mapper.AdminMapper">
 	<select id="selectMemberList" resultType="MemberVO">
-		SELECT 	m.MEM_NO
-				,ID
-				,PW
-				,EMAIL
-				,NICK
-				,LOGIN_PATH
-				,RPT_CNT
-				,FIND_CODE_NAME(MEM_GRD) MEM_GRD
-				,NAME
-				,ZIP
-				,ADDR
-				,DETA_ADDR
-				,MBL
-				,B_DATE
-				,FIND_CODE_NAME(GEN) GEN
-				,PNT
-				,FIND_CODE_NAME (STTS) STTS
-				,SIGN_DATE
-				,PROF
-				,GRD_ATCH_FILE
-				,WDR_APL_DATE
-				,BLCK_DATE
+		SELECT 	m.mem_no
+				,id
+				,email
+				,nick
+				,nvl(login_path,'일반') login_path
+				,rpt_cnt
+				,find_code_name(mem_grd) mem_grd
+				,name
+				,zip
+				,addr
+				,deta_addr
+				,mbl
+				,b_date
+				,find_code_name(gen) gen
+				,pnt
+				,find_code_name (stts) stts
+				,sign_date
+				,prof
+				,grd_atch_file
+				,wdr_apl_date
+				,blck_date
 		FROM member m LEFT JOIN member_detail d 
 		ON(m.mem_no=d.mem_no)
+		WHERE NOT mem_grd =find_common_code('관리자')
+		ORDER BY sign_date DESC
+	</select>
+	<select id="selectInqueryList" resultType="InquiryVO">
+		SELECT   inq_no
+		        ,mem_no
+		        ,find_member_nick(mem_no) name
+		        ,inq_title
+		        ,find_code_name(inq_ctg) inq_ctg
+		        ,inq_desct
+		        ,find_code_name(repl_stts) repl_stts
+		        ,inq_date
+		        ,repl_desct
+		        ,repl_date
+		FROM inquiry
+		<where>
+			<if test="inqCtg !=null and inqCtg.equals('')">
+				inq_ctg =find_common_code(#{inqCtg})
+			</if>
+			<if test="replStts !=null and replStts.equals('')">
+				repl_stts =find_common_code(#{replStts})
+			</if>
+		</where>
+		ORDER BY inq_no DESC
 	</select>
 	
 </mapper>
