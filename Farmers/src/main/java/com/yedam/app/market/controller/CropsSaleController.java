@@ -53,6 +53,7 @@ public class CropsSaleController {
 		Map<String, Object> map = new HashMap<>();
 		map.put("csList", list);
 		map.put("pageInfo", vo);
+//		map.put("reviewCount", csService.totalRate(boardNo));
 		
 		return map;
 	}
@@ -63,7 +64,6 @@ public class CropsSaleController {
 		CropsSaleVO info = csService.getCropsSaleInfo(csVO);
 		model.addAttribute("csInfo", info);
 		model.addAttribute("codeInfo", codeService.getCodeList("0N"));
-		model.addAttribute("review", revService.getReview(boardNo));
 		model.addAttribute("reviewCount", csService.totalRate(boardNo));
 		return "market/cropsSale/cropsSaleInfo";
 	}

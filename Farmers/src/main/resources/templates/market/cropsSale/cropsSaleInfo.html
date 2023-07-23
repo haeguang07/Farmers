@@ -12,6 +12,42 @@
 #reviewTable {
 	width: 100%;
 }
+.rating-wrap{
+    padding: 0px;
+    display: flex;
+}
+.rating {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.star {
+    width: 30px;
+    height: 30px;
+    margin-right: 2px;
+}
+.starcolor{
+    fill: #ff8844;
+}
+.star:last-of-type {
+    margin-right: 0;
+}
+.overlay {
+    background-color: #000;
+    opacity: 0.5;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    transition: all 0.3s ease-in-out;
+}
+@supports (mix-blend-mode: color) {
+    .overlay{
+        mix-blend-mode: color;
+        opacity: unset;
+    }
+}
 </style>
 </head>
 <body>
@@ -66,15 +102,13 @@
 											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 25px;">가격</b> 
 												<span th:text="${#numbers.formatInteger(csInfo.price, 3, 'COMMA')} + '원'" style="font-size: 20px;"></span>
 											</p>
-											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">별점</b>
-											(<span th:text="${reviewCount.count}">리뷰갯수</span>) [[${reviewCount.star}]]
-												<span class="rating">
-													<i class="fa fa-star" ></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star-o"></i>
-												</span>
+											<p style="margin-bottom: 0px; text-align: left;"><b style="font-size: 20px;">별점</b>
+											(리뷰갯수 <span th:text="${reviewCount.count}">리뷰갯수</span> 개)
+												<span class="rating-wrap">
+										    		<span class="rating">
+										    			<span class="overlay"></span>
+										    		</span>
+										        </span>
 											</p>
 											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 15px;">판매자</b> <span th:text="${csInfo.nick}">판매자닉네임</span></p>
 											<div class="product__details__cart__option" th:if="not ${#strings.isEmpty(session.mem)}">
@@ -165,6 +199,34 @@
 		<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 		
 		<script th:inline="javascript">
+			
+			// 별 찍기
+			const starSize = 30, maxStar = 5, gutter = 2;// 별 크기, 별 개수
+        	let maskMax = 0; // 오버레이 마스크 최대 너비
+        	window.addEventListener('DOMContentLoaded',()=>{
+	        	let star = /*[[${reviewCount.star}]]*/
+        		
+	            // 별 이미지 SVG 개수만큼 생성
+	            for(let i = 0;i < maxStar;i++){
+	                let el = document.createElement('div');
+	                el.style.width = starSize + 'px';
+	                el.style.height = starSize + 'px';
+	                el.style.marginRight = gutter + 'px';
+	                
+	                // 인라인 SVG 이미지 부착
+	                el.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="none" class="starcolor" d="M381.2 150.3L524.9 171.5C536.8 173.2 546.8 181.6 550.6 193.1C554.4 204.7 551.3 217.3 542.7 225.9L438.5 328.1L463.1 474.7C465.1 486.7 460.2 498.9 450.2 506C440.3 513.1 427.2 514 416.5 508.3L288.1 439.8L159.8 508.3C149 514 135.9 513.1 126 506C116.1 498.9 111.1 486.7 113.2 474.7L137.8 328.1L33.58 225.9C24.97 217.3 21.91 204.7 25.69 193.1C29.46 181.6 39.43 173.2 51.42 171.5L195 150.3L259.4 17.97C264.7 6.954 275.9-.0391 288.1-.0391C300.4-.0391 311.6 6.954 316.9 17.97L381.2 150.3z"/></svg>';
+	                document.querySelector('.rating').appendChild(el);
+	            }
+	            
+	            maskMax = parseInt(starSize * maxStar + gutter * (maxStar-1)); // 최대 마스크 너비 계산
+	            setRating(star); // 초기 별점 마킹
+	            
+            	// 별점 마킹 함수
+	            function setRating(val = 0){
+	                document.querySelector('.overlay').style.width = parseInt(maskMax - val * starSize - Math.floor(val) * gutter) + 'px';// 마스크 크기 변경해서 별점 마킹
+	            }
+        	})
+			
 			// 데이터에 있는 수량보다 높게 입력하려고 했을 때 실행되는 함수
 			function maxValue(Object) {
 				let max = /*[[${csInfo.qty}]]*/
@@ -291,6 +353,8 @@
 					destroy : true,
 					language : lang_kor,
 					searching : false,
+					lengthMenu : [5, 10, 15, 20], // 표시 건수 지정
+					//displayLength : 10, // 기본 표시 건수 지정(정하지않으면 제일 처음 지정한 표시 건수로 나옴)
 					data : data,
 					columns : [
 						{
