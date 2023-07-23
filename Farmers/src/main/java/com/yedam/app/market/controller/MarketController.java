@@ -113,21 +113,5 @@ public class MarketController {
 		return "redirect:marketList";
 	}
 
-	// 장바구니 등록
-	@GetMapping("insertCart")
-	@ResponseBody
-	public String insertCart(CartVO vo) {
-		int qty = vo.getQty();
-		if (qty == 0) {
-			vo.setQty(1);
-		}
-		boolean result = cartService.insertCart(vo);
-
-		if (result) {
-			return "장바구니 등록완료";
-		} else {
-			return "장바구니 등록실패";
-		}
-	}
-
+	
 }
