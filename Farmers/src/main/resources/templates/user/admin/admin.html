@@ -5,14 +5,15 @@
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<meta name="description" content="" />
-	<meta name="author" content="" />
+
 	<title>관리자페이지</title>
 	<link href="/css/user/admin/layoutAdmin.css" rel="stylesheet" />
 	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
 	<link rel="stylesheet" href="/css/toastUI/pagenation.css" />
-
+<link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
+<script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
+		
 	<script type="text/javascript" src="https://uicdn.toast.com/tui.pagination/v3.4.0/tui-pagination.js"></script>
 	<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
 	<!-- vue관련 -->
@@ -21,10 +22,8 @@
 	<script src="/js/vue/vue3-sfc-loader.js"></script>
 	<script src="/js/vue/vue-load.js"></script>
 	<script src="/js/vue/Vuex4.js"></script>
-	
-	<style type="text/css">
-		
-	</style>
+
+
 </head>
 
 <body class="sb-nav-fixed">
@@ -70,10 +69,10 @@
 									<router-link to="farmbnb" class="nav-link">농촌비엔비</router-link>
 								</nav>
 							</div>
-							<router-link to="/inquiry" class="nav-link collapsed">
+							<router-link to="/inquiryAdmin" class="nav-link collapsed">
 								<div class="sb-nav-link-icon"></div>문의관리
 							</router-link>
-							<a class="nav-link collapsed" href="index.html">
+							<a class="nav-link collapsed" href="/report">
 								<div class="sb-nav-link-icon"></div>신고관리
 							</a>
 						</div>
@@ -114,7 +113,7 @@
 	</script>
 
 	<script type="text/javascript">
-	
+
 		//vuex
 		const {
 			createStore
@@ -128,6 +127,7 @@
 			}
 		})
 
+
 		const {
 			createApp
 		} = Vue;
@@ -137,7 +137,7 @@
 				},
 				methods: {}
 			})
-			.use(router)
+			.use(router) //router 연결
 			.use(store) //vuex 객체 연결
 			.mount('#admin'); //use(router 객체 이름)
 	</script>

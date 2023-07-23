@@ -3,35 +3,69 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.app.user.mapper.MemberMapper">
-	<select id="selectMember" resultType="MemberVO">
-		SELECT m.mem_no,
-				id,
-				pw,
-				email,
-				nick,
-				login_path,
-				rpt_cnt,
-				mem_grd
-		FROM member m LEFT JOIN member_detail d 
+	<!-- 회원 조회 -->
+<!-- 	<resultMap type="MemberVO" id="memberProfile">
+		<result property="memNo" column="mem_no" />
+		<result property="id" column="id" />
+		<result property="pw" column="pw" />
+		<result property="email" column="email" />
+		<result property="nick" column="nick" />
+		<result property="loginPath" column="login_path" />
+		<result property="rptCnt" column="rpt_cnt" />
+		<result property="memGrd" column="mem_grd" />
+		<association property="details" column="memNo=mem_no" select="selectMembetDetail"></association>
+	</resultMap> -->
+	<select id="selectMember" resultType="memberVO">
+		SELECT 	m.mem_no
+				,id
+				,pw
+				,email
+				,nick
+				,login_path
+				,rpt_cnt
+				,mem_grd
+				,name
+				,zip
+				,addr
+				,deta_addr
+				,mbl
+				,b_date
+				,gen
+				,pnt
+				,stts
+				,sign_date
+				,prof
+				,grd_atch_file
+				,wdr_apl_date
+				,blck_date
+		FROM member m join member_detail d
 		ON(m.mem_no=d.mem_no)
 		WHERE id= #{id}
 	</select>
+	<select id="selectMembetDetail" resultType="MemberDetailVO">
+		SELECT * 
+		FROM member_detail
+		WHERE mem_no = #{memNO}
+	</select>
+	<!-- 아이디 중복 -->
 	<select id="selectId" resultType="String">
-		SELECT RPAD(SUBSTR(id,1,3),LENGTH(id),'*')
+		SELECT id
 		FROM member
 		WHERE id=#{id}
 	</select>
+	<!-- 닉네임 중복 -->
 	<select id="selectNick" resultType="String">
 		SELECT nick
 		FROM member
 		WHERE nick=#{nick}
 	</select>
-
+	<!-- 아이디 찾기 -->
 	<select id="selectID" resultType="String">
 		SELECT RPAD(SUBSTR(id,1,3),LENGTH(id),'*')
 		FROM member
 		WHERE email=#{email}
 	</select>
+	<!-- 간편로그인시 회원가입 되어있는지 체크 -->
 	<select id="selectByEmail" resultType="MemberVO">
 		SELECT m.mem_no,
 				id,
@@ -45,17 +79,19 @@
 		ON(m.mem_no=d.mem_no)
 		WHERE email=#{email}
 	</select>
+	<!-- 비밀번호 찾기용 회원조회 -->
 	<select id="selectPw" resultType="String" parameterType="memberVO">
 		SELECT mem_no
 		FROM member
 		WHERE email=#{email}
 		AND id=#{id}
 	</select>
+	<!-- 아이디 생성 -->
 	<select id="newId">
 		SELECT #{loginPath} || LPAD(login_seq.nextval,6,'0')
 		FROM dual
 	</select>
-	
+	<!-- 회원가입 -->
 	<insert id="insertMember" parameterType="MemberVO">
 		<selectKey order="BEFORE" keyProperty="memNo"
 			resultType="string">
@@ -135,7 +171,7 @@
 				 </if>
 				 )
 	</insert>
-	
+	<!-- 비밀번호 찾기 비밀번호 변경 -->
 	<update id="updatePw" parameterType="memberVO">
 		UPDATE member 
 		SET pw=#{pw}
