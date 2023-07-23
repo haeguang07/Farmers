@@ -17,6 +17,8 @@ import com.yedam.app.common.service.CodeService;
 import com.yedam.app.farm.service.FarmLendService;
 import com.yedam.app.farm.vo.FarmLendVO;
 import com.yedam.app.market.vo.PageVO;
+import com.yedam.app.user.service.AttachService;
+import com.yedam.app.user.vo.AttachVO;
 
 @Controller
 public class FarmLendController {
@@ -26,6 +28,9 @@ public class FarmLendController {
 	
 	@Autowired
 	CodeService codeService;
+	
+	@Autowired
+	AttachService attachService;
 	
 	// 리스트 전체조회
 	@GetMapping("farmLendList")
@@ -61,11 +66,11 @@ public class FarmLendController {
 		return map;
 	}
 	
-	
 	// 단건조회
 	@GetMapping("farmLendInfo")
 	public String getFarmLendInfo(FarmLendVO flVO, Model model) {
 		FarmLendVO info = flService.getFarmLendInfo(flVO);
+		System.out.println(info);
 		model.addAttribute("flInfo", info);
 		return "farm/farmLend/farmLendInfo";
 	}
@@ -91,7 +96,9 @@ public class FarmLendController {
 	@GetMapping("farmLendUpdate")
 	public String updateFarmLendForm(FarmLendVO flVO, Model model) {
 		FarmLendVO find = flService.getFarmLendInfo(flVO);
+		System.out.println(find);
 		model.addAttribute("flInfo", find);
+//		model.addAttribute("attach", attachService.getAttachList(boardNo));
 		return "farm/farmLend/farmLendUpdate";
 	}
 	
@@ -118,5 +125,20 @@ public class FarmLendController {
 	public String deleteFarmLend(String boardNo) {
 		flService.deleteFarmLendInfo(boardNo);
 		return "farm/farmLend/farmLendList";
+	}
+	
+	// 신청 페이지 불러오기
+	@GetMapping("farmLendApply")
+	public String FarmLendApplyForm(FarmLendVO flVO, Model model) {
+		model.addAttribute("flInfo", flService.getFarmLendInfo(flVO));
+		return "farm/farmLend/farmLendApply";
+	}
+	
+	// 신청 기능
+	@PostMapping("farmLendApply")
+	@ResponseBody
+	public String FarmLendApply(String memNo, Model model) {
+		
+		return "success";
 	}
 }

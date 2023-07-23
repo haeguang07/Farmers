@@ -6,6 +6,13 @@
 <head>
 <meta charset="UTF-8">
 <title>농지 대여 상세 조회</title>
+<style>
+#map {
+	width: 700px;
+	height: 300px;
+	margin: 20px 5px;
+}
+</style>
 </head>
 <body>
 	<div layout:fragment="content">
@@ -43,10 +50,23 @@
 												<p style="margin-bottom: 20px;"><b style="font-size: 15px;">작성자</b> <span th:text="${#dates.format(flInfo.regDate, 'yyyy/MM/dd')}">작성날짜</span></p>
 											</div>
 											<hr>
-											<!-- 카카오 지도 api -->
+											<!-- 지도 api -->
+											<div>
+												<p class="note" style="margin-bottom: 10px; text-align: left;">위치 정보</p>
+												<div>
+													<div id="map">지도 Api</div>
+												</div>
+											</div>
+											<!-- 위도 경도-->
+											<div style="display: none">
+												위도<span id="lati" th:text="|${flInfo.lati}|"></span><br>
+												경도<span id="longi" th:text="|${flInfo.longi}|"></span>
+											</div>
 											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 25px;">면적 : </b><span th:text="${flInfo.area}"></span> <span>(m²)</span></p>
 											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">주요 재배 작물 : </b> <span th:text="${flInfo.mcrp}">작물 목록</span></p>
 											<p style="margin-bottom: 20px; text-align: left;" th:text="${flInfo.desct}">내용</p>
+											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">대여 기간 : </b> 
+											<span th:text="|${#dates.format(flInfo.lendStrDate, 'yyyy/MM/dd')} ~ ${#dates.format(flInfo.lendEndDate, 'yyyy/MM/dd')}|">대여 시작 ~ 끝 날짜</span></p>
 											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 25px;">가격 : </b> 
 												<span th:text="${#numbers.formatInteger(flInfo.lendPrice, 3, 'COMMA')} + '원'" style="font-size: 20px;"></span>
 												<span>(1일)</span>
@@ -73,7 +93,12 @@
 		<!-- Shop Details Section End -->
 		<!-- 카카오 지도 api -->
 		<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c573b65eabeb9b6da24ab52d832dc807"></script>
-		<script>
+		<script th:inline="javascript">
+			
+			/*<![CDATA[*/
+			let boardNo = /*[[${flInfo.boardNo}]]*/;
+			/*]]>*/
+			
 			// 지도 api
 			var latitude = document.getElementById('lati').innerText;
 			var longitude = document.getElementById('longi').innerText;
@@ -102,12 +127,23 @@
 			
 			// 수정하기 버튼 클릭 시
 			$('#update').on('click', function() {
-				
+				location.href = "farmLendUpdate?boardNo=" + boardNo;
 			});
 			
 			// 삭제하기 버튼 클릭 시
 			$('#delete').on('click', function() {
-				
+				$.ajax({
+					url : "farmLendDelete",
+					method : "POST",
+					data : 'boardNo=' + boardNo
+				})
+				.done(function(result) {
+					console.log(result);
+					location.href = "farmLendList";
+				})
+				.fail(function(result) {
+					alert(result);
+				})
 			});
 		</script>
 	</div>
