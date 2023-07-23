@@ -9,6 +9,8 @@ import com.yedam.app.user.vo.MemberVO;
 public interface AdminMapper {
 	//전체회원 조회
 	public List<MemberVO> selectMemberList(SearchVO vo);
+	//회원 상태 수정
+	public void updateMember(List<MemberVO> list);
 	
 	//문의 조회
 	public List<InquiryVO> selectInqueryList(SearchVO vo);
