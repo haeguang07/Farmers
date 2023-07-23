@@ -129,7 +129,7 @@
 					<th id="thCrops">재배 작물</th>
 					<th id="thArea">면적</th>
 					<th id="thPrice">가격</th>
-					<th id="thDate">작성날짜</th>
+					<th id="thDate">대여기간</th>
 				</tr>
 			</thead>
 			<tbody class="hideItem" id="farmLendItem">
@@ -139,7 +139,7 @@
 					<td id="crops">재배 작물</td>
 					<td id="area2">면적</td>
 					<td id="price2">가격</td>
-					<td id="date">작성날짜</td>
+					<td id="date">대여기간</td>
 				</tr>
 			</tbody>
 		</table>
@@ -221,7 +221,7 @@
 				$(head).find('#thCrops').html('재배 작물');
 				$(head).find('#thArea').html('면적');
 				$(head).find('#thPrice').html('가격');
-				$(head).find('#thDate').html('작성날짜');
+				$(head).find('#thDate').html('대여기간');
 				
 				$(head).css('text-align', 'center');
 				
@@ -243,7 +243,7 @@
 				$(clone).find('#crops').text(item.mcrp);
 				$(clone).find('#area2').text(item.area + '(m²)');
 				$(clone).find('#price2').text(item.lendPrice + '원');
-				$(clone).find('#date').text(item.regDate);
+				$(clone).find('#date').text(item.lendStrDate + ' ~ ' + item.lendEndDate);
 				
 				$(clone).find('#addr').on('click', function() {
 					if(mem != null) {
