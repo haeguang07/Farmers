@@ -1,20 +1,13 @@
 package com.yedam.app.user.vo;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.io.Serializable;
 import java.util.Date;
-import java.util.Map;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class MemberVO{
+public class MemberVO implements Serializable {
 
 	private String memNo;
 	private String id;

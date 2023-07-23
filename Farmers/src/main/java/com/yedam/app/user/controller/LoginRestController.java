@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -12,11 +14,10 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yedam.app.security.PrincipalDetails;
-import com.yedam.app.user.mapper.MemberMapper;
 import com.yedam.app.user.service.EmailService;
 import com.yedam.app.user.service.MemberService;
 import com.yedam.app.user.vo.EmailVO;
@@ -171,6 +172,17 @@ public class LoginRestController {
 		}
 		return result;
 	}
+	
+	@RequestMapping("redis")
+	public String test1(HttpSession session) {
+		
+		session.setAttribute("email","test");
+		
+		return "test";
+	}
+	
+	
+	
 
 	// 램덤 13자리 문자열
 	private String getRamdom() {
