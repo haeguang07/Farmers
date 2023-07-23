@@ -12,10 +12,10 @@
 	<link rel="stylesheet" href="/css/sungWookCss/sungook.css" type="text/css">
 	<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" type="text/css">
-	<style>
+	<style scoped>
 		.mfp-content {
 			width: 1500px;
-			height: 800px;
+			height: 600px;
 		}
 
 		.miniBtn {
@@ -29,28 +29,17 @@
 		.marginT30 {
 			margin-top: 30px;
 		}
+
+		.act {
+			background-color: rgb(105, 194, 142);
+		}
 	</style>
 </head>
 
 <body>
 	<div layout:fragment="myPageContent">
-		<!-- Breadcrumb Section Begin -->
-		<!-- <section class="">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="breadcrumb__text">
-							<h4>Shop</h4>
-							<div class="breadcrumb__links">
-								<a href="./index.html">농촌마켓</a> <span>농작물펀딩</span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section> -->
 		<div class="justify-content-center">
-			<h3 class="current text-center">문의하기</h3>
+			<h3 class="current text-center">나의 펀딩</h3>
 		</div>
 		<!-- Shop Section Begin -->
 		<section class="shop myMargin">
@@ -59,42 +48,73 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<table id="myTable">
-							<thead>
+							<thead id="thead">
 								<tr>
-									<th>번호</th>
-									<th>문의카테고리</th>
-									<th>문의제목</th>
-									<th>문의날짜</th>
-									<th>답변상태</th>
+									<td>번호</td>
+									<td>상품명</td>
+									<td>시작날짜</td>
+									<td>마감날짜</td>
+									<td>상태</td>
+									<td>참가현황</td>
 								</tr>
 							</thead>
-							<tbody>
-								<th:block th:each="inq : ${inqList}">
-									<tr>
-										<td id="inqNo" th:text="${inq.inqNo}"></td>
-										<td th:text="${inq.codeDesct}"></td>
-										<td th:text="${inq.inqTitle}"></td>
-										<td th:text="${#dates.format(inq.inqDate, 'yyyy/MM/dd')}"></td>
-									<td th:text="${inq.replCodeDesct}"></td>
-								</tr>
+							<tbody id="tbody">
+								<th:block th:if="not ${#strings.isEmpty(fundingList)}">
+									<tr th:each="funding : ${fundingList}" th:no="${funding.boardNo}">
+										<td th:text="${funding.boardNo}"></td>
+										<td th:text="${funding.title}"></td>
+										<td th:text="${#dates.format(funding.fndStrDate, 'yyyy/MM/dd')}"></td>
+										<td th:text="${#dates.format(funding.fndEndDate, 'yyyy/MM/dd')}"></td>
+										<td th:text="${funding.regStts}"></td>
+										<td><button class="form-control sub">참가현황</button></td>
+									</tr>
 								</th:block>
 							</tbody>
 						</table>
-						<button type="button" class="form-control miniBtn right marginT30" id="addBtn">문의하기</button>
 					</div>
 				</div>
 			</div>
 		</section>
 		<!-- Shop Section End -->
 
-		<script>
-			// dataTables
-			$(function () {
-				$('#myTable').DataTable({
+		<script th:inline="javascript">
+			let memNo = /*[[${session.mem.memNo}]]*/ ;
+			let table;
+
+			// dataTables 생성 함수
+			$(function(){
+				table = $('#myTable').DataTable({
 					language: lang_kor,
-					order: [ [ 0, "desc" ] ] 
-				});
+					bAutoWidth: false, // 너비 자동맞춤을 false로 설정해주어야 지정한 너비가 제대로 출력된다.
+					columnDefs: [{
+							width: "10%",
+							targets: 0
+						},
+						{
+							width: "15%",
+							targets: 1
+						},
+						{
+							width: "25%",
+							targets: 2
+						},
+						{
+							width: "15%",
+							targets: 3
+						},
+						{
+							width: "13%",
+							targets: 4
+						},
+						{
+							width: "15%",
+							targets: 5
+						}
+					],
+					order : [3, 'desc']
+				});	
 			})
+
 
 			// 한글 설정
 			var lang_kor = {
@@ -122,28 +142,27 @@
 				}
 			};
 
-			//문의하기 등록
-		// 모달창
-		$('#addBtn').magnificPopup({
-					items:[{
-					src:"addInpuiry",
-				}],
-				type: 'iframe'
-					})
+			// // //tr 이동
+			$(document).on("click", "tr", function (e) {
+				if (!$(e.currentTarget).hasClass('th')) {
+					console.log($(e.currentTarget).attr('no'))
+					location.href = "/fundingInfo?boardNo=" + $(e.currentTarget).attr('no')
+				}
+			})
 
-				// 문의상세 이동
-				$('tr').on('click','td',function(e){
-					let iqnNo = $(e.target).closest('tr').find('#inqNo').text()
-					
-					// // 모달창
-					$.magnificPopup.open({
-					items:[{
-					src:"/myPage/inquiryInfo?inqNo="+iqnNo,
-					type: 'iframe'
+			//td 버튼 이벤트
+			$(document).on("click", ".sub", function (e) {
+				e.stopPropagation()
+
+				// 모달창
+				$.magnificPopup.open({
+					items: [{
+						src: "/myPage/myFundingSubList?boardNo="+$(e.target).closest('tr').attr('no'),
+						type: 'iframe'
 					}]
-					})
 				})
-			</script>
+			})
+		</script>
 	</div>
 </body>
 

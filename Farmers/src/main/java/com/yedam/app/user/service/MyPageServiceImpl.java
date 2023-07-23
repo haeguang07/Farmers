@@ -5,10 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yedam.app.common.vo.PaymentDetailVO;
 import com.yedam.app.common.vo.PaymentVO;
 import com.yedam.app.farm.vo.FarmLendApplyVO;
 import com.yedam.app.farm.vo.FarmLendVO;
+import com.yedam.app.market.vo.AuctionApplyVO;
 import com.yedam.app.market.vo.AuctionVO;
+import com.yedam.app.market.vo.FundingVO;
 import com.yedam.app.user.mapper.MyPageMapper;
 import com.yedam.app.user.vo.AlertVO;
 import com.yedam.app.user.vo.AttachVO;
@@ -130,6 +133,21 @@ public class MyPageServiceImpl implements MyPageService {
 	@Override
 	public List<AuctionVO> myBidList(String memNo) {
 		return myPageMapper.myBidList(memNo);
+	}
+
+	@Override
+	public List<AuctionApplyVO> myAuctionBidList(String boardNo) {
+		return myPageMapper.myAuctionBidList(boardNo);
+	}
+
+	@Override
+	public List<FundingVO> myFundingList(String memNo) {
+		return myPageMapper.myFundingList(memNo);
+	}
+
+	@Override
+	public List<PaymentDetailVO> myFundingPayList(String boardNo) {
+		return myPageMapper.myFundingPayList(boardNo);
 	}
 
 
