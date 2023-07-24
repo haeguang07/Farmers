@@ -13,39 +13,39 @@ import lombok.Data;
 @Data
 public class FarmLendVO {
 	// farm_lend
-	public String boardNo;
-	public String zip;
-	public String addr;
-	public String detaAddr;
-	public int area;
-	public String desct;
+	private String boardNo;
+	private String zip;
+	private String addr;
+	private String detaAddr;
+	private int area;
+	private String desct;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	@JsonFormat(pattern="yyyy-MM-dd")
-	public Date lendStrDate;
+	private Date lendStrDate;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	@JsonFormat(pattern="yyyy-MM-dd")
-	public Date lendEndDate;
-	public int lendPrice;
-	public String atchNo;
+	private Date lendEndDate;
+	private int lendPrice;
+	private String atchNo;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	@JsonFormat(pattern="yyyy-MM-dd")
-	public Date regDate;
-	public String regStts;
-	public String memNo;
-	public String dst1;
-	public String dst2;
-	public double lati;
-	public double longi;
+	private Date regDate;
+	private String regStts;
+	private String memNo;
+	private String dst1;
+	private String dst2;
+	private double lati;
+	private double longi;
 	
 	// attachment (파일목록)
-	public List<AttachVO> files;
+	private List<AttachVO> files;
 	
 	// main_crops (주요 재배 작물 배열)
-	public String mcrp;
-	public String[] mcrpList;
+	private String mcrp;
+	private String[] mcrpList;
 	
 	// member
-	public String nick;
+	private String nick;
 	
 	// farm_lend_apply (신청목록)
 	private List<FarmLendApplyVO> applys;

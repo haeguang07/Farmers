@@ -112,7 +112,7 @@
 	<!-- 별점 -->
 	<!-- 따옴표 써주면 대, 소문자 구분 해준다(안쓰면 무조건 대문자) -->
 	<select id="totalRate" resultType="map">
-		select count(*) "count", round(avg(rate), 1) "star"
+		select count(*) "count", nvl(round(avg(rate), 1), 0) "star"
 		from review
 		where board_no = #{boardNo}
 	</select>
