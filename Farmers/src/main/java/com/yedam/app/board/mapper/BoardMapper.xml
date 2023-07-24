@@ -94,5 +94,12 @@
 				, 0)
 	</insert>
 	
+	<!-- 게시글 수정 -->
+	<update id="updateBoard" parameterType="BoardVO">
+		UPDATE board
+		SET (dst1, dst2, title, img, desct) = (#{dst1}, #{dst2}, #{title}, #{img}, #{desct})
+		WHERE board_no = #{boardNo}
+	</update>
+	
 
 </mapper>
