@@ -25,5 +25,6 @@ public class ExpVO {
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date regDate;
 	private String regStts;
-	private String lagt;
+	private double lagt;
+	private double longi;
 }
