@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="body">
 		<div> 
 			<span>선택한 회원을
 			</span>
@@ -16,7 +16,40 @@
 			<button @click="change" class="button">변경</button>
 		</div>
   	<div id="memberTable"></div>
-	
+
+		<!-- The Modal -->
+		<div id="myModal" class="modal">
+			<!-- Modal content -->
+			<div class="modal-content">
+				<span class="close">&times;</span>
+				<div v-if="Object.keys(member).length>0">
+					<table class="table">
+						<tr>
+							<td>회원번호</td><td><input :value="member.memNo" readonly></td>
+							<td>가입일자</td><td><input :value="member.signDate" readonly></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>아이디</td><td><input :value="member.id" readonly></td>
+							<td>닉네임</td><td><input :value="member.nick" readonly></td>
+							<td></td>
+						</tr>
+						<tr v-if="member.memGrd=='준회원'">
+							<td>제출서류</td>
+							<td><img v-if="member.grdAtchFile !=null" :src="member.grdAtchFile"><span  v-if="member.grdAtchFile==null">제출서류가 없습니다</span></td>
+						</tr>
+					</table>
+					<button>승인</button>
+					<select>
+						<option>이미지가 보이지 않습니다</option>
+					</select>
+					<button>거부</button>
+					
+				</div>
+			</div>
+		</div>
+
+
 	</div>
 </template>
 
@@ -124,7 +157,7 @@ methods:{
 			data: this.memberList,
 			scrollX: false,
 			scrollY: false,
-			pageOptions: { perPage: 10, useClient: true },
+			pageOptions: { perPage: 15, useClient: true },
 			columns: this.columns,
 			rowHeaders: [{ type: 'checkbox', header: "", width: 50 }]
 		});
@@ -133,6 +166,7 @@ methods:{
 					console.log(ev.rowKey, this.memberList[ev.rowKey], ev.columnName);
 					this.member=this.memberList[ev.rowKey];
 					console.log(this.member);
+					this.onpenModal();
 
 			}
 			
@@ -147,6 +181,10 @@ methods:{
 			vue.toggle(vue.memberList[ev.rowKey].memNo)
 			console.log(vue.checkedMembers);
 		});
+	},
+	onpenModal(){
+		document.getElementById("myModal").style.display = "block";
+		
 	}
 },
   mounted(){
@@ -163,7 +201,64 @@ methods:{
 	  this.createList();
     })
     .catch(err=> console.log(err))
+		//모달 닫기
+		window.onclick = function(event) {
+  		if (event.target == document.getElementById("myModal")) {
+				document.getElementById("myModal").style.display = "none";
+				this.member={};
+  		}
+		}
+		document.getElementsByClassName("close")[0].addEventListener('click',function(){
+			document.getElementById("myModal").style.display = "none";
+			this.member={};
+		})
   }
 }
 
 </script>
+
+<style>
+.body{
+	padding: 10px;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+</style>
