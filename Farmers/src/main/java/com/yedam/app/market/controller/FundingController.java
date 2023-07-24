@@ -2,8 +2,6 @@ package com.yedam.app.market.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
@@ -16,10 +14,10 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
@@ -141,7 +139,7 @@ public class FundingController {
 		// jsonView 라고 쓴다고 무조건 json 형식으로 가는건 아니고 @Configuration 어노테이션을 단
 		// WebConfig 파일에 MappingJackson2JsonView 객체를 리턴하는 jsonView 매서드를 만들어서 bean으로
 		// 등록해야함
-		
+
 		ModelAndView mav = new ModelAndView("jsonView");
 
 		// ckeditor 에서 파일을 보낼 때 upload : [파일] 형식으로 해서 넘어오기 때문에 upload라는 키의 밸류를 받아서
@@ -197,15 +195,16 @@ public class FundingController {
 
 		return mav;
 	}
-	
+
 	// 다중 첨부파일 저장 (김승환/230721)
 	@PostMapping("/uploadsAjaxMulti")
 	@ResponseBody
-	public List<Map<String, String>> uploadFileMulti(@RequestPart MultipartFile[] uploadFiles, Model model) { // @RequestPart 첨부파일
-		
+	public List<Map<String, String>> uploadFileMulti(@RequestPart MultipartFile[] uploadFiles, Model model) { // @RequestPart
+																												// 첨부파일
+
 		List<Map<String, String>> list = new ArrayList<>();
 		for (MultipartFile uploadFile : uploadFiles) {
-			
+
 			Map<String, String> map = new HashMap<String, String>();
 
 			String originalName = uploadFile.getOriginalFilename();
@@ -245,12 +244,12 @@ public class FundingController {
 
 			map.put("atchFileName", imagePath);
 			map.put("uplFileName", originalName);
-			
+
 			list.add(map);
 		}
 		return list;
 	}
-	
+
 	// 일반 첨부파일 저장
 	@PostMapping("/uploadsAjax")
 	@ResponseBody
@@ -322,24 +321,29 @@ public class FundingController {
 		}
 		return folderPath;
 	}
-	
-	//기간 종료 및 달성 실패 시
+
+	// 기간 종료 및 달성 실패 시
 	//@Scheduled(cron = "0/5 * * * * *")
-	public void fundingRefund () throws URISyntaxException {
+	public void fundingRefund() {
+		//취소가 필요한 결제 정보
 		List<PaymentDetailVO> list = fundingService.fundingRefundList();
 		
 		Gson gson = new Gson();
-		
+		// http 통신 header 설정
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.set("Authorization", "Basic dGVzdF9za196WExrS0V5cE5BcldtbzUwblgzbG1lYXhZRzVSOg==");
-//		headers.setBasicAuth(username, password);
+		headers.set("Authorization","Basic dGVzdF9za196WExrS0V5cE5BcldtbzUwblgzbG1lYXhZRzVSOg== ");
+		// 파라미터 설정
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("cancelReason", "취소");
+		HttpEntity<String> entity = new HttpEntity<String>(gson.toJson(map), headers);
+
+		// http 통신을 해주는 restTemplate
 		RestTemplate rt = new RestTemplate();
 		for (PaymentDetailVO vo : list) {
-			String url = "https://api.tosspayments.com/v1/payments/"+vo.getPayCode()+"/cancel?cancleReason=fail";
-			RequestEntity<String> entity = new RequestEntity<String>(headers, HttpMethod.GET, new URI(url));
-			ResponseEntity<Map> respEntity = rt.exchange(entity, Map.class);
-			//rt.exchange(url, HttpMethod.GET, new HttpEntity<T>(createHeaders(username, password)), clazz);
+			String url = "https://api.tosspayments.com/v1/payments/"+vo.getPayCode()+"/cancel";
+			//반환값
+			ResponseEntity<Map> respEntity = rt.exchange(url, HttpMethod.POST, entity, Map.class);
 		}
 	}
 

@@ -95,7 +95,7 @@
                                         <table>
                                             <thead>
                                                 <tr class="row">
-                                                    <th class="col-lg-6">상품정보</th>
+                                                    <th class="col-lg-4">상품정보</th>
                                                     <th class="col-lg-2">가격</th>
                                                     <th class="col-lg-2">수량</th>
                                                     <th class="col-lg-2">총액</th>
@@ -106,7 +106,7 @@
                                                 <tr class="row product cartItem" th:each="product : ${productList}"
                                                     th:data-no="${product.boardNo}" th:data-ctg="${product.boardCtg}"
                                                     style="padding-bottom: 0px;">
-                                                    <td class="product__cart__item col-lg-6">
+                                                    <td class="product__cart__item row col-lg-6">
                                                         <div class="product__cart__item__pic">
                                                             <img src="${product.rep}" th:if="not ${#strings.isEmpty(product.rep)}">
                                                             <div style="background-color: lightgrey; width: 90px; height: 90px; display: table;" th:if=" ${#strings.isEmpty(product.rep)}">
@@ -115,10 +115,10 @@
                                                         <div class="product__cart__item__text">
                                                             <h6 th:text="${product.title}" id="productName">상품명</h6>
                                                         </div>
-                                                        <td class="product__cart__item__text" th:if="not ${#strings.isEmpty(product.rsvStrDate)}">
-                                                            <p style="padding-top: 20px;" th:text="${#dates.format(product.rsvStrDate, 'yyyy/MM/dd')}" id="rsvStrDate" th:data-price="${product.price}">시작일</p>
-                                                            <p style="padding-top: 20px;" th:text="${#dates.format(product.rsvEndDate, 'yyyy/MM/dd')}" id="rsvEndDate" th:data-price="${product.price}">종료일</p>
-                                                        </td>
+                                                        <div th:if="not ${#strings.isEmpty(product.rsvStrDate)}" style="padding-left: 30px;">
+                                                            <p style="padding-top: 20px;" >시작일 : <span th:text="${#dates.format(product.rsvStrDate, 'yyyy-MM-dd')}" id="rsvStrDate"></span></p>
+                                                            <p style="padding-top: 20px;" >종료일 : <span th:text="${#dates.format(product.rsvEndDate, 'yyyy-MM-dd')}" id="rsvEndDate"></span></p>
+                                                        </div>
                                                     </td>
                                                     <td class="cart__price col-lg-2">
                                                         <p style="padding-top: 20px;" th:text="${#numbers.formatInteger(product.price, 3, 'COMMA')}+원" id="productPrice" th:data-price="${product.price}">가격</p>
