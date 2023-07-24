@@ -5,13 +5,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yedam.app.activity.vo.BnbVO;
+import com.yedam.app.board.vo.BoardVO;
 import com.yedam.app.common.vo.PaymentDetailVO;
 import com.yedam.app.common.vo.PaymentVO;
 import com.yedam.app.farm.vo.FarmLendApplyVO;
 import com.yedam.app.farm.vo.FarmLendVO;
 import com.yedam.app.market.vo.AuctionApplyVO;
 import com.yedam.app.market.vo.AuctionVO;
+import com.yedam.app.market.vo.CropsSaleVO;
 import com.yedam.app.market.vo.FundingVO;
+import com.yedam.app.market.vo.MarketVO;
 import com.yedam.app.user.mapper.MyPageMapper;
 import com.yedam.app.user.vo.AlertVO;
 import com.yedam.app.user.vo.AttachVO;
@@ -149,6 +153,43 @@ public class MyPageServiceImpl implements MyPageService {
 	public List<PaymentDetailVO> myFundingPayList(String boardNo) {
 		return myPageMapper.myFundingPayList(boardNo);
 	}
+
+	@Override
+	public List<BnbVO> myBnbList(String memNo) {
+		return myPageMapper.myBnbList(memNo);
+	}
+
+	@Override
+	public List<PaymentDetailVO> myBnbRsvList(String baordNo) {
+		return myPageMapper.myBnbRsvList(baordNo);
+	}
+	
+	@Override
+	public List<CropsSaleVO> myCropsSaleList(String memNo) {
+		return myPageMapper.myCropsSaleList(memNo);
+	}
+
+	@Override
+	public List<PaymentDetailVO> myCropsPayList(String boardNo) {
+		return myPageMapper.myCropsPayList(boardNo);
+	}
+
+	@Override
+	public List<MarketVO> myMarketList(String memNo) {
+		return myPageMapper.myMarketList(memNo);
+	}
+
+	@Override
+	public List<PaymentDetailVO> myMarketPayList(String boardNo) {
+		return myPageMapper.myMarketPayList(boardNo);
+	}
+
+	@Override
+	public List<BoardVO> myBoardList(String memNo) {
+		return myPageMapper.myBoardList(memNo);
+	}
+
+
 
 
 

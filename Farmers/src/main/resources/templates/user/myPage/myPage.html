@@ -59,12 +59,12 @@
 															<li><a href="/myPage/myFarmLendListForm">나의 농지대여</a></li>
 															<!-- <li><a href="#">나의 일자리 </a></li> -->
 															<!-- <li><a href="#">나의 농기구대여/거래</a></li> -->
-															<li><a href="#">나의 농작물 거래</a></li>
+															<li><a th:href="@{/myPage/myCropsSaleList(memNo=${session.mem.memNo})}">나의 농작물 거래</a></li>
 															<li><a th:href="@{/myPage/myFundingForm(memNo=${session.mem.memNo})}">나의 펀딩</a></li>
-															<li><a href="#">나의 전원마켓</a></li>
+															<li><a th:href="@{/myPage/myMarketList(memNo=${session.mem.memNo})}">나의 전원마켓</a></li>
 															<li><a href="/myPage/myAuctionForm">나의 경매장</a></li>
-															<li><a href="#">나의 농촌비앤비</a></li>
-															<li><a href="#">나의 게시글</a></li>
+															<li><a th:href="@{/myPage/myBnbList(memNo=${session.mem.memNo})}">나의 농촌비앤비</a></li>
+															<li><a th:href="@{/myPage/myBoardList(memNo=${session.mem.memNo})}">나의 게시글</a></li>
 														</ul>
 													</div>
 												</div>

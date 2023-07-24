@@ -252,7 +252,7 @@
 			$(document).on("click", "tr", function (e) {
 				if (!$(e.currentTarget).hasClass('th')) {
 					console.log($(e.currentTarget).attr('no'))
-					location.href = "farmLendInfo?boardNo=" + $(e.currentTarget).attr('no')
+					location.href = "/farmLendInfo?boardNo=" + $(e.currentTarget).attr('no')
 				}
 			})
 

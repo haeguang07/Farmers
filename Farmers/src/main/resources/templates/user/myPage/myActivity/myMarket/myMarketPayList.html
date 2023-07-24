@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="Male_Fashion Template">
+	<meta name="keywords" content="Male_Fashion, unica, creative, html">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>bidList</title>
+
+	<!-- Css Styles -->
+	<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+	<link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+	<link rel="stylesheet" href="/css/nice-select.css" type="text/css">
+	<link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/style.css" type="text/css">
+
+	<!-- Js Plugins -->
+	<script src="/js/jquery-3.3.1.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/jquery.nice-select.min.js"></script>
+	<script src="/js/jquery.nicescroll.min.js"></script>
+	<script src="/js/jquery.magnific-popup.min.js"></script>
+	<script src="/js/jquery.countdown.min.js"></script>
+	<script src="/js/jquery.slicknav.js"></script>
+	<script src="/js/mixitup.min.js"></script>
+	<script src="/js/owl.carousel.min.js"></script>
+	<script src="/js/json.min.js"></script>
+	<!-- dataTable -->
+	<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" type="text/css">
+</head>
+
+<body>
+	<hr>
+	<!-- Shop Details Section Begin -->
+	<section class="shop-details">
+		<div class="product__details__pic" style="background-color: white;">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<h3>판매내역</h3>
+						<hr>
+						<div th:if="not ${#strings.isEmpty(payList)}">
+							<p th:text="${payList[0].title}">제목</p>
+						</div>
+						<hr>
+					</div>
+
+					<div class="col-md-12">
+						<table id="myTable">
+							<thead>
+								<tr>
+									<th>번호</th>
+									<th>구매자</th>
+									<th>수량</th>
+									<th>총 결제금액</th>
+									<th>결제일</th>
+									<th>배송상태</th>
+								</tr>
+							</thead>
+							<tbody>
+								<th:block th:if="not ${#strings.isEmpty(payList[0].nick)}">
+									<tr th:each="pay : ${payList}">
+										<td th:text="${pay.payDetaNo}"></td>
+										<td th:text="${pay.nick}"></td>
+										<td th:text="${pay.qty}"></td>
+										<td th:text="${#numbers.formatInteger(pay.totalPrice, 3, 'COMMA')}"></td>
+										<td th:text="${#dates.format(pay.payDate, 'yyyy/MM/dd')}"></td>
+										<td th:text="${pay.shipStts}"></td>
+									</tr>
+								</th:block>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<script th:inline="javascript">
+		// dataTables
+		$(function () {
+			$('#myTable').DataTable({
+				language: lang_kor,
+				order : [4,'desc']
+			});
+		})
+
+		// 한글 설정
+		var lang_kor = {
+			"decimal": "",
+			"emptyTable": "데이터가 없습니다.",
+			"info": "_START_ - _END_ (총 _TOTAL_ 개)",
+			"infoEmpty": "0명",
+			"infoFiltered": "(전체 _MAX_ 명 중 검색결과)",
+			"infoPostFix": "",
+			"thousands": ",",
+			"lengthMenu": "_MENU_ 개씩 보기",
+			"loadingRecords": "로딩중...",
+			"processing": "처리중...",
+			"search": "검색 : ",
+			"zeroRecords": "검색된 데이터가 없습니다.",
+			"paginate": {
+				"first": "첫 페이지",
+				"last": "마지막 페이지",
+				"next": "다음",
+				"previous": "이전"
+			},
+			"aria": {
+				"sortAscending": " :  오름차순 정렬",
+				"sortDescending": " :  내림차순 정렬"
+			}
+		};
+
+		//수락 버튼 클릭 시
+		$('#accept').on('click', function () {
+			alert('수락')
+		})
+
+		//거절 버튼 클릭 시
+		$('#refuse').on('click', function () {
+			alert('거절')
+		})
+
+		//나의 입찰 확인
+		$(function(){
+			$('tr').each(function(idx,item){
+				if($(item).find('#mem').attr('data-mem') == /*[[${session.mem.memNo}]]*/){
+					$(item).css('background-color', 'lightcoral')
+				}
+			})
+		})
+	</script>
+</body>
+
+</html>

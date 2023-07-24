@@ -31,7 +31,7 @@ public class BnbController {
 	CodeService codeService;
 
 	// 전체조회
-	@GetMapping("bnbList")
+	@GetMapping("/bnbList")
 	public String getBnbList(Model model) {
 		return "activity/bnb/bnbList";
 	}
