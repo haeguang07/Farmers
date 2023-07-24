@@ -84,7 +84,7 @@
 		INSERT INTO board
 		VALUES (#{boardNo}
 				, #{memNo}
-				, #{post_ctg}
+				, #{postCtg}
 				, #{dst1}
 				, #{dst2}
 				, #{title}
