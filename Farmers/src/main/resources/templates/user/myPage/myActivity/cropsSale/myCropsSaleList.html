@@ -148,26 +148,26 @@
 				}
 			};
 
-			// // // //tr 이동
-			// $(document).on("click", "tr", function (e) {
-			// 	if (!$(e.currentTarget).hasClass('th')) {
-			// 		console.log($(e.currentTarget).attr('no'))
-			// 		location.href = "/fundingInfo?boardNo=" + $(e.currentTarget).attr('no')
-			// 	}
-			// })
+			//tr 이동
+			$(document).on("click", "tr", function (e) {
+				if (!$(e.currentTarget).hasClass('th')) {
+					console.log($(e.currentTarget).attr('no'))
+					location.href = "/cropsSaleInfo?boardNo=" + $(e.currentTarget).attr('no')
+				}
+			})
 
-			// //td 버튼 이벤트
-			// $(document).on("click", ".sub", function (e) {
-			// 	e.stopPropagation()
+			//td 버튼 이벤트
+			$(document).on("click", ".sub", function (e) {
+				e.stopPropagation()
 
-			// 	// 모달창
-			// 	$.magnificPopup.open({
-			// 		items: [{
-			// 			src: "/myPage/myFundingSubList?boardNo="+$(e.target).closest('tr').attr('no'),
-			// 			type: 'iframe'
-			// 		}]
-			// 	})
-			// })
+				// 모달창
+				$.magnificPopup.open({
+					items: [{
+						src: "/myPage/myCropsSalePayList?boardNo="+$(e.target).closest('tr').attr('no'),
+						type: 'iframe'
+					}]
+				})
+			})
 		</script>
 	</div>
 </body>

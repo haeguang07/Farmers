@@ -363,11 +363,18 @@ public class MyPageController {
 	}
 	
 	/////////////////////나의 농작물 판매 페이지 ////////////////////////////////
+	//나의 농작뭏물 판매 리스트
 	@GetMapping("myPage/myCropsSaleList")
 	public String myCropsSaleList(String memNo,Model model) {
 		List<CropsSaleVO> list = myPageService.myCropsSaleList(memNo);
 		System.out.println(list);
 		model.addAttribute("cropsList", list);
 		return "user/myPage/myActivity/cropsSale/myCropsSaleList";
+	}
+	
+	// 나의 농작물 판매 구매자 리스트
+	@GetMapping("myPage/myCropsSalePayList")
+	public String myCropsSalePayList (String boardNo, Model model) {
+		return "user/myPage/myActivity/cropsSale/myCropsSalePayList";
 	}
 }
