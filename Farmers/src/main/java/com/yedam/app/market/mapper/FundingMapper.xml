@@ -168,4 +168,11 @@
 		    WHERE success = 'n') 
 		USING (pay_no)
 	</select>
+	
+	<!-- 환불 완료 시 상태 처리 -->
+	<update id="updateRefundStts" parameterType="String">
+		UPDATE payment_detail
+		SET ship_stts = 'B6'
+		WHERE pay_deta_no = #{payDetaNo}
+	</update>
 </mapper>

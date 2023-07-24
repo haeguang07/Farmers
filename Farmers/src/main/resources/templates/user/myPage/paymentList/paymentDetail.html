@@ -188,7 +188,7 @@
 			let url = "https://api.tosspayments.com/v1/payments/"+payCode+"/cancel";
 			console.log(url)
 			if(bool){
-				if(confirm('환불하시겠습니까?')){
+				if(confirm('환불하시겠습니까? \n(환불 시 사용포인트는 소멸됩니다)')){
 					$.ajax({   
 						url : url,
 						method : "POST",

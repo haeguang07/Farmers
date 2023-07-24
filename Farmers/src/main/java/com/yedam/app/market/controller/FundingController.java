@@ -345,9 +345,13 @@ public class FundingController {
 			String url = "https://api.tosspayments.com/v1/payments/"+vo.getPayCode()+"/cancel";
 			// 통신 후 반환값
 			ResponseEntity<Map> respEntity = rt.exchange(url, HttpMethod.POST, entity, Map.class);
-			System.out.println(respEntity);
-			
-			
+			System.out.println(respEntity.getBody().get("status"));
+			//상태가 취소일 경우 실행
+			if(respEntity.getBody().get("status").equals("CANCELED")) {
+				//payment_detail 테이블의 ship_stts 'B6'(환불 완료)으로 변경
+				int result = fundingService.updateRefundStts(vo.getPayDetaNo());
+				System.out.println(result);
+			}
 		}
 	}
 

@@ -60,5 +60,10 @@ public class FundingServiceImpl implements FundingService {
 		return fundingMapper.fundingRefundList();
 	}
 
+	@Override
+	public int updateRefundStts(String payDetaNo) {
+		return fundingMapper.updateRefundStts(payDetaNo);
+	}
+
 
 }
