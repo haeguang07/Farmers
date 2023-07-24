@@ -4,7 +4,7 @@
     layout:decorate="~{index}">
 <head>
 <meta charset="UTF-8">
-<title>농지 내놓기</title>
+<title>농지 내놓기 수정 페이지</title>
 <link rel="stylesheet" href="css/sungWookCss/sungook.css" type="text/css">
 <style>
 #menu div {
@@ -108,8 +108,8 @@
 									</div>
 								</div>
 								<div class="checkout__input">
-									<p>설명</p>
-									<textarea rows="3" cols="80" style="font-size: 15px;" name="desct" th:value="${flInfo.desct}"></textarea>
+									<p>부가 설명</p>
+									<textarea rows="3" cols="80" style="font-size: 15px;" name="desct" th:text="${flInfo.desct}"></textarea>
 								</div>
 								<div class="mb-3">
 									<p>대여 기간</p>
@@ -130,13 +130,13 @@
 											<span id="explain">?</span>
 											<p class="arrow_box">
 												<b style="font-size: 20px;">제출 서류 목록</b><br>
-												주민등록등본(초본) 또는 신분증(사본)<br>
-												토지대장 등본<br>
-												지적도 등본<br>
-												토지 이용계획 확인서<br>
-												부동산 종합 증명서<br>
-												(토지대장, 지적도, 토지 이용계획 확인서 제출 생략 가능)<br>
-												부동산(토지) 등기부 등본<br>
+												<span>*</span>주민등록등본(초본) 또는 신분증(사본)<br>
+												<span>*</span>토지대장 등본<br>
+												<span>*</span>지적도 등본<br>
+												<span>*</span>토지 이용계획 확인서<br>
+												<span>*</span>부동산 종합 증명서<br>
+												(부동산 종합 증명서 제출 시 토지대장, 지적도, 토지 이용계획 확인서 생략 가능)<br>
+												<span>*</span>부동산(토지) 등기부 등본<br>
 												농지원부, 농가경영등록체확인서 등 농업인 확인서류(농업인의 경우)<br>
 												재산세(지방세 세목별) 과세증명(농업인의 경우)
 											</p>
@@ -156,6 +156,92 @@
 			</div>
 		</section>
 		<!-- Checkout Section End -->
+		<!-- 우편번호 api -->
+		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js?autoload=false"></script>
+		<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=c573b65eabeb9b6da24ab52d832dc807&libraries=services"></script>
+		
+		<script>
+			// 우편번호 api
+			$('#addressBtn').on('click', function() {
+				daum.postcode.load(function () {
+					new daum.Postcode({
+						oncomplete: function (data) {
+							var addr = '';
+							var extraAddr = '';
+							if (data.userSelectedType === 'R') {
+								addr = data.roadAddress;
+							} else {
+								addr = data.jibunAddress;
+							}
+							if (data.userSelectedType === 'R') {
+								if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+									extraAddr += data.bname;
+								}
+								if (data.buildingName !== '' && data.apartment === 'Y') {
+									extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+								}
+								if (extraAddr !== '') {
+									extraAddr = ' (' + extraAddr + ')';
+								}
+							}
+							document.getElementById("addressCode").value = data.zonecode;
+							document.getElementById("address").value = addr;
+							// 주소를 카카오지도 API의 지오코딩(Geocoding) 서비스를 이용하여 위도와 경도로 변환
+		                    var geocoder = new kakao.maps.services.Geocoder();
+		                    geocoder.addressSearch(addr, function (result, status) {
+		                        if (status === kakao.maps.services.Status.OK) {
+		                            // 변환된 위도와 경도 출력
+		                            let lati = result[0].y;	                            
+		                            let longi = result[0].x;
+		                            console.log('위도, 경도 : ', lati, ', ', longi);
+		                            
+		                            document.getElementById('latitude').value = lati;
+		                            document.getElementById('longitude').value = longi;
+		                            
+		                        } else {
+		                            alert('주소를 찾을 수 없습니다.');
+		                        }
+		                    });
+		                    document.getElementById("addressDetail").focus();
+		                }
+		            }).open();
+		        });
+			})
+			
+			let strDate = $('[name="lendStrDate"]');
+			let endDate = $('[name="lendEndDate"]');
+			
+			// 합계 출력
+			$(function() {
+				getSumPrice();
+			});
+			
+			$('#price').change(function() {
+				getSumPrice();
+			});
+			
+			$('#date').change(function() {
+				getSumPrice();
+			});
+			
+			function getSumPrice() {
+				let start = new Date(strDate.val());
+				let end = new Date(endDate.val());
+				let diffTime = Math.abs(end - start);
+				let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+				// console.log(diffDays);
+				if(isNaN(diffDays)) {
+					$('#sumPrice').text('0원');
+				} else {
+					$('#sumPrice').text(priceToString(Number($('#price').val()) * Number(diffDays)) + '원');
+				}
+			}
+			
+			// 숫자 3자리마다 콤마 넣기
+			function priceToString(price) {
+				return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+			}
+		</script>
 	</div>
 </body>
 </html>

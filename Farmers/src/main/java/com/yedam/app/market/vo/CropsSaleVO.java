@@ -23,9 +23,9 @@ public class CropsSaleVO {
 	@JsonFormat(pattern="yyyy/MM/dd")
 	private Date regDate;
 	private String regStts;
+	private double rateAvg; // 별점 평균(xml에서 alias한 이름)
 	
 	// review
-	private String revNo;
 	private int rate;
 	
 	// member

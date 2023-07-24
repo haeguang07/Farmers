@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" 
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" 
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+	layout:decorate="~{index}">
+<head>
+<meta charset="UTF-8">
+<title>농지 대여 신청 페이지</title>
+<style>
+#map {
+	width: 700px;
+	height: 300px;
+	margin: 20px 5px;
+}
+#menu div {
+    position: relative;
+    display: inline-block;
+}
+
+#explain {
+    display: block;
+    width: 30px;
+    padding: 2px 16px;
+    cursor: pointer;
+}
+.arrow_box {
+	display: none;
+	position: absolute;
+	width: 270px;
+	padding: 8px;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;  
+	border-radius: 8px;
+	background: rgb(255, 255, 255);
+	color: #fff;
+	font-size: 14px;
+}
+
+.arrow_box:after {
+	position: absolute;
+	bottom: 100%;
+	left: 50%;
+	width: 0;
+	height: 0;
+	margin-left: -10px;
+	border: solid transparent;
+	border-color: rgba(51, 51, 51, 0);
+	border-bottom-color: rgb(255, 255, 255);
+	border-width: 10px;
+	pointer-events: none;
+	content: " ";
+}
+
+#explain:hover + p.arrow_box {
+	display: block;
+}
+</style>
+</head>
+<body>
+	<div layout:fragment="content">
+		<!-- Breadcrumb Section Begin -->
+		<section class="breadcrumb-option">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="breadcrumb__text">
+							<h4>농지 대여 신청</h4>
+							<div class="breadcrumb__links">
+								<a>귀농귀촌</a>
+								<a href="farmLendList">농지 대여</a>
+								<span th:text="${flInfo.addr}">주소지</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Breadcrumb Section End -->
+		<!-- Shop Details Section Begin -->
+		<section class="product-details spad">
+			<div class="container">
+				<div class="row">
+					<div class="row col-lg-12">
+						<div class="product__details__content col-lg-12">
+							<div class="container">
+								<form id="myForm">
+									<div class="row d-flex justify-content-center">
+										<div class="col-lg-12">
+											<div class="product__details__text">
+												<div class="row">
+													<h4 class="textLeft col-lg-9" th:text="${flInfo.addr} + ' ' + ${flInfo.detaAddr}" style="display: inline; text-align: left; font-size: 30px;">상품명</h4>
+													<p style="margin-bottom: 20px;" class="mr-2"><b style="font-size: 15px;">작성자</b> <span th:text="${flInfo.nick}">작성자</span></p>
+													<p style="margin-bottom: 20px;"><b style="font-size: 15px;">작성자</b> <span th:text="${#dates.format(flInfo.regDate, 'yyyy/MM/dd')}">작성날짜</span></p>
+												</div>
+												<hr>
+												<!-- 지도 api -->
+												<div>
+													<p class="note" style="margin-bottom: 10px; text-align: left;">위치 정보</p>
+													<div>
+														<div id="map">지도 Api</div>
+													</div>
+												</div>
+												<!-- 위도 경도-->
+												<div style="display: none">
+													위도<span id="lati" th:text="|${flInfo.lati}|"></span><br>
+													경도<span id="longi" th:text="|${flInfo.longi}|"></span>
+												</div>
+												<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">면적 : </b><span th:text="${flInfo.area}"></span> <span>(m²)</span></p>
+												<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">주요 재배 작물 : </b> <span th:text="${flInfo.mcrp}">작물 목록</span></p>
+												<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">부가 설명 : </b> <span th:text="${flInfo.desct}">내용</span></p>
+												<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">대여 기간 : </b> 
+												<span th:text="|${#dates.format(flInfo.lendStrDate, 'yyyy/MM/dd')} ~ ${#dates.format(flInfo.lendEndDate, 'yyyy/MM/dd')}|">대여 시작 ~ 끝 날짜</span></p>
+												<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">대여 가격 : </b> 
+													<span th:text="${#numbers.formatInteger(flInfo.lendPrice, 3, 'COMMA')} + '원'" style="font-size: 20px;"></span>
+													<span>(1일)</span>
+												</p>
+												<div class="checkout__input">
+													<p style="text-align: left;">제출 서류</p>
+													<button type="button" class="form-control col-lg-2" id="btnUpload">첨부 파일</button>
+													<div id="menu">
+														<div style="display: inline;">
+															<span id="explain">?</span>
+															<p class="arrow_box">
+																<b style="font-size: 20px;">제출 서류 목록</b><br>
+																<span>*</span>주민등록등본(초본) 또는 신분증(사본)<br>
+																<span>*</span>가족관계증명서<br>
+																<span>*</span>소득금액증명서<br>
+																<span>*</span>국세완납증명서(납세증명서)<br>
+																<span>*</span>지방세완납증명서(지방세납세증명서)<br>
+															</p>
+														</div>
+													</div>
+													<input type="file" id="inputFile" name="files" style="display: none;" multiple>
+												</div>
+												<p style="line-height: 40px; text-align: right;">합계 : <span id="sumPrice" style="line-height: 40px;"></span></p>
+												<div class="row mb-2">
+													<button type="button" class="btn btn-dark mr-2" style="width: 150px; float: left;" id="apply">신청하기</button>
+													<button type="button" class="btn btn-dark" style="width: 150px; float: left;" id="toList">취소</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Shop Details Section End -->
+		<!-- 카카오 지도 api -->
+		<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c573b65eabeb9b6da24ab52d832dc807"></script>
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			let boardNo = /*[[${flInfo.boardNo}]]*/;
+			/*]]>*/
+			
+			// 지도 api
+			var latitude = document.getElementById('lati').innerText;
+			var longitude = document.getElementById('longi').innerText;
+			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+			mapOption = {
+				center : new kakao.maps.LatLng(latitude,longitude), // 지도의 중심좌표
+				level : 3, // 지도의 확대 레벨
+				mapTypeId : kakao.maps.MapTypeId.ROADMAP
+			};
+			var map = new kakao.maps.Map(mapContainer, mapOption);
+			// 지도에 마커를 생성하고 표시한다			
+			var marker = new kakao.maps.Marker({
+				position : new kakao.maps.LatLng(latitude,longitude), // 마커의 좌표
+				map : map
+			});
+			
+			let dbPath;
+			let uploadFiles = [];
+			
+			// 첨부파일 가져오기
+			$('#btnUpload').on('click', function(e) {
+				e.preventDefault();
+				$('#inputFile').click();
+			});
+			
+			// 첨부파일 업로드
+			$('#inputFile').on('change', function() {
+				var formData = new FormData(); //FormData 객체 생성
+
+				var inputFile = $("input[type='file']");
+				//input 태그의 type이 file인 것을 찾아서 inputFile 이라는 변수로 지정
+
+				var files = inputFile[0].files;
+				//files : 선택한 모든 파일을 나열하는 FileList 객체입니다
+				//multiple 특성을 지정하지 않았다면 두 개 이상의 파일을 포함하지 않습니다
+
+				for (var i = 0; i < files.length; i++) {
+					console.log(files[i]);
+					formData.append("uploadFiles", files[i]); //키, 값으로 append
+
+					$.ajax({
+						url: 'uploadsAjaxMulti',
+						type: 'POST',
+						processData: false, // 기본값은 true, ajax 통신을 통해 데이터를 전송할때, 기본적으로 key와 value 값을 Query String으로 변환해서 보내줌
+						contentType: false, // multipart/form-data 타입을 사용하기위해 false로 지정
+						data: formData,
+						success: function (result) {
+							uploadFiles = result;
+						},
+						error: function (reject) {
+							console.log(reject);
+						}
+					})
+				}
+			});
+			
+			// 합계 출력
+			let start = new Date(/*[[${flInfo.lendStrDate}]]*/);
+			let end = new Date(/*[[${flInfo.lendEndDate}]]*/);
+			let diffTime = Math.abs(end - start);
+			let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+			let price = /*[[${flInfo.lendPrice}]]*/;
+			
+			console.log(typeof(diffDays));
+			
+			$('#sumPrice').text(priceToString(price * diffDays) + '원');
+			
+			// 숫자 3자리마다 콤마 넣기
+			function priceToString(price) {
+				return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+			}
+			
+			// 신청하기 버튼 클릭 시
+			$('#apply').on('click', function() {
+				if(!$('[name="files"]').val() < 5) {
+					alert('필수 첨부파일을 참고하여 첨부하세요');
+				} else {
+					let formData = $('#myForm').serializeObject();
+					formData.files = uploadFiles;
+					$.ajax({
+						url : "farmLendApply",
+						method : "POST",
+						contentType : "application/json",
+						data : JSON.stringify(formData)
+					})
+					.done(function(result) {
+						alert(result);
+					})
+					.fail(function(result) {
+						alert(result);
+					})
+				}
+			});
+			
+			// 취소 버튼 클릭 시
+			$('#toList').on('click', function() {
+				location.href = "farmLendInfo?boardNo=" + boardNo;
+			});
+		</script>
+	</div>
+</body>
+</html>

@@ -12,5 +12,7 @@ public interface ExpMapper {
 	// 등록
 	public int insertExp(ExpVO expVO);
 	// 삭제
-	public int deleteExp(String frexNo);
+	public int deleteExp(String boardNo);
+	// 게시글 수
+	public int getCount();
 }

@@ -50,4 +50,9 @@ public class FarmLendServiceImpl implements FarmLendService {
 		return flMapper.getCount(dst1, dst2, mcrp, price, area);
 	}
 
+	@Override
+	public int insertFarmLendApply(String memNo) {
+		return flMapper.insertFarmLendApply(memNo);
+	}
+
 }
