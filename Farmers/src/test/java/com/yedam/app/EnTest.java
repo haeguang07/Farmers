@@ -33,7 +33,7 @@ public class EnTest {
 		encryptor.setConfig(config);
 		String enc=encryptor.encrypt("");
 		System.out.println(enc);
-		String dec = encryptor.decrypt("FZjLUTZjTsDe/OKxLUzU9gTFTgE7UQdo24lrX/4oawlzT3Q4YhiMP9PI01K23AWKtRiDvLh4CFK9BIGSGFAbf1Z4XNuu/1L/4W71plE68M4=");
+		String dec = encryptor.decrypt(enc);
 		System.out.println(dec);
 	}
 }
