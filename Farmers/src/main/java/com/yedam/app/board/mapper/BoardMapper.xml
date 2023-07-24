@@ -56,7 +56,6 @@
 			<if test="boardNo != null and !boardNo.equals('')">
 				AND board_no = #{boardNo}
 			</if>
-		ORDER BY wrt_date DESC
 	</select>
 
 	<!-- 커뮤니티 댓글 조회 -->
@@ -73,6 +72,27 @@
 		FROM recommendation
 		WHERE board_no = #{boardNo}
 	</select>
+	
+	<!-- 게시글 등록 -->
+	<insert id="insertBoard" parameterType="BoardVO">
+		<selectKey keyProperty="boardNo"
+				   resultType="String"
+				   order="BEFORE">
+			SELECT 'BRD' || LPAD(act_seq.nextval, 6, '0')
+			FROM dual
+		</selectKey>
+		INSERT INTO board
+		VALUES (#{boardNo}
+				, #{memNo}
+				, #{post_ctg}
+				, #{dst1}
+				, #{dst2}
+				, #{title}
+				, #{img}
+				, #{desct}
+				, sysdate
+				, 0)
+	</insert>
 	
 
 </mapper>
