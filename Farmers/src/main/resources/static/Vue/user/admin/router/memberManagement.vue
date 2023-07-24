@@ -64,6 +64,7 @@ export default{
                 showApplyBtn: true,
                 showClearBtn: true}
 	        },
+	        
 	        {header: '닉네임',
 	          name: 'nick',
 	          sortable: true,},
