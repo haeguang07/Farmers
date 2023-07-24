@@ -8,9 +8,9 @@ import lombok.Data;
 
 @Data
 public class ExpVO {
-	private String frexNo;
+	private String boardNo;
 	private String memNo;
-	private String frexTitle;
+	private String title;
 	private String rep;
 	private String detaDesct;
 	private int zip;
@@ -25,6 +25,7 @@ public class ExpVO {
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date regDate;
 	private String regStts;
-	private double lagt;
+	private double lati;
 	private double longi;
+	private String detaAddr;
 }

@@ -62,12 +62,12 @@
 												위도<span id="lati" th:text="|${flInfo.lati}|"></span><br>
 												경도<span id="longi" th:text="|${flInfo.longi}|"></span>
 											</div>
-											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 25px;">면적 : </b><span th:text="${flInfo.area}"></span> <span>(m²)</span></p>
+											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">면적 : </b><span th:text="${flInfo.area}"></span> <span>(m²)</span></p>
 											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">주요 재배 작물 : </b> <span th:text="${flInfo.mcrp}">작물 목록</span></p>
-											<p style="margin-bottom: 20px; text-align: left;" th:text="${flInfo.desct}">내용</p>
+											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">부가 설명 : </b> <span th:text="${flInfo.desct}">내용</span></p>
 											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">대여 기간 : </b> 
 											<span th:text="|${#dates.format(flInfo.lendStrDate, 'yyyy/MM/dd')} ~ ${#dates.format(flInfo.lendEndDate, 'yyyy/MM/dd')}|">대여 시작 ~ 끝 날짜</span></p>
-											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 25px;">가격 : </b> 
+											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">대여 가격 : </b> 
 												<span th:text="${#numbers.formatInteger(flInfo.lendPrice, 3, 'COMMA')} + '원'" style="font-size: 20px;"></span>
 												<span>(1일)</span>
 											</p>
@@ -117,7 +117,7 @@
 			
 			// 신청하기 버튼 클릭 시
 			$('#apply').on('click', function() {
-				
+				location.href = "farmLendApply?boardNo=" + boardNo;
 			});
 			
 			// 목록으로 버튼 클릭 시

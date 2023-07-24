@@ -108,7 +108,7 @@
 									</div>
 								</div>
 								<div class="checkout__input">
-									<p>설명</p>
+									<p>부가 설명</p>
 									<textarea rows="3" cols="80" style="font-size: 15px;" name="desct"></textarea>
 								</div>
 								<div class="mb-3">
@@ -130,13 +130,13 @@
 											<span id="explain">?</span>
 											<p class="arrow_box">
 												<b style="font-size: 20px;">제출 서류 목록</b><br>
-												주민등록등본(초본) 또는 신분증(사본)<br>
-												토지대장 등본<br>
-												지적도 등본<br>
-												토지 이용계획 확인서<br>
-												부동산 종합 증명서<br>
-												(토지대장, 지적도, 토지 이용계획 확인서 제출 생략 가능)<br>
-												부동산(토지) 등기부 등본<br>
+												<span>*</span>주민등록등본(초본) 또는 신분증(사본)<br>
+												<span>*</span>토지대장 등본<br>
+												<span>*</span>지적도 등본<br>
+												<span>*</span>토지 이용계획 확인서<br>
+												<span>*</span>부동산 종합 증명서<br>
+												(부동산 종합 증명서 제출 시 토지대장, 지적도, 토지 이용계획 확인서 생략 가능)<br>
+												<span>*</span>부동산(토지) 등기부 등본<br>
 												농지원부, 농가경영등록체확인서 등 농업인 확인서류(농업인의 경우)<br>
 												재산세(지방세 세목별) 과세증명(농업인의 경우)
 											</p>
@@ -234,6 +234,7 @@
 				$(input).attr("min", today);
 			}
 			
+			// 합계 출력
 			$(function() {
 				getSumPrice();
 			});
@@ -246,7 +247,6 @@
 				getSumPrice();
 			});
 			
-			// 합계 출력
 			function getSumPrice() {
 				let start = new Date(strDate.val());
 				let end = new Date(endDate.val());
@@ -260,6 +260,7 @@
 				}
 			}
 			
+			// 숫자 3자리마다 콤마 넣기
 			function priceToString(price) {
 				return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 			}

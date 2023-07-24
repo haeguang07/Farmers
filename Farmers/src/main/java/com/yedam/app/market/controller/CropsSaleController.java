@@ -44,27 +44,28 @@ public class CropsSaleController {
 	public Map<String, Object> getCropsSaleListPage(@RequestParam(required = false, defaultValue = "0") int pageNum,
 													@RequestParam(required = false) String category,
 													@RequestParam(required = false, defaultValue = "최신순") String order,
-													@RequestParam(required = false) String search) {
+													@RequestParam(required = false) String search, String boardNo) {
 		pageNum = pageNum == 0 ? 1 : pageNum;
 		int total = csService.getCount(category, search);
 		List<CropsSaleVO> list = csService.getCropsSaleListPage(pageNum, category, order, search);
+//		System.out.println(list);
 		
 		PageVO vo = new PageVO(pageNum, total);
 		Map<String, Object> map = new HashMap<>();
 		map.put("csList", list);
 		map.put("pageInfo", vo);
-//		map.put("reviewCount", csService.totalRate(boardNo));
+		map.put("review", csService.totalRate(boardNo));
 		
 		return map;
 	}
 	
 	// 단건조회
 	@GetMapping("cropsSaleInfo")
-	public String getCropsSaleInfo(CropsSaleVO csVO, String boardNo, Model model) {
+	public String getCropsSaleInfo(CropsSaleVO csVO, Model model) {
 		CropsSaleVO info = csService.getCropsSaleInfo(csVO);
 		model.addAttribute("csInfo", info);
 		model.addAttribute("codeInfo", codeService.getCodeList("0N"));
-		model.addAttribute("reviewCount", csService.totalRate(boardNo));
+		model.addAttribute("reviewCount", csService.totalRate(csVO.getBoardNo()));
 		return "market/cropsSale/cropsSaleInfo";
 	}
 	
