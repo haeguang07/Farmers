@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{index}">
+
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Male_Fashion Template">
+<meta name="keywords" content="Male_Fashion, unica, creative, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>전원마켓 수정 페이지</title>
+
+<style>
+.ck-editor__editable {
+	height: 400px;
+}
+
+.primary-btn col-lg-2 {
+	color: white;
+	margin: 0 auto;
+}
+
+.row col-lg-12 {
+	margin: auto 0;
+}
+</style>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<hr>
+		<!-- Shop Details Section Begin -->
+		<section class="shop-details">
+				<div class="product__details__pic" style="background-color: white;">
+					<div class="container">
+						<div class="row">
+							<div class="row col-lg-12">
+								<div class="col-lg-4 col-md-9 row" id="addFile">
+								<!-- <img th:src="${mk.rep}" alt=""> -->
+									<div class="col-lg-12"
+										style="background-color: lightgrey; display: table;">
+										<p style="display: table-cell; vertical-align: middle">대표
+											이미지 등록</p>
+									</div>
+								</div>
+								<div class="product__details__content col-lg-8">
+									<form id="myForm">
+										<!-- 실제 파일 업로드 input (안보임) -->
+										<input type="file" id="inputFile" style="display: none;">
+										<input type="text" id="insertFile" style="display: none;"
+											name="rep">
+										<div class="container">
+											<div class="row d-flex justify-content-center row">
+												<div class="col-lg-12">
+													<div class="product__details__text">
+														<div class="row">
+															<h4 class="textLeft col-lg-3" style="display: inline;">상품명</h4>
+															<input type="text" class="form-control col-lg-8"
+																name="title" th:value="${mk.title}"
+																style="margin-left: -15px">
+														</div>
+														<hr>
+														<div class="row">
+															<div class="row col-lg-6">
+																<p class="myInline col-lg-6 mb-0 textLeft">판매자</p>
+																<input type="text" class="form-control col-lg-6"
+																	name="memNo" readonly th:value="${session.mem.memNo}">
+															</div>
+														</div>
+														<br>
+														<div class="row">
+															<div class="row col-lg-6">
+																<p class="myInline col-lg-6 mb-0 textLeft">카테고리</p>
+																<select class="form-control col-lg-6" name="mktCtg"
+																	th:value="${mk.Ctg}">
+																	<option value="가드닝">가드닝</option>
+																	<option value="인테리어">인테리어</option>
+																	<option value="잡화">잡화</option>
+																</select>
+															</div>
+														</div>
+														<br>
+														<div class="row">
+															<div class="row col-lg-6">
+																<p class="myInline col-lg-6 mb-0 textLeft">금액</p>
+																<input type="number" class="form-control col-lg-6"
+																	name="price" min="1" th:value="${mk.price}">
+															</div>
+															<div class="row col-lg-6">
+																<p class="myInline col-lg-6 mb-0 textLeft">판매수량</p>
+																<input type="number" class="form-control col-lg-6"
+																	name="qty" min="1" th:value="${mk.qty}">
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+								<div class="row col-lg-12" style="margin-top: 30px">
+									<div class="col-lg-12">
+										<div class="product__details__tab">
+											<div class="row">
+												<ul class="nav nav-tabs col-lg-12" role="tablist">
+													<li class="nav-item col-lg-12"><a
+														class="nav-link active" data-toggle="tab" href="#tabs-5"
+														role="tab">상세 설명</a></li>
+												</ul>
+											</div>
+											<div class="row">
+												<div class="tab-content col-lg-12">
+													<div class="tab-pane active" id="tabs-5" role="tabpanel">
+														<div class="product__details__tab__content">
+															<div>
+																<textarea name="text" id="editor"></textarea>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<br>
+										<div style="margin-top: 10px;">
+											<button type="button" class="primary-btn col-lg-2" id="udtBtn">수정하기</button>
+											<button type="button" class="primary-btn col-lg-2"
+												th:onclick="|location.href='@{/mkInfo(boardNo=${mk.boardNo})}'|">뒤로가기</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+		</section>
+
+
+		<!-- ck 에디터-->
+		<script
+			src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+		<script
+			src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
+		<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
+
+		<script>
+			let dbPath;
+
+			//첨부파일 가져오기
+			$('#addFile').on('click', function () {
+				$('#inputFile').click()
+			})
+
+			//첨부파일 업로드
+			$('#inputFile').change(function () {
+				var formData = new FormData(); //FormData 객체 생성
+
+				var inputFile = $("input[type='file']")
+				//input 태그의 type이 file인 것을 찯아서 inputFile 이라는 변수로 지정
+
+				var files = inputFile[0].files;
+				//files : 선택한 모든 파일을 나열하는 FileList 객체입니다
+				//multiple 특성을 지정하지 않았다면 두 개 이상의 파일을 포함하지 않습니다
+
+				for (var i = 0; i < files.length; i++) {
+					console.log(files[i]);
+					if (files[i].type.includes('image')) {
+						formData.append("uploadFiles", files[i]); //키,값으로 append
+
+						$.ajax({
+							url: '/uploadsAjax',
+							type: 'POST',
+							processData: false, // 기본값은 true, ajax 통신을 통해 데이터를 전송할때, 기본적으로 key와 value 값을 Query String으로 변환해서 보내줌
+							contentType: false, // multipart/form-data 타입을 사용하기위해 false로 지정
+							data: formData,
+							success: function (result) {
+								console.log(result)
+								dbPath = result.dbPath
+								$('#addFile').html('<img src="' + result.dbPath + '">')
+								$('#insertFile').val(result.dbPath);
+								console.log(dbPath)
+
+							},
+							error: function (reject) {
+								console.log(reject)
+							}
+						})
+					} else {
+						alert('이미지만 등록 가능합니다')
+					}
+				}
+			})
+			//ckEditor 생성
+			let editor;
+			
+			//ck내용 가져오기
+			/*<![CDATA[*/			
+			let dataDesct= /*[[${mk.detaDesct}]]*/;
+			 /*]]>*/
+			ClassicEditor.create(document.querySelector('#editor'), {
+					language: "ko",
+					ckfinder: {
+						uploadUrl: '/image/upload'
+					}
+				})
+				.then(newEditor => {
+					editor = newEditor;
+					editor.setData(dataDesct);				 
+				})
+				.catch(error => {
+					console.error(error);
+				});
+
+			//ckEditor 데이터 가져오기
+			$('#udtBtn').on('click', function () {
+
+				//데이터 입력 확인
+				if (!$('[name="title"]').val()) {
+					alert('제목을 입력하세요');
+					return;
+				} else if ($('[name="price"]').val() <= 0) {
+					alert('금액을 입력하세요');
+					return;
+				} else {
+					let ckData = editor
+					let formData = $('#myForm').serializeObject()
+					console.log(formData);
+					//상세 설명 존재하지 않을 시 출력 내용 설정
+					if(ckData.getData() == ''){
+						ckData.setData('<p>상세 설명이 존재하지 않습니다</p>')
+						formData.detaDesct = ckData.getData()
+					}else{
+						formData.detaDesct = ckData.getData()
+					}
+					if($('#inputFile').val()){
+						formData.rep = dbPath
+					}
+					formData.boardNo = /*[[${mk.boardNo}]]*/
+
+					//ajax 수정처리
+					$.ajax({
+							url: "/update/updateMk",
+							method: "POST",
+							data: formData
+						})
+						.done(function (result) {
+							console.log('성공');
+							alert(result);
+							location.href = "/mkInfo?boardNo="+/*[[${mk.boardNo}]]*/
+						})
+						.fail(function (result) {
+							console.log('실패');
+							alert(result);
+						})
+				}
+			})			
+			
+		</script>
+	</div>
+</body>
+
+</html>
