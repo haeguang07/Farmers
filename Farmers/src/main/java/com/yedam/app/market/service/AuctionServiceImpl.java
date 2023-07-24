@@ -52,8 +52,14 @@ public class AuctionServiceImpl implements AuctionService {
 
 	@Override
 	public boolean deleteAuction(String boardNo) {
-		// TODO Auto-generated method stub
+		
 		return false;
+	}
+
+	@Override
+	public boolean updateAuctionReg() {
+		
+		return auctionMapper.updateAuctionReg()>0;
 	}
 
 }
