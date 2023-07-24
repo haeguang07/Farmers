@@ -6,6 +6,50 @@
 <meta charset="UTF-8">
 <title>농지 내놓기</title>
 <link rel="stylesheet" href="css/sungWookCss/sungook.css" type="text/css">
+<style>
+#menu div {
+    position: relative;
+    display: inline-block;
+}
+
+#explain {
+    display: block;
+    width: 30px;
+    padding: 2px 16px;
+    cursor: pointer;
+}
+.arrow_box {
+	display: none;
+	position: absolute;
+	width: 270px;
+	padding: 8px;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;  
+	border-radius: 8px;
+	background: rgb(255, 255, 255);
+	color: #fff;
+	font-size: 14px;
+}
+
+.arrow_box:after {
+	position: absolute;
+	bottom: 100%;
+	left: 50%;
+	width: 0;
+	height: 0;
+	margin-left: -10px;
+	border: solid transparent;
+	border-color: rgba(51, 51, 51, 0);
+	border-bottom-color: rgb(255, 255, 255);
+	border-width: 10px;
+	pointer-events: none;
+	content: " ";
+}
+
+#explain:hover + p.arrow_box {
+	display: block;
+}
+</style>
 </head>
 	<div layout:fragment="content">
 		<div class="justify-content-center">
@@ -16,63 +60,96 @@
 			<div class="container">
 			<hr>
 				<div class="checkout__form">
-					<form action="#">
+					<form id="myForm">
 						<div class="row">
 							<div class="col-lg-12">
+								<input type="text" th:value="${session.mem.memNo}" name="memNo" style="display: none;">
 								<div class="row">
-									<div class="col-lg-6 checkout__input">
+									<div class="checkout__input col-lg-6">
 										<p>주소</p>
-										<input type="text" readonly placeholder="우편번호를 검색해주세요" id="addressCode">
+										<input type="text" readonly placeholder="우편번호를 검색해주세요" id="addressCode" name="zip" th:value="${flInfo.zip}">
 									</div>
 									<div class="col-lg-3 checkout__input">
-										<p style="visibility: hidden;"><span>*</span></p><button type="button"
-											class="form-control" id="addressBtn">우편번호등록</button>
+										<p class="mb-3" style="visibility: hidden;"><span>*</span></p>
+										<button type="button" class="form-control" id="addressBtn">우편번호등록</button>
 									</div>
 								</div>
 								<div class="checkout__input">
-									<input type="text" placeholder="주소지" class="checkout__input__add" id="address" readonly>
-									<input type="text" placeholder="상세주소" id="addressDetail">
+									<input type="text" placeholder="주소지" class="checkout__input__add" id="address" name="addr" th:value="${flInfo.addr}" readonly>
+									<input type="text" placeholder="상세주소" id="addressDetail" name="detaAddr" th:value="${flInfo.detaAddr}">
+								</div>
+								<div class="row" style="display: none">
+									<input type="text" name="lati" id="latitude">
+									<input type="text" name="longi" id="longitude">
 								</div>
 								<div class="checkout__input">
 									<p>면적</p>
-									<input type="text" class="col-lg-3" readonly><span style="display: inline;">(m²)</span> <!-- 면적 -->
+									<input type="number" class="col-lg-3" th:value="${flInfo.area}" min="0" name="area">
+									<p style="display: inline;">(m²)</p> <!-- 면적 -->
 								</div>
 								<div class="checkout__input">
 									<p>주요 재배 작물</p>
 									<div class="row">
-										<select class="form-select form-group ml-3 mr-2">
-											<option selected disabled value="">선택하세요</option>
+										<select class="form-select form-group ml-3 mr-2" id="first" name="mcrpList">
+											<option selected disabled value="">작물 선택</option>
+											<option th:each="cd : ${mcrp}" th:text="${cd.codeDesct}" 
+												th:value="${cd.cmmnDetaCode}"></option>
 										</select>
-										<select class="form-select form-group mr-2">
-											<option selected disabled value="">선택하세요</option>
+										<select class="form-select form-group mr-2" id="second" name="mcrpList">
+											<option selected disabled value="">작물 선택</option>
+											<option th:each="cd : ${mcrp}" th:text="${cd.codeDesct}" 
+												th:value="${cd.cmmnDetaCode}"></option>
 										</select>
-										<select class="form-select form-group">
-											<option selected disabled value="">선택하세요</option>
+										<select class="form-select form-group" id="third" name="mcrpList">
+											<option selected disabled value="">작물 선택</option>
+											<option th:each="cd : ${mcrp}" th:text="${cd.codeDesct}" 
+												th:value="${cd.cmmnDetaCode}"></option>
 										</select>
 									</div>
 								</div>
 								<div class="checkout__input">
 									<p>설명</p>
-									<textarea></textarea>
+									<textarea rows="3" cols="80" style="font-size: 15px;" name="desct" th:value="${flInfo.desct}"></textarea>
 								</div>
 								<div class="mb-3">
 									<p>대여 기간</p>
-									<input type="date">
-									~
-									<input type="date">
+									<input type="date" name="lendStrDate" th:value="${flInfo.lendStrDate}" th:field="${flInfo.lendStrDate}"> <!-- 대여 시작 일자 -->
+									~ 
+									<input type="date" id="date" name="lendEndDate" th:value="${flInfo.lendEndDate}" th:field="${flInfo.lendEndDate}"> <!-- 대여 종료 일자 -->
 								</div>
 								<div class="checkout__input">
 									<p>대여 가격</p>
-									<input type="text">
+									<input type="number" class="col-lg-4" th:value="${flInfo.lendPrice}" min="1" id="price" name="lendPrice">
+									<p style="display: inline; vertical-align: middle;">(일 기준)</p>
 								</div>
 								<div class="checkout__input">
 									<p>제출 서류</p>
-									<p>파일 선택(여러개넣기)<span> ?(제출서류목록)</span></p>
+									<button type="button" class="form-control col-lg-2" id="btnUpload">첨부 파일</button>
+									<div id="menu">
+										<div>
+											<span id="explain">?</span>
+											<p class="arrow_box">
+												<b style="font-size: 20px;">제출 서류 목록</b><br>
+												주민등록등본(초본) 또는 신분증(사본)<br>
+												토지대장 등본<br>
+												지적도 등본<br>
+												토지 이용계획 확인서<br>
+												부동산 종합 증명서<br>
+												(토지대장, 지적도, 토지 이용계획 확인서 제출 생략 가능)<br>
+												부동산(토지) 등기부 등본<br>
+												농지원부, 농가경영등록체확인서 등 농업인 확인서류(농업인의 경우)<br>
+												재산세(지방세 세목별) 과세증명(농업인의 경우)
+											</p>
+										</div>
+									</div>
+									<!-- <p th:each="file : ${attach}" th:text="${file.uplFileName}"></p> -->
+									<input type="file" id="inputFile" name="files" style="display: none;" multiple>
 								</div>
 								<p style="line-height: 40px; text-align: right;">합계 : <span id="sumPrice" style="line-height: 40px;"></span></p>
 							</div>
-							<button type="button" class="btn btn-dark mr-2">수정</button>
-							<button type="button" class="btn btn-dark">취소</button>
+							<button type="button" class="btn btn-dark mr-2" id="addBtn">등록</button>
+							<button type="button" class="btn btn-dark mr-2">임시 저장</button>
+							<button type="button" class="btn btn-dark" id="cancel">취소</button>
 						</div>
 					</form>
 				</div>

@@ -10,9 +10,9 @@ public class EnTest {
 	//@Test
 	public void encTest() {
 		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
-		String password = scpwd.encode("");
+		String password = scpwd.encode("1111");
 		System.out.println(password);
-		boolean result=scpwd.matches("1111", "$2a$10$BmzLwRzZMXgphu8ScQFzZOSFYBMwGD8U5MO3aAXQWh1RwGuCHTdle");
+		boolean result=scpwd.matches("1111", "$2a$10$Tjz3ef.7QaMojTjHdQM2zeBgmZxy2mj0ZkYNpGxwV/k1tXmKhG3IK");
 		System.out.println(result);
 		
 	}
@@ -31,9 +31,9 @@ public class EnTest {
 		config.setIvGeneratorClassName("org.jasypt.iv.RandomIvGenerator");
 		config.setStringOutputType("base64");
 		encryptor.setConfig(config);
-		String enc=encryptor.encrypt("0fm75JPjoSxes3UoaNUHInXp7beqPnvq");
+		String enc=encryptor.encrypt("6379");
 		System.out.println(enc);
-		String dec = encryptor.decrypt(enc);
+		String dec = encryptor.decrypt("FZjLUTZjTsDe/OKxLUzU9gTFTgE7UQdo24lrX/4oawlzT3Q4YhiMP9PI01K23AWKtRiDvLh4CFK9BIGSGFAbf1Z4XNuu/1L/4W71plE68M4=");
 		System.out.println(dec);
 	}
 }

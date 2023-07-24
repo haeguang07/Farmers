@@ -3,6 +3,7 @@ package com.yedam.app.market.vo;
 import java.util.Date;
 
 import lombok.Data;
+
 @Data
 public class MarketVO {
 
@@ -27,5 +28,18 @@ public class MarketVO {
 	private String detaDesct;
 	private Date regDate;
 	private String regStts;
+
+	// member, detail
+	private String id;
+	private String email;
+	private String nick;
+	private String name;
+	private String memAdr;
+	private String memAdrdeta;
+	private String mbl;
+	private int zip;
+
+	// review
+	private int count;
 
 }
