@@ -88,8 +88,8 @@
 										</tr>
 										<tr>
 											<th>수량 :</th>
-											<td><input type="number" id="getNum" value="1"
-											min="1" th:max="|${mk.qty}|" onchange="getPay()"> 개</td>
+											<td><input type="number" id="getNum" value="1" min="1"
+												th:max="|${mk.qty}|" onchange="getPay()"> 개</td>
 										</tr>
 										<tr>
 
@@ -100,7 +100,7 @@
 											<th colspan="2">
 												<div class="product__details__cart__option">
 													<a href="#" class="primary-btn" id="mkCart">장바구니</a> <a
-														href="#" class="primary-btn" id="LetPay">결제하기</a>
+														href="#" class="primary-btn" id="letPay">결제하기</a>
 												</div>
 											</th>
 										</tr>
@@ -162,12 +162,7 @@
 													<div class="review-form">
 														<div class="row1">
 															<label for="star">별점:</label> <select id="star">
-																<option value="0">별점</option>
-																<option value="5">★★★★★</option>
-																<option value="4">★★★★☆</option>
-																<option value="3">★★★☆☆</option>
-																<option value="2">★★☆☆☆</option>
-																<option value="1">★☆☆☆☆</option>
+																<option value="0">별점 선택</option>
 															</select>
 														</div>
 
@@ -330,11 +325,13 @@
 
 			//dataTable 만들기
 			function printReview(list) {
-			  let data = list;
+			 //let data = list;
+			 let data = list.reverse(); //순번을 거꾸로 주기위해서 반대로 
 			  $('#reviewTable').DataTable({
 			    destroy: true,
 			    language: lang_kor,
 			    searching: false, //검색란 표시 설정
+			    lengthMenu: [5, 10, 20],
 			    data: data,
 			    columns: [{
 			        data: 'num',
@@ -342,17 +339,18 @@
 			        orderable: true,
 			        render: function (data, type, row, meta) {
 			          // meta.row는 0부터 시작하는 행의 인덱스입니다.
-			          // 순번은 1부터 시작해야 하므로 meta.row + 1을 반환합니다.
 			          return meta.row + 1;
-			        }
-			      },
+			            }
+			  		},
 			      {
-			        data: null,
-			        width: '10%',
-			        render: function (data, type, row) {
-			          return makeStars(row.rate) + '<br>' + formatDate(row.wrtDate);
-			        }
-			      },
+			          data: null, 
+			          width: '10%',
+			          render: function (data, type, row) {
+			            return makeStars(row.rate) 
+			            		+ '<span style="display:none">'+row.rate+'</span><br>'
+			            		+ formatDate(row.wrtDate);
+			          }
+			        },
 			      {
 			        data: 'revNo', //리뷰넘버(안보이게)
 			        width: '0%',
@@ -367,9 +365,8 @@
 			        orderable: false, // 정렬 기능 비활성화
 			        render: function (data, type, row) {
 			          return '<h6 style="display:none;">' + data + '</h6>';
-			       }
-			      },
-
+			        }
+				  },
 			      {
 			        data: 'revDesct'
 			      },
@@ -385,24 +382,33 @@
 			        }
 			      }
 			    ],
-			    autoWidth: false, // autoWidth 옵션 비활성화
-			    order: [0, 'desc'] //
+			    autoWidth: false // autoWidth 옵션 비활성화
+			    //order: [0, 'desc'], //첫번째 컬럼을 내림차순으로 정렬
 			  });
+			} 
 
-			} //데이터테이블 종료
-
-
-			//리뷰-별찍기 함수
+			//리뷰 - 별찍기 함수
 			function makeStars(num) {
 			  let stars = '';
 			  for (let i = 0; i < num; i++) {
-			    stars += '★';
+			    stars += '<i class="fa fa-star"></i>';
 			  }
 			  for (let j = num; j < 5; j++) {
-			    stars += '☆';
+			    stars += '<i class="fa fa-star-o"></i>';
 			  }
 			  return stars;
 			}
+
+			//리뷰 별점 선택(select - option)
+			const starSelect = document.getElementById('star');
+
+			  for (let i = 5; i >= 1; i--) {
+			    const option = document.createElement('option');
+			    option.value = i;
+			    option.textContent = `${makeStars(i)} (${i}점)`;
+			    starSelect.appendChild(option);
+			  }
+			
 
 			//리뷰-날짜포맷변경 
 			function formatDate(dateString) {
@@ -518,7 +524,7 @@
 			
 			//결제하기 버튼클릭
 			
-			$('#LetPay').on('click', function() {
+			$('#letPay').on('click', function() {
 				if(mem != null) {
 					//구매페이지로 보낼 배열
 					let productList = [];
