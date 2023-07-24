@@ -2,6 +2,7 @@ package com.yedam.app.market.service;
 
 import java.util.List;
 
+import com.yedam.app.common.vo.PaymentDetailVO;
 import com.yedam.app.market.vo.FundingVO;
 
 public interface FundingService {
@@ -25,4 +26,7 @@ public interface FundingService {
 
 	// 펀딩 수정
 	public boolean modifyFunding(FundingVO vo);
+
+	// 펀딩 실패 시 환불 정보
+	public List<PaymentDetailVO> fundingRefundList();
 }

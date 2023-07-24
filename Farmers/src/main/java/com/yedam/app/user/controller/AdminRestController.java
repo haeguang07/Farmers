@@ -8,10 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.yedam.app.common.service.CodeService;
+import com.yedam.app.common.vo.CodeVO;
 import com.yedam.app.common.vo.SearchVO;
 import com.yedam.app.user.service.AdminService;
 import com.yedam.app.user.vo.InquiryVO;
@@ -20,6 +21,8 @@ import com.yedam.app.user.vo.MemberVO;
 public class AdminRestController {
 	@Autowired
 	AdminService adminService;
+	@Autowired
+	CodeService codeService;
 	
 	//관리자 페이지
 	@GetMapping("/admin")
@@ -29,9 +32,14 @@ public class AdminRestController {
 	}
 	
 	@GetMapping("/admin/members")
-	public List<MemberVO> memberList(SearchVO searchVO){
+	public Map<String, Object> memberList(SearchVO searchVO){
+		Map<String, Object> map = new HashMap<String, Object>();
+		
 		List<MemberVO> list = adminService.getMemberList(searchVO);
-		return list;
+		Map<String, List<CodeVO>> codeMap=codeService.getCodes("0B","0C");
+		map.put("memberList", list);
+		map.put("code", codeMap);
+		return map;
 	}
 	
 	@GetMapping("/admin/inquiryAdmin")
@@ -42,7 +50,7 @@ public class AdminRestController {
 	public List<MemberVO> memberUpdate(@RequestBody List<MemberVO> list){
 		adminService.modifyMemberStts(list);
 		SearchVO vo= new SearchVO();  
-		return memberList(vo);
+		return (List<MemberVO>) memberList(vo).get("memberList");
 	}
 	
 }

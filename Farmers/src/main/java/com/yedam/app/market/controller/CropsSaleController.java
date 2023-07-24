@@ -44,28 +44,29 @@ public class CropsSaleController {
 	public Map<String, Object> getCropsSaleListPage(@RequestParam(required = false, defaultValue = "0") int pageNum,
 													@RequestParam(required = false) String category,
 													@RequestParam(required = false, defaultValue = "최신순") String order,
-													@RequestParam(required = false) String search, String boardNo) {
+													@RequestParam(required = false) String search) {
 		pageNum = pageNum == 0 ? 1 : pageNum;
 		int total = csService.getCount(category, search);
 		List<CropsSaleVO> list = csService.getCropsSaleListPage(pageNum, category, order, search);
-//		System.out.println(list);
 		
 		PageVO vo = new PageVO(pageNum, total);
 		Map<String, Object> map = new HashMap<>();
 		map.put("csList", list);
 		map.put("pageInfo", vo);
-		map.put("review", csService.totalRate(boardNo));
+//		map.put("reviewCount", csService.totalRate(boardNo));
 		
 		return map;
 	}
 	
 	// 단건조회
 	@GetMapping("cropsSaleInfo")
-	public String getCropsSaleInfo(CropsSaleVO csVO, Model model) {
+	public String getCropsSaleInfo(CropsSaleVO csVO, String boardNo, Model model) {
+		System.out.println(csVO);
+		System.out.println(boardNo);
 		CropsSaleVO info = csService.getCropsSaleInfo(csVO);
 		model.addAttribute("csInfo", info);
 		model.addAttribute("codeInfo", codeService.getCodeList("0N"));
-		model.addAttribute("reviewCount", csService.totalRate(csVO.getBoardNo()));
+		model.addAttribute("reviewCount", csService.totalRate(boardNo));
 		return "market/cropsSale/cropsSaleInfo";
 	}
 	

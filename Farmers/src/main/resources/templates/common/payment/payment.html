@@ -115,6 +115,10 @@
                                                         <div class="product__cart__item__text">
                                                             <h6 th:text="${product.title}" id="productName">상품명</h6>
                                                         </div>
+                                                        <td class="product__cart__item__text" th:if="not ${#strings.isEmpty(product.rsvStrDate)}">
+                                                            <p style="padding-top: 20px;" th:text="${#dates.format(product.rsvStrDate, 'yyyy/MM/dd')}" id="rsvStrDate" th:data-price="${product.price}">시작일</p>
+                                                            <p style="padding-top: 20px;" th:text="${#dates.format(product.rsvEndDate, 'yyyy/MM/dd')}" id="rsvEndDate" th:data-price="${product.price}">종료일</p>
+                                                        </td>
                                                     </td>
                                                     <td class="cart__price col-lg-2">
                                                         <p style="padding-top: 20px;" th:text="${#numbers.formatInteger(product.price, 3, 'COMMA')}+원" id="productPrice" th:data-price="${product.price}">가격</p>
@@ -304,14 +308,28 @@
                         //결제 방법, 코드, 총액은 결제 완료 후 객체에 입력
                     }
                     
+                    //json 을 다시 변환시킬때 ''을 인식할 수 없어서 오류가 뜸
+                    // 그래서 null 변수를 선언 후 '' 일 경우에 null값으로 보냄
+                    let vStrDate = null;
+                    let vEndDate = null;
                     //payment_datail 테이블 입력 데이터
                     let payDatailData = [] ;
                     $('.cartItem').each(function(idx, item){
+                        if(! $(item).find('#rsvStrDate').text() == ''){
+                            vStrDate = $(item).find('#rsvStrDate').text()
+                        }
+                        if(! $(item).find('#rsvEndDate').text() == ''){
+                            vEndDate = $(item).find('#rsvEndDate').text()
+                        }
+
+
                         let detailObj= {
                             boardNo : $(item).attr('data-no'),
                             qty : $(item).find('#qty').text(),
                             price : $(item).find('#productPrice').attr('data-price'),
-                            boardCtg : $(item).attr('data-ctg')
+                            boardCtg : $(item).attr('data-ctg'),
+                            rsvStrDate : vStrDate,
+                            rsvEndDate : vEndDate
                         }
                         payDatailData.push(detailObj)
                     })

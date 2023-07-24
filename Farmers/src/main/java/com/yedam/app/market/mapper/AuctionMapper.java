@@ -29,4 +29,7 @@ public interface AuctionMapper {
 	
 	// 경매 수정
 	public int updateAuction(AuctionVO vo);
+	
+	//상태
+	public int updateAuctionReg();
 }

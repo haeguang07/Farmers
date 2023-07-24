@@ -14,13 +14,16 @@ public class PaymentDetailVO {
 	private int price;
 	private String shipStts;
 	private String boardCtg;
-	
+	private Date rsvStrDate;
+	private Date rsvEndDate;
+ 	
 	//board table
 	private String title;
 	private String rep;
 	
 	//payTable
 	private Date payDate;
+	private String payCode;
 	
 	//가공 데이터
 	private int totalPrice;

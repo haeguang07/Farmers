@@ -10,5 +10,7 @@ public interface BoardService {
 	public List<BoardVO> boardList(String postCtg);
 	// 메인 게시판 상세 조회
 	public List<BoardVO> getBoardInfo(BoardVO vo);
+	// 등록
+	public boolean addNotice(BoardVO vo); 
 	
 }

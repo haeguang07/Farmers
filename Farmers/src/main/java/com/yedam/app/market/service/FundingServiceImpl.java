@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yedam.app.common.vo.PaymentDetailVO;
 import com.yedam.app.market.mapper.FundingMapper;
 import com.yedam.app.market.vo.FundingVO;
 
@@ -52,6 +53,11 @@ public class FundingServiceImpl implements FundingService {
 	@Override
 	public boolean modifyFunding(FundingVO vo) {
 		return fundingMapper.modifyFunding(vo) > 0;
+	}
+
+	@Override
+	public List<PaymentDetailVO> fundingRefundList() {
+		return fundingMapper.fundingRefundList();
 	}
 
 
