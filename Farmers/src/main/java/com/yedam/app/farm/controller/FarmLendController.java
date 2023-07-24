@@ -69,7 +69,6 @@ public class FarmLendController {
 	@GetMapping("farmLendInfo")
 	public String getFarmLendInfo(FarmLendVO flVO, Model model) {
 		FarmLendVO info = flService.getFarmLendInfo(flVO);
-//		System.out.println(info);
 		model.addAttribute("flInfo", info);
 		return "farm/farmLend/farmLendInfo";
 	}
@@ -86,7 +85,6 @@ public class FarmLendController {
 	@ResponseBody
 	public String insertFarmLend(@RequestBody FarmLendVO flVO) {
 		flService.insertFarmLendInfo(flVO);
-		System.out.println(flVO);
 		
 		return "success";
 	}
@@ -95,8 +93,9 @@ public class FarmLendController {
 	@GetMapping("farmLendUpdate")
 	public String updateFarmLendForm(FarmLendVO flVO, Model model) {
 		FarmLendVO find = flService.getFarmLendInfo(flVO);
-//		System.out.println(find);
+		System.out.println(find);
 		model.addAttribute("flInfo", find);
+		model.addAttribute("mcrp", codeService.getCodeList("1E"));
 //		model.addAttribute("attach", attachService.getAttachList(boardNo));
 		return "farm/farmLend/farmLendUpdate";
 	}

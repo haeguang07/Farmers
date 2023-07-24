@@ -34,7 +34,7 @@ public class CropsSaleController {
 	
 	// 리스트 전체조회
 	@GetMapping("cropsSaleList")
-	public String getCropsSaleAllList(Model model) {
+	public String getCropsSaleAllList() {
 		return "market/cropsSale/cropsSaleList";
 	}
 	
@@ -53,7 +53,6 @@ public class CropsSaleController {
 		Map<String, Object> map = new HashMap<>();
 		map.put("csList", list);
 		map.put("pageInfo", vo);
-//		map.put("reviewCount", csService.totalRate(boardNo));
 		
 		return map;
 	}
