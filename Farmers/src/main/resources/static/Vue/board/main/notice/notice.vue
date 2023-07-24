@@ -1,5 +1,5 @@
 <script>
-  export default {
+export default {
     data() {
       return {
         boards: [],
@@ -26,8 +26,7 @@
 	            "sortAscending" : " :  오름차순 정렬",
 	            "sortDescending" : " :  내림차순 정렬"
 	        }
-        }
-        /*,
+        },
           columns : [
               {data : 'num',
                 render: function (data, type, row, meta) {
@@ -36,11 +35,14 @@
 						            return meta.row + 1;
 						          }
 						  },
-              {data : 'title'},
+              {data : 'title',
+                render: function (data, type, row) {
+                  return `<a href="noticeInfo" class="title-link" data-boardNo="${row.boardNo}">${data}</a>`;}
+              },
               {data : 'nick'},
               {data : 'wrtDate'},
               {data : 'hitCount'}
-            ] */
+            ]
         }
       
     },
@@ -56,40 +58,44 @@
           vue.boards = data.boardList;
           console.log(vue.boards);
 
-          //let tr = $('#myTable tbody').append('<tr />');
-          $(vue.boards).each(function(idx, item){
-            let tr = $('<tr>')
-            tr.append($('<td>').text('aa'))
-            tr.append($('<td>').append($('<button>').text('버튼').on('click', () => vue.gets(item.boardNo))))
-              tr.append($('<td>').text('aa'))
-                tr.append($('<td>').text('aa'))
-                  tr.append($('<td>').text('aa'))
+          // //let tr = $('#myTable tbody').append('<tr />');
+          // $(vue.boards).each(function(idx, item){
+          //   let tr = $('<tr>')
+          //   tr.append($('<td>').text('aa'))
+          //   tr.append($('<td>').append($('<button>').text('버튼').on('click', () => vue.gets(item.boardNo))))
+          //     tr.append($('<td>').text('aa'))
+          //       tr.append($('<td>').text('aa'))
+          //         tr.append($('<td>').text('aa'))
 
-            $('#tbody').append(tr)
-          })
-
-          
+          //   $('#tbody').append(tr)
+          // })
 
           $('#myTable').DataTable({
             destroy: true,
             language : vue.lang_kor,  
             ordering : false,
-            searching: false   //검색란 표시 설정
-            // data: vue.boards
+            searching: false,   //검색란 표시 설정
+            data: vue.boards,
+            columns: vue.columns
           })
         },
         error: function(err){
           console.log(err);
         }
       })
+
+      // DataTable에서 생성된 링크 클릭 이벤트에 함수 연결
+      $('#myTable').on('click', '.title-link', vue.handleTitleLinkClick);
     },
-    methods : {
-      gets: function(pram) {
-        console.log(pram)
-        this.$router.push({name:'noticeInfo', params: {boardNo : pram}})
-      }
+    methods: {
+      handleTitleLinkClick(event) {
+      event.preventDefault();
+      let boardNo = $(event.target).attr('data-boardNo');
+      console.log(boardNo);
+      this.$router.push({ name: 'noticeInfo', params: { boardNo: boardNo } });
     }
   }
+}
 </script>
 
 <template>
@@ -109,15 +115,15 @@
               <th class="col-lg-2">조회수</th>
             </tr>
           </thead>
-          <tbody id="tbody">
-            <!-- <tr v-for="board in boards">
+          <!-- <tbody id="tbody">
+            <tr v-for="board in boards">
               <td>1</td>
               <td><router-link :to="{name:'boardInfo', params: {'boardNo' : board.boardNo}}">{{ board.title }}</router-link></td>
               <td>{{ board.nick }}</td>
               <td>{{ board.wrtDate }}</td>
               <td>{{ board.hitCount }}</td>
-            </tr> -->
-          </tbody>
+            </tr>
+          </tbody> -->
         </table>
         <hr>
       </div>
