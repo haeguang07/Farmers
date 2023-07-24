@@ -130,6 +130,13 @@
 				</if>
 				)
 	</insert>
+	<update id="updateAuctionReg">
+		UPDATE AUCTION
+ 		SET REG_STTS='e5'
+ 		<![CDATA[
+ 			WHERE ACT_DATE < SYSDATE-1
+ 		]]>
+	</update>
 
 	
 
