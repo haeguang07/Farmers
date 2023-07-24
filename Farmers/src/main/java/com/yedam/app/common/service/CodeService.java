@@ -10,4 +10,6 @@ public interface CodeService {
 	public List<CodeVO> getCodeList(String ccNo);
 	// 여러 그룹 코드들의 상세 코드 조회
 	public Map<String, List<CodeVO>> getCodes(String ... ccNolist);
+
 }
+

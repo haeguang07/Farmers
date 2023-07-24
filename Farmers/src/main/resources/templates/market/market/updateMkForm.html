@@ -9,31 +9,16 @@
 <meta name="keywords" content="Male_Fashion, unica, creative, html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>비앤비 수정 페이지</title>
+<title>전원마켓 수정 페이지</title>
 
 <style>
 .ck-editor__editable {
 	height: 400px;
 }
 
-.textLeft {
-	align-vertical: center;
-}
-
 .primary-btn col-lg-2 {
 	color: white;
 	margin: 0 auto;
-}
-
-.product__details__text {
-	display: flex;
-	flex-direction: column;
-}
-
-.myInline {
-	display: flex;
-	align-items: center;
-	justify-content: center;
 }
 
 .row col-lg-12 {
@@ -52,7 +37,7 @@
 					<div class="row">
 						<div class="row col-lg-12">
 							<div class="col-lg-4 col-md-9 row" id="addFile">
-								<img th:src="${bnb.rep}" alt="">
+								<img th:src="${mk.rep}" alt="">
 								<div class="col-lg-12"
 									style="background-color: lightgrey; display: table;">
 									<p style="display: table-cell; vertical-align: middle">대표
@@ -70,87 +55,43 @@
 											<div class="col-lg-12">
 												<div class="product__details__text">
 													<div class="row">
-														<h4 class="myInline col-lg-3">숙소명</h4>
+														<h4 class="textLeft col-lg-3" style="display: inline;">상품명</h4>
 														<input type="text" class="form-control col-lg-8"
-															name="title" th:value="${bnb.title}"
-															style="margin-left: -15px" readonly>
+															name="title" th:value="${mk.title}"
+															style="margin-left: -15px">
 													</div>
 													<hr>
 													<div class="row">
 														<div class="row col-lg-6">
 															<p class="myInline col-lg-6 mb-0 textLeft">판매자</p>
 															<input type="text" class="form-control col-lg-6"
-																name="memNo" th:value="${session.mem.memNo}" readonly>
+																name="memNo" readonly th:value="${session.mem.memNo}">
 														</div>
+													</div>
+													<br>
+													<div class="row">
 														<div class="row col-lg-6">
-															<p class="myInline col-lg-5 mb-0 textLeft">지역선택</p>
-															<select class="form-control col-lg-6" name="crpCtg"
-																disabled>
-																<th:block th:each="dst1:${dst}">
-																	<option th:value="${dst1.cmmnDetaCode}"
-																		th:text="${dst1.codeDesct}"
-																		th:attr="selected=${dst1.cmmnDetaCode==bnb.dst1 ? true : false}"></option>
+															<p class="myInline col-lg-6 mb-0 textLeft">카테고리</p>
+															<select class="form-control col-lg-6" name="mktCtg" disabled>
+																<th:block th:each="ctg:${ctgCode}">
+																	<option th:value="${ctg.cmmnDetaCode}"
+																			th:text="${ctg.codeDesct}"
+																			th:attr="selected=${ctg.cmmnDetaCode==mk.mktCtg ? true : false}"></option>
 																</th:block>
 															</select>
 														</div>
-
 													</div>
 													<br>
 													<div class="row">
 														<div class="row col-lg-6">
-															<p class="myInline col-lg-6 mb-0 textLeft">우편번호</p>
-															<input type="text" class="form-control col-lg-6"
-																id="post" name="addrNum" readonly th:value="${bnb.zip}">
-														</div>
-														<div class="row col-lg-6">
-															<!-- <button type="button" onclick="postCode()">우편번호
-																찾기</button> -->
-														</div>
-													</div>
-													<br>
-													<div class="row">
-														<p class="myInline col-lg-3 mb-0 textLeft">주소</p>
-														<input type="text" class="form-control col-lg-8" id="adr"
-															name="address" th:value="${bnb.addr}"
-															style="margin-left: -15px" readonly>
-													</div>
-													<br>
-													<div class="row">
-														<p class="myInline col-lg-3 mb-0 textLeft">상세주소</p>
-														<input type="text" class="form-control col-lg-8"
-															id="adrDetail" name="address"
-															th:value="${bnb.addrDetail}" style="margin-left: -15px"
-															readonly>
-													</div>
-													<!-- 위도, 경도 -->
-													<div class="row" style="display: none">
-														<input type="text" name="lati" id="latitude"
-															th:value="${bnb.lati}"> <input type="text"
-															name="longi" id="longitude" th:value="${bnb.longi}">
-													</div>
-													<br>
-													<div class="row">
-														<div class="row col-lg-6">
-															<p class="myInline col-lg-6 mb-0 textLeft">금액(1일)</p>
+															<p class="myInline col-lg-6 mb-0 textLeft">금액</p>
 															<input type="number" class="form-control col-lg-6"
-																name="price" value="0" th:value="${bnb.price}">
-														</div>
-													</div>
-													<br>
-													<div class="row">
-														<div class="row col-lg-6">
-															<p class="myInline col-lg-6 mb-0 textLeft">예약(시작)</p>
-															<input type="date" class="form-control col-lg-6"
-																name="lendStrDate"
-																th:value="${#dates.format(bnb.lendStrDate,'yyyy-MM-dd')}"
-																onchange="minDate()">
+																name="price" min="1" th:value="${mk.price}">
 														</div>
 														<div class="row col-lg-6">
-															<p class="myInline col-lg-5 mb-0 textLeft">예약(종료)</p>
-															<input type="date" class="form-control col-lg-6"
-																name="lendEndDate"
-																th:value="${#dates.format(bnb.lendEndDate,'yyyy-MM-dd')}"
-																id="endDate">
+															<p class="myInline col-lg-6 mb-0 textLeft">판매수량</p>
+															<input type="number" class="form-control col-lg-6"
+																name="qty" min="1" th:value="${mk.qty}">
 														</div>
 													</div>
 												</div>
@@ -166,7 +107,7 @@
 											<ul class="nav nav-tabs col-lg-12" role="tablist">
 												<li class="nav-item col-lg-12"><a
 													class="nav-link active" data-toggle="tab" href="#tabs-5"
-													role="tab">숙소 상세</a></li>
+													role="tab">상세 설명</a></li>
 											</ul>
 										</div>
 										<div class="row">
@@ -185,7 +126,7 @@
 									<div style="margin-top: 10px;">
 										<button type="button" class="primary-btn col-lg-2" id="udtBtn">수정하기</button>
 										<button type="button" class="primary-btn col-lg-2"
-											th:onclick="|location.href='@{/bnbInfo(boardNo=${bnb.boardNo})}'|">뒤로가기</button>
+											th:onclick="|location.href='@{/mkInfo(boardNo=${mk.boardNo})}'|">뒤로가기</button>
 									</div>
 								</div>
 							</div>
@@ -195,58 +136,6 @@
 			</div>
 		</section>
 
-		<!-- 우편번호 api -->
-		<script
-			src="http://dmaps.daum.net/map_js_init/postcode.v2.js?autoload=false"></script>
-		<script
-			src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=c573b65eabeb9b6da24ab52d832dc807&libraries=services"></script>
-		<script>
-		function postCode() {
-			daum.postcode.load(function () {
-				new daum.Postcode({
-					oncomplete: function (data) {
-						var addr = '';
-						var extraAddr = '';
-						if (data.userSelectedType === 'R') {
-							addr = data.roadAddress;
-						} else {
-							addr = data.jibunAddress;
-						}
-						if (data.userSelectedType === 'R') {
-							if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
-								extraAddr += data.bname;
-							}
-							if (data.buildingName !== '' && data.apartment === 'Y') {
-								extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-							}
-							if (extraAddr !== '') {
-								extraAddr = ' (' + extraAddr + ')';
-							}
-						}
-						document.getElementById("post").value = data.zonecode;
-						document.getElementById("adr").value = addr;
-						// 주소를 카카오지도 API의 지오코딩(Geocoding) 서비스를 이용하여 위도와 경도로 변환
-	                    var geocoder = new kakao.maps.services.Geocoder();
-	                    geocoder.addressSearch(addr, function (result, status) {
-	                        if (status === kakao.maps.services.Status.OK) {
-	                            // 변환된 위도와 경도 출력
-	                            let lati = result[0].y;	                            
-	                            let longi = result[0].x;
-	                            console.log('위도,경도: ',lati,',',longi);
-	                            
-	                            document.getElementById('latitude').value=lati;
-	                            document.getElementById('longitude').value=longi;
-	                            
-	                        } else {
-	                            alert('주소를 찾을 수 없습니다.');
-	                        }
-	                    });
-	                    document.getElementById("adrDetail").focus();
-	                }
-	            }).open();
-	        });
-	    }
-	</script>
 
 		<!-- ck 에디터-->
 		<script
@@ -263,7 +152,7 @@
 				$('#inputFile').click()
 			})
 
-			//첨부파일 업로드 - 대표이미지
+			//첨부파일 업로드
 			$('#inputFile').change(function () {
 				var formData = new FormData(); //FormData 객체 생성
 
@@ -275,7 +164,7 @@
 				//multiple 특성을 지정하지 않았다면 두 개 이상의 파일을 포함하지 않습니다
 
 				for (var i = 0; i < files.length; i++) {
-					//console.log(files[i]);
+					console.log(files[i]);
 					if (files[i].type.includes('image')) {
 						formData.append("uploadFiles", files[i]); //키,값으로 append
 
@@ -290,7 +179,8 @@
 								dbPath = result.dbPath
 								$('#addFile').html('<img src="' + result.dbPath + '">')
 								$('#insertFile').val(result.dbPath);
-								console.log(dbPath)					
+								console.log(dbPath)
+
 							},
 							error: function (reject) {
 								console.log(reject)
@@ -306,7 +196,7 @@
 			
 			//ck내용 가져오기
 			/*<![CDATA[*/			
-			let dataDesct= /*[[${bnb.detaDesct}]]*/;
+			let dataDesct= /*[[${mk.detaDesct}]]*/
 			 /*]]>*/
 			ClassicEditor.create(document.querySelector('#editor'), {
 					language: "ko",
@@ -316,21 +206,12 @@
 				})
 				.then(newEditor => {
 					editor = newEditor;
-				  	editor.setData(dataDesct);				  
+					editor.setData(dataDesct);				 
 				})
 				.catch(error => {
 					console.error(error);
 				});
 
-			
-			//날짜 최소값 설정
-			function minDate() {
-				let min = event.target.value;
-				console.log(min);
-				document.getElementById('endDate').value = '';
-				document.getElementById('endDate').setAttribute('min', min);
-			}
-			
 			//ckEditor 데이터 가져오기
 			$('#udtBtn').on('click', function () {
 
@@ -340,12 +221,6 @@
 					return;
 				} else if ($('[name="price"]').val() <= 0) {
 					alert('금액을 입력하세요');
-					return;
-				} else if (!$('[name="lendStrDate"]').val()) {
-					alert('예약 시작일을 입력하세요');
-					return;
-				} else if (!$('[name="lendEndDate"]').val()) {
-					alert('예약 종료일을 입력하세요');
 					return;
 				} else {
 					let ckData = editor
@@ -361,18 +236,18 @@
 					if($('#inputFile').val()){
 						formData.rep = dbPath
 					}
-					formData.boardNo = /*[[${bnb.boardNo}]]*/
+					formData.boardNo = /*[[${mk.boardNo}]]*/
 
 					//ajax 수정처리
 					$.ajax({
-							url: "/update/updateBnb",
+							url: "/update/updateMk",
 							method: "POST",
 							data: formData
 						})
 						.done(function (result) {
 							console.log('성공');
 							alert(result);
-							location.href = "/bnbInfo?boardNo="+/*[[${bnb.boardNo}]]*/
+							location.href = "/mkInfo?boardNo="+/*[[${mk.boardNo}]]*/
 						})
 						.fail(function (result) {
 							console.log('실패');

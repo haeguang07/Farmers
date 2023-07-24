@@ -72,7 +72,7 @@
 								<div class="rating">
 									<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 										class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-										class="fa fa-star-o"></i> <span>[[${rev}]]</span> Reviews 
+										class="fa fa-star-o"></i> <span>[[${rev}]]</span> Reviews
 								</div>
 								<!-- 결제 -->
 								<div>
@@ -82,15 +82,14 @@
 											<th>금액 :</th>
 											<td class="boldFont"><span
 												th:text="${#numbers.formatInteger(mk.price==null?0:mk.price,0,'COMMA')}"></span>원
-										<span
-										id="onePay" th:text="|${mk.price}|" style="display: none"></span>
-											</td>
+												<span id="onePay" th:text="|${mk.price}|"
+												style="display: none"></span></td>
 
 										</tr>
 										<tr>
 											<th>수량 :</th>
-											<td><input type="number" id="getNum" min="1" value="1"
-												onchange="getPay()"> 개</td>
+											<td><input type="number" id="getNum" value="1"
+											min="1" th:max="|${mk.qty}|" onchange="getPay()"> 개</td>
 										</tr>
 										<tr>
 
@@ -100,8 +99,8 @@
 										<tr>
 											<th colspan="2">
 												<div class="product__details__cart__option">
-													<a href="#" class="primary-btn">장바구니</a> <a href="#"
-														class="primary-btn">결제하기</a>
+													<a href="#" class="primary-btn" id="mkCart">장바구니</a> <a
+														href="#" class="primary-btn" id="LetPay">결제하기</a>
 												</div>
 											</th>
 										</tr>
@@ -146,7 +145,10 @@
 																<th>번호</th>
 																<th>별점</th>
 																<th>
-																	<!-- 리뷰넘버자리 -->
+																	<!-- revNo -->
+																</th>
+																<th>
+																	<!-- memNo -->
 																</th>
 																<th>리뷰 내용</th>
 																<th>작성자</th>
@@ -269,8 +271,7 @@
 
 			//글삭제
 			$('#deleteButton').on('click', delPopUp);
-
-			
+		
 			
 			// 데이터테이블 - 한글 설정
 			var lang_kor = {
@@ -361,6 +362,15 @@
 			        }
 			      },
 			      {
+			        data: 'memNo', //멤버넘버(안보이게)
+			        width: '0%',
+			        orderable: false, // 정렬 기능 비활성화
+			        render: function (data, type, row) {
+			          return '<h6 style="display:none;">' + data + '</h6>';
+			       }
+			      },
+
+			      {
 			        data: 'revDesct'
 			      },
 			      {
@@ -440,36 +450,98 @@
 			  }
 			})
 
+			/*<![CDATA[*/
+			let mem = /*[[${session.mem}]]*/ ;
+			/*]]>*/
+			let qty = $('#getNum').val();
+			  
 			//리뷰 삭제 기능	
 			$('#reviewTable').on('click', '.revDel', function () {
-			  var confirmDelete = confirm("리뷰를 삭제하시겠습니까?");
-
-			  if (confirmDelete) {
-				  
-			    let rowData = $('#reviewTable').DataTable().row($(this).closest('tr'));
-			    let revNo = rowData.data().revNo;
-			    console.log("리뷰 삭제 번호:", revNo);
-
-			    $.ajax({
-			      url: 'mk/revDel',
-			      method: 'GET',
-			      data: {
-			        revNo: revNo
-			      },
-			      success: function (result) {
-			        console.log("리뷰 삭제 결과:", result);
-			        rowData.remove().draw();
-			        alert('리뷰 삭제 완료');
-			      },
-			      error: function (error) {
-			        console.log("리뷰 삭제 오류:", error);
-			      }
-			    });
-			  } else {
-			    console.log("삭제 취소");
+			  let rowData = $('#reviewTable').DataTable().row($(this).closest('tr'));
+			  let revMem= rowData.data().memNo;
+			  if(mem == null){
+				 alert('삭제할 수 없습니다.')				 
+			  }else if(revMem == mem.memNo){	  
+			 	 let confirmDelete = confirm("리뷰를 삭제하시겠습니까?");
+				 if (confirmDelete) {
+				    let revNo = rowData.data().revNo;
+				    console.log("리뷰 삭제 번호:", revNo);
+		
+				    $.ajax({
+				      url: 'rev/revDel',
+				      method: 'GET',
+				      data: {
+				        revNo: revNo
+				      },
+				      success: function (result) {
+				        rowData.remove().draw();
+				        console.log("리뷰 삭제 결과:", result);
+				      },
+				      error: function (error) {
+				        console.log("리뷰 삭제 오류:", error);
+				      }
+				    });
+				  } else {
+				    console.log("삭제 취소");
+				  }
 			  }
+			  else{
+				  alert('작성자만 삭제 가능합니다. ')
+			  }		  	  
+		   });
+						
+			//장바구니 버튼클릭
+			$('#mkCart').on('click', function () {
+					
+					if(mem != null) {
+						$.ajax({
+							url : 'insertCart',
+							data : {
+								memNo : mem.memNo,
+								qty : qty,
+								boardNo : boardNo,
+								boardCtg : 'n7'
+							},
+							success: function (result) {
+							        console.log("장바구니 성공: ", result);
+							        alert('장바구니에 담았습니다.');
+							      },
+					      	error: function (error) {
+					       			 console.log("장바구니 실패: ", error);
+					      }
+					    })
+					} else {
+						alert('로그인 필요');
+					}
+				});
+			
+			
+			//결제하기 버튼클릭
+			
+			$('#LetPay').on('click', function() {
+				if(mem != null) {
+					//구매페이지로 보낼 배열
+					let productList = [];
+					
+					//배열에 담을 구매상품정보 객체 생성
+					 let obj = {
+					                boardNo: boardNo,
+					                qty: qty,
+					                boardCtg: 'n7'
+					              }
+					
+					//배열에 객체 담기
+					productList.push(obj)
+					
+					//상품객체배열을 json 변환 후 결제피이지 파라미터로 보냄 (한글, 특수문자가 url 인코딩이 안되서 encodeURI 사용)
+					location.href = "payment?productList=" + encodeURI(JSON.stringify(productList));
+				} else {
+					alert('로그인 필요');
+					// 로그인이나 회원가입 페이지로 넘어가기
+				}
 			});
-
+			
+			
 		</script>
 	</div>
 </body>

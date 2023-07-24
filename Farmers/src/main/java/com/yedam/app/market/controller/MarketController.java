@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yedam.app.activity.vo.BnbVO;
+import com.yedam.app.common.service.CodeService;
 import com.yedam.app.common.service.ReviewService;
+import com.yedam.app.common.vo.CodeVO;
 import com.yedam.app.common.vo.ReviewVO;
 import com.yedam.app.market.service.CartService;
 import com.yedam.app.market.service.MarketService;
@@ -27,6 +30,8 @@ public class MarketController {
 	MarketService mkService;
 	@Autowired
 	ReviewService revService;
+	@Autowired
+	CodeService codeService;
 	@Autowired
 	CartService cartService;
 
@@ -106,6 +111,30 @@ public class MarketController {
 		return "redirect:/marketList";
 	}
 
+	// 수정페이지
+	@GetMapping("update/updateMk")
+	public String updateMkForm(Model model, String boardNo) {
+		MarketVO result = mkService.getMarketInfo(boardNo);
+		List<CodeVO> codeVo = codeService.getCodeList("0W");
+		model.addAttribute("ctgCode", codeVo);
+		model.addAttribute("mk", result);
+		return "market/market/updateMkForm";
+	}
+
+	// 수정처리
+	@PostMapping("update/updateMk")
+	@ResponseBody
+	public String updateMk(MarketVO vo) {
+		System.out.println(vo);
+		int result = mkService.updateMk(vo);
+		if (result > 0) {
+			return "수정 완료";
+		} else {
+			return "수정 실패";
+		}
+	}
+
+		
 	// 삭제
 	@GetMapping("deleteMk")
 	public String deleteMk(String boardNo) {

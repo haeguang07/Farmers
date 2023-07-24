@@ -1,6 +1,7 @@
 package com.yedam.app.market.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,13 @@ public class AuctionController {
 	
 	@Autowired
 	AuctionService actService;
+	
+	//매주 월요일 9시 상태 변경
+	@Scheduled(cron = "0 0 9 * * 1") 
+	public void update() {
+		boolean result=actService.updateAuctionReg();
+		System.out.println(result);
+	}
 	
 	// 전체조회 페이지
 	@GetMapping("auctionList")
