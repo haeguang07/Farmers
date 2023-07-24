@@ -175,7 +175,10 @@
 																<th>번호</th>
 																<th>별점</th>
 																<th>
-																	<!-- 리뷰넘버자리 -->
+																	<!-- revNo -->
+																</th>
+																<th>
+																	<!-- memNo -->
 																</th>
 																<th>리뷰 내용</th>
 																<th>작성자</th>
@@ -257,8 +260,8 @@
 				</div>
 			</div>
 		</section>
-		
-		
+
+
 		<!-- dataTable -->
 		<script
 			src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
@@ -423,6 +426,14 @@
 			        }
 			      },
 			      {
+			        data: 'memNo', //멤버넘버(안보이게)
+			        width: '0%',
+			        orderable: false, // 정렬 기능 비활성화
+			        render: function (data, type, row) {
+			          return '<h6 style="display:none;">' + data + '</h6>';
+			        }
+				  },
+			      {
 			        data: 'revDesct'
 			      },
 			      {
@@ -505,33 +516,42 @@
 
 			//리뷰 삭제 기능	
 			$('#reviewTable').on('click', '.revDel', function () {
-			  var confirmDelete = confirm("리뷰를 삭제하시겠습니까?");
-
-			  if (confirmDelete) {
-			    let rowData = $('#reviewTable').DataTable().row($(this).closest('tr'));
-			    let revNo = rowData.data().revNo;
-			    console.log("리뷰 삭제 번호:", revNo);
-
-			    $.ajax({
-			      url: 'rev/revDel',
-			      method: 'GET',
-			      data: {
-			        revNo: revNo
-			      },
-			      //  dataType: 'json',
-			      success: function (result) {
-			        console.log("리뷰 삭제 결과:", result);
-			        rowData.remove().draw();
-			        alert('리뷰 삭제 완료');
-			      },
-			      error: function (error) {
-			        console.log("리뷰 삭제 오류:", error);
-			      }
-			    });
-			  } else {
-			    console.log("삭제 취소");
+			  let rowData = $('#reviewTable').DataTable().row($(this).closest('tr'));
+			  let revMem= rowData.data().memNo;
+			  /*<![CDATA[*/
+			  let mem = /*[[${session.mem}]]*/ ;
+			  /*]]>*/
+			  if(mem == null){
+				 alert('삭제할 수 없습니다.')				 
+			  }else if(revMem == mem.memNo){	  
+			 	 let confirmDelete = confirm("리뷰를 삭제하시겠습니까?");
+				 if (confirmDelete) {
+				    let revNo = rowData.data().revNo;
+				    console.log("리뷰 삭제 번호:", revNo);
+		
+				    $.ajax({
+				      url: 'rev/revDel',
+				      method: 'GET',
+				      data: {
+				        revNo: revNo
+				      },
+				      success: function (result) {
+				        rowData.remove().draw();
+				        console.log("리뷰 삭제 결과:", result);
+				        
+				      },
+				      error: function (error) {
+				        console.log("리뷰 삭제 오류:", error);
+				      }
+				    });
+				  } else {
+				    console.log("삭제 취소");
+				  }
 			  }
-			});
+			  else{
+				  alert('작성자만 삭제 가능합니다. ')
+			  }		  	  
+		   });
 		</script>
 	</div>
 </body>

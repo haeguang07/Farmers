@@ -32,107 +32,108 @@
 		<hr>
 		<!-- Shop Details Section Begin -->
 		<section class="shop-details">
-				<div class="product__details__pic" style="background-color: white;">
-					<div class="container">
-						<div class="row">
-							<div class="row col-lg-12">
-								<div class="col-lg-4 col-md-9 row" id="addFile">
-								<!-- <img th:src="${mk.rep}" alt=""> -->
-									<div class="col-lg-12"
-										style="background-color: lightgrey; display: table;">
-										<p style="display: table-cell; vertical-align: middle">대표
-											이미지 등록</p>
+			<div class="product__details__pic" style="background-color: white;">
+				<div class="container">
+					<div class="row">
+						<div class="row col-lg-12">
+							<div class="col-lg-4 col-md-9 row" id="addFile">
+								<img th:src="${mk.rep}" alt="">
+								<div class="col-lg-12"
+									style="background-color: lightgrey; display: table;">
+									<p style="display: table-cell; vertical-align: middle">대표
+										이미지 등록</p>
+								</div>
+							</div>
+							<div class="product__details__content col-lg-8">
+								<form id="myForm">
+									<!-- 실제 파일 업로드 input (안보임) -->
+									<input type="file" id="inputFile" style="display: none;">
+									<input type="text" id="insertFile" style="display: none;"
+										name="rep">
+									<div class="container">
+										<div class="row d-flex justify-content-center row">
+											<div class="col-lg-12">
+												<div class="product__details__text">
+													<div class="row">
+														<h4 class="textLeft col-lg-3" style="display: inline;">상품명</h4>
+														<input type="text" class="form-control col-lg-8"
+															name="title" th:value="${mk.title}"
+															style="margin-left: -15px">
+													</div>
+													<hr>
+													<div class="row">
+														<div class="row col-lg-6">
+															<p class="myInline col-lg-6 mb-0 textLeft">판매자</p>
+															<input type="text" class="form-control col-lg-6"
+																name="memNo" readonly th:value="${session.mem.memNo}">
+														</div>
+													</div>
+													<br>
+													<div class="row">
+														<div class="row col-lg-6">
+															<p class="myInline col-lg-6 mb-0 textLeft">카테고리</p>
+															<select class="form-control col-lg-6" name="mktCtg" disabled>
+																<th:block th:each="ctg:${ctgCode}">
+																	<option th:value="${ctg.cmmnDetaCode}"
+																			th:text="${ctg.codeDesct}"
+																			th:attr="selected=${ctg.cmmnDetaCode==mk.mktCtg ? true : false}"></option>
+																</th:block>
+															</select>
+														</div>
+													</div>
+													<br>
+													<div class="row">
+														<div class="row col-lg-6">
+															<p class="myInline col-lg-6 mb-0 textLeft">금액</p>
+															<input type="number" class="form-control col-lg-6"
+																name="price" min="1" th:value="${mk.price}">
+														</div>
+														<div class="row col-lg-6">
+															<p class="myInline col-lg-6 mb-0 textLeft">판매수량</p>
+															<input type="number" class="form-control col-lg-6"
+																name="qty" min="1" th:value="${mk.qty}">
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
 									</div>
-								</div>
-								<div class="product__details__content col-lg-8">
-									<form id="myForm">
-										<!-- 실제 파일 업로드 input (안보임) -->
-										<input type="file" id="inputFile" style="display: none;">
-										<input type="text" id="insertFile" style="display: none;"
-											name="rep">
-										<div class="container">
-											<div class="row d-flex justify-content-center row">
-												<div class="col-lg-12">
-													<div class="product__details__text">
-														<div class="row">
-															<h4 class="textLeft col-lg-3" style="display: inline;">상품명</h4>
-															<input type="text" class="form-control col-lg-8"
-																name="title" th:value="${mk.title}"
-																style="margin-left: -15px">
-														</div>
-														<hr>
-														<div class="row">
-															<div class="row col-lg-6">
-																<p class="myInline col-lg-6 mb-0 textLeft">판매자</p>
-																<input type="text" class="form-control col-lg-6"
-																	name="memNo" readonly th:value="${session.mem.memNo}">
-															</div>
-														</div>
-														<br>
-														<div class="row">
-															<div class="row col-lg-6">
-																<p class="myInline col-lg-6 mb-0 textLeft">카테고리</p>
-																<select class="form-control col-lg-6" name="mktCtg"
-																	th:value="${mk.Ctg}">
-																	<option value="가드닝">가드닝</option>
-																	<option value="인테리어">인테리어</option>
-																	<option value="잡화">잡화</option>
-																</select>
-															</div>
-														</div>
-														<br>
-														<div class="row">
-															<div class="row col-lg-6">
-																<p class="myInline col-lg-6 mb-0 textLeft">금액</p>
-																<input type="number" class="form-control col-lg-6"
-																	name="price" min="1" th:value="${mk.price}">
-															</div>
-															<div class="row col-lg-6">
-																<p class="myInline col-lg-6 mb-0 textLeft">판매수량</p>
-																<input type="number" class="form-control col-lg-6"
-																	name="qty" min="1" th:value="${mk.qty}">
-															</div>
+								</form>
+							</div>
+							<div class="row col-lg-12" style="margin-top: 30px">
+								<div class="col-lg-12">
+									<div class="product__details__tab">
+										<div class="row">
+											<ul class="nav nav-tabs col-lg-12" role="tablist">
+												<li class="nav-item col-lg-12"><a
+													class="nav-link active" data-toggle="tab" href="#tabs-5"
+													role="tab">상세 설명</a></li>
+											</ul>
+										</div>
+										<div class="row">
+											<div class="tab-content col-lg-12">
+												<div class="tab-pane active" id="tabs-5" role="tabpanel">
+													<div class="product__details__tab__content">
+														<div>
+															<textarea name="text" id="editor"></textarea>
 														</div>
 													</div>
 												</div>
 											</div>
 										</div>
-									</form>
-								</div>
-								<div class="row col-lg-12" style="margin-top: 30px">
-									<div class="col-lg-12">
-										<div class="product__details__tab">
-											<div class="row">
-												<ul class="nav nav-tabs col-lg-12" role="tablist">
-													<li class="nav-item col-lg-12"><a
-														class="nav-link active" data-toggle="tab" href="#tabs-5"
-														role="tab">상세 설명</a></li>
-												</ul>
-											</div>
-											<div class="row">
-												<div class="tab-content col-lg-12">
-													<div class="tab-pane active" id="tabs-5" role="tabpanel">
-														<div class="product__details__tab__content">
-															<div>
-																<textarea name="text" id="editor"></textarea>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<br>
-										<div style="margin-top: 10px;">
-											<button type="button" class="primary-btn col-lg-2" id="udtBtn">수정하기</button>
-											<button type="button" class="primary-btn col-lg-2"
-												th:onclick="|location.href='@{/mkInfo(boardNo=${mk.boardNo})}'|">뒤로가기</button>
-										</div>
+									</div>
+									<br>
+									<div style="margin-top: 10px;">
+										<button type="button" class="primary-btn col-lg-2" id="udtBtn">수정하기</button>
+										<button type="button" class="primary-btn col-lg-2"
+											th:onclick="|location.href='@{/mkInfo(boardNo=${mk.boardNo})}'|">뒤로가기</button>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
+			</div>
 		</section>
 
 
@@ -143,7 +144,7 @@
 			src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
 		<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
 
-		<script>
+		<script th:inline="javascript">
 			let dbPath;
 
 			//첨부파일 가져오기
@@ -195,7 +196,7 @@
 			
 			//ck내용 가져오기
 			/*<![CDATA[*/			
-			let dataDesct= /*[[${mk.detaDesct}]]*/;
+			let dataDesct= /*[[${mk.detaDesct}]]*/
 			 /*]]>*/
 			ClassicEditor.create(document.querySelector('#editor'), {
 					language: "ko",
