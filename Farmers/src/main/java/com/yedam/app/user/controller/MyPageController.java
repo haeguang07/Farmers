@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yedam.app.activity.vo.BnbVO;
+import com.yedam.app.board.vo.BoardVO;
 import com.yedam.app.common.service.PaymentService;
 import com.yedam.app.common.vo.PaymentDetailVO;
 import com.yedam.app.common.vo.PaymentVO;
@@ -18,7 +20,9 @@ import com.yedam.app.farm.vo.FarmLendApplyVO;
 import com.yedam.app.farm.vo.FarmLendVO;
 import com.yedam.app.market.vo.AuctionApplyVO;
 import com.yedam.app.market.vo.AuctionVO;
+import com.yedam.app.market.vo.CropsSaleVO;
 import com.yedam.app.market.vo.FundingVO;
+import com.yedam.app.market.vo.MarketVO;
 import com.yedam.app.user.service.MyPageService;
 import com.yedam.app.user.vo.AlertVO;
 import com.yedam.app.user.vo.AttachVO;
@@ -350,4 +354,67 @@ public class MyPageController {
 		return "user/myPage/myActivity/funding/myFundingSubList";
 	}
 
+	
+	////////////////////////////나의 농촌 bnb 페이지/////////////////////////////
+	//나의 bnb 리스트
+	@GetMapping("myPage/myBnbList")
+	public String myBnbList(String memNo, Model model) {
+		List<BnbVO> list = myPageService.myBnbList(memNo);
+		model.addAttribute("bnbList", list);
+		return "user/myPage/myActivity/bnb/myBnbList";
+	}
+	
+	//나의 bnb 예약 리스트
+	@GetMapping("myPage/myBnbApplyList")
+	public String myBnbAppleList(String boardNo, Model model) {
+		List<PaymentDetailVO> list = myPageService.myBnbRsvList(boardNo);
+		System.out.println(list);
+		model.addAttribute("payList", list);
+		return "user/myPage/myActivity/bnb/myBnbApplyList";
+	}
+	
+	/////////////////////나의 농작물 판매 페이지 ////////////////////////////////
+	//나의 농작뭏물 판매 리스트
+	@GetMapping("myPage/myCropsSaleList")
+	public String myCropsSaleList(String memNo,Model model) {
+		List<CropsSaleVO> list = myPageService.myCropsSaleList(memNo);
+		System.out.println(list);
+		model.addAttribute("cropsList", list);
+		return "user/myPage/myActivity/cropsSale/myCropsSaleList";
+	}
+	
+	// 나의 농작물 판매 구매자 리스트
+	@GetMapping("myPage/myCropsSalePayList")
+	public String myCropsSalePayList (String boardNo, Model model) {
+		List<PaymentDetailVO> list = myPageService.myCropsPayList(boardNo);
+		System.out.println(list);
+		model.addAttribute("payList", list);
+		return "user/myPage/myActivity/cropsSale/myCropsSalePayList";
+	}
+	
+	//////////////////////나의 전원마켓 페이지////////////////////////////
+	//나의 전원마켓 리스트
+	@GetMapping("myPage/myMarketList")
+	public String myMarketList (String memNo, Model model) {
+		List<MarketVO> list = myPageService.myMarketList(memNo);
+		model.addAttribute("marketList", list);
+		return "user/myPage/myActivity/myMarket/myMarketList";
+	}
+	
+	//나의 전원마켓 구매자 리스트
+	@GetMapping("myPage/myMarketPayList")
+	public String myMarketPayList(String boardNo, Model model) {
+		List<PaymentDetailVO> list = myPageService.myMarketPayList(boardNo);
+		model.addAttribute("payList", list);
+		return "user/myPage/myActivity/myMarket/myMarketPayList";
+	}
+	
+	////////////////나의 게시글 페이지/////////////////////////
+	//나의 게시글 리스트
+	@GetMapping("myPage/myBoardList")
+	public String myBoardList(String memNo, Model model) {
+		List<BoardVO> list = myPageService.myBoardList(memNo);
+		model.addAttribute("boardList", list);
+		return "user/myPage/myActivity/myBoard/myBoardList";
+	}
 }
