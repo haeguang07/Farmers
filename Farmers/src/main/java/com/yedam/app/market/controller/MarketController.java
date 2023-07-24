@@ -115,8 +115,8 @@ public class MarketController {
 	@GetMapping("update/updateMk")
 	public String updateMkForm(Model model, String boardNo) {
 		MarketVO result = mkService.getMarketInfo(boardNo);
-		//List<CodeVO> codeVo = codeService.getCodeList("0K");
-		//model.addAttribute("dst", codeVo);
+		List<CodeVO> codeVo = codeService.getCodeList("0W");
+		model.addAttribute("ctgCode", codeVo);
 		model.addAttribute("mk", result);
 		return "market/market/updateMkForm";
 	}
