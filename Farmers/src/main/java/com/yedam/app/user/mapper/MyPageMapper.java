@@ -2,13 +2,17 @@ package com.yedam.app.user.mapper;
 
 import java.util.List;
 
+import com.yedam.app.activity.vo.BnbVO;
+import com.yedam.app.board.vo.BoardVO;
 import com.yedam.app.common.vo.PaymentDetailVO;
 import com.yedam.app.common.vo.PaymentVO;
 import com.yedam.app.farm.vo.FarmLendApplyVO;
 import com.yedam.app.farm.vo.FarmLendVO;
 import com.yedam.app.market.vo.AuctionApplyVO;
 import com.yedam.app.market.vo.AuctionVO;
+import com.yedam.app.market.vo.CropsSaleVO;
 import com.yedam.app.market.vo.FundingVO;
+import com.yedam.app.market.vo.MarketVO;
 import com.yedam.app.user.vo.AlertVO;
 import com.yedam.app.user.vo.AttachVO;
 import com.yedam.app.user.vo.InquiryVO;
@@ -91,5 +95,25 @@ public interface MyPageMapper {
 	//나의 펀딩 구매자 리스트
 	public List<PaymentDetailVO> myFundingPayList(String boardNo);
 	
+	//나의 Bnb 리스트
+	public List<BnbVO> myBnbList (String memNo);
+	
+	//나의 Bnb 예약자 리스트
+	public List<PaymentDetailVO> myBnbRsvList(String baordNo);
+	
+	//나의 농작물 판매 리스트
+	public List<CropsSaleVO> myCropsSaleList (String memNo);
+	
+	//나의 농작물 구매자 리스트
+	public List<PaymentDetailVO> myCropsPayList(String boardNo);
+
+	//나의 전원마켓 리스트
+	public List<MarketVO> myMarketList(String memNo);
+	
+	//나의 전원마켓 구매자 리스트
+	public List<PaymentDetailVO> myMarketPayList(String boardNo);
+	
+	//나의 게시글 리스트
+	public List<BoardVO> myBoardList (String memNo);
 
 }
