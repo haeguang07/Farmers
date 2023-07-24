@@ -14,7 +14,9 @@ public class PaymentDetailVO {
 	private int price;
 	private String shipStts;
 	private String boardCtg;
-	
+	private Date rsvStrDate;
+	private Date rsvEndDate;
+ 	
 	//board table
 	private String title;
 	private String rep;

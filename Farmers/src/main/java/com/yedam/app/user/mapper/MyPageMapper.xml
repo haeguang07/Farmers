@@ -283,6 +283,7 @@
 		SELECT board_no, rep , title , act_date, find_code_name(reg_stts) reg_stts
 		FROM AUCTION JOIN member USING(mem_no)
 		WHERE mem_no = #{memNo}
+		ORDER BY 1 DESC
 	</select>
 	
 	<!-- 나의 입찰 경매 리스트 -->
@@ -319,6 +320,7 @@
 			   find_code_name(reg_stts) reg_stts
 		FROM funding
 		WHERE mem_no = #{memNo}
+		ORDER BY 1 DESC
 	</select>
 	
 	<!-- 나의 펀딩의 구매자 목록 -->
@@ -344,6 +346,24 @@
 			   FIND_CODE_NAME(reg_stts) reg_stts
 		FROM farmbnb
 		WHERE mem_no = #{memNo}
+		ORDER BY 1 DESC
+	</select>
+	
+	<!-- 나의 농촌비앤이 예약자 리스트 -->
+	<select id="myBnbRsvList" parameterType="String" resultType="PaymentDetailVO">
+		SELECT title, 
+			   qty, 
+			   pay_date, 
+			   (qty * price) total_price, 
+			   FIND_MEMBER_NICK(b.mem_no) nick, 
+			   FIND_CODE_NAME(ship_stts) ship_stts,
+			   pay_deta_no,
+               rsv_str_date,
+               rsv_end_date
+		FROM (SELECT title, qty, c.price, mem_no, ship_stts, pay_deta_no, pay_no,rsv_str_date, rsv_end_date
+      		  FROM payment_detail c RIGHT JOIN farmbnb d USING (board_no) 
+      		  WHERE board_no = #{boardNo}) a
+		LEFT JOIN payment b USING (pay_no)
 	</select>
 	
 	<!-- 나의 농작물 판매 리스트 -->
@@ -351,10 +371,66 @@
 		SELECT board_no, 
 			   title, 
 			   FIND_CODE_NAME(crp_ctg) crp_ctg, 
-			   price, qty, 
+			   price, 
+			   qty, 
 			   reg_date, 
 			   FIND_CODE_NAME(reg_stts) reg_stts
 		FROM crops_sale
+		WHERE mem_no = #{memNo}
+		ORDER BY 1 DESC
+	</select>
+	
+	<!-- 나의 농작물 구매자 리스트 -->
+	<select id="myCropsPayList" parameterType="String" resultType="PaymentDetailVO">
+		SELECT title, 
+			   qty, 
+			   pay_date, 
+			   (qty * price) total_price, 
+			   FIND_MEMBER_NICK(b.mem_no) nick, 
+			   FIND_CODE_NAME(ship_stts) ship_stts,
+			   pay_deta_no
+		FROM (SELECT title, c.qty, c.price, mem_no, ship_stts, pay_deta_no, pay_no
+      		  FROM payment_detail c RIGHT JOIN crops_sale d USING (board_no) 
+      		  WHERE board_no = #{boardNo}) a
+		LEFT JOIN payment b USING (pay_no)
+	</select>
+	
+	<!-- 나의 전원마켓 리스트 -->
+	<select id="myMarketList" parameterType="String" resultType="MarketVO">
+		SELECT board_no, 
+			   title,  
+			   price, 
+               qty, 
+			   reg_date, 
+			   FIND_CODE_NAME(reg_stts) reg_stts
+		FROM market
+		WHERE mem_no = #{memNo}
+		ORDER BY 1 DESC
+	</select>
+	
+	<!-- 나의 전원마켓 구매자 리스트 -->
+	<select id="myMarketPayList" parameterType="String" resultType="PaymentDetailVO">
+		SELECT title, 
+			   qty, 
+			   pay_date, 
+			   (qty * price) total_price, 
+			   FIND_MEMBER_NICK(b.mem_no) nick, 
+			   FIND_CODE_NAME(ship_stts) ship_stts,
+			   pay_deta_no
+		FROM (SELECT title, c.qty, c.price, mem_no, ship_stts, pay_deta_no, pay_no
+      		  FROM payment_detail c RIGHT JOIN market d USING (board_no) 
+      		  WHERE board_no = #{boardNo}) a
+		LEFT JOIN payment b USING (pay_no)
+	</select>
+	
+	<!-- 나의 게시글 리스트 -->
+	<select id="myBoardList" parameterType="String" resultType="BoardVO">
+		SELECT board_no, 
+			   title,  
+			   FIND_CODE_NAME(post_ctg) post_ctg, 
+               hit_count, 
+			   wrt_date
+		FROM board
 		WHERE mem_no = #{memNo}
 	</select>
 </mapper>

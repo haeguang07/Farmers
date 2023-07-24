@@ -115,6 +115,10 @@
                                                         <div class="product__cart__item__text">
                                                             <h6 th:text="${product.title}" id="productName">상품명</h6>
                                                         </div>
+                                                        <td class="product__cart__item__text" th:if="not ${#strings.isEmpty(product.rsvStrDate)}">
+                                                            <p style="padding-top: 20px;" th:text="${#dates.format(product.rsvStrDate, 'yyyy/MM/dd')}" id="rsvStrDate" th:data-price="${product.price}">시작일</p>
+                                                            <p style="padding-top: 20px;" th:text="${#dates.format(product.rsvEndDate, 'yyyy/MM/dd')}" id="rsvEndDate" th:data-price="${product.price}">종료일</p>
+                                                        </td>
                                                     </td>
                                                     <td class="cart__price col-lg-2">
                                                         <p style="padding-top: 20px;" th:text="${#numbers.formatInteger(product.price, 3, 'COMMA')}+원" id="productPrice" th:data-price="${product.price}">가격</p>
@@ -311,7 +315,9 @@
                             boardNo : $(item).attr('data-no'),
                             qty : $(item).find('#qty').text(),
                             price : $(item).find('#productPrice').attr('data-price'),
-                            boardCtg : $(item).attr('data-ctg')
+                            boardCtg : $(item).attr('data-ctg'),
+                            rsvStrDate : $(item).find('#rsvStrDate').text(),
+                            rsvEndDate : $(item).find('#rsvEndDate').text()
                         }
                         payDatailData.push(detailObj)
                     })

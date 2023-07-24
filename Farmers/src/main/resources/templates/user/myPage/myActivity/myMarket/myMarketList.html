@@ -39,7 +39,7 @@
 <body>
 	<div layout:fragment="myPageContent">
 		<div class="justify-content-center">
-			<h3 class="current text-center">나의 농작물 판매</h3>
+			<h3 class="current text-center">나의 전원마켓</h3>
 		</div>
 		<!-- Shop Section Begin -->
 		<section class="shop myMargin">
@@ -60,14 +60,14 @@
 								</tr>
 							</thead>
 							<tbody id="tbody">
-								<th:block th:if="not ${#strings.isEmpty(cropsList)}">
-									<tr th:each="crops : ${cropsList}" th:no="${crops.boardNo}">
-										<td th:text="${crops.boardNo}"></td>
-										<td th:text="${crops.title}"></td>
-										<td th:text="${#numbers.formatInteger(crops.price, 3, 'COMMA')}"></td>
-										<td th:text="${crops.qty}"></td>
-										<td th:text="${#dates.format(crops.regDate, 'yyyy/MM/dd')}"></td>
-										<td th:text="${crops.regStts}"></td>
+								<th:block th:if="not ${#strings.isEmpty(marketList)}">
+									<tr th:each="mrk : ${marketList}" th:no="${mrk.boardNo}">
+										<td th:text="${mrk.boardNo}"></td>
+										<td th:text="${mrk.title}"></td>
+										<td th:text="${#numbers.formatInteger(mrk.price, 3, 'COMMA')}"></td>
+										<td th:text="${mrk.qty}"></td>
+										<td th:text="${#dates.format(mrk.regDate, 'yyyy/MM/dd')}"></td>
+										<td th:text="${mrk.regStts}"></td>
 										<td><button class="form-control sub">판매현황</button></td>
 									</tr>
 								</th:block>
@@ -152,7 +152,7 @@
 			$(document).on("click", "tr", function (e) {
 				if (!$(e.currentTarget).hasClass('th')) {
 					console.log($(e.currentTarget).attr('no'))
-					location.href = "/cropsSaleInfo?boardNo=" + $(e.currentTarget).attr('no')
+					location.href = "/mkInfo?boardNo=" + $(e.currentTarget).attr('no')
 				}
 			})
 
@@ -163,7 +163,7 @@
 				// 모달창
 				$.magnificPopup.open({
 					items: [{
-						src: "/myPage/myCropsSalePayList?boardNo="+$(e.target).closest('tr').attr('no'),
+						src: "/myPage/myMarketPayList?boardNo="+$(e.target).closest('tr').attr('no'),
 						type: 'iframe'
 					}]
 				})

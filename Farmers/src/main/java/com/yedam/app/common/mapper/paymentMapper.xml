@@ -61,7 +61,9 @@
 		#{memNo, mode=IN , jdbcType = VARCHAR},
 		#{qty, mode=IN , jdbcType = VARCHAR},
 		#{price, mode=IN , jdbcType =VARCHAR},
-		#{boardCtg, mode=IN , jdbcType = VARCHAR}
+		#{boardCtg, mode=IN , jdbcType = VARCHAR},
+		#{rsvStrDate, mode=IN , jdbcType = DATE},
+		#{rsvEndDate, mode=IN , jdbcType = DATE}
 		)
 		}
 	</select>

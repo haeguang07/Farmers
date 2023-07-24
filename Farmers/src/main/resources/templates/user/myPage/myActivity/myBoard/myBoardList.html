@@ -39,7 +39,7 @@
 <body>
 	<div layout:fragment="myPageContent">
 		<div class="justify-content-center">
-			<h3 class="current text-center">나의 농작물 판매</h3>
+			<h3 class="current text-center">나의 게시글</h3>
 		</div>
 		<!-- Shop Section Begin -->
 		<section class="shop myMargin">
@@ -51,24 +51,20 @@
 							<thead id="thead">
 								<tr>
 									<th>번호</th>
-									<th>상품명</th>
-									<th>가격</th>
-									<th>남은수량</th>
-									<th>상태</th>
-									<th>등록일자</th>
-									<th>판매현황</th>
+									<th>카테고리</th>
+									<th>제목</th>
+									<th>작성날짜</th>
+									<th>조회수</th>
 								</tr>
 							</thead>
 							<tbody id="tbody">
-								<th:block th:if="not ${#strings.isEmpty(cropsList)}">
-									<tr th:each="crops : ${cropsList}" th:no="${crops.boardNo}">
-										<td th:text="${crops.boardNo}"></td>
-										<td th:text="${crops.title}"></td>
-										<td th:text="${#numbers.formatInteger(crops.price, 3, 'COMMA')}"></td>
-										<td th:text="${crops.qty}"></td>
-										<td th:text="${#dates.format(crops.regDate, 'yyyy/MM/dd')}"></td>
-										<td th:text="${crops.regStts}"></td>
-										<td><button class="form-control sub">판매현황</button></td>
+								<th:block th:if="not ${#strings.isEmpty(boardList)}">
+									<tr th:each="board : ${boardList}" th:no="${board.boardNo}">
+										<td th:text="${board.boardNo}"></td>
+										<td th:text="${board.postCtg}"></td>
+										<td th:text="${board.title}"></td>
+										<td th:text="${#dates.format(board.wrtDate, 'yyyy/MM/dd')}"></td>
+										<td th:text="${board.hitCount}"></td>
 									</tr>
 								</th:block>
 							</tbody>
@@ -97,7 +93,7 @@
 							targets: 1
 						},
 						{
-							width: "15%",
+							width: "40%",
 							targets: 2
 						},
 						{
@@ -107,17 +103,9 @@
 						{
 							width: "15%",
 							targets: 4
-						},
-						{
-							width: "15%",
-							targets: 5
-						},
-						{
-							width: "20%",
-							targets: 5
 						}
 					],
-					order : [4, 'desc']
+					order : [3, 'desc']
 				});	
 			})
 
@@ -149,25 +137,13 @@
 			};
 
 			//tr 이동
-			$(document).on("click", "tr", function (e) {
-				if (!$(e.currentTarget).hasClass('th')) {
-					console.log($(e.currentTarget).attr('no'))
-					location.href = "/cropsSaleInfo?boardNo=" + $(e.currentTarget).attr('no')
-				}
-			})
+			// $(document).on("click", "tr", function (e) {
+			// 	if (!$(e.currentTarget).hasClass('th')) {
+			// 		console.log($(e.currentTarget).attr('no'))
+			// 		location.href = "/mkInfo?boardNo=" + $(e.currentTarget).attr('no')
+			// 	}
+			// })
 
-			//td 버튼 이벤트
-			$(document).on("click", ".sub", function (e) {
-				e.stopPropagation()
-
-				// 모달창
-				$.magnificPopup.open({
-					items: [{
-						src: "/myPage/myCropsSalePayList?boardNo="+$(e.target).closest('tr').attr('no'),
-						type: 'iframe'
-					}]
-				})
-			})
 		</script>
 	</div>
 </body>
