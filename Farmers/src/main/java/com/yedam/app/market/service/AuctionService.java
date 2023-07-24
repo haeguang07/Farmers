@@ -28,5 +28,8 @@ public interface AuctionService {
 		
 		// 삭제
 		public boolean deleteAuction(String boardNo);
+		
+		//
+		public boolean updateAuctionReg();
 }
  

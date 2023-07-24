@@ -4,31 +4,35 @@
 			<span>선택한 회원을
 			</span>
 			<select v-model="grade">
-				<option disabled selected value="">선택</option>
-				<option value="b1">정회원</option>
-				<option value="b2">준회원</option>
+				<option selected value="">선택</option>
+				<option v-for="grd in gradeList" :value="grd.cmmnDetaCode">{{grd.codeDesct}}</option>
 			</select>
 			<select v-model="stts">
-				<option disabled selected value="">선택</option>
-				<option value="c0">정지상태</option>
-				<option value="c1">정상상태</option>
+				<option selected value="">선택</option>
+				<option v-for="status in sttsList" :value="status.cmmnDetaCode">{{status.codeDesct}}</option>
+
 			</select>
 			<span> 으로 </span>
 			<button @click="change" class="button">변경</button>
 		</div>
   	<div id="memberTable"></div>
+	
 	</div>
 </template>
 
 
 <script>
+
 export default{
   data(){
     return{
+			member:{}, 
       memberList:[],
       checkedMembers:[],
 			grade:'',
+			gradeList:[],
 			stts:'',
+			sttsList:[],
       columns:[
 	        {header: '아이디',
 	          name: 'id',
@@ -74,11 +78,11 @@ export default{
 	      ]
     }
   },
-  methods:{
-  	removeAtIndex (arr, index)  {
-  		const copy = [...arr];
-  		copy.splice(index, 1);
-  		return copy;
+methods:{
+	removeAtIndex (arr, index)  {
+		const copy = [...arr];
+		copy.splice(index, 1);
+		return copy;
 	},
 	toggle (item, getValue = item => item) {
   		const index = this.checkedMembers.findIndex(i => getValue(i) === getValue(item));
@@ -104,8 +108,7 @@ export default{
 		.then(result=> {
 			console.log(result);
 			this.memberList=result;
-			console.log(this.gridInstance)
-			this.gridInstance.resetData(this.memberList);
+			
 		})
 		
 		.catch(err=> console.log(err))
@@ -124,32 +127,39 @@ export default{
 			columns: this.columns,
 			rowHeaders: [{ type: 'checkbox', header: "", width: 50 }]
 		});
-		console.log(this.gridInstance)
-   		this.gridInstance.on('click', (ev) => {
-    		if (ev.columnName != '_checked' && ev.rowKey >= 0) {
-      			console.log(ev.rowKey, this.memberList[ev.rowKey], ev.columnName);
-    		}
-  		});
+		this.gridInstance.on('click', (ev) => {
+			if (ev.columnName != '_checked' && ev.rowKey >= 0) {
+					console.log(ev.rowKey, this.memberList[ev.rowKey], ev.columnName);
+					this.member=this.memberList[ev.rowKey];
+					console.log(this.member);
 
-  		this.gridInstance.on('check', function (ev) {
-    		vue.toggle(vue.memberList[ev.rowKey].memNo)
-    		console.log(vue.checkedMembers);
-  		});
+			}
+			
+		});
 
-  		this.gridInstance.on('uncheck', function (ev) {
-    		vue.toggle(vue.memberList[ev.rowKey].memNo)
-    		console.log(vue.checkedMembers);
-  		});
-		}
-  },
+		this.gridInstance.on('check', function (ev) {
+			vue.toggle(vue.memberList[ev.rowKey].memNo)
+			console.log(vue.checkedMembers);
+		});
+
+		this.gridInstance.on('uncheck', function (ev) {
+			vue.toggle(vue.memberList[ev.rowKey].memNo)
+			console.log(vue.checkedMembers);
+		});
+	}
+},
   mounted(){
   	
     fetch("/admin/members")
     .then(result=> result.json())
     .then(result=>{
       console.log(result)
-      this.memberList=result;
-			this.createList();
+      this.memberList=result.memberList;
+	  this.sttsList=result.code['0C']
+	  this.gradeList=result.code['0B']
+	  this.gradeList.splice(0,1);
+	  console.log(this.sttsList,this.gradeList);
+	  this.createList();
     })
     .catch(err=> console.log(err))
   }
