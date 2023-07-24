@@ -11,26 +11,26 @@ import lombok.Data;
 @Data
 public class CropsSaleVO {
 	// crops_sale
-	public String boardNo;
-	public String memNo;
-	public String title;
-	public String crpCtg;
-	public int price;
-	public int qty;
-	public String rep;
-	public String detaDesct;
+	private String boardNo;
+	private String memNo;
+	private String title;
+	private String crpCtg;
+	private int price;
+	private int qty;
+	private String rep;
+	private String detaDesct;
 	@DateTimeFormat(pattern="yyyy/MM/dd")
 	@JsonFormat(pattern="yyyy/MM/dd")
-	public Date regDate;
-	public String regStts;
+	private Date regDate;
+	private String regStts;
 	
 	// review
-	public String revNo;
-	public int rate;
+	private String revNo;
+	private int rate;
 	
 	// member
-	public String nick;
+	private String nick;
 	
 	// member_detail
-	public String memGrd;
+	private String memGrd;
 }
