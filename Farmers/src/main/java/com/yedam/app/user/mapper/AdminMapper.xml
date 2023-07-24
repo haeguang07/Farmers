@@ -53,8 +53,10 @@
 		ORDER BY inq_no DESC
 	</select>
 	
-	<update id="updateMember">
-		UPDATE member
+	<update id="updateMember" statementType="CALLABLE">
+		call update_mem_stts(
+			#{list, typeHandler=com.yedam.app.user.service.OracleArrayMemHandler}
+			)
 	
 	</update>
 	

@@ -24,6 +24,10 @@ public class AdminServiceImpl implements AdminService{
 	public List<InquiryVO> getInqueryList(SearchVO vo) {
 		return adminMapper.selectInqueryList(vo);
 	}
+	@Override
+	public void modifyMemberStts(List<MemberVO> list) {
+		adminMapper.updateMember(list);
+	}
 
 
 

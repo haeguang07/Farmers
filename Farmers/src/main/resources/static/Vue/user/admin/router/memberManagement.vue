@@ -10,8 +10,8 @@
 			</select>
 			<select v-model="stts">
 				<option disabled selected value="">선택</option>
-				<option value="b1">정지상태</option>
-				<option value="b2">정상상태</option>
+				<option value="c0">정지상태</option>
+				<option value="c1">정상상태</option>
 			</select>
 			<span> 으로 </span>
 			<button @click="change" class="button">변경</button>
@@ -88,8 +88,9 @@ export default{
 	change(){
 		console.log(this.checkedMembers);
 		let list =[];
-		this.checkedMember.forEach(item => {
+		this.checkedMembers.forEach(item => {
 			let obj={memNo: item.memNo, stts:this.stts,memGrd:this.grade}
+			list.push(obj);
 		});
 		console.log(list);
 		fetch("/admin/members/update",{
@@ -101,39 +102,45 @@ export default{
 		})
 		.then(result=>result.json())
 		.then(result=> {
-			console.log(result)
+			console.log(result);
+			this.memberList=result;
+			console.log(this.gridInstance)
+			this.gridInstance.resetData(this.memberList);
 		})
+		
 		.catch(err=> console.log(err))
 	},
 	createList(){
-		 const vue= this;
-		 const Grid = tui.Grid;
-		 Grid.applyTheme('default');
-		 Grid.setLanguage('ko');
-		 const grid = new Grid({
-	      el: document.getElementById('memberTable'),
-	      data:this.memberList,
-	      scrollX: false,
-	      scrollY: false,
-	      pageOptions: {perPage: 10,useClient: true},
-	      columns: this.columns ,
-	      rowHeaders: [{type: 'checkbox',header: "",width: 50,}]
-	    });
-   		grid.on('click', (ev) => {
-  			if(ev.columnName!='_checked' && ev.rowKey>=0 ){
-  				console.log(ev.rowKey,this.memberList[ev.rowKey],ev.columnName);
-  				console.log('tr');
-  			}
-			})
-			grid.on('check', function(ev) {
-				vue.toggle(vue.memberList[ev.rowKey].memNo)
-				console.log(vue.checkedMembers);
-			});
-			grid.on('uncheck', function(ev) {
-				vue.toggle(vue.memberList[ev.rowKey].memNo)
-				console.log(vue.checkedMembers);
-			});
-	}
+		const vue = this;
+		const Grid = tui.Grid;
+		Grid.applyTheme('default');
+		Grid.setLanguage('ko');
+		this.gridInstance = new Grid({
+			el: document.getElementById('memberTable'),
+			data: this.memberList,
+			scrollX: false,
+			scrollY: false,
+			pageOptions: { perPage: 10, useClient: true },
+			columns: this.columns,
+			rowHeaders: [{ type: 'checkbox', header: "", width: 50 }]
+		});
+		console.log(this.gridInstance)
+   		this.gridInstance.on('click', (ev) => {
+    		if (ev.columnName != '_checked' && ev.rowKey >= 0) {
+      			console.log(ev.rowKey, this.memberList[ev.rowKey], ev.columnName);
+    		}
+  		});
+
+  		this.gridInstance.on('check', function (ev) {
+    		vue.toggle(vue.memberList[ev.rowKey].memNo)
+    		console.log(vue.checkedMembers);
+  		});
+
+  		this.gridInstance.on('uncheck', function (ev) {
+    		vue.toggle(vue.memberList[ev.rowKey].memNo)
+    		console.log(vue.checkedMembers);
+  		});
+		}
   },
   mounted(){
   	
