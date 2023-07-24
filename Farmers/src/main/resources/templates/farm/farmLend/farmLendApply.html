@@ -132,9 +132,9 @@
 													</div>
 													<input type="file" id="inputFile" name="files" style="display: none;" multiple>
 												</div>
-												<p style="line-height: 40px; text-align: right;">합계 : <span id="sumPrice" style="line-height: 40px;"></span></p>
+												<p style="margin-bottom: 20px; text-align: right;">합계 : <span id="sumPrice"></span></p>
 												<div class="row mb-2">
-													<button type="button" class="btn btn-dark mr-2" style="width: 150px; float: left;" id="apply">신청하기</button>
+													<button type="button" class="btn btn-dark mr-2" style="width: 150px; float: left;" id="applyBtn">신청하기</button>
 													<button type="button" class="btn btn-dark" style="width: 150px; float: left;" id="toList">취소</button>
 												</div>
 											</div>
@@ -218,8 +218,6 @@
 			let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 			let price = /*[[${flInfo.lendPrice}]]*/;
 			
-			console.log(typeof(diffDays));
-			
 			$('#sumPrice').text(priceToString(price * diffDays) + '원');
 			
 			// 숫자 3자리마다 콤마 넣기
@@ -228,7 +226,7 @@
 			}
 			
 			// 신청하기 버튼 클릭 시
-			$('#apply').on('click', function() {
+			$('#applyBtn').on('click', function() {
 				if(!$('[name="files"]').val() < 5) {
 					alert('필수 첨부파일을 참고하여 첨부하세요');
 				} else {
