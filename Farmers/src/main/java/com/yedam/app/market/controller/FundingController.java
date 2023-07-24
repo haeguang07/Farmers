@@ -311,5 +311,8 @@ public class FundingController {
 		}
 		return folderPath;
 	}
+	
+	//기간 종료 및 달성 실패 시
+	
 
 }
