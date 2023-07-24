@@ -119,7 +119,7 @@
 							<ul>
 								<li><h5>총액 <span th:text="${#numbers.formatInteger(payInfo.totalPayPrice, 3, 'COMMA')}">0</span></h5></li>
 								<li><h5>사용포인트 <span th:text="${payInfo.usePnt}">0</span></h5></li>
-								<li><h5>결제방법 <span th:text="${payInfo.payMthd == 'NORMAL' ? '일반결제' : '기타결제'}">0</span></h5></li>
+								<li><h5>결제방법 <span th:text="${payInfo.payMthd}">0</span></h5></li>
 								<li><h5>결제날짜 <span th:text="${#dates.format(payInfo.payDate, 'yyyy/MM/dd')}">0</span></h5></li>
 							</ul>
 						</div>
@@ -183,37 +183,25 @@
 					bool = true;
 				}
 			})
-
+			
+			let payCode =/*[[${payInfo.payCode}]]*/;
+			let url = "https://api.tosspayments.com/v1/payments/"+payCode+"/cancel";
+			console.log(url)
 			if(bool){
 				if(confirm('환불하시겠습니까?')){
-					$.ajax({
-						url : "https://api.tosspayments.com/v1/payments/"+/*[[${payInfo.payCode}]]*/+"/cancel",
-						beforeSend: function (xhr) {
-				            xhr.setRequestHeader("Authorization","Basic dGVzdF9za196WExrS0V5cE5BcldtbzUwblgzbG1lYXhZRzVSOg== ");
-				        },
-						ContentType: 'application/json',
-						data : {
-							"cancleReason" : "취소"
-						}
+					$.ajax({   
+						url : url,
+						method : "POST",
+						headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Basic dGVzdF9za196WExrS0V5cE5BcldtbzUwblgzbG1lYXhZRzVSOg=="
+                     },
+						data : JSON.stringify({
+							"cancelReason" : "취소"
+						})
 					})
 					.done(function(result){
 					console.log(result)
-					$.ajax({
-						url:"/myPage/refund",
-						data : {
-							payNo : /*[[${payInfo.payNo}]]*/
-						}
-					})
-					.done(function(result){
-						if(result){
-							alert('환불이 완료되었습니다')
-						}else{
-							alert('환불실패')
-						}
-					})
-					.fail(function(){
-						alert('ajax 실패')
-					})
 					})
 					.fail(function(data, textStatus, errorThrown){
 					alert('환불에 실패하였습니다')

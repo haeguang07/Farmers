@@ -70,7 +70,7 @@
 									<td th:text="${pay.count == 1 ? pay.title : pay.title + '외 '+ (pay.count-1) +'건'}"></td>
 									<td th:text="${#numbers.formatInteger(pay.totalPayPrice, 3, 'COMMA')}"></td>
 									<td th:text="${#dates.format(pay.payDate, 'yyyy/MM/dd')}"></td>
-									<td th:text="${pay.payMthd == 'NORMAL'? '일반결제' : '기타결제'}"></td>
+									<td th:text="${pay.payMthd}"></td>
 								</tr>
 								</th:block>
 							</tbody>

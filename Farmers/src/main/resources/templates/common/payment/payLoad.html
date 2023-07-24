@@ -39,10 +39,8 @@
                 const urlParams = new URL(location.href).searchParams;
                 const jsonPaymentData = urlParams.get('paymentData');
                 let paymentData = JSON.parse(jsonPaymentData)
-                paymentData.payMthd = urlParams.get('paymentType');
                 paymentData.totalPayPrice = urlParams.get('amount');
-                paymentData.payCode = urlParams.get('paymentKey');
-                console.log(paymentData)
+                paymentData.payCode = urlParams.get('paymentKey')
 
                 let jsonPayDetailData = urlParams.get('payDatailData');
                 let PayDetailData = JSON.parse(jsonPayDetailData)
@@ -50,7 +48,29 @@
 
                 let myResult = false;
 
-                //payment 테이블에 insert
+                //토스 api 결제 승인
+                console.log(urlParams.get('amount'))
+                console.log(urlParams.get('paymentKey'))
+                console.log(urlParams.get('orderId'))
+                $.ajax({
+                        url: 'https://api.tosspayments.com/v1/payments/confirm',
+                        method: 'POST',
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": "Basic dGVzdF9za196WExrS0V5cE5BcldtbzUwblgzbG1lYXhZRzVSOg=="
+                        },
+                        data: JSON.stringify({
+                            amount: urlParams.get('amount'),
+                            paymentKey: urlParams.get('paymentKey'),
+                            orderId: urlParams.get('orderId')
+                        })
+                    })
+                    .done(function (result1) {
+                        console.log(result1)
+                        paymentData.payMthd = result1.easyPay.provider;
+                        console.log(paymentData)
+
+                        //payment 테이블에 insert
                 $.ajax({
                         url: 'insertPayment',
                         method: 'POST',
@@ -58,8 +78,8 @@
                             paymentData: JSON.stringify(paymentData)
                         }
                     })
-                    .done(function (result) {
-                        payNo = result.payNo;
+                    .done(function (result2) {
+                        payNo = result2.payNo;
                         memNo = /*[[${session.mem.memNo}]]*/
                         $(PayDetailData).each(function (idx, item) {
                             item.payNo = payNo;
@@ -73,7 +93,7 @@
                                     payDetailData: JSON.stringify(PayDetailData)
                                 }
                             })
-                            .done(function (result) {
+                            .done(function (result3) {
                                 myResult = true
                                 console.log('detail seuccess')
                                 setTimeout(function () {
@@ -87,7 +107,13 @@
                     .fail(function () {
                         console.log('ajax fail')
                     })
-            })
+                    })
+                    .fail(function () {
+                        alert('error')
+                    })
+
+                
+             })
         </script>
     </div>
 
