@@ -146,4 +146,26 @@
 		</if>
 		WHERE board_no = #{boardNo}
 	</update>
+	
+	<!-- 매일마다 펀딩 실패 정보 조회 -->
+	<select id="fundingRefundList" resultType="PaymentDetailVO">
+		SELECT board_no,pay_no, pay_deta_no, pay_code
+		FROM payment JOIN
+		    (SELECT board_no,
+		           pay_no, 
+		           pay_deta_no
+		    FROM (SELECT CASE WHEN (sumPrice > goal_price) THEN 'y' 
+		                ELSE 'n' END AS success,
+		            board_no,
+		            pay_no, 
+		            pay_deta_no
+		    FROM funding JOIN (SELECT SUM(price) sumPrice, board_no, pay_no, pay_deta_no
+		                       FROM payment_detail
+		                       WHERE board_ctg = 'n9'
+		                       GROUP BY board_no, pay_no, pay_deta_no)
+		    USING (board_no)
+		    WHERE fnd_end_date+1 = TRUNC(sysdate))
+		    WHERE success = 'n') 
+		USING (pay_no)
+	</select>
 </mapper>

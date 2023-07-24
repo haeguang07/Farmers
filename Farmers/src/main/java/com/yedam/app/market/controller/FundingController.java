@@ -2,6 +2,8 @@ package com.yedam.app.market.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
@@ -14,6 +16,12 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,10 +29,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.yedam.app.common.vo.PaymentDetailVO;
 import com.yedam.app.market.service.FundingService;
 import com.yedam.app.market.vo.FundingVO;
 import com.yedam.app.market.vo.PageVO;
@@ -313,6 +324,23 @@ public class FundingController {
 	}
 	
 	//기간 종료 및 달성 실패 시
-	
+	//@Scheduled(cron = "0/5 * * * * *")
+	public void fundingRefund () throws URISyntaxException {
+		List<PaymentDetailVO> list = fundingService.fundingRefundList();
+		
+		Gson gson = new Gson();
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.set("Authorization", "Basic dGVzdF9za196WExrS0V5cE5BcldtbzUwblgzbG1lYXhZRzVSOg==");
+//		headers.setBasicAuth(username, password);
+		RestTemplate rt = new RestTemplate();
+		for (PaymentDetailVO vo : list) {
+			String url = "https://api.tosspayments.com/v1/payments/"+vo.getPayCode()+"/cancel?cancleReason=fail";
+			RequestEntity<String> entity = new RequestEntity<String>(headers, HttpMethod.GET, new URI(url));
+			ResponseEntity<Map> respEntity = rt.exchange(entity, Map.class);
+			//rt.exchange(url, HttpMethod.GET, new HttpEntity<T>(createHeaders(username, password)), clazz);
+		}
+	}
 
 }
