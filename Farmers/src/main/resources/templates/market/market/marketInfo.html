@@ -10,14 +10,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>전원마켓 상세페이지</title>
+<!-- 리뷰등록폼 css -->
+<link rel="stylesheet" href="/css/suinCss/review.css">
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css"
+	type="text/css">
 <style>
-.table td {
+#dateTb td {
 	text-align: right;
 	padding-right: 80px;
 }
 
-#getNum {
-	width: 150px;
+.tab-pane {
+	margin-bottom: 50px;
+}
+
+.boldFont {
+	font-size: large;
+	font-weight: bold;
 }
 </style>
 </head>
@@ -26,7 +38,6 @@
 	<div layout:fragment="content">
 		<!-- Shop Details Section Begin -->
 		<section th:each="mk:${mk}" class="shop-details">
-
 			<!-- 이미지 부분 -->
 			<div class="product__details__pic">
 				<div class="container">
@@ -61,35 +72,36 @@
 								<div class="rating">
 									<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 										class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-										class="fa fa-star-o"></i> <span> - 5 Reviews</span>
+										class="fa fa-star-o"></i> <span>[[${rev}]]</span> Reviews 
 								</div>
-								<h4>
-									<span id="onePay" th:text="|${mk.price}|" style="display: none"></span>
-									<span
-										th:text="${#numbers.formatInteger(mk.price==null?0:mk.price,0,'COMMA')}">(금액)</span>원
-
-								</h4>
-
 								<!-- 결제 -->
 								<div>
 
-									<table class="table">
+									<table class="table" id="dateTb">
+										<tr>
+											<th>금액 :</th>
+											<td class="boldFont"><span
+												th:text="${#numbers.formatInteger(mk.price==null?0:mk.price,0,'COMMA')}"></span>원
+										<span
+										id="onePay" th:text="|${mk.price}|" style="display: none"></span>
+											</td>
 
+										</tr>
 										<tr>
 											<th>수량 :</th>
-											<td><input type="number" id="getNum" min="1" value="0"
+											<td><input type="number" id="getNum" min="1" value="1"
 												onchange="getPay()"> 개</td>
 										</tr>
 										<tr>
 
-											<th>금액 :</th>
-											<td><b><span id="payResult"></span></b> 원</td>
+											<th>결제 금액 :</th>
+											<td class="boldFont"><span id="payResult"></span> 원</td>
 										</tr>
 										<tr>
 											<th colspan="2">
 												<div class="product__details__cart__option">
-													<a href="#" class="primary-btn">장바구니</a>
-													<a href="#" class="primary-btn">결제하기</a>
+													<a href="#" class="primary-btn">장바구니</a> <a href="#"
+														class="primary-btn">결제하기</a>
 												</div>
 											</th>
 										</tr>
@@ -116,7 +128,7 @@
 									<!-- 첫번째 탭 : 상세설명 ck editor -->
 									<div class="tab-pane active" id="tabs-5" role="tabpanel">
 										<div class="product__details__tab__content">
-											<p class="note">상세설명</p>
+											<p class="note">■ 상품 상세</p>
 											<div class="product__details__tab__content__item"
 												th:utext="|${mk.detaDesct}|">(ck editor에서 넣은 내용)</div>
 
@@ -126,57 +138,74 @@
 									<div class="tab-pane" id="tabs-6" role="tabpanel">
 										<div class="product__details__tab__content">
 											<div class="product__details__tab__content__item">
-												<div id="리뷰등록칸">
-													<div style="width: 200px;">
-														<select name="star">
-															<option value="0">별점</option>
-															<option value="5">★★★★★</option>
-															<option value="4">★★★★☆</option>
-															<option value="3">★★★☆☆</option>
-															<option value="2">★★☆☆☆</option>
-															<option value="1">★☆☆☆☆</option>
-														</select>
+												<div id="reviewArea">
+													<table id="reviewTable" class="table"
+														style="text-align: center">
+														<thead>
+															<tr style="text-align: center">
+																<th>번호</th>
+																<th>별점</th>
+																<th>
+																	<!-- 리뷰넘버자리 -->
+																</th>
+																<th>리뷰 내용</th>
+																<th>작성자</th>
+																<th>삭제</th>
+															</tr>
+														</thead>
+														<tbody>
+														</tbody>
+													</table>
+													<!-- 리뷰 등록 폼 -->
+													<div class="review-form">
+														<div class="row1">
+															<label for="star">별점:</label> <select id="star">
+																<option value="0">별점</option>
+																<option value="5">★★★★★</option>
+																<option value="4">★★★★☆</option>
+																<option value="3">★★★☆☆</option>
+																<option value="2">★★☆☆☆</option>
+																<option value="1">★☆☆☆☆</option>
+															</select>
+														</div>
+
+														<div class="row1">
+															<label for="reviewText">리뷰:</label>
+															<textarea id="reviewText" rows="2" cols="30"></textarea>
+															<input id="addBtn" type="submit" value="등록">
+														</div>
 													</div>
-													<textarea name="" id="" cols="70" rows="2"></textarea>
-
-													<a href="#" class="button">리뷰등록</a>
 												</div>
-
-												<table class="table">
-													<tr>
-														<th>평점</th>
-														<th>내용</th>
-														<th>아이디</th>
-														<th>수정</th>
-													</tr>
-													<tr>
-														<td>
-
-															<p>(2023-02-05)</p>
-														</td>
-														<td>재미있었습니다.</td>
-														<td>아이디</td>
-														<td><button>수정</button>
-															<button>삭제</button></td>
-													</tr>
-
-												</table>
 											</div>
 										</div>
 									</div>
 									<!-- 세번째 탭 -->
 									<div class="tab-pane" id="tabs-7" role="tabpanel">
 										<div class="product__details__tab__content">
-											<p class="note">문의는 아래 사항으로 연락 바랍니다.</p>
-											<div class="product__details__tab__content__item">
+											<!-- 	<p class="note">문의는 아래 사항으로 연락 바랍니다.</p> -->
+											<div class="product__details__tab__content__item"
+												style="margin: 40px;">
 												<h5>판매자 정보</h5>
-												<p>판매자: 000</p>
-												<p>전화번호: 054-4545-8584</p>
-												<p>주 소: 경기도 ~</p>
-											</div>
-											<div class="product__details__tab__content__item">
-												<h5>Material used</h5>
-												<p>Po.</p>
+												<table class="table seller">
+													<tr>
+														<td>판 매 자</td>
+														<td><span th:text="|${mk.name} (아이디:${mk.id})|"></span></td>
+													</tr>
+													<tr>
+														<td>전화번호</td>
+														<td><span th:text="|${mk.mbl}|"></span></td>
+													</tr>
+													<tr>
+														<td>이 메 일</td>
+														<td><span th:text="|${mk.email}|"></span></td>
+													</tr>
+													<tr>
+														<td>주 소</td>
+														<td><span
+															th:text="|${mk.memAdr}, ${mk.memAdrdeta} (우:${mk.zip})|"></span>
+														</td>
+													</tr>
+												</table>
 											</div>
 										</div>
 									</div>
@@ -184,24 +213,263 @@
 							</div>
 						</div>
 					</div>
-					<br> <br> <br> <br>
+					<hr>
+					<th:block th:if="${session.mem}!=null">
+						<div class="product__details__cart__option"
+							style="text-align: center"
+							th:if="${session.mem.memNo} == ${mk.memNo}">
+							<a th:href="@{update/updateMk(boardNo=${mk.boardNo})}"
+								class="primary-btn">글 수정</a> <a
+								th:href="@{deleteMk(boardNo=${mk.boardNo})}" class="primary-btn"
+								id="deleteButton">글 삭제</a>
+						</div>
+					</th:block>
 				</div>
 			</div>
 		</section>
-		<!-- Shop Details Section End -->
-		<script>
+		<!-- dataTable -->
+		<script
+			src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+
+		<script th:inline="javascript">
 			//천단위 콤마찍기 함수
 			function number_format(num) {
 				return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 			}
 			//토탈금액 함수
+			const getNum = Number($('#getNum').val());
+			const onePay = Number($('#onePay').text());
+			const total = getNum * onePay
+			$('#payResult').text(number_format(total));
+			
 			function getPay() {
-				let num = Number($('#getNum').val());
-				let pay = Number($('#onePay').text());
-				let total = num * pay
+				$('#payResult').text('');
+				let getNum = Number($('#getNum').val());
+				let onePay = Number($('#onePay').text());
+				let total = getNum * onePay
+				$('#payResult').text(total);
+				console.log(total);				
 				total = number_format(total);
 				$('#payResult').text(total);
+			}						
+			
+
+			//삭제 팝업 이벤트
+			function delPopUp(event) {
+				var confirmDelete = confirm("글을 삭제하시겠습니까?");
+
+				// 사용자가 "확인" 버튼을 눌렀을 때만 삭제 링크로 이동합니다.
+				if (!confirmDelete) {
+					event.preventDefault(); // 이벤트의 기본 동작을 막아서 링크로 이동하지 않게 합니다.
+					console.log("삭제 취소");
+				} else {
+					console.log("삭제 완료");
+				}
 			}
+
+			//글삭제
+			$('#deleteButton').on('click', delPopUp);
+
+			
+			
+			// 데이터테이블 - 한글 설정
+			var lang_kor = {
+			  "decimal": "",
+			  "emptyTable": "데이터가 없습니다.",
+			  "info": "_START_ - _END_ (총 _TOTAL_ 개)",
+			  "infoEmpty": "0명",
+			  "infoFiltered": "(전체 _MAX_ 명 중 검색결과)",
+			  "infoPostFix": "",
+			  "thousands": ",",
+			  "lengthMenu": "_MENU_ 개씩 보기",
+			  "loadingRecords": "로딩중...",
+			  "processing": "처리중...",
+			  "search": "검색 : ",
+			  "zeroRecords": "검색된 데이터가 없습니다.",
+			  "paginate": {
+			    "first": "첫 페이지",
+			    "last": "마지막 페이지",
+			    "next": "다음",
+			    "previous": "이전"
+			  },
+			  "aria": {
+			    "sortAscending": " :  오름차순 정렬",
+			    "sortDescending": " :  내림차순 정렬"
+			  }
+			};
+			
+			///// 리뷰 기능		
+			/*<![CDATA[*/
+			let boardNo = /*[[${mk.boardNo}]]*/ ;
+			console.log('보드넘버'+boardNo);
+			/*]]>*/
+
+			//리뷰 조회 기능
+			$(document).ready(function () {
+			  reviewAjax();
+			});
+
+			function reviewAjax() {
+			  $('#reviewTable>tbody').children().remove();
+			  $.ajax({
+			    url: 'mk/review',
+			    method: 'GET',
+			    data: {
+			      boardNo
+			    },
+			    dataType: 'json',
+			    success: function (list) {
+			      printReview(list);
+			    },
+			    error: function (error) {
+			      console.error(error);
+			    }
+			  });
+			}
+
+			//dataTable 만들기
+			function printReview(list) {
+			  let data = list;
+			  $('#reviewTable').DataTable({
+			    destroy: true,
+			    language: lang_kor,
+			    searching: false, //검색란 표시 설정
+			    data: data,
+			    columns: [{
+			        data: 'num',
+			        width: '10%',
+			        orderable: true,
+			        render: function (data, type, row, meta) {
+			          // meta.row는 0부터 시작하는 행의 인덱스입니다.
+			          // 순번은 1부터 시작해야 하므로 meta.row + 1을 반환합니다.
+			          return meta.row + 1;
+			        }
+			      },
+			      {
+			        data: null,
+			        width: '10%',
+			        render: function (data, type, row) {
+			          return makeStars(row.rate) + '<br>' + formatDate(row.wrtDate);
+			        }
+			      },
+			      {
+			        data: 'revNo', //리뷰넘버(안보이게)
+			        width: '0%',
+			        orderable: false, // 정렬 기능 비활성화
+			        render: function (data, type, row) {
+			          return '<h6 style="display:none;">' + data + '</h6>';
+			        }
+			      },
+			      {
+			        data: 'revDesct'
+			      },
+			      {
+			        data: 'nick',
+			        width: '10%'
+			      },
+			      {
+			        data: 'button',
+			        width: '10%',
+			        render: function (data, type, row) {
+			          return '<button class="revDel form-control">삭제</button>';
+			        }
+			      }
+			    ],
+			    autoWidth: false, // autoWidth 옵션 비활성화
+			    order: [0, 'desc'] //
+			  });
+
+			} //데이터테이블 종료
+
+
+			//리뷰-별찍기 함수
+			function makeStars(num) {
+			  let stars = '';
+			  for (let i = 0; i < num; i++) {
+			    stars += '★';
+			  }
+			  for (let j = num; j < 5; j++) {
+			    stars += '☆';
+			  }
+			  return stars;
+			}
+
+			//리뷰-날짜포맷변경 
+			function formatDate(dateString) {
+			  const date = new Date(dateString);
+			  const year = date.getFullYear();
+			  const month = String(date.getMonth() + 1).padStart(2, '0');
+			  const day = String(date.getDate()).padStart(2, '0');
+			  return `(${year}/${month}/${day})`;
+			}
+			
+			//리뷰 등록 기능	
+			$('#addBtn').on('click', function () {
+			  /*<![CDATA[*/
+			  let mem = /*[[${session.mem}]]*/ ;
+			  /*]]>*/
+			  if (mem == null) {
+			    return alert('로그인 필요')
+			  } else if ($('#star').val() == '0') {
+			    return alert('별점을 선택하세요')
+			  } else if ($('#reviewText').val() == '') {
+			    return alert('리뷰를 입력하세요')
+			  } else {
+			    let star = $('#star').val();
+			    let text = $('#reviewText').val();
+			    let day = new Date();
+			    $.ajax({
+			      url: 'mk/review',
+			      method: 'POST',
+			      data: {
+			        memNo: mem.memNo,
+			        rate: star,
+			        revDesct: text,
+			        boardNo: boardNo
+			      },
+			      dataType: 'json',
+			      success: function (result) {
+			        console.log(result);
+			        reviewAjax();
+			        $('#reviewText').val('');
+			      },
+			      error: function (error) {
+			        console.log(error);
+			      }
+			    });
+			  }
+			})
+
+			//리뷰 삭제 기능	
+			$('#reviewTable').on('click', '.revDel', function () {
+			  var confirmDelete = confirm("리뷰를 삭제하시겠습니까?");
+
+			  if (confirmDelete) {
+				  
+			    let rowData = $('#reviewTable').DataTable().row($(this).closest('tr'));
+			    let revNo = rowData.data().revNo;
+			    console.log("리뷰 삭제 번호:", revNo);
+
+			    $.ajax({
+			      url: 'mk/revDel',
+			      method: 'GET',
+			      data: {
+			        revNo: revNo
+			      },
+			      success: function (result) {
+			        console.log("리뷰 삭제 결과:", result);
+			        rowData.remove().draw();
+			        alert('리뷰 삭제 완료');
+			      },
+			      error: function (error) {
+			        console.log("리뷰 삭제 오류:", error);
+			      }
+			    });
+			  } else {
+			    console.log("삭제 취소");
+			  }
+			});
+
 		</script>
 	</div>
 </body>

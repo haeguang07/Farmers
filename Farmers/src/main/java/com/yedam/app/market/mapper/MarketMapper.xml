@@ -8,7 +8,8 @@
 		select b.*
 		from (select rownum rn, a.*
 		from (select * from market
-		<if test="mktCtg != null and !mktCtg.equals('') and !mktCtg.equals('전체')">
+		<if
+			test="mktCtg != null and !mktCtg.equals('') and !mktCtg.equals('전체')">
 			where mkt_ctg=#{mktCtg}
 		</if>
 		) a
@@ -35,11 +36,17 @@
 			where mkt_ctg=#{mktCtg}
 		</if>
 	</select>
+	
 	<select id="getMarketInfo" resultType="MarketVO">
-		select * from market
-		where
-		board_no = #{boardNo}
+		select *
+		from market f join
+		(select mem_no, name, id, email, zip, nick,
+                    addr as mem_adr, deta_addr as mem_adrDeta, mbl
+             from member natural join member_detail) m
+		on f.mem_no = m.mem_no
+		where board_no= #{boardNo}
 	</select>
+	
 	<insert id="insertMk">
 		<selectKey keyProperty="boardNo" resultType="String"
 			order="BEFORE">
@@ -47,23 +54,49 @@
 			from dual
 		</selectKey>
 		insert into market(
-				board_no,
-				MEM_NO,
-				MKT_CTG,
-				TITLE,
-				PRICE,
-				QTY,
-				REP,
-				DETA_DESCT)
+		board_no,
+		MEM_NO,
+		MKT_CTG,
+		TITLE,
+		PRICE,
+		QTY,
+		REP,
+		DETA_DESCT)
 		values(#{boardNo},
-				#{memNo},
-				#{mktCtg},
-				#{title},
-				#{price},
-				#{qty},
-				#{rep},
-				#{detaDesct}
-				)
+		#{memNo},
+		#{mktCtg},
+		#{title},
+		#{price},
+		#{qty},
+		#{rep},
+		#{detaDesct}
+		)
 	</insert>
+	<update id="updateMk" parameterType="MarketVO">
+		UPDATE market
+		<set>
+			TITLE=#{title}
+			,price=#{price}
+			<if test="rep != null and !rep.equals('')">
+				,rep=#{rep}
+			</if>
+			<if test="mktCtg != null and !mktCtg.equals('')">
+				,MKT_CTG=#{mktCtg}
+			</if>
+			<if test="title != null and !title.equals('')">
+				,QTY=#{qty}
+			</if>
+			<if test="detaDesct != null and !detaDesct.equals('')">
+				,DETA_DESCT=#{detaDesct}
+			</if>
+		</set>
+		WHERE board_no = #{boardNo}
+	</update>
+
+	<delete id="deleteMk" parameterType="String">
+		delete from market
+		where
+		board_no= #{boardNo}
+	</delete>
 </mapper>
 

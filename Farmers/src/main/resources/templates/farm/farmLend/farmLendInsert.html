@@ -19,35 +19,35 @@
     cursor: pointer;
 }
 .arrow_box {
-  display: none;
-  position: absolute;
-  width: 270px;
-  padding: 8px;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;  
-  border-radius: 8px;
-  background: rgb(255, 255, 255);
-  color: #fff;
-  font-size: 14px;
+	display: none;
+	position: absolute;
+	width: 270px;
+	padding: 8px;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;  
+	border-radius: 8px;
+	background: rgb(255, 255, 255);
+	color: #fff;
+	font-size: 14px;
 }
 
 .arrow_box:after {
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  margin-left: -10px;
-  border: solid transparent;
-  border-color: rgba(51, 51, 51, 0);
-  border-bottom-color: rgb(255, 255, 255);
-  border-width: 10px;
-  pointer-events: none;
-  content: " ";
+	position: absolute;
+	bottom: 100%;
+	left: 50%;
+	width: 0;
+	height: 0;
+	margin-left: -10px;
+	border: solid transparent;
+	border-color: rgba(51, 51, 51, 0);
+	border-bottom-color: rgb(255, 255, 255);
+	border-width: 10px;
+	pointer-events: none;
+	content: " ";
 }
 
 #explain:hover + p.arrow_box {
-  display: block;
+	display: block;
 }
 </style>
 </head>
@@ -90,17 +90,17 @@
 								<div class="checkout__input">
 									<p>주요 재배 작물</p>
 									<div class="row">
-										<select class="form-select form-group ml-3 mr-2" id="first" name="mcrp">
+										<select class="form-select form-group ml-3 mr-2" id="first" name="mcrpList">
 											<option selected disabled value="">작물 선택</option>
 											<option th:each="cd : ${mcrp}" th:text="${cd.codeDesct}" 
 												th:value="${cd.cmmnDetaCode}"></option>
 										</select>
-										<select class="form-select form-group mr-2" id="second" name="mcrp">
+										<select class="form-select form-group mr-2" id="second" name="mcrpList">
 											<option selected disabled value="">작물 선택</option>
 											<option th:each="cd : ${mcrp}" th:text="${cd.codeDesct}" 
 												th:value="${cd.cmmnDetaCode}"></option>
 										</select>
-										<select class="form-select form-group" id="third" name="mcrp">
+										<select class="form-select form-group" id="third" name="mcrpList">
 											<option selected disabled value="">작물 선택</option>
 											<option th:each="cd : ${mcrp}" th:text="${cd.codeDesct}" 
 												th:value="${cd.cmmnDetaCode}"></option>
