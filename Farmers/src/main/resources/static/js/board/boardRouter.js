@@ -20,6 +20,10 @@ const routes = [{
   component: Vue.defineAsyncComponent(() => loadModule('../Vue/board/main/notice/noticeInfo.vue', options)),
   name : 'noticeInfo',
   props : true
+},
+{
+  path: '/addNotice',
+  component: Vue.defineAsyncComponent(() => loadModule('../Vue/board/main/notice/addNotice.vue', options))
 }
 ]
 
