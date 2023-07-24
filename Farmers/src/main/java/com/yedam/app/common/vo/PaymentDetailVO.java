@@ -23,6 +23,7 @@ public class PaymentDetailVO {
 	
 	//payTable
 	private Date payDate;
+	private String payCode;
 	
 	//가공 데이터
 	private int totalPrice;
