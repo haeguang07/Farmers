@@ -189,8 +189,8 @@
 					$.ajax({
 						url : "https://api.tosspayments.com/v1/payments/"+/*[[${payInfo.payCode}]]*/+"/cancel",
 						beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization","Basic dGVzdF9za196WExrS0V5cE5BcldtbzUwblgzbG1lYXhZRzVSOg== ");
-        },
+				            xhr.setRequestHeader("Authorization","Basic dGVzdF9za196WExrS0V5cE5BcldtbzUwblgzbG1lYXhZRzVSOg== ");
+				        },
 						ContentType: 'application/json',
 						data : {
 							"cancleReason" : "취소"

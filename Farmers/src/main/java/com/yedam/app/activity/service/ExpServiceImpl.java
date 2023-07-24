@@ -29,21 +29,26 @@ public class ExpServiceImpl implements ExpService {
 		int result = expMapper.insertExp(expVO);
 		
 		if(result == 1) {
-			return Integer.parseInt(expVO.getFrexNo());
+			return Integer.parseInt(expVO.getBoardNo());
 		} else {
 			return -1;
 		}
 	}
 
 	@Override
-	public int deleteExpInfo(String frexNo) {
-		int result = expMapper.deleteExp(frexNo);
+	public int deleteExpInfo(String boardNo) {
+		int result = expMapper.deleteExp(boardNo);
 		
 		if(result == 1) {
-			return Integer.parseInt(frexNo);
+			return Integer.parseInt(boardNo);
 		} else {
 			return -1;
 		}
 	}
 
+	@Override
+	public int getCount() {
+		return expMapper.getCount();
+	}
+	
 }

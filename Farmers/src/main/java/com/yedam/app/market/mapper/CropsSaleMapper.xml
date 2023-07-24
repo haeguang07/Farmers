@@ -8,9 +8,11 @@
 	<select id="selectCropsSaleListPage" resultType="CropsSaleVO">
 		select b.*
 		from (select ROWNUM rn, a.*
-			  from (select c.board_no, c.mem_no, c.title, c.crp_ctg, c.price, c.qty, c.rep, c.reg_date, c.reg_stts, r.rev_no, r.rate
-			  		from crops_sale c left join review r
-			  		on c.mem_no = r.mem_no
+			  from (select c.board_no, c.mem_no, c.title, c.crp_ctg, c.price, c.qty, c.rep, c.reg_date, c.reg_stts, nvl(r.rate_avg, 0) as rate_avg
+			  		from crops_sale c left join (select nvl(round(avg(rate), 1), 0) as rate_avg, board_no
+			  									 from review
+			  									 group by board_no) r
+					on c.board_no = r.board_no
 			  		<where>
 			  			c.reg_stts = 'e1'
 			  			<if test="category != null and !category.equals('') and !category.equals('전체')">
@@ -30,8 +32,11 @@
 			  			<when test="order.equals('가격낮은순')">
 			  				order by c.price asc
 			  			</when>
-			  			<when test="order.equals('별점순')">
-			  				order by r.rate desc
+			  			<when test="order.equals('별점높은순')">
+			  				order by rate_avg desc
+			  			</when>
+			  			<when test="order.equals('별점낮은순')">
+			  				order by rate_avg asc
 			  			</when>
 			  		</choose>
 			  	   ) a

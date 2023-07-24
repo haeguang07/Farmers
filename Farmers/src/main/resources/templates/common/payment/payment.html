@@ -308,16 +308,28 @@
                         //결제 방법, 코드, 총액은 결제 완료 후 객체에 입력
                     }
                     
+                    //json 을 다시 변환시킬때 ''을 인식할 수 없어서 오류가 뜸
+                    // 그래서 null 변수를 선언 후 '' 일 경우에 null값으로 보냄
+                    let vStrDate = null;
+                    let vEndDate = null;
                     //payment_datail 테이블 입력 데이터
                     let payDatailData = [] ;
                     $('.cartItem').each(function(idx, item){
+                        if(! $(item).find('#rsvStrDate').text() == ''){
+                            vStrDate = $(item).find('#rsvStrDate').text()
+                        }
+                        if(! $(item).find('#rsvEndDate').text() == ''){
+                            vEndDate = $(item).find('#rsvEndDate').text()
+                        }
+
+
                         let detailObj= {
                             boardNo : $(item).attr('data-no'),
                             qty : $(item).find('#qty').text(),
                             price : $(item).find('#productPrice').attr('data-price'),
                             boardCtg : $(item).attr('data-ctg'),
-                            rsvStrDate : $(item).find('#rsvStrDate').text(),
-                            rsvEndDate : $(item).find('#rsvEndDate').text()
+                            rsvStrDate : vStrDate,
+                            rsvEndDate : vEndDate
                         }
                         payDatailData.push(detailObj)
                     })

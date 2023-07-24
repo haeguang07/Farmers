@@ -238,15 +238,20 @@
 	<!-- 신청자 리스트 -->
 	<select id="myFarmLendPeoList" resultType="FarmLendApplyVO">
 		SELECT *
-		FROM (SELECT
-		fa.APL_NO, fa.MEM_NO, fa.APL_STTS, fa.RSV_STR_DATE,
-		fa.RSV_END_DATE, fa.FRLD_LEND_NO, fa.ATCH_NO, fa.LEND_TOTAL,
-		fa.APL_DATE, (ceil(fa.RSV_END_DATE - fa.RSV_STR_DATE)* f.lend_price) as allPrice
-		FROM farm_lend_apply fa JOIN farm_lend f ON (frld_lend_no =board_no))
+		FROM (SELECT fa.APL_NO, 
+		             fa.MEM_NO,    
+		             fa.APL_STTS, 
+		             fa.RSV_STR_DATE,
+		             fa.RSV_END_DATE, 
+		             fa.board_NO, 
+		             fa.ATCH_NO, 
+		             fa.LEND_TOTAL,
+		             fa.APL_DATE, 
+		             (ceil(fa.RSV_END_DATE - fa.RSV_STR_DATE)* f.lend_price) as allPrice
+				FROM farm_lend_apply fa JOIN farm_lend f ON (fa.board_no = f.board_no))
 		JOIN member_detail USING (mem_no)
-		WHERE FRLD_LEND_NO = #{boardNo}
-		ORDER
-		BY 1 DESC
+		WHERE board_no = #{boardNo}
+		ORDER BY 1 DESC
 	</select>
 
 	<!-- 농지대여 나의 신청 상세정보 -->

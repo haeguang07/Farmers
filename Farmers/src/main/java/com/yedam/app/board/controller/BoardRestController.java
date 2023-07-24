@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -48,6 +49,20 @@ public class BoardRestController {
 		List<BoardVO> list = boardService.getBoardInfo(vo);
 		
 		map.put("boardInfo", list);
+		
+		return map;
+	}
+	
+	// 게시판 등록
+	@PostMapping("addNotice")
+	public Map<String, Object> addNotice(BoardVO vo){
+		Map<String, Object> map = new HashMap<>();
+		
+		if(boardService.addNotice(vo)) {
+			map.put("retCode", "Success");
+		}else {
+			map.put("retCode", "Fail");
+		}
 		
 		return map;
 	}

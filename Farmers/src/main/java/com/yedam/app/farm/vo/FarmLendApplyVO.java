@@ -20,8 +20,8 @@ public class FarmLendApplyVO {
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	@JsonFormat(pattern ="yyyy-MM-dd")
 	private Date rsvEndDate;
-	private String frldLendNo;
-	private String archNo;
+	private String boardNo;
+	private String atchNo;
 	private int lendTotal;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	@JsonFormat(pattern ="yyyy-MM-dd")

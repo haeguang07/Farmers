@@ -17,4 +17,6 @@ public interface FarmLendService {
 	public int deleteFarmLendInfo(String boardNo);
 	// 게시글 수
 	public int getCount(String dst1, String dst2, String mcrp, String price, String area);
+	// 농지 대여 신청(등록)
+	public int insertFarmLendApply(String memNo);
 }

@@ -6,34 +6,38 @@
 	
 	<!-- 전체조회 -->
 	<select id="selectExpList" resultType="ExpVO">
-		select frex_no, frex_title, zip, addr, dst1, dst2, ppt_per, ex_str_date, ex_end_date, reg_date, reg_stts
+		select board_no, title, zip, addr, dst1, dst2, ppt_per, ex_str_date, ex_end_date, reg_date, reg_stts, lati, longi, deta_addr
 		from experience
+		where reg_stts = 'e1'
 		order by reg_date
 	</select>
 	
 	<!-- 단건조회 -->
 	<select id="selectExpInfo" resultType="ExpVO">
-		select frex_no, mem_no, frex_title, rep, deta_desct, zip, addr, dst1, dst2, ppt_per, ex_str_date, ex_end_date, reg_date, reg_stts, lagt
+		select board_no, mem_no, title, rep, deta_desct, zip, addr, dst1, dst2, ppt_per, ex_str_date, ex_end_date, reg_date, reg_stts, lati, longi, deta_addr
 		from experience
-		where frex_no = #{frexNo}
+		where board_no = #{boardNo}
 	</select>
 	
 	<!-- 등록 -->
 	<insert id="insertExp" parameterType="ExpVO">
-		<selectKey keyProperty="frexNo" resultType="String" order="BEFORE">
+		<selectKey keyProperty="boardNo" resultType="String" order="BEFORE">
 			select 'EXP' || LPAD(frex_seq.nextval, 6, '0')
 			from dual
 		</selectKey>
-		insert into experience(frex_no, frex_title, rep, deta_desct, zip, addr, dst1, dst2, ppt_per, ex_str_date, ex_end_date, reg_date, lagt)
-		values(#{frexNO}, #{frexTitle}, #{rep}, #{detaDesct}, #{zip}, #{addr}, #{dst1}, #{dst2}, #{pptPer}, #{exStrDate}, #{exEndDate}, sysdate, #{lagt})
+		insert into experience(board_no, mem_no, title, rep, deta_desct, zip, addr, dst1, dst2, ppt_per, ex_str_date, ex_end_date, reg_date, lati, longi, deta_addr)
+		values(#{boardNo}, #{memNo}, #{title}, #{rep}, #{detaDesct}, #{zip}, #{addr}, #{dst1}, #{dst2}, #{pptPer}, #{exStrDate}, #{exEndDate}, sysdate, #{lati}, #{longi}, #{detaAddr})
 	</insert>
 	
 	<!-- 삭제 -->
 	<delete id="deleteExp" parameterType="ExpVO">
 		delete from experience
-		where frex_no = #{frexNo}
+		where board_no = #{boardNo}
 	</delete>
 	
 	<!-- 게시글 수 카운팅 -->
-	
+	<select id="getCount" resultType="int">
+		select count(*) from experience
+		where reg_stts = 'e1'
+	</select>
 </mapper>
