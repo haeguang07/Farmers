@@ -37,7 +37,8 @@ export default {
 						  },
               {data : 'title',
                 render: function (data, type, row) {
-                  return `<a href="noticeInfo" class="title-link" data-boardNo="${row.boardNo}">${data}</a>`;}
+                  return `<a href="noticeInfo" class="title-link" data-boardNo="${row.boardNo}">${data}</a>`;
+                }
               },
               {data : 'nick'},
               {data : 'wrtDate'},
@@ -90,6 +91,7 @@ export default {
     methods: {
       handleTitleLinkClick(event) {
       event.preventDefault();
+      console.log(event);
       let boardNo = $(event.target).attr('data-boardNo');
       console.log(boardNo);
       this.$router.push({ name: 'noticeInfo', params: { boardNo: boardNo } });
@@ -126,6 +128,7 @@ export default {
           </tbody> -->
         </table>
         <hr>
+        <button type="button">등록</button>
       </div>
     </div>
   </div>
@@ -136,7 +139,7 @@ export default {
     font-weight: bold;
   }
   .center {
-    text-align: center;
+    text-align: center !important;
   }
   #myTable {
     width: 100%

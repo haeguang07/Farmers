@@ -23,6 +23,11 @@ public class BoardServiceImpl implements BoardService {
 	public List<BoardVO> getBoardInfo(BoardVO vo) {
 		return boardMapper.getBoardInfo(vo);
 	}
+	
+	@Override
+	public boolean addNotice(BoardVO vo) {
+		return boardMapper.addNotice(vo) > 0;
+	}
 
 	
 }

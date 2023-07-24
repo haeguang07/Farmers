@@ -96,6 +96,11 @@
           return {
             mem: /*[[${session.mem}]]*/
           }
+        },
+        getters: {
+        	getMemNo(state){
+        		return state.mem.memNo;
+        	}
         }
       })
 
