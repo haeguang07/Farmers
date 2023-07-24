@@ -12,5 +12,7 @@ public interface ExpService {
 	// 등록
 	public int insertExpInfo(ExpVO expVO);
 	// 삭제
-	public int deleteExpInfo(String frexNo);
+	public int deleteExpInfo(String boardNo);
+	// 게시글 수
+	public int getCount();
 }

@@ -18,7 +18,6 @@ import com.yedam.app.farm.service.FarmLendService;
 import com.yedam.app.farm.vo.FarmLendVO;
 import com.yedam.app.market.vo.PageVO;
 import com.yedam.app.user.service.AttachService;
-import com.yedam.app.user.vo.AttachVO;
 
 @Controller
 public class FarmLendController {
@@ -70,7 +69,7 @@ public class FarmLendController {
 	@GetMapping("farmLendInfo")
 	public String getFarmLendInfo(FarmLendVO flVO, Model model) {
 		FarmLendVO info = flService.getFarmLendInfo(flVO);
-		System.out.println(info);
+//		System.out.println(info);
 		model.addAttribute("flInfo", info);
 		return "farm/farmLend/farmLendInfo";
 	}
@@ -96,7 +95,7 @@ public class FarmLendController {
 	@GetMapping("farmLendUpdate")
 	public String updateFarmLendForm(FarmLendVO flVO, Model model) {
 		FarmLendVO find = flService.getFarmLendInfo(flVO);
-		System.out.println(find);
+//		System.out.println(find);
 		model.addAttribute("flInfo", find);
 //		model.addAttribute("attach", attachService.getAttachList(boardNo));
 		return "farm/farmLend/farmLendUpdate";
@@ -138,7 +137,7 @@ public class FarmLendController {
 	@PostMapping("farmLendApply")
 	@ResponseBody
 	public String FarmLendApply(String memNo, Model model) {
-		
+		flService.insertFarmLendApply(memNo);
 		return "success";
 	}
 }
