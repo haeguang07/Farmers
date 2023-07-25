@@ -4,15 +4,15 @@ const routes = [{
 },
 {
   path: '/community',
-  component: Vue.defineAsyncComponent(() => loadModule('../Vue/board/main/notice/community.vue', options))
+  component: Vue.defineAsyncComponent(() => loadModule('../Vue/board/main/community/community.vue', options))
 },
 {
   path: '/event',
-  component: Vue.defineAsyncComponent(() => loadModule('../Vue/board/main/notice/event.vue', options))
+  component: Vue.defineAsyncComponent(() => loadModule('../Vue/board/main/event/event.vue', options))
 },
 {
   path: '/event/:boardNo',
-  component: Vue.defineAsyncComponent(() => loadModule('../Vue/board/main/notice/eventInfo.vue', options))
+  component: Vue.defineAsyncComponent(() => loadModule('../Vue/board/main/event/eventInfo.vue', options))
 }
 ,
 {
