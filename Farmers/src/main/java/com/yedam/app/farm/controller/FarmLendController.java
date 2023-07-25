@@ -93,17 +93,16 @@ public class FarmLendController {
 	@GetMapping("farmLendUpdate")
 	public String updateFarmLendForm(FarmLendVO flVO, Model model) {
 		FarmLendVO find = flService.getFarmLendInfo(flVO);
-		System.out.println(find);
 		model.addAttribute("flInfo", find);
 		model.addAttribute("mcrp", codeService.getCodeList("1E"));
-//		model.addAttribute("attach", attachService.getAttachList(boardNo));
+//		model.addAttribute("attach", attachService.getAttachList());
 		return "farm/farmLend/farmLendUpdate";
 	}
 	
 	// 수정 기능
 	@PostMapping("farmLendUpdate")
 	@ResponseBody
-	public Map<String, Object> updateFarmLend(FarmLendVO flVO) {
+	public Map<String, Object> updateFarmLend(@RequestBody FarmLendVO flVO) {
 		boolean result = false;
 		String frldNo = flService.updateFarmLendInfo(flVO);
 		if(frldNo != null) {

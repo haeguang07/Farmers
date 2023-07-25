@@ -13,7 +13,7 @@ public class ExpVO {
 	private String title;
 	private String rep;
 	private String detaDesct;
-	private int zip;
+	private String zip;
 	private String addr;
 	private String dst1;
 	private String dst2;

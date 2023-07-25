@@ -15,8 +15,8 @@ public class ExpServiceImpl implements ExpService {
 	ExpMapper expMapper;
 
 	@Override
-	public List<ExpVO> getExpList() {
-		return expMapper.selectExpList();
+	public List<ExpVO> getExpListPage(int page, String expStart, String dst1, String dst2) {
+		return expMapper.selectExpListPage(page, expStart, dst1, dst2);
 	}
 
 	@Override
@@ -25,14 +25,8 @@ public class ExpServiceImpl implements ExpService {
 	}
 
 	@Override
-	public int insertExpInfo(ExpVO expVO) {
-		int result = expMapper.insertExp(expVO);
-		
-		if(result == 1) {
-			return Integer.parseInt(expVO.getBoardNo());
-		} else {
-			return -1;
-		}
+	public boolean insertExpInfo(ExpVO expVO) {
+		return expMapper.insertExp(expVO) > 0;
 	}
 
 	@Override
@@ -47,8 +41,8 @@ public class ExpServiceImpl implements ExpService {
 	}
 
 	@Override
-	public int getCount() {
-		return expMapper.getCount();
+	public int getCount(String expStart, String dst1, String dst2) {
+		return expMapper.getCount(expStart, dst1, dst2);
 	}
 	
 }
