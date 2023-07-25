@@ -29,4 +29,7 @@ public interface FundingMapper {
 	
 	//펀딩 실패 시 환불 정보
 	public List<PaymentDetailVO> fundingRefundList();
+	
+	//펀딩 환불 처리 시 상태 변경
+	public int updateRefundStts(String payDetaNo);
 }

@@ -88,11 +88,17 @@
 		<!-- Shop Section End -->
 
 		<script>
+			//팝업창 닫기 함수
+			function closePopUp(){
+				var magnificPopup = $.magnificPopup.instance; 
+				magnificPopup.close(); 
+			}
+
 			// dataTables
 			$(function () {
 				$('#myTable').DataTable({
 					language: lang_kor,
-					order: [ [ 0, "desc" ] ] 
+					order: [ [ 3, "desc" ] ] 
 				});
 			})
 

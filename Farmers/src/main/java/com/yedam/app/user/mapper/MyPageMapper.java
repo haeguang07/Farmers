@@ -115,5 +115,11 @@ public interface MyPageMapper {
 	
 	//나의 게시글 리스트
 	public List<BoardVO> myBoardList (String memNo);
+	
+	//나의 판매상품의 결제 리스트
+	public List<PaymentDetailVO> mySalesPayList(String memNo);
+	
+	//나의 판매상품의 결제 정보
+	public PaymentDetailVO mySalesPayInfo (String payDetaNo);
 
 }

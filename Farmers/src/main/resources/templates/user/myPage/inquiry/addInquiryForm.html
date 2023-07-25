@@ -113,7 +113,7 @@
 	<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
 	<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
 
-	<script th:inline="javascript">
+	<script th:inline="javascript" language="javascript">
 		//ckEditor 생성
 		let editor;
 		ClassicEditor.create(document.querySelector('#editor'), {
@@ -144,7 +144,7 @@
 				formData.inqDesct = ckData.getData()
 				formData.memNo = /*[[${session.mem.memNo}]]*/
 
-				// //ajax 펀딩 등록
+				//ajax 문의 등록
 				$.ajax({
 						url: "/myPage/addInpuiry",
 						method: "POST",
@@ -153,17 +153,15 @@
 					.done(function (result) {
 						if(result){
 							alert('문의등록이 완료되었습니다')
-							console.log(parent)
+							//부모창의 팝업 닫기 함수를 호출
+							parent.closePopUp()
 						}else{
-							alert('문의등록에 실패하였습니다')
-							
+							alert('문의등록에 실패하였습니다')						
 						}
 					})
 					.fail(function (result) {
-						alert('문의등록에 실패하였습니다')
-						
+						alert('문의등록에 실패하였습니다')			
 					})
-
 			}
 		})
 	

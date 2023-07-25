@@ -1,13 +1,13 @@
 @charset "UTF-8";
 
 
-h3 {
+.alarmTitle {
 	text-align: center;
 	margin-top: 20px;
 	margin-bottom: 20px;
 }
 
-.modal {
+.alarm-modal {
 	display: none;
 	top: 0;
 	left: 0;
@@ -27,7 +27,7 @@ h3 {
 	top:5%;
 }
 
-.notification {
+.alarm-notification {
 	position: relative;
 	margin-bottom: 20px;
 	padding: 10px;
@@ -36,20 +36,20 @@ h3 {
 	border-radius: 5px;
 }
 
-.notification p {
+.alarm-notification p {
 	margin: 0;
 	font-size: 14px;
 	color: #333;
 	text-align: left;
 }
 
-.notification .time {
+.alarm-notification .time {
 	font-size: 12px;
 	color: #888;
 	text-align: right;
 }
 
-.close {
+.alarm-close {
 	position: absolute;
 	top: 5px;
 	right: 5px;

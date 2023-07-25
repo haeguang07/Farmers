@@ -1,6 +1,8 @@
 package com.yedam.app.user.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +28,11 @@ public class AdminServiceImpl implements AdminService{
 	}
 	@Override
 	public void modifyMemberStts(List<MemberVO> list) {
-		adminMapper.updateMember(list);
+		String test ="";
+		Map<String, Object> map = new HashMap<>();
+		map.put("test", "");
+		adminMapper.updateMember(list,map);
+		System.out.println(map);
 	}
 
 

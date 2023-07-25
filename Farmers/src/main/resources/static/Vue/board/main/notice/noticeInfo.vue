@@ -98,6 +98,9 @@ export default {
                                 </div>
                             </div>
                         </div>
+                        <div>
+                            <button type="button"><router-link tag="boardList" to="/">목록</router-link></button>
+                        </div>
                         <div class="blog__details__comment">
                             <h4>Leave A Comment</h4>
                             <form action="#">

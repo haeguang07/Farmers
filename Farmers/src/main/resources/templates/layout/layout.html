@@ -15,6 +15,11 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
 	rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Jua&family=Poor+Story&display=swap"
+	rel="stylesheet">
 
 <!-- Css Styles -->
 <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
@@ -39,18 +44,16 @@
 <script src="/js/mixitup.min.js"></script>
 <script src="/js/owl.carousel.min.js"></script>
 <script src="/js/json.min.js"></script>
+<script src="/js/main.js"></script>
 <style>
+.href {
+	font-weight: 900;
+	color: black;
+}
 </style>
 </head>
 
 <body>
-	<!-- Page Preloder -->
-	<!--  <div id="preloder">
-        <div class="loader"></div>
-    </div> -->
-
-
-
 	<!-- Header Section Begin -->
 	<header class="header">
 		<div class="header__top">
@@ -58,9 +61,11 @@
 				<div class="row">
 					<div class="col-lg-6 col-md-7">
 						<div class="header__top__left">
-						<p>🍀 <span sec:authorize="isAuthenticated()">				
-							<span th:text="${session.mem.nick}"></span>님
-							</span> 환영합니다	</p>
+							<p class="welcome">
+								👩‍🌾 <span sec:authorize="isAuthenticated()"> <span
+									th:text="${session.mem.nick}"></span>님
+								</span> 환영합니다
+							</p>
 						</div>
 					</div>
 					<div class="col-lg-6 col-md-5">
@@ -71,12 +76,16 @@
 									th:href="@{/logout}" sec:authorize="isAuthenticated()">로그아웃</a>
 							</div>
 							<div class="header__top__hover" sec:authorize="isAuthenticated()">
-								<span><a href="/myPage/myPage" style="color: white;">마이페이지 <i
-										class="arrow_carrot-down"></a></i></span>
+								<span><a href="/myPage/myPage" style="color: white;">마이페이지
+										<i class="arrow_carrot-down"></i>
+								</a></span>
 								<ul>
-									<li>나의 활동</li>
-									<li>구매 내역</li>
-									<li>문의 하기</li>
+									<li><a class="href" href="/myPage/myPage">회원정보</a></li>
+									<li><a class="href" href="/myPage/myFarmLendListForm">나의활동</a></li>
+									<li><a class="href" th:href="@{/myPage/alertList(memNo=${session.mem.memNo})}">나의알림</a></li>
+									<li><a class="href" th:href="@{/myPage/myPayList(memNo=${session.mem.memNo})}">구매내역</a></li>
+									<li><a class="href" th:href="@{/myPage/mySaleList(memNo=${session.mem.memNo})}">판매내역</a></li>
+									<li><a class="href" th:href="@{/myPage/myInquiry(memNo=${session.mem.memNo})}">문의하기</a></li>
 								</ul>
 							</div>
 						</div>
@@ -101,21 +110,19 @@
 									<li><a href="farmGuide">귀농귀촌 가이드</a></li>
 									<li><a href="farmEdu">지원사업/교육</a></li>
 									<li><a href="farmLendList">농지대여</a></li>
-									<li><a href="#">농기구 대여/판매</a></li>
-									<li><a href="skilled">금손 귀농인</a></li>
 								</ul></li>
 
 							<li><a href="bnbList">농촌체험</a>
 								<ul class="dropdown">
 									<li><a href="bnbList">농촌 비엔비</a></li>
 									<li><a href="expList">농촌 체험하기</a></li>
-									<li><a href="#">농촌 일자리</a></li>
+									<li><a href="skilled">금손 귀농인</a></li>
 								</ul></li>
 							<li><a href="marketList">농촌마켓</a>
 								<ul class="dropdown">
 									<li><a href="marketList">전원마켓</a></li>
 									<li><a href="cropsSaleList">농작물 판매</a></li>
-									<li><a href="fundingList">농작물 펀딩</a></li>
+									<li><a href="/fundingList">농작물 펀딩</a></li>
 									<li><a href="auctionList">경매장</a></li>
 								</ul></li>
 							<li><a href="#">게시판</a>
@@ -131,27 +138,26 @@
 					<div class="header__nav__option" style="padding-top: 50px;">
 						<div class="notification-box">
 
-
 							<!-- 알림 모달팝업창 -->
-							<div class="modal">
+							<div class="alarm-modal">
 								<div class="modal-content">
 									<div class="box">
-										<h3>알림</h3>
+										<h3 class="alarmTitle">알림</h3>
 
-										<div class="notification">
-											<span class="close">&times;</span>
+										<div class="alarm-notification">
+											<span class="alarm-close">&times;</span>
 											<p>새로운 메시지가 도착했습니다.</p>
 											<p class="time">2023-07-09 10:30 AM</p>
 										</div>
 
-										<div class="notification">
-											<span class="close">&times;</span>
+										<div class="alarm-notification">
+											<span class="alarm-close">&times;</span>
 											<p>친구 요청이 왔습니다.</p>
 											<p class="time">2023-07-09 09:15 AM</p>
 										</div>
 
-										<div class="notification">
-											<span class="close">&times;</span>
+										<div class="alarm-notification">
+											<span class="alarm-close">&times;</span>
 											<p>이벤트에 참여해주세요!</p>
 											<p class="time">2023-07-08 04:45 PM</p>
 										</div>
@@ -162,7 +168,7 @@
 							<span th:if="not ${#strings.isEmpty(session. mem)}"> <a
 								href="#"><img src="/img/icon/bell.png" width="19px"
 									id="bell" alt=""></a> <a
-								th:href="@{cart(memNo=${session.mem.memNo})}"> <img
+								th:href="@{/cart(memNo=${session.mem.memNo})}"> <img
 									src="/img/icon/cart.png" alt=""> <span>0</span>
 							</a>
 							</span>
@@ -180,22 +186,50 @@
 
 	<article layout:fragment="content"></article>
 
+
 	<!-- Footer Section Begin -->
 	<footer class="footer">
 		<div class="container">
-			<div class="row">
+			<div class="row" style="height:180px">
 				<div class="col-lg-4 col-md-6 col-sm-6">
 					<div class="footer__about">
-						<div class="footer__logo">
-							<a href="/"><img src="/img/logo.png" style="width: 2" alt=""></a>
+						<div class="footer__logo" style="margin-top:20px">
+							<a href="/"><img src="/img/logo.png" alt="메인로고"></a>
 						</div>
-
 					</div>
 				</div>
-				<div class="col-lg-4 offset-lg-1 col-md-3 col-sm-6">
-					<p>파머스 소개</p>
+				<div class="col-lg-2 col-md-3 col-sm-6">
 					<div class="footer__widget">
-						<p>팀원 역활</p>
+						<h6>BOARD</h6>
+						<ul>
+							<li><a href="#">Notice</a></li>
+							<li><a href="#">Commuity</a></li>
+							<li><a href="#">Event</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg-2 col-md-3 col-sm-6">
+					<div class="footer__widget">
+						<h6>SHOP</h6>
+						<ul>
+							<li><a href="#">JeonWon Market</a></li>
+							<li><a href="#">Funding</a></li>
+							<li><a href="#">Auction</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6 col-sm-6">
+					<div class="footer__widget">
+						<h6>ABOUT FARMERS</h6>
+						<div class="footer__newslatter">
+							<p>Contact Us</p>
+							<form action="#">
+								<input type="text" placeholder="Your email">
+								<button type="submit">
+									<span class="icon_mail_alt"></span>
+								</button>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -208,7 +242,7 @@
 							<script>
 								document.write(new Date().getFullYear());
 							</script>
-							All rights reserved | This template is made with <i
+							2020 All rights reserved | This template is made with <i
 								class="fa fa-heart-o" aria-hidden="true"></i> by <a
 								href="https://colorlib.com" target="_blank">Colorlib</a>
 						</p>
@@ -219,6 +253,11 @@
 		</div>
 	</footer>
 	<!-- Footer Section End -->
+
+
+
+
+
 
 	<script src="/js/main.js"></script>
 

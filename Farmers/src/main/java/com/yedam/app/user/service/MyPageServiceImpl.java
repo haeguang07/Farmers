@@ -189,6 +189,16 @@ public class MyPageServiceImpl implements MyPageService {
 		return myPageMapper.myBoardList(memNo);
 	}
 
+	@Override
+	public List<PaymentDetailVO> mySalesPayList(String memNo) {
+		return myPageMapper.mySalesPayList(memNo);
+	}
+
+	@Override
+	public PaymentDetailVO mySalesPayInfo(String payDetaNo) {
+		return myPageMapper.mySalesPayInfo(payDetaNo);
+	}
+
 
 
 
