@@ -55,7 +55,7 @@
 
 
 <script>
-
+import { TuiGrid } from "vue3-tui-grid";
 export default{
   data(){
     return{
@@ -149,9 +149,9 @@ methods:{
 	},
 	createList(){
 		const vue = this;
-		const Grid = tui.Grid;
-		Grid.applyTheme('default');
-		Grid.setLanguage('ko');
+		const Grid = TuiGrid;
+
+		
 		this.gridInstance = new Grid({
 			el: document.getElementById('memberTable'),
 			data: this.memberList,

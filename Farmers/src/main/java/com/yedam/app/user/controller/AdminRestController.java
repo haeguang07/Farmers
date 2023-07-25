@@ -48,6 +48,7 @@ public class AdminRestController {
 	}
 	@PutMapping("/admin/members/update")
 	public List<MemberVO> memberUpdate(@RequestBody List<MemberVO> list){
+		System.out.println(list);
 		adminService.modifyMemberStts(list);
 		SearchVO vo= new SearchVO();  
 		return (List<MemberVO>) memberList(vo).get("memberList");

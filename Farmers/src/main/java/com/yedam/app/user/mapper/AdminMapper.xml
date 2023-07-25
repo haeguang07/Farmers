@@ -56,7 +56,7 @@
 	<update id="updateMember" statementType="CALLABLE">
 		call update_mem_stts(
 			#{list, typeHandler=com.yedam.app.user.service.OracleArrayMemHandler}
-			)
+			, #{map.test,  mode=OUT , jdbcType=VARCHAR} )
 	
 	</update>
 	
