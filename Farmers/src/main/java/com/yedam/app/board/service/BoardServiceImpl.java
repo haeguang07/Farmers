@@ -15,8 +15,13 @@ public class BoardServiceImpl implements BoardService {
 	BoardMapper boardMapper;
 	
 	@Override
-	public List<BoardVO> boardList(String postCtg) {
-		return boardMapper.boardList(postCtg);
+	public List<BoardVO> boardList(String postCtg, int pageNum, String dst1, String dst2) {
+		return boardMapper.boardList(postCtg, pageNum, dst1, dst2);
+	}
+	
+	@Override
+	public int listCount(String postCtg) {
+		return boardMapper.listCount(postCtg);
 	}
 	
 	@Override
