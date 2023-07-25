@@ -147,8 +147,7 @@
 								</div>
 								<p style="line-height: 40px; text-align: right;">합계 : <span id="sumPrice" style="line-height: 40px;"></span></p>
 							</div>
-							<button type="button" class="btn btn-dark mr-2" id="addBtn">등록</button>
-							<button type="button" class="btn btn-dark mr-2">임시 저장</button>
+							<button type="button" class="btn btn-dark mr-2" id="saveBtn">저장</button>
 							<button type="button" class="btn btn-dark" id="cancel">취소</button>
 						</div>
 					</form>
@@ -241,6 +240,96 @@
 			function priceToString(price) {
 				return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 			}
+			
+			let uploadFiles = [];
+			
+			// 첨부파일 가져오기
+			$('#btnUpload').on('click', function(e) {
+				e.preventDefault();
+				$('#inputFile').click();
+			});
+			
+			// 첨부파일 업로드
+			$('#inputFile').on('change', function() {
+				var formData = new FormData(); //FormData 객체 생성
+
+				var inputFile = $("input[type='file']");
+				//input 태그의 type이 file인 것을 찾아서 inputFile 이라는 변수로 지정
+
+				var files = inputFile[0].files;
+				//files : 선택한 모든 파일을 나열하는 FileList 객체입니다
+				//multiple 특성을 지정하지 않았다면 두 개 이상의 파일을 포함하지 않습니다
+
+				for (var i = 0; i < files.length; i++) {
+					console.log(files[i]);
+					formData.append("uploadFiles", files[i]); //키, 값으로 append
+
+					$.ajax({
+						url: 'uploadsAjaxMulti',
+						type: 'POST',
+						processData: false, // 기본값은 true, ajax 통신을 통해 데이터를 전송할때, 기본적으로 key와 value 값을 Query String으로 변환해서 보내줌
+						contentType: false, // multipart/form-data 타입을 사용하기위해 false로 지정
+						data: formData,
+						success: function (result) {
+							uploadFiles = result;
+						},
+						error: function (reject) {
+							console.log(reject);
+						}
+					})
+				}
+			});
+			
+			// 등록 버튼 클릭 시
+			$('#saveBtn').on('click', function() {
+				//데이터 입력 확인
+				if (!$('[name="zip"]').val() || !$('[name="addr"]').val() || !$('[name="detaAddr"]').val()) {
+					alert('주소를 입력하세요');
+					return;
+				} else if ($('[name="area"]').val() <= 0) {
+					alert('면적을 입력하세요');
+					return;
+				} else if ($('[name="mcrp"]').val() <= 0) {
+					alert('주요 재배 작물을 선택하세요');
+					return;
+				} else if (!$('[name="lendStrDate"]').val()) {
+					alert('대여시작일을 입력하세요');
+					return;
+				} else if (!$('[name="lendEndDate"]').val()) {
+					alert('대여마감일을 입력하세요');
+					return;
+				} else if ($('#price').val() < 2) {
+					alert('가격을 설정하세요');
+					return;
+				} 
+				/* else if (!$('[name="files"]').val() < 5) {
+					alert('필수 첨부파일을 참고하여 첨부하세요');
+					return;
+				} */
+				else {
+					let formData = $('#myForm').serializeObject();
+					formData.files = uploadFiles;
+					$.ajax({
+						url : "farmLendUpdate",
+						method : "POST",
+						contentType : "application/json",
+						data : JSON.stringify(formData)
+					})
+					.done(function(result) {
+						alert(result);
+						//location.href = "farmLendList";
+					})
+					.fail(function(result) {
+						alert(result);
+						//location.href = "farmLendList";
+					})
+				}
+			});
+			
+			// 취소 버튼 클릭 시
+			$('#cancel').on('click', function() {
+				location.href = "farmLendList";
+			});
 		</script>
 	</div>
 </body>
