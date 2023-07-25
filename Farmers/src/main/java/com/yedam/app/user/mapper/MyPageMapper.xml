@@ -252,19 +252,22 @@
 		resultType="FarmLendApplyVO">
 		SELECT *
 		FROM (SELECT *
-		FROM (SELECT apl_no , apl_stts,
-		rsv_str_date, rsv_end_date,
-		frld_lend_no, atch_no, lend_total,
-		apl_date, cmmn_deta_code,
-		code_desct
-		FROM farm_lend_apply JOIN
-		common_code_detail
-		ON (apl_stts =
-		cmmn_deta_code)) a JOIN farm_lend b ON
-		(a.frld_lend_no =
-		b.board_no)) c
-		JOIN member_detail d ON (c.mem_no =
-		d.mem_no)
+			  FROM (SELECT apl_no , 
+			  			   apl_stts,
+						   rsv_str_date, 
+						   rsv_end_date,
+						   board_no, 
+						   atch_no,
+						   lend_total,
+						   apl_date, 
+						   cmmn_deta_code,
+						   code_desct
+					FROM farm_lend_apply JOIN common_code_detail
+					ON (apl_stts = cmmn_deta_code)) a 
+			  JOIN farm_lend b 
+			  ON (a.board_no = b.board_no)) c
+		JOIN member_detail d 
+		ON (c.mem_no = d.mem_no)
 		WHERE c.apl_no = #{aplNo}
 		ORDER BY 1 DESC
 	</select>
@@ -430,5 +433,105 @@
 			   wrt_date
 		FROM board
 		WHERE mem_no = #{memNo}
+	</select>
+	
+	<!-- 모든 판매상품 리스트 -->
+	<sql id="allSaleProduct">
+    	WITH sale as (
+    		  SELECT board_no,mem_no, null rep ,(addr || deta_addr) title FROM farm_lend 
+              UNION ALL
+              SELECT board_no,mem_no,rep,title FROM crops_sale
+              UNION ALL
+              SELECT board_no,mem_no,rep,title FROM funding
+              UNION ALL
+              SELECT board_no,mem_no,rep,title FROM market
+              UNION ALL
+              SELECT board_no,mem_no,rep,title FROM auction
+              UNION ALL
+              SELECT board_no,mem_no,rep,title FROM farmbnb
+              )
+	</sql>
+	
+	<!-- 나의 판매상품의 결제 리스트 -->
+	<select id="mySalesPayList" parameterType="String" resultType="paymentDetailVO">
+		<include refid="allSaleProduct"></include>
+		   SELECT nick, 
+			      mbl,
+			      pay_deta_no, 
+			      rep, 
+			      title, 
+			      board_ctg, 
+			      ship_stts,
+			      pay_date
+			FROM (SELECT * 
+			      FROM member JOIN member_detail USING (mem_no)) 
+			      JOIN 
+			     (SELECT pay_deta_no, 
+			             rep, 
+			             title,
+			             d.mem_no,
+			             board_no,
+			             pay_no,
+			             board_ctg, 
+			             ship_stts,
+			             pay_date
+			      FROM payment p JOIN (SELECT pay_deta_no, 
+			                                  rep, 
+			                                  title,
+			                                  mem_no,
+			                                  board_no,
+			                                  pay_no,
+			                                  FIND_CODE_NAME(board_ctg) board_ctg, 
+			                                  FIND_CODE_NAME(ship_stts) ship_stts
+			                           FROM payment_detail JOIN sale USING (board_no)) d 
+			                           USING (pay_no))  
+			     USING (mem_no) 
+			WHERE board_no IN (SELECT board_no 
+			                   FROM sale 
+			                   WHERE mem_no = #{memNo})
+	</select>
+	
+	<!-- 나의 상품 결제용 with -->
+	<sql id="saleProduct">
+		WITH sale as (SELECT board_no, null rep ,(addr || deta_addr) title FROM farm_lend 
+	              UNION ALL
+	              SELECT board_no,rep,title FROM crops_sale
+	              UNION ALL
+	              SELECT board_no,rep,title FROM funding
+	              UNION ALL
+	              SELECT board_no,rep,title FROM market
+	              UNION ALL
+	              SELECT board_no,rep,title FROM auction
+	              UNION ALL
+	              SELECT board_no,rep,title FROM farmbnb
+	              )
+     </sql>
+	
+	<!-- 나의 상품의 결제 상세 내역 -->
+	<select id="mySalesPayInfo" parameterType="String" resultType="PaymentDetailVO">
+	<include refid="saleProduct"></include>
+		SELECT nick, 
+			   mbl, 
+			   title, 
+			   qty, 
+			   price, 
+			   (qty * price) total_price, 
+			   pay_Date, 
+			   rcv_addr, 
+			   rcv_deta_addr, 
+			   FIND_CODE_NAME(ship_stts) ship_stts,
+			   zip, 
+			   FIND_CODE_NAME(board_ctg) board_ctg,
+			   rsv_str_date,
+			   rsv_end_date
+		FROM  member_detail JOIN (SELECT * 
+                          		  FROM member JOIN (SELECT *
+                                            		FROM sale JOIN (SELECT *
+                                                            		FROM payment_detail JOIN payment 
+                                                            		USING (pay_no)) 
+                                            		USING (board_no))
+                          		  USING (mem_no)) 
+		USING (mem_no)
+		WHERE pay_deta_no = #{payDetaNo}
 	</select>
 </mapper>

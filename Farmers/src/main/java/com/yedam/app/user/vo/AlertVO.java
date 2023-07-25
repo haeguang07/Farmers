@@ -19,7 +19,7 @@ public class AlertVO {
 	private String alrtStts;
 	private String alrtTitle;
 	private String alrtDesct;
-	private String boradCtg;
+	private String boardCtg;
 	private Date alrtDate;
 	
 }

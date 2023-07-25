@@ -24,8 +24,13 @@ public class PaymentDetailVO {
 	//payTable
 	private Date payDate;
 	private String payCode;
+	private String rcvAddr;
+	private String rcvDetaAddr;
+	private int zip;
 	
 	//가공 데이터
 	private int totalPrice;
 	private String nick; //구매자 닉네임
+	private String mbl; //구매자 전화번호
+	private String memNo; //구매자 번호
 }

@@ -149,16 +149,18 @@
 	
 	<!-- 매일마다 펀딩 실패 정보 조회 -->
 	<select id="fundingRefundList" resultType="PaymentDetailVO">
-		SELECT board_no,pay_no, pay_deta_no, pay_code
+		SELECT board_no,pay_no, pay_deta_no, pay_code, mem_no,title
 		FROM payment JOIN
 		    (SELECT board_no,
 		           pay_no, 
-		           pay_deta_no
+		           pay_deta_no,
+		           title
 		    FROM (SELECT CASE WHEN (sumPrice > goal_price) THEN 'y' 
 		                ELSE 'n' END AS success,
 		            board_no,
 		            pay_no, 
-		            pay_deta_no
+		            pay_deta_no,
+		            title
 		    FROM funding JOIN (SELECT SUM(price) sumPrice, board_no, pay_no, pay_deta_no
 		                       FROM payment_detail
 		                       WHERE board_ctg = 'n9'

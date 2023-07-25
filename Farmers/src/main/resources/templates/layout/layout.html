@@ -40,6 +40,10 @@
 <script src="/js/owl.carousel.min.js"></script>
 <script src="/js/json.min.js"></script>
 <style>
+.href {
+	font-weight: 900;
+	color: black;
+}
 </style>
 </head>
 
@@ -74,9 +78,12 @@
 								<span><a href="/myPage/myPage" style="color: white;">마이페이지 <i
 										class="arrow_carrot-down"></a></i></span>
 								<ul>
-									<li>나의 활동</li>
-									<li>구매 내역</li>
-									<li>문의 하기</li>
+									<li><a class="href" href="/myPage/myPage">회원정보</a></li>
+									<li><a class="href" href="/myPage/myFarmLendListForm">나의활동</a></li>
+									<li><a class="href" th:href="@{/myPage/alertList(memNo=${session.mem.memNo})}">나의알림</a></li>
+									<li><a class="href" th:href="@{/myPage/myPayList(memNo=${session.mem.memNo})}">구매내역</a></li>
+									<li><a class="href" th:href="@{/myPage/mySaleList(memNo=${session.mem.memNo})}">판매내역</a></li>
+									<li><a class="href" th:href="@{/myPage/myInquiry(memNo=${session.mem.memNo})}">문의하기</a></li>
 								</ul>
 							</div>
 						</div>
@@ -162,7 +169,7 @@
 							<span th:if="not ${#strings.isEmpty(session. mem)}"> <a
 								href="#"><img src="/img/icon/bell.png" width="19px"
 									id="bell" alt=""></a> <a
-								th:href="@{cart(memNo=${session.mem.memNo})}"> <img
+								th:href="@{/cart(memNo=${session.mem.memNo})}"> <img
 									src="/img/icon/cart.png" alt=""> <span>0</span>
 							</a>
 							</span>
