@@ -1,98 +1,176 @@
 @charset "UTF-8";
 
-.OUTLINE {
-  stroke-linejoin: round;
-  stroke: #ffffff;
-  stroke-width: 2;
+#mapArea{
+	margin: 50px 0;
+}
+
+/* map css */
+#mapArea .OUTLINE {
+	stroke-linejoin: round;
+	stroke: #ffffff;
+	stroke-width: 2;
 }
 
 #CD11 {
-  fill: #dfdfdf;
+	fill: #dfdfdf;
 }
 
 #CD26 {
-  fill: #dfdfdf;
+	fill: #dfdfdf;
 }
 
 #CD27 {
-  fill: #dfdfdf;
+	fill: #dfdfdf;
 }
 
 #CD28 {
-  fill: #dfdfdf;
+	fill: #dfdfdf;
 }
 
 #CD29 {
-  fill: #dfdfdf;
+	fill: #dfdfdf;
 }
 
 #CD30 {
-  fill: #dfdfdf;
+	fill: #dfdfdf;
 }
 
 #CD31 {
-  fill: #dfdfdf;
+	fill: #dfdfdf;
 }
 
 #CD36 {
-  fill: #dfdfdf;
+	fill: #dfdfdf;
 }
 
 #CD41 {
-  fill: #43b343;
+	fill: #43b343;
 }
 
 #CD42 {
-  fill: #ff7bda;
+	fill: #ff7bda;
 }
 
 #CD43 {
-  fill: #fff700;
+	fill: #fff700;
 }
 
 #CD44 {
-  fill: #70f99c;
+	fill: #70f99c;
 }
 
 #CD45 {
-  fill: #3f6f9f;
+	fill: #3f6f9f;
 }
 
 #CD46 {
-  fill: #a987ff;
+	fill: #a987ff;
 }
 
 #CD47 {
-  fill: #ff6600;
+	fill: #ff6600;
 }
 
 #CD48 {
-  fill: #04dbd0;
+	fill: #04dbd0;
 }
 
 #CD50 {
-  fill: #ffa600;
+	fill: #ffa600;
 }
 
-.TEXT {
-  fill: #ffffff;
-  font-size: 30;
-  font-weight: bold;
-  text-anchor: middle;
-  /* alignment-baseline: middle; */
+#mapArea .TEXT {
+	fill: #ffffff;
+	font-size: 22px;
+	text-anchor: middle;
+	font-family: 'Gowun Dodum', sans-serif;
 }
 
-.season {
-    width: 80px;
-    font-size: large;
-    font-weight: bold;
-    background-color: #ebebeb;
-    color: rgb(84 84 84);
-    border: none;
-    border-radius: 50%;  
+
+
+/* 제목 */
+#mapTitle {
+	margin-top: 25px;
+	margin-left: 5%;
+	color: #717171;
+	font-size: 25px;
+	font-family: 'Jua', sans-serif;
+	/* 	text-shadow: 3px 1px 3px #dee2e6; */
+}
+/* 지역지도 */
+#rgImg {
+	display: inline-block;
+	margin-left: -68px;
+/* 	height: 600px; */
 }
 
-.btn-two {
-  margin: 9px;
-  border-radius: 10px;
+#rgImg_default {
+	position: absolute;
+	top: 35%;
+	left: 155px;
+	font-family: 'Gowun Dodum', sans-serif;
+	font-size: 18px;
+	font-weight: bold;
+	color: lightgray;
+	text-align: center;
+}
+
+#thisMap {
+	max-width: 115%;
+}
+/* 지역설명 */
+#rgDesc {
+	position: relative;
+	display: inline-block;
+	height: 480px;
+}
+
+#rgDesc span {
+	padding-top: 30%;
+	width:230px;
+	position: absolute;
+	font-family: 'Gowun Dodum', sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+	margin-left: -50px;
+	text-align: center;
+}
+
+/* 계절버튼 css */
+#spanTag {
+	margin-top: 40px;
+}
+
+#mapArea .button_back {
+	display: flex;
+}
+
+#mapArea .button_base {
+	margin: 0 5px;
+	position: relative;
+	width: 70px;
+	height: 70px;
+	text-align: center;
+	/* padding-top: 20px; */
+	box-sizing: border-box;
+	border-radius: 40%;
+}
+
+#mapArea .button_base:hover {
+	cursor: pointer;
+}
+
+.b01_simple_rollover {
+	color: #000000;
+	border: #d7d7d7 4px dotted;
+	padding: 10px;
+	background-color: #ffffff;
+	font-family: 'Gowun Dodum', sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.b01_simple_rollover:hover { /* 마우스오버시 색깔 */
+	color: #d31616;
+	background-color: #ffea00;
 }
