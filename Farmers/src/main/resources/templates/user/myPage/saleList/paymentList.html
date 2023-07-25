@@ -38,7 +38,7 @@
 			</div>
 		</section> -->
 		<div class="justify-content-center">
-			<h3 class="current text-center">나의 구매내역</h3>
+			<h3 class="current text-center">나의 판매내역</h3>
 		</div>
 		<!-- Shop Section Begin -->
 		<section class="shop myMargin">
@@ -49,28 +49,33 @@
 						<table id="myTable">
 							<thead>
 								<tr>
+									<th>결제번호</th>
 									<th>이미지</th>
+									<th>제목</th> 
+									<th>구매자</th>
+									<th>구매자 연락처</th>
 									<th>카테고리</th>
-									<th>상품명</th>
-									<th>결제금액</th>
 									<th>결제일</th>
-									<th>결제방법</th>
+									<th>배송상태</th>
+									<th>상세</th>
 								</tr>
 							</thead>
 							<tbody>
-								<th:block th:if="not ${#strings.isEmpty(payList)}">
-									<tr th:each="pay : ${payList}" th:data-payNo="${pay.payNo}">
-										<td><img th:src="${pay.rep}" alt="" width="100px" height="100px" th:if="not ${#strings.isEmpty(pay. rep)}">
-											<div style="width: 100px; height: 100px;" th:if="${#strings.isEmpty(pay. rep)}">
+								<th:block th:if="not ${#strings.isEmpty(saleList)}">
+									<tr th:each="sale : ${saleList}" th:data-payDetaNo="${sale.payDetaNo}">
+										<td th:text="${sale.payDetaNo}"></td>
+										<td><img th:src="${sale.rep}" alt="" width="100px" height="100px" th:if="not ${#strings.isEmpty(sale.rep)}">
+											<div style="width: 100px; height: 100px;" th:if="${#strings.isEmpty(sale. rep)}">
 												<p style="text-align: center;line-height : 100px;">이미지없음</p>
 											</div>
 									</td>
-									<td th:text="${pay.boardCtg}"></td>
-									<!-- "${memberInfo.signDate==null? '': #dates.format(memberInfo.signDate, 'yyyy/MM/dd')}" -->
-									<td th:text="${pay.count == 1 ? pay.title : pay.title + '외 '+ (pay.count-1) +'건'}"></td>
-									<td th:text="${#numbers.formatInteger(pay.totalPayPrice, 3, 'COMMA')}"></td>
-									<td th:text="${#dates.format(pay.payDate, 'yyyy/MM/dd')}"></td>
-									<td th:text="${pay.payMthd}"></td>
+									<td th:text="${sale.title}"></td>
+									<td th:text="${sale.nick}"></td>
+									<td th:text="${sale.mbl}"></td>
+									<td th:text="${sale.boardCtg}"></td>
+									<td th:text="${#dates.format(sale.payDate, 'yyyy/MM/dd')}"></td>
+									<td th:text="${sale.shipStts}"></td>
+									<td><button type="button">상세정보</button></td>
 								</tr>
 								</th:block>
 							</tbody>

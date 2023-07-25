@@ -151,9 +151,9 @@
             $('#upgradeBtn').on('click',function(){
                 if(/*[[${not #strings.equals(session.mem.memGrd, 'b1')}]]*/){
 
-                    $('#upgradeBtn').magnificPopup({
+                    $.magnificPopup.open({
                         items:[{
-                            src:"/myPage/upgradeMember?member="+encodeURI(JSON.stringify(/*[[${memberInfo}]]*/)),
+                            src:"/myPage/upgradeMember?data="+encodeURI(JSON.stringify(/*[[${memberInfo}]]*/)),
                             type: 'iframe'
                         }
                     ]
@@ -162,10 +162,10 @@
                 alert("정회원은 등업할 수 없습니다")
             }
             })
-
+			
             //포인트 내역 모달창
               $('#pointHistory').on('click',function(){
-                    $('#pointHistory').magnificPopup({
+                    $.magnificPopup.open({
 				items:[{
 					src:"/myPage/pointHistory?memNo="+/*[[${session.mem.memNo}]]*/,
 					type: 'iframe'

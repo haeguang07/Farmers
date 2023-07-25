@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="Male_Fashion Template">
+	<meta name="keywords" content="Male_Fashion, unica, creative, html">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Cart</title>
+	<link rel="stylesheet" href="/css/sungWookCss/sungook.css" type="text/css">
+
+	<!-- Css Styles -->
+	<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+	<link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+	<link rel="stylesheet" href="/css/nice-select.css" type="text/css">
+	<link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/style.css" type="text/css">
+
+	<!-- Js Plugins -->
+	<script src="/js/jquery-3.3.1.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/jquery.nice-select.min.js"></script>
+	<script src="/js/jquery.nicescroll.min.js"></script>
+	<script src="/js/jquery.magnific-popup.min.js"></script>
+	<script src="/js/jquery.countdown.min.js"></script>
+	<script src="/js/jquery.slicknav.js"></script>
+	<script src="/js/mixitup.min.js"></script>
+	<script src="/js/owl.carousel.min.js"></script>
+	<script src="/js/json.min.js"></script>
+
+	<!-- datatables -->
+	<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" type="text/css">
+
+	<style>
+		.textCenter {
+			text-align: center;
+		}
+
+		.miniBtn {
+			width: 100px;
+		}
+
+		.right {
+			float: right;
+		}
+
+		.image {
+			width: 100px;
+			height: 100px;
+		}
+
+		li {
+			margin-bottom: 10px;
+		}
+		.miniBtn {
+			width: 300px;
+		}
+	</style>
+
+</head>
+
+<body>
+	<!-- 본문 시작 -->
+	<section class="shopping-cart spad" style="padding-top: 10px; margin-top: 100px;">
+		<div class="container">
+			<div class="row">
+				<!-- 사이드바 시작 -->
+				<div class="row col-lg-12">
+					<div class="col-lg-12">
+						<div class="shopping__cart__table" style="margin-bottom: 0px;">
+							<h4 class="textCenter">문의내역</h4>
+							<hr>
+							<h5 class="textCenter" th:if="${payInfo.boardCtg} != 'FARMBNB'">배송정보</h5>
+							<h5 class="textCenter" th:if="${payInfo.boardCtg} == 'FARMBNB'">예약정보</h5>
+							<hr>
+							<!-- 일반 결제 시 -->
+							<table id="myTable1" th:if="${payInfo.boardCtg} != 'FARMBNB'">
+								<thead>
+									<tr>
+										<th>구매자</th>
+										<th>연락처</th>
+										<th>우편번호</th>
+										<th>주소</th>
+										<th>상세주소</th>
+										<th>배송상태</th>
+									</tr>
+								</thead>
+								<tbody>
+									<td th:text="${payInfo.nick}"></td>
+									<td th:text="${payInfo.mbl}"></td>
+									<td th:text="${payInfo.zip}"></td>
+									<td th:text="${payInfo.rcvAddr}"></td>
+									<td th:text="${payInfo.rcvDetaAddr}"></td>
+									<td th:text="${payInfo.shipStts}"></td>
+									<!-- <td><select name="shipStts" id="stts" th:value="${payInfo.shipStts}" class="form-control">
+												<option value="배송 전">배송 전</option>
+												<option value="배송 전">배송 중</option>
+												<option value="배송 전">배송 완료</option>
+											</select></td> -->
+								</tbody>
+							</table>
+							<!-- bnb 결제 시 -->
+							<table id="myTable1" th:if="${payInfo.boardCtg} == 'FARMBNB'">
+								<thead>
+									<tr>
+										<th>구매자</th>
+										<th>연락처</th>
+										<th>체크인</th>
+										<th>체크아웃</th>
+										<th>결제상태</th>
+									</tr>
+								</thead>
+								<tbody>
+									<td th:text="${payInfo.nick}"></td>
+									<td th:text="${payInfo.mbl}"></td>
+									<td th:text="${#dates.format(payInfo.rsvStrDate, 'yyyy/MM/dd')}"></td>
+									<td th:text="${#dates.format(payInfo.rsvEndDate, 'yyyy/MM/dd')}"></td>
+									<td th:text="${payInfo.shipStts}"></td>
+								</tbody>
+							</table>
+							<hr>
+						</div>
+					</div>
+					<div class="col-lg-12 shopping__cart__table">
+						<h5 class="textCenter ">결제정보</h5>
+						<hr>
+						<table id="myTable2">
+							<thead>
+								<tr>
+									<th>상품</th>
+									<th>카테고리</th>
+									<th>가격</th>
+									<th>수량</th>
+									<th>결재금액</th>
+									<th>결제일</th>
+								</tr>
+							</thead>
+							<tbody>
+								<td th:text="${payInfo.title}"></td>
+								<td th:text="${payInfo.boardCtg}"></td>
+								<td th:text="${#numbers.formatInteger(payInfo.price, 3, 'COMMA')}"></td>
+								<td th:text="${payInfo.qty}"></td>
+								<td th:text="${#numbers.formatInteger(payInfo.totalPrice, 3, 'COMMA')}"></td>
+								<td th:text="${#dates.format(payInfo.payDate, 'yyyy/MM/dd')}"></td>
+							</tbody>
+						</table>
+						<hr>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<button class="col-lg-12 form-control" type="button" id="save">변경사항저장</button>
+			</div>
+		</div>
+	</section>
+	<script th:inline="javascript">
+		// dataTables
+		$(function () {
+			$('#myTable1').DataTable({
+				language: lang_kor,
+				order: [
+					[4, "desc"]
+				],
+				lengthChange: false,
+				searching: false,
+				ordering: false,
+				info: false,
+				paging: false
+			});
+
+			$('#myTable2').DataTable({
+				language: lang_kor,
+				order: [
+					[4, "desc"]
+				],
+				lengthChange: false,
+				searching: false,
+				ordering: false,
+				info: false,
+				paging: false
+			});
+		})
+
+		// 한글 설정
+		var lang_kor = {
+			"decimal": "",
+			"emptyTable": "데이터가 없습니다.",
+			"info": "_START_ - _END_ (총 _TOTAL_ 개)",
+			"infoEmpty": "0명",
+			"infoFiltered": "(전체 _MAX_ 명 중 검색결과)",
+			"infoPostFix": "",
+			"thousands": ",",
+			"lengthMenu": "_MENU_ 개씩 보기",
+			"loadingRecords": "로딩중...",
+			"processing": "처리중...",
+			"search": "검색 : ",
+			"zeroRecords": "검색된 데이터가 없습니다.",
+			"paginate": {
+				"first": "첫 페이지",
+				"last": "마지막 페이지",
+				"next": "다음",
+				"previous": "이전"
+			},
+			"aria": {
+				"sortAscending": " :  오름차순 정렬",
+				"sortDescending": " :  내림차순 정렬"
+			}
+		};
+
+	</script>
+</body>
+
+</html>

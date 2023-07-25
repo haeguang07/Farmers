@@ -2,8 +2,6 @@ package com.yedam.app.market.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
@@ -16,12 +14,11 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,16 +32,20 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.yedam.app.common.service.AlertService;
 import com.yedam.app.common.vo.PaymentDetailVO;
 import com.yedam.app.market.service.FundingService;
 import com.yedam.app.market.vo.FundingVO;
 import com.yedam.app.market.vo.PageVO;
+import com.yedam.app.user.vo.AlertVO;
 
 // 김성욱 2023/07/21  펀딩관리
 @Controller
 public class FundingController {
 	@Autowired
 	FundingService fundingService;
+	@Autowired
+	AlertService alertService;
 
 	// 기본 리스트 출력
 //	@GetMapping("fundingList")
@@ -141,7 +142,7 @@ public class FundingController {
 		// jsonView 라고 쓴다고 무조건 json 형식으로 가는건 아니고 @Configuration 어노테이션을 단
 		// WebConfig 파일에 MappingJackson2JsonView 객체를 리턴하는 jsonView 매서드를 만들어서 bean으로
 		// 등록해야함
-		
+
 		ModelAndView mav = new ModelAndView("jsonView");
 
 		// ckeditor 에서 파일을 보낼 때 upload : [파일] 형식으로 해서 넘어오기 때문에 upload라는 키의 밸류를 받아서
@@ -197,15 +198,16 @@ public class FundingController {
 
 		return mav;
 	}
-	
+
 	// 다중 첨부파일 저장 (김승환/230721)
 	@PostMapping("/uploadsAjaxMulti")
 	@ResponseBody
-	public List<Map<String, String>> uploadFileMulti(@RequestPart MultipartFile[] uploadFiles, Model model) { // @RequestPart 첨부파일
-		
+	public List<Map<String, String>> uploadFileMulti(@RequestPart MultipartFile[] uploadFiles, Model model) { // @RequestPart
+																												// 첨부파일
+
 		List<Map<String, String>> list = new ArrayList<>();
 		for (MultipartFile uploadFile : uploadFiles) {
-			
+
 			Map<String, String> map = new HashMap<String, String>();
 
 			String originalName = uploadFile.getOriginalFilename();
@@ -245,12 +247,12 @@ public class FundingController {
 
 			map.put("atchFileName", imagePath);
 			map.put("uplFileName", originalName);
-			
+
 			list.add(map);
 		}
 		return list;
 	}
-	
+
 	// 일반 첨부파일 저장
 	@PostMapping("/uploadsAjax")
 	@ResponseBody
@@ -322,24 +324,46 @@ public class FundingController {
 		}
 		return folderPath;
 	}
-	
-	//기간 종료 및 달성 실패 시
-	//@Scheduled(cron = "0/5 * * * * *")
-	public void fundingRefund () throws URISyntaxException {
+
+	// 기간 종료 및 달성 실패 시
+	//@Scheduled(cron = "0 0 0 * * *")
+	public void fundingRefund() {
+		//취소가 필요한 결제 정보
 		List<PaymentDetailVO> list = fundingService.fundingRefundList();
 		
 		Gson gson = new Gson();
-		
+		// http 통신 header 설정
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.set("Authorization", "Basic dGVzdF9za196WExrS0V5cE5BcldtbzUwblgzbG1lYXhZRzVSOg==");
-//		headers.setBasicAuth(username, password);
+		headers.set("Authorization","Basic dGVzdF9za196WExrS0V5cE5BcldtbzUwblgzbG1lYXhZRzVSOg== ");
+		// 파라미터 설정
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("cancelReason", "취소");
+		HttpEntity<String> entity = new HttpEntity<String>(gson.toJson(map), headers);
+
+		// http 통신을 해주는 restTemplate
 		RestTemplate rt = new RestTemplate();
 		for (PaymentDetailVO vo : list) {
-			String url = "https://api.tosspayments.com/v1/payments/"+vo.getPayCode()+"/cancel?cancleReason=fail";
-			RequestEntity<String> entity = new RequestEntity<String>(headers, HttpMethod.GET, new URI(url));
-			ResponseEntity<Map> respEntity = rt.exchange(entity, Map.class);
-			//rt.exchange(url, HttpMethod.GET, new HttpEntity<T>(createHeaders(username, password)), clazz);
+			//통신 url 설정
+			String url = "https://api.tosspayments.com/v1/payments/"+vo.getPayCode()+"/cancel";
+			// 통신 후 반환값
+			ResponseEntity<Map> respEntity = rt.exchange(url, HttpMethod.POST, entity, Map.class);
+			System.out.println(respEntity.getBody().get("status"));
+			//상태가 취소일 경우 실행
+			if(respEntity.getBody().get("status").equals("CANCELED")) {
+				//payment_detail 테이블의 ship_stts 'B6'(환불 완료)으로 변경
+				int result = fundingService.updateRefundStts(vo.getPayDetaNo());
+				System.out.println(result);
+				
+				//환불 알림 전송
+				AlertVO alert = new AlertVO();
+				alert.setMemNo(vo.getMemNo());
+				alert.setAlrtTitle(vo.getTitle() +" 이 자동환불 처리되었습니다");
+				alert.setAlrtDesct("해당 펀딩상품("+vo.getTitle()+")이 목표금액을 달성하지 못 하여 자동 환불처리되었습니다");
+				alert.setBoardCtg("g15");
+				
+				alertService.addAlert(alert);
+			}
 		}
 	}
 

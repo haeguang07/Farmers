@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.yedam.app.activity.vo.BnbVO;
 import com.yedam.app.board.vo.BoardVO;
 import com.yedam.app.common.service.PaymentService;
@@ -81,9 +82,11 @@ public class MyPageController {
 	@PostMapping("myPage/memberModify")
 	public String memberModify(MemberVO vo) {
 		System.out.println(vo);
+		if(!vo.getPw().equals("")) {	
+			System.out.println("test");
 		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
-		
 		vo.setPw(scpwd.encode(vo.getPw()));
+		}
 		System.out.println(vo.getPw());
 		myPageService.modifyMember(vo);
 		return "user/myPage/memberInfo/pwCheck";
@@ -91,8 +94,10 @@ public class MyPageController {
 
 	// 등업신청 페이지
 	@GetMapping("myPage/upgradeMember")
-	public String upgradeMemberForm(MemberVO vo, Model model) {
-	
+	public String upgradeMemberForm(String data, Model model) {
+		Gson gson = new Gson();
+		MemberVO vo = gson.fromJson(data, MemberVO.class);
+		System.out.println(vo);
 		model.addAttribute("member", vo);
 		return "user/myPage/memberInfo/upgrade";
 	}
@@ -416,5 +421,24 @@ public class MyPageController {
 		List<BoardVO> list = myPageService.myBoardList(memNo);
 		model.addAttribute("boardList", list);
 		return "user/myPage/myActivity/myBoard/myBoardList";
+	}
+	
+	//////////////////나의 판매내역 페이지//////////////////
+	//판매 내역 리스트
+	@GetMapping("myPage/mySaleList")
+	public String mySaleList(String memNo,Model model) {
+		List<PaymentDetailVO> list = myPageService.mySalesPayList(memNo);
+		model.addAttribute("saleList", list);
+		System.out.println(list);
+		return "user/myPage/saleList/saleList";
+	}
+	
+	//판매 상세 정보 페이지
+	@GetMapping("myPage/mySaleInfo")
+	public String mySaleInfo(String payDetaNo, Model model) {
+		PaymentDetailVO vo = myPageService.mySalesPayInfo(payDetaNo);
+		System.out.println(vo);
+		model.addAttribute("payInfo", vo);
+		return "user/myPage/saleList/saleInfo";
 	}
 }
