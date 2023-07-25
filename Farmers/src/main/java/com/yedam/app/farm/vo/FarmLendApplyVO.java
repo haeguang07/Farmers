@@ -14,12 +14,6 @@ public class FarmLendApplyVO {
 	private String aplNo;
 	private String memNo;
 	private String aplStts;
-	@DateTimeFormat(pattern="yyyy-MM-dd")
-	@JsonFormat(pattern ="yyyy-MM-dd")
-	private Date rsvStrDate;
-	@DateTimeFormat(pattern="yyyy-MM-dd")
-	@JsonFormat(pattern ="yyyy-MM-dd")
-	private Date rsvEndDate;
 	private String boardNo;
 	private String atchNo;
 	private int lendTotal;

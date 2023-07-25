@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yedam.app.farm.mapper.FarmLendMapper;
+import com.yedam.app.farm.vo.FarmLendApplyVO;
 import com.yedam.app.farm.vo.FarmLendVO;
 
 @Service
@@ -51,8 +52,8 @@ public class FarmLendServiceImpl implements FarmLendService {
 	}
 
 	@Override
-	public int insertFarmLendApply(String memNo) {
-		return flMapper.insertFarmLendApply(memNo);
+	public boolean insertFarmLendApply(FarmLendApplyVO flaVO) {
+		return flMapper.insertFarmLendApply(flaVO) > 0;
 	}
 
 }
