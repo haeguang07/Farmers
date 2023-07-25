@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Market, Auction">
+    <meta name="keywords" content="Auction">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>이벤트</title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <!-- Breadcrumb Section Begin -->
+        <section class="breadcrumb-option">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="breadcrumb__text">
+                            <h4>유귀농 게시판</h4>
+                            <div class="breadcrumb__links">
+                                <span>유귀농의 각종 이벤트를 놓치지 마세요 !</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Breadcrumb Section End -->
+
+        <!-- Shop Section Begin -->
+        <section class="shop spad">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="shop__sidebar">
+                            <div class="shop__sidebar__accordion">
+                                <div class="accordion" id="accordionExample">
+                                    <div class="card">
+                                        <div class="card-heading">
+                                            <a data-toggle="collapse" data-target="#collapseOne">유귀농 게시판</a>
+                                        </div>
+                                        <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                <div class="shop__sidebar__categories">
+                                                    <ul class="nice-scroll">
+                                                        <li><a href="noticeList">공지사항</a></li>
+                                                        <li><a href="communityList">커뮤니티</a></li>
+                                                        <li><b><a href="eventList" style="color: black;">이벤트</a></b>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="shop__product__option">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div>
+                                    <select>
+
+                                    </select>
+                                </div>
+                                <!-- <div class="shop__product__link__right text-right">
+                                    <a href="#"><span class="order">인기순</span></a> / <a href="#"><span
+                                            class="order">최저가순</span></a> / <a href="#"><span
+                                            class="order">최고가순</span></a> / <a href="#"><span
+                                            class="order">마감임박순</span></a>
+                                </div>
+                                
+                                <div class="shop__product__option__right">
+                                    <p>Sort by Price:</p>
+                                    <select>
+                                        <option value="">Low To High</option>
+                                        <option value="">$0 - $55</option>
+                                        <option value="">$55 - $100</option>
+                                    </select>
+                                </div>
+                                 -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="pageDiv"></div>
+
+                    <!-- Blog Section Begin -->
+                    <section class="blog spad">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-6 col-sm-6">
+                                    <div class="blog__item">
+                                        <div class="blog__item__pic set-bg" data-setbg="img/blog/blog-1.jpg"></div>
+                                        <div class="blog__item__text">
+                                            <span><img src="img/icon/calendar.png" alt=""> 16 February 2020</span>
+                                            <h5>What Curling Irons Are The Best Ones</h5>
+                                            <a href="#">Read More</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- Blog Section End -->
+                </div>
+            </div>
+        </section>
+        
+        <script>
+            $(function(){
+                boardData('i4', 1);
+            })
+
+            // 이벤트 리스트 데이터 가져오기
+			function ajaxData(postCtg, pageNum){
+				$.ajax({
+					url: "boardList",
+					method: "GET",
+					data: {
+                        postCtg,
+						pageNum
+					},
+					success(data){
+						printList(data, dst1, dst2);
+					},
+					error(reject){
+						console.log(reject);
+					}
+				})
+			}
+
+            // 리스트 출력
+			function printList(data, dst1, dst2){
+				$('#auctionList').children().remove();
+				$('#pageDiv').children().remove();
+				
+				let auctionData = data.auctionList;
+				let pageData = data.page;
+				
+				$(auctionData).each((idx, item) => {
+					printItem(item);
+				})
+				
+				printPage(pageData, order);
+				
+			}
+        </script>
+    </div>
+</body>
+
+</html>
