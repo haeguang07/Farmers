@@ -6,13 +6,13 @@ import com.yedam.app.activity.vo.ExpVO;
 
 public interface ExpService {
 	// 전체조회
-	public List<ExpVO> getExpList();
+	public List<ExpVO> getExpListPage(int page, String expStart, String dst1, String dst2);
 	// 단건조회
 	public ExpVO getExpInfo(ExpVO expVO);
 	// 등록
-	public int insertExpInfo(ExpVO expVO);
+	public boolean insertExpInfo(ExpVO expVO);
 	// 삭제
 	public int deleteExpInfo(String boardNo);
 	// 게시글 수
-	public int getCount();
+	public int getCount(String expStart, String dst1, String dst2);
 }

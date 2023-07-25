@@ -60,8 +60,6 @@ public class CropsSaleController {
 	// 단건조회
 	@GetMapping("cropsSaleInfo")
 	public String getCropsSaleInfo(CropsSaleVO csVO, String boardNo, Model model) {
-		System.out.println(csVO);
-		System.out.println(boardNo);
 		CropsSaleVO info = csService.getCropsSaleInfo(csVO);
 		model.addAttribute("csInfo", info);
 		model.addAttribute("codeInfo", codeService.getCodeList("0N"));

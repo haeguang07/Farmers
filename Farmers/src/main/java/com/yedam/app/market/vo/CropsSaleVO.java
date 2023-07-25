@@ -24,6 +24,7 @@ public class CropsSaleVO {
 	private Date regDate;
 	private String regStts;
 	private double rateAvg; // 별점 평균(xml에서 alias한 이름)
+	private int rateCnt; // 리뷰 갯수
 	
 	// review
 	private int rate;

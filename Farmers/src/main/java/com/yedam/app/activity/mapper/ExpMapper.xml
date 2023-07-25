@@ -5,7 +5,7 @@
 <mapper namespace="com.yedam.app.activity.mapper.ExpMapper">
 	
 	<!-- 전체조회 -->
-	<select id="selectExpList" resultType="ExpVO">
+	<select id="selectExpListPage" resultType="ExpVO">
 		select board_no, title, zip, addr, dst1, dst2, ppt_per, ex_str_date, ex_end_date, reg_date, reg_stts, lati, longi, deta_addr
 		from experience
 		where reg_stts = 'e1'

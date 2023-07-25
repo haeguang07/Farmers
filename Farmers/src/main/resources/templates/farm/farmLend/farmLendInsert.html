@@ -67,7 +67,7 @@
 								<div class="row">
 									<div class="checkout__input col-lg-6">
 										<p>주소</p>
-										<input type="text" readonly placeholder="우편번호를 검색해주세요" id="addressCode" name="zip">
+										<input type="text" placeholder="우편번호를 검색해주세요" id="addressCode" name="zip" readonly>
 									</div>
 									<div class="col-lg-3 checkout__input">
 										<p class="mb-3" style="visibility: hidden;"><span>*</span></p>
@@ -77,6 +77,8 @@
 								<div class="checkout__input">
 									<input type="text" placeholder="주소지" class="checkout__input__add" id="address" name="addr" readonly>
 									<input type="text" placeholder="상세주소" id="addressDetail" name="detaAddr">
+									<input type="text" id="dst1" name="dst1" style="display: none;">
+									<input type="text" id="dst2" name="dst2" style="display: none;">
 								</div>
 								<div class="row" style="display: none">
 									<input type="text" name="lati" id="latitude">
@@ -145,10 +147,10 @@
 									<input type="file" id="inputFile" name="files" style="display: none;" multiple>
 								</div>
 								<p style="line-height: 40px; text-align: right;">합계 : <span id="sumPrice" style="line-height: 40px;"></span></p>
+								<button type="button" class="btn btn-dark mr-2" id="addBtn">등록</button>
+								<button type="button" class="btn btn-dark mr-2">임시 저장</button>
+								<button type="button" class="btn btn-dark" id="cancel">취소</button>
 							</div>
-							<button type="button" class="btn btn-dark mr-2" id="addBtn">등록</button>
-							<button type="button" class="btn btn-dark mr-2">임시 저장</button>
-							<button type="button" class="btn btn-dark" id="cancel">취소</button>
 						</div>
 					</form>
 				</div>
@@ -201,6 +203,12 @@
 		                            alert('주소를 찾을 수 없습니다.');
 		                        }
 		                    });
+		                    // address의 값을 배열에 담아서 배열의 2번째 값을 dst2에 담아주는 것
+		                    let adr = document.getElementById("address");
+		                    let dst2 = document.getElementById("dst2");
+		                    let array = adr.value.split(" ");
+		                    dst2.value = array[1];
+		                    console.log(dst2.value);
 		                    document.getElementById("addressDetail").focus();
 		                }
 		            }).open();
@@ -223,15 +231,21 @@
 			// date 타입 최소 날짜 제한
 			minDateSet(new Date, strDate)
 			strDate.change(function() {
-				minDateSet(new Date(strDate.val()), endDate)
+				let str = new Date(strDate.val());
+				let year = new Date(str.setFullYear(str.getFullYear() + 5));
+				minDateSet(new Date(year.setDate(year.getDate() - 1)), endDate);
 			});
 			
-			//date 타입 최소 날짜 제한 함수
+			// date 타입 최소 날짜 제한 함수
 			function minDateSet(date, input) {
 				let now_utc = date // 지금 날짜를 밀리초로
 				let timeOff = date.getTimezoneOffset() * 60000; // 분단위를 밀리초로 변환
 				let today = new Date(now_utc - timeOff).toISOString().split("T")[0];
-				$(input).attr("min", today);
+				if(input == strDate) {
+					$(input).attr("min", today);					
+				} else {
+					$(input).attr("value", today);
+				}
 			}
 			
 			// 합계 출력
@@ -252,7 +266,6 @@
 				let end = new Date(endDate.val());
 				let diffTime = Math.abs(end - start);
 				let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-				// console.log(diffDays);
 				if(isNaN(diffDays)) {
 					$('#sumPrice').text('0원');
 				} else {
@@ -327,7 +340,7 @@
 					alert('가격을 설정하세요');
 					return;
 				} 
-				/* else if (!$('[name="files"]').val() < 5) {
+				/* else if ($('[name="files"]').val() < 5) {
 					alert('필수 첨부파일을 참고하여 첨부하세요');
 					return;
 				} */

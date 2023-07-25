@@ -15,8 +15,8 @@ public class AttachServiceImpl implements AttachService {
 	AttachMapper attachMapper;
 	
 	@Override
-	public List<AttachVO> getAttachList(String boardNo) {
-		return attachMapper.selectAttachList(boardNo);
+	public List<AttachVO> getAttachList() {
+		return attachMapper.selectAttachList();
 	}
 
 }

@@ -8,8 +8,8 @@
 	<select id="selectCropsSaleListPage" resultType="CropsSaleVO">
 		select b.*
 		from (select ROWNUM rn, a.*
-			  from (select c.board_no, c.mem_no, c.title, c.crp_ctg, c.price, c.qty, c.rep, c.reg_date, c.reg_stts, nvl(r.rate_avg, 0) as rate_avg
-			  		from crops_sale c left join (select nvl(round(avg(rate), 1), 0) as rate_avg, board_no
+			  from (select c.board_no, c.mem_no, c.title, c.crp_ctg, c.price, c.qty, c.rep, c.reg_date, c.reg_stts, nvl(r.rate_avg, 0) as rate_avg, nvl(r.rate_cnt, 0) as rate_cnt
+			  		from crops_sale c left join (select nvl(round(avg(rate), 1), 0) as rate_avg, board_no, count(rate) as rate_cnt
 			  									 from review
 			  									 group by board_no) r
 					on c.board_no = r.board_no

@@ -72,6 +72,11 @@
 	
 	<!-- 등록 -->
 	<insert id="insertFarmLend" statementType="CALLABLE">
+		<selectKey keyProperty="dst1" resultType="String" order="BEFORE">
+			select cmmn_code_no
+			from common_code_detail
+			where cmmn_deta_code = find_common_code(#{dst2})
+		</selectKey>
 		call add_farmlend(
 			#{files, typeHandler=com.yedam.app.farm.service.OracleArrayStructHandler},
 			#{zip},
@@ -94,7 +99,11 @@
 	
 	<!-- 수정 -->
 	<update id="updateFarmLend" parameterType="FarmLendVO">
-		<!-- 프로시저 호출 -->
+		call update_farmlend(
+			#{boardNo},
+			#{desct},
+			#{mcrpList, typeHandler=com.yedam.app.farm.service.OracleArrayHandler}
+		)
 	</update>
 	
 	<!-- 삭제 -->

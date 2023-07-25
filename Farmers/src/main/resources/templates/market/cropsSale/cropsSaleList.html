@@ -193,7 +193,7 @@
 						<div class="rating">
 							<div class="overlay"></div>						
 						</div>
-						<span>(리뷰갯수)</span>
+						<span id="rateCnt" style="line-height: 50px;"></span>
 					</div>
 					<p id="date" style="text-align: right;">등록날짜</p>
 				</div>
@@ -284,7 +284,6 @@
 				$(cropsSaleData).each(function(index, item) {
 					printItem(item);
 				})
-				
 				printPage(pageData);
 			}
 			// 리스트 생성 함수
@@ -295,6 +294,7 @@
 				starRate(item.rateAvg, clone);
 				$(clone).find('#name').text(item.title);
 				$(clone).find('#price').text(item.price + '원');
+				$(clone).find('#rateCnt').text('('+item.rateCnt+')');
 				$(clone).find('#date').text(item.regDate);
 				$(clone).find('#img').css('background-image', 'url('+item.rep+')');
 				$(clone).find('#img').css('cursor', 'pointer');
