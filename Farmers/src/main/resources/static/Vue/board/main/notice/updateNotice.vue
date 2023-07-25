@@ -1,5 +1,5 @@
 <template>
-    <section>
+   <section>
     <form action="" method="POST" id="myForm">
       <!-- {{ mem }} -->
       <h4>공지사항 등록</h4>

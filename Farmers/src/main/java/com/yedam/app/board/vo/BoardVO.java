@@ -21,13 +21,15 @@ public class BoardVO {
 	private String img;
 	private String desct;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
-	@JsonFormat(pattern ="yyyy-MM-dd")
+	@JsonFormat(pattern ="yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date wrtDate;
 	private int hitCount;
 	
 	private String nick;
 	
 	private int recomCount;
+	
+	private int pageNum;
 	
 	List<ReplyVO> replys;
 	List<RecomVO> recoms;
