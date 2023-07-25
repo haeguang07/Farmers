@@ -133,8 +133,8 @@
 			select frld_apl_seq.nextval
 			from dual
 		</selectKey>
-		insert into farm_lend_apply(apl_no, mem_no, apl_stts, rev_str_date, rev_end_date, board_no, atch_no, lend_total, apl_date)
-		values(#{aplNo}, #{memNo}, 'e0', #{revStrDate}, #{revEndDate}, #{boardNo}, #{atchNo}, #{lendTotal}, #{aplDate})
+		insert into farm_lend_apply(apl_no, mem_no, apl_stts, board_no, atch_no, apl_date)
+		values(#{aplNo}, #{memNo}, 'e0', #{boardNo}, #{atchNo}, sysdate)
 	</insert>
 	
 </mapper>
