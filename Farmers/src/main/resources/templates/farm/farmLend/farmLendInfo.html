@@ -72,14 +72,14 @@
 												<span>(1일)</span>
 											</p>
 											<div class="row mb-2">
-												<button type="button" class="btn btn-dark mr-2" style="width: 150px; float: left;" id="apply">신청하기</button>
+												<button type="button" class="btn btn-dark mr-2" style="width: 150px; float: left;" id="applyBtn" th:if="${session.mem.memNo} != ${flInfo.memNo}">신청하기</button>
+												<th:block th:if="not ${#strings.isEmpty(session.mem)}">
+													<button type="button" class="btn btn-dark mr-2" style="width: 150px;" id="update" 
+														th:if="${session.mem.memNo} == ${flInfo.memNo} or ${session.mem.memGrd == 'b0'}">수정하기</button>
+													<button type="button" class="btn btn-dark mr-2" style="width: 150px;" id="delete" 
+														th:if="${session.mem.memNo} == ${flInfo.memNo} or ${session.mem.memGrd == 'b0'}">삭제하기</button>
+												</th:block>
 												<button type="button" class="btn btn-dark" style="width: 150px; float: left;" id="toList">목록으로</button>
-											</div>
-											<div class="row" th:if="not ${#strings.isEmpty(session.mem)}">
-												<button type="button" class="btn btn-dark mr-2" style="width: 150px;" id="update" 
-													th:if="${session.mem.memNo} == ${flInfo.memNo} or ${session.mem.memGrd == 'b0'}">수정하기</button>
-												<button type="button" class="btn btn-dark" style="width: 150px;" id="delete" 
-													th:if="${session.mem.memNo} == ${flInfo.memNo} or ${session.mem.memGrd == 'b0'}">삭제하기</button>
 											</div>
 										</div>
 									</div>
@@ -116,7 +116,7 @@
 			});
 			
 			// 신청하기 버튼 클릭 시
-			$('#apply').on('click', function() {
+			$('#applyBtn').on('click', function() {
 				location.href = "farmLendApply?boardNo=" + boardNo;
 			});
 			

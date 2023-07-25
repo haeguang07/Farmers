@@ -144,12 +144,6 @@
 															<tr style="text-align: center">
 																<th>번호</th>
 																<th>별점</th>
-																<th>
-																	<!-- revNo -->
-																</th>
-																<th>
-																	<!-- memNo -->
-																</th>
 																<th>리뷰 내용</th>
 																<th>작성자</th>
 																<th>삭제</th>
@@ -229,15 +223,12 @@
 			src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 
 		<script th:inline="javascript">
-			//천단위 콤마찍기 함수
-			function number_format(num) {
-				return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-			}
-			//토탈금액 함수
+
+			// ------------ 수량입력시 금액 계산 기능
 			const getNum = Number($('#getNum').val());
 			const onePay = Number($('#onePay').text());
 			const total = getNum * onePay
-			$('#payResult').text(number_format(total));
+			$('#payResult').text(numComma(total));
 			
 			function getPay() {
 				$('#payResult').text('');
@@ -246,16 +237,21 @@
 				let total = getNum * onePay
 				$('#payResult').text(total);
 				console.log(total);				
-				total = number_format(total);
+				total = numComma(total);
 				$('#payResult').text(total);
 			}						
-			
+			// ----------- 금액 천단위 콤마찍기 함수
+			function numComma(num) {
+				return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+			}
 
+			
+			// ----------- 글삭제 버튼
+			$('#deleteButton').on('click', delPopUp);
+			
 			//삭제 팝업 이벤트
 			function delPopUp(event) {
 				var confirmDelete = confirm("글을 삭제하시겠습니까?");
-
-				// 사용자가 "확인" 버튼을 눌렀을 때만 삭제 링크로 이동합니다.
 				if (!confirmDelete) {
 					event.preventDefault(); // 이벤트의 기본 동작을 막아서 링크로 이동하지 않게 합니다.
 					console.log("삭제 취소");
@@ -263,11 +259,10 @@
 					console.log("삭제 완료");
 				}
 			}
-
-			//글삭제
-			$('#deleteButton').on('click', delPopUp);
-		
+			// ----------- 글삭제 버튼		
 			
+			
+			// ---------------------------------  리뷰  기능   ------------------------------------ //
 			// 데이터테이블 - 한글 설정
 			var lang_kor = {
 			  "decimal": "",
@@ -294,13 +289,12 @@
 			  }
 			};
 			
-			///// 리뷰 기능		
 			/*<![CDATA[*/
 			let boardNo = /*[[${mk.boardNo}]]*/ ;
-			console.log('보드넘버'+boardNo);
+			let mem = /*[[${session.mem}]]*/ ;
 			/*]]>*/
 
-			//리뷰 조회 기능
+			//리뷰 - 조회 기능
 			$(document).ready(function () {
 			  reviewAjax();
 			});
@@ -352,23 +346,12 @@
 			          }
 			        },
 			      {
-			        data: 'revNo', //리뷰넘버(안보이게)
-			        width: '0%',
-			        orderable: false, // 정렬 기능 비활성화
-			        render: function (data, type, row) {
-			          return '<h6 style="display:none;">' + data + '</h6>';
-			        }
-			      },
-			      {
-			        data: 'memNo', //멤버넘버(안보이게)
-			        width: '0%',
-			        orderable: false, // 정렬 기능 비활성화
-			        render: function (data, type, row) {
-			          return '<h6 style="display:none;">' + data + '</h6>';
-			        }
-				  },
-			      {
-			        data: 'revDesct'
+			        data: null,
+				    render: function (data, type, row) {
+				    	 return row.revDesct +
+				            '<span class="revData" style="display:none" data-memNo='
+				            + row.memNo +' data-revNo=' + row.revNo + '></span>';
+			     	  }
 			      },
 			      {
 			        data: 'nick',
@@ -405,12 +388,12 @@
 			  for (let i = 5; i >= 1; i--) {
 			    const option = document.createElement('option');
 			    option.value = i;
-			    option.textContent = `${makeStars(i)} (${i}점)`;
+			    option.innerText = `${makeStars(i)} (${i}점)`;
 			    starSelect.appendChild(option);
 			  }
 			
 
-			//리뷰-날짜포맷변경 
+			//리뷰-날짜포맷 변경 
 			function formatDate(dateString) {
 			  const date = new Date(dateString);
 			  const year = date.getFullYear();
@@ -419,11 +402,9 @@
 			  return `(${year}/${month}/${day})`;
 			}
 			
-			//리뷰 등록 기능	
+			//리뷰 - 등록 기능	
 			$('#addBtn').on('click', function () {
-			  /*<![CDATA[*/
-			  let mem = /*[[${session.mem}]]*/ ;
-			  /*]]>*/
+
 			  if (mem == null) {
 			    return alert('로그인 필요')
 			  } else if ($('#star').val() == '0') {
@@ -456,21 +437,19 @@
 			  }
 			})
 
-			/*<![CDATA[*/
-			let mem = /*[[${session.mem}]]*/ ;
-			/*]]>*/
 			let qty = $('#getNum').val();
 			  
 			//리뷰 삭제 기능	
 			$('#reviewTable').on('click', '.revDel', function () {
-			  let rowData = $('#reviewTable').DataTable().row($(this).closest('tr'));
-			  let revMem= rowData.data().memNo;
+			  const rowData = $(this).closest('tr');
+			  const revMem = rowData.find('.revData').data('memno');
+			  const revNo = rowData.find('.revData').data('revno');
+			  console.log(revMem , revNo); 
 			  if(mem == null){
 				 alert('삭제할 수 없습니다.')				 
 			  }else if(revMem == mem.memNo){	  
 			 	 let confirmDelete = confirm("리뷰를 삭제하시겠습니까?");
 				 if (confirmDelete) {
-				    let revNo = rowData.data().revNo;
 				    console.log("리뷰 삭제 번호:", revNo);
 		
 				    $.ajax({
@@ -480,7 +459,7 @@
 				        revNo: revNo
 				      },
 				      success: function (result) {
-				        rowData.remove().draw();
+				    	  rowData.remove();
 				        console.log("리뷰 삭제 결과:", result);
 				      },
 				      error: function (error) {
@@ -493,10 +472,12 @@
 			  }
 			  else{
 				  alert('작성자만 삭제 가능합니다. ')
-			  }		  	  
+			  }		  
 		   });
-						
-			//장바구니 버튼클릭
+			// ---------------------------------  리뷰  기능  끝  ------------------------------------ //
+
+			
+			// ----------- 장바구니 버튼 클릭
 			$('#mkCart').on('click', function () {
 					
 					if(mem != null) {
@@ -522,20 +503,17 @@
 				});
 			
 			
-			//결제하기 버튼클릭
-			
+			// ----------- 결제 버튼 클릭
 			$('#letPay').on('click', function() {
 				if(mem != null) {
 					//구매페이지로 보낼 배열
 					let productList = [];
-					
 					//배열에 담을 구매상품정보 객체 생성
 					 let obj = {
 					                boardNo: boardNo,
 					                qty: qty,
 					                boardCtg: 'n7'
 					              }
-					
 					//배열에 객체 담기
 					productList.push(obj)
 					
