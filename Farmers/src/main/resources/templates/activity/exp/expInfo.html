@@ -118,11 +118,27 @@
 			
 			/*<![CDATA[*/
 			let boardNo = /*[[${expInfo.boardNo}]]*/;
+			let memNo = /*[[${session.mem.memNo}]]*/
 			/*]]>*/
 			
 			// 신청하기 버튼 클릭 시
 			$('#applyBtn').on('click', function() {
-				location.href = "expApply?boardNo=" + boardNo;
+				$.ajax({
+					url : "expApply",
+					method : "POST",
+					contentType : "application/json",
+					data : {
+						boardNo : boardNo,
+						memNo : memNo,
+						aplPer : 1
+					}
+				})
+				.done(function(result) {
+					console.log(result);
+				})
+				.fail(function(result) {
+					alert(result);
+				})
 			});
 			
 			// 목록으로 버튼 클릭 시
