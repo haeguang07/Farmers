@@ -51,10 +51,7 @@
 													<ul>
 														<li><a href="farmGuide">귀농귀촌 가이드</a></li>
 														<li><a href="farmEdu">지원사업/교육</a></li>
-														<li><b><a href="farmLendList"
-																style="color: black;">농지대여</a></b></li>
-														<li><a href="#">농기구 대여/판매</a></li>
-														<li><a href="skilled">금손 귀농인</a></li>
+														<li><b><a href="farmLendList" style="color: black;">농지대여</a></b></li>
 													</ul>
 												</div>
 											</div>
@@ -143,7 +140,6 @@
 				</tr>
 			</tbody>
 		</table>
-
 		<div class="product__pagination hideItem" id="pageItem">
 			<a class="myInline" id="prevPage">&lt;</a>
 			<div id="pageNumDiv" class="myInline">
@@ -151,7 +147,6 @@
 			</div>
 			<a class="myInline" id="nextPage">&gt;</a>
 		</div>
-		
 		<script th:inline="javascript">
 			/*<![CDATA[*/
 			let mem = /*[[${session.mem}]]*/;
@@ -178,7 +173,7 @@
 			function ajaxData(page, dst1, dst2, mcrp, price, area) {
 				$.ajax({
 					url : 'farmLendList',
-					type : 'post',
+					type : 'POST',
 					data : {
 						pageNum : page,
 						dst1 : dst1,
@@ -239,7 +234,7 @@
 				$(clone).removeClass('hideItem');
 				
 				$(clone).find('#number').text(index + 1);
-				$(clone).find('#addr').text(item.addr + ' ' + item.detaAddr);
+				$(clone).find('#addr').text(item.addr + ', ' + item.detaAddr);
 				$(clone).find('#crops').text(item.mcrp);
 				$(clone).find('#area2').text(item.area + '(m²)');
 				$(clone).find('#price2').text(item.lendPrice + '원');

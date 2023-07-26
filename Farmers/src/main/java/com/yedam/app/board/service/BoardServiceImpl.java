@@ -25,8 +25,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public List<BoardVO> getBoardInfo(BoardVO vo) {
-		return boardMapper.getBoardInfo(vo);
+	public List<BoardVO> getBoardInfo(String postCtg, String boardNo) {
+		return boardMapper.getBoardInfo(postCtg, boardNo);
 	}
 	
 	@Override

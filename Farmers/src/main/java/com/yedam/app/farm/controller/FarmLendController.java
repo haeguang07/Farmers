@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.app.common.service.CodeService;
 import com.yedam.app.farm.service.FarmLendService;
+import com.yedam.app.farm.vo.FarmLendApplyVO;
 import com.yedam.app.farm.vo.FarmLendVO;
 import com.yedam.app.market.vo.PageVO;
 import com.yedam.app.user.service.AttachService;
@@ -85,7 +86,6 @@ public class FarmLendController {
 	@ResponseBody
 	public String insertFarmLend(@RequestBody FarmLendVO flVO) {
 		flService.insertFarmLendInfo(flVO);
-		
 		return "success";
 	}
 	
@@ -111,7 +111,6 @@ public class FarmLendController {
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("result", result);
-		map.put("frldNo", frldNo);
 		
 		return map;
 	}
@@ -131,11 +130,11 @@ public class FarmLendController {
 		return "farm/farmLend/farmLendApply";
 	}
 	
-	// 신청 기능
+	// 신청(등록) 기능
 	@PostMapping("farmLendApply")
 	@ResponseBody
-	public String FarmLendApply(String memNo, Model model) {
-		flService.insertFarmLendApply(memNo);
+	public String FarmLendApply(@RequestBody FarmLendApplyVO flaVO) {
+		flService.insertFarmLendApply(flaVO);
 		return "success";
 	}
 }

@@ -87,6 +87,8 @@
 									<div class="row d-flex justify-content-center">
 										<div class="col-lg-12">
 											<div class="product__details__text">
+												<input type="text" th:value="${flInfo.boardNo}" name="boardNo" style="display: none;">
+												<input type="text" th:value="${session.mem.memNo}" name="memNo" style="display: none;">
 												<div class="row">
 													<h4 class="textLeft col-lg-9" th:text="${flInfo.addr} + ' ' + ${flInfo.detaAddr}" style="display: inline; text-align: left; font-size: 30px;">상품명</h4>
 													<p style="margin-bottom: 20px;" class="mr-2"><b style="font-size: 15px;">작성자</b> <span th:text="${flInfo.nick}">작성자</span></p>
@@ -171,7 +173,6 @@
 				map : map
 			});
 			
-			let dbPath;
 			let uploadFiles = [];
 			
 			// 첨부파일 가져오기
@@ -227,7 +228,7 @@
 			
 			// 신청하기 버튼 클릭 시
 			$('#applyBtn').on('click', function() {
-				if($('[name="files"]').val() < 5) {
+				if($('#inputFile').length < 5) {
 					alert('필수 첨부파일을 참고하여 첨부하세요');
 				} else {
 					let formData = $('#myForm').serializeObject();
@@ -239,7 +240,15 @@
 						data : JSON.stringify(formData)
 					})
 					.done(function(result) {
-						alert(result);
+						if(result == "success") {
+							console.log(result);
+							alert("success");
+							// 마이페이지 신청내역으로 넘어가게 하기
+						} else {
+							console.log(result);
+							alert("fail");
+							location.href = "farmLendList";
+						}
 					})
 					.fail(function(result) {
 						alert(result);

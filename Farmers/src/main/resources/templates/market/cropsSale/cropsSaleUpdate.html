@@ -93,10 +93,10 @@
 			</div>
 		</section>
 		<!-- Shop Details Section End -->
+		<!-- ck에디터 -->
 		<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
 		<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
 		<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
-		
 		<script th:inline="javascript">
 			$(function() {
 				getSumPrice();
@@ -195,7 +195,7 @@
 					data : formData
 				})
 				.done(function(result){
-					if(result.result == 'true') {
+					if(result.result == true) {
 						alert("success");
 						location.href="cropsSaleList";
 					} else {
@@ -214,7 +214,6 @@
 				location.href="cropsSaleInfo?boardNo=" + /*[[${csInfo.boardNo}]]*/;
 			});
 		</script>
-		
 	</div>
 </body>
 </html>
