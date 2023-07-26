@@ -73,12 +73,10 @@
 	<!-- 게시판 공지사항, 커뮤니티, 이벤트 상세 조회 -->
 	<select id="getBoardInfo" resultMap="boardResult">
 		SELECT board_no, m.mem_no, nick, post_ctg, dst1, dst2, title, img, desct, wrt_date, hit_count
-		FROM board b, member m
-		Where b.mem_no = m.mem_no
-		AND post_ctg = #{postCtg}			
-			<if test="boardNo != null and !boardNo.equals('')">
-				AND board_no = #{boardNo}
-			</if>
+		FROM board b LEFT JOIN member m
+		ON b.mem_no = m.mem_no
+		WHERE post_ctg = #{postCtg}			
+		AND board_no = #{boardNo}
 	</select>
 
 	<!-- 커뮤니티 댓글 조회 -->
