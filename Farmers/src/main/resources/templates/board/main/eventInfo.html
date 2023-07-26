@@ -64,10 +64,11 @@
 					</div>
 					<div class="col-lg-9">
 						<div>
-							<h5 class="title text-left"></h5>
+							<h5 class="title text-left" th:text="${eventInfo[0].title}"></h5>
 							<hr>
+							<span class="text-right">관리자 | </span><span th:text="${#dates.format(eventInfo[0].wrtDate, 'yyyy/MM/dd')}"></span>
 							<div class="content">
-								<p class="desct"></p>
+								<p class="desct" th:text="${eventInfo[0].desct}"></p>
 							</div>
 							<!-- 정회원, 관리자, 작성자에 따라 하트 및 버튼 목록 조건 걸어야 함 -->
 							<div>
