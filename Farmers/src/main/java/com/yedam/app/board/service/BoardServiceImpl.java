@@ -30,9 +30,18 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public boolean addNotice(BoardVO vo) {
-		return boardMapper.addNotice(vo) > 0;
+	public boolean insertBoard(BoardVO vo) {
+		return boardMapper.insertBoard(vo) > 0;
 	}
 
+	@Override
+	public boolean updateBoard(BoardVO vo) {
+		return boardMapper.updateBoard(vo) > 0;
+	}
+	
+	@Override
+	public boolean deleteBoard(String boardNo) {
+		return boardMapper.deleteBoard(boardNo) > 0;
+	}
 	
 }

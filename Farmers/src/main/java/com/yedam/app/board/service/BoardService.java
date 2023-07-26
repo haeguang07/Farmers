@@ -13,6 +13,9 @@ public interface BoardService {
 	// 메인 게시판 상세 조회
 	public List<BoardVO> getBoardInfo(String postCtg, String boardNo);
 	// 등록
-	public boolean addNotice(BoardVO vo); 
-	
+	public boolean insertBoard(BoardVO vo); 
+	// 수정
+	public boolean updateBoard(BoardVO vo);
+	// 삭제
+	public boolean deleteBoard(String boardNo);
 }
