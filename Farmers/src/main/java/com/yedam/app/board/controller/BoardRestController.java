@@ -74,7 +74,7 @@ public class BoardRestController {
 //	}
 	
 	
-	// 이벤트 등록
+	// 공지사항 등록
 	@PostMapping("addNotice")
 	public Map<String, Object> addNotice(BoardVO vo) {
 		Map<String, Object> map = new HashMap<>();
@@ -85,6 +85,14 @@ public class BoardRestController {
 			map.put("retCode", "Fail");
 		}
 
+		return map;
+	}
+	
+	// 이벤트 등록
+	@PostMapping("addEvent")
+	public Map<String, Object> addEvent(BoardVO vo){
+		Map<String, Object> map = new HashMap<>();
+		
 		return map;
 	}
 
