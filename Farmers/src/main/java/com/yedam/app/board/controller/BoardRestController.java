@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.yedam.app.board.service.BoardService;
 import com.yedam.app.board.vo.BoardVO;
+import com.yedam.app.board.vo.ReplyVO;
 import com.yedam.app.common.service.CodeService;
 import com.yedam.app.market.vo.PageVO;
 
@@ -45,8 +46,6 @@ public class BoardRestController {
 
 		pageNum = (pageNum == 0 ? 1 : pageNum);
 		int total = boardService.listCount(postCtg);
-
-		System.out.println(dst2);
 		
 		PageVO vo = new PageVO(pageNum, total);
 		List<BoardVO> list = boardService.boardList(postCtg, pageNum, dst1, dst2);
@@ -100,6 +99,22 @@ public class BoardRestController {
 		return map;
 	}
 	
+	// 커뮤니티 등록
+	@PostMapping("addCmmn")
+	public Map<String, Object> addCmmn(BoardVO vo){
+		Map<String, Object> map = new HashMap<>();
+		
+		System.out.println(vo);
+		
+		if(boardService.insertBoard(vo)) {
+			map.put("retCode", "Success");
+		} else {
+			map.put("retCode", "Fail");
+		}
+		
+		return map;
+	}
+	
 	// 이벤트 등록
 	@PostMapping("addEvent")
 	public Map<String, Object> addEvent(BoardVO vo){
@@ -108,6 +123,21 @@ public class BoardRestController {
 		System.out.println(vo);
 		
 		if(boardService.insertBoard(vo)) {
+			map.put("retCode", "Success");
+		} else {
+			map.put("retCode", "Fail");
+		}
+		
+		return map;
+	}
+	
+	// 커뮤니티 수정
+	@PostMapping("updateCmmn")
+	public Map<String, Object> updateCmmn(BoardVO vo){
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		if(boardService.updateBoard(vo)) {
 			map.put("retCode", "Success");
 		} else {
 			map.put("retCode", "Fail");
@@ -131,6 +161,20 @@ public class BoardRestController {
 		return map;
 	}
 	
+	// 커뮤니티 삭제
+	@DeleteMapping("deleteCmmn")
+	public Map<String, Object> deleteCmmn(String boardNo){
+		Map<String, Object> map = new HashMap<>();
+		
+		if(boardService.deleteBoard(boardNo)) {
+			map.put("retCode", "Success");
+		} else {
+			map.put("retCode", "Fail");
+		}
+		
+		return map;
+	}
+	
 	// 이벤트 삭제
 	@DeleteMapping("deleteEvent")
 	public Map<String, Object> deleteEvent(String boardNo){
@@ -141,6 +185,30 @@ public class BoardRestController {
 		} else {
 			map.put("retCode", "Fail");
 		}
+		
+		return map;
+	}
+	
+	// 댓글 작성
+	@PostMapping("reply")
+	public Map<String, Object> addReply(ReplyVO vo){
+		Map<String, Object> map = new HashMap<>();
+		
+		if(boardService.addReply(vo)) {
+			map.put("retCode", "Success");
+		} else {
+			map.put("retCode", "Fail");
+		}
+		
+		return map;
+	}
+	
+	// 댓글 조회
+	@GetMapping("reply")
+	public Map<String, Object> replyList(String boardNo){
+		Map<String, Object> map = new HashMap<>();
+		List<BoardVO> list = boardService.selReplyList(boardNo);
+		map.put("reply", list);
 		
 		return map;
 	}

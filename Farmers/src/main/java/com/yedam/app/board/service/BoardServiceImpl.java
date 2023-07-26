@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.yedam.app.board.mapper.BoardMapper;
 import com.yedam.app.board.vo.BoardVO;
+import com.yedam.app.board.vo.ReplyVO;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -42,6 +43,16 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public boolean deleteBoard(String boardNo) {
 		return boardMapper.deleteBoard(boardNo) > 0;
+	}
+	
+	@Override
+	public List<BoardVO> selReplyList(String boardNo) {
+		return boardMapper.selReplyList(boardNo);
+	}
+	
+	@Override
+	public boolean addReply(ReplyVO vo) {
+		return boardMapper.addReply(vo) > 0;
 	}
 	
 }
