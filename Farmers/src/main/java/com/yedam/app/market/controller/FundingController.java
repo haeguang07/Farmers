@@ -19,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +38,7 @@ import com.yedam.app.common.vo.PaymentDetailVO;
 import com.yedam.app.market.service.FundingService;
 import com.yedam.app.market.vo.FundingVO;
 import com.yedam.app.market.vo.PageVO;
+import com.yedam.app.user.service.MyPageService;
 import com.yedam.app.user.vo.AlertVO;
 
 // 김성욱 2023/07/21  펀딩관리
@@ -46,6 +48,8 @@ public class FundingController {
 	FundingService fundingService;
 	@Autowired
 	AlertService alertService;
+	@Autowired
+	MyPageService myPageService;
 
 	// 기본 리스트 출력
 //	@GetMapping("fundingList")
@@ -326,7 +330,7 @@ public class FundingController {
 	}
 
 	// 기간 종료 및 달성 실패 시
-	//@Scheduled(cron = "0 0 0 * * *")
+	//@Scheduled(cron = "0/3 * * * * *")
 	public void fundingRefund() {
 		//취소가 필요한 결제 정보
 		List<PaymentDetailVO> list = fundingService.fundingRefundList();
@@ -352,14 +356,16 @@ public class FundingController {
 			//상태가 취소일 경우 실행
 			if(respEntity.getBody().get("status").equals("CANCELED")) {
 				//payment_detail 테이블의 ship_stts 'B6'(환불 완료)으로 변경
-				int result = fundingService.updateRefundStts(vo.getPayDetaNo());
-				System.out.println(result);
+				
+				vo.setBoardCtg("n9");
+				myPageService.refundProcedure(vo);
+				System.out.println(vo);
 				
 				//환불 알림 전송
 				AlertVO alert = new AlertVO();
 				alert.setMemNo(vo.getMemNo());
-				alert.setAlrtTitle(vo.getTitle() +" 이 자동환불 처리되었습니다");
-				alert.setAlrtDesct("해당 펀딩상품("+vo.getTitle()+")이 목표금액을 달성하지 못 하여 자동 환불처리되었습니다");
+				alert.setAlrtTitle(vo.getTitle() +" 이(가) 자동환불 처리되었습니다");
+				alert.setAlrtDesct("해당 펀딩상품("+vo.getTitle()+")이(가) 목표금액을 달성하지 못 하여 자동 환불처리되었습니다");
 				alert.setBoardCtg("g15");
 				
 				alertService.addAlert(alert);

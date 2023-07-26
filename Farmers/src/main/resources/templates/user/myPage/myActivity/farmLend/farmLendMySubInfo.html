@@ -54,6 +54,10 @@
 		li {
 			margin-bottom: 10px;
 		}
+		.no {
+			list-style: none;
+			margin-bottom: 0px;
+		}
 	</style>
 
 </head>
@@ -69,7 +73,7 @@
 						<div class="shopping__cart__table" style="margin-bottom: 0px;">
 							<h4 class="textCenter">나의 신청</h4>
 							<hr>
-							<h5 class="textCenter">제목</h5>
+							<h5 class="textCenter" th:text="${aplInfo[0].addr}">제목</h5>
 							<hr>
 							<div class="row">
 								<div class="col-md-12">
@@ -78,24 +82,28 @@
 								</div>
 								<div class="row col-md-12">
 									<div class="col-md-6">
-										<p >이름 : <span th:text="${aplInfo.name}">홍길동</span></p>
+										<p >이름 : <span th:text="${aplInfo[0].name}">홍길동</span></p>
 									</div>
 									<div class="col-md-6">
-										<p>연락처 : <span th:text="${aplInfo.mbl}"> 01000000000</span></p>
+										<p>연락처 : <span th:text="${aplInfo[0].mbl}"> 01000000000</span></p>
 									</div>
 									<div class="col-md-6">
-										<p>시작 날짜 : <span th:text="${#dates.format(aplInfo.rsvStrDate, 'yyyy/MM/dd')}">홍길동</span></p>
+										<p>신청 날짜 : <span th:text="${#dates.format(aplInfo[0].aplDate, 'yyyy/MM/dd')}">홍길동</span></p>
 									</div>
 									<div class="col-md-6">
-										<p>끝 날짜 : <span th:text="${#dates.format(aplInfo.rsvEndDate, 'yyyy/MM/dd')}"> 01000000000</span></p>
+										<p>신청상태 : <span th:text="${aplInfo[0].aplStts}">몰라</span></p>
 									</div>
 								</div>
 								<div class="row col-md-12">
-									<div class="col-md-6">
-										<p>신청상태 : <span th:text="${aplInfo.aplStts == 'e0' ? '승인대기' : '승인완료' }">몰라</span></p>
-									</div>
-									<div class="col-md-6">
-										<a href="#">다운로드</a>
+									<div class="col-md-6" th:if="not ${#strings.isEmpty(aplInfo[0].atchFileName)}">
+										<h6>첨부파일</h6>
+										<ul>
+											<th:block  th:each="item : ${aplInfo}">
+												<li class="no">
+													<a th:href="${item.atchFileName}" th:download="${item.uplFileName}" th:text="${item.uplFileName}">다운로드</a>
+												</li>
+											</th:block>
+										</ul>
 									</div>
 								</div>
 							</div>
@@ -116,7 +124,7 @@
 			$.ajax({
 					url: "/myPage/deleteMyFarmSub",
 					data: {
-						aplNo : /*[[${aplInfo.aplNo}]]*/
+						aplNo : /*[[${aplInfo[0].aplNo}]]*/
 					}
 				})
 				.done(function (result) {

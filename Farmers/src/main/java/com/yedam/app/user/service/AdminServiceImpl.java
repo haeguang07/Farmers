@@ -34,6 +34,10 @@ public class AdminServiceImpl implements AdminService{
 		adminMapper.updateMember(list,map);
 		System.out.println(map);
 	}
+	@Override
+	public boolean replyInquiry(InquiryVO vo) {
+		return adminMapper.updateInquiry(vo)==1;
+	}
 
 
 

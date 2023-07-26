@@ -5,17 +5,24 @@
 <mapper namespace="com.yedam.app.market.mapper.CartMapper">
 	<select id="getCartList" resultType="CartVO"
 		parameterType="CartVO">
-		SELECT *
+		SELECT board_no, 
+			   cart_no,
+			   ca.qty, 
+			   cr.qty product_qty, 
+			   ca.mem_no, 
+			   board_ctg, 
+			   title, 
+			   price
 		FROM cart ca JOIN
 		<choose>
 			<when test="boardCtg.equals('n8')">
 				crops_sale cr USING (board_no)
 			</when>
 			<when test="boardCtg.equals('n2')">
-				EQUIPMENT eq USING (board_no)
+				EQUIPMENT cr USING (board_no)
 			</when>
 			<when test="boardCtg.equals('n7')">
-				MARKET ma USING (board_no)
+				MARKET cr USING (board_no)
 			</when>
 		</choose>
 		WHERE ca.mem_no = #{memNo}

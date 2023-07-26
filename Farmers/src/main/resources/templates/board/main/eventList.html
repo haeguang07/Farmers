@@ -196,7 +196,7 @@
             	$(clone).css({'display' : 'block'});
             	
             	// 데이터 넣기
-            	let imageUrl = '/img/board/' + item.img;
+            	let imageUrl = item.img;
             	$(clone).find('.set-bg').css('background-image', 'url('+imageUrl+')');
             	$(clone).find('.set-bg').on('click', function(){
             		location.href = `eventInfo?postCtg=i4&boardNo=${item.boardNo}`

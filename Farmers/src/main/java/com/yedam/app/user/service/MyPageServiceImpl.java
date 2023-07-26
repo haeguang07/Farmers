@@ -120,7 +120,7 @@ public class MyPageServiceImpl implements MyPageService {
 	}
 
 	@Override
-	public FarmLendApplyVO mySubInfo(String aplNo) {
+	public List<FarmLendApplyVO> mySubInfo(String aplNo) {
 		return myPageMapper.mySubInfo(aplNo);
 	}
 
@@ -197,6 +197,26 @@ public class MyPageServiceImpl implements MyPageService {
 	@Override
 	public PaymentDetailVO mySalesPayInfo(String payDetaNo) {
 		return myPageMapper.mySalesPayInfo(payDetaNo);
+	}
+
+	@Override
+	public void myFarmAplStts(FarmLendApplyVO vo) {
+		myPageMapper.myFarmAplStts(vo);;
+	}
+
+	@Override
+	public boolean updateApplyStts(String aplNo) {
+		return myPageMapper.updateApplyStts(aplNo) > 0;
+	}
+
+	@Override
+	public boolean updateShipStts(PaymentDetailVO vo) {
+		return myPageMapper.updateShipStts(vo) > 0;
+	}
+
+	@Override
+	public void refundProcedure(PaymentDetailVO vo) {
+		myPageMapper.refundProcedure(vo);
 	}
 
 

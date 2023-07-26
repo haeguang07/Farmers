@@ -18,4 +18,7 @@ public class CartVO {
 	private String crpTitle; //농작물
 	private String eqpTitle; //농기구
 	private String mktTitle;  //전원마켓
+	
+	//가공데이터
+	private int productQty;
 }

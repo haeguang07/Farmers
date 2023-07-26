@@ -61,7 +61,7 @@
 									<th>체크아웃</th>
 									<th>박</th>
 									<th>총금액</th>
-									<th>신청일</th>
+									<th>결제일</th>
 									<th>상태</th>
 								</tr>
 							</thead>
@@ -74,6 +74,7 @@
 										<td th:text="${#dates.format(pay.rsvEndDate, 'yyyy/MM/dd')}"></td>
 										<td th:text="${pay.qty}"></td>
 										<td th:text="${#numbers.formatInteger(pay.totalPrice, 3, 'COMMA')}"></td>
+										<td th:text="${#dates.format(pay.payDate, 'yyyy/MM/dd')}"></td>
 										<td th:text="${pay.shipStts}"></td>
 									</tr>
 								</th:block>
