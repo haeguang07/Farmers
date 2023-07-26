@@ -120,13 +120,16 @@
 							</div>
 						</div>
 						<div id="rgMap" class="row">
-							<!-- 지역지도 표시 -->
+							<!-- 지역지도 표시부분 -->
 							<div id="rgImg" class="col-md-9">
 								<span id="rgImg_default">지역을 클릭하면<br>설명을 볼 수 있습니다.
-								</span> <img src="" id="thisMap">
+								</span>
+								<!-- js로 img 태그안에 src 설정으로 지도 이미지를 만들어줌-->
 							</div>
-							<!-- 지역별 설명표시란-->
-							<div id="rgDesc" class="col-md-3"></div>
+							<!-- 지역설명 표시부분 -->
+							<div id="rgDesc" class="col-md-3">
+							<!-- js로 span 태그 안에 지역설명을 만들어줌-->
+							</div>
 						</div>
 					</div>
 				</div>
@@ -170,34 +173,50 @@
 								button.setAttribute('data-img',data);
 								button.setAttribute('data-desc',desc);
 								
-							//계절버튼 클릭 이벤트															
-								button.addEventListener('click',function(){		
-									let btn=document.querySelectorAll('.season')[i];
-									
-									let rgImg = document.querySelector('#rgImg');										
-									let imgdata = btn.getAttribute('data-img');		
-									rgImg.innerHTML=`<img src="img/main/map/${imgdata}">`;
-									
-									let rgDesc= document.querySelector('#rgDesc');																			
-									let descData = btn.getAttribute('data-desc');																								
-									rgDesc.innerHTML=`<span>${descData}</span>`;
-									})
-								
-							//지역클릭시 봄 출력
-							let btn=document.querySelectorAll('.season')[0];
-							
-							let rgImg = document.querySelector('#rgImg');
-							let imgdata = btn.getAttribute('data-img');
-							rgImg.innerHTML=`<img src="img/main/map/${imgdata}">`;								
+								// 계절버튼 클릭 이벤트
+								button.addEventListener('click', function () {
+								    let btn = document.querySelectorAll('.season')[i];
+								    let rgImg = document.querySelector('#rgImg');
+								    let imgdata = btn.getAttribute('data-img');
+								    rgImg.innerHTML = `<img src="img/main/map/${imgdata}">`;
+								    let rgDesc = document.querySelector('#rgDesc');
+								    let descData = btn.getAttribute('data-desc');
+								    rgDesc.innerHTML = `<span>${descData}</span>`;
 
-							let rgDesc= document.querySelector('#rgDesc');							
-							let descData = btn.getAttribute('data-desc');															
-							rgDesc.innerHTML=`<span>${descData}</span>`;
-								}								
-							})							
+								    fadeInImage(rgImg.querySelector('img'));
+								});
+
+								// 지역클릭시 봄 출력
+								let btn = document.querySelectorAll('.season')[0];
+								let rgImg = document.querySelector('#rgImg');
+								let imgdata = btn.getAttribute('data-img');
+								rgImg.innerHTML = `<img src="img/main/map/${imgdata}">`;
+								let rgDesc = document.querySelector('#rgDesc');
+								let descData = btn.getAttribute('data-desc');
+								rgDesc.innerHTML = `<span>${descData}</span>`;
+
+								fadeInImage(rgImg.querySelector('img'));
+
+								} //for문 end								
+							})//.then문 end							
 						.catch(err => console.log(err))
 						})						
 			})			
+			
+			//fadeIn 효과 함수
+			function fadeInImage(imgElement) {
+				    let opacityValue = 0;
+				    function animate() {
+				        opacityValue += 0.05;
+				        imgElement.style.opacity = opacityValue;
+				
+				        if (opacityValue < 1) {
+				            requestAnimationFrame(animate);
+				        }
+				    }
+				    animate();
+				}
+			
 		// -------------------------- 지도 클릭 이벤트 끝 ---------------------- //
 				
 		</script>
