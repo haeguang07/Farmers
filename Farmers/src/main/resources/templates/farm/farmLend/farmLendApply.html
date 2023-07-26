@@ -228,7 +228,7 @@
 			
 			// 신청하기 버튼 클릭 시
 			$('#applyBtn').on('click', function() {
-				if($('#inputFile').length < 5) {
+				if(uploadFiles.length < 4) {
 					alert('필수 첨부파일을 참고하여 첨부하세요');
 				} else {
 					let formData = $('#myForm').serializeObject();
