@@ -3,6 +3,7 @@ package com.yedam.app.board.service;
 import java.util.List;
 
 import com.yedam.app.board.vo.BoardVO;
+import com.yedam.app.board.vo.ReplyVO;
 
 public interface BoardService {
 
@@ -18,4 +19,9 @@ public interface BoardService {
 	public boolean updateBoard(BoardVO vo);
 	// 삭제
 	public boolean deleteBoard(String boardNo);
+	
+	// 댓글 조회
+	public List<BoardVO> selReplyList(String boardNo);
+	// 댓글 작성
+	public boolean addReply(ReplyVO vo);
 }

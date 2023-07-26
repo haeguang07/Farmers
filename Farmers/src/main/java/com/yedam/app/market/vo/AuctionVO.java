@@ -17,7 +17,7 @@ public class AuctionVO {
 	private String boardNo;
 	private String title;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
-	@JsonFormat(pattern ="yyyy-MM-dd")
+	@JsonFormat(pattern ="yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date actDate;
 	private String desct;
 	private int saleQty;
@@ -33,7 +33,7 @@ public class AuctionVO {
 	
 	// 카운트 다운
 	@DateTimeFormat(pattern="yyyy-MM-dd")
-	@JsonFormat(pattern ="yyyy-MM-dd")
+	@JsonFormat(pattern ="yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date actExpireDate;
 	
 	// 경매 신청
