@@ -54,6 +54,10 @@
 		li {
 			margin-bottom: 10px;
 		}
+		.no {
+			list-style: none;
+			margin-bottom: 0px;
+		}
 	</style>
 
 </head>
@@ -93,9 +97,13 @@
 								<div class="row col-md-12">
 									<div class="col-md-6" th:if="not ${#strings.isEmpty(aplInfo[0].atchFileName)}">
 										<h6>첨부파일</h6>
-										<th:block  th:each="item : ${aplInfo}">
-											<a th:href="${item.atchFileName}" download th:text="${item.uplFileName}">다운로드</a>
-										</th:block>
+										<ul>
+											<th:block  th:each="item : ${aplInfo}">
+												<li class="no">
+													<a th:href="${item.atchFileName}" th:download="${item.uplFileName}" th:text="${item.uplFileName}">다운로드</a>
+												</li>
+											</th:block>
+										</ul>
 									</div>
 								</div>
 							</div>
