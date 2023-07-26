@@ -13,6 +13,8 @@ public interface AdminService {
 	public void modifyMemberStts(List<MemberVO> list);
 	//문의 조회
 	public List<InquiryVO> getInqueryList(SearchVO vo);
+	//문의 답변
+	public boolean replyInquiry(InquiryVO vo);
 	
 
 }

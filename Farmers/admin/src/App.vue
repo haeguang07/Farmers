@@ -34,18 +34,16 @@
 								<nav class="sb-sidenav-menu-nested nav">
 									<router-link to="farmLend" class="nav-link">농지대여</router-link>
 									<router-link to="experience" class="nav-link">농지체험</router-link>
-									<router-link to="equipment" class="nav-link">농기구</router-link>
 									<router-link to="funding" class="nav-link">펀딩</router-link>
-									<router-link to="jobVacancy" class="nav-link">일자리</router-link>
 									<router-link to="market" class="nav-link">전원마켓</router-link>
 									<router-link to="auction" class="nav-link">경매장</router-link>
 									<router-link to="farmbnb" class="nav-link">농촌비엔비</router-link>
 								</nav>
 							</div>
-							<router-link to="/inquiryAdmin" class="nav-link collapsed">
+							<router-link to="inquiry" class="nav-link collapsed">
 								<div class="sb-nav-link-icon"></div>문의관리
 							</router-link>
-							<a class="nav-link collapsed" href="/report">
+							<a class="nav-link collapsed" href="report">
 								<div class="sb-nav-link-icon"></div>신고관리
 							</a>
 						</div>

@@ -31,6 +31,9 @@ public class AdminRestController {
 		return mv;
 	}
 	
+	
+	
+	//회원조회
 	@GetMapping("/admin/members")
 	public Map<String, Object> memberList(SearchVO searchVO){
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -41,17 +44,30 @@ public class AdminRestController {
 		map.put("code", codeMap);
 		return map;
 	}
-	
-	@GetMapping("/admin/inquiryAdmin")
-	public List<InquiryVO> inquiryAdmin(SearchVO searchVO){
-		 return adminService.getInqueryList(searchVO);
-	}
+	//회원수정
 	@PutMapping("/admin/members/update")
 	public List<MemberVO> memberUpdate(@RequestBody List<MemberVO> list){
 		System.out.println(list);
 		adminService.modifyMemberStts(list);
 		SearchVO vo= new SearchVO();  
 		return (List<MemberVO>) memberList(vo).get("memberList");
+	}
+	
+	//문의 조회
+	@GetMapping("/admin/inquiryAdmin")
+	public List<InquiryVO> inquiryAdmin(SearchVO searchVO){
+		 return adminService.getInqueryList(searchVO);
+	}
+	//문의 답변
+	@PutMapping("admin/inquiryReply")
+	public Map<String,String>  inquiryReply(@RequestBody InquiryVO vo) {
+		Map<String,String>  map = new HashMap<>();
+		if(adminService.replyInquiry(vo)) {
+			map.put("retCode", "Success");			
+		}else {
+			map.put("retCode", "Fail");			
+		}
+		return map;
 	}
 	
 }

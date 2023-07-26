@@ -52,13 +52,20 @@
 		</where>
 		ORDER BY inq_no DESC
 	</select>
-	
+	<!-- 회원수정 -->
 	<update id="updateMember" statementType="CALLABLE">
 		call update_mem_stts(
 			#{list, typeHandler=com.yedam.app.user.service.OracleArrayMemHandler}
 			, #{map.test,  mode=OUT , jdbcType=VARCHAR} )
 	
 	</update>
-	
+	<!-- 문의 답변 -->
+	<update id="updateInquiry" parameterType="InquiryVO">
+		UPDATE inquiry
+		SET repl_desct=#{replDesct},
+			repl_date= sysdate,
+			repl_stts='d1'
+		WHERE inq_no = #{inqNo}
+	</update>
 	
 </mapper>
