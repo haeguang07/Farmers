@@ -160,7 +160,6 @@
 		<!-- 우편번호 api -->
 		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js?autoload=false"></script>
 		<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=c573b65eabeb9b6da24ab52d832dc807&libraries=services"></script>
-		
 		<script>
 			// 우편번호 api
 			$('#addressBtn').on('click', function() {
@@ -320,7 +319,7 @@
 			// 등록 버튼 클릭 시
 			$('#addBtn').on('click', function() {
 				//데이터 입력 확인
-				if (!$('[name="zip"]').val() || !$('[name="addr"]').val() || !$('[name="detaAddr"]').val()) {
+				if (!$('[name="zip"]').val() || !$('[name="addr"]').val()) {
 					alert('주소를 입력하세요');
 					return;
 				} else if ($('[name="area"]').val() <= 0) {
@@ -338,12 +337,10 @@
 				} else if ($('#price').val() < 2) {
 					alert('가격을 설정하세요');
 					return;
-				} 
-				/* else if ($('[name="files"]').val() < 5) {
+				} else if ($('#inputFile').length < 5) {
 					alert('필수 첨부파일을 참고하여 첨부하세요');
 					return;
-				} */
-				else {
+				} else {
 					let formData = $('#myForm').serializeObject();
 					formData.files = uploadFiles;
 					$.ajax({
@@ -368,7 +365,6 @@
 				location.href = "farmLendList";
 			});
 		</script>
-		
 	</div>
 </body>
 </html>

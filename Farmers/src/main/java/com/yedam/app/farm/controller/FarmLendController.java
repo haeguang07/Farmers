@@ -111,7 +111,6 @@ public class FarmLendController {
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("result", result);
-		map.put("frldNo", frldNo);
 		
 		return map;
 	}

@@ -4,29 +4,49 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.app.activity.mapper.ExpMapper">
 	
-	<!-- 전체조회 -->
+	<!-- 농촌 체험하기 전체조회(페이징) -->
 	<select id="selectExpListPage" resultType="ExpVO">
-		select board_no, title, zip, addr, dst1, dst2, ppt_per, ex_str_date, ex_end_date, reg_date, reg_stts, lati, longi, deta_addr
-		from experience
-		where reg_stts = 'e1'
-		order by reg_date
+		select b.*
+		from (select ROWNUM rn, a.*
+			  from (select board_no, title, zip, addr, dst1, dst2, ppt_per, ex_str_date, ex_end_date, reg_date, reg_stts, lati, longi, deta_addr
+					from experience
+					<where>
+						reg_stts = 'e1'
+						<if test="expStart != null and !expStart.equals('')">
+							and ex_str_date > #{expStart}
+						</if>
+						<if test="dst1 != null and !dst1.equals('')">
+							and dst1 = #{dst1}
+						</if>
+						<if test="dst2 != null and !dst2.equals('')">
+							and dst2 = #{dst2}
+						</if>
+					</where>
+					order by reg_date
+					) a
+		<![CDATA[
+			  where ROWNUM <= #{page} * 9) b
+		where b.rn > (#{page} - 1) * 9
+		]]>
 	</select>
 	
 	<!-- 단건조회 -->
 	<select id="selectExpInfo" resultType="ExpVO">
-		select board_no, mem_no, title, rep, deta_desct, zip, addr, dst1, dst2, ppt_per, ex_str_date, ex_end_date, reg_date, reg_stts, lati, longi, deta_addr
-		from experience
-		where board_no = #{boardNo}
+		select e.board_no, e.mem_no, e.title, e.rep, e.deta_desct, e.zip, e.addr, e.dst1, e.dst2, e.ppt_per, e.ex_str_date, e.ex_end_date, e.reg_date, e.reg_stts, e.lati, e.longi, e.deta_addr, m.nick
+		from experience e left join member m
+		on e.mem_no = m.mem_no
+		where e.board_no = #{boardNo}
 	</select>
 	
 	<!-- 등록 -->
 	<insert id="insertExp" parameterType="ExpVO">
-		<selectKey keyProperty="boardNo" resultType="String" order="BEFORE">
-			select 'EXP' || LPAD(frex_seq.nextval, 6, '0')
-			from dual
+		<selectKey keyProperty="dst1" resultType="String" order="BEFORE">
+			select cmmn_code_no
+			from common_code_detail
+			where cmmn_deta_code = find_common_code(#{dst2})
 		</selectKey>
-		insert into experience(board_no, mem_no, title, rep, deta_desct, zip, addr, dst1, dst2, ppt_per, ex_str_date, ex_end_date, reg_date, lati, longi, deta_addr)
-		values(#{boardNo}, #{memNo}, #{title}, #{rep}, #{detaDesct}, #{zip}, #{addr}, #{dst1}, #{dst2}, #{pptPer}, #{exStrDate}, #{exEndDate}, sysdate, #{lati}, #{longi}, #{detaAddr})
+		insert into experience(board_no, mem_no, title, rep, deta_desct, zip, addr, dst1, dst2, ppt_per, ex_str_date, ex_end_date, reg_date, reg_stts, lati, longi, deta_addr)
+		values('EXP' || LPAD(frex_seq.nextval, 6, '0'), #{memNo}, #{title}, #{rep}, #{detaDesct}, #{zip}, #{addr}, #{dst1}, find_common_code(#{dst2}), #{pptPer}, #{exStrDate}, #{exEndDate}, sysdate, 'e1', #{lati}, #{longi}, #{detaAddr})
 	</insert>
 	
 	<!-- 삭제 -->

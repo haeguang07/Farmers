@@ -27,6 +27,7 @@ public class ExpController {
 	CodeService codeService;
 	
 	// 리스트 전체조회
+	@GetMapping("expList")
 	public String getExpAllList(Model model) {
 		model.addAttribute("dst1", codeService.getCodeList("0K"));
 		return "activity/exp/expList";
@@ -47,6 +48,9 @@ public class ExpController {
 		Map<String, Object> map = new HashMap<>();
 		map.put("expList", list);
 		map.put("pageInfo", vo);
+		if(dst1 != null) {
+			map.put("dst2", codeService.getCodeList(dst1));
+		}
 		
 		return map;
 	}
