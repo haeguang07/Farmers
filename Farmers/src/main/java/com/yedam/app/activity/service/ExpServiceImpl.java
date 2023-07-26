@@ -34,7 +34,7 @@ public class ExpServiceImpl implements ExpService {
 		int result = expMapper.deleteExp(boardNo);
 		
 		if(result == 1) {
-			return Integer.parseInt(boardNo);
+			return result;
 		} else {
 			return -1;
 		}
