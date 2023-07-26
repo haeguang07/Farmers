@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yedam.app.activity.mapper.ExpMapper;
+import com.yedam.app.activity.vo.ExpApplyVO;
 import com.yedam.app.activity.vo.ExpVO;
 
 @Service
@@ -43,6 +44,11 @@ public class ExpServiceImpl implements ExpService {
 	@Override
 	public int getCount(String expStart, String dst1, String dst2) {
 		return expMapper.getCount(expStart, dst1, dst2);
+	}
+
+	@Override
+	public int insertExpApply(ExpApplyVO expaVO) {
+		return expMapper.insertExpApply(expaVO);
 	}
 	
 }

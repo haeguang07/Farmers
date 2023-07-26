@@ -9,10 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.app.activity.service.ExpService;
+import com.yedam.app.activity.vo.ExpApplyVO;
 import com.yedam.app.activity.vo.ExpVO;
 import com.yedam.app.common.service.CodeService;
 import com.yedam.app.market.vo.PageVO;
@@ -88,5 +90,13 @@ public class ExpController {
 	public String deleteExp(String boardNo) {
 		expService.deleteExpInfo(boardNo);
 		return "activity/exp/expList";
+	}
+	
+	// 신청(등록) 기능
+	@PostMapping("expApply")
+	@ResponseBody
+	public String ExpApply(@RequestBody ExpApplyVO expaVO) {
+		expService.insertExpApply(expaVO);
+		return "success";
 	}
 }
