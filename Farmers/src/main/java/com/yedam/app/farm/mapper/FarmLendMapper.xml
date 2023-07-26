@@ -98,7 +98,7 @@
 	</insert>
 	
 	<!-- 수정 -->
-	<update id="updateFarmLend" parameterType="FarmLendVO">
+	<update id="updateFarmLend" statementType="CALLABLE">
 		call update_farmlend(
 			#{boardNo},
 			#{desct},
@@ -128,13 +128,14 @@
 	</select>
 	
 	<!-- 농지 대여 신청(등록) -->
-	<insert id="insertFarmLendApply" parameterType="FarmLendApplyVO">
-		<selectKey keyProperty="aplNo" resultType="String" order="BEFORE">
-			select frld_apl_seq.nextval
-			from dual
-		</selectKey>
-		insert into farm_lend_apply(apl_no, mem_no, apl_stts, board_no, atch_no, apl_date)
-		values(#{aplNo}, #{memNo}, 'e0', #{boardNo}, #{atchNo}, sysdate)
+	<insert id="insertFarmLendApply" statementType="CALLABLE">
+		call add_farmlend_apply(
+			#{aplNo},
+			#{memNo},
+			#{boardNo},
+			#{files, typeHandler=com.yedam.app.farm.service.OracleArrayStructHandler},
+			#{aplDate}
+		)
 	</insert>
 	
 </mapper>

@@ -94,7 +94,6 @@
 		<!-- 우편번호 api -->
 		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js?autoload=false"></script>
 		<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=c573b65eabeb9b6da24ab52d832dc807&libraries=services"></script>
-		
 		<script th:inline="javascript">
 			// 데이터의 값을 select박스에 넣어줌
 			let mcrp = /*[[${flInfo.mcrp}]]*/
@@ -148,17 +147,19 @@
 						data : JSON.stringify(formData)
 					})
 					.done(function(result) {
-						if(result.result == 'true') {
+						if(result.result == true) {
+							console.log(result.result);
 							alert("success");
 							//location.href = "farmLendList";
 						} else {
+							console.log(result.result);
 							alert("fail");
 							//location.href = "farmLendList";
 						}
 					})
 					.fail(function(result) {
 						alert("fail");
-						//location.href = "farmLendList";
+						location.href = "farmLendList";
 					})
 				}
 			});
