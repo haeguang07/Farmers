@@ -10,6 +10,7 @@ public class PageVO {
 	private boolean prev;
 	private boolean next; 
 	private int pageNum;
+	private int totalPosts;
 	
 	public PageVO(int pageNum, int total) {
 		this.pageNum = pageNum;
@@ -23,6 +24,8 @@ public class PageVO {
 		}
 		this.prev = this.startPage>1;
 		this.next = this.endPage < realEnd; 
+		
+		this.totalPosts = (endPage-1) * 9;
 	}
 	
 	

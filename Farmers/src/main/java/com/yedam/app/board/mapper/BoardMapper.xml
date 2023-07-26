@@ -79,11 +79,26 @@
 
 	<!-- 커뮤니티 댓글 조회 -->
 	<select id="selReplyList" resultType="ReplyVO">
-		SELECT cmt_no, mem_no, cmt_desct, board_no, rcm_num, wrt_date
-		FROM reply
-		WHERE board_no = #{boardNo}
-		ORDER BY wrt_date DESC
+		SELECT cmt_no, nick, cmt_desct, b.board_no, rcm_num, r.wrt_date
+		FROM board b LEFT JOIN reply r
+        ON b.board_no = r.board_no
+        LEFT JOIN member m
+        ON r.mem_no = m.mem_no
+		WHERE b.board_no = #{boardNo}
+		ORDER BY r.wrt_date DESC
 	</select>
+	
+	<!-- 커뮤니티 댓글 등록 -->
+	<insert id="addReply" parameterType="ReplyVO">
+		<selectKey keyProperty="cmtNo"
+				   resultType="String"
+				   order="BEFORE">
+			SELECT 'CMT' || LPAD(cmt_seq.nextval, 6, '0')
+			FROM dual
+		</selectKey>
+		INSERT INTO reply
+		VALUES (#{cmtNo}, #{memNo}, #{cmtDesct}, #{boardNo}, #{rcmNum}, sysdate)
+	</insert>
 	
 	<!-- 게시글 추천 수 조회 -->
 	<select id="getRecomNum" resultType="RecomVO">

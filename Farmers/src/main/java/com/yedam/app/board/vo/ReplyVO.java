@@ -17,7 +17,7 @@ public class ReplyVO {
 	private String boardNo;
 	private int	rcmNum;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
-	@JsonFormat(pattern ="yyyy-MM-dd")
+	@JsonFormat(pattern ="yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date wrtDate;
 	
 }

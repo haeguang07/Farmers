@@ -3,6 +3,7 @@ package com.yedam.app.board.mapper;
 import java.util.List;
 
 import com.yedam.app.board.vo.BoardVO;
+import com.yedam.app.board.vo.ReplyVO;
 
 public interface BoardMapper {
 
@@ -18,4 +19,10 @@ public interface BoardMapper {
 	public int updateBoard(BoardVO vo);
 	// 삭제
 	public int deleteBoard(String boardNo);
+	
+	
+	// 댓글 조회
+	public List<BoardVO> selReplyList(String boardNo);
+	// 댓글 작성
+	public int addReply(ReplyVO vo);
 }

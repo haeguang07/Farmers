@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Market, Auction">
+<meta name="keywords" content="Auction">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>이벤트 상세조회</title>
+<style>
+/* 좋아요 버튼 */
+table {
+	line-height: 80px;
+}
+.center {
+	text-align: center;
+}
+i {
+	cursor: pointer;
+	padding: 5px;
+	background: #fff;
+	border-radius: 50%;
+	display: inline-block;
+	margin: 0 0 15px;
+	color: #aaa;
+	transition: .2s;
+	margin-bottom: 0px;
+}
+
+i:hover {
+	color: #666;
+}
+
+i:before {
+	font-family: fontawesome;
+	content: '\f004';
+	font-style: normal;
+}
+
+span {
+	position: absolute;
+	bottom: 70px;
+	left: 0;
+	right: 0;
+	visibility: hidden;
+	transition: .6s;
+	z-index: -2;
+	font-size: 2px;
+	color: transparent;
+	font-weight: 400;
+}
+
+i.press {
+	animation: size .4s;
+	color: #e23b3b;
+}
+
+span.press {
+	bottom: 120px;
+	font-size: 14px;
+	visibility: visible;
+	animation: fade 1s;
+}
+
+@
+keyframes fade { 0% {
+	color: #transparent;
+}
+
+50
+
+
+%
+{
+color
+
+
+:
+
+
+#e23b3b
+;
+
+
+}
+100
+
+
+%
+{
+color
+
+
+:
+
+
+#transparent
+;
+
+
+}
+}
+@
+keyframes size { 0% {
+	padding: 10px 12px 8px;
+}
+50
+
+
+%
+{
+padding
+
+
+:
+
+
+14px
+
+
+16px
+
+
+12px
+;
+
+
+margin-top
+
+
+:
+
+
+-4px
+;
+
+
+}
+100
+
+
+%
+{
+padding
+
+
+:
+
+
+10px
+
+
+12px
+
+
+8px
+;
+
+
+}
+}
+</style>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<!-- Breadcrumb Section Begin -->
+		<section class="breadcrumb-option">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="breadcrumb__text">
+							<h4>유귀농 커뮤니티</h4>
+							<div class="breadcrumb__links">
+								<span>전국 각 도의 유귀농인들과 함께 소통해보아요 !</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Breadcrumb Section End -->
+
+		<!-- Shop Section Begin -->
+		<section class="shop spad">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-3">
+						<div class="shop__sidebar">
+							<div class="shop__sidebar__accordion">
+								<div class="accordion" id="accordionExample">
+									<div class="card">
+										<div class="card-heading">
+											<a data-toggle="collapse" data-target="#collapseOne">유귀농
+												게시판</a>
+										</div>
+										<div id="collapseOne" class="collapse show"
+											data-parent="#accordionExample">
+											<div class="card-body">
+												<div class="shop__sidebar__categories">
+													<ul class="nice-scroll">
+														<li><a href="noticeList">공지사항</a></li>
+														<li><a href="communityList" style="color: black;">커뮤니티</a></li>
+														<li><b><a href="eventList">이벤트</a></b></li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-9">
+						<div>
+							<h5 class="title text-left" th:text="${cmmnInfo[0].title}"></h5>
+							<hr>
+							<span class="text-right" th:text="${cmmnInfo[0].nick}"></span><span
+								th:text="${#dates.format(cmmnInfo[0].wrtDate, 'yyyy/MM/dd')}"></span>
+							<div class="content">
+								<p class="desct" th:text="${cmmnInfo[0].desct}"></p>
+							</div>
+							<!-- 정회원, 관리자, 작성자에 따라 하트 및 버튼 목록 조건 걸어야 함 -->
+							<div>
+								<p th:text="${cmmnInfo}"></p>
+								<span>♡</span>
+							</div>
+							<hr>
+							<div>
+								<button type="button" id="updateBtn"
+									th:onclick="'location.href=\'' + @{${'updateCmmn?postCtg=i3&boardNo=' + cmmnInfo[0].boardNo + '&dst1=' + cmmnInfo[0].dst1}} + '\''">수정</button>
+								<button type="button" id="delBtn">삭제</button>
+								<button type="button"
+									th:onclick="'location.href=\''+ @{${'cmmnList'}} + '\''">목록</button>
+								<div class="col-lg-12">
+									<div class="form-group">
+										<table style="width: 800px;">
+											<tr>
+												<td><label for="cmtDesct" style="text-align: center;">댓글</label>
+												</td>
+												<td><textarea class="form-control"
+														style="display: inline-block;" id="cmtDesct" rows="3"
+														placeholder="댓글을 입력하세요"></textarea></td>
+											</tr>
+										</table>
+										<div>
+											<button type="button" id="addReply">댓글작성</button>
+										</div>
+									</div>
+									<div id="cmtList">
+										<div class="row col-lg-12">
+											<table id="cmtSpace">
+												<tr class="cmt" style="display: none;">
+													<td class="center nickname" style="width:100px;">닉네임</td>
+													<td class="cmtD" style="width:530px;">댓글 내용</td>
+													<td class="center" style="width:60px;">추천 <label class="rcmNum">0</label></td>
+													<td class="center" style="width:110px;">
+														<i></i>
+														<span>liked!</span>
+														<i class='fas fa-exclamation-triangle' style='font-size:18px;color:red'></i>
+														<i class="fa fa-close" style="font-size:20px;"></i>
+													</td>
+												</tr>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<script
+			src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+		<script
+			src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
+		<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
+
+		<script th:inline="javascript">
+			let boardNo = /*[[${cmmnInfo[0].boardNo}]]*/;
+			
+			let mem;
+			
+			/*<![CDATA[*/
+				mem = [[${session.mem}]]
+			/*]]>*/
+			
+			console.log(boardNo);
+			
+			$('#delBtn').on('click', function(){
+				$.ajax({
+					url: "deleteCmmn",
+					method: 'DELETE',
+					data: {boardNo},
+					success: function(data){
+						console.log(data);
+						alert('삭제가 완료되었습니다.');
+						location.href = "cmmnList";
+					},
+					error: function(reject){
+						alert('삭제가 정상적으로 진행되지 않았습니다.');
+					}
+				})
+			})
+			
+			// 댓글 작성 버튼 클릭 시 데이터 저장
+			$('#addReply').on('click', function(){
+				let postCtg = 'i3';
+				let cmtDesct = $('#cmtDesct').val();
+				let rcmNum = 0;
+				let memNo = mem.memNo;
+				
+				$.ajax({
+					url: "reply",
+					method: "POST",
+					data: {
+						memNo,
+						cmtDesct,
+						boardNo,
+						rcmNum
+					},
+					success: function(data){
+						alert('댓글 등록이 완료되었습니다.');
+						
+						printReply(data);
+					},
+					error: function(reject){
+						alert('다시 시도하세요.');
+					}
+				})
+				
+			})
+			
+			// 등록한 댓글 생성 및 추가 함수
+			function printReply(data){
+				let clone = $('#cmt').clone();
+				$(clone).css({'display' : 'block'});
+				
+				// 데이터 넣기
+				$(clone).find('.nickname').text(data.nick);
+				$(clone).find('.cmtD').text(data.cmtDesct);
+				$(clone).find('.rcmNum').text(data.rcmNum);
+			}
+			
+			// 좋아요 버튼 토글
+			  $(function() {
+			    $( "i" ).click(function() {
+			      $( "i,span" ).toggleClass( "press", 1000 );
+			    });
+			  });
+		</script>
+	</div>
+</body>
+</html>

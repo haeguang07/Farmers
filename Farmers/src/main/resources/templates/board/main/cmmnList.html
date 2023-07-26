@@ -10,6 +10,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>커뮤니티</title>
+<style>
+.center {
+	text-align: center;
+}
+</style>
 </head>
 <body>
 	<div layout:fragment="content">
@@ -61,15 +66,22 @@
 					</div>
 					<div class="row col-lg-9">
 						<div class="col-lg-12" style="margin-left: 0;">
-							<h4 class="center">공지사항</h4>
+							<!-- 지역1 선택창 -->
+							<div class="col-1">
+								<select class="form-select form-group col-1.5 mr-2"
+									aria-label="Default select example" id="dst1">
+									<option value="" selected="selected">도</option>
+									<option th:each="opt : ${dst1}" th:text="${opt.codeDesct}"
+										th:value="${opt.cmmnDetaCode}"></option>
+								</select>
+							</div>
 							<div class="shopping__cart__table" style="margin-bottom: 0px;">
 								<table id="myTable" class="center">
 									<thead>
-										<hr>
 										<tr class="center">
 											<th class="">순번</th>
 											<th class=""></th>
-											<th class="">제목</th>
+											<th class="col-lg-6">제목</th>
 											<th class="">작성자</th>
 											<th class="">작성일</th>
 											<th class="">조회수</th>
@@ -79,8 +91,8 @@
 									<tbody id="cmmnList">
 									</tbody>
 								</table>
-								<hr>
-								<button type="button">등록</button>
+								<br>
+								<button type="button" th:onclick="'location.href=\''+ @{${'addCmmn'}} + '\''">등록</button>
 							</div>
 						</div>
 						<div class="row" id="pageDiv"></div>
@@ -88,7 +100,7 @@
 				</div>
 			</div>
 		</section>
-		
+
 		<!-- pageDiv Clone용-->
 		<div class="product__pagination" style="display: none;" id="pageItem">
 			<a class="myInline" id="prevPage">◁</a>
@@ -99,6 +111,8 @@
 		</div>
 
 		<script th:inline="javascript">
+			let dst1 = '';
+		
 			$(function(){
 				boardData('i3', 1);
 			})
@@ -117,8 +131,6 @@
 						console.log(data);
 						console.log(dst1);
 						printList(data, dst1);
-						
-						}
 					},
 					error(reject){
 						console.log(reject);
@@ -128,37 +140,103 @@
 				
 			// 리스트 출력
 			function printList(data, dst1){
-				
+				$('#cmmnList').empty();
 				$('#pageDiv').children().remove();
 				
 				let cmmnData = data.boardList;
 				let pageData = data.pageInfo;
 				
 				$(cmmnData).each((idx, item) => {
-					printItem(item);
+					printItem(item, idx);
 				})
 				
 				printPage(pageData, dst1);
 			}
 			
 			// 커뮤니티 게시글 생성 및 추가 함수
-            function printItem(item){
+            function printItem(item, idx){
 				
 				let tr = $('<tr>');
 				
-				tr.append($('<td/>'))
+			    tr.append($('<td>').text(idx + 1));
+			    
+			    let tdImg = $('<td>');
+			    let img = $('<img>', {
+			        'src': item.img,
+			        'width': '30px',
+			        'height': '50px'
+			    });
+			    tdImg.append(img);
+			    tr.append(tdImg);
+
+			    tr.append($('<td>').text(item.title));
+			    tr.append($('<td>').text(item.wrtDate));
+			    tr.append($('<td>').text(item.nick));
+			    tr.append($('<td>').text(item.hitCount));
+			    tr.append($('<td>').text(item.recomCount));
+
+			    $('#cmmnList').append(tr);
+			    
+			    tr.on('click', function(){
+			    	location.href = `cmmnInfo?postCtg=i3&boardNo=${item.boardNo}`;
+			    })
+			}
             	
-            	// 데이터 넣기
-            	let imageUrl = item.img;
-            	$(clone).find('.set-bg').css('background-image', 'url('+imageUrl+')');
-            	$(clone).find('.set-bg').on('click', function(){
-            		location.href = `eventInfo?postCtg=i4&boardNo=${item.boardNo}`
-            	})
-            	$(clone).find('.eDst2').text(item.dst2);
-            	$(clone).find('.eTitle').text(item.title);
-            	
-            	$('#eventList').append(clone);
-            }
+			
+         // 페이지 출력 
+			function printPage(pageData, dst1) {
+				
+			    dst1 = $('.selected').attr('data-value');	
+			    	
+				let pageItem = $('#pageItem').clone()
+				$(pageItem).css({'display' : 'block'});
+				$(pageItem).find('#prevPage').on('click',function(){
+					ajaxData(pageData.startPage - 1)
+				})
+				$(pageItem).find('#nextPage').on('click',function(){
+					ajaxData(pageData.endPage + 1)
+				})
+
+				if(!pageData.prev){
+					$(pageItem).find('#prevPage').hide()
+				}
+				if(!pageData.next){
+					$(pageItem).find('#nextPage').hide()
+				}
+
+				for (let i = pageData.startPage; i <= pageData.endPage; i++) {
+					let clone = $('#pageItem').find('#pageNum').clone()
+					$(clone).text(i);
+					if(i == pageData.pageNum){
+						$(clone).addClass('active')
+						$(clone).css('border-color','orange')
+					}
+					$(clone).on('click', function () {
+						getCondition(i, dst1);
+					})
+					$(pageItem).find('#pageNumDiv').append(clone)
+				}
+
+				$(pageItem).find('#pageNum')[0].remove()
+				$('#pageDiv').append(pageItem) 
+			}
+			    
+		 	// 조건 값 변경 시 컨트롤 정보 보내기
+			function getCondition(pageNum, dst1){
+				dst1 = $('#dst1').val();
+				let postCtg = 'i3';
+				
+				if(pageNum == null){
+					pageNum = 1
+				}
+
+				boardData(postCtg, pageNum, dst1);
+			}
+		 
+			// 지역1 카테고리 변경 시
+			$('#dst1').change(function() {
+				getCondition();
+			});
 		</script>
 
 	</div>
