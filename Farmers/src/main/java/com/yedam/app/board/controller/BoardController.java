@@ -31,5 +31,11 @@ public class BoardController {
 		
 		return "board/main/eventInfo";
 	}
+	
+	// 이벤트 등록 페이지 이동
+	@GetMapping("addEvent")
+	public String addEvent() {
+		return "board/main/addEvent";
+	}
 
 }
