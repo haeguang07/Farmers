@@ -178,20 +178,20 @@
 	<select id="subFarmLendList" parameterType="String"
 		resultType="FarmLendApplyVO">
 		SELECT *
-		FROM (SELECT *
+		FROM (SELECT apl_no,
+                     addr, 
+                     deta_addr,
+                     apl_date,
+                     apl_stts,
+                     a.mem_no
 			  FROM (SELECT apl_no , 
-			  			   apl_stts,
-						   rsv_str_date,
-						   rsv_end_date,
+			  			   FIND_CODE_NAME(apl_stts) apl_stts,
 						   board_no, 
 						   atch_no, 
-						   lend_total,
 						   apl_date, 
-						   cmmn_deta_code,
-						   code_desct
-					FROM farm_lend_apply JOIN common_code_detail
-					ON (apl_stts = cmmn_deta_code)) a JOIN farm_lend b 
-		ON (a.board_no = b.board_no)) c
+                           mem_no
+					FROM farm_lend_apply ) a JOIN farm_lend b 
+                    ON (a.board_no = b.board_no)) c
 		JOIN member_detail d ON (c.mem_no = d.mem_no)
 		WHERE d.mem_no = #{memNo}
 		ORDER BY 1 DESC
@@ -219,6 +219,38 @@
 			column="boardNo = board_no" ofType="FarmLendApplyVO"
 			select="myFarmLendPeoList"></collection>
 	</resultMap>
+	
+	<!-- 농지대여 신청 resultMap -->
+	<resultMap type="FarmLendApplyVO" id="lendApplyInfoResult">
+		<result property="aplNo" column="apl_no" />
+		<result property="memNo" column="mem_no" />
+		<result property="aplStts" column="apl_stts" />
+		<result property="rsvStrDate" column="rsv_str_date" />
+		<result property="rsvEndDate" column="rsv_end_date" />
+		<result property="boardNo" column="board_no" />
+		<result property="atchNo" column="atch_no" />
+		<result property="lendTotal" column="lend_total" />
+		<result property="aplDate" column="apl_date" />
+		<result property="lendPrice" column="lend_price" />
+		<result property="atchFileName" column="atch_file_name" />
+		<result property="uplFileName" column="upl_file_name" />
+		<result property="codeDesct" column="code_desct" />
+		<result property="allPrice" column="all_price" />
+		<result property="addr" column="addr" />
+		<result property="detaAddr" column="deta_addr" />
+		<result property="name" column="name" />
+		<result property="mbl" column="mbl" />
+		<collection property="attachList" javaType="ArrayList"
+			column="atchNo = atch_no" ofType="AttachmentVO"
+			select="myFarmLendAttach"></collection>
+	</resultMap>
+	
+	<!-- 농지대여 신청 파일 -->
+	<select id="myFarmLendAttach" resultType="AttachmentVO">
+		SELECT *
+		FROM attachment
+		WHERE atch_no = #{atchNo}
+	</select>
 
 	<!-- 농지대여 상세 정보 (신청자 리스트 포함) -->
 	<select id="myFarmLendInfo" resultMap="lendInfoResult">
@@ -229,18 +261,14 @@
 	</select>
 
 	<!-- 신청자 리스트 -->
-	<select id="myFarmLendPeoList" resultType="FarmLendApplyVO">
+	<select id="myFarmLendPeoList" resultMap="lendApplyInfoResult">
 		SELECT *
 		FROM (SELECT fa.APL_NO, 
 		             fa.MEM_NO,    
-		             fa.APL_STTS, 
-		             fa.RSV_STR_DATE,
-		             fa.RSV_END_DATE, 
+		             FIND_CODE_NAME(fa.APL_STTS) apl_stts, 
 		             fa.board_NO, 
 		             fa.ATCH_NO, 
-		             fa.LEND_TOTAL,
-		             fa.APL_DATE, 
-		             (ceil(fa.RSV_END_DATE - fa.RSV_STR_DATE)* f.lend_price) as allPrice
+		             fa.APL_DATE
 				FROM farm_lend_apply fa JOIN farm_lend f ON (fa.board_no = f.board_no))
 		JOIN member_detail USING (mem_no)
 		WHERE board_no = #{boardNo}
@@ -250,20 +278,24 @@
 	<!-- 농지대여 나의 신청 상세정보 -->
 	<select id="mySubInfo" parameterType="String"
 		resultType="FarmLendApplyVO">
-		SELECT *
-		FROM (SELECT *
+	 SELECT *
+		FROM (SELECT addr,
+                     deta_addr,
+                     atch_file_name,
+                     apl_date,
+                     a.mem_no,
+                     apl_no,
+                     apl_stts,
+                     UPL_FILE_NAME
 			  FROM (SELECT apl_no , 
-			  			   apl_stts,
-						   rsv_str_date, 
-						   rsv_end_date,
-						   board_no, 
-						   atch_no,
-						   lend_total,
-						   apl_date, 
-						   cmmn_deta_code,
-						   code_desct
-					FROM farm_lend_apply JOIN common_code_detail
-					ON (apl_stts = cmmn_deta_code)) a 
+			  			   FIND_CODE_NAME(apl_stts) apl_stts,
+						   f.board_no, 
+						   f.atch_no,
+						   apl_date,
+                           atch_file_name,
+                           f.mem_no,
+                           UPL_FILE_NAME
+					FROM farm_lend_apply f LEFT JOIN attachment a ON (a.ATCH_NO = f.ATCH_NO)) a 
 			  JOIN farm_lend b 
 			  ON (a.board_no = b.board_no)) c
 		JOIN member_detail d 
@@ -278,6 +310,24 @@
 		farm_lend_apply
 		WHERE apl_no = #{aplNo}
 	</delete>
+	
+	<!-- 농지대여 신청 수락 및 전체 거절 처리 -->
+	<select id="myFarmAplStts" parameterType="FarmLendApplyVO"
+		resultType="FarmLendApplyVO">
+		{
+			CALL CHANGE_FRAMLEND_STTS(
+				#{boardNo, mode=IN , jdbcType=VARCHAR},
+				#{aplNo, mode=IN , jdbcType=VARCHAR}
+			)
+		}
+	</select>
+	
+	<!-- 농지대여 신청 거절 -->
+	<update id="updateApplyStts" parameterType="String">
+		UPDATE farm_lend_apply
+		SET apl_stts = 'e8'
+		WHERE apl_no = #{aplNo}
+	</update>
 	
 	<!-- 나의 경매장 등록 리스트 -->
 	<select id="myActionList" parameterType="String" resultType="AuctionVO">
@@ -523,7 +573,8 @@
 			   zip, 
 			   FIND_CODE_NAME(board_ctg) board_ctg,
 			   rsv_str_date,
-			   rsv_end_date
+			   rsv_end_date,
+			   pay_deta_no
 		FROM  member_detail JOIN (SELECT * 
                           		  FROM member JOIN (SELECT *
                                             		FROM sale JOIN (SELECT *
@@ -534,4 +585,11 @@
 		USING (mem_no)
 		WHERE pay_deta_no = #{payDetaNo}
 	</select>
+	
+	<!-- 내 상품의 배송 상태 변경 -->
+	<update id="updateShipStts" parameterType="PaymentDetailVO">
+		UPDATE payment_detail
+		SET ship_stts = FIND_COMMON_CODE(#{shipStts})
+		WHERE pay_deta_no = #{payDetaNo}
+	</update>
 </mapper>

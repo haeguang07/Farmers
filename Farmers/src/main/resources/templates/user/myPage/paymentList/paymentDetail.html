@@ -80,35 +80,48 @@
 							<hr>
 							<h5 class="textCenter">구매상품</h5>
 							<hr>
-							<table id="productTable">
-								<thead>
-									<tr>
-										<th>이미지</th>
-										<th>상품명</th>
-										<th>수량</th>
-										<th>가격</th>
-										<th>합계</th>
-										<th>배송상태</th>
-									</tr>
-								</thead>
-								<tbody id="tbody">
-									<tr th:each="prod : ${prodInfo}">
-										<td>
-											<img th:src="${prod.rep}" alt="" width="100px" height="100px" th:if="not ${#strings.isEmpty(prod. rep)}">
-											<div style="width: 100px; height: 100px;" th:if="${#strings.isEmpty(prod. rep)}">
-												<p style="text-align: center;line-height : 100px;">이미지없음</p>
-											</div>
-										</td>
-										<td th:text="${prod.title}">2</td>
-										<td th:text="${prod.qty}">4</td>
-										<td th:text="${#numbers.formatInteger(prod.price, 3, 'COMMA')}">5</td>
-										<td th:text="${#numbers.formatInteger(prod.qty * prod.price , 3, 'COMMA')}">5</td>
-										<!-- <td th:text="${prod.qty} * ${prod.price}">6</td> -->
-										<td th:text="${prod.shipStts}" id="stts">7</td>
-									</tr>
-								</tbody>
-							</table>
-							<hr>
+								<table id="productTable">
+									<thead>
+										<tr>
+											<th>이미지</th>
+											<th>상품명</th>
+											<!-- bnb 구분 -->
+											<th:block th:if="${prodInfo[0].boardCtg} != 'n4'">
+												<th>수량</th>
+												<th>가격</th>
+											</th:block>
+											<th:block th:if="${prodInfo[0].boardCtg} == 'n4'">
+												<th>체크인</th>
+												<th>체크아웃</th>
+											</th:block>
+											<th>합계</th>
+											<th>배송상태</th>
+										</tr>
+									</thead>
+									<tbody id="tbody">
+										<tr th:each="prod : ${prodInfo}">
+											<td>
+												<img th:src="${prod.rep}" alt="" width="100px" height="100px" th:if="not ${#strings.isEmpty(prod. rep)}">
+												<div style="width: 100px; height: 100px;" th:if="${#strings.isEmpty(prod. rep)}">
+													<p style="text-align: center;line-height : 100px;">이미지없음</p>
+												</div>
+											</td>
+											<td th:text="${prod.title}">2</td>
+											<!-- bnb 구분 -->
+											<th:block th:if="${prodInfo[0].boardCtg} != 'n4'">
+												<td th:text="${prod.qty}">4</td>
+												<td th:text="${#numbers.formatInteger(prod.price, 3, 'COMMA')}">5</td>
+											</th:block>
+											<th:block th:if="${prodInfo[0].boardCtg} == 'n4'">
+												<td th:text="${#dates.format(prod.rsvStrDate, 'yyyy/MM/dd')}">4</td>
+											 <td th:text="${#dates.format(prod.rsvEndDate, 'yyyy/MM/dd')}">5</td>
+											</th:block>
+											<td th:text="${#numbers.formatInteger(prod.qty * prod.price , 3, 'COMMA')}">5</td>
+											<td th:text="${prod.shipStts}" id="stts">7</td>
+										</tr>
+									</tbody>
+								</table>
+								<hr>
 						</div>
 					</div>
 					<!-- 총액 시작 -->
