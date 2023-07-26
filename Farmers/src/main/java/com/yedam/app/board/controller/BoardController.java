@@ -19,6 +19,7 @@ public class BoardController {
 
 	@Autowired
 	CodeService codeService;
+	
 
 	// 이벤트 상세 조회 페이지 이동
 	@GetMapping("eventInfo")
@@ -34,8 +35,18 @@ public class BoardController {
 	
 	// 이벤트 등록 페이지 이동
 	@GetMapping("addEvent")
-	public String addEvent() {
+	public String addEvent(Model model) {
+		model.addAttribute("dst1", codeService.getCodeList("0K"));
 		return "board/main/addEvent";
+	}
+	
+	// 이벤트 수정 페이지 이동
+	@GetMapping("updateEvent")
+	public String updateEvent(Model model, String postCtg, String boardNo, String dst1) {
+		model.addAttribute("eventInfo", boardService.getBoardInfo(postCtg, boardNo));
+		model.addAttribute("dst1", codeService.getCodeList("0K"));
+		model.addAttribute("dst2", codeService.getCodeList(dst1));
+		return "board/main/updateEvent";
 	}
 
 }

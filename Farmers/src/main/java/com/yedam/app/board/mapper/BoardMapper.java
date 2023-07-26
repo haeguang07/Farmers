@@ -13,5 +13,9 @@ public interface BoardMapper {
 	// 메인 게시판 상세 조회
 	public List<BoardVO> getBoardInfo(String postCtg, String boardNo);
 	// 등록
-	public int addNotice(BoardVO vo); 
+	public int insertBoard(BoardVO vo); 
+	// 수정
+	public int updateBoard(BoardVO vo);
+	// 삭제
+	public int deleteBoard(String boardNo);
 }

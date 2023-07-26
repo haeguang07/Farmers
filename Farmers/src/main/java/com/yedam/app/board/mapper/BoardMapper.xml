@@ -39,14 +39,12 @@
 						LEFT JOIN member m ON b.mem_no = m.mem_no
 						LEFT JOIN recommendation r ON b.board_no = r.board_no
 						WHERE b.post_ctg = #{postCtg}
-						<choose>
-							<when test="dst1 != null and !dst1.equals('')">
+							<if test="dst1 != null and !dst1.equals('')">
 								AND dst1 = #{dst1}
-							</when>
-							<when test="dst2 != null and !dst2.equals('')">
+							</if>
+							<if test="dst2 != null and !dst2.equals('')">
 								ANd dst2 = #{dst2}
-							</when>
-						</choose>
+							</if>
 						GROUP BY b.board_no
 						         , m.nick
 						         , b.post_ctg
@@ -118,9 +116,18 @@
 	<!-- 게시글 수정 -->
 	<update id="updateBoard" parameterType="BoardVO">
 		UPDATE board
-		SET (dst1, dst2, title, img, desct) = (#{dst1}, #{dst2}, #{title}, #{img}, #{desct})
+		SET  dst1 = #{dst1}, 
+			 dst2 = #{dst2}, 
+			 title = #{title}, 
+			 img = #{img},
+			 desct = #{desct}
 		WHERE board_no = #{boardNo}
 	</update>
 	
+	<!-- 게시글 삭제 -->
+	<delete id="deleteBoard" parameterType="String">
+		DELETE FROM board
+		WHERE board_no = #{boardNo}
+	</delete>
 
 </mapper>

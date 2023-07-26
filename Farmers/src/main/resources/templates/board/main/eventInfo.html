@@ -77,18 +77,39 @@
 							</div>
 							<hr>
 							<div>
-								<button type="button">수정</button>
-								<button type="button">삭제</button>
-								<button type="button">목록</button>
+								<button type="button" id="updateBtn" th:onclick="'location.href=\'' + @{${'updateEvent?postCtg=i4&boardNo=' + eventInfo[0].boardNo + '&dst1=' + eventInfo[0].dst1}} + '\''">수정</button>
+								<button type="button" id="delBtn">삭제</button>
+								<button type="button" th:onclick="'location.href=\''+ @{${'eventList'}} + '\''">목록</button>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</section>
+		
+		<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+		<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
+		<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
+		
+		<script th:inline="javascript">
+			let boardNo = /*[[${eventInfo[0].boardNo}]]*/;
+			console.log(boardNo);
 			
-		<script>
-			
+			$('#delBtn').on('click', function(){
+				$.ajax({
+					url: "deleteEvent",
+					method: 'DELETE',
+					data: {boardNo},
+					success: function(data){
+						console.log(data);
+						alert('삭제가 완료되었습니다.');
+						location.href = "eventList";
+					},
+					error: function(reject){
+						alert('삭제가 정상적으로 진행되지 않았습니다.');
+					}
+				})
+			})
 		</script>
 	</div>
 </body>
