@@ -234,7 +234,7 @@
 				//tbody
 				$('#tbody').children().remove()
 				$(list).each(function (idx, item) {
-					tr = $('<tr>').attr('no', item.frldLendNo)
+					tr = $('<tr>').attr('no', item.boardNo)
 												.attr('aplNo', item.aplNo)
 					let td1 = $('<td>').text(item.aplNo)
 					let td2 = $('<td>').text(item.addr + ' ' + item.detaAddr)

@@ -214,6 +214,11 @@ public class MyPageServiceImpl implements MyPageService {
 		return myPageMapper.updateShipStts(vo) > 0;
 	}
 
+	@Override
+	public void refundProcedure(PaymentDetailVO vo) {
+		myPageMapper.refundProcedure(vo);
+	}
+
 
 
 

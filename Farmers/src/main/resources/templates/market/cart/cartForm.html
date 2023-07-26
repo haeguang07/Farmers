@@ -1,26 +1,38 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{index}">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="description" content="Male_Fashion Template">
-	<meta name="keywords" content="Male_Fashion, unica, creative, html">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Cart</title>
-	<link rel="stylesheet" href="/css/sungWookCss/sungook.css" type="text/css">
-	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-	<script src="https://unpkg.com/vue-router@4"></script>
-	<script src="https://cdn.jsdelivr.net/npm/vue3-sfc-loader/dist/vue3-sfc-loader.js"></script>
-	<script src="/js/vue/Vue-load.js"></script>
-	<script src="/js/myRouter.js"></script>
-	<script src="https://unpkg.com/vuex@4.0.0/dist/vuex.global.js"></script>
-	<style>
-		.myBlack{
-			background-color:green
-		}
-	</style>
+<meta charset="UTF-8">
+<meta name="description" content="Male_Fashion Template">
+<meta name="keywords" content="Male_Fashion, unica, creative, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Cart</title>
+<link rel="stylesheet" href="/css/sungWookCss/sungook.css"
+	type="text/css">
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="https://unpkg.com/vue-router@4"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/vue3-sfc-loader/dist/vue3-sfc-loader.js"></script>
+<script src="/js/vue/Vue-load.js"></script>
+<script src="/js/myRouter.js"></script>
+<script src="https://unpkg.com/vuex@4.0.0/dist/vuex.global.js"></script>
+<style>
+.myBlack {
+	background-color: green
+}
+
+.pro-qty-my input
+	{
+	width: 50px;
+	border: none;
+	text-align: center;
+	color: #111111;
+	font-size: 16px;
+}
+</style>
 </head>
 
 <body>
@@ -45,23 +57,23 @@
 									<div class="accordion" id="accordionExample">
 										<div class="card">
 											<div class="card-heading">
-												<a data-toggle="collapse" data-target="#collapseOne" style="font-size: larger;">장바구니</a>
+												<a data-toggle="collapse" data-target="#collapseOne"
+													style="font-size: larger;">장바구니</a>
 											</div>
-											<div id="collapseOne" class="collapse show" data-parent="#accordionExample">
+											<div id="collapseOne" class="collapse show"
+												data-parent="#accordionExample">
 												<div class="card-body">
 													<div class="shop__sidebar__categories">
 														<ul>
-															<li>
-																<router-link to="/" class="nav-link check myBlack" aria-current="page" id="n8Cart">농작물판매
-																</router-link>
-															</li>
+															<li><router-link to="/"
+																	class="nav-link check myBlack" aria-current="page"
+																	id="n8Cart">농작물판매 </router-link></li>
 															<!-- <li>
 																<router-link to="/n2Cart" class="nav-link check" aria-current="page">농기구판매
 																</router-link>
 															</li> -->
-															<li>
-																<router-link to="/n7Cart" class="nav-link check" aria-current="page">전원마켓</router-link>
-															</li>
+															<li><router-link to="/n7Cart" class="nav-link check"
+																	aria-current="page">전원마켓</router-link></li>
 														</ul>
 													</div>
 												</div>

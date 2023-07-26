@@ -130,5 +130,8 @@ public interface MyPageMapper {
 	
 	//나의 판매상품의 배송 상태 변경
 	public int updateShipStts(PaymentDetailVO vo);
+	
+	//환불 프로시저
+	public void refundProcedure(PaymentDetailVO vo);
 
 }

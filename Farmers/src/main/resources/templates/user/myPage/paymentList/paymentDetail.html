@@ -194,14 +194,16 @@
 			$('tr').each(function(idx,item){
 				if($(item).find('#stts').text() == "결제완료" || $(item).find('#stts').text() == "배송 전"){
 					bool = true;
+				}else{
+					alert('환불할 수 없는 상태입니다')
+					return false;
 				}
 			})
 			
-			let payCode =/*[[${payInfo.payCode}]]*/;
-			let url = "https://api.tosspayments.com/v1/payments/"+payCode+"/cancel";
-			console.log(url)
 			if(bool){
 				if(confirm('환불하시겠습니까? \n(환불 시 사용포인트는 소멸됩니다)')){
+					let payCode =/*[[${payInfo.payCode}]]*/;
+					let url = "https://api.tosspayments.com/v1/payments/"+payCode+"/cancel";
 					let boolean = false;
 					//토스 환불 처리
 					$.ajax({   
@@ -227,18 +229,19 @@
 
 					if(boolean){
 
-						let uri = "/myPage/refund?payNo="+ /*[[${payInfo.payNo}]]*/;
+						let uri = "/myPage/refund"
 						//결제 상태 변경
 						$.ajax({
 							url : uri,
-							async : "false"
-						})
-						.done(function(result){
-							if(result){
-								alert('환불처리가 완료되었습니다.')
-							}else{
-								alert('환불에 실패하였습니다')
+							async : "false",
+							data : {
+								payNo : /*[[${payInfo.payNo}]]*/,
+								memNo : /*[[${session.mem.memNo}]]*/,
+								boardCtg : /*[[${prodInfo[0].boardCtg}]]*/ 
 							}
+						})
+						.done(function(){
+								alert('환불처리가 완료되었습니다.')
 						})
 					}
 				}else{

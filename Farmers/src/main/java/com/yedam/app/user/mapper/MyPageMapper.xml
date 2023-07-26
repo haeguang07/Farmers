@@ -97,6 +97,7 @@
 		}
 	</select>
 
+	<!-- 환불 -->
 	<update id="refund" parameterType="String">
 		UPDATE payment_detail
         SET ship_stts = 
@@ -105,6 +106,18 @@
         WHERE code_desct = '환불 완료')
         WHERE pay_no = #{payNo}
 	</update>
+	
+	<!-- 환불 프로시저 -->
+	<select id="refundProcedure" parameterType="PaymentDetailVO" resultType="PaymentDetailVO">
+		{
+		CALL refund(
+		#{payNo, mode=IN, jdbcType=VARCHAR},
+		#{boardCtg, mode=IN, jdbcType=VARCHAR},
+		#{memNo, mode=IN, jdbcType=VARCHAR}
+		)
+
+		}
+	</select>
 
 	<!-- 문의내역 조회 -->
 	<select id="myInquiry" parameterType="String"
@@ -183,7 +196,8 @@
                      deta_addr,
                      apl_date,
                      apl_stts,
-                     a.mem_no
+                     a.mem_no,
+                     a.board_no
 			  FROM (SELECT apl_no , 
 			  			   FIND_CODE_NAME(apl_stts) apl_stts,
 						   board_no, 

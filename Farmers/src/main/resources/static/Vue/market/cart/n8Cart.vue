@@ -56,7 +56,7 @@
       </td>
       <td class="quantity__item col-lg-2">
         <div class="quantity">
-          <div class="pro-qty-2" style="padding-top: 20px;">
+          <div class="pro-qty-my" style="padding-top: 20px;">
             <span class="fa fa-angle-left dec qtybtn"></span>
             <input type="text" value="1" id="qty" class="qty" readonly>
             <span class="fa fa-angle-right inc qtybtn"></span>

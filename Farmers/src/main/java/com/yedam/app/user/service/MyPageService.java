@@ -130,4 +130,7 @@ public interface MyPageService {
 
 	// 나의 판매상품의 배송 상태 변경
 	public boolean updateShipStts(PaymentDetailVO vo);
+
+	// 환불 프로시저
+	public void refundProcedure(PaymentDetailVO vo);
 }

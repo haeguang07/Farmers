@@ -185,9 +185,9 @@ public class MyPageController {
 	//결제 환불 처리
 	@GetMapping("myPage/refund")
 	@ResponseBody
-	public boolean refund(String payNo) {
-		System.out.println(payNo);
-		return myPageService.refund(payNo);
+	public void refund(PaymentDetailVO vo) {
+		System.out.println(vo);
+		myPageService.refundProcedure(vo);
 	}
 	
 
