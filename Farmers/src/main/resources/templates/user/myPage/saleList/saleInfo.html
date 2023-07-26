@@ -65,11 +65,9 @@
 </head>
 
 <body>
-	<!-- 본문 시작 -->
 	<section class="shopping-cart spad" style="padding-top: 10px; margin-top: 100px;">
 		<div class="container">
 			<div class="row">
-				<!-- 사이드바 시작 -->
 				<div class="row col-lg-12">
 					<div class="col-lg-12">
 						<div class="shopping__cart__table" style="margin-bottom: 0px;">
@@ -96,12 +94,17 @@
 									<td th:text="${payInfo.zip}"></td>
 									<td th:text="${payInfo.rcvAddr}"></td>
 									<td th:text="${payInfo.rcvDetaAddr}"></td>
-									<td th:text="${payInfo.shipStts}"></td>
-									<!-- <td><select name="shipStts" id="stts" th:value="${payInfo.shipStts}" class="form-control">
-												<option value="배송 전">배송 전</option>
-												<option value="배송 전">배송 중</option>
-												<option value="배송 전">배송 완료</option>
-											</select></td> -->
+									<th:block th:if="${payInfo.shipStts} == '환불 완료'">
+										<td th:text="${payInfo.shipStts}"></td>
+									</th:block>
+									<th:block th:if="${payInfo.shipStts} != '환불 완료'">
+										<td><select name="shipStts" id="stts" th:value="${payInfo.shipStts}" class="form-control">
+											<option value="결제완료">결제 완료</option>
+											<option value="배송 전">배송 전</option>
+											<option value="배송 중">배송 중</option>
+											<option value="배송 완료">배송 완료</option>
+										</select></td>
+									</th:block>
 								</tbody>
 							</table>
 							<!-- bnb 결제 시 -->
@@ -212,6 +215,31 @@
 			}
 		};
 
+		//배송 정보 변경
+		$('#save').on('click',function(){
+				console.log($('#stts').val())
+				console.log(/*[[${payInfo.payDetaNo}]]*/)
+
+				$.ajax({
+					url : "/myPage/updateShipStts",
+					data : {
+						shipStts : $('#stts').val(),
+						payDetaNo : /*[[${payInfo.payDetaNo}]]*/
+					}
+				})
+				.done(function(result){
+					if(result){
+						alert('상태 변경에 성공하였습니다')
+					}else{
+						alert('상태 변경에 실패하였습니다')
+					}
+				})
+				.fail(console.log('fail'))
+		})
+
+	$(function(){
+			$("#stts").val(/*[[${payInfo.shipStts}]]*/).attr("selected","selected");
+	});
 	</script>
 </body>
 

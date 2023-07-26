@@ -185,9 +185,9 @@ public class MyPageController {
 	//결제 환불 처리
 	@GetMapping("myPage/refund")
 	@ResponseBody
-	public boolean refund(String payNo) {
-		System.out.println(payNo);
-		return myPageService.refund(payNo);
+	public void refund(PaymentDetailVO vo) {
+		System.out.println(vo);
+		myPageService.refundProcedure(vo);
 	}
 	
 
@@ -287,6 +287,8 @@ public class MyPageController {
 	public String myFarmLendSubList(String boardNo,Model model) {
 		FarmLendVO vo = myPageService.myFarmLendInfo(boardNo);
 		List<FarmLendApplyVO> list = vo.getApplys();
+		System.out.println(vo);
+		System.out.println(list);
 		model.addAttribute("vo", vo);
 		model.addAttribute("list", list);
 		return "user/myPage/myActivity/farmLend/myFarmLendSubList";
@@ -295,8 +297,9 @@ public class MyPageController {
 	//농지대여 나의 신청 상세 정보
 	@GetMapping("myPage/FarmLendMySubInfo")
 	public String FarmLendMySubInfo(String aplNo,Model model) {
-		FarmLendApplyVO vo = myPageService.mySubInfo(aplNo);
-		model.addAttribute("aplInfo", vo);
+		List<FarmLendApplyVO> list = myPageService.mySubInfo(aplNo);
+		System.out.println(list);
+		model.addAttribute("aplInfo", list);
 		return "user/myPage/myActivity/farmLend/farmLendMySubInfo";
 	}
 	
@@ -307,6 +310,20 @@ public class MyPageController {
 		System.out.println("A");
 		System.out.println(aplNo);
 		return myPageService.deleteMyFarmSub(aplNo);
+	}
+	
+	//나의 농지대여 신청 수락 및 전체 거절
+	@GetMapping("myPage/myFarmApplyStts")
+	@ResponseBody
+	public void myFarmApplyStts(FarmLendApplyVO vo) {
+		myPageService.myFarmAplStts(vo);
+	}
+	
+	//나의 농지대여 신청 거절
+	@GetMapping("myPage/myFarmApplyCancel")
+	@ResponseBody
+	public boolean myFarmApplyCancel(String aplNo) {
+		return myPageService.updateApplyStts(aplNo);
 	}
 	
 	//////////////////////경매장 페이지///////////////////////
@@ -440,5 +457,12 @@ public class MyPageController {
 		System.out.println(vo);
 		model.addAttribute("payInfo", vo);
 		return "user/myPage/saleList/saleInfo";
+	}
+	
+	//나의 판매 상품 배송 상태 변경
+	@GetMapping("myPage/updateShipStts")
+	@ResponseBody
+	public boolean updateShipStts(PaymentDetailVO vo) {
+		return myPageService.updateShipStts(vo);
 	}
 }

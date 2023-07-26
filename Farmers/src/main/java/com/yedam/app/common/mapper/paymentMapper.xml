@@ -100,8 +100,10 @@
 		QTY,
 		PRICE,
 		find_code_name(ship_stts) SHIP_STTS,
-		BOARD_CTG
-		FROM payment_detail a
+		BOARD_CTG,
+		rsv_str_date,
+		rsv_end_date
+		FROM payment_detail
 		WHERE pay_no = #{payNo}
 	</select>
 </mapper> 
