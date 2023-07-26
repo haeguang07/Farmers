@@ -16,7 +16,7 @@
 				</select>
 			</div>
 			<div  class="col-2"> 으로
-				<button @click="change" class="btn btn-primary mb-3">변경</button>
+				<button @click="changeBtn" class="btn btn-primary mb-3">변경</button>
 			</div>
 		</div>
 		<v-data-table
@@ -29,21 +29,10 @@
 				return-object
     		show-select
 				hide-default-footer
-				@click:row=createList
+				@click:row=info
    		 class="elevation-1"
 				>
-				<template v-slot:item="{ item }">
-        <tr @click="">
-          <td><input type="checkbox" :value="item.key"></td>
-					<td>{{ item.value.id }}</td>
-					<td>{{ item.value.gen }}</td>
-					<td>{{ item.value.memGrd }}</td>
-					<td>{{ item.value.signDate }}</td>
-					<td>{{ item.value.loginPath }}</td>
-					<td>{{ item.value.nick }}</td>
-					<td>{{ item.value.stts }}</td>
-        </tr>
-      </template>
+
 				<template v-slot:bottom>
       		<div class="text-center pt-2">
         		<v-pagination v-model="page" :length="pageCount"></v-pagination>
@@ -52,37 +41,47 @@
 			
 			</v-data-table>
 				
+			<!-- The Modal -->
+  <div id="myModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div v-if="Object.keys(member).length>0">
+          <div >
+            <div class="row">
+              <div class="col-5 row"><span class="col-3">회원번호</span><span class="col-5">{{member.memNo}}</span></div>
+              <div class="col-5 row"><span class="col-3">가입일자</span><span class="col-5">{{member.sginDate}}</span></div>
+            </div>
+            <div class="row">
+              <div class="col-5 row"><span class="col-3">아이디</span><span class="col-5">{{member.id}}</span></div>
+              <div class="col-5 row"><span class="col-3">닉네임</span><span class="col-5">{{member.nick}}</span></div>
+            </div>
+            
+            <div class="row" v-if="member.memGrd=='준회원'" style="width: 600px; height: 300px;">
+              <div class="col-3" style="padding-left: 20px;">제출서류</div>
+                  <img class="col-5" v-if="member.grdAtchFile !=null" :src="member.grdAtchFile">
+									<span class="col-5" v-else="member.grdAtchFile==null">제출서류가 없습니다</span>
+                </div>
+          </div>
+          <div class="text-end">
+						<div v-if="member.memGrd=='준회원 '&& member.grdAtchFile !=null" >
+							<button v-show="btnShow" class="btn btn-primary mb-3 mx-3" @click="apply">승인</button>
+							<select v-model="reason" v-show="!btnShow">
+								<option value="이미지가 정확하지 않습니다">이미지가 정확하지 않습니다</option>
+								<option value="주소지와 등본의 주소가 일치하지 않습니다">주소지와 등본의 주소가 일치하지 않습니다</option>
+							</select>
+							<button class="btn btn-primary mb-3 mx-3" @click="refusal1" v-show="btnShow">승인거부</button>
+							<button class="btn btn-primary mb-3 mx-3" @click="refusal2" v-show="!btnShow">승인거부</button>
+						</div>
+						<div v-else>
+							<button class="btn btn-primary mb-3 mx-3" @click="back">돌아가기</button>
+						</div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-		<!-- The Modal -->
-		<div id="myModal" class="modal">
-			<!-- Modal content -->
-			<div class="modal-content">
-				<span class="close">&times;</span>
-				<div v-if="Object.keys(member).length>0">
-					<table class="table">
-						<tr>
-							<td>회원번호</td><td><input :value="member.memNo" readonly></td>
-							<td>가입일자</td><td><input :value="member.signDate" readonly></td>
-							<td></td>``
-						</tr>
-						<tr>
-							<td>아이디</td><td><input :value="member.id" readonly></td>
-							<td>닉네임</td><td><input :value="member.nick" readonly></td>
-							<td></td>
-						</tr>
-					``	<tr v-if="member.memGrd=='준회원'">
-							<td>제출서류</td>
-							<td><img v-if="member.grdAtchFile !=null" :src="member.grdAtchFile"><span  v-if="member.grdAtchFile==null">제출서류가 없습니다</span></td>
-						</tr>
-					</table>
-					<button>승인</button>
-					<select>
-						<option>이미지가 보이지 않습니다</option>
-					</select>
-					<button>거부</button>
-				</div>
-			</div>
-		</div>
+		
 	</div>
 
 </template>
@@ -95,6 +94,8 @@ import { VDataTable } from 'vuetify/labs/VDataTable'
 export default{
   data(){
     return{
+			btnShow:true,
+			reason:'',
 			page:1,
 			selected:[],
 			itemsPerPage: 10,
@@ -130,17 +131,7 @@ export default{
       VDataTable,
     },
 methods:{
-	removeAtIndex (arr, index)  {
-		const copy = [...arr];
-		copy.splice(index, 1);
-		return copy;
-	},
-	toggle (item, getValue = item => item) {
-  		const index = this.checkedMembers.findIndex(i => getValue(i) === getValue(item));
-  		if (index === -1) return this.checkedMembers.push({memNo:item});
-  		return this.checkedMembers.splice(index, 1);
-	},
-	change(){
+	changeBtn(){
 		console.log(this.selected);
 		let list =[];
 		this.selected.forEach(item => {
@@ -148,6 +139,9 @@ methods:{
 			list.push(obj);
 		});
 		console.log(list);
+		this.modify(list)
+	},
+	modify(list){
 		fetch("/admin/members/update",{
 			method:"PUT",
 			headers: {
@@ -161,16 +155,46 @@ methods:{
 			this.memberList=result;
 			this.selected=[];
 			this.grade=''; this.stts='';
+			this.member={};
 		})
 		.catch(err=> console.log(err))
-	},
-	createList(){
-		console.log(event.target);
-		//document.getElementById("myModal").style.display = "none";
+		.finally(()=>this.back())
+	}
+	,
+	info(event,item){
+
+		let index=item.item.index;
+		this.member= this.memberList[index];
+		this.onpenModal()
 	},
 	onpenModal(){
-		document.getElementById("myModal").style.display = "block";
-		
+		document.getElementById("myModal").style.display = "block";	
+	},
+	apply(){
+		let list=[];
+		list.push({memNo:this.member.memNo,memGrd:'b1'});
+		this.modify(list);
+	},
+	refusal1(){
+		this.btnShow=false;
+	},
+	refusal2(){
+		let data ={
+			memNo : this.member.memNo,
+			alertTitle: '등업신청이 거부되었습니다',
+			alrtDesct: this.reason,
+			boardCtg: 'g16'
+		}
+		fetch('sendAlert',{
+			body:data
+		})
+		.then(result=> result.json())
+		.then(result=> console.log(reuslt))
+		.catch(err=> console.log(err))
+		.finally(()=> this.back())
+	},
+	back(){
+		document.getElementById("myModal").style.display = "none";
 	}
 },
   mounted(){
@@ -217,7 +241,7 @@ methods:{
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  z-index: 100000000; /* Sit on top */
   padding-top: 100px; /* Location of the box */
   left: 0;
   top: 0;

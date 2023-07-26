@@ -15,4 +15,7 @@ public interface AdminMapper {
 	
 	//문의 조회
 	public List<InquiryVO> selectInqueryList(SearchVO vo);
+	//문의 답변
+	public int updateInquiry(InquiryVO vo);
+	
 }
