@@ -13,6 +13,7 @@
 </head>
 <body>
 	<div layout:fragment="content">
+
 		<section class="breadcrumb-option">
 			<div class="container">
 				<div class="row">
@@ -29,107 +30,160 @@
 		</section>
 		<!-- 타이틀 Section End -->
 
+
+
 		<!-- Shop Section Begin -->
 		<section class="shop spad">
 			<div class="container">
-
-				<!--------------- 본문 --------------->
-				<!-- Testimonial Section Begin -->
-				<section class="testimonial">
-					<div class="container-fluid">
-						<div class="row">
-							<div class="col-lg-6 p-0">
-								<div class="testimonial__text">
-									<span class="icon_quotations"></span>
-									<p>“Going out after work? Take your butane curling iron
-										with you to the office, heat it up, style your hair before you
-										leave the office and you won’t have to make a trip back home.”</p>
-									<div class="testimonial__author">
-										<div class="testimonial__author__pic">
-											<img src="img/about/testimonial-author.jpg" alt="">
+				<div class="row">
+					<!-- 사이드바 -->
+					<div class="col-lg-3">
+						<div class="shop__sidebar">
+							<div class="shop__sidebar__accordion">
+								<div class="accordion" id="accordionExample">
+									<div class="card">
+										<div class="card-heading">
+											<a data-toggle="collapse" data-target="#collapseOne">
+												<h4>귀농귀촌</h4>
+											</a>
 										</div>
-										<div class="testimonial__author__text">
-											<h5>Augusta Schultz</h5>
-											<p>Fashion Design</p>
+										<div id="collapseOne" class="collapse show"
+											data-parent="#accordionExample">
+											<div class="card-body">
+												<div class="shop__sidebar__categories">
+													<ul class="nice-scroll">
+														<li><a href="guide" style="color: black">귀농귀촌 가이드</a></li>
+														<li><a href="eduList">지원사업/교육</a></li>
+														<li><a href="farmLendList">농지대여</a></li>
+													</ul>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-							<div class="col-lg-6 p-0">
-								<div class="testimonial__pic set-bg"
-									data-setbg="img/about/testimonial-pic.jpg"></div>
+						</div>
+					</div>
+					<!-- end 사이드바 -->
+
+					<!-- Testimonial Section End -->
+					<div class="row col-lg-9">
+						<div class="col-lg-12">
+							<div class="product__details__tab" style="padding: 0">
+								<!-- 상세설명, 리뷰, 문의사항 탭 -->
+								<ul class="nav nav-tabs" role="tablist">
+									<li class="nav-item"><a class="nav-link active"
+										data-toggle="tab" href="#tabs-5" role="tab"
+										style="height: 50px">귀농가이드</a></li>
+									<li class="nav-item"><a class="nav-link" data-toggle="tab"
+										style="height: 50px" href="#tabs-6" role="tab">귀촌가이드</a></li>
+								</ul>
+								<div class="tab-content">
+									<!-- 첫번째 탭 : 상세설명 ck editor -->
+									<div class="tab-pane active" id="tabs-5" role="tabpanel">
+										<!-- Testimonial Section Begin -->
+										<section class="testimonial">
+											<div class="container-fluid">
+												<div class="row">
+													<!-- 이미지부분 -->
+													<div class="col-lg-4 p-0">
+														<div class="testimonial__pic set-bg"
+															data-setbg="img/main/slide/배경5.jpg"
+															style="height: 1000px;"></div>
+													</div>
+													<div class="col-lg-8 p-0">
+														<div class="testimonial__text">
+															<span class="icon_quotations"></span>
+															<h3>성공적인 귀농을 위한 STEP 7</h3>
+															<span class="icon_quotations"></span><br>
+															<p id="guiNong"></p>
+														</div>
+													</div>
+
+												</div>
+											</div>
+										</section>
+									</div>
+									<!-- 두번째 탭: 리뷰 -->
+									<div class="tab-pane" id="tabs-6" role="tabpanel">
+										<!-- Testimonial Section Begin -->
+										<section class="testimonial">
+											<div class="container-fluid">
+												<div class="row">
+													<div class="col-lg-8 p-0">
+														<div class="testimonial__text">
+															<span class="icon_quotations"></span>
+															<h3>성공적인 귀촌을 위한 STEP 6</h3>
+															<span class="icon_quotations"></span> <br>
+															<p id="guiChon"></p>
+														</div>
+													</div>
+													<!-- 이미지부분 -->
+													<div class="col-lg-4 p-0">
+														<div class="testimonial__pic set-bg"
+															data-setbg="img/main/slide/배경8.jpg"
+															style="height: 1000px;"></div>
+													</div>
+												</div>
+											</div>
+										</section>
+									</div>
+									<!-- 두번째탭 끝 -->
+								</div>
 							</div>
 						</div>
 					</div>
-				</section>
-				<!-- Testimonial Section End -->
-
+				</div>
 			</div>
 		</section>
 
 		<script>
-		$(function(){
-			ajax_eduList(1)
-		})
-		
-		//목록 ajax
-		function ajax_eduList(page){
-			$.ajax({
-				url: "https://apis.data.go.kr/1390000/youngV2/policyListV2?typeDv=json&serviceKey=XMbKkFwk066V9gZ9uvn63yI7xGN5wEbCjEffJl0upWWgKhcaFHesiDZHkYOwrOpgeyC/YwxBqavNpAhMdAdU5w==",
-				method: "GET",
-				data: {page},
-				success(result){					
-					console.log(result)
-					makeList(result)
-				},
-				error(err){
-					console.log(err)
-				}
-			})
-		}
-		
-		function makeList(data){
-			//테이블 목록 출력
-			data.policy_list.forEach(el => {
-				let title=el.title;
-				$('#eduTable>tbody').append('<tr>'
-						+'<td class="seq">'+el.seq+'</td>'
-						+'<td class="eduTitle">'+title+'</td>'
-						+'<td>'+el.chargeAgency+'</td>'						
-						+'<td>'+el.applStDt+'</td>'
-						+'<td>'+el.applEdDt+'</td>'
-						+'</tr>')	
-			})
+		//귀농설명
+		let gnText = `
+			<b>STEP 01	귀농 정보를 수집하자!</b> <br>
+			귀농귀촌종합센터, 농업농촌 관련 기관
+			(시군 농업기술센터, 귀농귀촌지원센터 등) 방문 또는 전화·온라인 상담 등을 통해 필요한
+			정보를 수집하고, 귀농 박람회 및 기초 교육과정에 참여하여 정보를 얻습니다.<br>
+			<b>STEP 02	가족들과의 충분히 의논하자</b> <br>
+			귀농 결심에 관하여 가족들과 충분히 의논한 후에 동의를 얻습니다.<br>
+			<b>STEP 03	어떤 작물을 기를까?</b> <br>
+			귀농 교육·체험 프로그램에 참여하며, 자신의 여건과 적성, 기술수준,
+			자본능력 등에 적합한 작목을 신중하게 선택합니다.<br>
+			<b>STEP 04	영농 기술을 습득하자!</b> <br>
+			영농 교육 참여, 우수 농가 견학, 선배 귀농인 방문 등을 통해 영농기술을 배우고 익힙니다.<br>
+			<b>STEP 05	어디서 정착할까?</b> <br>
+			자녀교육 등 생활 여건과 선정된 작목에 적합한 입지 조건, 농업 여건 등을 고려하여
+			정착지를 물색하고 결정합니다.<br>
+			<b>STEP 06	주택과 농지를 확인하자!</b> <br>
+			주택의 규모와 형태, 농지 임차·매입 여부를 결정한 뒤 최소 3~4곳을 비교 후 선택합니다.<br>
+			<b>STEP 07	영농계획을 수립하자!</b> <br>
+			농산물을 생산하여 수익이 생길 때까지 최소 4개월에서 길게 4~5년
+			정도 걸리므로 초보 귀농인은 가격 변동이 적고, 영농기술과
+			자본이 적게 드는 작목 중심으로 영농계획을 수립합니다.
+		`;
+		$('#guiNong').html(gnText).css('font-size', '15px');
 			
- 			//제목 클릭 이벤트
-			let eduTitles = $('.eduTitle');
-			eduTitles.each(function(index, el) {
-			  $(el).on('click', function() {
-			    let seq = $(this).closest('tr').find('.seq').text();
-			    console.log(seq)
-			    location.href= "/eduInfo?seq="+seq;			    
-			  })
-			}) 
+		//귀촌설명
+		let gcText = `
+			<b>STEP 01	귀촌 정보를 수집하자!</b> <br>
+			귀농귀촌종합센터, 농업농촌 관련 기관
+			(시군 농업기술센터, 귀농귀촌지원센터 등) 방문 또는 전화·온라인 상담 등을 통해 필요한
+			정보를 수집하고, 귀농 박람회 및 기초 교육과정에 참여하여 정보를 얻습니다.<br>
+			<b>STEP 02	가족들과의 충분히 의논하자</b> <br>
+			귀농 결심에 관하여 가족들과 충분히 의논한 후에 동의를 얻습니다.<br>
+			<b>STEP 03	어떤 일을 할까?</b> <br>
+			농촌지역에 거주하며 영위할 수 있는 취・창업 및 기타 활동(재능기부 등)을 알아보고,
+			교육 수강 등 필요한 준비를 합니다.<br>
+			<b>STEP 04	어디서 정착할까?</b> <br>
+			교육, 주거, 자연환경 등을 고려하여 정착지를 물색하고 결정합니다.<br>
+			<b>STEP 05	주거 공간을 확인하자</b> <br>
+			주택의 규모와 형태, 임차·매입 여부를 결정한 뒤 최소 3~4곳을 비교 후 선택합니다<br>
+			<b>STEP 06	구체적인 생애 경력계획을 수립하자</b> <br>
+			계획했던 전원생활, 러스틱라이프(Rustic Life), 워라벨 완성을 위해 지역에서의
+			구체적인 경력관리 및 활동 계획(재능기부, 로컬크리에이터 등)을 수립합니다.
+		`;
+		$('#guiChon').html(gcText).css('font-size', '15px');
 			
-		} 
-		
-		/* //상세페이지 Ajax
-		function ajax_EduInfo(seq){			
-			$.ajax({
-				url: "/eduInfo",
-				method: "GET",
-				dataType: "json",
-				data: { value: seq },
-				success(result){					
-					console.log(result);					
-				},
-				error(err){
-					console.log(err);
-				}
-			})
-		} */
-		
-		
 		</script>
 	</div>
 </body>
