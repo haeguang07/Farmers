@@ -6,11 +6,8 @@ import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-<<<<<<< HEAD
 import com.yedam.app.common.vo.AttachmentVO;
-=======
 import com.yedam.app.user.vo.AttachVO;
->>>>>>> branch 'main' of https://github.com/haeguang07/Farmers.git
 
 import lombok.Data;
 
