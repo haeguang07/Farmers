@@ -52,24 +52,30 @@
 								<tr>
 									<th>번호</th>
 									<th>신청자</th>
-									<th>시작일자</th>
-									<th>종료일자</th>
 									<th>대여합계</th>
+									<th>첨부파일</th>
 									<th>처리</th>
+									<th style="display: none;">a</th>
 								</tr>
 							</thead>
 							<tbody>
 								<th:block th:if="not ${#strings.isEmpty(list)}">
-									<tr th:each="li : ${list}">
+									<tr th:each="li : ${list}" th:data-aplNo="${li.aplNo}">
 										<td th:text="${li.aplNo}"></td>
 										<td th:text="${li.name}"></td>
-										<td th:text="${#dates.format(li.rsvStrDate, 'yyyy/MM/dd')}"></td>
-										<td th:text="${#dates.format(li.rsvEndDate, 'yyyy/MM/dd')}"></td>
-										<td th:text="${#numbers.formatInteger(li.allPrice, 3, 'COMMA')}"></td>
-										<td th:if="${#strings.equals(vo.regStts, 'e1')}">
-											<button type="button" class="form-control" id="accept">수락</button>
-											<button type="button" class="form-control" id="refuse">거절</button></td>
-										<td th:if="${#strings.equals(vo.regStts, 'e6')}" th:text="${li.aplStts}"></td>
+										<td th:text="${#numbers.formatInteger(li.lendPrice, 3, 'COMMA')}"></td>
+										<td><button type="button" class="form-control download">다운로드</button></td>
+										<td th:if="${#strings.equals(vo.regStts, 'e1')} and ${not #strings.equals(li.aplStts, '신청 거절')}" id="stts">
+											<button type="button" class="form-control accept">수락</button>
+											<button type="button" class="form-control refuse">거절</button>
+										</td>
+										<td th:if="${#strings.equals(vo.regStts, 'e6')} or ${#strings.equals(li.aplStts, '신청 거절')}" th:text="${li.aplStts}"></td>
+										<td style="display: none;">
+											<th:block th:each="file : ${li.attachList}">
+												<a th:href="${file.atchFileName}" th:text="${file.uplFileName}" th:download="${file.uplFileName}"></a>
+											</div>
+										</th:block>
+									</td>
 									</tr>
 								</th:block>
 							</tbody>
@@ -80,7 +86,7 @@
 		</div>
 	</section>
 
-	<script>
+	<script th:inline="javascript">
 
 		// dataTables
 		$(function () {
@@ -116,13 +122,49 @@
     };
 
 		//수락 버튼 클릭 시
-		$('#accept').on('click',function(){
-			alert('수락')
+		$('.accept').on('click',function(e){
+			let boardNo = /*[[${vo.boardNo}]]*/ ;
+			console.log($(e.target).closest('tr').data('aplno'))
+			$.ajax({
+				url : "/myPage/myFarmApplyStts",
+				data : {
+					boardNo : boardNo ,
+					aplNo : $(e.target).closest('tr').data('aplno')
+				}
+			})
+			.done(function(){
+				alert('완료')
+			}).fail(function(){
+				alert('실패')
+			})
 		})
 
 		//거절 버튼 클릭 시
-		$('#refuse').on('click',function(){
-			alert('거절')
+		$('.refuse').on('click',function(e){
+			let stts = $(e.target).closest('tr').find('#stts')
+			$.ajax({
+				url : "/myPage/myFarmApplyCancel",
+				data : {
+					aplNo : $(e.target).closest('tr').data('aplno')
+				}
+			})
+			.done(function(){
+				alert('완료')
+			}).fail(function(){
+				alert('실패')
+			})
+
+			$(stts).empty() 
+			$(stts).append('신청 거절')
+
+		})
+
+		//파일 다운로드
+		$('.download').on('click',function(e){
+			$(e.target).closest('tr').find('a').each(function(idx, item){
+				console.log(item)
+				item.click();
+			})
 		})
 	</script>
 </body>

@@ -37,7 +37,7 @@ public class FarmLendServiceImpl implements FarmLendService {
 		if(result == 1) {
 			return flVO.getBoardNo();
 		} else {
-			return null;			
+			return null;
 		}
 	}
 

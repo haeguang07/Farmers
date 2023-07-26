@@ -65,9 +65,16 @@
 						<div class="shop__product__option">
 							<div class="row">
 								<div class="col-lg-12 col-md-12 col-sm-12">
+									<div class="row mb-3">
+										<h6 class="col-2"
+												style="text-align: center; line-height: 30px;">체험시작일자</h6>
+										<div>
+											<input type="date" id="expStart" name="expStart" style="float: center;">
+										</div>
+									</div>
 									<div class="row">
-										<h6 class="col-lg-2"
-												style="text-align: center; line-height: 45px;">지역 선택</h6>
+										<h6 class="col-2"
+												style="text-align: center; line-height: 30px;">지역 선택</h6>
 										<select class="form-select form-group col-1.5 mr-2"
 											aria-label="Default select example" id="dst1">
 											<option value="">도</option>
@@ -79,31 +86,11 @@
 											<option value="">시·군</option>
 										</select>
 									</div>
-									<div class="row">
-										<select class="form-select form-group col-1.5 mr-2"
-											aria-label="Default select example" id="mcrp">
-											<option value="">작물 선택</option>
-											<option th:each="cd : ${mcrp}" th:text="${cd.codeDesct}" 
-												th:value="${cd.cmmnDetaCode}"></option>
-										</select>
-										<select class="form-select form-group col-1.5 mr-2"
-											aria-label="Default select example" id="price">
-											<option value="">희망가 선택</option>
-											<option th:each="cd : ${price}" th:text="${cd.codeDesct}" 
-												th:value="${cd.cmmnDetaCode}"></option>
-										</select>
-										<select class="form-select form-group col-1.5 mr-2"
-											aria-label="Default select example" id="area">
-											<option value="">면적 선택</option>
-											<option th:each="cd : ${area}" th:text="${cd.codeDesct}" 
-												th:value="${cd.cmmnDetaCode}"></option>
-										</select>
-									</div>
 								</div>
 							</div>
 						</div>
 						<div class="shopping__cart__table">
-							<table id="farmLendDiv"></table>
+							<table id="expDiv"></table>
 						</div>
 						<div class="row">
 							<div class="col-lg-12" id="pageDiv"></div>
@@ -111,7 +98,7 @@
 						<div class="row">
 							<div class="col-lg-12">
 								<button type="button" class="btn btn-dark" style="width: 130px; height: 40px; 
-								float: right; margin-bottom: 20px;" id="add">농지 내놓기</button>
+								float: right; margin-bottom: 20px;" id="add">체험글 작성</button>
 							</div>
 						</div>
 					</div>
@@ -119,24 +106,22 @@
 			</div>
 		</section>
 		<table>
-			<thead class="hideItem" id="farmLendHead">
+			<thead class="hideItem" id="expHead">
 				<tr>
 					<th id="thNumber">번호</th>
+					<th id="thTitle">제목</th>
+					<th id="thReception">참여 인원</th>
 					<th id="thAddr">주소</th>
-					<th id="thCrops">재배 작물</th>
-					<th id="thArea">면적</th>
-					<th id="thPrice">가격</th>
-					<th id="thDate">대여기간</th>
+					<th id="thDate">체험 기간</th>
 				</tr>
 			</thead>
-			<tbody class="hideItem" id="farmLendItem">
+			<tbody class="hideItem" id="expItem">
 				<tr>
 					<td id="number">번호</td>
-					<td id="addr">주소지</td>
-					<td id="crops">재배 작물</td>
-					<td id="area2">면적</td>
-					<td id="price2">가격</td>
-					<td id="date">대여기간</td>
+					<td id="title">제목</td>
+					<td id="reception">참여 인원</td>
+					<td id="addr">주소</td>
+					<td id="date">체험 기간</td>
 				</tr>
 			</tbody>
 		</table>
@@ -149,6 +134,173 @@
 			<a class="myInline" id="nextPage">&gt;</a>
 		</div>
 		
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			let mem = /*[[${session.mem}]]*/;
+			/*]]>*/
+			
+			// 등록 버튼 클릭 시
+			$('#add').on('click', function() {
+				if(mem != null) {
+					if(mem.memGrd == 'b0' || mem.memGrd == 'b1') {
+						location.href = "expInsert";
+					} else {
+						alert('정회원 이상의 회원만 등록이 가능합니다.');
+					}
+				} else {
+					alert('정회원 이상의 회원만 등록이 가능합니다.');
+				}
+			});
+			
+			// 페이지 로드
+			$(function() {
+				ajaxData(1)
+			});
+			// 리스트 불러오기
+			function ajaxData(page, expStart, dst1, dst2) {
+				$.ajax({
+					url : 'expList',
+					type : 'POST',
+					data : {
+						pageNum : page,
+						expStart : expStart,
+						dst1 : dst1,
+						dst2 : dst2
+					}
+				})
+				.done(function(data) {
+					console.log(data);
+					printList(data);
+					console.log(data.dst2);
+					if(data.dst2) {
+						$('#dst2').empty();
+						$('#dst2').append(`<option value="">시·군</option>`);
+						$(data.dst2).each((idx, item) => {
+							$('#dst2').append(`<option value="${item.cmmnDetaCode}">${item.codeDesct}</option>`)
+						});
+						$('#dst2').niceSelect('update');
+						$('#dst2').niceScroll();
+					}
+				})
+				.fail(function() {
+					console.log('fail');
+				});
+			}
+			// 리스트 출력 함수
+			function printList(data) {
+				$('#expDiv').children().remove();
+				$('#pageDiv').children().remove();
+				let expData = data.expList;
+				let pageData = data.pageInfo;
+				
+				let head = $('#expHead').clone();
+				$(head).removeClass('hideItem');
+				
+				$(head).find('#thNumber').html('번호');
+				$(head).find('#thTitle').html('제목');
+				$(head).find('#thReception').html('참여 인원');
+				$(head).find('#thAddr').html('주소');
+				$(head).find('#thDate').html('체험 기간');
+				
+				$(head).css('text-align', 'center');
+				
+				$('#expDiv').append(head);
+				
+				$(expData).each(function(index, item) {
+					printItem(index, item);
+				})
+				
+				printPage(pageData);
+			}
+			// 리스트 생성 함수
+			function printItem(index, item) {
+				let clone = $('#expItem').clone();
+				$(clone).removeClass('hideItem');
+				
+				$(clone).find('#number').text(index + 1);
+				$(clone).find('#title').text(item.title);
+				$(clone).find('#reception').text('현재 신청 인원' + '/' + item.pptPer);
+				$(clone).find('#addr').text(item.addr + ' ' + item.detaAddr);
+				$(clone).find('#date').text(item.exStrDate + ' ~ ' + item.exEndDate);
+				
+				$(clone).find('#title').on('click', function() {
+					if(mem != null) {
+						if(mem.memGrd == 'b0' || mem.memGrd == 'b1') {
+							location.href = "expInfo?boardNo=" + item.boardNo;
+						} else {
+							alert('정회원 이상의 회원만 이용 가능합니다.');
+						}
+					} else {
+						alert('정회원 이상의 회원만 이용 가능합니다.');
+					}
+				});
+				$(clone).css('text-align', 'center');
+				$(clone).find('#title').css('cursor', 'pointer');
+				
+				$('#expDiv').append(clone);
+			}
+			// 페이지 생성 및 추가
+			function printPage(pageData) {
+				console.log(pageData);
+				
+				let pageItem = $('#pageItem').clone();
+				$(pageItem).removeClass('hideItem');
+				$(pageItem).find('#prevPage').on('click', function() {
+					ajaxData(pageData.startPage - 1);
+				});
+				$(pageItem).find('#nextPage').on('click', function() {
+					ajaxData(pageData.endPage + 1);
+				});
+				
+				if(!pageData.prev) {
+					$(pageItem).find('#prevPage').hide();
+				}
+				if(!pageData.next) {
+					$(pageItem).find('#nextPage').hide();
+				}
+				
+				for(let i = pageData.startPage; i <= pageData.endPage; i++) {
+					let clone = $('#pageItem').find('#pageNum').clone();
+					$(clone).text(i);
+					if(i == pageData.pageNum) {
+						$(clone).addClass('active');
+						$(clone).css('border-color', 'orange');
+					}
+					$(clone).on('click', function() {
+						getCondition(i);
+					});
+					$(pageItem).find('#pageNumDiv').append(clone);
+				}
+				
+				$(pageItem).children().css('cursor', 'pointer');
+				
+				$(pageItem).find('#pageNum')[0].remove();
+				$('#pageDiv').append(pageItem);
+			}
+			// 조건 변경 시 함수
+			function getCondition(page) {
+				let expStart = $('#expStart').val();
+				let dst1 = $('#dst1').val();
+				let dst2 = $('#dst2').val();
+				if(page == null) {
+					page = 1;
+				}
+				
+				ajaxData(page, expStart, dst1, dst2);
+			}
+			// 주요 재배 작물 카테고리 변경 시
+			$('#expStart').change(function() {
+				getCondition();
+			});
+			// 지역1 카테고리 변경 시
+			$('#dst1').change(function() {
+				getCondition();
+			});
+			// 지역2 카테고리 변경 시
+			$('#dst2').change(function() {
+				getCondition();
+			});
+		</script>
 	</div>
 </body>
 </html>

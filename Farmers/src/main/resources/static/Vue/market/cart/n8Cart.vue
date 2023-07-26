@@ -56,7 +56,7 @@
       </td>
       <td class="quantity__item col-lg-2">
         <div class="quantity">
-          <div class="pro-qty-2" style="padding-top: 20px;">
+          <div class="pro-qty-my" style="padding-top: 20px;">
             <span class="fa fa-angle-left dec qtybtn"></span>
             <input type="text" value="1" id="qty" class="qty" readonly>
             <span class="fa fa-angle-right inc qtybtn"></span>
@@ -97,6 +97,7 @@
           $(clone).attr('cartNo', item.cartNo)
           $(clone).attr('boardNo', item.boardNo)
           $(clone).attr('boardCtg', item.boardCtg)
+          $(clone).attr('productQty', item.productQty)
           $(clone).find('#cartImage').attr('src', item.rep)
           ///////////////타이틀 바꾸기///////////////
           $(clone).find('#title').text(item.title)
@@ -123,12 +124,16 @@
             }
           })
           $(clone).find('.fa-angle-right').on('click', function () {
+            if (Number($(clone).find('#qty').val()) < Number($(clone).attr('productQty'))) {
             $(clone).find('#qty').val(Number($(clone).find('#qty').val()) + 1)
             $(clone).find('#qty').attr('dataQty', Number($(clone).find('#qty').val()))
             $(clone).find('#sumPrice').text(vuethis.priceToString(($(clone).find('#qty').val()) * (item
               .price)) + '원')
 
             vuethis.allSumPriceCheck();
+            } else {
+            alert("초과된 수량입니다")
+           }
           })
           //개별 체크박스 이벤트
           $(clone).find('input[type="checkbox"]').change(function (e) {
@@ -227,7 +232,7 @@
       let vuethis = this;
       // 페이지 로드 시 ajax로 카드리스트 가져옴
       $.ajax({
-          url: "cart",
+          url: "/cart",
           method: "POST",
           data: {
             memNo: vuethis.mem.memNo,

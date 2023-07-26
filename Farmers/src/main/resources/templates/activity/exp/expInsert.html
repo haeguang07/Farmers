@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" 
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{index}">
+<head>
+<meta charset="UTF-8">
+<title>체험글 작성</title>
+<link rel="stylesheet" href="/css/sungWookCss/sungook.css" type="text/css">
+<style>
+.ck-editor__editable {
+	height: 400px;
+}
+</style>
+</head>
+	<div layout:fragment="content">
+		<div class="justify-content-center">
+			<h3 class="current text-center">체험글 작성</h3>
+		</div>
+		<!-- Checkout Section Begin -->
+		<section class="checkout spad" style="padding-top: 30px;">
+			<div class="container">
+			<hr>
+				<div class="checkout__form">
+					<form id="myForm">
+						<div class="row">
+							<div class="col-lg-12">
+								<input type="text" th:value="${session.mem.memNo}" name="memNo" style="display: none;">
+								<div class="checkout__input">
+									<p>제목</p>
+									<input type="text" class="col-lg-8" name="title">
+								</div>
+								<div id="addFile" class="col-lg-4 mb-2" style="padding: 0px;">
+									<div style="background-color: lightgrey; display: table;">
+										<p style="display: table-cell; text-align: center; vertical-align: middle; width: 400px; height: 400px;">대표 이미지 등록</p>
+									</div>
+								</div>
+								<!-- 실제 파일 업로드 input (안보임) -->
+								<input type="file" id="inputFile" style="display: none;">
+								<div class="row">
+									<div class="checkout__input col-lg-6">
+										<p>주소</p>
+										<input type="text" placeholder="우편번호를 검색해주세요" id="addressCode" name="zip" readonly>
+									</div>
+									<div class="col-lg-3 checkout__input">
+										<p class="mb-3" style="visibility: hidden;"><span>*</span></p>
+										<button type="button" class="form-control" id="addressBtn">우편번호등록</button>
+									</div>
+								</div>
+								<div class="checkout__input">
+									<input type="text" placeholder="주소지" class="checkout__input__add" id="address" name="addr" readonly>
+									<input type="text" placeholder="상세주소" id="addressDetail" name="detaAddr">
+									<input type="text" id="dst1" name="dst1" style="display: none;">
+									<input type="text" id="dst2" name="dst2" style="display: none;">
+								</div>
+								<div class="row" style="display: none">
+									<input type="text" name="lati" id="latitude">
+									<input type="text" name="longi" id="longitude">
+								</div>
+								<div class="checkout__input">
+									<p style="font-size: 20px;"><b>상품 상세</b></p>
+									<textarea name="text" id="editor"></textarea>
+								</div>
+								<div class="checkout__input">
+									<p>참여 인원</p>
+									<input type="number" class="col-lg-4" value="1" min="1" id="pptPer" name="pptPer">
+									<p style="display: inline; vertical-align: middle;">(명)</p>
+								</div>
+								<div class="mb-3">
+									<p>체험 기간</p>
+									<input type="date" name="exStrDate"> <!-- 체험 시작 일자 -->
+									~ 
+									<input type="date" id="date" name="exEndDate"> <!-- 체험 종료 일자 -->
+								</div>
+								<button type="button" class="btn btn-dark mr-2" id="addBtn">등록</button>
+								<button type="button" class="btn btn-dark mr-2">임시 저장</button>
+								<button type="button" class="btn btn-dark" id="cancel">취소</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</section>
+		<!-- Checkout Section End -->
+		<!-- 우편번호 api -->
+		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js?autoload=false"></script>
+		<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=c573b65eabeb9b6da24ab52d832dc807&libraries=services"></script>
+		<!-- ck에디터 -->
+		<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+		<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
+		<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
+		<script>
+			// 우편번호 api
+			$('#addressBtn').on('click', function() {
+				daum.postcode.load(function () {
+					new daum.Postcode({
+						oncomplete: function (data) {
+							var addr = '';
+							var extraAddr = '';
+							if (data.userSelectedType === 'R') {
+								addr = data.roadAddress;
+							} else {
+								addr = data.jibunAddress;
+							}
+							if (data.userSelectedType === 'R') {
+								if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+									extraAddr += data.bname;
+								}
+								if (data.buildingName !== '' && data.apartment === 'Y') {
+									extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+								}
+								if (extraAddr !== '') {
+									extraAddr = ' (' + extraAddr + ')';
+								}
+							}
+							document.getElementById("addressCode").value = data.zonecode;
+							document.getElementById("address").value = addr;
+							// 주소를 카카오지도 API의 지오코딩(Geocoding) 서비스를 이용하여 위도와 경도로 변환
+		                    var geocoder = new kakao.maps.services.Geocoder();
+		                    geocoder.addressSearch(addr, function (result, status) {
+		                        if (status === kakao.maps.services.Status.OK) {
+		                            // 변환된 위도와 경도 출력
+		                            let lati = result[0].y;	                            
+		                            let longi = result[0].x;
+		                            console.log('위도, 경도 : ', lati, ', ', longi);
+		                            
+		                            document.getElementById('latitude').value = lati;
+		                            document.getElementById('longitude').value = longi;
+		                            
+		                        } else {
+		                            alert('주소를 찾을 수 없습니다.');
+		                        }
+		                    });
+		                    // address의 값을 배열에 담아서 배열의 2번째 값을 dst2에 담아주는 것
+		                    let adr = document.getElementById("address");
+		                    let dst2 = document.getElementById("dst2");
+		                    let array = adr.value.split(" ");
+		                    dst2.value = array[1];
+		                    console.log(dst2.value);
+		                    document.getElementById("addressDetail").focus();
+		                }
+		            }).open();
+		        });
+			})
+			
+			let strDate = $('[name="exStrDate"]');
+			let endDate = $('[name="exEndDate"]');
+			
+			// 날짜 입력 순서 정의
+			endDate.on('click', function(e) {
+				e.preventDefault();
+				if(!strDate.val()) {
+					alert('체험 시작 일자를 먼저 선택하세요');
+				} else {
+					$(this).unbind('click').click();
+				}
+			});
+			
+			// date 타입 최소 날짜 제한
+			minDateSet(new Date, strDate)
+			strDate.change(function() {
+				minDateSet(new Date(strDate.val()), endDate);
+			});
+			
+			// date 타입 최소 날짜 제한 함수
+			function minDateSet(date, input) {
+				let now_utc = date // 지금 날짜를 밀리초로
+				let timeOff = date.getTimezoneOffset() * 60000; // 분단위를 밀리초로 변환
+				let today = new Date(now_utc - timeOff).toISOString().split("T")[0];
+				$(input).attr("min", today);
+			}
+			
+			let dbPath;
+			
+			// 첨부파일 가져오기
+			$('#addFile').on('click', function(e) {
+				e.preventDefault();
+				$('#inputFile').click();
+			});
+			
+			// 첨부파일 업로드
+			$('#inputFile').on('change', function() {
+				var formData = new FormData(); //FormData 객체 생성
+
+				var inputFile = $("input[type='file']");
+				//input 태그의 type이 file인 것을 찾아서 inputFile 이라는 변수로 지정
+
+				var files = inputFile[0].files;
+				//files : 선택한 모든 파일을 나열하는 FileList 객체입니다
+				//multiple 특성을 지정하지 않았다면 두 개 이상의 파일을 포함하지 않습니다
+
+				for (var i = 0; i < files.length; i++) {
+					console.log(files[i]);
+					if (files[i].type.includes('image')) {
+						formData.append("uploadFiles", files[i]); //키, 값으로 append
+						
+						$.ajax({
+							url: 'uploadsAjax',
+							type: 'POST',
+							processData: false, // 기본값은 true, ajax 통신을 통해 데이터를 전송할때, 기본적으로 key와 value 값을 Query String으로 변환해서 보내줌
+							contentType: false, // multipart/form-data 타입을 사용하기위해 false로 지정
+							data: formData,
+							success: function (result) {
+								console.log(result);
+								dbPath = result.dbPath;
+								$('#addFile').html('<img src="' + result.loadPath + '">');
+								console.log(dbPath);
+							},
+							error: function (reject) {
+								console.log(reject);
+							}
+						})
+					} else {
+						alert('이미지만 등록 가능합니다');
+					}
+				}
+			});
+			
+			// ckEditor 생성
+			let editor;
+			ClassicEditor.create(document.querySelector('#editor'), {
+				language: "ko",
+				ckfinder: {
+					uploadUrl: '/image/upload'
+				}
+			})
+			.then(newEditor => {
+				editor = newEditor;
+			})
+			.catch(error => {
+				console.error(error);
+			});
+			
+			// ckEditor 데이터 가져오기
+			$('#addBtn').on('click', function() {
+				//데이터 입력 확인
+				if (!$('[name="title"]').val()) {
+					alert('제목을 입력하세요');
+					return;
+				} else if (!$('#inputFile').val()) {
+					alert('대표이미지를 설정하세요');
+					return;
+				} else if (!$('[name="zip"]').val() || !$('[name="addr"]').val()) {
+					alert('주소를 입력하세요');
+					return;
+				} else if (!$('[name="exStrDate"]').val()) {
+					alert('체험 시작 일자를 입력하세요');
+					return;
+				} else if (!$('[name="exEndDate"]').val()) {
+					alert('체험 종료 일자를 입력하세요');
+					return;
+				} else {
+					let ckData = editor.getData();
+					let formData = $('#myForm').serializeObject();
+					formData.detaDesct = ckData;
+					formData.rep = dbPath;
+					console.log(formData);
+					
+					$.ajax({
+						url : "expInsert",
+						method : "POST",
+						data : formData
+					})
+					.done(function(result){
+						alert(result);
+						location.href = "expList";
+					})
+					.fail(function(result){
+						alert(result);
+						location.href = "expList";
+					})
+				}
+			});
+			
+			// 취소 버튼 클릭 시
+			$('#cancel').on('click', function() {
+				location.href = "expList";
+			});
+		</script>
+	</div>
+</body>
+</html>

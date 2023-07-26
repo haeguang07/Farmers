@@ -75,10 +75,16 @@ public interface MyPageMapper {
 	public FarmLendVO myFarmLendInfo(String boardNo);
 	
 	//농지대여 나의 신청 상세 정보
-	public FarmLendApplyVO mySubInfo(String aplNo);
+	public List<FarmLendApplyVO> mySubInfo(String aplNo);
 	
 	//농지대여 나의 신청 삭제
 	public int deleteMyFarmSub(String aplNo);
+	
+	//나의 농지대여 신청 수락 및 전체 거절
+	public void myFarmAplStts (FarmLendApplyVO vo);
+	
+	//농지대여 신청 거절
+	public int updateApplyStts (String aplNo);
 	
 	//나의 경매장 등록 리스트
 	public List<AuctionVO> myActionList(String memNo);
@@ -121,5 +127,11 @@ public interface MyPageMapper {
 	
 	//나의 판매상품의 결제 정보
 	public PaymentDetailVO mySalesPayInfo (String payDetaNo);
+	
+	//나의 판매상품의 배송 상태 변경
+	public int updateShipStts(PaymentDetailVO vo);
+	
+	//환불 프로시저
+	public void refundProcedure(PaymentDetailVO vo);
 
 }

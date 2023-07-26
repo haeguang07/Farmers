@@ -140,7 +140,6 @@
 				</tr>
 			</tbody>
 		</table>
-
 		<div class="product__pagination hideItem" id="pageItem">
 			<a class="myInline" id="prevPage">&lt;</a>
 			<div id="pageNumDiv" class="myInline">
@@ -148,7 +147,6 @@
 			</div>
 			<a class="myInline" id="nextPage">&gt;</a>
 		</div>
-		
 		<script th:inline="javascript">
 			/*<![CDATA[*/
 			let mem = /*[[${session.mem}]]*/;
@@ -175,7 +173,7 @@
 			function ajaxData(page, dst1, dst2, mcrp, price, area) {
 				$.ajax({
 					url : 'farmLendList',
-					type : 'post',
+					type : 'POST',
 					data : {
 						pageNum : page,
 						dst1 : dst1,
@@ -236,7 +234,7 @@
 				$(clone).removeClass('hideItem');
 				
 				$(clone).find('#number').text(index + 1);
-				$(clone).find('#addr').text(item.addr + ' ' + item.detaAddr);
+				$(clone).find('#addr').text(item.addr + ', ' + item.detaAddr);
 				$(clone).find('#crops').text(item.mcrp);
 				$(clone).find('#area2').text(item.area + '(m²)');
 				$(clone).find('#price2').text(item.lendPrice + '원');
