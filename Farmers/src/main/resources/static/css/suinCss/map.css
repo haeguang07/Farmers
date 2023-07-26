@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-#mapArea{
+#mapArea {
 	margin: 50px 0;
 }
 
@@ -86,8 +86,6 @@
 	font-family: 'Gowun Dodum', sans-serif;
 }
 
-
-
 /* 제목 */
 #mapTitle {
 	margin-top: 25px;
@@ -101,7 +99,7 @@
 #rgImg {
 	display: inline-block;
 	margin-left: -68px;
-/* 	height: 600px; */
+	/* 	height: 600px; */
 }
 
 #rgImg_default {
@@ -115,26 +113,35 @@
 	text-align: center;
 }
 
-#thisMap {
-	max-width: 115%;
-}
 /* 지역설명 */
 #rgDesc {
 	position: relative;
-	display: inline-block;
+	/* 	display: inline-block; */
 	height: 480px;
 }
 
 #rgDesc span {
-	padding-top: 30%;
-	width:230px;
+	padding-top:15%;
+	width: 230px;
 	position: absolute;
 	font-family: 'Gowun Dodum', sans-serif;
 	font-size: 16px;
 	font-weight: bold;
 	margin-left: -50px;
-	text-align: center;
+ 	/* 수직중앙정렬 */;
+/*	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%; */
 }
+
+#rgDesc span p {
+	font-family: 'Gowun Dodum', sans-serif;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+
 
 /* 계절버튼 css */
 #spanTag {
@@ -173,4 +180,14 @@
 .b01_simple_rollover:hover { /* 마우스오버시 색깔 */
 	color: #d31616;
 	background-color: #ffea00;
+}
+
+.fade-in {
+	opacity: 0;
+	transition: 0.3s;
+}
+
+.fade-out {
+	opacity: 1;
+	transition: 0.3s;
 }
