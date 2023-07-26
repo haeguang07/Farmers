@@ -22,7 +22,7 @@
 							and dst2 = #{dst2}
 						</if>
 					</where>
-					order by reg_date
+					order by reg_date desc
 					) a
 		<![CDATA[
 			  where ROWNUM <= #{page} * 9) b
@@ -50,10 +50,11 @@
 	</insert>
 	
 	<!-- 삭제 -->
-	<delete id="deleteExp" parameterType="ExpVO">
-		delete from experience
+	<update id="deleteExp" parameterType="ExpVO">
+		update experience
+		set reg_stts = 'e2'
 		where board_no = #{boardNo}
-	</delete>
+	</update>
 	
 	<!-- 게시글 수 카운팅 -->
 	<select id="getCount" resultType="int">

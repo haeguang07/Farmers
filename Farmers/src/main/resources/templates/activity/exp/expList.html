@@ -216,7 +216,6 @@
 			function printItem(index, item) {
 				let clone = $('#expItem').clone();
 				$(clone).removeClass('hideItem');
-				console.log(item);
 				
 				$(clone).find('#number').text(index + 1);
 				$(clone).find('#title').text(item.title);
