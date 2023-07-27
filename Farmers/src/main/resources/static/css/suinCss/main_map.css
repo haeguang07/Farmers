@@ -99,6 +99,7 @@
 #rgImg {
 	display: inline-block;
 	margin-left: -68px;
+	margin-top: 10px;
 	/* 	height: 600px; */
 }
 
@@ -121,14 +122,14 @@
 }
 
 #rgDesc span {
-	padding-top:15%;
+	padding-top:50%;
 	width: 230px;
 	position: absolute;
 	font-family: 'Gowun Dodum', sans-serif;
 	font-size: 16px;
 	font-weight: bold;
-	margin-left: -50px;
- 	/* 수직중앙정렬 */;
+	margin-left: -40px;
+ 	/* 수직중앙정렬 */
 /*	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -191,3 +192,5 @@
 	opacity: 1;
 	transition: 0.3s;
 }
+
+

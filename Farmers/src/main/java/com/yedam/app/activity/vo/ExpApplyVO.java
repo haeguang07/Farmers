@@ -18,4 +18,13 @@ public class ExpApplyVO {
 	@JsonFormat(pattern ="yyyy-MM-dd")
 	private Date aplDate;
 	private int aplPer;
+	
+	//experience 데이터
+	private String title;
+	private String rep;
+	private String regStts;
+	
+	//신청자 정보
+	private String nick;
+	private String mbl;
 }

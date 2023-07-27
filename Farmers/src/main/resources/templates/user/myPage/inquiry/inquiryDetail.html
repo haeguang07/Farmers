@@ -91,9 +91,8 @@
 						<h5 class="textCenter">답변</h5>
 						<hr>
 						<div th:if="${inqInfo.replStts} == 'd1'">
-							<hr>
 							<div>
-								<p th:text="${inqInfo.replDesct}">내용</p>
+								<p th:utext="${inqInfo.replDesct}">내용</p>
 							</div>
 						</div>
 						<div th:if="${inqInfo.replStts} == 'd0'">

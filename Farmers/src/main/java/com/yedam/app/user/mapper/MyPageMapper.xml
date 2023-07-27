@@ -586,9 +586,11 @@
 			   FIND_CODE_NAME(ship_stts) ship_stts,
 			   zip, 
 			   FIND_CODE_NAME(board_ctg) board_ctg,
+			   board_ctg board_ctg_code,
 			   rsv_str_date,
 			   rsv_end_date,
-			   pay_deta_no
+			   pay_deta_no,
+			   mem_no
 		FROM  member_detail JOIN (SELECT * 
                           		  FROM member JOIN (SELECT *
                                             		FROM sale JOIN (SELECT *
@@ -605,5 +607,89 @@
 		UPDATE payment_detail
 		SET ship_stts = FIND_COMMON_CODE(#{shipStts})
 		WHERE pay_deta_no = #{payDetaNo}
+	</update>
+	
+	<!-- 나의 농촌체험 등록 리스트 -->
+	<select id="myExpList" parameterType="String" resultType="ExpVO">
+		SELECT board_no,
+			   rep,
+			   title,
+			   reg_date,
+			   FIND_CODE_NAME(reg_stts) reg_stts
+        FROM experience
+        WHERE mem_no = #{memNo}
+	</select>
+	
+	<!-- 나의 농촌체험 신청 리스트 -->
+	<select id="myExpSubList" parameterType="String" resultType="ExpApplyVO">
+		SELECT board_no, 
+			   title, 
+			   rep, 
+			   apl_no,
+			   find_code_name(apl_stts) apl_stts,
+			   apl_date
+		FROM (SELECT board_no,
+					 apl_date,
+					 apl_stts,
+					 apl_no
+     		  FROM experience_apply
+     		  WHERE mem_no = #{memNo})
+		JOIN experience USING (board_no)
+		GROUP BY board_no, title, rep, apl_stts,apl_date,apl_no
+	</select>
+	
+	<!-- 나의 농촌체험 신청자 리스트 -->
+	<select id="myExpSubPeoList" parameterType="String" resultType="ExpApplyVO">
+		SELECT apl_no,
+			   nick,
+			   mbl,
+			   apl_per,
+			   FIND_CODE_NAME(reg_stts) reg_stts,
+			   FIND_CODE_NAME(apl_stts) apl_stts,
+			   board_no
+		FROM experience_apply JOIN member_detail USING (mem_no) 
+							  JOIN member USING (mem_no) 	
+							  JOIN experience USING (board_no)
+		WHERE board_no = #{boardNo}
+	</select>
+	
+	<!-- 나의 농촌체험 신청상세정보 -->
+	<select id="myExpSubInfo" parameterType="String" resultType="ExpApplyVO">
+		SELECT apl_no,
+			   nick,
+			   mbl,
+			   apl_per,
+			   apl_date,
+			   title,
+			   FIND_CODE_NAME(reg_stts) reg_stts,
+			   FIND_CODE_NAME(apl_stts) apl_stts
+		FROM experience_apply JOIN member_detail USING (mem_no) 
+							  JOIN member USING (mem_no) 	
+							  JOIN experience USING (board_no)
+		WHERE apl_no = #{aplNo}
+	</select>
+	
+	<!-- 나의 농촌체험 신청 삭제하기 -->
+	<delete id="deleteExpApply" parameterType="String">
+		DELETE experience_apply
+		WHERE apl_no = #{aplNo}
+	</delete>
+	
+	<!-- 농촌체험 신청 수락 및 전체 거절 처리 -->
+	<select id="myExpAplStts" parameterType="ExpApplyVO"
+		resultType="ExpApplyVO">
+		{
+			CALL CHANGE_EXP_STTS(
+				#{boardNo, mode=IN , jdbcType=VARCHAR},
+				#{aplNo, mode=IN , jdbcType=VARCHAR}
+			)
+		}
+	</select>
+	
+	<!-- 농촌체험 신청 거절 -->
+	<update id="updateExpApplyStts" parameterType="String">
+		UPDATE experience_apply
+		SET apl_stts = 'e8'
+		WHERE apl_no = #{aplNo}
 	</update>
 </mapper>

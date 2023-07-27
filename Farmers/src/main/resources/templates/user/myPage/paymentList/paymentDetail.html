@@ -99,7 +99,7 @@
 										</tr>
 									</thead>
 									<tbody id="tbody">
-										<tr th:each="prod : ${prodInfo}">
+										<tr th:each="prod : ${prodInfo}" class="tr">
 											<td>
 												<img th:src="${prod.rep}" alt="" width="100px" height="100px" th:if="not ${#strings.isEmpty(prod. rep)}">
 												<div style="width: 100px; height: 100px;" th:if="${#strings.isEmpty(prod. rep)}">
@@ -191,7 +191,7 @@
 		//환불
 		$('#refundBtn').on('click',function(){
 			let bool = false;
-			$('tr').each(function(idx,item){
+			$('.tr').each(function(idx,item){
 				if($(item).find('#stts').text() == "결제완료" || $(item).find('#stts').text() == "배송 전"){
 					bool = true;
 				}else{
@@ -242,10 +242,10 @@
 						})
 						.done(function(){
 								alert('환불처리가 완료되었습니다.')
+								//부모창의 팝업 닫기 함수를 호출
+								parent.closePopUp()
 						})
 					}
-				}else{
-					alert('환불할 수 없는 상태입니다')
 				}
 				
 			}

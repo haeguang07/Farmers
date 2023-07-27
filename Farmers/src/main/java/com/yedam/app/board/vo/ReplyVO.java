@@ -20,4 +20,6 @@ public class ReplyVO {
 	@JsonFormat(pattern ="yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date wrtDate;
 	
+	private String nick;
+	
 }

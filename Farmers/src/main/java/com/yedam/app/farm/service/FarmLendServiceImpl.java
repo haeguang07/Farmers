@@ -31,13 +31,13 @@ public class FarmLendServiceImpl implements FarmLendService {
 	}
 
 	@Override
-	public String updateFarmLendInfo(FarmLendVO flVO) {
+	public int updateFarmLendInfo(FarmLendVO flVO) {
 		int result = flMapper.updateFarmLend(flVO);
 		
 		if(result == 1) {
-			return flVO.getBoardNo();
+			return result;
 		} else {
-			return null;
+			return -1;
 		}
 	}
 

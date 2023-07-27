@@ -285,6 +285,13 @@
 			function priceToString(price) {
 				return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 			}
+			
+			//팝업창 닫기 함수
+			function closePopUp(){
+				var magnificPopup = $.magnificPopup.instance; 
+				magnificPopup.close();
+				location.reload();
+			}
 		</script>
 	</div>
 </body>

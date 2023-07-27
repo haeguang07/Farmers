@@ -117,29 +117,29 @@
 			
 			// 신청하기 버튼 클릭 시
 			$('#applyBtn').on('click', function() {
-				location.href = "farmLendApply?boardNo=" + boardNo;
+				location.href = "/farmLendApply?boardNo=" + boardNo;
 			});
 			
 			// 목록으로 버튼 클릭 시
 			$('#toList').on('click', function() {
-				location.href = "farmLendList";
+				location.href = "/farmLendList";
 			});
 			
 			// 수정하기 버튼 클릭 시
 			$('#update').on('click', function() {
-				location.href = "farmLendUpdate?boardNo=" + boardNo;
+				location.href = "/farmLendUpdate?boardNo=" + boardNo;
 			});
 			
 			// 삭제하기 버튼 클릭 시
 			$('#delete').on('click', function() {
 				$.ajax({
-					url : "farmLendDelete",
+					url : "/farmLendDelete",
 					method : "POST",
 					data : 'boardNo=' + boardNo
 				})
 				.done(function(result) {
 					console.log(result);
-					location.href = "farmLendList";
+					location.href = "/farmLendList";
 				})
 				.fail(function(result) {
 					alert(result);
