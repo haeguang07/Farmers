@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.yedam.app.activity.vo.BnbVO;
+import com.yedam.app.activity.vo.ExpApplyVO;
+import com.yedam.app.activity.vo.ExpVO;
 import com.yedam.app.board.vo.BoardVO;
 import com.yedam.app.common.service.PaymentService;
 import com.yedam.app.common.vo.PaymentDetailVO;
@@ -464,5 +466,65 @@ public class MyPageController {
 	@ResponseBody
 	public boolean updateShipStts(PaymentDetailVO vo) {
 		return myPageService.updateShipStts(vo);
+	}
+	
+	/////////////////농촌체험하기///////////////////
+	//나의 농촌체험 폼
+	@GetMapping("myPage/myExpForm")
+	public String myExpForm() {
+		return "user/myPage/myActivity/myExperience/myExpList";
+	}
+	
+	//나의 농촌체험 등록 리스트
+	@GetMapping("myPage/myExpList")
+	@ResponseBody
+	public List<ExpVO> myExpList(String memNo){
+		return myPageService.myExpList(memNo);
+	}
+	
+	//나의 농촌체험 신청 리스트
+	@GetMapping("myPage/myExpSubList")
+	@ResponseBody
+	public List<ExpApplyVO> myExpSubList(String memNo){
+		return myPageService.myExpSubList(memNo);
+	}
+	
+	//나의 농촌체험 신청자 리스트
+	@GetMapping("myPage/myExpSubPeoList")
+	public String myExpSubPeoList(String boardNo,Model model) {
+		List<ExpApplyVO> list = myPageService.myExpSubPeoList(boardNo);
+		System.out.println(list);
+		model.addAttribute("applyList", list);
+		return "user/myPage/myActivity/myExperience/myExpSubList";
+	}
+	
+	//나의 농지체험 상세신청정보
+	@GetMapping("myPage/myExpSubInfo")
+	public String myExpSubInfo(String aplNo, Model model) {
+		ExpApplyVO vo = myPageService.myExpSubInfo(aplNo);
+		System.out.println(vo);
+		model.addAttribute("info", vo);
+		return "user/myPage/myActivity/myExperience/myExpSubInfo";
+	}
+	
+	//나의 농촌체험 신청 삭제
+	@GetMapping("myPage/deleteExpApply")
+	@ResponseBody
+	public boolean deleteExpApply(String aplNo) {
+		return myPageService.deleteExpApply(aplNo) > 0 ;
+	}
+	
+	//나의 농촌체험 신청 수락 및 전체 거절
+	@GetMapping("myPage/myExpStts")
+	@ResponseBody
+	public void myExpSttsUpdate(ExpApplyVO vo) {
+		myPageService.myExpAplStts(vo);
+	}
+	
+	//나의 농촌체험 신청 거절
+	@GetMapping("myPage/myExpApplyStts")
+	@ResponseBody
+	public boolean myExpApplyStts(String aplNo) {
+		return myPageService.updateExpApplyStts(aplNo) > 0 ;
 	}
 }

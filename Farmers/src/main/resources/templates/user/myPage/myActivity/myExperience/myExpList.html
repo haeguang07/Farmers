@@ -39,7 +39,7 @@
 <body>
 	<div layout:fragment="myPageContent">
 		<div class="justify-content-center">
-			<h3 class="current text-center">나의 농지대여</h3>
+			<h3 class="current text-center">나의 농촌체험</h3>
 		</div>
 		<!-- Shop Section Begin -->
 		<div class="row">
@@ -76,7 +76,7 @@
 				ajaxMyList()
 			})
 
-			//버튼 클릭 이벤트
+		// 	// //버튼 클릭 이벤트
 			$('#registration').on('click', function () {
 				ajaxMyList()
 			})
@@ -95,11 +95,11 @@
 							targets: 0
 						},
 						{
-							width: "30%",
+							width: "15%",
 							targets: 1
 						},
 						{
-							width: "10%",
+							width: "25%",
 							targets: 2
 						},
 						{
@@ -114,7 +114,8 @@
 							width: "15%",
 							targets: 5
 						}
-					]
+					],
+					order : [3, 'desc']
 				});
 			}
 
@@ -148,12 +149,14 @@
 			//등록 ajax 불러오기
 			function ajaxMyList() {
 				$.ajax({
-						url: "/myPage/myFarmLendList",
+						url: "/myPage/myExpList",
 						data: {
 							memNo: memNo
 						}
 					})
 					.done(function (result) {
+						console.log(result)
+
 						//datatable 파괴
 						if (typeof table != "undefined") {
 							table.destroy();
@@ -172,9 +175,9 @@
 				$('#thead').children().remove()
 				let tr = $('<tr>').addClass('th')
 				let th1 = $('<th>').text('번호')
-				let th2 = $('<th>').text('주소')
-				let th3 = $('<th>').text('면적')
-				let th4 = $('<th>').text('가격(1일)')
+				let th2 = $('<th>').text('이미지')
+				let th3 = $('<th>').text('제목')
+				let th4 = $('<th>').text('등록일자')
 				let th5 = $('<th>').text('상태')
 				let th6 = $('<th>').text('신청확인')
 				$(tr).append(th1, th2, th3, th4, th5, th6)
@@ -184,14 +187,14 @@
 				$('#tbody').children().remove()
 				$(list).each(function (idx, item) {
 					tr = $('<tr>').attr('no', item.boardNo)
-					let boardNoTd = $('<td>').text(item.boardNo)
-					let addrTd = $('<td>').text(item.addr + ' ' + item.detaAddr)
-					let areaTd = $('<td>').text(item.area + '(m²)')
-					let lendPriceTd = $('<td>').text(priceToString(item.lendPrice))
-					let regSttsTd = $('<td>').text(item.codeDesct)
-					let btnTd = $('<td>').append($('<button class="form-control" type="button">신청확인</button>').addClass('myBtn'))
+					let td1 = $('<td>').text(item.boardNo)
+					let td2 = $('<td>').append($('<img>').attr('src',item.rep))
+					let td3 = $('<td>').text(item.title)
+					let td4 = $('<td>').text(item.regDate)
+					let td5 = $('<td>').text(item.regStts)
+					let td6 = $('<td>').append($('<button class="form-control" type="button">신청확인</button>').addClass('myBtn'))
 
-					$(tr).append(boardNoTd, addrTd, areaTd, lendPriceTd, regSttsTd, btnTd)
+					$(tr).append(td1, td2, td3, td4, td5, td6)
 					$('#tbody').append(tr);
 				})
 			}
@@ -199,12 +202,14 @@
 			//신청 ajax 불러오기
 			function ajaxLendList() {
 				$.ajax({
-						url: "/myPage/subFarmLendList",
+						url: "/myPage/myExpSubList",
 						data: {
 							memNo: memNo
 						}
 					})
 					.done(function (result) {
+						console.log(result)
+
 						//datatable 파괴
 						if (typeof table != "undefined") {
 							table.destroy();
@@ -217,17 +222,17 @@
 					})
 			}
 
-			//신청 tr 만들기 함수
+			// //신청 tr 만들기 함수
 			function makeSubTr(list) {
 				//thead
 				$('#thead').children().remove()
 				let tr = $('<tr>').addClass('th')
 				let th1 = $('<th>').text('번호')
-				let th2 = $('<th>').text('주소')
-				let th3 = $('<th>').text('글쓴이')
+				let th2 = $('<th>').text('이미지')
+				let th3 = $('<th>').text('제목')
 				let th4 = $('<th>').text('신청일자')
 				let th5 = $('<th>').text('신청상태')
-				let th6 = $('<th>').text('신청확인')
+				let th6 = $('<th>').text('상세확인')
 				$(tr).append(th1, th2, th3, th4, th5, th6)
 				$('#thead').append(tr)
 
@@ -236,23 +241,23 @@
 				$(list).each(function (idx, item) {
 					tr = $('<tr>').attr('no', item.boardNo)
 												.attr('aplNo', item.aplNo)
-					let td1 = $('<td>').text(item.aplNo)
-					let td2 = $('<td>').text(item.addr + ' ' + item.detaAddr)
-					let td3 = $('<td>').text(item.name)
+					let td1 = $('<td>').text(item.boardNo)
+					let td2 = $('<td>').append($('<img>').attr('src',item.rep))
+					let td3 = $('<td>').text(item.title)
 					let td4 = $('<td>').text(item.aplDate)
 					let td5 = $('<td>').text(item.aplStts)
-					let td6 = $('<td>').append($('<button class="form-control" type="button">신청확인</button> ').addClass('subBtn'))
+					let td6 = $('<td>').append($('<button class="form-control" type="button">상세확인</button> ').addClass('subBtn'))
 
 					$(tr).append(td1, td2, td3, td4, td5, td6)
 					$('#tbody').append(tr);
 				})
 			}
 
-			//tr 이동
+			// //tr 이동
 			$(document).on("click", "tr", function (e) {
 				if (!$(e.currentTarget).hasClass('th')) {
 					console.log($(e.currentTarget).attr('no'))
-					location.href = "/farmLendInfo?boardNo=" + $(e.currentTarget).attr('no')
+					location.href = "/expInfo?boardNo=" + $(e.currentTarget).attr('no')
 				}
 			})
 
@@ -260,10 +265,10 @@
 			$(document).on("click", ".myBtn", function (e) {
 				e.stopPropagation()
 
-				// 모달창
+				//모달창
 				$.magnificPopup.open({
 					items: [{
-						src: "/myPage/myFarmLendSubList?boardNo=" + $(e.target).closest('tr').attr('no'),
+						src: "/myPage/myExpSubPeoList?boardNo="+$(e.target).closest('tr').attr('no'),
 						type: 'iframe'
 					}]
 				})
@@ -276,7 +281,7 @@
 				// 모달창
 				$.magnificPopup.open({
 					items: [{
-						src: "/myPage/FarmLendMySubInfo?aplNo=" + $(e.target).closest('tr').attr('aplNo'),
+						src: "/myPage/myExpSubInfo?aplNo=" + $(e.target).closest('tr').attr('aplNo'),
 						type: 'iframe'
 					}]
 				})
@@ -285,11 +290,11 @@
 			function priceToString(price) {
 				return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 			}
-			
+
 			//팝업창 닫기 함수
 			function closePopUp(){
 				var magnificPopup = $.magnificPopup.instance; 
-				magnificPopup.close();
+				magnificPopup.close(); 
 				location.reload();
 			}
 		</script>

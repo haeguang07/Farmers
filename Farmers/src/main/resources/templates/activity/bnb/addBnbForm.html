@@ -203,6 +203,7 @@
 		<script
 			src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=c573b65eabeb9b6da24ab52d832dc807&libraries=services"></script>
 		<script>
+
 		function postCode() {
 			daum.postcode.load(function () {
 				new daum.Postcode({
@@ -259,6 +260,12 @@
 
 		<script>
 			let dbPath;
+			
+			//datePicker
+			$(function(){
+					console.log($('[name=lendStrDate]'))
+					$('[name="lendStrDate"]').datepicker();
+			})
 
 			//첨부파일 가져오기
 			$('#addFile').on('click', function () {

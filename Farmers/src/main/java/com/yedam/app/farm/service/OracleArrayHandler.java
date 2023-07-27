@@ -5,6 +5,7 @@ import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
@@ -16,7 +17,7 @@ public class OracleArrayHandler implements TypeHandler<Object> {
 	@Override
 	public void setParameter(PreparedStatement ps, int i, Object parameter, JdbcType jdbcType) throws SQLException {
 		OracleConnection conn = ps.getConnection().unwrap(OracleConnection.class);
-		Array reportsArray = (Array)conn.createOracleArray("STRINGARRAY", (String[]) parameter);
+		Array reportsArray = (Array)conn.createOracleArray("STRINGARRAY", (List<String>) parameter);
 		ps.setArray(i, reportsArray);
 	}
 

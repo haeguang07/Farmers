@@ -108,6 +108,24 @@
 		delete from farmbnb
 		where board_no= #{boardNo}
 	</delete>
-
+	
+	<!-- 해당 날짜 예약 확인  -->
+	<select id="rsvDateCheck" parameterType="String" resultType="DateVO">
+	<![CDATA[ 
+		select * from(
+        SELECT TO_CHAR(lend_str_date + (LEVEL), 'yyyy-fmmm-dd') AS rsv_date
+          FROM (SELECT CASE WHEN lend_str_date < TO_CHAR(sysdate) THEN sysdate
+                       ELSE lend_str_date
+                       END AS lend_str_date,
+                       lend_end_date
+                FROM farmbnb 
+                WHERE board_no = #{boardNo})
+        CONNECT BY LEVEL <= lend_end_date - lend_str_date + 1) a 
+		WHERE EXISTS (SELECT qty
+		              FROM payment_detail
+		              WHERE a.rsv_date BETWEEN rsv_str_date AND rsv_end_date
+		              AND board_no = #{boardNo})
+		]]>
+	</select>
 </mapper>
 

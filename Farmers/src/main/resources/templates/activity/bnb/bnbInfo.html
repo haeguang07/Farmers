@@ -108,10 +108,17 @@
 										</tr>
 										<tr>
 											<th>날짜 선택</th>
-											<td><input type="date" id="startDate"
+											<td>
+												<!-- <input type="date" id="startDate"
 												th:min="${#dates.format(bnb.lendStrDate,'yyyy-MM-dd')}"
 												th:max="${#dates.format(bnb.lendEndDate,'yyyy-MM-dd')}"
-												onchange="minDate()"> ~ <input type="date"
+												onchange="minDate()"> -->
+												<input type="text" id="startDate"
+												th:min="${#dates.format(bnb.lendStrDate,'yyyy-MM-dd')}"
+												th:max="${#dates.format(bnb.lendEndDate,'yyyy-MM-dd')}"
+												onchange="minDate()">
+												 ~ 
+												 <input type="date"
 												id="endDate"
 												th:min="${#dates.format(bnb.lendStrDate,'yyyy-MM-dd')}"
 												th:max="${#dates.format(bnb.lendEndDate,'yyyy-MM-dd')}"
@@ -270,6 +277,11 @@
 		<script
 			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c573b65eabeb9b6da24ab52d832dc807"></script>
 		<script th:inline="javascript">
+		//datePicker
+		$(function(){
+				$('#startDate').datepicker();
+		})
+		
 			// --------- 지도 api
 			var latitude = document.getElementById('lati').innerText;
 			var longitude = document.getElementById('longi').innerText;

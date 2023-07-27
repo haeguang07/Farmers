@@ -1,6 +1,7 @@
 package com.yedam.app.activity.vo;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -36,4 +37,7 @@ public class ExpVO {
 	
 	// member
 	private String nick;
+	
+	//신청내역
+	List<ExpApplyVO> list;
 }

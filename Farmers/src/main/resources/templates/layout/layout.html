@@ -30,6 +30,8 @@
 <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
 <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
 <link rel="stylesheet" href="/css/style.css" type="text/css">
+<link rel="stylesheet" href="/css/jQueryUI.css">
+
 <!-- 알림창 css -->
 <link rel="stylesheet" href="/css/suinCss/alarm.css" type="text/css">
 
@@ -45,6 +47,18 @@
 <script src="/js/owl.carousel.min.js"></script>
 <script src="/js/json.min.js"></script>
 <script src="/js/main.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+<!--  datePicker -->
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script src="./jquery-ui-1.12.1/datepicker-ko.js"></script>
 <style>
 .href {
 	font-weight: 900;
@@ -82,10 +96,14 @@
 								<ul>
 									<li><a class="href" href="/myPage/myPage">회원정보</a></li>
 									<li><a class="href" href="/myPage/myFarmLendListForm">나의활동</a></li>
-									<li><a class="href" th:href="@{/myPage/alertList(memNo=${session.mem.memNo})}">나의알림</a></li>
-									<li><a class="href" th:href="@{/myPage/myPayList(memNo=${session.mem.memNo})}">구매내역</a></li>
-									<li><a class="href" th:href="@{/myPage/mySaleList(memNo=${session.mem.memNo})}">판매내역</a></li>
-									<li><a class="href" th:href="@{/myPage/myInquiry(memNo=${session.mem.memNo})}">문의하기</a></li>
+									<li><a class="href"
+										th:href="@{/myPage/alertList(memNo=${session.mem.memNo})}">나의알림</a></li>
+									<li><a class="href"
+										th:href="@{/myPage/myPayList(memNo=${session.mem.memNo})}">구매내역</a></li>
+									<li><a class="href"
+										th:href="@{/myPage/mySaleList(memNo=${session.mem.memNo})}">판매내역</a></li>
+									<li><a class="href"
+										th:href="@{/myPage/myInquiry(memNo=${session.mem.memNo})}">문의하기</a></li>
 								</ul>
 							</div>
 						</div>
@@ -190,10 +208,10 @@
 	<!-- Footer Section Begin -->
 	<footer class="footer">
 		<div class="container">
-			<div class="row" style="height:180px">
+			<div class="row" style="height: 180px">
 				<div class="col-lg-4 col-md-6 col-sm-6">
 					<div class="footer__about">
-						<div class="footer__logo" style="margin-top:20px">
+						<div class="footer__logo" style="margin-top: 20px">
 							<a href="/"><img src="/img/logo.png" alt="메인로고"></a>
 						</div>
 					</div>

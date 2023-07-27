@@ -42,7 +42,7 @@ public class FarmLendVO {
 	
 	// main_crops (주요 재배 작물 배열)
 	private String mcrp;
-	private String[] mcrpList;
+	private List<String> mcrpList;
 	
 	// member
 	private String nick;

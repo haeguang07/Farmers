@@ -50,7 +50,7 @@
             </div>
           </div>
           <div class="text-end">
-            <button class="btn btn-primary mb-3 mx-3" @click="reply">답변보내기</button>
+            <button class="btn btn-primary mb-3 mx-3"  v-if="inquiry.replStts=='답변 대기'" @click="reply">답변보내기</button>
             <button class="btn btn-primary mb-3 mx-3" @click="back">돌아가기</button>
           </div>
         </div>
@@ -128,10 +128,21 @@ export default {
       .then(result=>result.json())
       .then(result=> {
         if(result.retCode=='Success'){
-          alert('답변성공');
+          this.$swal({
+              title: "답변을 성공적으로 보냈습니다",
+              //text: "You clicked the button!",
+              icon: "success",
+              showConfirmButton:false,
+              timer:1500
+            });
           this.inquiryList[this.idx].replStts="답변 완료"
         }else{
-          alert('답변실패');
+          this.$swal({
+              title: "답변을 전송하지 못하였습니다",
+              icon: "error",
+              showConfirmButton:false,
+              timer:1500
+            });
         }
       })
       .catch(err=>console.log(err))
@@ -173,12 +184,12 @@ export default {
 
 
 <style>
-.ck-editor__editable {
-  width: 500px;
+ck-sticky-panel__content {
+  width: 600px;
 	height: 200px;
 }
 .ck-toolbar_grouping{
-  width: 500px;
+  width: 600px;
 }
 .row{
   margin: 10px;
