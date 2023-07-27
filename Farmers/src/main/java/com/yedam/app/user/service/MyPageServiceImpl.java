@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yedam.app.activity.vo.BnbVO;
+import com.yedam.app.activity.vo.ExpApplyVO;
+import com.yedam.app.activity.vo.ExpVO;
 import com.yedam.app.board.vo.BoardVO;
 import com.yedam.app.common.vo.PaymentDetailVO;
 import com.yedam.app.common.vo.PaymentVO;
@@ -219,9 +221,42 @@ public class MyPageServiceImpl implements MyPageService {
 		myPageMapper.refundProcedure(vo);
 	}
 
+	@Override
+	public List<ExpVO> myExpList(String memNo) {
+		return myPageMapper.myExpList(memNo);
+	}
 
+	@Override
+	public List<ExpApplyVO> myExpSubList(String memNo) {
+		return myPageMapper.myExpSubList(memNo);
+	}
 
+	@Override
+	public List<ExpApplyVO> myExpSubPeoList(String aplNo) {
+		return myPageMapper.myExpSubPeoList(aplNo);
+	}
 
+	@Override
+	public ExpApplyVO myExpSubInfo(String aplNo) {
+		return myPageMapper.myExpSubInfo(aplNo);
+	}
 
+	@Override
+	public int deleteExpApply(String aplNo) {
+		return myPageMapper.deleteExpApply(aplNo);
+	}
+
+	@Override
+	public void myExpAplStts(ExpApplyVO vo) {
+		myPageMapper.myExpAplStts(vo);
+		
+	}
+
+	@Override
+	public int updateExpApplyStts(String aplNo) {
+		return myPageMapper.updateExpApplyStts(aplNo);
+	}
+	
+	
 
 }

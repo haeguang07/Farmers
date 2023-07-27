@@ -130,6 +130,8 @@
 				.done(function (result) {
 					if(result){
 						alert('신청을 취소하였습니다')
+						//부모창의 팝업 닫기 함수를 호출
+						parent.closePopUp()
 					}else{
 						alert('신청을 실패했습니다')
 					}

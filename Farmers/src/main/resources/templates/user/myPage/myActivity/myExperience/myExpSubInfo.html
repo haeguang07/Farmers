@@ -9,7 +9,7 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Cart</title>
 	<link rel="stylesheet" href="/css/sungWookCss/sungook.css" type="text/css">
-
+	
 	<!-- Css Styles -->
 	<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
 	<link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
@@ -19,6 +19,7 @@
 	<link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
 	<link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
 	<link rel="stylesheet" href="/css/style.css" type="text/css">
+
 
 	<!-- Js Plugins -->
 	<script src="/js/jquery-3.3.1.min.js"></script>
@@ -31,10 +32,6 @@
 	<script src="/js/mixitup.min.js"></script>
 	<script src="/js/owl.carousel.min.js"></script>
 	<script src="/js/json.min.js"></script>
-
-	<!-- datatables -->
-	<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" type="text/css">
 
 	<style>
 		.textCenter {
@@ -57,6 +54,10 @@
 		li {
 			margin-bottom: 10px;
 		}
+		.no {
+			list-style: none;
+			margin-bottom: 0px;
+		}
 	</style>
 
 </head>
@@ -70,42 +71,66 @@
 				<div class="row col-lg-12">
 					<div class="col-lg-12">
 						<div class="shopping__cart__table" style="margin-bottom: 0px;">
-							<h4 class="textCenter">문의내역</h4>
+							<h4 class="textCenter">나의 신청</h4>
 							<hr>
-							<h5 class="textCenter">문의</h5>
+							<h5 class="textCenter" th:text="${info.title}">제목</h5>
 							<hr>
 							<div class="row">
-								<span class="col-md-2">제목 : </span>
-								<span class="col-md-6" th:text="${inqInfo.inqTitle}">진짜제목</span>
-								<span class="col-md-2" th:text="${inqInfo.name}">작성자</span>
-								<span class="col-md-2" th:text="${#dates.format(inqInfo.inqDate, 'yyyy/MM/dd')}">작성일</span>
+								<div class="col-md-12">
+									<h6 class="textCenter">신청자 정보</h6>
+									<hr>
+								</div>
+								<div class="row col-md-12">
+									<div class="col-md-6">
+										<p >이름 : <span th:text="${info.nick}">홍길동</span></p>
+									</div>
+									<div class="col-md-6">
+										<p>연락처 : <span th:text="${info.mbl}"> 01000000000</span></p>
+									</div>
+									<div class="col-md-6">
+										<p>신청 인원 : <span th:text="${info.aplPer}">홍길동</span></p>
+									</div>
+									<div class="col-md-6">
+										<p>신청 날짜 : <span th:text="${#dates.format(info.aplDate, 'yyyy/MM/dd')}">홍길동</span></p>
+									</div>
+									<div class="col-md-6">
+										<p>신청상태 : <span th:text="${info.aplStts}">몰라</span></p>
+									</div>
+								</div>
 							</div>
-							<hr>
-							<div>
-								<p th:utext="${inqInfo.inqDesct}">내용</p>
-							</div>
-							<hr>
 						</div>
-					</div>
-					<div class="col-lg-12">
-						<h5 class="textCenter">답변</h5>
-						<hr>
-						<div th:if="${inqInfo.replStts} == 'd1'">
-							<div>
-								<p th:utext="${inqInfo.replDesct}">내용</p>
-							</div>
-						</div>
-						<div th:if="${inqInfo.replStts} == 'd0'">
-							<p>답변이 존재하지 않습니다</p>
-						</div>
+						<div>
 							<hr>
+							<button type="button" class="form-control" style="width: 500px; margin: 0 auto;" id="cancle">신청
+								취소</button>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
 	<script th:inline="javascript">
-		
+		$('#cancle').on('click', function () {
+			$.ajax({
+					url: "/myPage/deleteExpApply",
+					data: {
+						aplNo : /*[[${info.aplNo}]]*/
+					}
+				})
+				.done(function (result) {
+					console.log(result)
+					if(result){
+						alert('신청을 취소하였습니다')
+					//부모창의 팝업 닫기 함수를 호출
+					parent.closePopUp()
+					}else{
+						alert('신청을 실패했습니다')
+					}
+				})
+				.fail(function () {
+					alert('ajax실패')
+				})
+		})
 	</script>
 </body>
 

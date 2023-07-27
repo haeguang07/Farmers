@@ -3,6 +3,8 @@ package com.yedam.app.user.mapper;
 import java.util.List;
 
 import com.yedam.app.activity.vo.BnbVO;
+import com.yedam.app.activity.vo.ExpApplyVO;
+import com.yedam.app.activity.vo.ExpVO;
 import com.yedam.app.board.vo.BoardVO;
 import com.yedam.app.common.vo.PaymentDetailVO;
 import com.yedam.app.common.vo.PaymentVO;
@@ -133,5 +135,26 @@ public interface MyPageMapper {
 	
 	//환불 프로시저
 	public void refundProcedure(PaymentDetailVO vo);
+	
+	//나의 농촌체험 등록 리스트
+	public List<ExpVO> myExpList(String memNo);
+	
+	//나의 농촌체험 신청 리스트
+	public List<ExpApplyVO> myExpSubList(String memNo);
+	
+	//나의 농촌체험 신청장 리스트
+	public List<ExpApplyVO> myExpSubPeoList(String boardNo);
+	
+	//나의 농촌체험 신청상세정보
+	public ExpApplyVO myExpSubInfo (String aplNo);
+	
+	//나의 농촌체험 신청 삭제
+	public int deleteExpApply(String aplNo);
+	
+	//나의 농촌체험 수락 및 전체 거절
+	public void myExpAplStts(ExpApplyVO vo);
+	
+	//나의 농촌체험 거절
+	public int updateExpApplyStts(String aplNo);
 
 }
