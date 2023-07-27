@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.yedam.app.common.vo.SearchVO;
+import com.yedam.app.farm.vo.FarmLendVO;
 import com.yedam.app.user.vo.InquiryVO;
 import com.yedam.app.user.vo.MemberVO;
 
@@ -17,5 +18,8 @@ public interface AdminMapper {
 	public List<InquiryVO> selectInqueryList(SearchVO vo);
 	//문의 답변
 	public int updateInquiry(InquiryVO vo);
+	
+	//농지대여 조회
+	public List<FarmLendVO> selectFarmLendList();
 	
 }

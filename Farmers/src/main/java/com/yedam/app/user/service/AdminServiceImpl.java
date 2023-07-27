@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yedam.app.common.vo.SearchVO;
+import com.yedam.app.farm.vo.FarmLendVO;
 import com.yedam.app.user.mapper.AdminMapper;
 import com.yedam.app.user.vo.InquiryVO;
 import com.yedam.app.user.vo.MemberVO;
@@ -37,6 +38,11 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public boolean replyInquiry(InquiryVO vo) {
 		return adminMapper.updateInquiry(vo)==1;
+	}
+	@Override
+	public List<FarmLendVO> getFarmLendList() {
+		
+		return adminMapper.selectFarmLendList();
 	}
 
 

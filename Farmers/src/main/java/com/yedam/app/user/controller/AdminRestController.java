@@ -6,15 +6,19 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.yedam.app.common.service.AlertService;
 import com.yedam.app.common.service.CodeService;
 import com.yedam.app.common.vo.CodeVO;
 import com.yedam.app.common.vo.SearchVO;
+import com.yedam.app.farm.vo.FarmLendVO;
 import com.yedam.app.user.service.AdminService;
+import com.yedam.app.user.vo.AlertVO;
 import com.yedam.app.user.vo.InquiryVO;
 import com.yedam.app.user.vo.MemberVO;
 @RestController
@@ -23,6 +27,8 @@ public class AdminRestController {
 	AdminService adminService;
 	@Autowired
 	CodeService codeService;
+	@Autowired 
+	AlertService alertService;
 	
 	//관리자 페이지
 	@GetMapping("/admin")
@@ -67,6 +73,40 @@ public class AdminRestController {
 		}else {
 			map.put("retCode", "Fail");			
 		}
+		return map;
+	}
+	//승인거부 알림
+	@PostMapping("admin/rejectAlert")
+	public Map<String,String> rejectAlert(@RequestBody AlertVO vo) {
+		Map<String,String>  map = new HashMap<>();
+		if(alertService.addAlert(vo)) {
+			map.put("retCode", "Success");			
+		}else {
+			map.put("retCode", "Fail");			
+		}
+		return map;
+	}
+	//농지대여
+	@GetMapping("admin/farms")
+	public Map<String,Object> getFarms(){
+		Map<String,Object>  map = new HashMap<>();
+		List<FarmLendVO> list=adminService.getFarmLendList();
+		Map<String, List<CodeVO>> code=codeService.getCodes("0K","0E","k0","k1","k2","k3","k4","k5","k6","k7","k8");
+		List<CodeVO> list2=code.get("0E");
+		int[] arr = { 7, 6, 5, 4, 3, 2,0 };
+		for (int i = 0; i < arr.length ; i++) {
+			list2.remove(arr[i]);		
+		}
+		code.put("0E", list2);
+		map.put("farms", list);
+		map.put("code", code);
+		return map;
+	}
+	//농지 대여 상태 변경
+	@PutMapping("/admin/farms/update")
+	public Map<String,Object> modifyFarm(){
+		Map<String,Object> map = new HashMap<String, Object>();
+		
 		return map;
 	}
 	
