@@ -17,5 +17,5 @@ public interface ExpService {
 	// 게시글 수
 	public int getCount(String expStart, String dst1, String dst2);
 	// 농촌 체험하기 신청(등록)
-	public int insertExpApply(ExpApplyVO expaVO);
+	public boolean insertExpApply(ExpApplyVO expaVO);
 }
