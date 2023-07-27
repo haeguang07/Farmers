@@ -1,142 +1,255 @@
 <template>
-  <v-app ref="app">
-    <v-app-bar color="grey-lighten-2" name="app-bar" class="justify-center">
-      <div class="d-flex justify-center align-center w-100">
-        <v-btn @click="print('app-bar')">Get data</v-btn>
-      </div>
-    </v-app-bar>
-    <v-navigation-drawer color="grey-darken-2" permanent name="drawer">
-      <div class="d-flex justify-center align-center h-100">
-        <v-btn @click="print('drawer')">Get data</v-btn>
-      </div>
-    </v-navigation-drawer>
-    <v-main>
-      
-      <v-card height="200px">
-        <v-data-table
-    v-model:items-per-page="itemsPerPage"
-    :headers="headers"
-    :items="desserts"
-    item-value="name"
-    class="elevation-1"
-  ></v-data-table>
-        <v-radio-group>
-  <v-radio label="Radio 1" value="1"></v-radio>
-  <v-radio label="Radio 2" value="2"></v-radio>
-  <v-radio label="Radio 3" value="3"></v-radio>
-</v-radio-group>
 
-      </v-card>
-    </v-main>
-  </v-app>
+	<div class="body">
+		<div style="width: 1000px;" class="row"> 
+			<div class="col-2">선택한 신청을 </div>
+			<div class="col-2">
+				<select class="form-select"  v-model="stts">
+					<option selected value="">선택</option>
+					<option v-for="reqStts in reqSttsList" :value="reqStts.cmmnDetaCode">{{reqStts.codeDesct}}</option>
+				</select>
+			</div>
+			<div  class="col-2"> 으로
+				<button @click="changeBtn" class="btn btn-primary mb-3">변경</button>
+			</div>
+		</div>
+		<v-data-table
+				v-model="selected"
+				v-model:page="page"
+    		v-model:items-per-page="itemsPerPage"
+    		:headers="headers"
+    		:items="boardList"
+   		  item-value="boardNo"
+				return-object
+    		show-select
+				hide-default-footer
+				@click:row=info
+   		 class="elevation-1"
+				>
+
+				<template v-slot:bottom>
+      		<div class="text-center pt-2">
+        		<v-pagination v-model="page" :length="pageCount"></v-pagination>
+        	</div>
+    		</template>
+			
+			</v-data-table>
+				
+			<!-- The Modal -->
+  <div id="myModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div v-if="Object.keys(board).length>0">
+          <div >
+            <div class="row">
+              <div class="col-5 row"><span class="col-3">신청번호</span><span class="col-5">{{board.boardNo}}</span></div>
+              <div class="col-5 row"><span class="col-3">신청일자</span><span class="col-5">{{board.regDate}}</span></div>
+              <div class="col-5 row"><span class="col-3">신청인</span><span class="col-5">{{board.memNo}}</span></div>
+            </div>
+            <div class="row">
+              <div class="col-5 row"><span class="col-3">제목</span><span class="col-5">{{board.title}}</span></div>
+              <div class="col-5 row"><span class="col-3">카테고리</span><span class="col-5">{{board.mktCtg}}</span></div>
+            </div>
+            <div class="row">
+              <div class="col-5 row"><span class="col-3">가격</span><span class="col-5">{{board.price}}</span></div>
+              <div class="col-5 row"><span class="col-3">수량</span><span class="col-5">{{board.qty}}</span></div>
+            </div>
+
+            <div class="row" style="width: 600px; height: 300px;">
+              <div class="col-3" style="padding-left: 20px;">상세내용</div>
+                  <div class="col-5" style="overflow: auto;">
+                    {{ board.detaDesct }}
+                  </div>
+            </div>
+            <div class="text-end">
+              <div v-if="board.regStts=='승인 대기' && board.files !=null" >
+                <button v-show="btnShow" class="btn btn-primary mb-3 mx-3" @click="apply">승인</button>
+                <select v-model="reason" v-show="!btnShow">
+                  <option value="상품명과 상세내용이 일치하지 않습니다" >상품명과 상세내용이 일치하지 않습니다</option>
+                  <option value="상세내용이 부적절합니다">상세내용이 부적절합니다</option>
+                </select>
+                <button class="btn btn-primary mb-3 mx-3" @click="refusal1" v-show="btnShow">승인거부</button>
+                <button class="btn btn-primary mb-3 mx-3" @click="refusal2" v-show="!btnShow">승인거부</button>
+              </div>
+              <div v-else>
+                  <button class="btn btn-primary mb-3 mx-3" @click="back">돌아가기</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+		
+	</div>
+
 </template>
 
+
 <script>
-  import { VDataTable } from 'vuetify/lib'
-export default {
-  name: "App",
-  data: () => ({
-    layout: null,
-    itemsPerPage: 5,
-        headers: [
-          {
-            title: 'Dessert (100g serving)',
-            align: 'start',
-            sortable: false,
-            key: 'name',
-          },
-          { title: 'Calories', align: 'end', key: 'calories' },
-          { title: 'Fat (g)', align: 'end', key: 'fat' },
-          { title: 'Carbs (g)', align: 'end', key: 'carbs' },
-          { title: 'Protein (g)', align: 'end', key: 'protein' },
-          { title: 'Iron (%)', align: 'end', key: 'iron' },
-        ],
-        desserts: [
-          {
-            name: 'Frozen Yogurt',
-            calories: 159,
-            fat: 6.0,
-            carbs: 24,
-            protein: 4.0,
-            iron: '1',
-          },
-          {
-            name: 'Jelly bean',
-            calories: 375,
-            fat: 0.0,
-            carbs: 94,
-            protein: 0.0,
-            iron: '0',
-          },
-          {
-            name: 'KitKat',
-            calories: 518,
-            fat: 26.0,
-            carbs: 65,
-            protein: 7,
-            iron: '6',
-          },
-          {
-            name: 'Eclair',
-            calories: 262,
-            fat: 16.0,
-            carbs: 23,
-            protein: 6.0,
-            iron: '7',
-          },
-          {
-            name: 'Gingerbread',
-            calories: 356,
-            fat: 16.0,
-            carbs: 49,
-            protein: 3.9,
-            iron: '16',
-          },
-          {
-            name: 'Ice cream sandwich',
-            calories: 237,
-            fat: 9.0,
-            carbs: 37,
-            protein: 4.3,
-            iron: '1',
-          },
-          {
-            name: 'Lollipop',
-            calories: 392,
-            fat: 0.2,
-            carbs: 98,
-            protein: 0,
-            iron: '2',
-          },
-          {
-            name: 'Cupcake',
-            calories: 305,
-            fat: 3.7,
-            carbs: 67,
-            protein: 4.3,
-            iron: '8',
-          },
-          {
-            name: 'Honeycomb',
-            calories: 408,
-            fat: 3.2,
-            carbs: 87,
-            protein: 6.5,
-            iron: '45',
-          },
-          {
-            name: 'Donut',
-            calories: 452,
-            fat: 25.0,
-            carbs: 51,
-            protein: 4.9,
-            iron: '22',
-          },]
-  }),
-  methods: {
-    print(key) {
-      alert(JSON.stringify(this.$refs.app.getLayoutItem(key), null, 2));
-    },
+
+import { VDataTable } from 'vuetify/labs/VDataTable'
+import axios from 'axios'
+export default{
+  data(){
+    return{
+			btnShow:true,
+			reason:'',
+			page:1,
+			selected:[],
+			itemsPerPage: 10,
+			board:{}, 
+      boardList:[],
+			dst1:'',
+			dst1List:[],
+			dst2:'',
+			dst2List:[],
+      dst2All:{},
+      reqSttsList:[],
+      stts:'',
+      headers:[
+	        {title: '번호',
+					key: 'boardNo',},
+	        {title: '제목',
+	          key: 'title'},
+					{title: '카테고리',
+	          key: 'mktCtg'
+	        },
+					{title: '금액',
+	          key: 'price'
+	        },
+          {title: '신청일자',
+	          key: 'regDate'
+	        },
+	        {title: '상태',
+	          key: 'regStts'}
+	      ]
+    }
   },
-};
+	components: {
+      VDataTable,
+    },
+methods:{
+	changeBtn(){
+		console.log(this.selected);
+		if(this.stts==''){
+			this.$swal({
+      	title: "상태를 선택하세요",
+      	icon: "warning",
+      	showConfirmButton: false,
+				timer: 1500
+    	});
+			return;
+		}
+		let list =[];
+		this.selected.forEach(item => {
+			let obj={boardNo: item.boardNo, 
+          reqStts:this.stts,
+					tableName:'market'}
+			    list.push(obj);
+		  });
+		console.log(list);
+		this.modify(list)
+	},
+	modify(list){
+  	axios.put('/admin/chageRegStatus', list)
+  	.then(response => {
+			console.log(response.data);
+			this.boardList = response.data;
+			this.selected = [];
+    	this.stts = '';
+    	this.board = {};
+  	})
+  	.catch(err => console.log(err))
+  	.finally(() => this.back())
+	},
+	info(event,item){
+		let index=item.item.index;
+		this.board= this.boardList[index];
+		this.onpenModal()
+	},
+	onpenModal(){
+		document.getElementById("myModal").style.display = "block";	
+	},
+	apply(){
+		let list=[];
+		list.push({boardNo:this.board.boardNo,reqStts:'e1',tableName:'market'});
+		this.modify(list);
+	},
+	refusal1(){
+		this.btnShow=false;
+	},
+	refusal2(){
+		let obj ={
+			memNo : this.member.memNo,
+			alertTitle: '신청이 거부되었습니다',
+			alrtDesct: this.reason,
+			boardCtg: 'g0c'
+		}
+		console.log(obj)
+		axios.post('admin/rejectAlert', obj, {
+  		headers: {
+    		'Content-Type': 'application/json',
+  		}
+		})
+		.then((response) => {
+  		console.log(response.data);
+  		if (response.data.retCode == "Success") {
+    		this.$swal({
+					title: "신청이 거부가 성공적으로 이루졌습니다.",
+					icon: "success",
+					showConfirmButton: false,
+					timer: 1500
+				});
+  		} else {
+    		this.$swal({
+      		title: "알림을 보내지 못하였습니다.",
+      		icon: "error",
+      		showConfirmButton: false,
+      		timer: 1500
+    		});
+  		}})
+			.catch((err) => console.log(err))
+			.finally(() => this.back());
+	},
+	back(){
+		document.getElementById("myModal").style.display = "none";
+	}
+},
+  mounted(){
+		this.dst1List = this.$store.state.dst1;
+		this.regSttsList = this.$store.state.regSttsList;
+		this.dst2All = this.$store.state.des2All;
+
+		axios.get("/admin/markets")
+		.then(response => {
+			console.log(response.data);
+			this.boardList = response.data;
+		})
+		.catch(err => console.log(err));
+			
+		//모달 닫기
+		
+		window.onclick = function(event) {
+  		if (event.target == document.getElementById("myModal")) {
+				document.getElementById("myModal").style.display = "none";
+				this.board={};
+  		}
+		}
+		document.getElementsByClassName("close")[0].addEventListener('click',function(){
+			document.getElementById("myModal").style.display = "none";
+			this.board={};
+		})
+  },
+	computed: {
+      pageCount () {
+        return Math.ceil(this.boardList.length / this.itemsPerPage)
+      },
+    }
+}
+
 </script>
+
+<style>
+
+</style>

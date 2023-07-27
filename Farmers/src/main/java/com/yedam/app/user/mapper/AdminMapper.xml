@@ -134,4 +134,117 @@
 		WHERE board_no = #{boardNo}
 	
 	</select>
+	<!-- 동적으로 승인/거부-->
+	<update id="updateStatus" parameterType="UpdateSttsVO">
+   		UPDATE ${tableName}
+   		SET req_stts = #{reqStts}
+   		WHERE board_no =#{boardNo}
+	</update>
+		
+	<!-- 마켓 조회 -->
+	<select id="selectMarketList" resultType="MarketVO">
+	  SELECT 	board_no
+				,mem_no
+				,mkt_ctg
+				,title
+				,price
+				,qty
+				,rep
+				,deta_desct
+				,reg_date
+				,reg_stts
+	  FROM market
+	</select>
+	
+	<!-- 펀딩 조회 -->
+	<select id="selectFundingList" resultType="FundingVO">
+	  SELECT 	board_no
+				,mem_no
+				,title
+				,desct
+				,fnd_str_date
+				,fnd_end_date
+				,goal_price
+				,fnd_price
+				,ship_str_date
+				,rep
+				,reg_stts
+				,crp_ctg
+				,fnd_stts
+	  FROM funding
+	</select>
+	
+	<!-- 신고 조회 -->
+	<select id="selectWarnList" resultType="WarnVO">
+	  SELECT 	rpt_no
+				,mem_no
+				,find_member_nick(mem_no) nick
+				,board_no
+				,prc_stts
+				,rpt_rsn
+				,board_ctg
+	  FROM warn
+	</select>
+	
+	<!-- 경매장 조회 -->
+	<select id="selectAuctionList" resultType="AuctionVO">
+	  SELECT 	board_no
+				,mem_no
+				,find_member_nick(mem_no) nick
+				,title
+				,act_date
+				,desct
+				,sale_qty
+				,bnp
+				,act_trm
+				,ship_price
+				,ship_dur_avg
+				,ship_dur_max
+				,rep
+				,find_code_name(reg_stts) reg_stts
+				,atch_no
+	  FROM auction
+	</select>
+	
+	<!-- 비엔비 조회 -->
+	<select id="selectFarmBnbList" resultType="BnbVO">
+	  SELECT 	board_no
+				,mem_no
+				,find_member_nick(mem_no) nick
+				,title
+				,find_code_name(dst1) dst1
+				,zip||' '|| addr || ' '|| addr_detail AS addr
+				,price
+				,rep
+				,lend_str_date
+				,lend_end_date
+				,deta_desct
+				,reg_date
+				,find_code_name(reg_stts) reg_stts
+				,lend_stts
+				,lati
+				,longi
+	  FROM farmbnb
+	</select>
+	<!-- 체험하기 조회 -->
+	<select id="selectExpList" resultType="expVO">
+		SELECT 	board_no
+				,mem_no
+				,find_member_nick(mem_no) nick
+				,title
+				,rep
+				,deta_desct
+				,zip||' '|| addr || ' '|| deta_addr AS addr
+				,find_code_name(dst1) dst1
+				,find_code_name(dst2) dst2
+				,ppt_per
+				,ex_str_date
+				,ex_end_date
+				,reg_date
+				,find_code_name(reg_stts) reg_stts
+				,lati
+				,longi
+		FROM experience
+	</select>
+		
 </mapper>
