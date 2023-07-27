@@ -17,6 +17,7 @@
     "sass-loader": "^10.4.1",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
+    "vue-sweetalert2": "^5.0.5",
     "vue3-tui-grid": "^0.1.51",
     "vuetify": "^3.3.9",
     "vuex": "^4.0.0",
