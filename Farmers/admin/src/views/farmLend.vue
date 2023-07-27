@@ -104,7 +104,7 @@
 <script>
 
 import { VDataTable } from 'vuetify/labs/VDataTable'
-
+import axios from 'axios'
 export default{
   data(){
     return{
@@ -115,12 +115,11 @@ export default{
 			itemsPerPage: 10,
 			board:{}, 
       boardList:[],
-      checkedboards:[],
-			des1:'',
-			des1List:[],
-			dest2:'',
-			dest2List:[],
-      dest2All:{},
+			dst1:'',
+			dst1List:[],
+			dst2:'',
+			dst2List:[],
+      dst2All:{},
       reqSttsList:[],
       stts:'',
       headers:[
@@ -134,6 +133,9 @@ export default{
 					{title: '가격',
 	          key: 'lendPrice'
 	        },
+					{title: '신청일자',
+	          key: 'regDate'
+	        },
 	        {title: '승인상태',
 	          key: 'regStts'}
 	      ]
@@ -145,35 +147,37 @@ export default{
 methods:{
 	changeBtn(){
 		console.log(this.selected);
+		if(this.stts==''){
+			this.$swal({
+      	title: "상태를 선택하세요",
+      	icon: "warning",
+      	showConfirmButton: false,
+				timer: 1500
+    	});
+			return;
+		}
 		let list =[];
 		this.selected.forEach(item => {
 			let obj={boardNo: item.boardNo, 
-          reqStts:this.stts}
+          reqStts:this.stts,
+					tableName:'farm_lend'}
 			    list.push(obj);
 		  });
 		console.log(list);
 		this.modify(list)
 	},
 	modify(list){
-		fetch("/admin/farms/update",{
-			method:"PUT",
-			headers: {
-        "Content-Type": "application/json",
-      },
-			body: JSON.stringify(list)
-		})
-		.then(result=>result.json())
-		.then(result=> {
-			console.log(result);
-			this.memberList=result;
-			this.selected=[];
-			this.stts='';
-			this.board={};
-		})
-		.catch(err=> console.log(err))
-		.finally(()=>this.back())
-	}
-	,
+  	axios.put('/admin/chageRegStatus', list)
+  	.then(response => {
+			console.log(response.data);
+			this.boardList = response.data;
+			this.selected = [];
+    	this.stts = '';
+    	this.board = {};
+  	})
+  	.catch(err => console.log(err))
+  	.finally(() => this.back())
+	},
 	info(event,item){
 		let index=item.item.index;
 		this.board= this.boardList[index];
@@ -184,7 +188,7 @@ methods:{
 	},
 	apply(){
 		let list=[];
-		list.push({boardNo:this.board.boardNo,reqStts:'e1'});
+		list.push({boardNo:this.board.boardNo,reqStts:'e1',tableName:'farm_lend'});
 		this.modify(list);
 	},
 	refusal1(){
@@ -198,48 +202,59 @@ methods:{
 			boardCtg: 'g00'
 		}
 		console.log(obj)
-		fetch('admin/farms',{
-			method:'POST',
-			headers: {
-          'Content-Type': 'application/json', 
-      },
-			data:JSON.stringify(obj)
+		axios.post('admin/rejectAlert', obj, {
+  		headers: {
+    		'Content-Type': 'application/json',
+  		}
 		})
-		.then(result=> result.json())
-		.then(result=> console.log(reuslt))
-		.catch(err=> console.log(err))
-		.finally(()=> this.back())
+		.then((response) => {
+  		console.log(response.data);
+  		if (response.data.retCode == "Success") {
+    		this.$swal({
+					title: "신청이 거부가 성공적으로 이루졌습니다.",
+					icon: "success",
+					showConfirmButton: false,
+					timer: 1500
+				});
+  		} else {
+    		this.$swal({
+      		title: "알림을 보내지 못하였습니다.",
+      		icon: "error",
+      		showConfirmButton: false,
+      		timer: 1500
+    		});
+  		}})
+			.catch((err) => console.log(err))
+			.finally(() => this.back());
 	},
 	back(){
 		document.getElementById("myModal").style.display = "none";
 	}
 },
   mounted(){
-  	let vue= this;
-    fetch("/admin/farms")
-    .then(result=> result.json())
-    .then(result=>{
-      console.log(result)
-      vue.boardList=result.farms;
-	  	vue.dest1List=result.code['0K'];
-	  	vue.dest2All=result.code;
-      vue.reqSttsList=result.code['0E'];
-	  	console.log(vue.boardList);
-	  	console.log(vue.dest1List);
-	  	console.log(vue.dest2All);
-    })
-    .catch(err=> console.log(err))
+  	// Vuex에서 데이터 가져오기
+		this.dst1List = this.$store.state.dst1;
+		this.regSttsList = this.$store.state.regSttsList;
+		this.dst2All = this.$store.state.des2All;
+
+		axios.get("/admin/farms")
+		.then(response => {
+			console.log(response.data);
+			this.boardList = response.data;
+		})
+		.catch(err => console.log(err));
+			
 		//모달 닫기
 		
 		window.onclick = function(event) {
   		if (event.target == document.getElementById("myModal")) {
 				document.getElementById("myModal").style.display = "none";
-				this.member={};
+				this.board={};
   		}
 		}
 		document.getElementsByClassName("close")[0].addEventListener('click',function(){
 			document.getElementById("myModal").style.display = "none";
-			this.member={};
+			this.board={};
 		})
   },
 	computed: {
@@ -252,47 +267,5 @@ methods:{
 </script>
 
 <style>
-.body{
-	padding: 10px;
-}
-
-/* The Modal (background) */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 100000000; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-/* Modal Content */
-.modal-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-}
-
-/* The Close Button */
-.close {
-  color: #aaaaaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
-}
 
 </style>

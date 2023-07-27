@@ -11,6 +11,7 @@ import lombok.Data;
 @Data
 public class SkilledVO {
 
+	// 금손 테이블
 	private String boardNo;
 	private String memNo;
 	private String dst1;
@@ -28,5 +29,13 @@ public class SkilledVO {
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	@JsonFormat(pattern ="yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date regDate;
+	
+	// 금손 신청 테이블
+	private String aplNo;
+	private String aplMsg;
+	private String aplStts;
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern ="yyyy-MM-dd", timezone = "Asia/Seoul")
+	private String aplDate;
 	
 }
