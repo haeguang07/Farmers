@@ -286,5 +286,14 @@ methods:{
   text-decoration: none;
   cursor: pointer;
 }
-
+ck-sticky-panel__content {
+  width: 600px;
+	height: 200px;
+}
+.ck-toolbar_grouping{
+  width: 600px;
+}
+.row{
+  margin: 10px;
+}
 </style>
