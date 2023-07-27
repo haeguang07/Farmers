@@ -72,7 +72,6 @@
 									<input type="date" id="date" name="exEndDate"> <!-- 체험 종료 일자 -->
 								</div>
 								<button type="button" class="btn btn-dark mr-2" id="addBtn">등록</button>
-								<button type="button" class="btn btn-dark mr-2">임시 저장</button>
 								<button type="button" class="btn btn-dark" id="cancel">취소</button>
 							</div>
 						</div>
@@ -261,8 +260,12 @@
 						data : formData
 					})
 					.done(function(result){
-						alert(result);
-						location.href = "expList";
+						if(result == "success") {
+							alert("성공적으로 등록이 되었습니다");
+							location.href = "expList";
+						} else {
+							alert("등록을 하지 못했습니다");
+						}
 					})
 					.fail(function(result){
 						alert(result);

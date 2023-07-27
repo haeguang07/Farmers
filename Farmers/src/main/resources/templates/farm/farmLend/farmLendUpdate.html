@@ -50,17 +50,17 @@
 									<p>주요 재배 작물</p>
 									<div class="row">
 										<select class="form-select form-group ml-3 mr-2" id="first" name="mcrpList">
-											<option selected disabled value="">작물 선택</option>
+											<option selected value="">작물 선택</option>
 											<option th:each="cd : ${mcrp}" th:text="${cd.codeDesct}" 
 												th:value="${cd.codeDesct}"></option>
 										</select>
 										<select class="form-select form-group mr-2" id="second" name="mcrpList">
-											<option selected disabled value="">작물 선택</option>
+											<option selected value="">작물 선택</option>
 											<option th:each="cd : ${mcrp}" th:text="${cd.codeDesct}" 
 												th:value="${cd.codeDesct}"></option>
 										</select>
 										<select class="form-select form-group" id="third" name="mcrpList">
-											<option selected disabled value="">작물 선택</option>
+											<option selected value="">작물 선택</option>
 											<option th:each="cd : ${mcrp}" th:text="${cd.codeDesct}" 
 												th:value="${cd.codeDesct}"></option>
 										</select>
@@ -79,7 +79,7 @@
 								<div class="checkout__input">
 									<p>대여 가격</p>
 									<input type="number" class="col-lg-4" th:value="${flInfo.lendPrice}" id="price" name="lendPrice" readonly>
-									<p style="display: inline; vertical-align: middle;">(일 기준)</p>
+									<p style="display: inline; vertical-align: middle;">(연간)</p>
 								</div>
 								<p style="line-height: 40px; text-align: right;">합계 : <span id="sumPrice" style="line-height: 40px;"></span></p>
 								<button type="button" class="btn btn-dark mr-2" id="saveBtn">저장</button>
@@ -118,7 +118,9 @@
 			function getSumPrice() {
 				let start = new Date(strDate.val());
 				let end = new Date(endDate.val());
-				let diffTime = Math.abs(end - start);
+				let startYear = start.getFullYear();
+				let endYear = end.getFullYear();
+				let diffTime = Math.abs(endYear - startYear);
 				let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 				if(isNaN(diffDays)) {
 					$('#sumPrice').text('0원');
@@ -132,16 +134,23 @@
 				return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 			}
 			
+			let boardNo = /*[[${flInfo.boardNo}]]*/;
+			
 			// 등록 버튼 클릭 시
 			$('#saveBtn').on('click', function() {
 				//데이터 입력 확인
-				if ($('[name="mcrp"]').val() <= 0) {
+				if (!$('[name="mcrpList"]').val()) {
 					alert('주요 재배 작물을 선택하세요');
 					return;
 				} else {
 					let formData = $('#myForm').serializeObject();
+					let list = [];
+					if(typeof formData.mcrpList == 'string') {
+						list.push(formData.mcrpList);
+						formData.mcrpList = list;
+					}
 					$.ajax({
-						url : "farmLendUpdate",
+						url : "/farmLendUpdate",
 						method : "POST",
 						contentType : "application/json",
 						data : JSON.stringify(formData)
@@ -150,23 +159,23 @@
 						if(result.result == true) {
 							console.log(result.result);
 							alert("success");
-							//location.href = "farmLendList";
+							location.href = "/farmLendInfo?boardNo=" + boardNo;
 						} else {
 							console.log(result.result);
 							alert("fail");
-							//location.href = "farmLendList";
+							location.href = "/farmLendInfo?boardNo=" + boardNo;
 						}
 					})
 					.fail(function(result) {
 						alert("fail");
-						location.href = "farmLendList";
+						location.href = "/farmLendInfo?boardNo=" + boardNo;
 					})
 				}
 			});
 			
 			// 취소 버튼 클릭 시
 			$('#cancel').on('click', function() {
-				location.href = "farmLendList";
+				location.href = "/farmLendInfo?boardNo=" + boardNo;
 			});
 		</script>
 	</div>

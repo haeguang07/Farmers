@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -95,8 +94,13 @@ public class ExpController {
 	// 신청(등록) 기능
 	@PostMapping("expApply")
 	@ResponseBody
-	public String ExpApply(@RequestBody ExpApplyVO expaVO) {
-		expService.insertExpApply(expaVO);
-		return "success";
+	public String ExpApply(ExpApplyVO expaVO) {
+		boolean result = expService.insertExpApply(expaVO);
+		
+		if(result) {
+			return "success";			
+		} else {
+			return "fail";
+		}
 	}
 }

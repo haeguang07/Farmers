@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.jasypt.encryption.StringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -50,6 +51,9 @@ public class FundingController {
 	AlertService alertService;
 	@Autowired
 	MyPageService myPageService;
+
+	@Autowired
+	StringEncryptor jasyptStringEncryptor;
 
 	// 펀딩 리스트 폼
 	@GetMapping("fundingList")
@@ -198,9 +202,8 @@ public class FundingController {
 	// 다중 첨부파일 저장 (김승환/230721)
 	@PostMapping("/uploadsAjaxMulti")
 	@ResponseBody
-	public List<Map<String, String>> uploadFileMulti(@RequestPart MultipartFile[] uploadFiles, Model model) { // @RequestPart
-																												// 첨부파일
-
+	public List<Map<String, String>> uploadFileMulti(@RequestPart MultipartFile[] uploadFiles, Model model) {
+		
 		List<Map<String, String>> list = new ArrayList<>();
 		for (MultipartFile uploadFile : uploadFiles) {
 
@@ -208,6 +211,10 @@ public class FundingController {
 
 			String originalName = uploadFile.getOriginalFilename();
 			String fileName = originalName.substring(originalName.lastIndexOf("//") + 1);
+			String dbName = jasyptStringEncryptor.encrypt(originalName);
+			// fileName이 보이지 않기 위해서 fileType으로 구분
+			String[] fileArray = fileName.split("\\."); 
+			String fileType = "."+fileArray[1];
 
 			System.out.println("fileName : " + fileName);
 
@@ -217,7 +224,7 @@ public class FundingController {
 			String uuid = UUID.randomUUID().toString();
 			// 저장할 파일 이름 중간에 "_"를 이용하여 구분
 
-			String uploadFileName = folderPath + File.separator + uuid + "_" + fileName;
+			String uploadFileName = folderPath + File.separator + uuid + "_" + fileType;
 
 			String saveName = uploadPath + File.separator + uploadFileName;
 
@@ -242,7 +249,8 @@ public class FundingController {
 			String imagePath = "/images/" + uploadFileName.replace(File.separator, "/");
 
 			map.put("atchFileName", imagePath);
-			map.put("uplFileName", originalName);
+			map.put("originalName", originalName);
+			map.put("uplFileName", dbName);
 
 			list.add(map);
 		}

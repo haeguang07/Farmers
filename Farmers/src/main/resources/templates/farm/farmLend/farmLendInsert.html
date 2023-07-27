@@ -48,6 +48,11 @@
 
 #explain:hover + p.arrow_box {
 	display: block;
+	z-index: 100000000;
+}
+.list {
+  	max-height: 400px;
+  	overflow: scroll !important;
 }
 </style>
 </head>
@@ -117,12 +122,12 @@
 									<p>대여 기간</p>
 									<input type="date" name="lendStrDate"> <!-- 대여 시작 일자 -->
 									~ 
-									<input type="date" id="date" name="lendEndDate"> <!-- 대여 종료 일자 -->
+									<input type="text" id="date" name="lendEndDate" readonly> <!-- 대여 종료 일자 -->
 								</div>
 								<div class="checkout__input">
 									<p>대여 가격</p>
 									<input type="number" class="col-lg-4" value="1" min="1" id="price" name="lendPrice">
-									<p style="display: inline; vertical-align: middle;">(일 기준)</p>
+									<p style="display: inline; vertical-align: middle;">(연간)</p>
 								</div>
 								<div class="checkout__input">
 									<p>제출 서류</p>
@@ -146,11 +151,11 @@
 											</div>
 										</div>
 									</div>
+									<ul id="fileList"></ul>
 									<input type="file" id="inputFile" name="files" style="display: none;" multiple>
 								</div>
 								<p style="line-height: 40px; text-align: right;">합계 : <span id="sumPrice" style="line-height: 40px;"></span></p>
 								<button type="button" class="btn btn-dark mr-2" id="addBtn">등록</button>
-								<button type="button" class="btn btn-dark mr-2">임시 저장</button>
 								<button type="button" class="btn btn-dark" id="cancel">취소</button>
 							</div>
 						</div>
@@ -219,16 +224,6 @@
 			let strDate = $('[name="lendStrDate"]');
 			let endDate = $('[name="lendEndDate"]');
 			
-			// 날짜 입력 순서 정의
-			endDate.on('click', function(e) {
-				e.preventDefault();
-				if(!strDate.val()) {
-					alert('대여 시작 일자를 선택하세요');
-				} else {
-					$(this).unbind('click').click();
-				}
-			});
-			
 			// date 타입 최소 날짜 제한
 			minDateSet(new Date, strDate)
 			strDate.change(function() {
@@ -249,6 +244,17 @@
 				}
 			}
 			
+			// select박스 스크롤 생성
+			$('#first').niceScroll();
+			$('#second').niceScroll();
+			$('#third').niceScroll();
+			
+			// 숫자가 아니면 빈 칸으로 만들어 버리는 것
+			$('input[type="number"]').keyup(function(e) {
+				let inputVal = $(this).val();
+				$(this).val(inputVal.replace(/[^0-9]/gi, ''));
+			});
+			
 			// 합계 출력
 			$(function() {
 				getSumPrice();
@@ -258,14 +264,12 @@
 				getSumPrice();
 			});
 			
-			$('#date').change(function() {
-				getSumPrice();
-			});
-			
 			function getSumPrice() {
 				let start = new Date(strDate.val());
 				let end = new Date(endDate.val());
-				let diffTime = Math.abs(end - start);
+				let startYear = start.getFullYear();
+				let endYear = end.getFullYear();
+				let diffTime = Math.abs(endYear - startYear);
 				let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 				if(isNaN(diffDays)) {
 					$('#sumPrice').text('0원');
@@ -297,17 +301,19 @@
 				var files = inputFile[0].files;
 				//files : 선택한 모든 파일을 나열하는 FileList 객체입니다
 				//multiple 특성을 지정하지 않았다면 두 개 이상의 파일을 포함하지 않습니다
-
+				
+				console.log(files);
 				for (var i = 0; i < files.length; i++) {
 					console.log(files[i]);
 					formData.append("uploadFiles", files[i]); //키, 값으로 append
-
+					
 					$.ajax({
-						url: 'uploadsAjaxMulti',
+						url: '/uploadsAjaxMulti',
 						type: 'POST',
 						processData: false, // 기본값은 true, ajax 통신을 통해 데이터를 전송할때, 기본적으로 key와 value 값을 Query String으로 변환해서 보내줌
 						contentType: false, // multipart/form-data 타입을 사용하기위해 false로 지정
 						data: formData,
+						async : false,
 						success: function (result) {
 							uploadFiles = result;
 						},
@@ -316,6 +322,10 @@
 						}
 					})
 				}
+				$('#fileList').empty()
+				$(uploadFiles).each((index, item)=>{
+					$('#fileList').append($('<li />').text(item.originalName));
+				})
 			});
 			
 			// 등록 버튼 클릭 시
@@ -324,19 +334,16 @@
 				if (!$('[name="zip"]').val() || !$('[name="addr"]').val()) {
 					alert('주소를 입력하세요');
 					return;
-				} else if ($('[name="area"]').val() <= 0) {
+				} else if (!$('[name="area"]').val()) {
 					alert('면적을 입력하세요');
 					return;
-				} else if ($('[name="mcrp"]').val() <= 0) {
+				} else if (!$('[name="mcrpList"]').val()) {
 					alert('주요 재배 작물을 선택하세요');
 					return;
 				} else if (!$('[name="lendStrDate"]').val()) {
 					alert('대여시작일을 입력하세요');
 					return;
-				} else if (!$('[name="lendEndDate"]').val()) {
-					alert('대여마감일을 입력하세요');
-					return;
-				} else if ($('#price').val() < 2) {
+				} else if (!$('#price').val()) {
 					alert('가격을 설정하세요');
 					return;
 				} else if (uploadFiles.length < 4) {
@@ -344,27 +351,32 @@
 					return;
 				} else {
 					let formData = $('#myForm').serializeObject();
+					let list = [];
+					if(typeof formData.mcrpList == 'string') {
+						list.push(formData.mcrpList);
+						formData.mcrpList = list;
+					}
 					formData.files = uploadFiles;
 					$.ajax({
-						url : "farmLendInsert",
+						url : "/add/farmLendInsert",
 						method : "POST",
 						contentType : "application/json",
 						data : JSON.stringify(formData)
 					})
 					.done(function(result) {
 						alert(result);
-						location.href = "farmLendList";
+						location.href = "/farmLendList";
 					})
 					.fail(function(result) {
-						alert(result);
-						location.href = "farmLendList";
+						console.log(result);
+						//location.href = "/farmLendList";
 					})
 				}
 			});
 			
 			// 취소 버튼 클릭 시
 			$('#cancel').on('click', function() {
-				location.href = "farmLendList";
+				location.href = "/farmLendList";
 			});
 		</script>
 	</div>

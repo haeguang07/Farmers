@@ -79,13 +79,13 @@
 
 	<!-- 커뮤니티 댓글 조회 -->
 	<select id="selReplyList" resultType="ReplyVO">
-		SELECT cmt_no, nick, cmt_desct, b.board_no, rcm_num, r.wrt_date
+		SELECT cmt_no, r.mem_no, nick, cmt_desct, b.board_no, rcm_num, r.wrt_date
 		FROM board b LEFT JOIN reply r
         ON b.board_no = r.board_no
         LEFT JOIN member m
         ON r.mem_no = m.mem_no
 		WHERE b.board_no = #{boardNo}
-		ORDER BY r.wrt_date DESC
+		ORDER BY r.wrt_date
 	</select>
 	
 	<!-- 커뮤니티 댓글 등록 -->
