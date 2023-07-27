@@ -47,8 +47,8 @@ public class ExpServiceImpl implements ExpService {
 	}
 
 	@Override
-	public int insertExpApply(ExpApplyVO expaVO) {
-		return expMapper.insertExpApply(expaVO);
+	public boolean insertExpApply(ExpApplyVO expaVO) {
+		return expMapper.insertExpApply(expaVO) > 0;
 	}
 	
 }

@@ -13,7 +13,7 @@ public interface FarmLendService {
 	// 등록
 	public boolean insertFarmLendInfo(FarmLendVO flVO);
 	// 수정
-	public String updateFarmLendInfo(FarmLendVO flVO);
+	public int updateFarmLendInfo(FarmLendVO flVO);
 	// 삭제
 	public int deleteFarmLendInfo(String boardNo);
 	// 게시글 수

@@ -68,8 +68,13 @@
 												<span th:text="|${#dates.format(expInfo.exStrDate, 'yyyy/MM/dd')} ~ ${#dates.format(expInfo.exEndDate, 'yyyy/MM/dd')}|">체험 시작 ~ 종료 일자</span></p>
 											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">참여 인원 : </b> 
 												<span th:text="|현재 참여 인원 / ${expInfo.pptPer}|">현재 참여 인원 / 참여 최대 인원</span></p>
-											<p class="note" style="margin-bottom: 10px; text-align: left;">위치 정보</p>
-											<div class="mb-2" id="mapDesc" th:utext="|주소 : ${expInfo.addr}, ${expInfo.detaAddr}|" style="text-align: left;">주소</div>
+											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">신청 인원 : </b>
+												<span><input type="number" value="1" min="1" oninput="maxValue(this)" th:if="${session.mem.memNo} != ${expInfo.memNo}" 
+													name="aplPer" class="form-control" style=" width: 150px; display: inline;"></span>
+												<span>명</span>
+											</p>
+											<button type="button" class="btn btn-dark mr-2" style="width: 150px; float: left;" id="applyBtn" th:if="${session.mem.memNo} != ${expInfo.memNo}">신청하기</button>
+											<button type="button" class="btn btn-dark" style="width: 150px; float: left;" id="toList">목록으로</button>
 										</div>
 									</div>
 								</div>
@@ -77,23 +82,41 @@
 						</div>
 					</div>
 				</div>
-				<div class="row d-flex justify-content-center">
-					<!-- 지도 api -->
-					<div>
-						<div class="product__details__tab__content__item">
-							<div id="map">지도 Api</div>
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="product__details__tab">
+							<ul class="nav nav-tabs" role="tablist">
+								<li class="nav-item"><a class="nav-link active"
+									data-toggle="tab" href="#tabs-5" role="tab">위치 정보</a></li>
+								<li class="nav-item"><a class="nav-link" data-toggle="tab"
+									href="#tabs-6" role="tab">상세 설명</a></li>
+							</ul>
+							<div class="tab-content">
+								<div class="tab-pane active" id="tabs-5" role="tabpanel">
+									<div class="product__details__tab__content">
+										<!-- 지도 api -->
+										<div class="product__details__tab__content__item">
+											<p class="note" style="margin-bottom: 10px; text-align: left;">위치 정보</p>
+											<div class="mb-2" id="mapDesc" th:utext="|주소 : ${expInfo.addr}, ${expInfo.detaAddr}|" style="text-align: left;">주소</div>
+											<div id="map">지도 Api</div>
+										</div>
+										<!-- 위도 경도-->
+										<div style="display: none">
+											위도<span id="lati" th:text="|${expInfo.lati}|"></span><br>
+											경도<span id="longi" th:text="|${expInfo.longi}|"></span>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane" id="tabs-6" role="tabpanel">
+									<div class="product__details__tab__content">
+										<div class="product__details__tab__content__item"
+											th:utext="${expInfo.detaDesct}">상세 설명</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
-					<!-- 위도 경도-->
-					<div style="display: none">
-						위도<span id="lati" th:text="|${expInfo.lati}|"></span><br>
-						경도<span id="longi" th:text="|${expInfo.longi}|"></span>
-					</div>
-					<div class="product__details__tab__content__item"
-						th:utext="${expInfo.detaDesct}">상세 설명</div>
 				</div>
-				<button type="button" class="btn btn-dark mr-2" style="width: 150px; float: left;" id="applyBtn" th:if="${session.mem.memNo} != ${expInfo.memNo}">신청하기</button>
-				<button type="button" class="btn btn-dark" style="width: 150px; float: left;" id="toList">목록으로</button>
 			</div>
 		</section>
 		<!-- Shop Details Section End -->
@@ -116,28 +139,39 @@
 				map : map
 			});
 			
+			// 데이터에 있는 수량보다 높게 입력하려고 했을 때 실행되는 함수
+			function maxValue(Object) {
+				let max = /*[[${expInfo.pptPer}]]*/
+				if(Object.value > max) {
+					alert('신청할 수 있는 인원을 초과했습니다');
+					Object.value = max;
+				}
+			}
+			
 			/*<![CDATA[*/
 			let boardNo = /*[[${expInfo.boardNo}]]*/;
-			let memNo = /*[[${session.mem.memNo}]]*/
+			let mem = /*[[${session.mem}]]*/
 			/*]]>*/
 			
 			// 신청하기 버튼 클릭 시
 			$('#applyBtn').on('click', function() {
+				let aplPer = $('input[name="aplPer"]').val();
 				$.ajax({
 					url : "expApply",
 					method : "POST",
-					contentType : "application/json",
 					data : {
 						boardNo : boardNo,
-						memNo : memNo,
-						aplPer : 1
+						memNo : mem.memNo,
+						aplPer : aplPer
 					}
 				})
 				.done(function(result) {
 					console.log(result);
+					alert("success");
+					// 페이지 넘기기
 				})
 				.fail(function(result) {
-					alert(result);
+					alert("fail");
 				})
 			});
 			

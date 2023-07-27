@@ -156,7 +156,7 @@
 			$('#add').on('click', function() {
 				if(mem != null) {
 					if(mem.memGrd == 'b0' || mem.memGrd == 'b1') {
-						location.href = "farmLendInsert";
+						location.href = "/add/farmLendInsert";
 					} else {
 						alert('정회원 이상의 회원만 등록이 가능합니다.');
 					}
@@ -172,7 +172,7 @@
 			// 리스트 불러오기
 			function ajaxData(page, dst1, dst2, mcrp, price, area) {
 				$.ajax({
-					url : 'farmLendList',
+					url : '/farmLendList',
 					type : 'POST',
 					data : {
 						pageNum : page,
@@ -191,7 +191,11 @@
 						$('#dst2').empty();
 						$('#dst2').append(`<option value="">시·군</option>`);
 						$(data.dst2).each((idx, item) => {
-							$('#dst2').append(`<option value="${item.cmmnDetaCode}">${item.codeDesct}</option>`)
+							if(item.cmmnDetaCode == dst2) {
+								$('#dst2').append(`<option value="${item.cmmnDetaCode}" selected>${item.codeDesct}</option>`)	
+							} else {
+								$('#dst2').append(`<option value="${item.cmmnDetaCode}">${item.codeDesct}</option>`)	
+							}
 						});
 						$('#dst2').niceSelect('update');
 						$('#dst2').niceScroll();
@@ -243,7 +247,7 @@
 				$(clone).find('#addr').on('click', function() {
 					if(mem != null) {
 						if(mem.memGrd == 'b0' || mem.memGrd == 'b1') {
-							location.href = "farmLendInfo?boardNo=" + item.boardNo;
+							location.href = "/farmLendInfo?boardNo=" + item.boardNo;
 						} else {
 							alert('정회원 이상의 회원만 이용 가능합니다.');
 						}

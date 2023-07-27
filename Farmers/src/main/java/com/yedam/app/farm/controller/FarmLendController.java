@@ -75,14 +75,14 @@ public class FarmLendController {
 	}
 	
 	// 등록 페이지 불러오기
-	@GetMapping("farmLendInsert")
+	@GetMapping("add/farmLendInsert")
 	public String insertFarmLendForm(Model model) {
 		model.addAttribute("mcrp", codeService.getCodeList("1E"));
 		return "farm/farmLend/farmLendInsert";
 	}
 	
 	// 등록 기능
-	@PostMapping("farmLendInsert")
+	@PostMapping("add/farmLendInsert")
 	@ResponseBody
 	public String insertFarmLend(@RequestBody FarmLendVO flVO) {
 		flService.insertFarmLendInfo(flVO);
@@ -104,8 +104,8 @@ public class FarmLendController {
 	@ResponseBody
 	public Map<String, Object> updateFarmLend(@RequestBody FarmLendVO flVO) {
 		boolean result = false;
-		String frldNo = flService.updateFarmLendInfo(flVO);
-		if(frldNo != null) {
+		int frldNo = flService.updateFarmLendInfo(flVO);
+		if(frldNo != 0) {
 			result = true;
 		}
 		

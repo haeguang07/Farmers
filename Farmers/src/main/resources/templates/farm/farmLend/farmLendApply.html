@@ -53,6 +53,7 @@
 
 #explain:hover + p.arrow_box {
 	display: block;
+	z-index: 100000000;
 }
 </style>
 </head>
@@ -199,7 +200,7 @@
 					formData.append("uploadFiles", files[i]); //키, 값으로 append
 
 					$.ajax({
-						url: 'uploadsAjaxMulti',
+						url: '/uploadsAjaxMulti',
 						type: 'POST',
 						processData: false, // 기본값은 true, ajax 통신을 통해 데이터를 전송할때, 기본적으로 key와 value 값을 Query String으로 변환해서 보내줌
 						contentType: false, // multipart/form-data 타입을 사용하기위해 false로 지정
@@ -236,7 +237,7 @@
 					let formData = $('#myForm').serializeObject();
 					formData.files = uploadFiles;
 					$.ajax({
-						url : "farmLendApply",
+						url : "/farmLendApply",
 						method : "POST",
 						contentType : "application/json",
 						data : JSON.stringify(formData)
@@ -249,7 +250,7 @@
 						} else {
 							console.log(result);
 							alert("fail");
-							location.href = "farmLendList";
+							location.href = "/farmLendList";
 						}
 					})
 					.fail(function(result) {
@@ -260,7 +261,7 @@
 			
 			// 취소 버튼 클릭 시
 			$('#toList').on('click', function() {
-				location.href = "farmLendInfo?boardNo=" + boardNo;
+				location.href = "/farmLendInfo?boardNo=" + boardNo;
 			});
 		</script>
 	</div>
