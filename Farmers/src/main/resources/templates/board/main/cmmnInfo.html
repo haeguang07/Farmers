@@ -13,21 +13,30 @@
 <style>
 /* 좋아요 버튼 */
 table {
-	line-height: 80px;
+	line-height: 40px;
 }
 .center {
 	text-align: center;
 }
+.vertical {
+	padding-top: 2px;
+	padding-bottom: -10px;
+	vertical-align: top;
+}
+#wrtDate {
+	font-size: 14px;
+}
 i {
 	cursor: pointer;
 	padding: 5px;
+	padding-bottom: 0px;
 	background: #fff;
 	border-radius: 50%;
 	display: inline-block;
 	margin: 0 0 15px;
 	color: #aaa;
 	transition: .2s;
-	margin-bottom: 0px;
+	margin-bottom: -100px;
 }
 
 i:hover {
@@ -250,19 +259,22 @@ padding
 											<button type="button" id="addReply">댓글작성</button>
 										</div>
 									</div>
-									<div id="cmtList">
-										<div class="row col-lg-12">
-											<table id="cmtSpace">
-												<tr class="cmt" style="display: none;">
-													<td class="center nickname" style="width:100px;">닉네임</td>
-													<td class="cmtD" style="width:530px;">댓글 내용</td>
-													<td class="center" style="width:60px;">추천 <label class="rcmNum">0</label></td>
-													<td class="center" style="width:110px;">
+									<div class="row col-lg-12">
+										<div id="cmtList">
+											<table id="cmt" style="display: none;">
+												<tr>
+													<td class="nickname" style="width:100px;" rowspan="2">닉네임</td>
+													<td class="cmtD" style="width:520px;" rowspan="2">댓글 내용</td>
+													<td class="center" style="width:70px;" rowspan="2">추천 <label class="rcmNum">0</label></td>
+													<td class="center" style="width:150px;">
 														<i></i>
 														<span>liked!</span>
 														<i class='fas fa-exclamation-triangle' style='font-size:18px;color:red'></i>
 														<i class="fa fa-close" style="font-size:20px;"></i>
 													</td>
+												</tr>
+												<tr style="border-bottom: 1px solid lightgray;">
+													<td class="center vertical" id="wrtDate"></td>
 												</tr>
 											</table>
 										</div>
@@ -290,7 +302,10 @@ padding
 				mem = [[${session.mem}]]
 			/*]]>*/
 			
-			console.log(boardNo);
+			// 댓글 전체 조회 실행
+			$(function(){
+				replyData();
+			})
 			
 			$('#delBtn').on('click', function(){
 				$.ajax({
@@ -307,6 +322,22 @@ padding
 					}
 				})
 			})
+			
+			// 댓글 리스트 출력
+			function replyData(){
+				$.ajax({
+					url: "reply",
+					method: "GET",
+					data: {boardNo},
+					success: function(data){
+						console.log(data);
+						printReply(data);
+					},
+					error: function(err){
+						console.log(err);
+					}
+				})
+			}
 			
 			// 댓글 작성 버튼 클릭 시 데이터 저장
 			$('#addReply').on('click', function(){
@@ -326,8 +357,7 @@ padding
 					},
 					success: function(data){
 						alert('댓글 등록이 완료되었습니다.');
-						
-						printReply(data);
+						replyData();
 					},
 					error: function(reject){
 						alert('다시 시도하세요.');
@@ -338,13 +368,26 @@ padding
 			
 			// 등록한 댓글 생성 및 추가 함수
 			function printReply(data){
+				let replyData = data.reply;
+				
+				$(replyData).each((idx, item) => {
+					printRow(item);
+				})
+				
+				
+			}
+			
+			function printRow(item){
 				let clone = $('#cmt').clone();
 				$(clone).css({'display' : 'block'});
 				
 				// 데이터 넣기
-				$(clone).find('.nickname').text(data.nick);
-				$(clone).find('.cmtD').text(data.cmtDesct);
-				$(clone).find('.rcmNum').text(data.rcmNum);
+				$(clone).find('.nickname').text(item.nick);
+				$(clone).find('.cmtD').text(item.cmtDesct);
+				$(clone).find('.rcmNum').text(item.rcmNum);
+				$(clone).find('#wrtDate').text(item.wrtDate);
+				
+				$('#cmtList').append(clone);
 			}
 			
 			// 좋아요 버튼 토글

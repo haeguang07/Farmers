@@ -75,7 +75,7 @@ h4,h5 {
 											<option value="">도</option>
 											<option th:each="opt : ${dst1}" th:text="${opt.codeDesct}"
 												th:value="${opt.cmmnDetaCode}"
-												th:selected="${opt.cmmnDetaCode == eventInfo[0].dst1}"></option>
+												th:selected="${opt.cmmnDetaCode == cmmnInfo[0].dst1}"></option>
 										</select>
 									</div>
 									<span>제목 <input type="text" class="form-control"
@@ -137,7 +137,7 @@ h4,h5 {
 				$('#inputFile').click()
 			})
 			
-			let dbPath = /*[[${eventInfo[0].img}]]*/;
+			let dbPath = /*[[${cmmnInfo[0].img}]]*/;
 		
 			//첨부파일 업로드
 			$('#inputFile').change(function () {
