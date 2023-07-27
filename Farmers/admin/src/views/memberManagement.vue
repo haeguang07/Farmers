@@ -64,7 +64,7 @@
                 </div>
           </div>
           <div class="text-end">
-						<div v-if="member.memGrd=='준회원 '&& member.grdAtchFile !=null" >
+						<div v-if="member.memGrd=='준회원' && member.grdAtchFile !=null" >
 							<button v-show="btnShow" class="btn btn-primary mb-3 mx-3" @click="apply">승인</button>
 							<select v-model="reason" v-show="!btnShow">
 								<option value="이미지가 정확하지 않습니다">이미지가 정확하지 않습니다</option>
@@ -152,6 +152,12 @@ methods:{
 		.then(result=>result.json())
 		.then(result=> {
 			console.log(result);
+			this.$swal({
+              title: "회원 상태를 변경하였습니다",
+              icon: "success",
+              showConfirmButton:false,
+              timer:1500
+            });
 			this.memberList=result;
 			this.selected=[];
 			this.grade=''; this.stts='';
@@ -179,14 +185,19 @@ methods:{
 		this.btnShow=false;
 	},
 	refusal2(){
-		let data ={
+		let obj ={
 			memNo : this.member.memNo,
 			alertTitle: '등업신청이 거부되었습니다',
 			alrtDesct: this.reason,
 			boardCtg: 'g16'
 		}
-		fetch('sendAlert',{
-			body:data
+		console.log(obj)
+		fetch('admin/rejectAlert',{
+			method:'POST',
+			headers: {
+          'Content-Type': 'application/json', 
+      },
+			data:JSON.stringify(obj)
 		})
 		.then(result=> result.json())
 		.then(result=> console.log(reuslt))
