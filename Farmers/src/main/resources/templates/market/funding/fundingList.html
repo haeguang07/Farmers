@@ -50,10 +50,10 @@
 											<div class="card-body">
 												<div class="shop__sidebar__categories">
 													<ul>
-														<li><a href="#">전원마켓</a></li>
-														<li><a href="#">농작물판매</a></li>
-														<li><a href="fundingList" class="mySelect" style="color: black;">농작물펀딩</a></li>
-														<li><a href="#">경매장</a></li>
+														<li><a href="/marketList">전원마켓</a></li>
+														<li><a href="/cropsSaleList">농작물판매</a></li>
+														<li><a href="/fundingList" class="mySelect" style="color: black;">농작물펀딩</a></li>
+														<li><a href="/auctionList">경매장</a></li>
 													</ul>
 												</div>
 											</div>
@@ -148,7 +148,7 @@
 				<div class="product__item__pic set-bg" id="img" data-setbg="img/product/product-2.jpg">
 				</div>
 				<div class="product__item__text">
-						
+
 					<h5 id="name" style="font-size: small">상품명</h5>
 					<p style="font-weight: 900; margin-bottom: 0;" id="price">가격</p>
 					<div>
@@ -295,6 +295,13 @@
 			$('#button-addon2').on('click', function () {
 				getCondition()
 			})
+			//검색 후 엔터 시
+				$("#search").on("keyup", function (key) {
+					if (key.keyCode == 13) {
+						getCondition()
+					}
+				});
+
 			//카테고리 변경 시
 			$('#category').change(function () {
 				getCondition()

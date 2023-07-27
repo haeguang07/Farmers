@@ -71,7 +71,7 @@
 				<div class="row col-lg-12">
 					<div class="col-lg-12">
 						<div class="shopping__cart__table" style="margin-bottom: 0px;">
-							<h4 class="textCenter">문의내역</h4>
+							<h4 class="textCenter">판매상세내역</h4>
 							<hr>
 							<h5 class="textCenter" th:if="${payInfo.boardCtg} != 'FARMBNB'">배송정보</h5>
 							<h5 class="textCenter" th:if="${payInfo.boardCtg} == 'FARMBNB'">예약정보</h5>
@@ -230,6 +230,27 @@
 				.done(function(result){
 					if(result){
 						alert('상태 변경에 성공하였습니다')
+
+						//구매자에게 알림 보내기
+						let memNo = /*[[${payInfo.memNo}]]*/;
+						let alertTitle =`[[${payInfo.title}]] 의 배송상태가 변경되었습니다`;
+						let alretDesct =  `[[${payInfo.title}]] 의 배송상태가 [[${payInfo.shipStts}]] 으로 변경되었습니다`;
+						let boardCtg = /*[[${payInfo.boardCtgCode}]]*/
+						$.ajax({
+							url : "/sendAlert",
+							data : {
+								memNo: memNo,
+								alrtTitle : alertTitle,
+								alrtDesct : alretDesct,
+								boardCtg : boardCtg
+							}
+						})
+						.fail(function(){
+							alert('fail')
+						})
+
+						//부모창의 팝업 닫기 함수를 호출
+						parent.closePopUp()
 					}else{
 						alert('상태 변경에 실패하였습니다')
 					}

@@ -51,15 +51,6 @@ public class FundingController {
 	@Autowired
 	MyPageService myPageService;
 
-	// 기본 리스트 출력
-//	@GetMapping("fundingList")
-//	public String fundingList(Model model) {
-//		List<FundingVO> list = fundingService.getFundingList();
-//		model.addAttribute("fundingList", list);
-//		System.out.println(list);
-//		return "market/funding/fundingList";
-//	}
-
 	// 펀딩 리스트 폼
 	@GetMapping("fundingList")
 	public String fundingList(Model model) {
@@ -69,10 +60,11 @@ public class FundingController {
 	// 페이징 pageVO 방식
 	@PostMapping("fundingList")
 	@ResponseBody
+												//조건검색 값
 	public Map<String, Object> fundingListPage(@RequestParam(required = false, defaultValue = "0") int pageNum,
-			@RequestParam(required = false) String category,
-			@RequestParam(required = false, defaultValue = "최신순") String order,
-			@RequestParam(required = false) String search, Model model) {
+											   @RequestParam(required = false) String category,
+											   @RequestParam(required = false, defaultValue = "최신순") String order,
+											   @RequestParam(required = false) String search, Model model) {
 
 		pageNum = (pageNum == 0 ? 1 : pageNum);
 		int total = fundingService.fundingTotal(category, search);
@@ -330,7 +322,7 @@ public class FundingController {
 	}
 
 	// 기간 종료 및 달성 실패 시
-	//@Scheduled(cron = "0/3 * * * * *")
+	@Scheduled(cron = "0 0 0 * * *")
 	public void fundingRefund() {
 		//취소가 필요한 결제 정보
 		List<PaymentDetailVO> list = fundingService.fundingRefundList();
