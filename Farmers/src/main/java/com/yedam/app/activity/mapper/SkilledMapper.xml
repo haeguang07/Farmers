@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.app.activity.mapper.SkilledMapper">
+<!-- 구해요 할게요 전체조회 -->
+<select id="skilledList" resultType="SkilledVO">
+	SELECT b.*
+		FROM (
+				SELECT rownum rn, a.*
+				FROM (
+						SELECT s.board_no
+				  			   , m.nick
+						       , s.dst1
+						       , s.dst2
+						       , s.title
+						       , s.desct
+						       , s.day_div
+						       , s.wage_div
+						       , s.price
+						       , s.atch_no
+						FROM skilled_expert s
+						LEFT JOIN member m ON s.mem_no = m.mem_no
+						WHERE s.div = #{div}
+						AND s.stts != 'k3'
+							<if test="dst1 != null and !dst1.equals('')">
+								AND dst1 = #{dst1}
+							</if>
+							<if test="dst2 != null and !dst2.equals('')">
+								ANd dst2 = #{dst2}
+							</if>
+						ORDER BY b.wrt_date DESC
+						) a
+		<![CDATA[
+            	WHERE rownum <= #{pageNum} * 9) b
+		WHERE b.rn > (#{pageNum}-1) * 9
+		]]>
+</select>
+
+<!-- 상세 조회 -->
+<select id="skilledInfo" resultType="SkilledVO">
+	SELECT s.board_no, m.nick, dst1, dst2, div, atch_no, title, desct, day_div, wage_div,
+			price, cndt, addr_desct, stts, reg_Date
+	FROM skilled_expert s LEFT JOIN member m
+	ON s.mem_no = m.mem_no
+	WHERE s.board_no = #{boardNo}
+</select>
+
+<!-- 글 등록 -->
+<!-- <insert id="addSkilled" parameterType="SkilledVO">
+	<selectKey keyProperty="boardNo"
+			   resultType="String"
+			   order="BEFORE">
+		SELECT 'SKL' || LPAD(skl_seq.nextval, 6, '0')
+		FROM dual
+	</selectKey>
+	INSERT INTO skilled_expert
+	VALUES (#{boardNo}, #{memNo}, #{dst1}, #{dst2}, #{div}, #{})
+</insert> -->
+
+<!-- 글 삭제 -->
+
+<!-- 신청 -->
+
+</mapper>

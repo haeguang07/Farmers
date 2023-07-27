@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Market, Auction">
+<meta name="keywords" content="Auction">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>금손귀농인</title>
+<style>
+.tab-pane p {
+	margin-bottom: 50px;
+}
+
+h5:has(.countdown) {
+	color: #DF0101;
+}
+
+.highestBid {
+	font-weight: 900;
+	color: green;
+}
+
+.bidWay {
+	margin-top: 10px;
+	border: 1px solid lightgray;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 250px;
+	border: 1px solid lightgray;
+	height: 250px;
+}
+
+.fixedOption {
+	height: 150px;
+}
+
+.buyNowPrice>span {
+	margin-top: 50px;
+	margin-bottom: 30px;
+	font-size: 25px;
+	font-weight: bold;
+}
+
+label:has(.bidCount) {
+	margin-left: 80px;
+	font-size: 13px;
+	color: darkgray;
+	display: block;
+}
+
+.toggleshow {
+	display: none;
+}
+
+.toggleContainer {
+	position: relative;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	width: 380px;
+	border: 3px solid #1f502a;
+	border-radius: 20px;
+	background: #1f502a;
+	font-weight: bold;
+	color: #1f502a;
+	cursor: pointer;
+	margin: auto;
+	margin-bottom: 10px;
+}
+
+.toggleContainer::before {
+	content: '';
+	position: absolute;
+	width: 50%;
+	height: 100%;
+	left: 0%;
+	border-radius: 20px;
+	background: white;
+	transition: all 0.3s;
+}
+
+.toggleCheckbox:checked+.toggleContainer::before {
+	left: 50%;
+}
+
+.toggleContainer div {
+	padding: 6px;
+	padding-left: 40px;
+	padding-right: 40px;
+	text-align: center;
+	z-index: 1;
+	text-align: center;
+}
+
+.toggleCheckbox {
+	display: none;
+}
+
+.toggleCheckbox:checked+.toggleContainer div:first-child {
+	color: white;
+	transition: color 0.3s;
+}
+
+.toggleCheckbox:checked+.toggleContainer div:last-child {
+	color: #1f502a;
+	transition: color 0.3s;
+}
+
+.toggleCheckbox+.toggleContainer div:first-child {
+	color: #1f502a;
+	transition: color 0.3s;
+}
+
+.toggleCheckbox+.toggleContainer div:last-child {
+	color: white;
+	transition: color 0.3s;
+}
+</style>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<!-- Breadcrumb Section Begin -->
+		<section class="breadcrumb-option">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="breadcrumb__text">
+							<h4>농촌 체험</h4>
+							<div class="breadcrumb__links">
+								<span>정겨운 우리의 고향에서 할 수 있는 다양한 활동을 경험해보세요!</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Breadcrumb Section End -->
+
+		<!-- Shop Section Begin -->
+		<section class="shop spad">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-3">
+						<div class="shop__sidebar">
+							<div class="shop__sidebar__accordion">
+								<div class="accordion" id="accordionExample">
+									<div class="card">
+										<div class="card-heading">
+											<a data-toggle="collapse" data-target="#collapseOne">농촌
+												체험</a>
+										</div>
+										<div id="collapseOne" class="collapse show"
+											data-parent="#accordionExample">
+											<div class="card-body">
+												<div class="shop__sidebar__categories">
+													<ul class="nice-scroll">
+														<li><a href="bnbList">농촌 비엔비</a></li>
+														<li><a href="expList">농촌 체험하기</a></li>
+														<li><b><a href="skilledList"
+																style="color: black;">금손 귀농인</a></b></li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-9">
+						<div class="shop__product__option">
+							<div class="row">
+								<div class="col-lg-12 col-md-12 col-sm-12">
+
+									<div class="row" id="selCondition">
+										<div class="col-6"></div>
+										<!-- 지역1 선택창 -->
+										<div>
+											<select class="form-select form-group col-1.5 mr-2"
+												aria-label="Default select example" id="dst1">
+												<option value="" selected="selected">도</option>
+												<option th:each="opt : ${dst1}" th:text="${opt.codeDesct}"
+													th:value="${opt.cmmnDetaCode}"></option>
+											</select>
+										</div>
+										<!-- 지역2 선택창 -->
+										<div>
+											<select class="form-select form-group col-1.5 mr-2"
+												aria-label="Default select example" id="dst2">
+												<option value="">시·군</option>
+											</select>
+										</div>
+										<!-- 검색창 -->
+										<div>
+											<label><input class="form-control" placeholder="검색어를 입력하세요."></label>
+											<button type="button" class="searchBtn">검색</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- 구해요 / 할게요 토글 -->
+						<div class="product__details__option">
+							<div class="skilledExpert">
+								<div class="FixedOption">
+									<input type="checkbox" id="toggle" class="toggleCheckbox" /> <label
+										for="toggle" class="toggleContainer">
+										<div>구해요</div>
+										<div>할게요</div>
+									</label>
+									<div>
+										<button type="button" th:onclick="">등록</button>
+									</div>
+								</div>
+								<div id="wanted"></div>
+
+								<!-- ******* 할게요 ******* -->
+								<div id="volunteered" class="toggleshow"></div>
+							</div>
+						</div>
+
+
+						<!-- 금손귀농인 리스트 출력 공간 clone용-->
+						<div class="col-lg-9">
+							<section class="blog spad" id="skilledList">
+								<div class="container">
+									<div class="row">
+										<div class="row" id="pageDiv"></div>
+									</div>
+								</div>
+							</section>
+						</div>
+
+
+						<!-- 이벤트 카드 리스트 clone용 -->
+						<div class="col-lg-4 col-md-6 col-sm-6" id="se"
+							style="">
+							<div class="blog__item">
+								<div class="blog__item__pic set-bg"
+									data-setbg="img/blog/blog-1.jpg"></div>
+								<div class="blog__item__text">
+									<span class="eDate"><img src="img/icon/calendar.png"
+										alt=""> 16 February 2020<span class="eDst2"></span></span>
+									<h5 class="eTitle">What Curling Irons Are The Best Ones</h5>
+									<a href="#">자세히 보기</a>
+								</div>
+							</div>
+						</div>
+
+						<!-- pageDiv clone용-->
+						<div class="product__pagination" style="display: none;"
+							id="pageItem">
+							<a class="myInline" id="prevPage">◁</a>
+							<div id="pageNumDiv" class="myInline">
+								<a id="pageNum">a</a>
+							</div>
+							<a class="myInline" id="nextPage">▷</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<script th:inline="javascript">
+		
+            /* $(function(){
+                boardData('i4', 1);
+            })
+            
+
+            // 이벤트 리스트 데이터 가져오기
+			function boardData(postCtg, pageNum, dst1, dst2){
+				$.ajax({
+					url: "boardList",
+					method: "GET",
+					data: {
+                        postCtg,
+						pageNum,
+						dst1,
+						dst2
+					},
+					success(data){
+						console.log(data);
+						console.log(dst1, dst2);
+						printList(data, dst1, dst2);
+						
+						// 지역2 select box 출력
+						if(data.dst2) {
+							$('#dst2').empty();
+							$('#dst2').append(`<option value="">시·군</option>`);
+							$(data.dst2).each((idx, item) => {
+								if(item.cmmnDetaCode == dst2){
+									$('#dst2').append(`<option value="${item.cmmnDetaCode}" selected>${item.codeDesct}</option>`)
+								}else {
+									$('#dst2').append(`<option value="${item.cmmnDetaCode}">${item.codeDesct}</option>`)
+								}
+							});
+							$('#dst2').niceSelect('update');
+							$('#dst2').niceScroll();
+						}
+					},
+					error(reject){
+						console.log(reject);
+					}
+				})
+			}
+
+            // 리스트 출력
+			function printList(data, dst1, dst2){
+				$('#eventList').children().remove();
+				$('#pageDiv').children().remove();
+				
+				let eventData = data.boardList;
+				let pageData = data.pageInfo;
+				
+				$(eventData).each((idx, item) => {
+					printItem(item);
+				})
+				
+				printPage(pageData, dst1, dst2);
+			}
+            
+            // 이벤트 게시글 생성 및 추가 함수
+            function printItem(item){
+            	let clone = $('#event').clone();
+            	$(clone).css({'display' : 'block'});
+            	
+            	// 데이터 넣기
+            	let imageUrl = item.img;
+            	$(clone).find('.set-bg').css('background-image', 'url('+imageUrl+')');
+            	$(clone).find('.set-bg').on('click', function(){
+            		location.href = `eventInfo?postCtg=i4&boardNo=${item.boardNo}`
+            	})
+            	$(clone).find('.eDst2').text(item.dst2);
+            	$(clone).find('.eTitle').text(item.title);
+            	
+            	$('#eventList').append(clone);
+            }
+            
+            // 페이지 출력
+            function printPage(pageData, dst1, dst2){
+            	let pageItem = $('#pageItem').clone()
+				$(pageItem).css({'display' : 'block'});
+				$(pageItem).find('#prevPage').on('click',function(){
+					boardData('i4', pageData.startPage - 1)
+				})
+				$(pageItem).find('#nextPage').on('click',function(){
+					boardData('i4', pageData.endPage + 1)
+				})
+
+				if(!pageData.prev){
+					$(pageItem).find('#prevPage').hide()
+				}
+				if(!pageData.next){
+					$(pageItem).find('#nextPage').hide()
+				}
+
+				for (let i = pageData.startPage; i <= pageData.endPage; i++) {
+					let clone = $('#pageItem').find('#pageNum').clone()
+					$(clone).text(i);
+					if(i == pageData.pageNum){
+						$(clone).addClass('active')
+						$(clone).css('border-color','orange')
+					}
+					$(clone).on('click', function () {
+						getCondition(i, dst1, dst2);
+					})
+					$(pageItem).find('#pageNumDiv').append(clone)
+				}
+
+				$(pageItem).find('#pageNum')[0].remove()
+				$('#pageDiv').append(pageItem)
+            }
+            
+         	// 조건 값 변경 시 컨트롤 정보 보내기
+			function getCondition(pageNum){
+				let dst1 = $('#dst1').val();
+				let dst2 = $('#dst2').val();
+				let postCtg = 'i4';
+				
+				if(pageNum == null){
+					pageNum = 1
+				}
+
+				boardData(postCtg, pageNum, dst1, dst2);
+			}
+         	
+			// 지역1 카테고리 변경 시
+			$('#dst1').change(function() {
+				getCondition();
+			});
+			// 지역2 카테고리 변경 시
+			$('#dst2').change(function() {
+				getCondition();
+			}); */
+         	
+        </script>
+	</div>
+</body>
+
+</html>
