@@ -14,7 +14,7 @@ public class SkilledController {
 	SkilledService skilledService;
 	
 	// 금손귀농인 메인 페이지 리턴
-	@GetMapping("gold")
+	@GetMapping("skilled")
 	public String skilledExpert(Model model){
 		return "activity/skilled/skilledList";
 	}
