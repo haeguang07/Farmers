@@ -1,6 +1,8 @@
 <template>
 
 	<div class="body">
+		<h1>농지대여</h1>
+		<br>
 		<div style="width: 1000px;" class="row"> 
 			<div class="col-2">선택한 신청을 </div>
 			<div class="col-2">

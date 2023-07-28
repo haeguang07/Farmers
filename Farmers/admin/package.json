@@ -11,6 +11,7 @@
     "@ckeditor/ckeditor5-vue": "^5.1.0",
     "@mdi/font": "5.9.55",
     "@vueup/vue-quill": "^1.2.0",
+    "axios": "^1.4.0",
     "core-js": "^3.8.3",
     "roboto-fontface": "*",
     "sass": "^1.64.1",

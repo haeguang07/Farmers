@@ -1,6 +1,8 @@
 <template>
 
 	<div class="body">
+		<h1>농촌 체험하기</h1>
+		<br>
 		<div style="width: 1000px;" class="row"> 
 			<div class="col-2">선택한 신청을 </div>
 			<div class="col-2">
@@ -43,9 +45,9 @@
         <div v-if="Object.keys(board).length>0">
           <div >
             <div class="row">
-              <div class="col-5 row"><span class="col-3">신청번호</span><span class="col-5">{{board.boardNo}}</span></div>
-              <div class="col-5 row"><span class="col-3">신청일자</span><span class="col-5">{{board.regDate}}</span></div>
-              <div class="col-5 row"><span class="col-3">신청인</span><span class="col-5">{{board.memNo}}</span></div>
+              <div class="col-4 row"><span class="col-3">신청번호</span><span class="col-5">{{board.boardNo}}</span></div>
+              <div class="col-4 row"><span class="col-3">신청일자</span><span class="col-5">{{board.regDate}}</span></div>
+              <div class="col-3 row"><span class="col-4">신청인</span><span class="col-5">{{board.memNo}}</span></div>
             </div>
             <div class="row">
               <div class="col-5 row"><span class="col-3">제목</span><span class="col-5">{{board.title}}</span></div>
@@ -55,18 +57,16 @@
               <span class="col-3">주소</span><span class="col-8">{{board.addr}}</span>
             </div>
             <div class="row">
-              <div class="col-5 row"><span class="col-3">체험시작시간</span><span class="col-5">{{board.exStrDate}}</span></div>
-              <div class="col-5 row"><span class="col-3">체험종료시간</span><span class="col-5">{{board.exEndDate}}</span></div>
+              <div class="col-5 row"><span class="col-4">체험시작시간</span><span class="col-5">{{board.exStrDate}}</span></div>
+              <div class="col-5 row"><span class="col-4">체험종료시간</span><span class="col-5">{{board.exEndDate}}</span></div>
             </div>
 
-            <div class="row" style="width: 600px; height: 300px;">
+            <div class="row">
               <div class="col-3" style="padding-left: 20px;">상세내용</div>
-                  <div class="col-5" style="overflow: auto;">
-                    {{ board.detaDesct }}
-                  </div>
+                  <div class="col-5" style="overflow: auto; height: 350px;" v-html="board.detaDesct"></div>
             </div>
             <div class="text-end">
-              <div v-if="board.regStts=='승인 대기' && board.files !=null" >
+              <div v-if="board.regStts=='승인 대기'">
                 <button v-show="btnShow" class="btn btn-primary mb-3 mx-3" @click="apply">승인</button>
                 <select v-model="reason" v-show="!btnShow">
                   <option value="체험제목과 상세내용이 일치하지않습니다">일치하지않습니다</option>
@@ -190,11 +190,7 @@ methods:{
 			boardCtg: 'g08'
 		}
 		console.log(obj)
-		axios.post('admin/rejectAlert', obj, {
-  		headers: {
-    		'Content-Type': 'application/json',
-  		}
-		})
+		axios.post('admin/rejectAlert', obj)
 		.then((response) => {
   		console.log(response.data);
   		if (response.data.retCode == "Success") {
@@ -223,7 +219,7 @@ methods:{
 		this.dst1List = this.$store.state.dst1;
 		this.regSttsList = this.$store.state.regSttsList;
 		this.dst2All = this.$store.state.des2All;
-
+		console.log(this.regSttsList);
 		axios.get("/admin/exps")
 		.then(response => {
 			console.log(response.data);
