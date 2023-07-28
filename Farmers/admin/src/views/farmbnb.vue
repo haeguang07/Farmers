@@ -1,6 +1,8 @@
 <template>
 
 	<div class="body">
+		<h1>농촌 비엔비</h1>
+		<br>
 		<div style="width: 1000px;" class="row"> 
 			<div class="col-2">선택한 신청을 </div>
 			<div class="col-2">
@@ -59,14 +61,12 @@
               <div class="col-5 row"><span class="col-3">종료시간</span><span class="col-5">{{board.lendEndDate}}</span></div>
             </div>
 
-            <div class="row" style="width: 600px; height: 300px;">
+            <div class="row">
               <div class="col-3" style="padding-left: 20px;">상세내용</div>
-                  <div class="col-5" style="overflow: auto;">
-                    {{ board.detaDesct }}
-                  </div>
+							<div class="col-5" style="overflow: auto; height: 350px;" v-html="board.detaDesct"></div>
             </div>
             <div class="text-end">
-              <div v-if="board.regStts=='승인 대기' && board.files !=null" >
+              <div v-if="board.regStts=='승인 대기'" >
                 <button v-show="btnShow" class="btn btn-primary mb-3 mx-3" @click="apply">승인</button>
                 <select v-model="reason" v-show="!btnShow">
                   <option value="존재하지 않는 위치입니다">존재하지 않는 위치입니다</option>
