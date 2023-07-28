@@ -1,6 +1,8 @@
 <template>
 
 	<div class="body">
+		<h1>농작물 펀딩</h1>
+		<br>
 		<div style="width: 1000px;" class="row"> 
 			<div class="col-2">선택한 신청을 </div>
 			<div class="col-2">
@@ -62,12 +64,10 @@
 
             <div class="row" style="width: 600px; height: 300px;">
               <div class="col-3" style="padding-left: 20px;">상세내용</div>
-                  <div class="col-5" style="overflow: auto;">
-                    {{ board.detaDesct }}
-                  </div>
+							<div class="col-5" style="overflow: auto; height: 350px;" v-html="board.desct"></div>
             </div>
             <div class="text-end">
-              <div v-if="board.regStts=='승인 대기' && board.files !=null" >
+              <div v-if="board.regStts=='승인 대기'" >
                 <button v-show="btnShow" class="btn btn-primary mb-3 mx-3" @click="apply">승인</button>
                 <select v-model="reason" v-show="!btnShow">
                   <option value="부적절한 경매품목입니다">부적절한 경매품목입니다</option>
@@ -117,10 +117,10 @@ export default{
 	        {title: '제목',
 	          key: 'title'},
 					{title: '시작시간',
-	          key: 'mktCtg'
+	          key: 'fndStrDate'
 	        },
 					{title: '종료시간',
-	          key: 'price'
+	          key: 'fndEndDate'
 	        },
           {title: '신청일자',
 	          key: 'regDate'

@@ -1,6 +1,8 @@
 <template>
 
 	<div class="body">
+		<h1>신고 관리</h1>
+		<br>
 		<div style="width: 1000px;" class="row"> 
 			<div class="col-2">선택한 신고의 회원을 </div>
 			<div class="col-2">
