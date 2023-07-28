@@ -528,16 +528,17 @@
 		
 			//
 			
-			console.log("결제한 MemNo ", memList)
+			console.log("MemList ", memList)
+			console.log("로그인멤버" , mem.memNo);
 			
 			function findMem(element)  {
-			  if(element == mem.memNo) 
-				  return mem.memNo+ "존재";
+			  if(element == mem) 
+				  return "존재";
 			  else 
-				  return "false";
+				  return "fal";
 			}
-			
-			console.log(memList.findIndex(findMem)); // 0
+			const lists = memList.filter(findMem)
+			console.log(lists); // 0
 			
 		</script>
 	</div>
