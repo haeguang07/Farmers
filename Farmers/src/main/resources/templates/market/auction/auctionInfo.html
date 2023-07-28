@@ -208,7 +208,8 @@ label:has(.bidCount) {
 					</div>
 					<div class="col-lg-6" id="auctionInfo">
 						<div class="product__details__text">
-							<input type="text" id="boardNo" style="display: none;" th:value="${actInfo.boardNo}">
+							<input type="text" id="boardNo" style="display: none;"
+								th:value="${actInfo.boardNo}">
 							<div class="product__label" th:text="${actInfo.nick}">닉네임</div>
 							<h4 th:text="${actInfo.title}">상품명</h4>
 							<h5>
@@ -247,13 +248,15 @@ label:has(.bidCount) {
 												th:text="${actInfo.bidCount}">N</span>명 입찰 중!<br></label>
 											<div class="bidInput">
 												<button class="roundBtn" type="button">-</button>
-												<input type="number" step="500" class="form-control" id="bidPrice"
-													oninput="number_format()" placeholder="입찰금액을 입력하세요.">
+												<input type="number" step="500" class="form-control"
+													id="bidPrice" oninput="number_format()"
+													placeholder="입찰금액을 입력하세요.">
 												<button class="roundBtn" type="button">+</button>
 											</div>
 											<div>
 												<span style="color: gray;"> ※ 정회원만 입찰 가능합니다.<br>
-													※ 최소 입찰금액은 1,000원이며, 500원 단위로 입찰 가능합니다.</span>
+													※ 최소 입찰금액은 1,000원이며, 500원 단위로 입찰 가능합니다.
+												</span>
 											</div>
 											<button class="nextBtn btn btn-outline-success" type="submit">다음</button>
 										</div>
@@ -445,7 +448,6 @@ label:has(.bidCount) {
 								}								
 							})
 						}
-					}
 				}
 			})
 		

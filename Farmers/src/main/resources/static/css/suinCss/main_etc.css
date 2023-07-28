@@ -52,7 +52,7 @@
 	position: absolute;
 	bottom: 8px;
 	width: 100%;
-	text-align: center;
+	text-align: left;
 }
 
 /* Number text (1/3 etc) */
@@ -128,12 +128,16 @@ to {
 	margin: auto;
 }
 
-/* 링크아이콘 CSS*/
+/* 맨밑에 링크 아이콘 CSS*/
 .linkArea {
 	display: flex;
 	align-items: center; /* 수평 가운데 정렬 */
 	justify-content: center; /* 수직 가운데 정렬 */
-	margin:40px 0px 60px;
+	padding: 40px 0px 40px;
+	margin-bottom: 20px;
+	background-color: #fffff4;
+	border-radius: 10px;
+	border: orange 2px solid;
 }
 
 .linkArea>p {
@@ -141,11 +145,17 @@ to {
 	text-align: center;
 	font-size: large;
 	font-weight: bold;
-	padding: 0px 20px;
+	margin: 0px 20px;
+}
+
+.linkArea>a>p {
+	font-family: 'Gowun Dodum', sans-serif;
+	font-size: small;
+	text-align:center;
 }
 
 .linkIcon {
-	width: 100px;
-	height: 100px;
+	width: 80px;
+	height: 80px;
 	margin: 0px 50px;
 }

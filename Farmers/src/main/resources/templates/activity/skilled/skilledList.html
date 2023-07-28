@@ -11,6 +11,14 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>금손귀농인</title>
 <style>
+#skills {
+	padding: 5px;
+}
+
+#addBtn {
+	margin-left: 20px;
+}
+
 .tab-pane p {
 	margin-bottom: 50px;
 }
@@ -24,33 +32,8 @@ h5:has(.countdown) {
 	color: green;
 }
 
-.bidWay {
-	margin-top: 10px;
-	border: 1px solid lightgray;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 250px;
-	border: 1px solid lightgray;
-	height: 250px;
-}
-
 .fixedOption {
 	height: 150px;
-}
-
-.buyNowPrice>span {
-	margin-top: 50px;
-	margin-bottom: 30px;
-	font-size: 25px;
-	font-weight: bold;
-}
-
-label:has(.bidCount) {
-	margin-left: 80px;
-	font-size: 13px;
-	color: darkgray;
-	display: block;
 }
 
 .toggleshow {
@@ -178,7 +161,7 @@ label:has(.bidCount) {
 								<div class="col-lg-12 col-md-12 col-sm-12">
 
 									<div class="row" id="selCondition">
-										<div class="col-6"></div>
+										<div class="col-5"></div>
 										<!-- 지역1 선택창 -->
 										<div>
 											<select class="form-select form-group col-1.5 mr-2"
@@ -197,8 +180,9 @@ label:has(.bidCount) {
 										</div>
 										<!-- 검색창 -->
 										<div>
-											<label><input class="form-control" placeholder="검색어를 입력하세요."></label>
-											<button type="button" class="searchBtn">검색</button>
+											<label><input class="form-control"
+												placeholder="검색어를 입력하세요."></label>
+											<button type="button" class="searchBtn btn btn-dark">검색</button>
 										</div>
 									</div>
 								</div>
@@ -215,52 +199,49 @@ label:has(.bidCount) {
 										<div>할게요</div>
 									</label>
 									<div>
-										<button type="button" th:onclick="">등록</button>
+										<input type="checkbox" id="check1"> <label
+											for="check1">내가 쓴 글 보기</label>
+										<button type="button" id="addBtn" class="btn btn-secondary"
+											th:onclick="">등록</button>
 									</div>
 								</div>
-								<div id="wanted"></div>
-
-								<!-- ******* 할게요 ******* -->
-								<div id="volunteered" class="toggleshow"></div>
-							</div>
-						</div>
-
-
-						<!-- 금손귀농인 리스트 출력 공간 clone용-->
-						<div class="col-lg-9">
-							<section class="blog spad" id="skilledList">
-								<div class="container">
+								<div class="col-lg-9">
+									<div class="container">
+										<div class="row" id="wanted"></div>
+										<div class="row toggleshow" id="volunteered"></div>
+									</div>
 									<div class="row">
 										<div class="row" id="pageDiv"></div>
 									</div>
 								</div>
-							</section>
+							</div>
 						</div>
-
 
 						<!-- 이벤트 카드 리스트 clone용 -->
-						<div class="col-lg-4 col-md-6 col-sm-6" id="se"
-							style="">
-							<div class="blog__item">
-								<div class="blog__item__pic set-bg"
-									data-setbg="img/blog/blog-1.jpg"></div>
-								<div class="blog__item__text">
-									<span class="eDate"><img src="img/icon/calendar.png"
-										alt=""> 16 February 2020<span class="eDst2"></span></span>
-									<h5 class="eTitle">What Curling Irons Are The Best Ones</h5>
-									<a href="#">자세히 보기</a>
+						<div class="col-lg-4 col-md-6 col-sm-6" style="display: none;"
+							id="skills">
+							<div class="">
+								<div class="card" style="width: 16rem;">
+									<div class="product__item__pic set-bg" data-setbg="">
+										<div class="card-body">
+											<h5 class="card-title">Card title</h5>
+											<p class="card-text">Some quick example text to build on
+												the card title and make up the bulk of the card's content.</p>
+											<a href="#" class="btn btn-primary">신청</a>
+										</div>
+									</div>
 								</div>
 							</div>
-						</div>
 
-						<!-- pageDiv clone용-->
-						<div class="product__pagination" style="display: none;"
-							id="pageItem">
-							<a class="myInline" id="prevPage">◁</a>
-							<div id="pageNumDiv" class="myInline">
-								<a id="pageNum">a</a>
+							<!-- pageDiv clone용-->
+							<div class="product__pagination" style="display: none;"
+								id="pageItem">
+								<a class="myInline" id="prevPage">◁</a>
+								<div id="pageNumDiv" class="myInline">
+									<a id="pageNum">a</a>
+								</div>
+								<a class="myInline" id="nextPage">▷</a>
 							</div>
-							<a class="myInline" id="nextPage">▷</a>
 						</div>
 					</div>
 				</div>
@@ -268,19 +249,20 @@ label:has(.bidCount) {
 		</section>
 
 		<script th:inline="javascript">
+			let div = 'o0';	
 		
-            /* $(function(){
-                boardData('i4', 1);
-            })
-            
+			$(function(){
+			    goldData(div, 1);
+			})
+			
 
-            // 이벤트 리스트 데이터 가져오기
-			function boardData(postCtg, pageNum, dst1, dst2){
+			// 리스트 데이터 가져오기
+			function goldData(div, pageNum, dst1, dst2){
 				$.ajax({
-					url: "boardList",
+					url: "skilledList",
 					method: "GET",
 					data: {
-                        postCtg,
+			            div,
 						pageNum,
 						dst1,
 						dst2
@@ -311,47 +293,47 @@ label:has(.bidCount) {
 				})
 			}
 
-            // 리스트 출력
+			// 리스트 출력
 			function printList(data, dst1, dst2){
-				$('#eventList').children().remove();
+				$('#wanted').children().remove();
 				$('#pageDiv').children().remove();
 				
-				let eventData = data.boardList;
-				let pageData = data.pageInfo;
+				let goldData = data.gold;
+				let pageData = data.page;
 				
-				$(eventData).each((idx, item) => {
+				$(goldData).each((idx, item) => {
 					printItem(item);
 				})
 				
 				printPage(pageData, dst1, dst2);
 			}
-            
-            // 이벤트 게시글 생성 및 추가 함수
-            function printItem(item){
-            	let clone = $('#event').clone();
-            	$(clone).css({'display' : 'block'});
-            	
-            	// 데이터 넣기
-            	let imageUrl = item.img;
-            	$(clone).find('.set-bg').css('background-image', 'url('+imageUrl+')');
-            	$(clone).find('.set-bg').on('click', function(){
-            		location.href = `eventInfo?postCtg=i4&boardNo=${item.boardNo}`
-            	})
-            	$(clone).find('.eDst2').text(item.dst2);
-            	$(clone).find('.eTitle').text(item.title);
-            	
-            	$('#eventList').append(clone);
-            }
-            
-            // 페이지 출력
-            function printPage(pageData, dst1, dst2){
-            	let pageItem = $('#pageItem').clone()
+			
+			// 게시글 생성 및 추가 함수
+			function printItem(item){
+				let clone = $('#skills').clone();
+				$(clone).css({'display' : 'block'});
+				
+				// 데이터 넣기
+				let imageUrl = item.img;
+				$(clone).find('.set-bg').css('background-image', 'url('+imageUrl+')');
+				$(clone).find('.set-bg').on('click', function(){
+					//location.href = `eventInfo?postCtg=i4&boardNo=${item.boardNo}`
+				})
+				$(clone).find('.card-title').text(item.title);
+				$(clone).find('.card-text').text(item.desct);
+				
+				$('#wanted').append(clone);
+			}
+			
+			// 페이지 출력
+			function printPage(pageData, dst1, dst2){
+				let pageItem = $('#pageItem').clone()
 				$(pageItem).css({'display' : 'block'});
 				$(pageItem).find('#prevPage').on('click',function(){
-					boardData('i4', pageData.startPage - 1)
+					goldData(div, pageData.startPage - 1)
 				})
 				$(pageItem).find('#nextPage').on('click',function(){
-					boardData('i4', pageData.endPage + 1)
+					goldData(div, pageData.endPage + 1)
 				})
 
 				if(!pageData.prev){
@@ -376,21 +358,20 @@ label:has(.bidCount) {
 
 				$(pageItem).find('#pageNum')[0].remove()
 				$('#pageDiv').append(pageItem)
-            }
-            
-         	// 조건 값 변경 시 컨트롤 정보 보내기
+			}
+			
+			// 조건 값 변경 시 컨트롤 정보 보내기
 			function getCondition(pageNum){
 				let dst1 = $('#dst1').val();
 				let dst2 = $('#dst2').val();
-				let postCtg = 'i4';
 				
 				if(pageNum == null){
 					pageNum = 1
 				}
 
-				boardData(postCtg, pageNum, dst1, dst2);
+				goldData(div, pageNum, dst1, dst2);
 			}
-         	
+			
 			// 지역1 카테고리 변경 시
 			$('#dst1').change(function() {
 				getCondition();
@@ -398,9 +379,23 @@ label:has(.bidCount) {
 			// 지역2 카테고리 변경 시
 			$('#dst2').change(function() {
 				getCondition();
-			}); */
-         	
-        </script>
+			});
+			
+			//팝업창 닫기 함수
+			function closePopUp(){
+				var magnificPopup = $.magnificPopup.instance; 
+				magnificPopup.close(); 
+				location.reload();
+			}
+			
+			// 모달창
+			$('#addBtn').magnificPopup({
+						items:[{
+						src:"add/skilled",
+					}],
+					type: 'iframe'
+						})
+		</script>
 	</div>
 </body>
 

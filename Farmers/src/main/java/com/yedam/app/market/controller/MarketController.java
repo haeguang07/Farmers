@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.app.activity.vo.BnbVO;
 import com.yedam.app.common.service.CodeService;
+import com.yedam.app.common.service.PaymentService;
 import com.yedam.app.common.service.ReviewService;
 import com.yedam.app.common.vo.CodeVO;
+import com.yedam.app.common.vo.PaymentVO;
 import com.yedam.app.common.vo.ReviewVO;
 import com.yedam.app.market.service.CartService;
 import com.yedam.app.market.service.MarketService;
@@ -34,6 +36,8 @@ public class MarketController {
 	CodeService codeService;
 	@Autowired
 	CartService cartService;
+	@Autowired
+	PaymentService payService;
 
 	// 전체조회 페이지
 	@GetMapping("marketList")
@@ -63,6 +67,10 @@ public class MarketController {
 	public String getMkInfo(Model model, String boardNo) {
 		model.addAttribute("mk", mkService.getMarketInfo(boardNo));
 		model.addAttribute("rev", revService.getCount(boardNo));
+		List<String> list = payService.getPayMember(boardNo);
+		System.out.println("멤버");
+		System.out.println(list);
+		model.addAttribute("pay", list);
 		return "market/market/marketInfo";
 	}
 
