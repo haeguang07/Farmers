@@ -1,5 +1,7 @@
 package com.yedam.app.common.service;
 
+import java.util.List;
+
 import com.yedam.app.common.vo.MemberPayVO;
 import com.yedam.app.common.vo.PayProductVO;
 import com.yedam.app.common.vo.PaymentDetailVO;
@@ -20,4 +22,8 @@ public interface PaymentService {
 
 	// resultMap 사용 결제 정보
 	public PaymentVO getPayList(String payNo);
+	
+	//게시판별 결제한 멤버
+	public List<String> getPayMember(String boardNo);
+	
 }

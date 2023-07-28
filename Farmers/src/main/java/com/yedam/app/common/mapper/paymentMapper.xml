@@ -58,12 +58,15 @@
 		insert_pay_detail (
 		#{boardNo, mode=IN , jdbcType = VARCHAR},
 		#{payNo,mode=IN , jdbcType = VARCHAR},
-		#{memNo, mode=IN , jdbcType = VARCHAR},
+		#{memNo, mode=IN , jdbcType =
+		VARCHAR},
 		#{qty, mode=IN , jdbcType = VARCHAR},
-		#{price, mode=IN , jdbcType =VARCHAR},
+		#{price, mode=IN ,
+		jdbcType =VARCHAR},
 		#{boardCtg, mode=IN , jdbcType = VARCHAR},
 		#{rsvStrDate, mode=IN , jdbcType = DATE},
-		#{rsvEndDate, mode=IN , jdbcType = DATE}
+		#{rsvEndDate, mode=IN ,
+		jdbcType = DATE}
 		)
 		}
 	</select>
@@ -106,4 +109,12 @@
 		FROM payment_detail
 		WHERE pay_no = #{payNo}
 	</select>
+
+	<select id="getPayMember" resultType="String">
+		select mem_no
+		from payment p JOIN payment_detail d
+		on p.pay_no = d.pay_no
+		where board_no = #{boardNo}
+	</select>
+
 </mapper> 

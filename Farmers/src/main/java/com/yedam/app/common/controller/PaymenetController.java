@@ -94,5 +94,4 @@ public class PaymenetController {
 		return "common/payment/paySuccess";
 	}
 
-
 }
