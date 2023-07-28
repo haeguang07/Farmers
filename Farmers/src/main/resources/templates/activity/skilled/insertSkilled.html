@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Male_Fashion Template">
+<meta name="keywords" content="Male_Fashion, unica, creative, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>You GuiNong? Yes!</title>
+
+<!-- Google Font -->
+<link
+	href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+	rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Jua&family=Poor+Story&display=swap"
+	rel="stylesheet">
+
+<!-- Css Styles -->
+<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+<link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+<link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+<link rel="stylesheet" href="/css/nice-select.css" type="text/css">
+<link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+<link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+<link rel="stylesheet" href="/css/style.css" type="text/css">
+<link rel="stylesheet" href="/css/jQueryUI.css">
+
+<!-- Js Plugins -->
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.nice-select.min.js"></script>
+<script src="/js/jquery.nicescroll.min.js"></script>
+<script src="/js/jquery.magnific-popup.min.js"></script>
+<script src="/js/jquery.countdown.min.js"></script>
+<script src="/js/jquery.slicknav.js"></script>
+<script src="/js/mixitup.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/json.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<style>
+.href {
+	font-weight: 900;
+	color: black;
+}
+
+.hidden {
+	display: none;
+}
+
+.ck-editor__editable {
+			height: 400px;
+		}
+</style>
+</head>
+<body>
+	<section class="shop-details">
+		<div class="product__details__pic" style="background-color: white;">
+			<div class="container">
+				<h3>금손 귀농인 등록</h3>
+				<hr>
+				<div class="row">
+					<div class="col-4"></div>
+					<!-- 지역1 선택창 -->
+					<div>
+						<select class="form-select form-group col-1.5 mr-2"
+							aria-label="Default select example" id="dst1">
+							<option value="" selected="selected">도</option>
+							<option th:each="opt : ${dst1}" th:text="${opt.codeDesct}"
+								th:value="${opt.cmmnDetaCode}"></option>
+						</select>
+					</div>
+					<!-- 지역2 선택창 -->
+					<div>
+						<select class="form-select form-group col-1.5 mr-2"
+							aria-label="Default select example" id="dst2">
+							<option value="">시·군</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="row col-lg-12">
+					<div class="col-lg-4 col-md-9 row" id="addFile">
+						<div class="col-lg-12"
+							style="background-color: lightgrey; display: table;">
+							<p style="display: table-cell; vertical-align: middle">이미지 등록</p>
+						</div>
+					</div>
+					<div class="product__details__content col-lg-8">
+						<form id="myForm">
+							<!-- 실제 파일 업로드 input (안보임) -->
+							<input type="file" id="inputFile" class="hidden">
+							<div class="container">
+								<div class="row d-flex justify-content-center row">
+									<div class="col-lg-12">
+										<div class="product__details__text">
+											<div class="row">
+												<div class="row col-lg-12">
+													<p class="myInline col-lg-3 mb-0 textLeft">구분</p>
+													<label class="form-check-label col-lg-2"><input
+														type="radio" class="form-check-input" name="div"
+														value="o0" checked> 구해요 </label> <label
+														class="form-check-label"><input type="radio"
+														class="form-check-input" name="div" value="o1">
+														할게요 </label>
+												</div>
+											</div>
+											<br>
+											<div class="row">
+												<div class="row col-lg-12">
+													<p class="myInline col-lg-3 mb-0 textLeft">제목</p>
+													<label class="form-check-label"><input type="text"
+														class="form-control col-lg-12" name="title"></label>
+												</div>
+											</div>
+											<hr>
+											<br>
+											<div class="row">
+												<div class="row col-lg-6">
+													<p class="myInline col-lg-6 mb-0 textLeft">작성자</p>
+													<input type="text" class="form-control col-lg-6 hidden"
+														readonly="readonly" th:value="${session.mem.memNo}"
+														name="memNo"> <input type="text"
+														class="form-control col-lg-6" readonly="readonly"
+														th:value="${session.mem.nick}" name="nick">
+												</div>
+											</div>
+											<br>
+											<div class="row">
+												<div class="row col-lg-6">
+													<p class="myInline col-lg-6 mb-0 textLeft">금액기준</p>
+													<select class="form-select form-group col-1.5 mr-2"
+														aria-label="Default select example" id="wageDiv">
+														<option value="s0" selected="selected">시급</option>
+														<option value="s1">일급</option>
+														<option value="s2">월급</option>
+													</select>
+												</div>
+												<div class="row col-lg-6">
+													<p class="myInline col-lg-6 mb-0 textLeft">금액</p>
+													<input type="number" class="form-control col-lg-6"
+														name="price" value="0" min="1">
+												</div>
+											</div>
+											<br>
+											<div class="row">
+												<div class="row col-lg-12">
+													<p class="myInline col-lg-3 mb-0 textLeft">체결조건</p>
+													<label class="form-check-label col-lg-2"><input
+														type="radio" class="form-check-input" name="cndt"
+														value="q0"> 신청 대기 </label> <label class="form-check-label"><input
+														type="radio" class="form-check-input" name="cndt"
+														value="q1"> 즉시 수락 </label>
+												</div>
+											</div>
+											<br>
+											<div class="row">
+												<div class="row col-lg-12">
+													<p class="myInline col-lg-3 mb-0 textLeft">추가 내용</p>
+													<textarea class="form-control col-lg-3"
+														id="exampleFormControlTextarea5" rows="3"></textarea>
+												</div>
+											</div>
+										</div>
+										<br>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="row col-lg-12">
+						<div class="col-lg-12">
+							<div class="product__details__tab">
+								<div class="row">
+									<ul class="nav nav-tabs col-lg-12" role="tablist">
+										<li class="nav-item col-lg-12"><a class="nav-link active"
+											data-toggle="tab" href="#tabs-5" role="tab">내용</a></li>
+									</ul>
+								</div>
+								<div class="row">
+									<div class="tab-content col-lg-12">
+										<div class="tab-pane active" id="tabs-5" role="tabpanel">
+											<div class="product__details__tab__content">
+												<div>
+													<textarea name="text" id="editor"></textarea>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<br>
+							<div class="product__details__cart__option row"
+								style="margin-top: 40px;">
+								<button class="primary-btn col-lg-12"
+									style="color: white; margin: 0 auto; margin-top: 20px;"
+									id="addBtn">등록하기</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<script
+		src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+	<script
+		src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
+	<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
+
+	<script>
+	//첨부파일 가져오기
+	$('#addFile').on('click', function () {
+		$('#inputFile').click()
+	})
+	
+	let dbPath;
+
+	//첨부파일 업로드
+	$('#inputFile').change(function () {
+		var formData = new FormData(); //FormData 객체 생성
+
+		var inputFile = $("input[type='file']")
+		//input 태그의 type이 file인 것을 찯아서 inputFile 이라는 변수로 지정
+
+		var files = inputFile[0].files;
+		// files : 선택한 모든 파일을 나열하는 FileList 객체입니다 multiple 특성을 지정하지 않았다면 두 개 이상의 파일을
+		// 포함하지 않습니다
+
+		for (var i = 0; i < files.length; i++) {
+			console.log(files[i]);
+			if (files[i].type.includes('image')) {
+				formData.append("uploadFiles", files[i]); //키,값으로 append
+
+				$.ajax({
+					url: 'uploadsAjax',
+					type: 'POST',
+					processData: false, // 기본값은 true, ajax 통신을 통해 데이터를 전송할때, 기본적으로 key와 value 값을 Query String으로 변환해서 보내줌
+					contentType: false, // multipart/form-data 타입을 사용하기위해 false로 지정
+					data: formData,
+					success: function (result) {
+						console.log(result)
+						dbPath = result.dbPath
+						$('#addFile')
+							.html('<img src="' + result.loadPath + '">')
+						console.log(dbPath)
+
+					},
+					error: function (reject) {
+						console.log(reject)
+					}
+				})
+			} else {
+				alert('이미지만 등록 가능합니다')
+			}
+		}
+
+	})
+	
+	//ckEditor 생성
+			let editor;
+			ClassicEditor
+				.create(document.querySelector('#editor'), {
+					language: "ko",
+					ckfinder: {
+						uploadUrl: '/image/upload'
+					}
+				})
+				.then(newEditor => {
+					editor = newEditor;
+				})
+				.catch(error => {
+					console.error(error);
+				});
+
+/* 			//ckEditor 데이터 가져오기
+			$('#addBtn').on('click', function () {
+
+				//데이터 입력 확인
+				if ($('.current').text() == '경매 신청일 선택') {
+					alert('경매 신청일을 선택하세요');
+					return;
+				} else if (!$('[name="title"]').val()) {
+					alert('제목을 입력하세요');
+					return;
+				} else if ($('[name="saleQty"]').val() <= 0) {
+					alert('판매수량을 입력하세요');
+					return;
+				} else if ($('[name="bnp"]').val() <= 0) {
+					alert('즉시 구매가를 입력하세요');
+					return;
+				} else if ($('[name="shipPrice"]').val()=="") {
+					alert('배송비 항목을 입력하세요');
+					return;
+				} else if (!$('[name="shipDurAvg"]').val()) {
+					alert('배송 평균소요시간을 입력하세요');
+					return;
+				} else if (!$('[name="shipDurMax"]').val()) {
+					alert('배송 최대소요시간을 입력하세요');
+					return;
+				} else {
+					let ckData = editor
+					let formData = $('#myForm').serializeObject();
+					formData.actDate = $('.current').text();
+
+					//상세 설명 존재하지 않을 시 출력 내용 설정
+					if (ckData.getData() == '') {
+						ckData.setData('<p>상세 설명이 존재하지 않습니다</p>')
+						formData.desct = ckData.getData()
+					} else {
+						formData.desct = ckData.getData()
+					}
+					formData.rep = dbPath
+					console.log(formData);
+					//ajax 금손 등록
+					$.ajax({
+							url: "insertAuction",
+							method: "POST",
+							data: formData
+						})
+						.done(function (result) {
+							alert(result.retCode);
+							// location.href = "auctionList"
+						})
+						.fail(function (result) {
+							alert(result.body);
+							// location.href = "auctionList"
+						}) 
+				}
+			}) */
+	</script>
+
+</body>
+</html>
