@@ -135,6 +135,7 @@
 															</div>
 														</div>
 													</div>
+													<ul id="fileList" style="text-align: left; list-style: none; padding: 10px;"></ul>
 													<input type="file" id="inputFile" name="files" style="display: none;" multiple>
 												</div>
 												<p style="margin-bottom: 20px; text-align: right;">합계 : <span id="sumPrice"></span></p>
@@ -205,6 +206,7 @@
 						processData: false, // 기본값은 true, ajax 통신을 통해 데이터를 전송할때, 기본적으로 key와 value 값을 Query String으로 변환해서 보내줌
 						contentType: false, // multipart/form-data 타입을 사용하기위해 false로 지정
 						data: formData,
+						async: false,
 						success: function (result) {
 							uploadFiles = result;
 						},
@@ -213,6 +215,10 @@
 						}
 					})
 				}
+				$('#fileList').empty();
+				$(uploadFiles).each((index, item)=>{
+					$('#fileList').append($('<li />').text(item.originalName));
+				})
 			});
 			
 			// 합계 출력
