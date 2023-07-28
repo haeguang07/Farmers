@@ -60,7 +60,7 @@
 							</thead>
 							<tbody id="tbody">
 								<th:block th:if="not ${#strings.isEmpty(fundingList)}">
-									<tr th:each="funding : ${fundingList}" th:no="${funding.boardNo}">
+									<tr th:each="funding : ${fundingList}" th:no="${funding.boardNo}" class="tr">
 										<td th:text="${funding.boardNo}"></td>
 										<td th:text="${funding.title}"></td>
 										<td th:text="${#dates.format(funding.fndStrDate, 'yyyy/MM/dd')}"></td>
@@ -143,7 +143,7 @@
 			};
 
 			// // //tr 이동
-			$(document).on("click", "tr", function (e) {
+			$(document).on("click", ".tr", function (e) {
 				if (!$(e.currentTarget).hasClass('th')) {
 					console.log($(e.currentTarget).attr('no'))
 					location.href = "/fundingInfo?boardNo=" + $(e.currentTarget).attr('no')

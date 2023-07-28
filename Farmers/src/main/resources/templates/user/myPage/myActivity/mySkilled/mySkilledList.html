@@ -72,9 +72,9 @@
 			let memNo = /*[[${session.mem.memNo}]]*/ ;
 			let table;
 			//기본 화면 데이터
-			// $(function () {
-			// 	ajaxMyList()
-			// })
+			$(function () {
+				ajaxMyList()
+			})
 
 		// 	// //버튼 클릭 이벤트
 			$('#registration').on('click', function () {
@@ -95,11 +95,11 @@
 							targets: 0
 						},
 						{
-							width: "15%",
+							width: "25%",
 							targets: 1
 						},
 						{
-							width: "25%",
+							width: "15%",
 							targets: 2
 						},
 						{
@@ -147,57 +147,58 @@
 
 
 			// //등록 ajax 불러오기
-			// function ajaxMyList() {
-			// 	$.ajax({
-			// 			url: "/myPage/myExpList",
-			// 			data: {
-			// 				memNo: memNo
-			// 			}
-			// 		})
-			// 		.done(function (result) {
-			// 			console.log(result)
+			function ajaxMyList() {
+				$.ajax({
+						url: "/myPage/mySkilledList",
+						data: {
+							memNo: memNo,
+							div : 'o0'
+						}
+					})
+					.done(function (result) {
+						console.log(result)
 
-			// 			//datatable 파괴
-			// 			if (typeof table != "undefined") {
-			// 				table.destroy();
-			// 			}
-			// 			makeMyTr(result)
-			// 			mkDataTable()
-			// 		})
-			// 		.fail(function () {
-			// 			alert('데이터 로드 실패')
-			// 		})
-			// }
+						//datatable 파괴
+						if (typeof table != "undefined") {
+							table.destroy();
+						}
+						makeMyTr(result)
+						mkDataTable()
+					})
+					.fail(function () {
+						alert('데이터 로드 실패')
+					})
+			}
 
-			// //등록 tr 만들기 함수
-			// function makeMyTr(list) {
-			// 	//thead
-			// 	$('#thead').children().remove()
-			// 	let tr = $('<tr>').addClass('th')
-			// 	let th1 = $('<th>').text('번호')
-			// 	let th2 = $('<th>').text('이미지')
-			// 	let th3 = $('<th>').text('제목')
-			// 	let th4 = $('<th>').text('등록일자')
-			// 	let th5 = $('<th>').text('상태')
-			// 	let th6 = $('<th>').text('신청확인')
-			// 	$(tr).append(th1, th2, th3, th4, th5, th6)
-			// 	$('#thead').append(tr)
+			//등록 tr 만들기 함수
+			function makeMyTr(list) {
+				//thead
+				$('#thead').children().remove()
+				let tr = $('<tr>').addClass('th')
+				let th1 = $('<th>').text('번호')
+				let th2 = $('<th>').text('제목')
+				let th3 = $('<th>').text('근무요일')
+				let th4 = $('<th>').text('등록일자')
+				let th5 = $('<th>').text('상태')
+				let th6 = $('<th>').text('신청확인')
+				$(tr).append(th1, th2, th3, th4, th5, th6)
+				$('#thead').append(tr)
 
-			// 	//tbody
-			// 	$('#tbody').children().remove()
-			// 	$(list).each(function (idx, item) {
-			// 		tr = $('<tr>').attr('no', item.boardNo)
-			// 		let td1 = $('<td>').text(item.boardNo)
-			// 		let td2 = $('<td>').append($('<img>').attr('src',item.rep))
-			// 		let td3 = $('<td>').text(item.title)
-			// 		let td4 = $('<td>').text(item.regDate)
-			// 		let td5 = $('<td>').text(item.regStts)
-			// 		let td6 = $('<td>').append($('<button class="form-control" type="button">신청확인</button>').addClass('myBtn'))
+				//tbody
+				$('#tbody').children().remove()
+				$(list).each(function (idx, item) {
+					tr = $('<tr>').attr('no', item.boardNo)
+					let td1 = $('<td>').text(item.boardNo)
+					let td2 = $('<td>').text(item.title)
+					let td3 = $('<td>').text(item.dayDiv)
+					let td4 = $('<td>').text(item.regDate)
+					let td5 = $('<td>').text(item.stts)
+					let td6 = $('<td>').append($('<button class="form-control" type="button">신청확인</button>').addClass('myBtn'))
 
-			// 		$(tr).append(td1, td2, td3, td4, td5, td6)
-			// 		$('#tbody').append(tr);
-			// 	})
-			// }
+					$(tr).append(td1, td2, td3, td4, td5, td6)
+					$('#tbody').append(tr);
+				})
+			}
 
 			// //신청 ajax 불러오기
 			// function ajaxLendList() {
@@ -253,7 +254,7 @@
 			// 	})
 			// }
 
-			// // //tr 이동
+			//tr 이동
 			// $(document).on("click", "tr", function (e) {
 			// 	if (!$(e.currentTarget).hasClass('th')) {
 			// 		console.log($(e.currentTarget).attr('no'))
@@ -262,17 +263,17 @@
 			// })
 
 			// //td 버튼 이벤트 (등록 리스트)
-			// $(document).on("click", ".myBtn", function (e) {
-			// 	e.stopPropagation()
+			$(document).on("click", ".myBtn", function (e) {
+				e.stopPropagation()
 
-			// 	//모달창
-			// 	$.magnificPopup.open({
-			// 		items: [{
-			// 			src: "/myPage/myExpSubPeoList?boardNo="+$(e.target).closest('tr').attr('no'),
-			// 			type: 'iframe'
-			// 		}]
-			// 	})
-			// })
+				//모달창
+				$.magnificPopup.open({
+					items: [{
+						src: "/myPage/myJobSearchList?boardNo="+$(e.target).closest('tr').attr('no'),
+						type: 'iframe'
+					}]
+				})
+			})
 
 			// //td 버튼 이벤트 (신청 리스트)
 			// $(document).on("click", ".subBtn", function (e) {

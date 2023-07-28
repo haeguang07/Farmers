@@ -61,7 +61,7 @@
 							</thead>
 							<tbody id="tbody">
 								<th:block th:if="not ${#strings.isEmpty(marketList)}">
-									<tr th:each="mrk : ${marketList}" th:no="${mrk.boardNo}">
+									<tr th:each="mrk : ${marketList}" th:no="${mrk.boardNo}" class="tr">
 										<td th:text="${mrk.boardNo}"></td>
 										<td th:text="${mrk.title}"></td>
 										<td th:text="${#numbers.formatInteger(mrk.price, 3, 'COMMA')}"></td>
@@ -149,7 +149,7 @@
 			};
 
 			//tr 이동
-			$(document).on("click", "tr", function (e) {
+			$(document).on("click", ".tr", function (e) {
 				if (!$(e.currentTarget).hasClass('th')) {
 					console.log($(e.currentTarget).attr('no'))
 					location.href = "/mkInfo?boardNo=" + $(e.currentTarget).attr('no')
