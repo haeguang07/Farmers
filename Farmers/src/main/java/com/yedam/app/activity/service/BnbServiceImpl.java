@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.yedam.app.activity.mapper.BnbMapper;
 import com.yedam.app.activity.vo.BnbVO;
+import com.yedam.app.activity.vo.DateVO;
 
 @Service
 public class BnbServiceImpl implements BnbService {
@@ -42,6 +43,11 @@ public class BnbServiceImpl implements BnbService {
 	@Override
 	public int deleteBnb(String boardNo) {
 		return bnbMapper.deleteBnb(boardNo);
+	}
+
+	@Override
+	public List<String> rsvDateCheck(String boardNo) {
+		return bnbMapper.rsvDateCheck(boardNo);
 	}
 
 }

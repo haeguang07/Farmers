@@ -43,7 +43,7 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<h3>신청내역</h3>
-						<!-- <p th:text="${vo.addr}">제목</p> -->
+						<p th:text="${applyList[0].title}">제목</p>
 						<hr>
 					</div>
 					<div class="col-lg-12">
@@ -58,8 +58,8 @@
 								</tr>
 							</thead>
 							<tbody>
-								<th:block th:if="not ${#strings.isEmpty(applyList)}">
-									<tr th:each="apply : ${applyList}" th:data-aplNo="${apply.aplNo}" th:data-boardNo="${apply.boardNo}">
+								<th:block th:if="not ${#strings.isEmpty(applyList[0].nick)}">
+									<tr th:each="apply : ${applyList}" th:data-aplNo="${apply.aplNo}" th:data-boardNo="${apply.boardNo}" th:data-memNo="${apply.memNo}">
 										<td th:text="${apply.aplNo}"></td>
 										<td th:text="${apply.nick}"></td>
 										<td th:text="${apply.mbl}"></td>
@@ -118,12 +118,17 @@
 		$('.accept').on('click',function(e){
 			let stts = $(e.target).closest('tr').find('.stts')
 			let boardNo =  $(e.target).closest('tr').data('boardno')
+			let aplNo = $(e.target).closest('tr').data('aplno');
+			let memNo = $(e.target).closest('tr').data('memno');
+			let title = /*[[${applyList[0].title}]]*/
 			console.log(boardNo)
 			$.ajax({
 				url : "/myPage/myExpStts",
 				data : {
 					boardNo : boardNo ,
-					aplNo : $(e.target).closest('tr').data('aplno')
+					aplNo : aplNo,
+					memNo : memNo,
+					title : title
 				}
 			})
 			.done(function(){

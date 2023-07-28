@@ -646,10 +646,12 @@
 			   apl_per,
 			   FIND_CODE_NAME(reg_stts) reg_stts,
 			   FIND_CODE_NAME(apl_stts) apl_stts,
-			   board_no
-		FROM experience_apply JOIN member_detail USING (mem_no) 
-							  JOIN member USING (mem_no) 	
-							  JOIN experience USING (board_no)
+			   board_no,
+               title,
+               a.mem_no
+		FROM experience_apply a JOIN member_detail b ON (a.mem_no = b.mem_no) 
+							    JOIN member c ON (b.mem_no = c.mem_no) 	
+							    RIGHT JOIN experience d USING (board_no)
 		WHERE board_no = #{boardNo}
 	</select>
 	
@@ -692,4 +694,26 @@
 		SET apl_stts = 'e8'
 		WHERE apl_no = #{aplNo}
 	</update>
+	
+	<!-- 금손귀농인 리스트 가져오기 -->
+	<select id="mySkilledList" parameterType="SkilledVO" resultType="SkilledVO">
+		SELECT board_no,
+			   title,
+			   FIND_CODE_NAME(day_div) day_div,
+			   reg_date,
+			   FIND_CODE_NAME(stts) stts
+		FROM skilled_expert
+		WHERE div = #{div}
+		AND mem_no = #{memNo}
+	</select>
+	
+	<!-- 금손귀농인 구직자 리스트 -->
+	<!-- <select id="myJobSearchList" parameterType="String" resultType="">
+		SELECT *
+		FROM SKILLED_EXPERT_APPLY a 
+		RIGHT JOIN SKILLED_EXPERT b 
+		USING (board_no)
+		WHERE board_no = #{boardNo}
+		ORDER BY price DESC
+	</select> -->
 </mapper>

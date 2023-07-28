@@ -59,7 +59,7 @@
 							</thead>
 							<tbody id="tbody">
 								<th:block th:if="not ${#strings.isEmpty(bnbList)}">
-									<tr th:each="bnb : ${bnbList}" th:no="${bnb.boardNo}">
+									<tr th:each="bnb : ${bnbList}" th:no="${bnb.boardNo}" class="tr">
 										<td th:text="${bnb.boardNo}"></td>
 										<td th:text="${bnb.title}"></td>
 										<td th:text="${#dates.format(bnb.regDate, 'yyyy/MM/dd')}"></td>
@@ -137,7 +137,7 @@
 			};
 
 			//tr 이동
-			$(document).on("click", "tr", function (e) {
+			$(document).on("click", ".tr", function (e) {
 				if (!$(e.currentTarget).hasClass('th')) {
 					console.log($(e.currentTarget).attr('no'))
 					location.href = "/bnbInfo?boardNo=" + $(e.currentTarget).attr('no')

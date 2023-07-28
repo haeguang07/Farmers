@@ -15,7 +15,9 @@ import com.google.gson.Gson;
 import com.yedam.app.activity.vo.BnbVO;
 import com.yedam.app.activity.vo.ExpApplyVO;
 import com.yedam.app.activity.vo.ExpVO;
+import com.yedam.app.activity.vo.SkilledVO;
 import com.yedam.app.board.vo.BoardVO;
+import com.yedam.app.common.service.AlertService;
 import com.yedam.app.common.service.PaymentService;
 import com.yedam.app.common.vo.PaymentDetailVO;
 import com.yedam.app.common.vo.PaymentVO;
@@ -39,6 +41,8 @@ public class MyPageController {
 	MyPageService myPageService;
 	@Autowired
 	PaymentService paymentService;
+	@Autowired
+	AlertService alertService;
 
 	////////////// 회원정보 페이지//////////////
 	// 마이페이지 (기본화면)
@@ -319,6 +323,16 @@ public class MyPageController {
 	@ResponseBody
 	public void myFarmApplyStts(FarmLendApplyVO vo) {
 		myPageService.myFarmAplStts(vo);
+		String addr = vo.getAddr();
+		String memNo = vo.getMemNo();
+		
+		AlertVO alr = new AlertVO();
+		alr.setAlrtTitle("신청한 농지대여의 신청이 수락되었습니다");
+		alr.setAlrtDesct("신청한 '"+ addr + "' 의 농지대여 신청이 수락되었습니다");
+		alr.setBoardCtg("n0");
+		alr.setMemNo(memNo);
+		
+		alertService.addAlert(alr);
 	}
 	
 	//나의 농지대여 신청 거절
@@ -519,6 +533,17 @@ public class MyPageController {
 	@ResponseBody
 	public void myExpSttsUpdate(ExpApplyVO vo) {
 		myPageService.myExpAplStts(vo);
+		
+		String title = vo.getTitle();
+		String memNo = vo.getMemNo();
+		
+		AlertVO arl = new AlertVO();
+		arl.setAlrtTitle("신청한 농지체험이 수락되었습니다");
+		arl.setAlrtDesct("신청한 농지체험 '"+title+"'이 수락되었습니다");
+		arl.setMemNo(memNo);
+		arl.setBoardCtg("n5");
+		
+		alertService.addAlert(arl);
 	}
 	
 	//나의 농촌체험 신청 거절
@@ -527,4 +552,26 @@ public class MyPageController {
 	public boolean myExpApplyStts(String aplNo) {
 		return myPageService.updateExpApplyStts(aplNo) > 0 ;
 	}
+	
+	////////////////////금손귀농인//////////////////////////
+	//나의 금손귀농인 폼
+	@GetMapping("myPage/mySkilledForm")
+	public String mySkilledForm() {
+		return "user/myPage/myActivity/mySkilled/mySkilledList";
+	}
+	
+	//나의 금손귀농인 리스트
+	@GetMapping("myPage/mySkilledList")
+	@ResponseBody
+	public List<SkilledVO> mySkilledList(SkilledVO vo){
+		List<SkilledVO> list = myPageService.mySkilledList(vo);
+		return list;	
+	}
+	
+	//나의 금손귀농인 구직 리스트
+	@GetMapping("myPage/myJobSearchList")
+	public String myJobSearchList(String boardNo) {
+		return "user/myPage/myActivity/mySkilled/myJobSearchList";
+	}
+	
 }
