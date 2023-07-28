@@ -196,15 +196,15 @@
 				})
 				.done(function(result){
 					if(result.result == true) {
-						alert("success");
+						alert("수정되었습니다");
 						location.href="/cropsSaleList";
 					} else {
-						alert("fail");
+						alert("수정에 실패했습니다");
 						location.href="/cropsSaleList";
 					}
 				})
 				.fail(function(result){
-					alert("fail");
+					alert("오류");
 					location.href="/cropsSaleList";
 				})
 			});

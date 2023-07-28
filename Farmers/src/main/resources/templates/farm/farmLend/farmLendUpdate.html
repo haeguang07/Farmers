@@ -156,18 +156,16 @@
 					})
 					.done(function(result) {
 						if(result.result == true) {
-							console.log(result.result);
-							alert("success");
-							//location.href = "/farmLendInfo?boardNo=" + boardNo;
+							alert("수정되었습니다");
+							location.href = "/farmLendInfo?boardNo=" + boardNo;
 						} else {
-							console.log(result.result);
-							alert("fail");
-							//location.href = "/farmLendInfo?boardNo=" + boardNo;
+							alert("수정에 실패했습니다");
+							location.href = "/farmLendInfo?boardNo=" + boardNo;
 						}
 					})
 					.fail(function(result) {
-						alert("fail");
-						//location.href = "/farmLendInfo?boardNo=" + boardNo;
+						alert("오류");
+						location.href = "/farmLendInfo?boardNo=" + boardNo;
 					})
 				}
 			});
