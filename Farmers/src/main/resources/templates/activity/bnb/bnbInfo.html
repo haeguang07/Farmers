@@ -14,6 +14,14 @@
 	<link rel="stylesheet" href="/css/suinCss/review.css">
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" type="text/css">
+
+	<!-- datePicker -->
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+	<script src="./jquery-ui-1.12.1/datepicker-ko.js"></script>
+
 	<title>농촌비앤비 상세페이지</title>
 	<style>
 		#dateTb td {
@@ -52,6 +60,7 @@
 
 <body>
 	<div layout:fragment="content">
+
 		<!-- Shop Details Section Begin -->
 		<section th:each="bnb:${bnb}" class="shop-details">
 			<!-- 이미지 부분 -->
@@ -108,20 +117,19 @@
 												<!-- <input type="date" id="startDate"
 												th:min="${#dates.format(bnb.lendStrDate,'yyyy-MM-dd')}"
 												th:max="${#dates.format(bnb.lendEndDate,'yyyy-MM-dd')}"
-												onchange="minDate()"> -->
-												<input type="text" id="startDate" class="form-control mini"
+												onchange="minDate()"> --> <input type="text" id="startDate"
+												class="form-control mini"
 												th:min="${#dates.format(bnb.lendStrDate,'yyyy-MM-dd')}"
 												th:max="${#dates.format(bnb.lendEndDate,'yyyy-MM-dd')}"
-												onchange="minDate()">
-												 ~ 
-												 <!-- <input type="date" id="endDate" class="form-control mini"
+												onchange="minDate()" readonly> ~ <!-- <input type="date" id="endDate" class="form-control mini"
 												th:min="${#dates.format(bnb.lendStrDate,'yyyy-MM-dd')}"
 												th:max="${#dates.format(bnb.lendEndDate,'yyyy-MM-dd')}"
-												onchange="calculateDays()"></td> -->
-												<input type="text" id="endDate" class="form-control mini"
+												onchange="calculateDays()"></td> --> <input type="text"
+												id="endDate" class="form-control mini"
 												th:min="${#dates.format(bnb.lendStrDate,'yyyy-MM-dd')}"
 												th:max="${#dates.format(bnb.lendEndDate,'yyyy-MM-dd')}"
-												onchange="calculateDays()"></td>
+												onchange="calculateDays()" readonly>
+											</td>
 										</tr>
 										<tr>
 											<th>총 일수</th>
@@ -276,9 +284,25 @@
 		<script
 			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c573b65eabeb9b6da24ab52d832dc807"></script>
 		<script th:inline="javascript">
+		// 비활성화 날짜 체크 함수
+		function disableDays(date) {
+				var m = date.getMonth(), d = date.getDate(), y = date.getFullYear();
+				for (i = 0; i < rsvDateList.length; i++) {
+						if($.inArray(y + '-' +(m+1) + '-' + d,rsvDateList) != -1) {
+								return [false];
+						}
+				}
+				return [true];
+		}
+		
+		var rsvDateList;
+		var maxDate;
 		//datePicker
 		$(function(){
-			var rsvDateList;
+				maxDate = /*[[${bnb.lendEndDate}]]*/;
+				maxDate = maxDate.substr(0,10)
+			
+				//DB 예약 날짜 받아오기
 				$.ajax({
 					url : "checkRsvDate",
 					data : {
@@ -286,50 +310,90 @@
 					}
 				})
 				.done(function(result){
-					console.log(rsvDateList)
+					//예약 날짜 배열에 담기
 					rsvDateList = result;
-					console.log(rsvDateList)
-
-					// 막을 날짜
-					function disableDays(date) {
-							var m = date.getMonth(), d = date.getDate(), y = date.getFullYear();
-							for (i = 0; i < rsvDateList.length; i++) {
-									if($.inArray(y + '-' +(m+1) + '-' + d,rsvDateList) != -1) {
-											return [false];
-									}
-							}
-							return [true];
-					}
-
-				$('#startDate').datepicker({
-						beforeShowDay: disableDays,
-						dateFormat: "yy-mm-dd"
-				});
-				$('#endDate').datepicker({
-					beforeShowDay : disableDays,
-					dateFormat: "yy-mm-dd"
-				});
+					//시작일 datePicker 생성 함수
+					strDateFunc()
 				})
 				.fail(function(){
 					console.log('fail')
 				})
-
-				
-				
-
-			})
 			
-			// 막을 날짜
-			function disableDays(date) {
-					var m = date.getMonth(), d = date.getDate(), y = date.getFullYear();
-					for (i = 0; i < rsvDateList.length; i++) {
-						console.log($.inArray(y + '-' +(m+1) + '-' + d,rsvDateList))
-							if($.inArray(y + '-' +(m+1) + '-' + d,rsvDateList) != -1) {
-									return [false];
-							}
-					}
-					return [true];
-			}
+		
+			})
+
+				//시작날짜 datePiicker
+				function strDateFunc(){
+					$('#startDate').datepicker({
+						beforeShowDay: disableDays,
+						dateFormat: "yy-mm-dd",
+						minDate: new Date(),
+						maxDate: maxDate,
+						closeText: "닫기",
+    				currentText: "오늘",
+    				prevText: '이전 달',
+   				  nextText: '다음 달',
+						monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+						monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+						dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+						dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+						dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+						weekHeader: "주",
+						yearSuffix: '년'
+					});
+				}
+
+				//종료날짜 datePiicker
+				function endDateFunc(setDate){
+					$('#endDate').datepicker( "destroy" )
+					$('#endDate').datepicker({
+						beforeShowDay : disableDays,
+						dateFormat: "yy-mm-dd",
+						minDate : setDate,
+						maxDate: maxDate,
+						closeText: "닫기",
+						currentText: "오늘",
+						prevText: '이전 달',
+						nextText: '다음 달',
+						monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+						monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+						dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+						dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+						dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+						weekHeader: "주",
+						yearSuffix: '년'
+						});
+				}
+
+				//시작날짜 변경 시
+				$('#startDate').change(function(){
+					let setDate = $('#startDate').val()
+					//endDate datePicker 생성함수
+					endDateFunc(setDate)
+				})
+
+				//종료날짜 변경 시
+				$('#endDate').change(function(){
+					//예약날짜 체크 함수
+					checkRsv()
+				})
+
+				//설정날짜 사이에 예약날짜 유무확인
+				function checkRsv(){
+					$(rsvDateList).each(function(idx, date){
+						// 선택된 날짜 사이에 예약일이 존재하는지 판단
+						if(new Date($('#endDate').val()) > new Date(date) && new Date(date) > new Date($('#startDate').val())){
+
+							//예약이 있을 경우 alert, value 비우기
+							alert('이미 예약이 존재하는 날짜입니다')
+							$('#endDate').val('')
+							$('#startDate').val('')
+
+							//for문 벗어남
+							return false
+						}
+					});
+				}
 
 			// --------- 지도 api
 			var latitude = document.getElementById('lati').innerText;

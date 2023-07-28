@@ -57,6 +57,7 @@ public class BnbController {
 	// 단건조회
 	@GetMapping("bnbInfo")
 	public String getBnbInfo(Model model, String boardNo) {
+		System.out.println(bnbService.selectBnb(boardNo));
 		model.addAttribute("bnb", bnbService.selectBnb(boardNo));
 		model.addAttribute("rev",revService.getCount(boardNo));
 		return "activity/bnb/bnbInfo";

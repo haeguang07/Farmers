@@ -527,4 +527,11 @@ public class MyPageController {
 	public boolean myExpApplyStts(String aplNo) {
 		return myPageService.updateExpApplyStts(aplNo) > 0 ;
 	}
+	
+	////////////////////금손귀농인//////////////////////////
+	//나의 금손귀농인 폼
+	@GetMapping("myPage/mySkilledForm")
+	public String mySkilledForm() {
+		return "user/myPage/myActivity/mySkilled/mySkilledList";
+	}
 }
