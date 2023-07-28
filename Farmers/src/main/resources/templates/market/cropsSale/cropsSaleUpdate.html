@@ -142,7 +142,7 @@
 						formData.append("uploadFiles", files[i]); //키, 값으로 append
 
 						$.ajax({
-							url: 'uploadsAjax',
+							url: '/uploadsAjax',
 							type: 'POST',
 							processData: false, // 기본값은 true, ajax 통신을 통해 데이터를 전송할때, 기본적으로 key와 value 값을 Query String으로 변환해서 보내줌
 							contentType: false, // multipart/form-data 타입을 사용하기위해 false로 지정
@@ -190,28 +190,28 @@
 				console.log(formData);
 
 				$.ajax({
-					url : "cropsSaleUpdate",
+					url : "/update/cropsSaleUpdate",
 					method : "POST",
 					data : formData
 				})
 				.done(function(result){
 					if(result.result == true) {
 						alert("success");
-						location.href="cropsSaleList";
+						location.href="/cropsSaleList";
 					} else {
 						alert("fail");
-						location.href="cropsSaleList";
+						location.href="/cropsSaleList";
 					}
 				})
 				.fail(function(result){
 					alert("fail");
-					location.href="cropsSaleList";
+					location.href="/cropsSaleList";
 				})
 			});
 			
 			// 취소버튼 클릭 시
 			$('#cancel').on('click', function() {
-				location.href="cropsSaleInfo?boardNo=" + /*[[${csInfo.boardNo}]]*/;
+				location.href="/cropsSaleInfo?boardNo=" + /*[[${csInfo.boardNo}]]*/;
 			});
 		</script>
 	</div>

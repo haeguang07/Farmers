@@ -150,7 +150,7 @@
 						formData.mcrpList = list;
 					}
 					$.ajax({
-						url : "/farmLendUpdate",
+						url : "/update/farmLendUpdate",
 						method : "POST",
 						contentType : "application/json",
 						data : JSON.stringify(formData)
@@ -159,16 +159,16 @@
 						if(result.result == true) {
 							console.log(result.result);
 							alert("success");
-							location.href = "/farmLendInfo?boardNo=" + boardNo;
+							//location.href = "/farmLendInfo?boardNo=" + boardNo;
 						} else {
 							console.log(result.result);
 							alert("fail");
-							location.href = "/farmLendInfo?boardNo=" + boardNo;
+							//location.href = "/farmLendInfo?boardNo=" + boardNo;
 						}
 					})
 					.fail(function(result) {
 						alert("fail");
-						location.href = "/farmLendInfo?boardNo=" + boardNo;
+						//location.href = "/farmLendInfo?boardNo=" + boardNo;
 					})
 				}
 			});
