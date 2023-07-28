@@ -26,7 +26,7 @@
 							<h4>농촌 체험하기</h4>
 							<div class="breadcrumb__links">
 								<a>농촌체험</a>
-								<a href="expList">농촌 체험하기</a>
+								<a href="/expList">농촌 체험하기</a>
 								<span th:text="${expInfo.title}">제목</span>
 							</div>
 						</div>
@@ -157,7 +157,7 @@
 			$('#applyBtn').on('click', function() {
 				let aplPer = $('input[name="aplPer"]').val();
 				$.ajax({
-					url : "expApply",
+					url : "/expApply",
 					method : "POST",
 					data : {
 						boardNo : boardNo,
@@ -177,19 +177,19 @@
 			
 			// 목록으로 버튼 클릭 시
 			$('#toList').on('click', function() {
-				location.href = "expList";
+				location.href = "/expList";
 			});
 			
 			// 삭제하기 버튼 클릭 시
 			$('#delete').on('click', function() {
 				$.ajax({
-					url : "expDelete",
+					url : "/expDelete",
 					method : "POST",
 					data : 'boardNo=' + boardNo
 				})
 				.done(function(result) {
 					console.log(result);
-					location.href = "expList";
+					location.href = "/expList";
 				})
 				.fail(function(result) {
 					alert(result);
