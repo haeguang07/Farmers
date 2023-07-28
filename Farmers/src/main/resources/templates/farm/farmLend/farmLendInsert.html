@@ -356,6 +356,7 @@
 						list.push(formData.mcrpList);
 						formData.mcrpList = list;
 					}
+					console.log(formData);
 					formData.files = uploadFiles;
 					$.ajax({
 						url : "/add/farmLendInsert",

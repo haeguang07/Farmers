@@ -61,7 +61,7 @@
 							<h4>농작물 판매</h4>
 							<div class="breadcrumb__links">
 								<a>농촌마켓</a>
-								<a href="cropsSaleList">농작물 판매</a>
+								<a href="/cropsSaleList">농작물 판매</a>
 								<span th:text="${csInfo.title}">상품명</span>
 							</div>
 						</div>
@@ -258,7 +258,7 @@
 					
 					// 상품 객체 배열을 json 변환 후 결제 페이지로 파라미터를 보냄
 					// (한글, 특수문자가 url 인코딩이 안되서 encodeURI 사용)
-					location.href = "payment?productList=" + encodeURI(JSON.stringify(productList));
+					location.href = "/payment?productList=" + encodeURI(JSON.stringify(productList));
 				} else {
 					alert('회원만 이용할 수 있습니다. 로그인 해주세요');
 					// 로그인이나 회원가입 페이지로 넘어가기
@@ -271,7 +271,7 @@
 				let boardCtg = /*[[${codeInfo}]]*/
 				if(mem != null) {
 					$.ajax({
-						url : 'insertCart',
+						url : '/add/insertCart',
 						data : {
 							memNo : mem.memNo,
 							qty : qty,
@@ -305,19 +305,19 @@
 			}
 			// 수정 버튼 클릭 시
 			$('#update').on('click', function() {
-				location.href="cropsSaleUpdate?boardNo=" + boardNo;
+				location.href="/update/cropsSaleUpdate?boardNo=" + boardNo;
 			});
 			// 삭제 버튼 클릭 시
 			$('#delete').on('click', function() {
 				console.log(boardNo);
 				$.ajax({
-					url : "cropsSaleDelete",
+					url : "/cropsSaleDelete",
 					method : "POST",
 					data : 'boardNo=' + boardNo
 				})
 				.done(function(result) {
 					console.log(result);
-					location.href="cropsSaleList";
+					location.href="/cropsSaleList";
 				})
 				.fail(function(result) {
 					alert(result);
@@ -332,7 +332,7 @@
 			function reviewAjax() {
 				$('#reviewTable>tbody').children().remove();
 				$.ajax({
-					url : "cropsSaleInfo/review",
+					url : "/cropsSaleInfo/review",
 					method : "GET",
 					data : 'boardNo=' + boardNo,
 					dataType : 'json'
@@ -444,7 +444,7 @@
 					let day = new Date();
 					
 					$.ajax({
-						url : "cropsSaleInfo/review",
+						url : "/cropsSaleInfo/review",
 						method : "POST",
 						data : {
 							memNo : mem.memNo,
