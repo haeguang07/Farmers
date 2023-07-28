@@ -26,7 +26,7 @@
 							<h4>농촌 체험하기</h4>
 							<div class="breadcrumb__links">
 								<a>농촌체험</a>
-								<a href="expList">농촌 체험하기</a>
+								<a href="/expList">농촌 체험하기</a>
 								<span th:text="${expInfo.title}">제목</span>
 							</div>
 						</div>
@@ -68,11 +68,12 @@
 												<span th:text="|${#dates.format(expInfo.exStrDate, 'yyyy/MM/dd')} ~ ${#dates.format(expInfo.exEndDate, 'yyyy/MM/dd')}|">체험 시작 ~ 종료 일자</span></p>
 											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">참여 인원 : </b> 
 												<span th:text="|현재 참여 인원 / ${expInfo.pptPer}|">현재 참여 인원 / 참여 최대 인원</span></p>
-											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">신청 인원 : </b>
-												<span><input type="number" value="1" min="1" oninput="maxValue(this)" th:if="${session.mem.memNo} != ${expInfo.memNo}" 
-													name="aplPer" class="form-control" style=" width: 150px; display: inline;"></span>
-												<span>명</span>
-											</p>
+											<th:block th:if="${session.mem.memNo} != ${expInfo.memNo}">
+												<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">신청 인원 : </b>
+													<span><input type="number" value="1" min="1" oninput="maxValue(this)" name="aplPer" class="form-control" style=" width: 150px; display: inline;"></span>
+													<span>명</span>
+												</p>
+											</th:block>
 											<button type="button" class="btn btn-dark mr-2" style="width: 150px; float: left;" id="applyBtn" th:if="${session.mem.memNo} != ${expInfo.memNo}">신청하기</button>
 											<button type="button" class="btn btn-dark" style="width: 150px; float: left;" id="toList">목록으로</button>
 										</div>
@@ -157,7 +158,7 @@
 			$('#applyBtn').on('click', function() {
 				let aplPer = $('input[name="aplPer"]').val();
 				$.ajax({
-					url : "expApply",
+					url : "/expApply",
 					method : "POST",
 					data : {
 						boardNo : boardNo,
@@ -177,19 +178,19 @@
 			
 			// 목록으로 버튼 클릭 시
 			$('#toList').on('click', function() {
-				location.href = "expList";
+				location.href = "/expList";
 			});
 			
 			// 삭제하기 버튼 클릭 시
 			$('#delete').on('click', function() {
 				$.ajax({
-					url : "expDelete",
+					url : "/expDelete",
 					method : "POST",
 					data : 'boardNo=' + boardNo
 				})
 				.done(function(result) {
 					console.log(result);
-					location.href = "expList";
+					location.href = "/expList";
 				})
 				.fail(function(result) {
 					alert(result);

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.yedam.app.activity.vo.BnbVO;
 import com.yedam.app.activity.vo.ExpApplyVO;
 import com.yedam.app.activity.vo.ExpVO;
+import com.yedam.app.activity.vo.SkilledVO;
 import com.yedam.app.board.vo.BoardVO;
 import com.yedam.app.common.vo.PaymentDetailVO;
 import com.yedam.app.common.vo.PaymentVO;
@@ -255,6 +256,11 @@ public class MyPageServiceImpl implements MyPageService {
 	@Override
 	public int updateExpApplyStts(String aplNo) {
 		return myPageMapper.updateExpApplyStts(aplNo);
+	}
+
+	@Override
+	public List<SkilledVO> mySkilledList(SkilledVO vo) {
+		return myPageMapper.mySkilledList(vo);
 	}
 	
 	

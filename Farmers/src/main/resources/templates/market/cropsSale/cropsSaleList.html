@@ -86,11 +86,11 @@
 											<div class="card-body">
 												<div class="shop__sidebar__categories">
 													<ul>
-														<li><a href="marketList">전원마켓</a></li>
-														<li><b><a href="cropsSaleList"
+														<li><a href="/marketList">전원마켓</a></li>
+														<li><b><a href="/cropsSaleList"
 																style="color: black;">농작물 판매</a></b></li>
-														<li><a href="fundingList">농작물 펀딩</a></li>
-														<li><a href="auctionList">경매장</a></li>
+														<li><a href="/fundingList">농작물 펀딩</a></li>
+														<li><a href="/auctionList">경매장</a></li>
 													</ul>
 												</div>
 											</div>
@@ -240,7 +240,7 @@
 			$('#add').on('click', function() {
 				if(mem != null) {
 					if(mem.memGrd == 'b0' || mem.memGrd == 'b1') {
-						location.href = "cropsSaleInsert";
+						location.href = "/add/cropsSaleInsert";
 					} else {
 						alert('정회원 이상의 회원만 등록이 가능합니다.');
 					}
@@ -255,7 +255,7 @@
 			// 리스트 불러오기
 			function ajaxData(page, category, order, search) {
 				$.ajax({
-					url : 'cropsSaleList',
+					url : '/cropsSaleList',
 					type : 'POST',
 					data : {
 						pageNum : page,
@@ -297,7 +297,7 @@
 				$(clone).find('#img').css('cursor', 'pointer');
 				
 				$(clone).find('#img').on('click', function() {
-					location.href = "cropsSaleInfo?boardNo=" + item.boardNo;
+					location.href = "/cropsSaleInfo?boardNo=" + item.boardNo;
 				});
 				
 				$('#cropsSaleDiv').append(clone);

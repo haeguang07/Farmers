@@ -65,13 +65,13 @@ public class ExpController {
 	}
 	
 	// 등록 페이지 불러오기
-	@GetMapping("expInsert")
+	@GetMapping("add/expInsert")
 	public String insertExpForm() {
 		return "activity/exp/expInsert";
 	}
 	
 	// 등록 기능
-	@PostMapping("expInsert")
+	@PostMapping("add/expInsert")
 	@ResponseBody
 	public String insertExp(ExpVO expVO) {
 		boolean result = expService.insertExpInfo(expVO);
