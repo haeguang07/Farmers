@@ -3,7 +3,7 @@ import {
   createWebHistory
 } from 'vue-router'
 import auction from '../views/auction.vue'
-import equipment from '../views/equipment.vue'
+
 import experience from '../views/experience.vue'
 import farmLend from '../views/farmLend.vue'
 import funding from '../views/funding.vue'
@@ -14,7 +14,7 @@ import report from '../views/report.vue'
 import farmbnb from '../views/farmbnb.vue'
 
 const routes = [{
-    path: '/',
+    path: '/member',
     name: 'memberManagement',
     component: memberManagement
   },
@@ -34,10 +34,6 @@ const routes = [{
     path: '/experience',
     name: 'experience',
     component: experience
-  },{
-    path: '/equipment',
-    name: 'equipment',
-    component: equipment
   },{
     path: '/market',
     name: 'market',

@@ -5,6 +5,7 @@ import java.util.List;
 import com.yedam.app.activity.vo.BnbVO;
 import com.yedam.app.activity.vo.ExpApplyVO;
 import com.yedam.app.activity.vo.ExpVO;
+import com.yedam.app.activity.vo.SkilledVO;
 import com.yedam.app.board.vo.BoardVO;
 import com.yedam.app.common.vo.PaymentDetailVO;
 import com.yedam.app.common.vo.PaymentVO;
@@ -156,5 +157,8 @@ public interface MyPageMapper {
 	
 	//나의 농촌체험 거절
 	public int updateExpApplyStts(String aplNo);
+	
+	//금손귀농인 리스트
+	public List<SkilledVO> mySkilledList(SkilledVO vo);
 
 }

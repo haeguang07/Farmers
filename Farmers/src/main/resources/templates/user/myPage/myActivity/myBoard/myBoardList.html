@@ -59,7 +59,7 @@
 							</thead>
 							<tbody id="tbody">
 								<th:block th:if="not ${#strings.isEmpty(boardList)}">
-									<tr th:each="board : ${boardList}" th:no="${board.boardNo}">
+									<tr th:each="board : ${boardList}" th:no="${board.boardNo}" class="tr">
 										<td th:text="${board.boardNo}"></td>
 										<td th:text="${board.postCtg}"></td>
 										<td th:text="${board.title}"></td>
@@ -137,7 +137,7 @@
 			};
 
 			//tr 이동
-			// $(document).on("click", "tr", function (e) {
+			// $(document).on("click", ".tr", function (e) {
 			// 	if (!$(e.currentTarget).hasClass('th')) {
 			// 		console.log($(e.currentTarget).attr('no'))
 			// 		location.href = "/mkInfo?boardNo=" + $(e.currentTarget).attr('no')

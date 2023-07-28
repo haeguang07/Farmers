@@ -110,7 +110,7 @@
 	</delete>
 	
 	<!-- 해당 날짜 예약 확인  -->
-	<select id="rsvDateCheck" parameterType="String" resultType="DateVO">
+	<select id="rsvDateCheck" parameterType="String" resultType="String">
 	<![CDATA[ 
 		select * from(
         SELECT TO_CHAR(lend_str_date + (LEVEL), 'yyyy-fmmm-dd') AS rsv_date

@@ -16,7 +16,7 @@ module.exports = {
   devServer: {
     proxy: target
   },
-
+  indexPath : "admin.html",
   pluginOptions: {
     vuetify: {}
   }

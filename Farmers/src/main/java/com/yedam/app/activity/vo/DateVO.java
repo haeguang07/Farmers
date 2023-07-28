@@ -6,5 +6,5 @@ import lombok.Data;
 
 @Data
 public class DateVO {
-	private Date rsvDate;
+	private String rsvDate;
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.app.activity.service.BnbService;
 import com.yedam.app.activity.vo.BnbVO;
+import com.yedam.app.activity.vo.DateVO;
 import com.yedam.app.common.service.CodeService;
 import com.yedam.app.common.service.ReviewService;
 import com.yedam.app.common.vo.CodeVO;
@@ -56,6 +57,7 @@ public class BnbController {
 	// 단건조회
 	@GetMapping("bnbInfo")
 	public String getBnbInfo(Model model, String boardNo) {
+		System.out.println(bnbService.selectBnb(boardNo));
 		model.addAttribute("bnb", bnbService.selectBnb(boardNo));
 		model.addAttribute("rev",revService.getCount(boardNo));
 		return "activity/bnb/bnbInfo";
@@ -134,6 +136,13 @@ public class BnbController {
 	public String deleteBnb(String boardNo) {
 		bnbService.deleteBnb(boardNo);
 		return "redirect:bnbList";
+	}
+	
+	//예약 날짜 확인
+	@GetMapping("checkRsvDate")
+	@ResponseBody
+	public List<String> checkRsvDate(String boardNo){
+		return bnbService.rsvDateCheck(boardNo);
 	}
 
 }

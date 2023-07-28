@@ -49,8 +49,8 @@
 											<div class="card-body">
 												<div class="shop__sidebar__categories">
 													<ul>
-														<li><a href="bnbList">농촌 비엔비</a></li>
-														<li><b><a href="expList" style="color: black;">농촌 체험하기</a></b></li>
+														<li><a href="/bnbList">농촌 비엔비</a></li>
+														<li><b><a href="/expList" style="color: black;">농촌 체험하기</a></b></li>
 														<li><a href="#">금손 귀농인</a></li>
 													</ul>
 												</div>
@@ -143,7 +143,7 @@
 			$('#add').on('click', function() {
 				if(mem != null) {
 					if(mem.memGrd == 'b0' || mem.memGrd == 'b1') {
-						location.href = "expInsert";
+						location.href = "/add/expInsert";
 					} else {
 						alert('정회원 이상의 회원만 등록이 가능합니다.');
 					}
@@ -159,7 +159,7 @@
 			// 리스트 불러오기
 			function ajaxData(page, expStart, dst1, dst2) {
 				$.ajax({
-					url : 'expList',
+					url : '/expList',
 					type : 'POST',
 					data : {
 						pageNum : page,

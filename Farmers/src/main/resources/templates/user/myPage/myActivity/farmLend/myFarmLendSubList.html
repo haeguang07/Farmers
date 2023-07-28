@@ -60,7 +60,7 @@
 							</thead>
 							<tbody>
 								<th:block th:if="not ${#strings.isEmpty(list)}">
-									<tr th:each="li : ${list}" th:data-aplNo="${li.aplNo}">
+									<tr th:each="li : ${list}" th:data-aplNo="${li.aplNo}" th:data-memNo="${li.memNo}">
 										<td th:text="${li.aplNo}"></td>
 										<td th:text="${li.name}"></td>
 										<td th:text="${#numbers.formatInteger(li.lendPrice, 3, 'COMMA')}"></td>
@@ -124,12 +124,16 @@
 		$('.accept').on('click',function(e){
 			let stts = $(e.target).closest('tr').find('.stts')
 			let boardNo = /*[[${vo.boardNo}]]*/ ;
-			console.log($(e.target).closest('tr').data('aplno'))
+			let aplNo =  $(e.target).closest('tr').data('aplno');
+			let addr = /*[[${vo.addr}]]*/;
+			let memNo = $(e.target).closest('tr').data('memno')
 			$.ajax({
 				url : "/myPage/myFarmApplyStts",
 				data : {
 					boardNo : boardNo ,
-					aplNo : $(e.target).closest('tr').data('aplno')
+					aplNo : aplNo,
+					addr : addr,
+					memNo : memNo
 				}
 			})
 			.done(function(){

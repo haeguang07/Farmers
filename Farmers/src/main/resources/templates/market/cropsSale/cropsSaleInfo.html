@@ -61,7 +61,7 @@
 							<h4>농작물 판매</h4>
 							<div class="breadcrumb__links">
 								<a>농촌마켓</a>
-								<a href="cropsSaleList">농작물 판매</a>
+								<a href="/cropsSaleList">농작물 판매</a>
 								<span th:text="${csInfo.title}">상품명</span>
 							</div>
 						</div>
@@ -157,12 +157,6 @@
 													<div class="row1">
 														<label for="star">별점:</label>
 														<select id="star">
-															<option value="5">★★★★★</option>
-															<option value="4">★★★★☆</option>
-															<option value="3">★★★☆☆</option>
-															<option value="2">★★☆☆☆</option>
-															<option value="1">★☆☆☆☆</option>
-															<option value="0">☆☆☆☆☆</option>
 														</select>
 													</div>
 													<div class="row1">
@@ -179,7 +173,7 @@
 															<th>별점</th>
 															<th>내용</th>
 															<th>작성자</th>
-															<th>삭제</th>
+															<th></th>
 														</tr>
 													</thead>
 													<tbody>
@@ -258,7 +252,7 @@
 					
 					// 상품 객체 배열을 json 변환 후 결제 페이지로 파라미터를 보냄
 					// (한글, 특수문자가 url 인코딩이 안되서 encodeURI 사용)
-					location.href = "payment?productList=" + encodeURI(JSON.stringify(productList));
+					location.href = "/payment?productList=" + encodeURI(JSON.stringify(productList));
 				} else {
 					alert('회원만 이용할 수 있습니다. 로그인 해주세요');
 					// 로그인이나 회원가입 페이지로 넘어가기
@@ -271,7 +265,7 @@
 				let boardCtg = /*[[${codeInfo}]]*/
 				if(mem != null) {
 					$.ajax({
-						url : 'insertCart',
+						url : '/add/insertCart',
 						data : {
 							memNo : mem.memNo,
 							qty : qty,
@@ -305,19 +299,19 @@
 			}
 			// 수정 버튼 클릭 시
 			$('#update').on('click', function() {
-				location.href="cropsSaleUpdate?boardNo=" + boardNo;
+				location.href="/update/cropsSaleUpdate?boardNo=" + boardNo;
 			});
 			// 삭제 버튼 클릭 시
 			$('#delete').on('click', function() {
 				console.log(boardNo);
 				$.ajax({
-					url : "cropsSaleDelete",
+					url : "/cropsSaleDelete",
 					method : "POST",
 					data : 'boardNo=' + boardNo
 				})
 				.done(function(result) {
 					console.log(result);
-					location.href="cropsSaleList";
+					location.href="/cropsSaleList";
 				})
 				.fail(function(result) {
 					alert(result);
@@ -332,7 +326,7 @@
 			function reviewAjax() {
 				$('#reviewTable>tbody').children().remove();
 				$.ajax({
-					url : "cropsSaleInfo/review",
+					url : "/cropsSaleInfo/review",
 					method : "GET",
 					data : 'boardNo=' + boardNo,
 					dataType : 'json'
@@ -347,7 +341,7 @@
 			}
 			
 			function printReview(list) {
-				let data = list;
+				let data = list.reverse();
 				
 				// 데이터 테이블 생성
 				$('#reviewTable').DataTable({
@@ -360,35 +354,36 @@
 					columns : [
 						{
 							data : 'num',
+							width : '15%',
 							orderable : true,
 							render : function(data, type, row, meta) {
 								return meta.row + 1;
 							}
 						},
 						{
-							data : 'rate',
+							data : null,
+							width : '15%',
 							render : function(data, type, row) {
-								return makeStars(data);
+								return makeStars(row.rate) + '<span style="display: none">' + row.rate + '</span><br>' + formatDate(row.wrtDate);
 							}
 						},
 						{
-							data : 'revDesct', width : '400px'
+							data : null,
+							render : function(data, type, row) {
+								return row.revDesct + '<span class="revData" style="display: none" data-memNo=' + row.memNo + ' data-revNo=' + row.revNo + '></span>';
+							}
 						},
 						{
 							data : 'nick',
+							width : '15%',
 							orderable : false
 						},
 						{
 							data : 'button',
+							width : '10%',
 							orderable : false,
 							render : function(data, type, row) {
 								return '<button type="button" id="delBtn" class="form-control">삭제</button>';
-							}
-						},
-						{
-							data : 'revNo',
-							render : function(data, type, row) {
-								return '<span style="display: none;">' + data + '</span>';
 							}
 						}
 					],
@@ -400,12 +395,32 @@
 			function makeStars(num) {
 				let stars = '';
 				for(let i=0; i<num; i++) {
-					stars += '★';
+					stars += '<i class="fa fa-star"></i>';
 				}
 				for(let j=num; j<5; j++) {
-					stars += '☆';
+					stars += '<i class="fa fa-star-o"></i>';
 				}
 				return stars;
+			}
+			
+			//리뷰 별점 선택(select - option)
+			let starSelect = $('#star');
+
+			for (let i = 5; i >= 1; i--) {
+				let option = $('<option />');
+			    option.val(i);
+			    option.text(`${makeStars(i)} (${i}점)`);
+			    starSelect.append(option);
+			    $('#star').niceSelect('update');
+			}
+			
+			//리뷰 - 날짜포맷변경 
+			function formatDate(dateString) {
+			  const date = new Date(dateString);
+			  const year = date.getFullYear();
+			  const month = String(date.getMonth() + 1).padStart(2, '0');
+			  const day = String(date.getDate()).padStart(2, '0');
+			  return `(${year}/${month}/${day})`;
 			}
 			
 			// 데이터 테이블 한글 설정
@@ -437,14 +452,18 @@
 			// 리뷰 등록 기능
 			$('#addBtn').on('click', function() {
 				if(mem == null) {
-					alert('로그인이 필요한 시스템입니다.')
+					return alert('로그인이 필요한 시스템입니다.');
+				} else if($('#star').val == '0') {
+					return alert('별점을 선택하세요')
+				} else if($('#reviewText').val() == '') {
+					
 				} else {
 					let star = $('#star').val();
 					let text = $('#reviewText').val();
 					let day = new Date();
 					
 					$.ajax({
-						url : "cropsSaleInfo/review",
+						url : "/cropsSaleInfo/reviewInsert",
 						method : "POST",
 						data : {
 							memNo : mem.memNo,
@@ -452,21 +471,58 @@
 							revDesct : text,
 							boardNo : boardNo
 						},
-						dataType : 'json'
-					})
-					.done(function(result) {
-						console.log(result);
-						reviewAjax();
-						// 작성한 리뷰 값 초기화
-						$('#reviewText').val('');
-						$('#star').val(5);
-						$('#star').niceSelect('update');
-					})
-					.fail(function(result) {
-						alert(result);
+						dataType : 'json',
+						success : function(result) {
+							console.log(result);
+							reviewAjax();
+							// 작성한 리뷰 값 초기화
+							$('#reviewText').val('');
+							$('#star').val(5);
+							$('#star').niceSelect('update');
+						},
+						error : function(error) {
+							console.log(error);
+						}
 					})
 				}
 			})
+			
+			//리뷰 삭제 기능	
+			$('#reviewTable').on('click', '#delBtn', function() {
+				const rowData = $(this).closest('tr');
+				console.log(rowData)
+				const revMem = rowData.find('.revData').data('memno');
+				console.log(revMem);
+				const revNo = rowData.find('.revData').data('revno');
+				console.log(revNo);
+				if(mem == null) {
+					alert('삭제할 수 없습니다.');
+				} else if(revMem == mem.memNo) {
+					let confirmDelete = confirm("리뷰를 삭제하시겠습니까?");
+					if(confirmDelete) {
+						console.log("리뷰 삭제 번호 : ", revNo);
+						
+						$.ajax({
+							url: 'cropsSaleInfo/reviewDelete',
+							method: 'POST',
+							data: {
+								revNo: revNo
+							},
+							success: function (result) {
+								rowData.remove();
+								console.log("리뷰 삭제 결과 : ", result);
+					        },
+					        error: function (error) {
+					        	console.log("리뷰 삭제 오류 : ", error);
+					        }
+					    });
+					} else {
+						alert("삭제 취소");
+					}
+				} else {
+					alert('작성자만 삭제 가능합니다.');
+				}
+			});
 		</script>
 	</div>
 </body>

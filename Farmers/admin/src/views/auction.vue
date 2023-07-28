@@ -1,6 +1,8 @@
 <template>
 
 	<div class="body">
+		<h1>경매장</h1>
+		<br>
 		<div style="width: 1000px;" class="row"> 
 			<div class="col-2">선택한 신청을 </div>
 			<div class="col-2">
@@ -43,31 +45,29 @@
         <div v-if="Object.keys(board).length>0">
           <div >
             <div class="row">
-              <div class="col-5 row"><span class="col-3">신청번호</span><span class="col-5">{{board.boardNo}}</span></div>
-              <div class="col-5 row"><span class="col-3">신청일자</span><span class="col-5">{{board.regDate}}</span></div>
-              <div class="col-5 row"><span class="col-3">신청인</span><span class="col-5">{{board.memNo}}</span></div>
+              <div class="col-4 row"><span class="col-3">신청번호</span><span class="col-5">{{board.boardNo}}</span></div>
+              <div class="col-4 row"><span class="col-3">신청일자</span><span class="col-5">{{board.regDate}}</span></div>
+              <div class="col-4 row"><span class="col-3">신청인</span><span class="col-5">{{board.memNo}}</span></div>
             </div>
             <div class="row">
-              <div class="col-5 row"><span class="col-3">제목</span><span class="col-5">{{board.title}}</span></div>
-              <div class="col-5 row"><span class="col-3">경매수량</span><span class="col-5">{{board.saleQty}}</span></div>
+              <div class="col-10 row"><span class="col-1">제목</span><span class="col-5">{{board.title}}</span></div>
             </div>
             <div class="row">
-              <div class="col-5 row"><span class="col-3">즉시구매가</span><span class="col-5">{{board.bnp}}</span></div>
-              <div class="col-5 row"><span class="col-3">배송비</span><span class="col-5">{{board.shipPrice}}</span></div>
+							<div class="col-4 row"><span class="col-3">경매수량</span><span class="col-5">{{board.saleQty}}</span></div>
+              <div class="col-4 row"><span class="col-4">즉시구매가</span><span class="col-5">{{board.bnp}}</span></div>
+              <div class="col-4 row"><span class="col-3">배송비</span><span class="col-5">{{board.shipPrice}}</span></div>
             </div>
             <div class="row">
               <div class="col-5 row"><span class="col-3">경매시간</span><span class="col-5">{{board.actDate}}</span></div>
               <div class="col-5 row"><span class="col-3">경매기간</span><span class="col-5">{{board.actTrm}}</span></div>
             </div>
 
-            <div class="row" style="width: 600px; height: 300px;">
+            <div class="row">
               <div class="col-3" style="padding-left: 20px;">상세내용</div>
-                  <div class="col-5" style="overflow: auto;">
-                    {{ board.detaDesct }}
-                  </div>
+							<div class="col-5" style="overflow: auto; height: 350px;" v-html="board.desct"></div>
             </div>
             <div class="text-end">
-              <div v-if="board.regStts=='승인 대기' && board.files !=null" >
+              <div v-if="board.regStts=='승인 대기;'">
                 <button v-show="btnShow" class="btn btn-primary mb-3 mx-3" @click="apply">승인</button>
                 <select v-model="reason" v-show="!btnShow">
                   <option value="부적절한 경매품목입니다">부적절한 경매품목입니다</option>
@@ -253,4 +253,3 @@ methods:{
 
 
 
-</style>
