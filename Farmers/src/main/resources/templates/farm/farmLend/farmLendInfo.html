@@ -70,7 +70,7 @@
 												<span th:text="|${#dates.format(flInfo.lendStrDate, 'yyyy/MM/dd')} ~ ${#dates.format(flInfo.lendEndDate, 'yyyy/MM/dd')}|">대여 시작 ~ 종료 일자</span></p>
 											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">대여 가격 : </b> 
 												<span th:text="${#numbers.formatInteger(flInfo.lendPrice, 3, 'COMMA')} + '원'" style="font-size: 20px;"></span>
-												<span>(1일)</span>
+												<span>(연간)</span>
 											</p>
 											<div class="row mb-2">
 												<button type="button" class="btn btn-dark mr-2" style="width: 150px; float: left;" id="applyBtn" th:if="${session.mem.memNo} != ${flInfo.memNo}">신청하기</button>

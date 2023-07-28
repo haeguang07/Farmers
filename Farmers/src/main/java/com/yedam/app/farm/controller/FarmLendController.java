@@ -18,7 +18,6 @@ import com.yedam.app.farm.service.FarmLendService;
 import com.yedam.app.farm.vo.FarmLendApplyVO;
 import com.yedam.app.farm.vo.FarmLendVO;
 import com.yedam.app.market.vo.PageVO;
-import com.yedam.app.user.service.AttachService;
 
 @Controller
 public class FarmLendController {
@@ -28,9 +27,6 @@ public class FarmLendController {
 	
 	@Autowired
 	CodeService codeService;
-	
-	@Autowired
-	AttachService attachService;
 	
 	// 리스트 전체조회
 	@GetMapping("farmLendList")
@@ -95,7 +91,6 @@ public class FarmLendController {
 		FarmLendVO find = flService.getFarmLendInfo(flVO);
 		model.addAttribute("flInfo", find);
 		model.addAttribute("mcrp", codeService.getCodeList("1E"));
-//		model.addAttribute("attach", attachService.getAttachList());
 		return "farm/farmLend/farmLendUpdate";
 	}
 	
