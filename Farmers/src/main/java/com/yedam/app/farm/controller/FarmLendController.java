@@ -90,7 +90,7 @@ public class FarmLendController {
 	}
 	
 	// 수정 페이지 불러오기
-	@GetMapping("farmLendUpdate")
+	@GetMapping("update/farmLendUpdate")
 	public String updateFarmLendForm(FarmLendVO flVO, Model model) {
 		FarmLendVO find = flService.getFarmLendInfo(flVO);
 		model.addAttribute("flInfo", find);
@@ -100,7 +100,7 @@ public class FarmLendController {
 	}
 	
 	// 수정 기능
-	@PostMapping("farmLendUpdate")
+	@PostMapping("update/farmLendUpdate")
 	@ResponseBody
 	public Map<String, Object> updateFarmLend(@RequestBody FarmLendVO flVO) {
 		boolean result = false;

@@ -1,5 +1,7 @@
 <template>  
 <div>
+  <h1>문의 관리</h1>
+	<br>
   <v-data-table
     v-model:page="page"
     v-model:items-per-page="itemsPerPage"

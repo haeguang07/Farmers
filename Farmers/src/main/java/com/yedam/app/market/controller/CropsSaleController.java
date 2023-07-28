@@ -68,13 +68,13 @@ public class CropsSaleController {
 	}
 	
 	// 등록 페이지 불러오기
-	@GetMapping("cropsSaleInsert")
+	@GetMapping("add/cropsSaleInsert")
 	public String insertCropsSaleForm() {
 		return "market/cropsSale/cropsSaleInsert";
 	}
 	
 	// 등록 기능
-	@PostMapping("cropsSaleInsert")
+	@PostMapping("add/cropsSaleInsert")
 	@ResponseBody
 	public String insertCropsSale(CropsSaleVO csVO) {
 		boolean result = csService.insertCropsSaleInfo(csVO);
@@ -87,7 +87,7 @@ public class CropsSaleController {
 	}
 	
 	// 수정 페이지 불러오기
-	@GetMapping("cropsSaleUpdate")
+	@GetMapping("update/cropsSaleUpdate")
 	public String updateCropsSaleForm(CropsSaleVO csVO, Model model) {
 		CropsSaleVO find = csService.getCropsSaleInfo(csVO);
 		model.addAttribute("csInfo", find);
@@ -95,7 +95,7 @@ public class CropsSaleController {
 	}
 	
 	// 수정 기능
-	@PostMapping("cropsSaleUpdate")
+	@PostMapping("update/cropsSaleUpdate")
 	@ResponseBody
 	public Map<String, Object> updateCropsSale(CropsSaleVO csVO) {
 		boolean result = false;

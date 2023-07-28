@@ -2,6 +2,10 @@ package com.yedam.app.market.vo;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 
 @Data
@@ -26,6 +30,8 @@ public class MarketVO {
 	private String qty;
 	private String rep;
 	private String detaDesct;
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date regDate;
 	private String regStts;
 

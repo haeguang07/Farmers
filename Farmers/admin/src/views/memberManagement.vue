@@ -1,6 +1,8 @@
 <template>
 
 	<div class="body">
+		<h1>회원 관리</h1>
+		<br>
 		<div style="width: 1000px;" class="row"> 
 			<div class="col-2">선택한 회원을 </div>
 			<div class="col-2">
@@ -286,5 +288,14 @@ methods:{
   text-decoration: none;
   cursor: pointer;
 }
-
+ck-sticky-panel__content {
+  width: 600px;
+	height: 200px;
+}
+.ck-toolbar_grouping{
+  width: 600px;
+}
+.row{
+  margin: 10px;
+}
 </style>

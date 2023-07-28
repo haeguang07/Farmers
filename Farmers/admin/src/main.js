@@ -11,11 +11,14 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 
 loadFonts()
 
-createApp(App)
+const app=createApp(App)
   .use(router)
   .use(store)
   .use(vuetify)
   .use(CKEditor)
-  .use(VueSweetalert2)
-  .mount('#app')
+  .use(VueSweetalert2);
+
+  store.dispatch('fetchCodes'); 
+  
+  app.mount('#app');
 
