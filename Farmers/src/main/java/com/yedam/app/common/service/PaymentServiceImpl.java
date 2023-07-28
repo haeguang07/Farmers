@@ -1,5 +1,7 @@
 package com.yedam.app.common.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +15,7 @@ import com.yedam.app.common.vo.PaymentVO;
 public class PaymentServiceImpl implements PaymentService {
 	@Autowired
 	PaymentMapper paymentMapper;
-	
+
 	@Override
 	public MemberPayVO getMemberData(String memNo) {
 		return paymentMapper.getMemberData(memNo);
@@ -37,6 +39,11 @@ public class PaymentServiceImpl implements PaymentService {
 	@Override
 	public PaymentVO getPayList(String payNo) {
 		return paymentMapper.getPayList(payNo);
+	}
+
+	@Override
+	public List<String> getPayMember(String boardNo) {
+		return paymentMapper.getPayMember(boardNo);
 	}
 
 }
