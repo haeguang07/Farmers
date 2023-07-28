@@ -14,7 +14,7 @@ import report from '../views/report.vue'
 import farmbnb from '../views/farmbnb.vue'
 
 const routes = [{
-    path: '/',
+    path: '/member',
     name: 'memberManagement',
     component: memberManagement
   },
