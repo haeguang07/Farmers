@@ -126,10 +126,22 @@ public class CropsSaleController {
 	}
 	
 	// 리뷰 등록 기능
-	@PostMapping("cropsSaleInfo/review")
+	@PostMapping("cropsSaleInfo/reviewInsert")
 	@ResponseBody
 	public ReviewVO addReview(ReviewVO reviewVO) {
 		revService.addReview(reviewVO);
 		return reviewVO;
+	}
+	
+	// 리뷰 삭제 기능
+	@PostMapping("cropsSaleInfo/reviewDelete")
+	@ResponseBody
+	public String delReview(String revNo) {
+		int result = revService.delReview(revNo);
+		if(result > 0) {
+			return "success";
+		} else {
+			return "fail";
+		}
 	}
 }
