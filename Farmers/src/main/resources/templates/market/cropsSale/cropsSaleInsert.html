@@ -191,12 +191,17 @@
 					data : formData
 				})
 				.done(function(result){
-					alert(result);
-					location.href="/cropsSaleList";
+					if(result == "success") {
+						alert("성공적으로 등록이 되었습니다");
+						location.href="/cropsSaleList";
+					} else {
+						alert("등록에 실패했습니다");
+						location.href="/cropsSaleList";
+					}
 				})
 				.fail(function(result){
-					alert(result);
-					location.href="/cropsSaleList";
+					alert("오류");
+					location.href = "/cropsSaleList";
 				})
 			});
 			

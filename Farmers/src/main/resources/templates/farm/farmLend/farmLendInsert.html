@@ -221,6 +221,17 @@
 		        });
 			})
 			
+			let first = $('#first');
+			let second = $('#second');
+			let third = $('#third');
+			first.on('change', function() {
+				let selectFirst = $('#first option:selected');
+				console.log(selectFirst.val());
+				if(selecteFirst) {
+					let selectSecond = selectFirst.val().attr("disabled", true);
+				}
+			});
+			
 			let strDate = $('[name="lendStrDate"]');
 			let endDate = $('[name="lendEndDate"]');
 			
@@ -365,12 +376,18 @@
 						data : JSON.stringify(formData)
 					})
 					.done(function(result) {
-						alert(result);
-						//location.href = "/farmLendList";
+						if(result == "success") {
+							alert("성공적으로 등록이 되었습니다");
+							location.href = "/farmLendList";							
+						} else {
+							console.log(result);
+							alert("등록에 실패했습니다");
+							location.href = "/farmLendList";
+						}
 					})
 					.fail(function(result) {
-						console.log(result);
-						//location.href = "/farmLendList";
+						console.log("오류");
+						location.href = "/farmLendList";
 					})
 				}
 			});

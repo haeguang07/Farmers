@@ -264,11 +264,11 @@
 							alert("성공적으로 등록이 되었습니다");
 							location.href = "/expList";
 						} else {
-							alert("등록을 하지 못했습니다");
+							alert("등록에 실패했습니다");
 						}
 					})
 					.fail(function(result){
-						alert(result);
+						alert("오류");
 						location.href = "/expList";
 					})
 				}
