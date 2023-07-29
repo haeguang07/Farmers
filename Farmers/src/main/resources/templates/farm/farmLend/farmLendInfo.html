@@ -58,7 +58,7 @@
 													<div id="map">지도 Api</div>
 												</div>
 											</div>
-											<!-- 위도 경도-->
+											<!-- 위도 경도 -->
 											<div style="display: none">
 												위도<span id="lati" th:text="|${flInfo.lati}|"></span><br>
 												경도<span id="longi" th:text="|${flInfo.longi}|"></span>
@@ -117,8 +117,21 @@
 			
 			// 신청하기 버튼 클릭 시
 			$('#applyBtn').on('click', function() {
-				location.href = "/farmLendApply?boardNo=" + boardNo;
+				// 모달창
+				$.magnificPopup.open({
+					items : [{
+						src : "/farmLendApply?boardNo=" + boardNo,
+						type : 'iframe'
+					}]
+				})
 			});
+			
+			// 팝업창 닫는 함수
+			function closePopUp() {
+				var magnificPopup = $.magnificPopup.instance; 
+				magnificPopup.close();
+				location.reload();
+			}
 			
 			// 목록으로 버튼 클릭 시
 			$('#toList').on('click', function() {

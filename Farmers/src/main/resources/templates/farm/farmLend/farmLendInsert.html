@@ -54,6 +54,13 @@
   	max-height: 400px;
   	overflow: scroll !important;
 }
+.info-icon {
+    font-size: 20px;
+    color: black; /* 원하는 색상으로 변경 가능 */
+    border: 1px solid lightgray; /* 원하는 색상으로 테두리를 설정 */
+    border-radius: 50%; /* 동그라미 모양을 위해 반지름 값을 50%로 설정 */
+    background-color: lightgray;
+}
 </style>
 </head>
 	<div layout:fragment="content">
@@ -97,17 +104,20 @@
 								<div class="checkout__input">
 									<p>주요 재배 작물</p>
 									<div class="row">
-										<select class="form-select form-group ml-3 mr-2" id="first" name="mcrpList">
+										<select class="form-select form-group ml-3 mr-2" id="first" name="mcrpList"
+											onchange="changeOption()">
 											<option selected disabled value="">작물 선택</option>
 											<option th:each="cd : ${mcrp}" th:text="${cd.codeDesct}" 
 												th:value="${cd.cmmnDetaCode}"></option>
 										</select>
-										<select class="form-select form-group mr-2" id="second" name="mcrpList">
+										<select class="form-select form-group mr-2" id="second" name="mcrpList"
+											onchange="changeOption()">
 											<option selected disabled value="">작물 선택</option>
 											<option th:each="cd : ${mcrp}" th:text="${cd.codeDesct}" 
 												th:value="${cd.cmmnDetaCode}"></option>
 										</select>
-										<select class="form-select form-group" id="third" name="mcrpList">
+										<select class="form-select form-group" id="third" name="mcrpList"
+											onchange="changeOption()">
 											<option selected disabled value="">작물 선택</option>
 											<option th:each="cd : ${mcrp}" th:text="${cd.codeDesct}" 
 												th:value="${cd.cmmnDetaCode}"></option>
@@ -135,7 +145,7 @@
 										<button type="button" class="form-control col-lg-2" id="btnUpload">첨부 파일</button>
 										<div id="menu">
 											<div>
-												<span id="explain">?</span>
+												<span class="info-icon ml-2" id="explain">?</span>
 												<p class="arrow_box">
 													<b style="font-size: 20px;">제출 서류 목록</b><br>
 													<span>*</span>주민등록등본(초본) 또는 신분증(사본)<br>
@@ -219,18 +229,45 @@
 		                }
 		            }).open();
 		        });
-			})
-			
-			let first = $('#first');
-			let second = $('#second');
-			let third = $('#third');
-			first.on('change', function() {
-				let selectFirst = $('#first option:selected');
-				console.log(selectFirst.val());
-				if(selecteFirst) {
-					let selectSecond = selectFirst.val().attr("disabled", true);
-				}
 			});
+			
+			function changeOption() {
+				// 선택된값
+				let firstVal = first.value;
+                let secondVal = second.value;
+                let thirdVal = third.value;
+                
+             	// disable 다 없어져라
+                delDisabled(first);
+                delDisabled(second);
+                delDisabled(third);
+				
+             	// 선택된값 disable
+                if(firstVal != '') {
+                	second.querySelector('option[value='+firstVal+']').setAttribute('disabled', 'true');
+                	third.querySelector('option[value='+firstVal+']').setAttribute('disabled', 'true');
+                }
+                if(secondVal != '') {
+                	first.querySelector('option[value='+secondVal+']').setAttribute('disabled', 'true');
+                	third.querySelector('option[value='+secondVal+']').setAttribute('disabled', 'true');
+                }
+                if(thirdVal != '') {
+                	first.querySelector('option[value='+thirdVal+']').setAttribute('disabled', 'true');
+                	second.querySelector('option[value='+thirdVal+']').setAttribute('disabled', 'true');
+                }
+                
+                $('#first').niceSelect('update');
+                $('#second').niceSelect('update');
+                $('#third').niceSelect('update');
+			}
+			
+			// disable 지우는 함수
+			function delDisabled(selectElement) {
+				let optionElements = selectElement.querySelectorAll('option');
+				optionElements.forEach(function(optionElement) {
+					optionElement.removeAttribute('disabled');
+				});
+			}
 			
 			let strDate = $('[name="lendStrDate"]');
 			let endDate = $('[name="lendEndDate"]');
