@@ -17,7 +17,7 @@ public class SkilledVO {
 	private String dst1;
 	private String dst2;
 	private String div;
-	private String atchNo;
+	private String img;
 	private String title;
 	private String desct;
 	private String dayDiv;
@@ -37,5 +37,8 @@ public class SkilledVO {
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	@JsonFormat(pattern ="yyyy-MM-dd", timezone = "Asia/Seoul")
 	private String aplDate;
+	
+	// 추가
+	private String nick;
 	
 }

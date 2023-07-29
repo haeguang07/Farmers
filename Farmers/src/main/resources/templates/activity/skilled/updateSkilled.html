@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Male_Fashion Template">
+<meta name="keywords" content="Male_Fashion, unica, creative, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>You GuiNong? Yes!</title>
+
+<!-- Google Font -->
+<link
+	href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+	rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Jua&family=Poor+Story&display=swap"
+	rel="stylesheet">
+
+<!-- Css Styles -->
+<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+<link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+<link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+<link rel="stylesheet" href="/css/nice-select.css" type="text/css">
+<link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+<link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+<link rel="stylesheet" href="/css/style.css" type="text/css">
+<link rel="stylesheet" href="/css/jQueryUI.css">
+
+<!-- Js Plugins -->
+<script src="/js/jquery/jquery-3.3.1.min.js"></script>
+<script src="/js/jquery/bootstrap.min.js"></script>
+<script src="/js/jquery/jquery.nice-select.min.js"></script>
+<script src="/js/jquery/jquery.nicescroll.min.js"></script>
+<script src="/js/jquery/jquery.magnific-popup.min.js"></script>
+<script src="/js/jquery/jquery.countdown.min.js"></script>
+<script src="/js/jquery/jquery.slicknav.js"></script>
+<script src="/js/jquery/mixitup.min.js"></script>
+<script src="/js/jquery/owl.carousel.min.js"></script>
+<script src="/js/jquery/json.min.js"></script>
+<script src="/js/jquery/jqueryUI.js"></script>
+<style>
+.hideBorder {
+	border: 0;
+	background-color: transparent;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.nickLabel {
+	display: inline-block;
+	font-size: 14px;
+	color: #ffffff;
+	background: #111111;
+	padding: 6px 10px 4px;
+	border-radius: 4px;
+}
+</style>
+<body>
+	<section class="shop-details">
+		<div class="product__details__pic" style="background-color: white;">
+			<div class="container">
+				<div class="row col-lg-12">
+					<div class="product__details__content col-lg-8">
+						<div class="container">
+							<div class="row d-flex justify-content-center row">
+								<div class="col-lg-12">
+									<div class="product__details__text">
+										<div class="row">
+											<h4>금손귀농인 구해요</h4>
+											<br> <br>
+											<div class="row col-lg-12">
+												<div class="col-md-6">
+													<div class="product__item__pic set-bg" data-setbg=""></div>
+												</div>
+												<div class="col-md-6">
+													<div class="col-md-4">
+														<div class="nickLabel" th:text="${goldInfo.nick}">닉네임</div>
+													</div>
+													<br> <label
+														class="form-check-label col-lg-12 col-md-12 text-left"><span
+														class="bold" th:text="${goldInfo.title}"></span></label> <br>
+													<label class="col-lg-12 col-md-12 text-left"><span
+														th:text="${goldInfo.desct}"></span></label>
+												</div>
+											</div>
+											<div class="row col-lg-12"></div>
+
+
+											<div class="row col-lg-12">
+												<div class="col-md-3">
+													<p class="col-lg-3 mb-0 text-left">✅ 지역</p>
+												</div>
+												<div class="row col-md-9">
+													<!-- 지역1 선택창 -->
+													<div class="col-md-6">
+														<select class="form-control col-1.5 mr-2"
+															aria-label="Default select example" name="dst1" id="dst1">
+															<option value="" selected="selected">도</option>
+															<option value="k0">경기도</option>
+															<option value="k1">강원특별자치도</option>
+															<option value="k2">충청북도</option>
+															<option value="k3">충청남도</option>
+															<option value="k4">경상북도</option>
+															<option value="k5">경상남도</option>
+															<option value="k6">전라북도</option>
+															<option value="k7">전라남도</option>
+															<option value="k8">제주특별자치도</option>
+														</select>
+													</div>
+													<div>
+														<!-- 지역2 선택창 -->
+														<select class="form-control form-group col-1.5 mr-2"
+															aria-label="Default select example" name="dst2" id="dst2">
+															<option value="">시·군</option>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="row col-lg-12">
+												<div class="col-md-3">
+													<p class="myInline col-lg-3 mb-0 textLeft">대표 이미지</p>
+												</div>
+												<div class="col-md-9 row" id="addFile">
+													<div class="col-lg-12"
+														style="background-color: lightgrey; display: table;">
+														<p style="display: table-cell; vertical-align: middle">이미지
+															등록</p>
+													</div>
+												</div>
+
+											</div>
+										</div>
+										<br>
+										<div class="row">
+											<div class="row col-lg-12"></div>
+										</div>
+										<br>
+										<div class="row">
+											<div class="row col-lg-12">
+												<div class="col-md-3">
+													<p class="myInline col-lg-3 mb-0 textLeft">작성자</p>
+												</div>
+												<div class="row col-md-9">
+													<input type="text" class="form-control col-lg-6 hidden"
+														readonly="readonly" th:value="${session.mem.memNo}"
+														name="memNo"> <input type="text"
+														class="col-lg-6 hideBorder" readonly="readonly"
+														th:value="${session.mem.nick}">
+												</div>
+											</div>
+										</div>
+										<br>
+										<div class="row">
+											<div class="row col-lg-12">
+												<div class="col-md-3">
+													<p class="myInline col-lg-3 mb-0 textLeft">✅ 요일</p>
+												</div>
+												<div class="row col-md-9">
+													<label class="form-check-label col-md-2"><input
+														type="radio" class="form-check-input" name="dayDiv"
+														value="p0"> 평일 </label> <label
+														class="form-check-label col-md-3"><input
+														type="radio" class="form-check-input" name="dayDiv"
+														value="p1"> 주말 </label> <label
+														class="form-check-label col-md-3"><input
+														type="radio" class="form-check-input" name="dayDiv"
+														value="p2" checked> 요일협의 </label>
+												</div>
+											</div>
+										</div>
+										<br>
+										<div class="row">
+											<div class="row col-lg-12">
+												<div class="col-md-3">
+													<p class="myInline col-lg-3 mb-0 textLeft">✅ 지불기준</p>
+												</div>
+												<div class="row col-md-3">
+													<select class="form-control form-group col-1.5 mr-2"
+														aria-label="Default select example" id="wageDiv"
+														name="wageDiv">
+														<option value="" selected="selected">선택</option>
+														<option value="s0">시급</option>
+														<option value="s1">일급</option>
+														<option value="s2">월급</option>
+													</select>
+												</div>
+											</div>
+											<div class="row col-lg-12">
+												<div class="col-md-3">
+													<p class="myInline col-lg-3 mb-0 textLeft">✅ 금액</p>
+												</div>
+												<div class="row col-md-9">
+													<input type="number" step="100"
+														class="form-control col-md-4" name="price" value="0"
+														min="100">
+												</div>
+											</div>
+										</div>
+										<br>
+										<div class="row">
+											<div class="row col-lg-12">
+												<div class="col-md-3">
+													<p class="myInline col-lg-3 mb-0 textLeft">✅ 체결 조건</p>
+												</div>
+												<div class="row col-md-9">
+													<label class="form-check-label col-md-3"><input
+														type="radio" class="form-check-input" name="cndt"
+														value="q0" checked> 신청 대기 </label> <label
+														class="form-check-label col-md-4"><input
+														type="radio" class="form-check-input" name="cndt"
+														value="q1"> 즉시 수락 </label>
+												</div>
+											</div>
+										</div>
+										<br>
+										<div class="row">
+											<div class="row col-lg-12">
+												<div class="col-md-3">
+													<p class="myInline col-lg-3 mb-0 textLeft">본문</p>
+												</div>
+												<div class="row col-md-9">
+													<textarea class="form-control col-lg-3" name="desct"
+														rows="10"></textarea>
+												</div>
+											</div>
+										</div>
+										<br>
+										<div class="row">
+											<div class="row col-lg-12">
+												<div class="col-md-3">
+													<p class="myInline col-lg-3 mb-0 textLeft">✅ 추가 내용</p>
+												</div>
+												<div class="row col-md-9">
+													<textarea class="form-control col-lg-3"
+														id="exampleFormControlTextarea5" rows="3"></textarea>
+												</div>
+											</div>
+										</div>
+										<div class="product__details__cart__option row"
+											style="margin-top: 40px;">
+											<button class="primary-btn col-lg-12"
+												style="color: white; margin: 0 auto; margin-top: 20px;"
+												id="addBtn">등록하기</button>
+										</div>
+									</div>
+									<br>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

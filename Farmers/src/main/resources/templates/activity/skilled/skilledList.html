@@ -11,6 +11,9 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>금손귀농인</title>
 <style>
+.hidden {
+	display: none;
+}
 #skills {
 	padding: 5px;
 }
@@ -222,10 +225,11 @@ h5:has(.countdown) {
 								<div class="card" style="width: 16rem;">
 									<div class="product__item__pic set-bg" data-setbg=""></div>
 									<div class="card-body">
+										<p class="hidden card-boardNo"></p>
 										<h5 class="card-title">Card title</h5>
 										<p class="card-text">Some quick example text to build on
 											the card title and make up the bulk of the card's content.</p>
-										<a href="#" id="detailBtn" class="btn btn-success" th:onclick="getGoldInfo()">보기</a>
+										<a href="#" id="detailBtn" class="btn btn-success">보기</a>
 									</div>
 								</div>
 							</div>
@@ -256,7 +260,7 @@ h5:has(.countdown) {
 			// 리스트 데이터 가져오기
 			function goldData(div, pageNum, dst1, dst2){
 				$.ajax({
-					url: "skilledList",
+					url: "/skilledList",
 					method: "GET",
 					data: {
 			            div,
@@ -309,13 +313,19 @@ h5:has(.countdown) {
 			function printItem(item){
 				let clone = $('#skills').clone();
 				$(clone).css({'display' : 'block'});
+				let imageUrl = item.img;
+				console.log(imageUrl);
 				
 				// 데이터 넣기
-				let imageUrl = item.img;
-				$(clone).find('.set-bg').css('background-image', 'url('+imageUrl+')');
+				if(imageUrl === null || imageUrl === ''){
+					$(clone).find('set-bg').css('background-image', 'url(/img/noImg.png)');
+				} else {
+					$(clone).find('.set-bg').css('background-image', 'url('+imageUrl+')');					
+				}
 				$(clone).find('.set-bg').on('click', function(){
 					//location.href = `eventInfo?postCtg=i4&boardNo=${item.boardNo}`
 				})
+				$(clone).find('.card-boardNo').text(item.boardNo);
 				$(clone).find('.card-title').text(item.title);
 				$(clone).find('.card-text').text(item.desct);
 				
@@ -388,18 +398,25 @@ h5:has(.countdown) {
 			// 등록 모달창
 			$('#addBtn').magnificPopup({
 						items:[{
-						src:"add/skilled",
+						src:"/skilledForm",
 					}],
 					type: 'iframe'
 						})
 						
 			// 보기 클릭 시 상세 조회 모달창
-			$('#detailBtn').magnificPopup({
-				items: [{
-					src: "skilledInfo",
-				}],
-				type: 'iframe'
+			$(document).on('click', '#detailBtn', function() {
+				let boardNo = $(this).closest('.card').find('.card-boardNo').text();
+				console.log(boardNo);
+				
+				// 팝업
+				$.magnificPopup.open({
+					items: [{
+						src: "/skilledInfo?boardNo=" + boardNo,
+						type: 'iframe'
+					}]
+				})
 			})
+			
 		</script>
 	</div>
 </body>
