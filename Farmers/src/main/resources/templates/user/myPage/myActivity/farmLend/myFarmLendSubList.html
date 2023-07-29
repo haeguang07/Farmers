@@ -66,7 +66,10 @@
 										<td th:text="${li.aplNo}"></td>
 										<td th:text="${li.name}"></td>
 										<td th:text="${#numbers.formatInteger(li.lendPrice, 3, 'COMMA')}"></td>
-										<td><button type="button" class="form-control download">다운로드</button></td>
+										<td>
+											<button type="button" class="form-control download" th:if="${#strings.equals(vo.regStts, 'e1')} and ${not #strings.equals(li.aplStts, '신청 거절')}">다운로드</button>
+											<p th:if="${#strings.equals(vo.regStts, 'e6')} or ${#strings.equals(li.aplStts, '신청 거절')}" style="margin-bottom: 0px;">확인불가</p>
+										</td>
 										<td th:if="${#strings.equals(vo.regStts, 'e1')} and ${not #strings.equals(li.aplStts, '신청 거절')}" class="stts">
 											<button type="button" class="form-control accept">수락</button>
 											<button type="button" class="form-control refuse">거절</button>

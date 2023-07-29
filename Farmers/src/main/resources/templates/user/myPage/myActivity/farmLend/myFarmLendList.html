@@ -79,9 +79,12 @@
 		<script th:inline="javascript">
 			let memNo = /*[[${session.mem.memNo}]]*/ ;
 			let table;
-			//기본 화면 데이터
 			$(function () {
+				//기본 화면 데이터
 				ajaxMyList()
+
+				//사이드바
+				myMenucheck('나의 농지대여')
 			})
 
 			//버튼 클릭 이벤트
@@ -309,6 +312,9 @@
 					$(item).toggleClass('activity')
 				})
 			})
+		
+	
+			
 		</script>
 	</div>
 </body>

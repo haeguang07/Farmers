@@ -106,6 +106,7 @@
           $(clone).find('#qty').val(item.qty)
           $(clone).find('#qty').attr('dataQty', item.qty)
           $(clone).find('#sumPrice').text(vuethis.priceToString((item.qty) * (item.price)) + '원')
+          $(clone).find('.mySelect').attr('id','myBox')
           //삭제버튼 이벤트
           $(clone).find('.fa-close').on('click', function (e) {
             vuethis.deleteData($(e.target).closest('tr'))
@@ -138,6 +139,7 @@
           //개별 체크박스 이벤트
           $(clone).find('input[type="checkbox"]').change(function (e) {
             vuethis.allSumPriceCheck();
+            vuethis.checkMySelect();
             if (!$(e.target).is(':checked')) {
               $('#allCheck').prop('checked', false)
             }
@@ -225,6 +227,19 @@
           location.href = "payment?productList=" + encodeURI(JSON.stringify(productList));
         } else {
           alert('구매할 상품을 선택해주세요.')
+        }
+      },
+      //체크박스 전체 확인
+      checkMySelect : function(){
+        let result = true;
+        $('.mySelect').each(function(idx, item){
+          if(!$(item).is(':checked') && $(item).attr('id') == 'myBox'){
+            result = false;
+          }
+        })
+       
+        if(result){
+          $('#allCheck').prop('checked', true)
         }
       }
     },

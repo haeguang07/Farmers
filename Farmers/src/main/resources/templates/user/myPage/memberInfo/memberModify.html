@@ -1,156 +1,204 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{user/myPage/myPage}">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{user/myPage/myPage}">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="description" content="Male_Fashion Template">
-    <meta name="keywords" content="Male_Fashion, unica, creative, html">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta charset="UTF-8">
+<meta name="description" content="Male_Fashion Template">
+<meta name="keywords" content="Male_Fashion, unica, creative, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <link rel="stylesheet" href="/css/sungWookCss/sungook.css" type="text/css">
-    <title>MemberModify</title>
+<script
+	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<link rel="stylesheet" href="/css/sungWookCss/sungook.css"
+	type="text/css">
+<title>MemberModify</title>
 </head>
 
 <body>
-    <div layout:fragment="myPageContent">
-        <!-- Checkout Section Begin -->
-        <section class="checkout spad" style="padding-top: 10px;">
-            <div class="container">
-                <div class="checkout__form">
-                    <form action="memberModify" method="post" id="member">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12">
-                                <h6 class="checkout__title">회원정보</h6>
-                                <div class="row">
-                                    <div class="col-lg-6 checkout__input">
-                                        <p>아이디<span>*</span></p><input type="text" readonly th:value="${memberInfo.id}"
-                                            name="id">
-                                    </div>
-                                    <div class="col-lg-3 checkout__input">
-                                        <p style="visibility: hidden;"><span>*</span></p>
-                                        <button type="button" class="form-control" id="changePw"
-                                            readonly>비밀번호변경</button>
-                                    </div>
-                                </div>
-                                <div class="row hideItem" id="pwInput">
-                                    <div class="col-lg-6">
-                                        <div class="checkout__input">
-                                            <p>비밀번호<span>*</span></p>
-                                            <input type="password" name="pw" id="pw">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="checkout__input">
-                                            <p>비밀번호확인<span>*</span></p>
-                                            <input type="password" id="pwCheck">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="checkout__input">
-                                            <p>이름<span></span></p>
-                                            <input type="text" th:value="${memberInfo.name}" name="name">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="checkout__input">
-                                            <p style="display: inline;">닉네임<span>*</span></p><button type="button"
-                                                class="form-control form-control-sm"
-                                                style="display: inline; width: 100px; margin-left: 30px;"
-                                                id="nickCheck">중복체크</button>
-                                            <input type="text" th:value="${memberInfo.nick}" name="nick">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="checkout__input">
-                                            <p>연락처<span></span></p>
-                                            <input type="text" th:value="${memberInfo.mbl}"
-                                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
-                                                name="mbl">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="checkout__input">
-                                            <p>이메일<span>*</span></p>
-                                            <input type="text" th:value="${memberInfo.email}" name="email" readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6 checkout__input">
-                                        <p>배송지<span></span></p><input type="text" readonly placeholder="우편번호를 검색해주세요"
-                                            id="addressCode" th:value="${memberInfo.zip}" name="zip">
-                                    </div>
-                                    <div class="col-lg-3 checkout__input">
-                                        <p style="visibility: hidden;"><span>*</span></p><button type="button"
-                                            class="form-control" id="addressBtn">우편번호등록</button>
-                                    </div>
-                                </div>
-                                <div class="checkout__input">
-                                    <input type="text" placeholder="주소지" class="checkout__input__add" id="address"
-                                        readonly th:value="${memberInfo.addr}" name="addr">
-                                    <input type="text" placeholder="상세주소" id="addressDetail"
-                                        th:value="${memberInfo.detaAddr}" name="detaAddr">
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="checkout__input">
-                                            <p>생년월일<span></span></p>
-                                            <input type="date" name="bDate">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="checkout__input">
-                                            <p>성별<span></span></p>
-                                            <select th:value="${memberInfo.gen}" name="gen">
-                                                <option value="" >선택</option>
-                                                <option value="a0" th:selected="${memberInfo.gen}=='a0'">남성</option>
-                                                <option value="a1" th:selected="${memberInfo.gen}=='a1'">여성</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="checkout__input">
-                                            <p>회원등급<span></span></p>
-                                            <input type="text" th:value="${memberInfo.memGrd}" readonly name="memGrd">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="checkout__input">
-                                            <p>포인트<span></span></p>
-                                            <input type="text" th:value="${memberInfo.pnt}" readonly name="pnt">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="checkout__input">
-                                            <p>가입날짜<span></span></p>
-                                            <input type="text" th:value="${#dates.format(memberInfo.signDate, 'yyyy-MM-dd')}" readonly name="sighDate">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <hr>
-                <div style="display: flex; margin-top: 30px;">
-                    <button type="button" class="form-control" style="width: 300px; display: inline; margin: auto;" id="modifyDone">수정완료</button>
-                </div>
-            </div>
-        </section>
-        <!-- Checkout Section End -->
+	<div layout:fragment="myPageContent">
+		<!-- Checkout Section Begin -->
+		<section class="checkout spad" style="padding-top: 10px;">
+			<div class="container">
+				<div class="checkout__form">
+					<form action="memberModify" method="post" id="member">
+						<div class="row">
+							<div class="col-lg-12 col-md-12">
+								<h6 class="checkout__title">회원정보</h6>
+								<div class="row">
+									<div class="col-lg-6 checkout__input">
+										<p>
+											아이디<span>*</span>
+										</p>
+										<input type="text" readonly th:value="${memberInfo.id}"
+											name="id">
+									</div>
+									<div class="col-lg-3 checkout__input">
+										<p style="visibility: hidden;">
+											<span>*</span>
+										</p>
+										<button type="button" class="form-control" id="changePw"
+											readonly>비밀번호변경</button>
+									</div>
+								</div>
+								<div class="row hideItem" id="pwInput">
+									<div class="col-lg-6">
+										<div class="checkout__input">
+											<p>
+												비밀번호<span>*</span>
+											</p>
+											<input type="password" name="pw" id="pw">
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="checkout__input">
+											<p>
+												비밀번호확인<span>*</span>
+											</p>
+											<input type="password" id="pwCheck">
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-lg-6">
+										<div class="checkout__input">
+											<p>
+												이름<span></span>
+											</p>
+											<input type="text" th:value="${memberInfo.name}" name="name">
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="checkout__input">
+											<p style="display: inline;">
+												닉네임<span>*</span>
+											</p>
+											<button type="button" class="form-control form-control-sm"
+												style="display: inline; width: 100px; margin-left: 30px;"
+												id="nickCheck">중복체크</button>
+											<input type="text" th:value="${memberInfo.nick}" name="nick">
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-lg-6">
+										<div class="checkout__input">
+											<p>
+												연락처<span></span>
+											</p>
+											<input type="text" th:value="${memberInfo.mbl}"
+												oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+												name="mbl">
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="checkout__input">
+											<p>
+												이메일<span>*</span>
+											</p>
+											<input type="text" th:value="${memberInfo.email}"
+												name="email" readonly>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-lg-6 checkout__input">
+										<p>
+											배송지<span></span>
+										</p>
+										<input type="text" readonly placeholder="우편번호를 검색해주세요"
+											id="addressCode" th:value="${memberInfo.zip}" name="zip">
+									</div>
+									<div class="col-lg-3 checkout__input">
+										<p style="visibility: hidden;">
+											<span>*</span>
+										</p>
+										<button type="button" class="form-control" id="addressBtn">우편번호등록</button>
+									</div>
+								</div>
+								<div class="checkout__input">
+									<input type="text" placeholder="주소지"
+										class="checkout__input__add" id="address" readonly
+										th:value="${memberInfo.addr}" name="addr"> <input
+										type="text" placeholder="상세주소" id="addressDetail"
+										th:value="${memberInfo.detaAddr}" name="detaAddr">
+								</div>
+								<div class="row">
+									<div class="col-lg-6">
+										<div class="checkout__input">
+											<p>
+												생년월일<span></span>
+											</p>
+											<input type="date" name="bDate">
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="checkout__input">
+											<p>
+												성별<span></span>
+											</p>
+											<select th:value="${memberInfo.gen}" name="gen">
+												<option value="">선택</option>
+												<option value="a0" th:selected="${memberInfo.gen}=='a0'">남성</option>
+												<option value="a1" th:selected="${memberInfo.gen}=='a1'">여성</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-lg-6">
+										<div class="checkout__input">
+											<p>
+												회원등급<span></span>
+											</p>
+											<input type="text" th:value="${memberInfo.memGrd}" readonly
+												name="memGrd">
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="checkout__input">
+											<p>
+												포인트<span></span>
+											</p>
+											<input type="text" th:value="${memberInfo.pnt}" readonly
+												name="pnt">
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-lg-6">
+										<div class="checkout__input">
+											<p>
+												가입날짜<span></span>
+											</p>
+											<input type="text"
+												th:value="${#dates.format(memberInfo.signDate, 'yyyy-MM-dd')}"
+												readonly name="sighDate">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<hr>
+				<div style="display: flex; margin-top: 30px;">
+					<button type="button" class="form-control"
+						style="width: 300px; display: inline; margin: auto;"
+						id="modifyDone">수정완료</button>
+				</div>
+			</div>
+		</section>
+		<!-- Checkout Section End -->
 
-        <script th:inline="javascript">
+		<script th:inline="javascript">
+    	$(function(){
+			//사이드바
+			myMenucheck('회원정보')
+		})
+		
             //이메일/ 닉네임 변경 시 중복체크 필수
             let nickCheck = true;
             // let emailCheck = true;
@@ -244,7 +292,7 @@
                 }
             })
         </script>
-    </div>
+	</div>
 
 </body>
 

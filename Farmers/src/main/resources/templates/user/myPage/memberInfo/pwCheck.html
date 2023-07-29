@@ -21,7 +21,7 @@
 				<!-- Contact Section Begin -->
 				<section class="contact spad">
 					<div class="container"
-						style="border: 2px solid #43A056; padding-top: 50px;">
+						style="border: 2px solid lightgrey; padding-top: 50px;">
 						<div class="row">
 							<div class="col-lg-12 col-md-12">
 								<div class="contact__text">
@@ -41,6 +41,11 @@
 			</div>
 			<!-- 장바구니 내용 끝 -->
 		<script th:inline="javascript">
+			$(function(){
+				//사이드바
+				myMenucheck('회원정보')
+			})
+		
 			$('#checkBtn').on('click',function(){
 				$.ajax({
 					url : "myPwCheck",
@@ -55,6 +60,8 @@
 						location.href="memberInfo?memNo="+ /*[[${session.mem.memNo}]]*/
 					}else{
 						alert('비밀번호가 틀렸습니다')
+						$('#pwCheck').val('');
+						$('#pwCheck').focus();
 					}
 				})
 				.fail(function(){
