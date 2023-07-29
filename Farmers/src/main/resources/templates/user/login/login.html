@@ -5,7 +5,7 @@
 
 <title>You GuiNong? 로그인</title>
 <link rel="stylesheet" href="/css/user/login/login.css" type="text/css">
-<link rel="stylesheet" href="/css/sweetAlert.css" type="text/css">
+<link rel="stylesheet" href="/css/otherPlugins/sweetAlert.css" type="text/css">
 <script src="/js/jquery/jquery-3.3.1.min.js"></script>
 <script src="/js/jquery/json.min.js"></script>
 <script src="/js/otherPlugins/sweetAlert2-11.4.10.js"></script>
@@ -60,11 +60,10 @@
 			/*<![CDATA[*/
 				let errormsg = [[${session.errormsg}]]
 				console.log(errormsg);
-				Swal.fire({
-					  '로그인 실패',    // Alert 제목
-					  errormsg,  // Alert 내용
-					  'error',            // Alert 타입(question: 물음표,error: 오류, )
-					});
+			if(errormsg!=null){
+				Swal.fire({ title: '로그인 실패' , text:errormsg,  icon: 'error',confirmButtonText:"확인"});
+
+			}
 			/*]]>*/
 	
 	
