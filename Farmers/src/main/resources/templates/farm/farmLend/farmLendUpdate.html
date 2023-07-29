@@ -48,17 +48,20 @@
 								<div class="checkout__input">
 									<p>주요 재배 작물</p>
 									<div class="row">
-										<select class="form-select form-group ml-3 mr-2" id="first" name="mcrpList">
+										<select class="form-select form-group ml-3 mr-2" id="first" name="mcrpList"
+											onchange="changeOption()">
 											<option selected value="">작물 선택</option>
 											<option th:each="cd : ${mcrp}" th:text="${cd.codeDesct}" 
 												th:value="${cd.codeDesct}"></option>
 										</select>
-										<select class="form-select form-group mr-2" id="second" name="mcrpList">
+										<select class="form-select form-group mr-2" id="second" name="mcrpList"
+											onchange="changeOption()">
 											<option selected value="">작물 선택</option>
 											<option th:each="cd : ${mcrp}" th:text="${cd.codeDesct}" 
 												th:value="${cd.codeDesct}"></option>
 										</select>
-										<select class="form-select form-group" id="third" name="mcrpList">
+										<select class="form-select form-group" id="third" name="mcrpList"
+											onchange="changeOption()">
 											<option selected value="">작물 선택</option>
 											<option th:each="cd : ${mcrp}" th:text="${cd.codeDesct}" 
 												th:value="${cd.codeDesct}"></option>
@@ -105,6 +108,47 @@
 			$('#first').niceScroll();
 			$('#second').niceScroll();
 			$('#third').niceScroll();
+			
+			$(function() {
+				changeOption();
+			})
+			function changeOption() {
+				// 선택된값
+				let firstVal = first.value;
+                let secondVal = second.value;
+                let thirdVal = third.value;
+                
+             	// disable 다 없어져라
+                delDisabled(first);
+                delDisabled(second);
+                delDisabled(third);
+				
+             	// 선택된값 disable
+                if(firstVal != '') {
+                	second.querySelector('option[value='+firstVal+']').setAttribute('disabled', 'true');
+                	third.querySelector('option[value='+firstVal+']').setAttribute('disabled', 'true');
+                }
+                if(secondVal != '') {
+                	first.querySelector('option[value='+secondVal+']').setAttribute('disabled', 'true');
+                	third.querySelector('option[value='+secondVal+']').setAttribute('disabled', 'true');
+                }
+                if(thirdVal != '') {
+                	first.querySelector('option[value='+thirdVal+']').setAttribute('disabled', 'true');
+                	second.querySelector('option[value='+thirdVal+']').setAttribute('disabled', 'true');
+                }
+                
+                $('#first').niceSelect('update');
+                $('#second').niceSelect('update');
+                $('#third').niceSelect('update');
+			}
+			
+			// disable 지우는 함수
+			function delDisabled(selectElement) {
+				let optionElements = selectElement.querySelectorAll('option');
+				optionElements.forEach(function(optionElement) {
+					optionElement.removeAttribute('disabled');
+				});
+			}
 			
 			let strDate = $('[name="lendStrDate"]');
 			let endDate = $('[name="lendEndDate"]');
