@@ -33,21 +33,30 @@
 		.act {
 			background-color: rgb(105, 194, 142);
 		}
+		.activity{
+			background-color: #95D083;
+			color: white;
+		}
+		.myMenuBtn:focus {
+			background-color: #95D083;
+			color: white;
+		}
 	</style>
 </head>
 
 <body>
 	<div layout:fragment="myPageContent">
-		<div class="justify-content-center">
+		<div class="justify-content-center" style="margin-bottom: 20px;">
 			<h3 class="current text-center">나의 금손귀농인</h3>
 		</div>
 		<!-- Shop Section Begin -->
 		<div class="row">
 			<div class="col-lg-2"></div>
-			<button type="button" class="form-control col-lg-3 miniBtn" id="registration">등록</button>
-			<div class="col-lg-2"></div>
-			<button type="button" class="form-control col-lg-3 miniBtn" id="subscription">신청</button>
-			<div class="col-lg-2"></div>
+			<button type="button" class="form-control col-lg-2 miniBtn activity myMenuBtn" id="registration">나의 구해요</button>
+			<div class="col-lg-1"></div>
+			<button type="button" class="form-control col-lg-2 miniBtn myMenuBtn" id="subscription">나의 할게요</button>
+			<div class="col-lg-1"></div>
+			<button type="button" class="form-control col-lg-2 miniBtn myMenuBtn" id="subscription">나의 지원</button>
 		</div>
 		<section class="shop myMargin">
 			<div class="container">
@@ -77,12 +86,12 @@
 			})
 
 		// 	// //버튼 클릭 이벤트
-			$('#registration').on('click', function () {
-				ajaxMyList()
-			})
-			$('#subscription').on('click', function () {
-				ajaxLendList()
-			})
+			// $('#registration').on('click', function () {
+			// 	ajaxMyList()
+			// })
+			// $('#subscription').on('click', function () {
+			// 	ajaxLendList()
+			// })
 
 
 			// dataTables 생성 함수
@@ -162,8 +171,8 @@
 						if (typeof table != "undefined") {
 							table.destroy();
 						}
-						makeMyTr(result)
-						mkDataTable()
+						// makeMyTr(result)
+						// mkDataTable()
 					})
 					.fail(function () {
 						alert('데이터 로드 실패')
@@ -298,6 +307,14 @@
 			// 	magnificPopup.close(); 
 			// 	location.reload();
 			// }
+
+			//버튼 active
+			$('.myMenuBtn').on('click',function(e){
+				$('.myMenuBtn').each(function(idx,item){
+					$(item).removeClass('activity')
+				})
+				$(e.target).addClass('activity')
+			})
 		</script>
 	</div>
 </body>
