@@ -23,6 +23,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler{
 	    if(vo!=null) {
 	    	session.setAttribute("mem", vo);
 	    }
+	    session.removeAttribute("message");
 		System.out.println("Success handler 실행");
 		response.sendRedirect("/");
 		
