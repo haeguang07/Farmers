@@ -245,12 +245,17 @@
 						Swal.fire({
 							icon : 'error',
 							title : '접근 불가',
-							text : '정회원 이상의 회원만 등록이 가능합니다.'
+							text : '정회원 이상의 회원만 등록이 가능합니다',
+							confirmButtonText : "확인"
 						})
-						//alert('정회원 이상의 회원만 등록이 가능합니다.');
 					}
 				} else {
-					alert('정회원 이상의 회원만 등록이 가능합니다.');
+					Swal.fire({
+						icon : 'error',
+						title : '접근 불가',
+						text : '정회원 이상의 회원만 등록이 가능합니다',
+						confirmButtonText : "확인"
+					})
 				}
 			});
 			// 페이지 로드
