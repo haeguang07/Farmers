@@ -51,8 +51,8 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 		String prof =oAuth2UserInfo.getProf();
 		String email = oAuth2UserInfo.getEmail(); 
 		String gender = oAuth2UserInfo.getGender();
-
-
+		String id = provider.substring(0, 2)+"_"+ providerId;
+		System.out.println(id);
 		MemberVO byEmail = memberMapper.selectByEmail(email);
 
 		// DB에 없는 사용자라면 회원가입처리
@@ -65,7 +65,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 			byEmail.setGen(gender);
 			byEmail.setProf(prof);
 			byEmail.setName(name);
-			byEmail.setId(providerId);
+			byEmail.setId(id);
 			byEmail.setMemGrd("b0");
 			memberMapper.insertMember(byEmail);
 			memberMapper.insertMemberDetail(byEmail);
