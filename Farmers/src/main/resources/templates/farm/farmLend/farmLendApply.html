@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" 
-	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" 
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
-	layout:decorate="~{index}">
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <meta name="description" content="Male_Fashion Template">
@@ -11,15 +9,20 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>농지 대여 신청 페이지</title>
 <!-- Css Styles -->
-<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery/bootstrap.min.css" type="text/css">
 <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
 <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
-<link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
-<link rel="stylesheet" href="/css/nice-select.css" type="text/css">
-<link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
-<link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery/magnific-popup.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery/nice-select.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery/owl.carousel.min.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery/slicknav.min.css" type="text/css">
 <link rel="stylesheet" href="/css/style.css" type="text/css">
-<link rel="stylesheet" href="/css/jQueryUI.css">
+<link rel="stylesheet" href="/css/jquery/jQueryUI.css">
+<link rel="stylesheet" href="/css/otherPlugins/sweetAlert.css" type="text/css">
+
+
+<!-- 알림창 css -->
+<link rel="stylesheet" href="/css/suinCss/alarm.css" type="text/css">
 
 <!-- Js Plugins -->
 <script src="/js/jquery/jquery-3.3.1.min.js"></script>
@@ -32,7 +35,9 @@
 <script src="/js/jquery/mixitup.min.js"></script>
 <script src="/js/jquery/owl.carousel.min.js"></script>
 <script src="/js/jquery/json.min.js"></script>
+<script src="/js/main.js"></script>
 <script src="/js/jquery/jqueryUI.js"></script>
+<script src="/js/otherPlugins/sweetAlert2-11.4.10.js"></script>
 <style>
 #map {
 	width: 700px;
@@ -109,7 +114,7 @@
 											<span th:text="|${#dates.format(flInfo.lendStrDate, 'yyyy/MM/dd')} ~ ${#dates.format(flInfo.lendEndDate, 'yyyy/MM/dd')}|">대여 시작 ~ 끝 날짜</span></p>
 											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">대여 가격 : </b> 
 												<span th:text="${#numbers.formatInteger(flInfo.lendPrice, 3, 'COMMA')} + '원'" style="font-size: 20px;"></span>
-												<span>(1일)</span>
+												<span>(연간)</span>
 											</p>
 											<div class="checkout__input">
 												<p style="text-align: left;">제출 서류</p>
@@ -199,8 +204,10 @@
 		// 합계 출력
 		let start = new Date(/*[[${flInfo.lendStrDate}]]*/);
 		let end = new Date(/*[[${flInfo.lendEndDate}]]*/);
-		let diffTime = Math.abs(end - start);
-		let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+		let startYear = start.getFullYear();
+		let endYear = end.getFullYear();
+		let diffTime = Math.abs(endYear - startYear);
+		let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) * diffTime;
 		let price = /*[[${flInfo.lendPrice}]]*/;
 		
 		$('#sumPrice').text(priceToString(price * diffDays) + '원');
@@ -213,7 +220,12 @@
 		// 신청하기 버튼 클릭 시
 		$('#applyBtn').on('click', function() {
 			if(uploadFiles.length < 4) {
-				alert('필수 첨부파일을 참고하여 첨부하세요');
+				Swal.fire({
+					icon : 'info',
+					title : '첨부파일 미등록',
+					text : '필수 첨부파일을 참고하여 첨부하세요',
+					confirmButtonText : "확인"
+				})
 			} else {
 				let formData = $('#myForm').serializeObject();
 				formData.files = uploadFiles;
@@ -226,16 +238,31 @@
 				.done(function(result) {
 					if(result == "success") {
 						console.log(result);
-						alert("success");
+						Swal.fire({
+							icon : 'success',
+							title : '신청 성공',
+							text : '신청이 완료되었습니다',
+							confirmButtonText : "확인"
+						})
 						// 마이페이지 신청내역으로 넘어가게 하기
 					} else {
 						console.log(result);
-						alert("fail");
+						Swal.fire({
+							icon : 'error',
+							title : '신청 실패',
+							text : '신청에 실패하였습니다',
+							confirmButtonText : "확인"
+						})
 						location.href = "/farmLendList";
 					}
 				})
 				.fail(function(result) {
-					alert(result);
+					Swal.fire({
+						icon : 'error',
+						title : '오류',
+						text : '페이지 호출 오류',
+						confirmButtonText : "확인"
+					})
 				})
 			}
 		});
