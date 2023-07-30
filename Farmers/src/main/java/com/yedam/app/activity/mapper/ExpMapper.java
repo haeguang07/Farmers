@@ -7,7 +7,7 @@ import com.yedam.app.activity.vo.ExpVO;
 
 public interface ExpMapper {
 	// 전체조회
-	public List<ExpVO> selectExpListPage(int page, ExpVO vo);
+	public List<ExpVO> selectExpListPage(int page, ExpVO expVO);
 	// 단건조회
 	public ExpVO selectExpInfo(ExpVO expVO);
 	// 등록

@@ -5,7 +5,7 @@
 <mapper namespace="com.yedam.app.activity.mapper.ExpMapper">
 	
 	<!-- 농촌 체험하기 전체조회(페이징) -->
-	<select id="selectExpListPage" resultMap="expApplyList" resultType="ExpVO">
+	<select id="selectExpListPage" resultMap="expApply" resultType="ExpVO">
 		select b.*
 		from (select ROWNUM rn, a.*
 			  from (select board_no, title, zip, addr, dst1, dst2, ppt_per, ex_str_date, ex_end_date, reg_date, reg_stts, lati, longi, deta_addr
@@ -31,7 +31,7 @@
 	</select>
 	
 	<!-- 단건조회 -->
-	<select id="selectExpInfo" resultType="ExpVO">
+	<select id="selectExpInfo" resultMap="expApply" resultType="ExpVO">
 		select e.board_no, e.mem_no, e.title, e.rep, e.deta_desct, e.zip, e.addr, e.dst1, e.dst2, e.ppt_per, e.ex_str_date, e.ex_end_date, e.reg_date, e.reg_stts, e.lati, e.longi, e.deta_addr, m.nick
 		from experience e left join member m
 		on e.mem_no = m.mem_no
@@ -91,7 +91,7 @@
 	</select>
 	
 	<!-- 농촌 체험하기 신청 resultMap -->
-	<resultMap type="ExpApplyVO" id="expApplyList">
+	<resultMap type="ExpVO" id="expApply">
 		<result property="aplNo" column="apl_no" />
 		<result property="memNo" column="mem_no" />
 		<result property="aplStts" column="apl_stts" />
@@ -102,29 +102,4 @@
 			column="boardNo = board_no" ofType="ExpApplyVO"
 			select="selectExpApply"></collection>
 	</resultMap>
-	
-	<select id="selectExpApplyList" resultMap="expApplyList" parameterType="ExpVO">
-		select b.*
-		from (select ROWNUM rn, a.*
-			  from (select board_no, title, zip, addr, dst1, dst2, ppt_per, ex_str_date, ex_end_date, reg_date, reg_stts, lati, longi, deta_addr
-					from experience
-					<where>
-						reg_stts = 'e1'
-						<if test="expVO.exStrDate != null">
-							and ex_str_date > #{exStrDate}
-						</if>
-						<if test="expVO.dst1 != null and !expVO.dst1.equals('')">
-							and dst1 = #{dst1}
-						</if>
-						<if test="expVO.dst2 != null and !expVO.dst2.equals('')">
-							and dst2 = #{dst2}
-						</if>
-					</where>
-					order by reg_date desc
-					) a
-		<![CDATA[
-			  where ROWNUM <= #{page} * 9) b
-		where b.rn > (#{page} - 1) * 9
-		]]>
-	</select>
 </mapper>

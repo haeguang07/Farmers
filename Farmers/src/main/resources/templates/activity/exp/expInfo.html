@@ -67,7 +67,9 @@
 											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">체험 기간 : </b> 
 												<span th:text="|${#dates.format(expInfo.exStrDate, 'yyyy/MM/dd')} ~ ${#dates.format(expInfo.exEndDate, 'yyyy/MM/dd')}|">체험 시작 ~ 종료 일자</span></p>
 											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">참여 인원 : </b> 
-												<span th:text="|현재 참여 인원 / ${expInfo.pptPer}|">현재 참여 인원 / 참여 최대 인원</span></p>
+												<span id="aplPer"></span>
+												<span th:text="${expInfo.pptPer} + 명">최대 참여 인원</span>
+											</p>
 											<th:block th:if="${session.mem.memNo} != ${expInfo.memNo}">
 												<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">신청 인원 : </b>
 													<span><input type="number" value="1" min="1" oninput="maxValue(this)" name="aplPer" class="form-control" style=" width: 150px; display: inline;"></span>
@@ -124,6 +126,7 @@
 		<!-- 카카오 지도 api -->
 		<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c573b65eabeb9b6da24ab52d832dc807"></script>
 		<script th:inline="javascript">
+			let expInfo = /*[[${expInfo}]]*/;
 			// 지도 api
 			var latitude = document.getElementById('lati').innerText;
 			var longitude = document.getElementById('longi').innerText;
@@ -140,6 +143,15 @@
 				map : map
 			});
 			
+			let apl = 0;
+			expInfo.expApplyList.forEach(index => {
+				if(index.aplStts === 'e1') {
+					apl += index.aplPer;
+					console.log(apl);
+				}
+			})
+			$('#aplPer').append(apl + '명 /');
+			
 			// 데이터에 있는 수량보다 높게 입력하려고 했을 때 실행되는 함수
 			function maxValue(Object) {
 				let max = /*[[${expInfo.pptPer}]]*/
@@ -150,7 +162,7 @@
 						text : '신청할 수 있는 인원을 초과했습니다!',
 						confirmButtonText : "확인"
 					})
-					Object.value = max;
+					Object.value = max - apl;
 				}
 			}
 			
