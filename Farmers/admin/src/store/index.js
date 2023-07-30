@@ -36,6 +36,7 @@ export default createStore({
       axios.get('admin/getCodes')
         .then(response => {
           const data = response.data;
+          console.log(data)
           commit('setDst1', data['0K']);
           commit('setRegSttsList', data['0E']);
           commit('setWarnReasonList', data['0Y']);

@@ -14,40 +14,41 @@ import report from '../views/report.vue'
 import farmbnb from '../views/farmbnb.vue'
 
 const routes = [{
-    path: '/member',
+    path: '/',
+    alias: ['/admin'],
     name: 'memberManagement',
     component: memberManagement
   },
   {
-    path: '/auction',
+    path: '/admin/v/auction',
     name: 'auction',
     component: auction
   },{
-    path: '/funding',
+    path: '/admin/v/funding',
     name: 'funding',
     component: funding
   },{
-    path: '/farmLend',
+    path: '/admin/v/farmLend',
     name: 'farmLend',
     component: farmLend
   },{
-    path: '/experience',
+    path: '/admin/v/experience',
     name: 'experience',
     component: experience
   },{
-    path: '/market',
+    path: '/admin/v/market',
     name: 'market',
     component: market
   },{
-    path: '/farmbnb',
+    path: '/admin/v/farmbnb',
     name: 'farmbnb',
     component: farmbnb
   },{
-    path: '/inquiry',
+    path: '/admin/v/inquiry',
     name: 'inquiry',
     component: inquiry
   }, {
-    path: '/report',
+    path: '/admin/v/report',
     name: 'report',
     component: report
   }
