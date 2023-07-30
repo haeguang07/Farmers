@@ -5,20 +5,20 @@
 <mapper namespace="com.yedam.app.activity.mapper.ExpMapper">
 	
 	<!-- 농촌 체험하기 전체조회(페이징) -->
-	<select id="selectExpListPage" resultType="ExpVO">
+	<select id="selectExpListPage" resultMap="expApply" resultType="ExpVO">
 		select b.*
 		from (select ROWNUM rn, a.*
 			  from (select board_no, title, zip, addr, dst1, dst2, ppt_per, ex_str_date, ex_end_date, reg_date, reg_stts, lati, longi, deta_addr
 					from experience
 					<where>
 						reg_stts = 'e1'
-						<if test="expStart != null and !expStart.equals('')">
-							and ex_str_date > #{expStart}
+						<if test="expVO.exStrDate != null">
+							and ex_str_date > #{exStrDate}
 						</if>
-						<if test="dst1 != null and !dst1.equals('')">
+						<if test="expVO.dst1 != null and !expVO.dst1.equals('')">
 							and dst1 = #{dst1}
 						</if>
-						<if test="dst2 != null and !dst2.equals('')">
+						<if test="expVO.dst2 != null and !expVO.dst2.equals('')">
 							and dst2 = #{dst2}
 						</if>
 					</where>
@@ -31,7 +31,7 @@
 	</select>
 	
 	<!-- 단건조회 -->
-	<select id="selectExpInfo" resultType="ExpVO">
+	<select id="selectExpInfo" resultMap="expApply" resultType="ExpVO">
 		select e.board_no, e.mem_no, e.title, e.rep, e.deta_desct, e.zip, e.addr, e.dst1, e.dst2, e.ppt_per, e.ex_str_date, e.ex_end_date, e.reg_date, e.reg_stts, e.lati, e.longi, e.deta_addr, m.nick
 		from experience e left join member m
 		on e.mem_no = m.mem_no
@@ -59,7 +59,18 @@
 	<!-- 게시글 수 카운팅 -->
 	<select id="getCount" resultType="int">
 		select count(*) from experience
-		where reg_stts = 'e1'
+		<where>
+			reg_stts = 'e1'
+			<if test="exStrDate != null">
+				and ex_str_date > #{exStrDate}
+			</if>
+			<if test="dst1 != null and !dst1.equals('')">
+				and dst1 = #{dst1}
+			</if>
+			<if test="dst2 != null and !dst2.equals('')">
+				and dst2 = #{dst2}
+			</if>
+		</where>
 	</select>
 	
 	<!-- 농촌 체험하기 신청(등록) -->
@@ -71,4 +82,24 @@
 		insert into experience_apply(apl_no, mem_no, apl_stts, board_no, apl_date, apl_per)
 		values(#{aplNo}, #{memNo}, 'e0', #{boardNo}, sysdate, #{aplPer})
 	</insert>
+	
+	<!-- 농촌 체험하기 신청자 리스트 -->
+	<select id="selectExpApply" resultType="ExpApplyVO">
+		select apl_no, mem_no, apl_stts, board_no, apl_date, apl_per
+		from experience_apply
+		where board_no = #{boardNo}
+	</select>
+	
+	<!-- 농촌 체험하기 신청 resultMap -->
+	<resultMap type="ExpVO" id="expApply">
+		<result property="aplNo" column="apl_no" />
+		<result property="memNo" column="mem_no" />
+		<result property="aplStts" column="apl_stts" />
+		<result property="boardNo" column="board_no" />
+		<result property="aplDate" column="apl_date" />
+		<result property="aplPer" column="apl_per" />
+		<collection property="expApplyList" javaType="ArrayList"
+			column="boardNo = board_no" ofType="ExpApplyVO"
+			select="selectExpApply"></collection>
+	</resultMap>
 </mapper>

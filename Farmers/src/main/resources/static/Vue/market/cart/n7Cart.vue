@@ -97,6 +97,7 @@
           $(clone).attr('cartNo', item.cartNo)
           $(clone).attr('boardNo', item.boardNo)
           $(clone).attr('boardCtg', item.boardCtg)
+          $(clone).attr('productQty', item.productQty)
           $(clone).find('#cartImage').attr('src', item.rep)
           ///////////////타이틀 바꾸기///////////////
           $(clone).find('#title').text(item.title)
@@ -105,6 +106,7 @@
           $(clone).find('#qty').val(item.qty)
           $(clone).find('#qty').attr('dataQty', item.qty)
           $(clone).find('#sumPrice').text(vuethis.priceToString((item.qty) * (item.price)) + '원')
+          $(clone).find('.mySelect').attr('id','myBox')
           //삭제버튼 이벤트
           $(clone).find('.fa-close').on('click', function (e) {
             vuethis.deleteData($(e.target).closest('tr'))
@@ -123,16 +125,25 @@
             }
           })
           $(clone).find('.fa-angle-right').on('click', function () {
+            if (Number($(clone).find('#qty').val()) < Number($(clone).attr('productQty'))) {
             $(clone).find('#qty').val(Number($(clone).find('#qty').val()) + 1)
             $(clone).find('#qty').attr('dataQty', Number($(clone).find('#qty').val()))
             $(clone).find('#sumPrice').text(vuethis.priceToString(($(clone).find('#qty').val()) * (item
               .price)) + '원')
 
             vuethis.allSumPriceCheck();
+            } else {
+              new swal({
+		                		title: "초과된 수량입니다",
+		                		icon : "warning",
+		                		confirmButtonColor: '#95D083'		
+		                })
+           }
           })
           //개별 체크박스 이벤트
           $(clone).find('input[type="checkbox"]').change(function (e) {
             vuethis.allSumPriceCheck();
+            vuethis.checkMySelect();
             if (!$(e.target).is(':checked')) {
               $('#allCheck').prop('checked', false)
             }
@@ -219,7 +230,24 @@
           //파라미터를 url에서 가리고 싶으면 form 태그 생성 해서 사용 (https://amongthestar.tistory.com/178)
           location.href = "payment?productList=" + encodeURI(JSON.stringify(productList));
         } else {
-          alert('구매할 상품을 선택해주세요.')
+          new swal({
+		                		title: "구매할 상품을 선택해주세요",
+		                		icon : "warning",
+		                		confirmButtonColor: '#95D083'		
+		                })
+        }
+      },
+      //체크박스 전체 확인
+      checkMySelect : function(){
+        let result = true;
+        $('.mySelect').each(function(idx, item){
+          if(!$(item).is(':checked') && $(item).attr('id') == 'myBox'){
+            result = false;
+          }
+        })
+       
+        if(result){
+          $('#allCheck').prop('checked', true)
         }
       }
     },
@@ -227,7 +255,7 @@
       let vuethis = this;
       // 페이지 로드 시 ajax로 카드리스트 가져옴
       $.ajax({
-          url: "cart",
+          url: "/cart",
           method: "POST",
           data: {
             memNo: vuethis.mem.memNo,

@@ -159,7 +159,12 @@
                     ]
 			    })
             }else{
-                alert("정회원은 등업할 수 없습니다")
+                //alert("정회원은 등업할 수 없습니다")
+                new swal({
+                		title: "정회원은 등업할 수 없습니다",
+                		icon : "warning",
+                		confirmButtonColor: '#95D083'		
+                })
             }
             })
 			
@@ -176,30 +181,85 @@
 
             //탈퇴
             $('#secession').on('click',function(){
-                if(confirm('탈퇴하시겠습니까?')){
-                    let text = prompt('"탈퇴"를 입력하여주십시오')
-                    if(text == '탈퇴'){
-                        $.ajax({
-                            url:"/myPage/secession",
-                            data : {memNo : /*[[${session.mem.memNo}]]*/}
-                        })
-                        .done(function(result){
-                            console.log(result)
-                            if(result){
-                                alert('탈퇴 신청이 완료 되었습니다')
-                                location.href="/logout"
-                            }else{
-                                alert('탈퇴 신청이 실패하였습니다')
-                            }
-                        })
-                        .fail(function(){
-                            alert('탈퇴 신청이 실패하였습니다')
-                        })
+                new swal({
+                        title: "탈퇴하시겠습니까?",
+                        icon: "info",
+                        buttons: ["예", "아니오"],
+                    }).then((YES) => {
+                        if (YES) {
+                            new swal({
+                            	title : "탈퇴를 원하시면 '탈퇴'를 입력해주세요", 
+                                input: 'text',
+                                inputPlaceholder: '탈퇴'
+                                })
+                            .then(function(value){
+                                console.log(value.value)
+                                if(value.value == '탈퇴'){
+                                    $.ajax({
+                                            url:"/myPage/secession",
+                                            data : {memNo : /*[[${session.mem.memNo}]]*/}
+                                        })
+                                        .done(function(result){
+                                            console.log(result)
+                                            if(result){
+                                                new swal({
+                                                            title: "탈퇴가 완료되었습니다",
+                                                            icon : "success",
+                                                            confirmButtonColor: '#95D083'		
+                                                    })
+                                                    .then(function(){
+                                                        location.href="/logout"
+                                                    })	
+                                            }else{
+                                                new swal({
+                                                            title: "탈퇴에 실패하였습니다",
+                                                            icon : "error",
+                                                            confirmButtonColor: '#95D083'		
+                                                    })	
+                                            }
+                                        })
+                                        .fail(function(){
+                                            new swal({
+                                                     title: "fail",
+                                                    icon : "error",
+                                                    confirmButtonColor: '#95D083'		
+                                                    })	
+                                        })
+                                }else{
+                                    new swal({
+                                            title: "잘못 입력하였습니다",
+                                            icon : "error",
+                                            confirmButtonColor: '#95D083'		
+                                                    })	
+                                }
+                            })
+                        }
+                    });
+                
+                //  if(confirm('탈퇴하시겠습니까?')){
+                //     let text = prompt('"탈퇴"를 입력하여주십시오')
+                //     if(text == '탈퇴'){
+                //         $.ajax({
+                //             url:"/myPage/secession",
+                //             data : {memNo : /*[[${session.mem.memNo}]]*/}
+                //         })
+                //         .done(function(result){
+                //             console.log(result)
+                //             if(result){
+                //                 alert('탈퇴 신청이 완료 되었습니다')
+                //                 location.href="/logout"
+                //             }else{
+                //                 alert('탈퇴 신청이 실패하였습니다')
+                //             }
+                //         })
+                //         .fail(function(){
+                //             alert('탈퇴 신청이 실패하였습니다')
+                //         })
 
-                    }else{
-                        alert('잘못 입력하였습니다')
-                    }
-                }
+                //     }else{
+                //         alert('잘못 입력하였습니다')
+                //     }
+                // } 
             })
         </script>
     </div>

@@ -82,6 +82,10 @@
 		<script th:inline="javascript">
 			let memNo = /*[[${session.mem.memNo}]]*/ ;
 			let table;
+			$(function(){
+				//사이드바
+				myMenucheck('나의 농작물 거래')
+			})
 
 			// dataTables 생성 함수
 			$(function(){

@@ -164,19 +164,15 @@
 			
 			// 페이지 로드
 			$(function() {
-				ajaxData(1)
+				ajaxData()
 			});
 			// 리스트 불러오기
-			function ajaxData(page, expStart, dst1, dst2) {
+			function ajaxData(requestData) {
 				$.ajax({
 					url : '/expList',
 					type : 'POST',
-					data : {
-						pageNum : page,
-						expStart : expStart,
-						dst1 : dst1,
-						dst2 : dst2
-					}
+					data : requestData,
+					dataType : 'json'
 				})
 				.done(function(data) {
 					console.log(data);
@@ -230,10 +226,17 @@
 			function printItem(index, item) {
 				let clone = $('#expItem').clone();
 				$(clone).removeClass('hideItem');
+				console.log(item);
+				let apl = 0;
+				item.expApplyList.forEach(index => {
+					if(index.aplStts === 'e1') {
+						apl += index.aplPer;
+					}
+				})
 				
 				$(clone).find('#number').text(index + 1);
 				$(clone).find('#title').text(item.title);
-				$(clone).find('#reception').text('현재 신청 인원' + '/' + item.pptPer);
+				$(clone).find('#reception').text(apl + '명 / ' + item.pptPer + '명');
 				$(clone).find('#addr').text(item.addr + ' ' + item.detaAddr);
 				$(clone).find('#date').text(item.exStrDate + ' ~ ' + item.exEndDate);
 				
@@ -303,14 +306,22 @@
 			}
 			// 조건 변경 시 함수
 			function getCondition(page) {
-				let expStart = $('#expStart').val();
+				let exStrDate = $('#expStart').val();
 				let dst1 = $('#dst1').val();
 				let dst2 = $('#dst2').val();
 				if(page == null) {
 					page = 1;
 				}
 				
-				ajaxData(page, expStart, dst1, dst2);
+				// requestData에 조건들을 추가
+			    let requestData = {
+			        exStrDate: exStrDate,
+			        dst1: dst1,
+			        dst2: dst2,
+			        page: page // 페이지 번호도 추가하여 전달
+			    };
+				
+				ajaxData(requestData); // requestData를 인자로 ajaxData 함수 호출
 			}
 			// 주요 재배 작물 카테고리 변경 시
 			$('#expStart').change(function() {

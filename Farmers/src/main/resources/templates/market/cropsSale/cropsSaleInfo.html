@@ -533,11 +533,8 @@
 			//리뷰 삭제 기능	
 			$('#reviewTable').on('click', '#delBtn', function() {
 				const rowData = $(this).closest('tr');
-				console.log(rowData)
 				const revMem = rowData.find('.revData').data('memno');
-				console.log(revMem);
 				const revNo = rowData.find('.revData').data('revno');
-				console.log(revNo);
 				if(mem == null) {
 					Swal.fire({
 						icon : 'error',
@@ -568,9 +565,25 @@
 								success: function (result) {
 									rowData.remove();
 									console.log("리뷰 삭제 결과 : ", result);
+									if(result = "success") {
+										Swal.fire({
+											icon : 'success',
+											title : '삭제 성공',
+											text : '리뷰를 삭제했습니다.',
+											confirmButtonText : "확인"
+										})
+									}
 						        },
 						        error: function (error) {
 						        	console.log("리뷰 삭제 오류 : ", error);
+						        	if(result = "fail") {
+						        		Swal.fire({
+											icon : 'error',
+											title : '삭제 실패',
+											text : '삭제하지못했습니다.',
+											confirmButtonText : "확인"
+										})
+						        	}
 						        }
 						    });
 						}

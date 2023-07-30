@@ -1,5 +1,7 @@
 package com.yedam.app.common.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,11 @@ public class AlertServiceImpl implements AlertService {
 	@Override
 	public boolean addAlert(AlertVO vo) {
 		return alertMapper.addAlert(vo) > 0;
+	}
+
+	@Override
+	public List<AlertVO> myAlert(String memNo) {
+		return alertMapper.myAlert(memNo);
 	}
 
 }

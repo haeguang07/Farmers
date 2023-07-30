@@ -78,6 +78,10 @@
 		<script th:inline="javascript">
 			let memNo = /*[[${session.mem.memNo}]]*/ ;
 			let table;
+			
+			$(function(){
+				myMenucheck('나의 게시글')
+			})
 
 			// dataTables 생성 함수
 			$(function(){
@@ -137,12 +141,12 @@
 			};
 
 			//tr 이동
-			// $(document).on("click", ".tr", function (e) {
-			// 	if (!$(e.currentTarget).hasClass('th')) {
-			// 		console.log($(e.currentTarget).attr('no'))
-			// 		location.href = "/mkInfo?boardNo=" + $(e.currentTarget).attr('no')
-			// 	}
-			// })
+			$(document).on("click", ".tr", function (e) {
+				if (!$(e.currentTarget).hasClass('th')) {
+					console.log($(e.currentTarget).attr('no'))
+					location.href = "/cmmnInfo?postCtg=i3&boardNo=" + $(e.currentTarget).attr('no')
+				}
+			})
 
 		</script>
 	</div>
