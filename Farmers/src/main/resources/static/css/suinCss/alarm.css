@@ -15,7 +15,7 @@
 	height: 100%;
 }
 
-.modal-content {
+.alarm-modal-content {
 	margin: 100px auto;
 	padding: 20px;
 	background-color: #fff;
@@ -57,3 +57,4 @@
 	color: #888;
 	cursor: pointer;
 }
+

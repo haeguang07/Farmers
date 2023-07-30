@@ -5,13 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <title>지원사업/교육 페이지</title>
-<style>
-.eduTitle {
-	cursor: pointer;
-}
-</style>
+<link rel="stylesheet" href="/css/suinCss/edu.css">
 </head>
 <body>
+	<!-- Page Preloder -->
 	<div layout:fragment="content">
 
 		<section class="breadcrumb-option">
@@ -63,9 +60,12 @@
 						</div>
 					</div>
 					<!-- end 사이드바 -->
+
+
 					<!--------------- 본문 --------------->
 					<div id="본문" class="col-lg-9">
-						<h2>귀농귀촌 지원사업</h2><br>						
+						<h2>귀농귀촌 지원사업</h2>
+						<br>
 						<table class="table" id="eduTable" style="width: 100%">
 							<thead style="text-align: center">
 								<tr>
@@ -77,36 +77,77 @@
 								</tr>
 							</thead>
 							<tbody>
+								<tr>
+									<td colspan="5">
+										<!-- 로더 -->
+										<div class="custom-loader-container">
+											<div class="custom-loader"></div>
+										</div>
+									</td>
+								</tr>
 							</tbody>
 						</table>
+						<!-- 페이징 -->
+						<div id="eduPage"></div>
 					</div>
 				</div>
 			</div>
+			<!-- pageDiv -->
+			<div class="product__pagination" style="display: none;" id="pageItem">
+				<a class="myInline" id="prevPage">◁</a>
+				<div id="pageNumDiv" class="myInline">
+					<a id="pageNum">a</a>
+				</div>
+				<a class="myInline" id="nextPage">▷</a>
+			</div>
+
 		</section>
 
 		<script>
-		$(function(){
-			ajax_eduList(1)
-		})
+		
+		  $(function() {
+		          ajaxData(1);// 5초 후에 AJAX 요청 실행
+		      });
+		  
+	      // 로더 표시
+	      function showLoader() {
+	        var loaderContainer = document.getElementById('loader-container');
+	        if (loaderContainer) {
+	          loaderContainer.style.display = 'flex';
+	        }
+	      }
+
+		
+		 //로더숨기기
+		 function hideLoader() {
+	      var loaderContainer = document.getElementById('loader-container');
+	      if (loaderContainer) {
+	        loaderContainer.style.display = 'none';
+	      }
+	    }
 		
 		//목록 ajax
-		function ajax_eduList(page){
+		function ajaxData(page){
 			$.ajax({
-				url: "https://apis.data.go.kr/1390000/youngV2/policyListV2?typeDv=json&serviceKey=XMbKkFwk066V9gZ9uvn63yI7xGN5wEbCjEffJl0upWWgKhcaFHesiDZHkYOwrOpgeyC/YwxBqavNpAhMdAdU5w==",
+				url: "https://apis.data.go.kr/1390000/youngV2/policyListV2?typeDv=json&serviceKey=XMbKkFwk066V9gZ9uvn63yI7xGN5wEbCjEffJl0upWWgKhcaFHesiDZHkYOwrOpgeyC/YwxBqavNpAhMdAdU5w==&cp="+page,
 				method: "GET",
-				data: {page},
+				//data: {page},
 				success(result){					
-					console.log(result)
-					makeList(result)
+					console.log(result);
+					makeList(result);
+					hideLoader(); 
 				},
 				error(err){
 					console.log(err)
+					 hideLoader(); 
 				}
 			})
 		}
 		
+		//테이블 목록 출력
 		function makeList(data){
-			//테이블 목록 출력
+			$('#eduTable>tbody').children().remove();
+			$('#eduPage').children().remove();
 			data.policy_list.forEach(el => {
 				let title=el.title;
 				$('#eduTable>tbody').append('<tr>'
@@ -128,23 +169,67 @@
 			  })
 			}) 
 			
+			//
+			let poli = data.policy_paging;
+			let obj = {};
+			obj.endPage= poli.endPage;
+			obj.startPage = poli.startPage;
+			obj.pageNum= poli.currentPage;
+			obj.next = parseInt(obj.endPage) < parseInt(poli.lastPage);
+			obj.prev = obj.startPage > 1;
+			obj.totalPosts = poli.totalCount;	
+			console.log(obj);
+			printPage(obj)
 		} 
 		
-		/* //상세페이지 Ajax
-		function ajax_EduInfo(seq){			
-			$.ajax({
-				url: "/eduInfo",
-				method: "GET",
-				dataType: "json",
-				data: { value: seq },
-				success(result){					
-					console.log(result);					
-				},
-				error(err){
-					console.log(err);
-				}
+		//페이징 함수
+		function printPage(pageData){
+			//로더
+			showLoader();
+	        setTimeout(function() {
+	          hideLoader();
+	        }, 5000);
+	        //페이징
+			let pageItem = $('#pageItem').clone()
+			$(pageItem).css({'display' : 'block'});
+			$(pageItem).find('#prevPage').on('click',function(){
+				ajaxData(pageData.startPage - 1)
 			})
-		} */
+			$(pageItem).find('#nextPage').on('click',function(){
+				ajaxData(pageData.endPage + 1)
+			})
+
+			if(!pageData.prev){
+				$(pageItem).find('#prevPage').hide()
+			}
+			if(!pageData.next){
+				$(pageItem).find('#nextPage').hide()
+			}
+
+			for (let i = pageData.startPage; i <= pageData.endPage; i++) {
+				let clone = $('#pageItem').find('#pageNum').clone()
+				$(clone).text(i);
+				if(i == pageData.pageNum){
+					$(clone).addClass('active')
+					$(clone).css('border-color','orange')
+				}
+				$(clone).on('click', function () {
+					getCondition(i);
+				})
+				$(pageItem).find('#pageNumDiv').append(clone)
+			}
+
+			$(pageItem).find('#pageNum')[0].remove()
+			$('#eduPage').append(pageItem)
+		}
+		
+		// 조건 값 변경 시 컨트롤 정보 보내기
+		function getCondition(page){
+			if(page == null){
+				page = 1
+			}
+			ajaxData(page);
+		}
 		
 		
 		</script>

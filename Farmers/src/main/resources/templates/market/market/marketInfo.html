@@ -152,7 +152,7 @@
 														</tbody>
 													</table>
 													<!-- 리뷰 등록 폼 -->
-													<div class="review-form">
+													<div class="review-form" style="display: none">
 														<div class="row1">
 															<label for="star">별점:</label> <select id="star">
 																<option value="0">별점 선택</option>
@@ -215,7 +215,6 @@
 					</th:block>
 				</div>
 			</div>
-			<p id="whoPay">[[${pay}]]</p>
 
 		</section>
 		<!-- dataTable -->
@@ -437,9 +436,25 @@
 			    });
 			  }
 			})
-
 			let qty = $('#getNum').val();
 			  
+			
+			//리뷰등록폼 - 결제한 사람만 보이기
+			/*<![CDATA[*/
+			let memList = /*[[${pay}]]*/ ;
+			/*]]>*/
+			console.log("결제한 MemNo ", memList)
+			function findMem(element)  {
+			  if(element == mem.memNo) {
+				 let rvForm = document.querySelector('.review-form')
+				 rvForm.style.display = 'block';
+				  return console.log("true");
+			  } else{
+				  return console.log("false");
+			  } 
+			}
+			memList.findIndex(findMem);
+			
 			//리뷰 삭제 기능	
 			$('#reviewTable').on('click', '.revDel', function () {
 			  const rowData = $(this).closest('tr');
@@ -526,18 +541,23 @@
 				}
 			});
 		
+<<<<<<< HEAD
+
+=======
 			//
 			
-			console.log("결제한 MemNo ", memList)
+			console.log("MemList ", memList)
+			console.log("로그인멤버" , mem.memNo);
 			
 			function findMem(element)  {
-			  if(element == mem.memNo) 
-				  return mem.memNo+ "존재";
+			  if(element == mem) 
+				  return "존재";
 			  else 
-				  return "false";
+				  return "fal";
 			}
-			
-			console.log(memList.findIndex(findMem)); // 0
+			const lists = memList.filter(findMem)
+			console.log(lists); // 0
+>>>>>>> branch '김수인' of https://github.com/haeguang07/Farmers.git
 			
 		</script>
 	</div>
