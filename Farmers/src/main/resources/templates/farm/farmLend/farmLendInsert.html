@@ -54,6 +54,13 @@
   	max-height: 400px;
   	overflow: scroll !important;
 }
+.info-icon {
+    font-size: 20px;
+    color: black; /* 원하는 색상으로 변경 가능 */
+    border: 1px solid lightgray; /* 원하는 색상으로 테두리를 설정 */
+    border-radius: 50%; /* 동그라미 모양을 위해 반지름 값을 50%로 설정 */
+    background-color: lightgray;
+}
 </style>
 </head>
 	<div layout:fragment="content">
@@ -97,17 +104,20 @@
 								<div class="checkout__input">
 									<p>주요 재배 작물</p>
 									<div class="row">
-										<select class="form-select form-group ml-3 mr-2" id="first" name="mcrpList">
+										<select class="form-select form-group ml-3 mr-2" id="first" name="mcrpList"
+											onchange="changeOption()">
 											<option selected disabled value="">작물 선택</option>
 											<option th:each="cd : ${mcrp}" th:text="${cd.codeDesct}" 
 												th:value="${cd.cmmnDetaCode}"></option>
 										</select>
-										<select class="form-select form-group mr-2" id="second" name="mcrpList">
+										<select class="form-select form-group mr-2" id="second" name="mcrpList"
+											onchange="changeOption()">
 											<option selected disabled value="">작물 선택</option>
 											<option th:each="cd : ${mcrp}" th:text="${cd.codeDesct}" 
 												th:value="${cd.cmmnDetaCode}"></option>
 										</select>
-										<select class="form-select form-group" id="third" name="mcrpList">
+										<select class="form-select form-group" id="third" name="mcrpList"
+											onchange="changeOption()">
 											<option selected disabled value="">작물 선택</option>
 											<option th:each="cd : ${mcrp}" th:text="${cd.codeDesct}" 
 												th:value="${cd.cmmnDetaCode}"></option>
@@ -135,7 +145,7 @@
 										<button type="button" class="form-control col-lg-2" id="btnUpload">첨부 파일</button>
 										<div id="menu">
 											<div>
-												<span id="explain">?</span>
+												<span class="info-icon ml-2" id="explain">?</span>
 												<p class="arrow_box">
 													<b style="font-size: 20px;">제출 서류 목록</b><br>
 													<span>*</span>주민등록등본(초본) 또는 신분증(사본)<br>
@@ -206,7 +216,12 @@
 		                            document.getElementById('longitude').value = longi;
 		                            
 		                        } else {
-		                            alert('주소를 찾을 수 없습니다.');
+		                        	Swal.fire({
+		    							icon : 'error',
+		    							title : '주소 검색 불가',
+		    							text : '주소를 찾을 수 없습니다',
+		    							confirmButtonText : "확인"
+		    						})
 		                        }
 		                    });
 		                    // address의 값을 배열에 담아서 배열의 2번째 값을 dst2에 담아주는 것
@@ -219,18 +234,45 @@
 		                }
 		            }).open();
 		        });
-			})
-			
-			let first = $('#first');
-			let second = $('#second');
-			let third = $('#third');
-			first.on('change', function() {
-				let selectFirst = $('#first option:selected');
-				console.log(selectFirst.val());
-				if(selecteFirst) {
-					let selectSecond = selectFirst.val().attr("disabled", true);
-				}
 			});
+			
+			function changeOption() {
+				// 선택된값
+				let firstVal = first.value;
+                let secondVal = second.value;
+                let thirdVal = third.value;
+                
+             	// disable 다 없어져라
+                delDisabled(first);
+                delDisabled(second);
+                delDisabled(third);
+				
+             	// 선택된값 disable
+                if(firstVal != '') {
+                	second.querySelector('option[value='+firstVal+']').setAttribute('disabled', 'true');
+                	third.querySelector('option[value='+firstVal+']').setAttribute('disabled', 'true');
+                }
+                if(secondVal != '') {
+                	first.querySelector('option[value='+secondVal+']').setAttribute('disabled', 'true');
+                	third.querySelector('option[value='+secondVal+']').setAttribute('disabled', 'true');
+                }
+                if(thirdVal != '') {
+                	first.querySelector('option[value='+thirdVal+']').setAttribute('disabled', 'true');
+                	second.querySelector('option[value='+thirdVal+']').setAttribute('disabled', 'true');
+                }
+                
+                $('#first').niceSelect('update');
+                $('#second').niceSelect('update');
+                $('#third').niceSelect('update');
+			}
+			
+			// disable 지우는 함수
+			function delDisabled(selectElement) {
+				let optionElements = selectElement.querySelectorAll('option');
+				optionElements.forEach(function(optionElement) {
+					optionElement.removeAttribute('disabled');
+				});
+			}
 			
 			let strDate = $('[name="lendStrDate"]');
 			let endDate = $('[name="lendEndDate"]');
@@ -281,7 +323,7 @@
 				let startYear = start.getFullYear();
 				let endYear = end.getFullYear();
 				let diffTime = Math.abs(endYear - startYear);
-				let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+				let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) * diffTime;
 				if(isNaN(diffDays)) {
 					$('#sumPrice').text('0원');
 				} else {
@@ -343,22 +385,52 @@
 			$('#addBtn').on('click', function() {
 				//데이터 입력 확인
 				if (!$('[name="zip"]').val() || !$('[name="addr"]').val()) {
-					alert('주소를 입력하세요');
+					Swal.fire({
+						icon : 'info',
+						title : '주소 미기입',
+						text : '주소를 입력하세요',
+						confirmButtonText : "확인"
+					})
 					return;
 				} else if (!$('[name="area"]').val()) {
-					alert('면적을 입력하세요');
+					Swal.fire({
+						icon : 'info',
+						title : '면적 미기입',
+						text : '면적을 입력하세요',
+						confirmButtonText : "확인"
+					})
 					return;
 				} else if (!$('[name="mcrpList"]').val()) {
-					alert('주요 재배 작물을 선택하세요');
+					Swal.fire({
+						icon : 'info',
+						title : '주요 재배 작물 미등록',
+						text : '주요 재배 작물을 선택하세요',
+						confirmButtonText : "확인"
+					})
 					return;
 				} else if (!$('[name="lendStrDate"]').val()) {
-					alert('대여시작일을 입력하세요');
+					Swal.fire({
+						icon : 'info',
+						title : '대여시작일 미등록',
+						text : '대여시작일을 입력하세요',
+						confirmButtonText : "확인"
+					})
 					return;
 				} else if (!$('#price').val()) {
-					alert('가격을 설정하세요');
+					Swal.fire({
+						icon : 'info',
+						title : '가격 미기입',
+						text : '가격을 입력하세요',
+						confirmButtonText : "확인"
+					})
 					return;
 				} else if (uploadFiles.length < 4) {
-					alert('필수 첨부파일을 참고하여 첨부하세요');
+					Swal.fire({
+						icon : 'info',
+						title : '첨부파일 미등록',
+						text : '필수 첨부파일을 참고하여 첨부하세요',
+						confirmButtonText : "확인"
+					})
 					return;
 				} else {
 					let formData = $('#myForm').serializeObject();
@@ -377,16 +449,30 @@
 					})
 					.done(function(result) {
 						if(result == "success") {
-							alert("성공적으로 등록이 되었습니다");
+							Swal.fire({
+								icon : 'success',
+								title : '등록 성공',
+								text : '등록이 완료되었습니다',
+								confirmButtonText : "확인"
+							})
 							location.href = "/farmLendList";							
 						} else {
-							console.log(result);
-							alert("등록에 실패했습니다");
+							Swal.fire({
+								icon : 'error',
+								title : '등록 실패',
+								text : '등록에 실패했습니다',
+								confirmButtonText : "확인"
+							})
 							location.href = "/farmLendList";
 						}
 					})
 					.fail(function(result) {
-						console.log("오류");
+						Swal.fire({
+							icon : 'error',
+							title : '오류',
+							text : '페이지 호출 오류',
+							confirmButtonText : "확인"
+						})
 						location.href = "/farmLendList";
 					})
 				}

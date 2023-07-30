@@ -101,7 +101,7 @@
 											<div class="mb-2" id="mapDesc" th:utext="|주소 : ${expInfo.addr}, ${expInfo.detaAddr}|" style="text-align: left;">주소</div>
 											<div id="map">지도 Api</div>
 										</div>
-										<!-- 위도 경도-->
+										<!-- 위도 경도 -->
 										<div style="display: none">
 											위도<span id="lati" th:text="|${expInfo.lati}|"></span><br>
 											경도<span id="longi" th:text="|${expInfo.longi}|"></span>
@@ -144,7 +144,12 @@
 			function maxValue(Object) {
 				let max = /*[[${expInfo.pptPer}]]*/
 				if(Object.value > max) {
-					alert('신청할 수 있는 인원을 초과했습니다');
+					Swal.fire({
+						icon : 'error',
+						title : '신청 인원 초과',
+						text : '신청할 수 있는 인원을 초과했습니다!',
+						confirmButtonText : "확인"
+					})
 					Object.value = max;
 				}
 			}
@@ -168,11 +173,26 @@
 				})
 				.done(function(result) {
 					console.log(result);
-					alert("success");
-					location.href = "/myPage/myExpForm";
+					Swal.fire({
+						icon : 'success',
+						title : '신청 성공',
+						text : '성공적으로 신청이 되었습니다',
+						confirmButtonText : "확인"
+					})
+					Swal.fire({
+						icon : 'error',
+						title : '신청 실패',
+						text : '신청에 실패했습니다',
+						confirmButtonText : "확인"
+					})
 				})
 				.fail(function(result) {
-					alert("fail");
+					Swal.fire({
+						icon : 'error',
+						title : '오류',
+						text : '페이지 호출 오류',
+						confirmButtonText : "확인"
+					})
 				})
 			});
 			
@@ -193,7 +213,7 @@
 					location.href = "/expList";
 				})
 				.fail(function(result) {
-					alert(result);
+					console.log(result);
 				})
 			});
 		</script>

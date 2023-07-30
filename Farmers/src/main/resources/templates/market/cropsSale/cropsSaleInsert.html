@@ -154,7 +154,12 @@
 							}
 						})
 					} else {
-						alert('이미지만 등록 가능합니다');
+						Swal.fire({
+							icon : 'error',
+							title : '이미지 등록 실패',
+							text : '이미지만 등록 가능합니다',
+							confirmButtonText : "확인"
+						})
 					}
 				}
 			});
@@ -189,15 +194,30 @@
 				})
 				.done(function(result){
 					if(result == "success") {
-						alert("성공적으로 등록이 되었습니다");
+						Swal.fire({
+							icon : 'success',
+							title : '등록 성공',
+							text : '성공적으로 등록이 되었습니다',
+							confirmButtonText : "확인"
+						})
 						location.href="/cropsSaleList";
 					} else {
-						alert("등록에 실패했습니다");
+						Swal.fire({
+							icon : 'error',
+							title : '등록 실패',
+							text : '등록에 실패했습니다',
+							confirmButtonText : "확인"
+						})
 						location.href="/cropsSaleList";
 					}
 				})
 				.fail(function(result){
-					alert("오류");
+					Swal.fire({
+						icon : 'error',
+						title : '오류',
+						text : '페이지 호출 오류',
+						confirmButtonText : "확인"
+					})
 					location.href = "/cropsSaleList";
 				})
 			});

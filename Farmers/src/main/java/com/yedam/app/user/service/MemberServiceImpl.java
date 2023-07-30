@@ -2,9 +2,9 @@ package com.yedam.app.user.service;
 
 import org.jasypt.encryption.StringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,12 +22,13 @@ public class MemberServiceImpl implements MemberService, UserDetailsService{
 
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String username) throws InternalAuthenticationServiceException {
 		
 		MemberVO vo = memberMapper.selectMember(username);
 		System.out.println(vo);
 		if(vo == null) {
-			throw new UsernameNotFoundException("no User");
+			
+			throw new InternalAuthenticationServiceException("존재하지 않는 아이디입니다");
 		}
 		return new PrincipalDetails(vo);
 	}
