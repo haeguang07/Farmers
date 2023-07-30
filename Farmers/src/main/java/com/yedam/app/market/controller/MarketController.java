@@ -68,8 +68,6 @@ public class MarketController {
 		model.addAttribute("mk", mkService.getMarketInfo(boardNo));
 		model.addAttribute("rev", revService.getCount(boardNo));
 		List<String> list = payService.getPayMember(boardNo);
-		System.out.println("멤버");
-		System.out.println(list);
 		model.addAttribute("pay", list);
 		return "market/market/marketInfo";
 	}

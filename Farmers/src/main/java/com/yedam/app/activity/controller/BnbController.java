@@ -16,6 +16,7 @@ import com.yedam.app.activity.service.BnbService;
 import com.yedam.app.activity.vo.BnbVO;
 import com.yedam.app.activity.vo.DateVO;
 import com.yedam.app.common.service.CodeService;
+import com.yedam.app.common.service.PaymentService;
 import com.yedam.app.common.service.ReviewService;
 import com.yedam.app.common.vo.CodeVO;
 import com.yedam.app.common.vo.ReviewVO;
@@ -30,6 +31,8 @@ public class BnbController {
 	ReviewService revService;
 	@Autowired
 	CodeService codeService;
+	@Autowired
+	PaymentService payService;
 
 	// 전체조회
 	@GetMapping("/bnbList")
@@ -59,7 +62,9 @@ public class BnbController {
 	public String getBnbInfo(Model model, String boardNo) {
 		System.out.println(bnbService.selectBnb(boardNo));
 		model.addAttribute("bnb", bnbService.selectBnb(boardNo));
-		model.addAttribute("rev",revService.getCount(boardNo));
+		model.addAttribute("rev", revService.getCount(boardNo));
+		List<String> list = payService.getPayMember(boardNo);
+		model.addAttribute("pay", list);
 		return "activity/bnb/bnbInfo";
 	}
 
@@ -67,7 +72,7 @@ public class BnbController {
 	@ResponseBody
 	@GetMapping("rev/review")
 	public List<ReviewVO> getReview(String boardNo) {
-		System.out.println(boardNo);		
+		System.out.println(boardNo);
 		return revService.getReview(boardNo);
 	}
 
@@ -137,11 +142,11 @@ public class BnbController {
 		bnbService.deleteBnb(boardNo);
 		return "redirect:bnbList";
 	}
-	
-	//예약 날짜 확인
+
+	// 예약 날짜 확인
 	@GetMapping("checkRsvDate")
 	@ResponseBody
-	public List<String> checkRsvDate(String boardNo){
+	public List<String> checkRsvDate(String boardNo) {
 		return bnbService.rsvDateCheck(boardNo);
 	}
 

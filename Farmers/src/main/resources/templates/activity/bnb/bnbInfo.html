@@ -1,60 +1,68 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{index}">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="description" content="Male_Fashion Template">
-	<meta name="keywords" content="Male_Fashion, unica, creative, html">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" type="text/css">
-	<!-- 리뷰등록폼 -->
-	<link rel="stylesheet" href="/css/suinCss/review.css">
-	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" type="text/css">
+<meta charset="UTF-8">
+<meta name="description" content="Male_Fashion Template">
+<meta name="keywords" content="Male_Fashion, unica, creative, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css"
+	type="text/css">
+<!-- 리뷰등록폼 -->
+<link rel="stylesheet" href="/css/suinCss/review.css">
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css"
+	type="text/css">
 
-	<!-- datePicker -->
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<!-- datePicker -->
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-	<script src="./jquery-ui-1.12.1/datepicker-ko.js"></script>
+<script src="./jquery-ui-1.12.1/datepicker-ko.js"></script>
 
-	<title>농촌비앤비 상세페이지</title>
-	<style>
-		#dateTb td {
-			text-align: right;
-			padding-right: 80px;
-		}
+<title>농촌비앤비 상세페이지</title>
+<style>
+#dateTb td {
+	text-align: right;
+	padding-right: 80px;
+}
 
-		.tab-pane {
-			margin-bottom: 50px;
-		}
+.tab-pane {
+	margin-bottom: 50px;
+}
 
-		.boldFont {
-			font-size: large;
-			font-weight: bold;
-		}
+.boldFont {
+	font-size: large;
+	font-weight: bold;
+}
 
-		#map {
-			width: 700px;
-			height: 300px;
-			margin: 20px 5px;
-		}
+#map {
+	width: 700px;
+	height: 300px;
+	margin: 20px 5px;
+}
 
-		.mini {
-			width: 200px;
-			display: inline;
-		}
+.mini {
+	width: 200px;
+	display: inline;
+}
 
-		/* 
+/* 
 .dataTables_wrapper .dataTables_length {
 	float: right;
 	margin-right: 50px;
 } */
-	</style>
+</style>
 
 </head>
 
@@ -97,8 +105,9 @@
 								<h3 th:text="|${bnb.title}|">제목</h3>
 								<span id="onePay" th:text="|${bnb.price}|" style="display: none"></span>
 								<div class="rating">
-									<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-										class="fa fa-star"></i> <i class="fa fa-star-o"></i> <span>[[${rev}]]</span> Reviews
+									<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+										class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+										class="fa fa-star-o"></i> <span>[[${rev}]]</span> Reviews
 								</div>
 								<p>농촌 한달살기 체험 해보세요!</p>
 								<!-- 결제 -->
@@ -107,7 +116,8 @@
 									<table class="table" id="dateTb">
 										<tr>
 											<th>금액(1일)</th>
-											<td class="boldFont"><span th:text="${#numbers.formatInteger(bnb.price==null?0:bnb.price,0,'COMMA')}"></span>원
+											<td class="boldFont"><span
+												th:text="${#numbers.formatInteger(bnb.price==null?0:bnb.price,0,'COMMA')}"></span>원
 											</td>
 
 										</tr>
@@ -417,6 +427,7 @@
 			/*<![CDATA[*/
 			let boardNo = /*[[${bnb.boardNo}]]*/ ;
 			let mem = /*[[${session.mem}]]*/ ;
+			let memList = /*[[${pay}]]*/ ;
 			/*]]>*/
 			
 			
@@ -681,6 +692,19 @@
 			    });
 			  }
 			})
+			
+			//리뷰등록폼 - 결제한 사람만 보이기
+			console.log("결제한 MemNo ", memList)
+			function findMem(element)  {
+			  if(element == mem.memNo) {
+				 let rvForm = document.querySelector('.review-form')
+				 rvForm.style.display = 'block';
+				  return console.log("true");
+			  } else{
+				  return console.log("false");
+			  } 
+			}
+			memList.findIndex(findMem);
 			
 			//리뷰 삭제 기능	
 			$('#reviewTable').on('click', '.revDel', function () {
