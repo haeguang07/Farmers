@@ -568,6 +568,13 @@ public class MyPageController {
 		return list;	
 	}
 	
+	//나의 금손귀농인 신청 리스트
+	@GetMapping("myPage/mySkilledSubList")
+	@ResponseBody
+	public List<SkilledVO> mySkilledSubList(String memNo){
+		return myPageService.mySkilledSubList(memNo);
+	}
+	
 	//나의 금손귀농인 구직 리스트
 	@GetMapping("myPage/myJobSearchList")
 	public String myJobSearchList(String boardNo) {

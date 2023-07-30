@@ -166,7 +166,11 @@
 				$('[name="fndEndDate"]').on('click',function(e){
 					e.preventDefault();
 					if(!$('[name="fndStrDate"]').val()){
-						alert('펀딩시작일을 먼저 입력하세요')
+						new swal({
+	                		title: "펀딩 시작일을 먼저 입력하세요",
+	                		icon : "warning",
+	                		confirmButtonColor: '#95D083'		
+	                })
 					}else{
 						$(this).unbind('click').click()
 					}
@@ -175,7 +179,11 @@
 				$('[name="shipStrDate"]').on('click',function(e){
 					e.preventDefault();
 					if(!$('[name="fndEndDate"]').val()){
-						alert('펀딩마감일을 먼저 입력하세요')
+						new swal({
+	                		title: "펀딩 마감일을 먼저 입력하세요",
+	                		icon : "warning",
+	                		confirmButtonColor: '#95D083'		
+	                })
 					}else{
 						$(this).unbind('click').click()
 					}
@@ -255,7 +263,11 @@
 							}
 						})
 					} else {
-						alert('이미지만 등록 가능합니다')
+						new swal({
+	                		title: "이미지만 등록 가능합니다",
+	                		icon : "warning",
+	                		confirmButtonColor: '#95D083'		
+	                })
 					}
 				}
 
@@ -282,22 +294,46 @@
 
 				//데이터 입력 확인
 				if (!$('[name="title"]').val()) {
-					alert('제목을 입력하세요');
+					new swal({
+                		title: "제목을 입력하세요",
+                		icon : "warning",
+                		confirmButtonColor: '#95D083'		
+                })
 					return;
 				} else if ($('[name="goalPrice"]').val() <= 0) {
-					alert('목표금액을 입력하세요');
+					new swal({
+                		title: "목표금액을 입력하세요",
+                		icon : "warning",
+                		confirmButtonColor: '#95D083'		
+                })
 					return;
 				} else if ($('[name="fndPrice"]').val() <= 0) {
-					alert('펀딩금액을 입력하세요');
+					new swal({
+                		title: "펀딩금액을 입력하세요",
+                		icon : "warning",
+                		confirmButtonColor: '#95D083'		
+                })
 					return;
 				} else if (!$('[name="shipStrDate"]').val()) {
-					alert('배송시작일을 입력하세요');
+					new swal({
+                		title: "배송시작일을 입력하세요",
+                		icon : "warning",
+                		confirmButtonColor: '#95D083'		
+                })
 					return;
 				} else if (!$('[name="fndStrDate"]').val()) {
-					alert('펀딩시작일을 입력하세요');
+					new swal({
+                		title: "펀딩시작일을 입력하세요",
+                		icon : "warning",
+                		confirmButtonColor: '#95D083'		
+                })
 					return;
 				} else if (!$('[name="fndEndDate"]').val()) {
-					alert('펀딩마감일을 입력하세요');
+					new swal({
+                		title: "펀딩마감일을 입력하세요",
+                		icon : "warning",
+                		confirmButtonColor: '#95D083'		
+                })
 					return;
 				} else {
 					let ckData = editor
@@ -322,11 +358,19 @@
 							data: formData
 						})
 						.done(function (result) {
-							alert(result);
+							new swal({
+		                		title: result,
+		                		icon : "warning",
+		                		confirmButtonColor: '#95D083'		
+		                })
 							location.href = "fundingList"
 						})
 						.fail(function (result) {
-							alert(result);
+							new swal({
+		                		title: result,
+		                		icon : "warning",
+		                		confirmButtonColor: '#95D083'		
+		                })
 							location.href = "fundingList"
 						})
 

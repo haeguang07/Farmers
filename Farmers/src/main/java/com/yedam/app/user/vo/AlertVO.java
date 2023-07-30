@@ -2,6 +2,8 @@ package com.yedam.app.user.vo;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 
 @Data
@@ -20,6 +22,7 @@ public class AlertVO {
 	private String alrtTitle;
 	private String alrtDesct;
 	private String boardCtg;
+	@JsonFormat(pattern ="yyyy-MM-dd")
 	private Date alrtDate;
 	
 }

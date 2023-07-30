@@ -2,12 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="description" content="Male_Fashion Template">
-	<meta name="keywords" content="Male_Fashion, unica, creative, html">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>bidList</title>
+<meta charset="UTF-8">
+<meta name="description" content="Male_Fashion Template">
+<meta name="keywords" content="Male_Fashion, unica, creative, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>bidList</title>
 
 		<!-- Css Styles -->
 		<link rel="stylesheet" href="/css/jquery/bootstrap.min.css" type="text/css">
@@ -36,6 +36,7 @@
 	<!-- dataTable -->
 	<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" type="text/css">
+
 </head>
 
 <body>
@@ -72,7 +73,8 @@
 										<td th:text="${pay.payDetaNo}"></td>
 										<td th:text="${pay.nick}"></td>
 										<td th:text="${pay.qty}"></td>
-										<td th:text="${#numbers.formatInteger(pay.totalPrice, 3, 'COMMA')}"></td>
+										<td
+											th:text="${#numbers.formatInteger(pay.totalPrice, 3, 'COMMA')}"></td>
 										<td th:text="${#dates.format(pay.payDate, 'yyyy/MM/dd')}"></td>
 										<td th:text="${pay.shipStts}"></td>
 									</tr>
@@ -120,15 +122,6 @@
 			}
 		};
 
-		//수락 버튼 클릭 시
-		$('#accept').on('click', function () {
-			alert('수락')
-		})
-
-		//거절 버튼 클릭 시
-		$('#refuse').on('click', function () {
-			alert('거절')
-		})
 
 		//나의 입찰 확인
 		$(function(){

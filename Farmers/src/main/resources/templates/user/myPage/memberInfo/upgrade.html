@@ -147,9 +147,17 @@
 					success: function (result) {
 						console.log(result)
 						if(result){
-							alert("등업신청이 완료되었습니다")
+							new swal({
+		                		title: "등업신청이 완료되었습니다",
+		                		icon : "success",
+		                		confirmButtonColor: '#95D083'		
+		                })	
 						}else{
-							alert('등업신청이 실패하였습니다')
+							new swal({
+		                		title: "등업신청이 실패하였습니다",
+		                		icon : "error",
+		                		confirmButtonColor: '#95D083'		
+		                })	
 						}
 					},
 					error: function (reject) {
