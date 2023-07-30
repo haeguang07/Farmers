@@ -4,17 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.app.user.mapper.MemberMapper">
 	<!-- 회원 조회 -->
-<!-- 	<resultMap type="MemberVO" id="memberProfile">
-		<result property="memNo" column="mem_no" />
-		<result property="id" column="id" />
-		<result property="pw" column="pw" />
-		<result property="email" column="email" />
-		<result property="nick" column="nick" />
-		<result property="loginPath" column="login_path" />
-		<result property="rptCnt" column="rpt_cnt" />
-		<result property="memGrd" column="mem_grd" />
-		<association property="details" column="memNo=mem_no" select="selectMembetDetail"></association>
-	</resultMap> -->
+
 	<select id="selectMember" resultType="memberVO">
 		SELECT 	m.mem_no
 				,id
@@ -61,7 +51,7 @@
 	</select>
 	<!-- 아이디 찾기 -->
 	<select id="selectID" resultType="String">
-		SELECT RPAD(SUBSTR(id,1,3),LENGTH(id),'*')
+		SELECT SUBSTR(RPAD(SUBSTR(id,1,3),LENGTH(id),'*'),0,6)
 		FROM member
 		WHERE email=#{email}
 	</select>

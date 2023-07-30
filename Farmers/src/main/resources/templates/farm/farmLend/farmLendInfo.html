@@ -58,7 +58,7 @@
 													<div id="map">지도 Api</div>
 												</div>
 											</div>
-											<!-- 위도 경도-->
+											<!-- 위도 경도 -->
 											<div style="display: none">
 												위도<span id="lati" th:text="|${flInfo.lati}|"></span><br>
 												경도<span id="longi" th:text="|${flInfo.longi}|"></span>
@@ -73,8 +73,9 @@
 												<span>(연간)</span>
 											</p>
 											<div class="row mb-2">
-												<button type="button" class="btn btn-dark mr-2" style="width: 150px; float: left;" id="applyBtn" th:if="${session.mem.memNo} != ${flInfo.memNo}">신청하기</button>
 												<th:block th:if="not ${#strings.isEmpty(session.mem)}">
+													<button type="button" class="btn btn-dark mr-2" style="width: 150px; float: left;" id="applyBtn" 
+														th:if="${session.mem.memNo} != ${flInfo.memNo}">신청하기</button>
 													<button type="button" class="btn btn-dark mr-2" style="width: 150px;" id="update" 
 														th:if="${session.mem.memNo} == ${flInfo.memNo} or ${session.mem.memGrd == 'b0'}">수정하기</button>
 													<button type="button" class="btn btn-dark mr-2" style="width: 150px;" id="delete" 
@@ -116,9 +117,20 @@
 			});
 			
 			// 신청하기 버튼 클릭 시
-			$('#applyBtn').on('click', function() {
-				location.href = "/farmLendApply?boardNo=" + boardNo;
+			$('#applyBtn').magnificPopup({
+				// 모달창
+				items : [{
+					src : "/farmLendApply?boardNo=" + boardNo,
+				}],
+				type : 'iframe'
 			});
+			
+			// 팝업창 닫는 함수
+			function closePopUp() {
+				var magnificPopup = $.magnificPopup.instance; 
+				magnificPopup.close();
+				location.reload();
+			}
 			
 			// 목록으로 버튼 클릭 시
 			$('#toList').on('click', function() {
@@ -142,7 +154,7 @@
 					location.href = "/farmLendList";
 				})
 				.fail(function(result) {
-					alert(result);
+					console.log(result);
 				})
 			});
 		</script>

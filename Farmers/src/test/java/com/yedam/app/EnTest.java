@@ -1,5 +1,9 @@
 package com.yedam.app;
 
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
 import org.junit.jupiter.api.Test;
@@ -16,8 +20,19 @@ public class EnTest {
 		System.out.println(result);
 		
 	}
-	
 	@Test
+	public void list() {
+		List<String> list = new ArrayList<>();
+		list.add("a");
+		list.add("b");
+		list.add(null);
+		for(int i=0;i<list.size();i++) {
+			System.out.println(list.toArray()[i]);
+		}
+		
+	}
+	
+	//@Test
 	public void test() {
 		
 		PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
