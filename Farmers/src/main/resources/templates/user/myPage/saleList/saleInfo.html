@@ -230,7 +230,11 @@
 				})
 				.done(function(result){
 					if(result){
-						alert('상태 변경에 성공하였습니다')
+						new swal({
+	                		title: "상태변경이 완료되었습니다",
+	                		icon : "success",
+	                		confirmButtonColor: '#95D083'		
+	                })	
 
 						//구매자에게 알림 보내기
 						let memNo = /*[[${payInfo.memNo}]]*/;
@@ -246,20 +250,27 @@
 								boardCtg : boardCtg
 							}
 						})
-						.fail(function(){
-							alert('fail')
-						})
+						.done(function(){
 
 						//부모창의 팝업 닫기 함수를 호출
 						parent.closePopUp()
+						})
 					}else{
-						alert('상태 변경에 실패하였습니다')
+						new swal({
+	                		title: "상태변경에 실패하였습니다",
+	                		icon : "error",
+	                		confirmButtonColor: '#95D083'		
+	                })	
 					}
 				})
 				.fail(console.log('fail'))
 				
 			} else {
-				alert('변경 할 수 없는 상태입니다')
+				new swal({
+            		title: "변경할 수 없는 상태입니다",
+            		icon : "warning",
+            		confirmButtonColor: '#95D083'		
+            })	
 			}
 		})
 

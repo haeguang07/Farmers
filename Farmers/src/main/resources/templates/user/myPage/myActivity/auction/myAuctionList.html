@@ -176,7 +176,11 @@
 						mkDataTable()
 					})
 					.fail(function () {
-						alert('데이터 로드 실패')
+						new swal({
+	                		title: "fail",
+	                		icon : "error",
+	                		confirmButtonColor: '#95D083'		
+	                })	
 					})
 			}
 
@@ -229,7 +233,11 @@
 						mkDataTable()
 					})
 					.fail(function () {
-						alert('데이터 로드 실패')
+						new swal({
+	                		title: "fail",
+	                		icon : "error",
+	                		confirmButtonColor: '#95D083'		
+	                })	
 					})
 			}
 

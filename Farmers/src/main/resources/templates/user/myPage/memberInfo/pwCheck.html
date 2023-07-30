@@ -59,7 +59,11 @@
 					if(result){
 						location.href="memberInfo?memNo="+ /*[[${session.mem.memNo}]]*/
 					}else{
-						alert('비밀번호가 틀렸습니다')
+						new swal({
+	                		title: "비밀번호가 틀렸습니다",
+	                		icon : "warning",
+	                		confirmButtonColor: '#95D083'		
+	                })	
 						$('#pwCheck').val('');
 						$('#pwCheck').focus();
 					}

@@ -220,10 +220,18 @@
                 .done(function(result){
                     console.log(result)
                     if(result.retCode == "Success"){
-                        alert('사용 가능한 닉네임입니다')
+                    	new swal({
+	                		title: "사용가능한 닉네임입니다",
+	                		icon : "success",
+	                		confirmButtonColor: '#95D083'		
+	                })	
                         nickCheck = true
                     }else if(result.retCode == "Fail"){
-                        alert('이미 존재하는 닉네임입니다')
+                    	new swal({
+	                		title: "이미 존재하는 닉네임입니다",
+	                		icon : "warning",
+	                		confirmButtonColor: '#95D083'		
+	                })	
                         $('[name=nick]').val('')
                     }
                 })
@@ -281,13 +289,29 @@
             //수정완료 시
             $('#modifyDone').on('click',function(){
                 if($('#pw').val() != $('#pwCheck').val()){
-                    alert('비밀번호가 다릅니다')
+                	new swal({
+                		title: "비밀버호가 다릅니다",
+                		icon : "warning",
+                		confirmButtonColor: '#95D083'		
+                })	
                 }else if(!nickCheck){
-                    alert('닉네임 중복체크를 해주세요')
+                	new swal({
+                		title: "닉네임 중복 체크를 해주세요",
+                		icon : "warning",
+                		confirmButtonColor: '#95D083'		
+                })	
                 }else if(!$('[name=email]').val()){
-                    alert('이메일을 입력해주세요')
+                	new swal({
+                		title: "이메일을 입력해주세요",
+                		icon : "warning",
+                		confirmButtonColor: '#95D083'		
+                })	
                 }else{
-                    alert('회원정보 수정완료')
+                	new swal({
+                		title: "회원정보 수정완료",
+                		icon : "success",
+                		confirmButtonColor: '#95D083'		
+                })	
                     $('#member').submit();
                 }
             })

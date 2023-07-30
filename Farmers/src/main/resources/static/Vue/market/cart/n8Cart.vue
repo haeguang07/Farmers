@@ -133,7 +133,11 @@
 
             vuethis.allSumPriceCheck();
             } else {
-            alert("초과된 수량입니다")
+              new swal({
+		                		title: "초과된 수량입니다",
+		                		icon : "warning",
+		                		confirmButtonColor: '#95D083'		
+		                })
            }
           })
           //개별 체크박스 이벤트
@@ -226,7 +230,11 @@
           //파라미터를 url에서 가리고 싶으면 form 태그 생성 해서 사용 (https://amongthestar.tistory.com/178)
           location.href = "payment?productList=" + encodeURI(JSON.stringify(productList));
         } else {
-          alert('구매할 상품을 선택해주세요.')
+          new swal({
+		                		title: "구매할 상품을 선택해주세요",
+		                		icon : "warning",
+		                		confirmButtonColor: '#95D083'		
+		                })
         }
       },
       //체크박스 전체 확인
