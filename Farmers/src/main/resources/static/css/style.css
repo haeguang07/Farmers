@@ -557,8 +557,8 @@ ol {
 .hero__slider.owl-carousel .owl-item.active .hero__text h2 {
 	top: 0;
 	opacity: 1;
+	z-index : 1;
 }
-
 .hero__slider.owl-carousel .owl-item.active .hero__text p {
 	top: 0;
 	opacity: 1;

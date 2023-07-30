@@ -105,12 +105,14 @@
 				     sum(qty) as sumCount,
 				     title, 
 				     fnd_price, 
-				     rep
+				     rep,
+				     reg_stts
 			  FROM funding JOIN payment_detail
 						   USING (board_no)
-			GROUP BY board_no,title, fnd_price,rep
+			GROUP BY board_no,title, fnd_price,rep,reg_stts
 			ORDER BY sumCount DESC)
 		WHERE ROWNUM <= 4
+		AND reg_stts = 'e1' 
 		]]>
 	</select>
 
