@@ -9,9 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.yedam.app.activity.service.SkilledService;
 import com.yedam.app.activity.vo.SkilledVO;
@@ -50,11 +50,13 @@ public class SkilledController {
 	public Map<String, Object> skilledList(@RequestParam(required = false) String div,
 			@RequestParam(required = false, defaultValue = "0") int pageNum,
 			@RequestParam(required = false) String dst1, 
-			@RequestParam(required = false) String dst2) {
+			@RequestParam(required = false) String dst2,
+			@RequestParam(required = false) String title,
+			@RequestParam(required = false) String memNo) {
 
 		pageNum = (pageNum == 0 ? 1 : pageNum);
-		List<SkilledVO> list = skilledService.skilledList(div, pageNum, dst1, dst2);
-		int total = skilledService.listCount(div);
+		List<SkilledVO> list = skilledService.skilledList(div, pageNum, dst1, dst2, title, memNo);
+		int total = skilledService.listCount(div, dst1, dst2, title, memNo);
 		PageVO vo = new PageVO(pageNum, total);
 
 		Map<String, Object> map = new HashMap<>();
@@ -68,13 +70,14 @@ public class SkilledController {
 	}
 	
 	// 등록 모달창 이동
-	@GetMapping("/skilledForm")
+	@GetMapping("/add/skilledForm")
 	public String skilledInsert() {
 		return "activity/skilled/insertSkilled";
 	}
 	
 	// 등록 처리
 	@PostMapping("/add/skilled")
+	@ResponseBody
 	public Map<String, Object> insertSkilled(SkilledVO vo){
 		Map<String, Object> map = new HashMap<>();
 		boolean result = skilledService.addSkilled(vo);
@@ -96,7 +99,7 @@ public class SkilledController {
 	}
 	
 	// 수정 모달창 이동
-	@GetMapping("/updateSkilled")
+	@GetMapping("/update/Skilled")
 	public String updateSkilled(String boardNo, Model model) {
 		model.addAttribute("dst1", codeService.getCodeList("0K"));
 		String dst1 = skilledService.skilledInfo(boardNo).getDst1();
@@ -106,7 +109,7 @@ public class SkilledController {
 	}
 	
 	// 수정 처리
-	@PostMapping("/updateSkilled")
+	@PostMapping("/update/Skilled")
 	@ResponseBody
 	public Map<String, Object> updateSkilled(SkilledVO vo){
 		Map<String, Object> map = new HashMap<>();
@@ -126,6 +129,7 @@ public class SkilledController {
 	@ResponseBody
 	public Map<String, Object> deleteSkilled(@RequestParam(required = false) String boardNo){
 		Map<String, Object> map = new HashMap<>();
+		System.out.println(boardNo);
 		boolean result = skilledService.deleteSkilled(boardNo);
 			
 		if(result) {
@@ -138,11 +142,26 @@ public class SkilledController {
 	}
 	
 	// 신청 모달창 이동
-	@GetMapping("/applySkilled")
+	@GetMapping("/apply/Skilled")
 	public String applySkilled(String boardNo, Model model) {
-		model.addAttribute("dst1", codeService.getCodeList("0K"));
 		model.addAttribute("goldInfo", skilledService.skilledInfo(boardNo));
 		return "activity/skilled/applySkilled";
+	}
+	
+	// 신청 처리
+	@PostMapping("/apply/Skilled")
+	@ResponseBody
+	public Map<String, Object> applyComplete(SkilledVO vo){
+		Map<String, Object> map = new HashMap<>();
+		boolean result = skilledService.applySkilled(vo);
+		
+		if(result) {
+			map.put("retCode", "Success");
+		} else {
+			map.put("retCode", "Fail");
+		}
+		
+		return map;
 	}
 	
 	

@@ -212,7 +212,7 @@ padding
 												<div class="shop__sidebar__categories">
 													<ul class="nice-scroll">
 														<li><a href="noticeList">공지사항</a></li>
-														<li><a href="communityList" style="color: black;">커뮤니티</a></li>
+														<li><a href="cmmnList" style="color: black;">커뮤니티</a></li>
 														<li><b><a href="eventList">이벤트</a></b></li>
 													</ul>
 												</div>
@@ -227,14 +227,19 @@ padding
 						<div>
 							<h5 class="title text-left" th:text="${cmmnInfo[0].title}"></h5>
 							<hr>
-							<span class="text-right" th:text="${cmmnInfo[0].nick}"></span><span
-								th:text="${#dates.format(cmmnInfo[0].wrtDate, 'yyyy/MM/dd')}"></span>
+							<div class="smallChar">
+								<span class="text-right">작성자 : <span th:text="${cmmnInfo[0].nick}">관리자</span></span><span class="right"
+									th:text="${#dates.format(cmmnInfo[0].wrtDate, 'yyyy/MM/dd')}"></span>
+							</div>
 							<div class="content">
-								<p class="desct" th:text="${cmmnInfo[0].desct}"></p>
+								<br> 
+								<img
+									th:if="${cmmnInfo[0].img != null and cmmnInfo[0].img != (null)}"
+									th:src="${cmmnInfo[0].img}" alt="">
+								<p class="desct" th:utext="${cmmnInfo[0].desct}"></p>
 							</div>
 							<!-- 정회원, 관리자, 작성자에 따라 하트 및 버튼 목록 조건 걸어야 함 -->
 							<div>
-								<p th:text="${cmmnInfo}"></p>
 								<span>♡</span>
 							</div>
 							<hr>

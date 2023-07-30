@@ -22,15 +22,16 @@
 	rel="stylesheet">
 
 <!-- Css Styles -->
-<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery/bootstrap.min.css" type="text/css">
 <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
 <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
-<link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
-<link rel="stylesheet" href="/css/nice-select.css" type="text/css">
-<link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
-<link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery/magnific-popup.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery/nice-select.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery/owl.carousel.min.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery/slicknav.min.css" type="text/css">
 <link rel="stylesheet" href="/css/style.css" type="text/css">
-<link rel="stylesheet" href="/css/jQueryUI.css">
+<link rel="stylesheet" href="/css/jquery/jQueryUI.css">
+<link rel="stylesheet" href="/css/otherPlugins/sweetAlert.css" type="text/css">
 
 <!-- Js Plugins -->
 <script src="/js/jquery/jquery-3.3.1.min.js"></script>
@@ -43,7 +44,9 @@
 <script src="/js/jquery/mixitup.min.js"></script>
 <script src="/js/jquery/owl.carousel.min.js"></script>
 <script src="/js/jquery/json.min.js"></script>
+<script src="/js/main.js"></script>
 <script src="/js/jquery/jqueryUI.js"></script>
+<script src="/js/otherPlugins/sweetAlert2-11.4.10.js"></script>
 <style>
 .blank {
 	margin-left: 5px;
@@ -160,12 +163,12 @@
 													<p class="col-lg-3 mb-0 text-left">✅ 신청 메세지</p>
 												</div>
 												<div class="row col-md-8">
-													<textarea class="form-control" rows="8"></textarea>
+													<textarea class="form-control" rows="8" id="aplMsg"></textarea>
 												</div>
 											</div>
 										</div>
 										<div style="margin-top: 30px;">
-											<button type="button" class="btn btn-success">신청</button>
+											<button type="button" class="btn btn-success" th:onclick="applySkilled()">신청</button>
 											<button type="button" class="btn btn-light">닫기</button>
 										</div>
 									</div>
@@ -179,7 +182,29 @@
 	</section>
 
 	<script th:inline="javascript">
-		
+		function applySkilled(){
+			let memNo = /*[[${session.mem.memNo}]]*/;
+			let aplStts = 'kw';
+			let boardNo = /*[[${goldInfo.boardNo}]]*/;
+			let aplMsg = $('#aplMsg').text();
+			
+			$.ajax({
+				url: '/apply/Skilled',
+				method: 'POST',
+				data: {
+					memNo,
+					aplStts,
+					boardNo,
+					aplMsg
+				}
+			}).done(function(result) {
+				alert('신청이 완료되었습니다.');
+				parent.closePopUp();
+			}).fail(function(result) {
+				console.log(result);
+			})
+			
+		}
 	</script>
 
 </body>

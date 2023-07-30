@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/layout}">
 
@@ -182,8 +183,8 @@ h5:has(.countdown) {
 										</div>
 										<!-- 검색창 -->
 										<div>
-											<label><input class="form-control"
-												placeholder="검색어를 입력하세요."></label>
+											<label><input class="form-control" id="searchVal"
+												placeholder="제목을 검색하세요."></label>
 											<button type="button" class="searchBtn btn btn-dark">검색</button>
 										</div>
 									</div>
@@ -200,7 +201,7 @@ h5:has(.countdown) {
 										<div>구해요</div>
 										<div>할게요</div>
 									</label>
-									<div>
+									<div sec:authorize="hasRole('ROLE_REGULAR')">
 										<input type="checkbox" id="check1"> <label
 											for="check1">내가 쓴 글 보기</label>
 										<button type="button" id="addBtn" class="btn btn-secondary"
@@ -250,7 +251,8 @@ h5:has(.countdown) {
 		</section>
 
 		<script th:inline="javascript">
-			let div = 'o0';	
+			let div = 'o0';
+			let title = '';
 		
 			$(function(){
 			    goldData(div, 1);
@@ -258,7 +260,7 @@ h5:has(.countdown) {
 			
 
 			// 리스트 데이터 가져오기
-			function goldData(div, pageNum, dst1, dst2){
+			function goldData(div, pageNum, dst1, dst2, title, memNo){
 				$.ajax({
 					url: "/skilledList",
 					method: "GET",
@@ -266,12 +268,13 @@ h5:has(.countdown) {
 			            div,
 						pageNum,
 						dst1,
-						dst2
+						dst2,
+						title,
+						memNo
 					},
 					success(data){
 						console.log(data);
-						console.log(dst1, dst2);
-						printList(data, dst1, dst2);
+						printList(data, dst1, dst2, title, memNo);
 						
 						// 지역2 select box 출력
 						if(data.dst2) {
@@ -295,7 +298,7 @@ h5:has(.countdown) {
 			}
 
 			// 리스트 출력
-			function printList(data, dst1, dst2){
+			function printList(data, dst1, dst2, title, memNo){
 				$('#wanted').children().remove();
 				$('#pageDiv').children().remove();
 				
@@ -306,7 +309,7 @@ h5:has(.countdown) {
 					printItem(item);
 				})
 				
-				printPage(pageData, dst1, dst2);
+				printPage(pageData, dst1, dst2, title, memNo);
 			}
 			
 			// 게시글 생성 및 추가 함수
@@ -317,9 +320,9 @@ h5:has(.countdown) {
 				console.log(imageUrl);
 				
 				// 데이터 넣기
-				if(imageUrl === null || imageUrl === ''){
-					$(clone).find('set-bg').css('background-image', 'url(/img/noImg.png)');
-				} else {
+		
+				$(clone).find('.set-bg').css('background-image', 'url(/img/noImg.png)');
+				if(imageUrl != null){
 					$(clone).find('.set-bg').css('background-image', 'url('+imageUrl+')');					
 				}
 				$(clone).find('.set-bg').on('click', function(){
@@ -333,7 +336,7 @@ h5:has(.countdown) {
 			}
 			
 			// 페이지 출력
-			function printPage(pageData, dst1, dst2){
+			function printPage(pageData, dst1, dst2, title, memNo){
 				let pageItem = $('#pageItem').clone()
 				$(pageItem).css({'display' : 'block'});
 				$(pageItem).find('#prevPage').on('click',function(){
@@ -358,7 +361,7 @@ h5:has(.countdown) {
 						$(clone).css('border-color','orange')
 					}
 					$(clone).on('click', function () {
-						getCondition(i, dst1, dst2);
+						getCondition(i, title, dst1, dst2);
 					})
 					$(pageItem).find('#pageNumDiv').append(clone)
 				}
@@ -368,7 +371,7 @@ h5:has(.countdown) {
 			}
 			
 			// 조건 값 변경 시 컨트롤 정보 보내기
-			function getCondition(pageNum){
+			function getCondition(pageNum, title, memNo){
 				let dst1 = $('#dst1').val();
 				let dst2 = $('#dst2').val();
 				
@@ -376,7 +379,7 @@ h5:has(.countdown) {
 					pageNum = 1
 				}
 
-				goldData(div, pageNum, dst1, dst2);
+				goldData(div, pageNum, dst1, dst2, title, memNo);
 			}
 			
 			// 지역1 카테고리 변경 시
@@ -389,16 +392,21 @@ h5:has(.countdown) {
 			});
 			
 			//팝업창 닫기 함수
-			function closePopUp(){
+			function closePopUp(boardNo){
+				console.log(boardNo);
 				var magnificPopup = $.magnificPopup.instance; 
 				magnificPopup.close(); 
-				location.reload();
+				if(typeof boardNo == 'undefined'){
+					location.reload();
+				}else {
+					modalUpdate(boardNo);
+				}
 			}
 			
 			// 등록 모달창
 			$('#addBtn').magnificPopup({
 						items:[{
-						src:"/skilledForm",
+						src:"/add/skilledForm",
 					}],
 					type: 'iframe'
 						})
@@ -416,6 +424,49 @@ h5:has(.countdown) {
 					}]
 				})
 			})
+			
+			// 상세 조회 모달창 닫고 수정 모달창 열기
+			function modalUpdate(boardNo){
+				// 팝업
+				$.magnificPopup.open({
+					items: [{
+						src: "/update/Skilled?boardNo=" + boardNo,
+						type: 'iframe'
+					}]
+				})
+			}
+			
+			// 검색 기능
+			$('.searchBtn').on('click', function(){
+				title = $('#searchVal').val();
+				console.log(title);
+				
+				getCondition(1, title);
+				
+			})
+			
+			// 내가 쓴 글 보기
+			$('#check1').on('change', function(){
+				console.log('a')
+				console.log($(this).is(':checked'))
+				if($(this).is(':checked')  == true){
+					let memNo = /*[[${session.mem.memNo}]]*/;
+					getCondition(1, title, memNo);
+				}else {
+					goldData(div, 1);
+				}
+			})
+			
+			// 상세 조회 모달창 닫고 신청 모달창 열기
+			function modalUpdate(boardNo){
+				// 팝업
+				$.magnificPopup.open({
+					items: [{
+						src: "/apply/Skilled?boardNo=" + boardNo,
+						type: 'iframe'
+					}]
+				})
+			}
 			
 		</script>
 	</div>

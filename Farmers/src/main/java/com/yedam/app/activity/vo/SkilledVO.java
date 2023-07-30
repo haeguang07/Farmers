@@ -41,5 +41,6 @@ public class SkilledVO {
 	
 	// 추가
 	private String nick;
+	private String search;
 	
 }

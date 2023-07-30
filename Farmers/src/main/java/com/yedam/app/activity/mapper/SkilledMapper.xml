@@ -28,7 +28,13 @@
 								AND dst1 = #{dst1}
 							</if>
 							<if test="dst2 != null and !dst2.equals('')">
-								ANd dst2 = #{dst2}
+								AND dst2 = #{dst2}
+							</if>
+							<if test="title != null and !title.equals('')">
+								AND title LIKE '%${title}%'
+							</if>
+							<if test="memNo != null and !memNo.equals('')">
+								AND s.mem_no = #{memNo}
 							</if>
 						ORDER BY s.reg_date DESC
 						) a
@@ -43,6 +49,18 @@
 		SELECT count(*)
 		FROM skilled_expert
 		WHERE div = #{div}
+			<if test="dst1 != null and !dst1.equals('')">
+				AND dst1 = #{dst1}
+			</if>
+			<if test="dst2 != null and !dst2.equals('')">
+				AND dst2 = #{dst2}
+			</if>
+			<if test="title != null and !title.equals('')">
+				AND title LIKE '%${title}%'
+			</if>
+			<if test="memNo != null and !memNo.equals('')">
+				AND mem_no = #{memNo}
+			</if>
 	</select>
 
 <!-- 상세 조회 -->
