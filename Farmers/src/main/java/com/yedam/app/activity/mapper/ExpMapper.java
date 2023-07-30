@@ -15,9 +15,7 @@ public interface ExpMapper {
 	// 삭제
 	public int deleteExp(String boardNo);
 	// 게시글 수
-	public int getCount(ExpVO vo);
+	public int getCount(ExpVO expVO);
 	// 농촌 체험하기 신청(등록)
 	public int insertExpApply(ExpApplyVO expaVO);
-	// 농촌 체험하기 신청리스트
-	public List<ExpVO> selectExpApplyList(int page,ExpVO expVO);
 }

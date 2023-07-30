@@ -2,7 +2,6 @@ package com.yedam.app.activity.service;
 
 import java.util.List;
 
-import com.yedam.app.activity.vo.DateVO;
 import com.yedam.app.activity.vo.ExpApplyVO;
 import com.yedam.app.activity.vo.ExpVO;
 
@@ -20,12 +19,8 @@ public interface ExpService {
 	public int deleteExpInfo(String boardNo);
 
 	// 게시글 수
-	public int getCount(ExpVO vo);
+	public int getCount(ExpVO expVO);
 
 	// 농촌 체험하기 신청(등록)
 	public boolean insertExpApply(ExpApplyVO expaVO);
-	
-	// 농촌 체험하기 신청리스트
-	public List<ExpVO> selectExpApplyList(int page, ExpVO expVO);
-
 }

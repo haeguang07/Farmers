@@ -168,7 +168,7 @@
 			});
 			// 리스트 불러오기
 			function ajaxData(page, exStrDate, dst1, dst2) {
-				vo = {dst1,dst2,exStrDate, page}
+				vo = {page, exStrDate, dst1, dst2}
 				$.ajax({
 					url : '/expList',
 					type : 'POST',
@@ -227,7 +227,7 @@
 				let clone = $('#expItem').clone();
 				$(clone).removeClass('hideItem');
 				console.log(item);
-				let apl;
+				let apl = [];
 				item.expApplyList.forEach((index, item) => {
 					apl = item.aplPer(index);
 				})
@@ -304,7 +304,7 @@
 			}
 			// 조건 변경 시 함수
 			function getCondition(page) {
-				let expStart = $('#expStart').val();
+				let exStrDate = $('#expStart').val();
 				let dst1 = $('#dst1').val();
 				let dst2 = $('#dst2').val();
 				if(page == null) {

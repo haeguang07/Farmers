@@ -16,8 +16,8 @@ public class ExpServiceImpl implements ExpService {
 	ExpMapper expMapper;
 
 	@Override
-	public List<ExpVO> getExpListPage(int page, ExpVO vo) {
-		return expMapper.selectExpListPage(page,vo);
+	public List<ExpVO> getExpListPage(int page, ExpVO expVO) {
+		return expMapper.selectExpListPage(page, expVO);
 	}
 
 	@Override
@@ -42,18 +42,13 @@ public class ExpServiceImpl implements ExpService {
 	}
 
 	@Override
-	public int getCount(ExpVO vo) {
-		return expMapper.getCount(vo);
+	public int getCount(ExpVO expVO) {
+		return expMapper.getCount(expVO);
 	}
 
 	@Override
 	public boolean insertExpApply(ExpApplyVO expaVO) {
 		return expMapper.insertExpApply(expaVO) > 0;
-	}
-
-	@Override
-	public List<ExpVO> selectExpApplyList(int page,ExpVO expVO) {
-		return expMapper.selectExpApplyList(page ,expVO);
 	}
 
 }
