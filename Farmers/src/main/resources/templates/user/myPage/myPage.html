@@ -12,6 +12,8 @@
 <title>MyPage</title>
 <link rel="stylesheet" href="/css/sungWookCss/sungook.css"
 	type="text/css">
+	
+<script src="/js/user/mypage/myPage.js"></script>
 <style>
 .href {
 	font-weight: 900;
@@ -43,7 +45,7 @@
 										<div class="card">
 											<div class="">
 												<a href="/myPage/myPage" data-target="#collapseOne"
-													class="href">회원정보</a>
+													class="href myMenu">회원정보</a>
 											</div>
 										</div>
 										<div class="card">
@@ -56,17 +58,30 @@
 												<div class="card-body">
 													<div class="shop__sidebar__brand">
 														<ul>
-															<li><a href="/myPage/myFarmLendListForm">나의 농지대여</a></li>
+															<li><a href="/myPage/myFarmLendListForm"
+																class="myMenu">나의 농지대여</a></li>
 															<!-- <li><a href="#">나의 일자리 </a></li> -->
 															<!-- <li><a href="#">나의 농기구대여/거래</a></li> -->
-															<li><a th:href="@{/myPage/myCropsSaleList(memNo=${session.mem.memNo})}">나의 농작물 거래</a></li>
-															<li><a th:href="@{/myPage/myFundingForm(memNo=${session.mem.memNo})}">나의 펀딩</a></li>
-															<li><a th:href="@{/myPage/myMarketList(memNo=${session.mem.memNo})}">나의 전원마켓</a></li>
-															<li><a href="/myPage/myAuctionForm">나의 경매장</a></li>
-															<li><a th:href="@{/myPage/myBnbList(memNo=${session.mem.memNo})}">나의 농촌비앤비</a></li>
-															<li><a href="/myPage/myExpForm">나의 농촌체험</a></li>
-															<li><a th:href="@{/myPage/mySkilledForm(memNo=${session.mem.memNo})}">나의 금손귀농인</a></li>
-															<li><a th:href="@{/myPage/myBoardList(memNo=${session.mem.memNo})}">나의 게시글</a></li>
+															<li><a
+																th:href="@{/myPage/myCropsSaleList(memNo=${session.mem.memNo})}"
+																class="myMenu">나의 농작물 거래</a></li>
+															<li><a
+																th:href="@{/myPage/myFundingForm(memNo=${session.mem.memNo})}"
+																class="myMenu">나의 펀딩</a></li>
+															<li><a
+																th:href="@{/myPage/myMarketList(memNo=${session.mem.memNo})}"
+																class="myMenu">나의 전원마켓</a></li>
+															<li><a href="/myPage/myAuctionForm" class="myMenu">나의 경매장</a></li>
+															<li><a
+																th:href="@{/myPage/myBnbList(memNo=${session.mem.memNo})}"
+																class="myMenu">나의 농촌비앤비</a></li>
+															<li><a href="/myPage/myExpForm" class="myMenu">나의 농촌체험</a></li>
+															<li><a
+																th:href="@{/myPage/mySkilledForm(memNo=${session.mem.memNo})}"
+																class="myMenu">나의 금손귀농인</a></li>
+															<li><a
+																th:href="@{/myPage/myBoardList(memNo=${session.mem.memNo})}"
+																class="myMenu">나의 게시글</a></li>
 														</ul>
 													</div>
 												</div>
@@ -74,29 +89,30 @@
 										</div>
 										<div class="card">
 											<div class="">
-												<a th:href="@{/myPage/alertList(memNo=${session.mem.memNo})}" data-target="#collapseThree"
-													class="href">나의 알림</a>
+												<a
+													th:href="@{/myPage/alertList(memNo=${session.mem.memNo})}"
+													data-target="#collapseThree" class="href myMenu">나의 알림</a>
 											</div>
 										</div>
 										<div class="card">
 											<div class="">
-												<a th:href="@{/myPage/myPayList(memNo=${session.mem.memNo})}"
-													data-target="#collapseFour"
-													class="href">나의 구매내역</a>
+												<a
+													th:href="@{/myPage/myPayList(memNo=${session.mem.memNo})}"
+													data-target="#collapseFour" class="href myMenu">나의 구매내역</a>
 											</div>
 										</div>
 										<div class="card">
 											<div class="">
-												<a th:href="@{/myPage/mySaleList(memNo=${session.mem.memNo})}"
-													data-target="#collapseFive"
-													class="href">나의 판매내역</a>
+												<a
+													th:href="@{/myPage/mySaleList(memNo=${session.mem.memNo})}"
+													data-target="#collapseFive" class="href myMenu">나의 판매내역</a>
 											</div>
 										</div>
 										<div class="card">
 											<div class="">
-												<a th:href="@{/myPage/myInquiry(memNo=${session.mem.memNo})}"
-													data-target="#collapseFive"
-													class="href">문의하기</a>
+												<a
+													th:href="@{/myPage/myInquiry(memNo=${session.mem.memNo})}"
+													data-target="#collapseFive" class="href myMenu">문의하기</a>
 											</div>
 										</div>
 									</div>
@@ -114,7 +130,7 @@
 
 		</div>
 		<script th:inline="javascript">
-			
+
 		</script>
 	</div>
 </body>

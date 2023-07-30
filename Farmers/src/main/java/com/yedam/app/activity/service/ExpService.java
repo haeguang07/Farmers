@@ -8,7 +8,7 @@ import com.yedam.app.activity.vo.ExpVO;
 
 public interface ExpService {
 	// 전체조회
-	public List<ExpVO> getExpListPage(int page, String expStart, String dst1, String dst2);
+	public List<ExpVO> getExpListPage(int page, ExpVO vo);
 
 	// 단건조회
 	public ExpVO getExpInfo(ExpVO expVO);
@@ -20,9 +20,12 @@ public interface ExpService {
 	public int deleteExpInfo(String boardNo);
 
 	// 게시글 수
-	public int getCount(String expStart, String dst1, String dst2);
+	public int getCount(ExpVO vo);
 
 	// 농촌 체험하기 신청(등록)
 	public boolean insertExpApply(ExpApplyVO expaVO);
+	
+	// 농촌 체험하기 신청리스트
+	public List<ExpVO> selectExpApplyList(int page, ExpVO expVO);
 
 }

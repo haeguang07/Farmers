@@ -80,6 +80,10 @@
 		<script th:inline="javascript">
 			let memNo = /*[[${session.mem.memNo}]]*/ ;
 			let table;
+			
+			$(function(){
+				myMenucheck('나의 펀딩')
+			})
 
 			// dataTables 생성 함수
 			$(function(){

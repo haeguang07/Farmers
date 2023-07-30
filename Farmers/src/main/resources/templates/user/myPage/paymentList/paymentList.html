@@ -20,7 +20,7 @@
 <style>
 .mfp-content {
 	width: 1500px;
-	height: 900px;
+	height: 750px;
 }
 </style>
 </head>
@@ -92,6 +92,9 @@
 		<script>
 			// dataTables
 			$(function() {
+				//사이드바
+				myMenucheck('나의 구매내역')
+				
 				$('#myTable').DataTable({
 					language : lang_kor,
 					order : [ [ 4, "desc" ] ]

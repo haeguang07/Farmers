@@ -38,7 +38,6 @@
 		<script src="/js/jquery/json.min.js"></script>
 		<script src="/js/jquery/jqueryUI.js"></script>
 		<script src="/js/otherPlugins/sweetAlert2-11.4.10.js"></script>
-		
 		<script src="/js/main.js"></script>
 
 		<script src="/js/otherPlugins/ckeditor5-34.0.0-classic.js"></script>
@@ -148,10 +147,18 @@
 
 			//데이터 입력 확인
 			if (!$('[name="inqTitle"]').val()) {
-				alert('제목을 입력하세요');
+				new swal({
+            		title: "제목을 입력하세요",
+            		icon : "warning",
+            		confirmButtonColor: '#95D083'		
+            })
 				return;
 			} else if(ckData.getData() == '') { 
-				alert('문의내용을 입력해주세요')
+				new swal({
+            		title: "문의내용을 입력하세요",
+            		icon : "warning",
+            		confirmButtonColor: '#95D083'		
+            })
 			}else {
 				let formData = $('#myForm').serializeObject()
 				formData.inqDesct = ckData.getData()
@@ -165,15 +172,29 @@
 					})
 					.done(function (result) {
 						if(result){
-							alert('문의등록이 완료되었습니다')
+							new swal({
+		                		title: "문의등록이 완료되었습니다",
+		                		icon : "warning",
+		                		confirmButtonColor: '#95D083'		
+		                })
+						.then(function(){
 							//부모창의 팝업 닫기 함수를 호출
-							parent.closePopUp()
+							parent.closePopUp()							
+						})
 						}else{
-							alert('문의등록에 실패하였습니다')						
+							new swal({
+		                		title: "문의등록에 실패하였습니다",
+		                		icon : "warning",
+		                		confirmButtonColor: '#95D083'		
+		                })				
 						}
 					})
 					.fail(function (result) {
-						alert('문의등록에 실패하였습니다')			
+						new swal({
+	                		title: "문의등록에 실패하였습니다",
+	                		icon : "warning",
+	                		confirmButtonColor: '#95D083'		
+	                })	
 					})
 			}
 		})

@@ -17,13 +17,13 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/vue3-sfc-loader/dist/vue3-sfc-loader.js"></script>
 <script src="/js/vue/Vue-load.js"></script>
-<script src="/js/myRouter.js"></script>
+<script src="/js/user/mypage/myRouter.js"></script>
 <script src="https://unpkg.com/vuex@4.0.0/dist/vuex.global.js"></script>
 <style>
-.myBlack {
-	background-color: green
+a.router-link-exact-active  {
+	background-color: green;
+	
 }
-
 .pro-qty-my input
 	{
 	width: 50px;
@@ -32,6 +32,9 @@
 	color: #111111;
 	font-size: 16px;
 }
+a {
+color : white 
+	}
 </style>
 </head>
 
@@ -66,13 +69,13 @@
 													<div class="shop__sidebar__categories">
 														<ul>
 															<li><router-link to="/"
-																	class="nav-link check myBlack" aria-current="page"
+																	class="nav-link  mySelect" aria-current="page"
 																	id="n8Cart">농작물판매 </router-link></li>
 															<!-- <li>
 																<router-link to="/n2Cart" class="nav-link check" aria-current="page">농기구판매
 																</router-link>
 															</li> -->
-															<li><router-link to="/n7Cart" class="nav-link check"
+															<li><router-link to="/n7Cart" class="nav-link "
 																	aria-current="page">전원마켓</router-link></li>
 														</ul>
 													</div>
@@ -92,14 +95,6 @@
 
 		</div>
 		<script th:inline="javascript">
-			$(function(){
-
-				$('.check').on('click',function(e){
-					console.log('a')
-					$('.check').removeClass('myBlack')
-					$(e.target).addClass('myBlack')
-				})
-			})
 
 			//vuex
 			const {	createStore	} = Vuex

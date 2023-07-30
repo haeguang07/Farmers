@@ -37,20 +37,17 @@ public class ExpController {
 	// 전체조회
 	@PostMapping("expList")
 	@ResponseBody
-	public Map<String, Object> getExpListPage(@RequestParam(required = false, defaultValue = "0") int pageNum,
-											  @RequestParam(required = false) String expStart,
-											  @RequestParam(required = false) String dst1,
-											  @RequestParam(required = false) String dst2) {
-		pageNum = pageNum == 0 ? 1 : pageNum;
-		int total = expService.getCount(expStart, dst1, dst2);
-		List<ExpVO> list = expService.getExpListPage(pageNum, expStart, dst1, dst2);
+	public Map<String, Object> getExpListPage(ExpVO vo) {
+		int pageNum = vo.getPage() == 0 ? 1 : vo.getPage();
+		int total = expService.getCount(vo);
+		List<ExpVO> list = expService.selectExpApplyList(pageNum, vo);
 		
-		PageVO vo = new PageVO(pageNum, total);
+		PageVO pvo = new PageVO(pageNum, total);
 		Map<String, Object> map = new HashMap<>();
 		map.put("expList", list);
-		map.put("pageInfo", vo);
-		if(dst1 != null) {
-			map.put("dst2", codeService.getCodeList(dst1));
+		map.put("pageInfo", pvo);
+		if(vo.getDst1() != null) {
+			map.put("dst2", codeService.getCodeList(vo.getDst1()));
 		}
 		
 		return map;

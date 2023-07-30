@@ -14,29 +14,29 @@
 		rel="stylesheet">
 
 	<!-- Css Styles -->
-		<link rel="stylesheet" href="/css/jquery/bootstrap.min.css" type="text/css">
-		<link rel="stylesheet" href="/css/otherPlugins/font-awesome.min.css" type="text/css">
-		<link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
-		<link rel="stylesheet" href="/css/jquery/magnific-popup.css" type="text/css">
-		<link rel="stylesheet" href="/css/jquery/nice-select.css" type="text/css">
-		<link rel="stylesheet" href="/css/jquery/owl.carousel.min.css" type="text/css">
-		<link rel="stylesheet" href="/css/jquery/slicknav.min.css" type="text/css">
-		<link rel="stylesheet" href="/css/style.css" type="text/css">
-		<link rel="stylesheet" href="/css/jquery/jQueryUI.css">
-		<link rel="stylesheet" href="/css/otherPlugins/sweetAlert.css" type="text/css">
-		<!-- Js Plugins -->
-		<script src="/js/jquery/jquery-3.3.1.min.js"></script>
-		<script src="/js/jquery/bootstrap.min.js"></script>
-		<script src="/js/jquery/jquery.nice-select.min.js"></script>
-		<script src="/js/jquery/jquery.nicescroll.min.js"></script>
-		<script src="/js/jquery/jquery.magnific-popup.min.js"></script>
-		<script src="/js/jquery/jquery.countdown.min.js"></script>
-		<script src="/js/jquery/jquery.slicknav.js"></script>
-		<script src="/js/jquery/mixitup.min.js"></script>
-		<script src="/js/jquery/owl.carousel.min.js"></script>
-		<script src="/js/jquery/json.min.js"></script>
-		<script src="/js/jquery/jqueryUI.js"></script>
-		<script src="/js/otherPlugins/sweetAlert2-11.4.10.js"></script>
+	<link rel="stylesheet" href="/css/jquery/bootstrap.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/otherPlugins/font-awesome.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+	<link rel="stylesheet" href="/css/jquery/magnific-popup.css" type="text/css">
+	<link rel="stylesheet" href="/css/jquery/nice-select.css" type="text/css">
+	<link rel="stylesheet" href="/css/jquery/owl.carousel.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/jquery/slicknav.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/style.css" type="text/css">
+	<link rel="stylesheet" href="/css/jquery/jQueryUI.css">
+	<link rel="stylesheet" href="/css/otherPlugins/sweetAlert.css" type="text/css">
+	<!-- Js Plugins -->
+	<script src="/js/jquery/jquery-3.3.1.min.js"></script>
+	<script src="/js/jquery/bootstrap.min.js"></script>
+	<script src="/js/jquery/jquery.nice-select.min.js"></script>
+	<script src="/js/jquery/jquery.nicescroll.min.js"></script>
+	<script src="/js/jquery/jquery.magnific-popup.min.js"></script>
+	<script src="/js/jquery/jquery.countdown.min.js"></script>
+	<script src="/js/jquery/jquery.slicknav.js"></script>
+	<script src="/js/jquery/mixitup.min.js"></script>
+	<script src="/js/jquery/owl.carousel.min.js"></script>
+	<script src="/js/jquery/json.min.js"></script>
+	<script src="/js/jquery/jqueryUI.js"></script>
+	<script src="/js/otherPlugins/sweetAlert2-11.4.10.js"></script>
 	<!-- datatables -->
 	<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" type="text/css">
@@ -81,48 +81,49 @@
 							<hr>
 							<h5 class="textCenter">구매상품</h5>
 							<hr>
-								<table id="productTable">
-									<thead>
-										<tr>
-											<th>이미지</th>
-											<th>상품명</th>
-											<!-- bnb 구분 -->
-											<th:block th:if="${prodInfo[0].boardCtg} != 'n4'">
-												<th>수량</th>
-												<th>가격</th>
-											</th:block>
-											<th:block th:if="${prodInfo[0].boardCtg} == 'n4'">
-												<th>체크인</th>
-												<th>체크아웃</th>
-											</th:block>
-											<th>합계</th>
-											<th>배송상태</th>
-										</tr>
-									</thead>
-									<tbody id="tbody">
-										<tr th:each="prod : ${prodInfo}" class="tr">
-											<td>
-												<img th:src="${prod.rep}" alt="" width="100px" height="100px" th:if="not ${#strings.isEmpty(prod. rep)}">
-												<div style="width: 100px; height: 100px;" th:if="${#strings.isEmpty(prod. rep)}">
-													<p style="text-align: center;line-height : 100px;">이미지없음</p>
-												</div>
-											</td>
-											<td th:text="${prod.title}">2</td>
-											<!-- bnb 구분 -->
-											<th:block th:if="${prodInfo[0].boardCtg} != 'n4'">
-												<td th:text="${prod.qty}">4</td>
-												<td th:text="${#numbers.formatInteger(prod.price, 3, 'COMMA')}">5</td>
-											</th:block>
-											<th:block th:if="${prodInfo[0].boardCtg} == 'n4'">
-												<td th:text="${#dates.format(prod.rsvStrDate, 'yyyy/MM/dd')}">4</td>
-											 <td th:text="${#dates.format(prod.rsvEndDate, 'yyyy/MM/dd')}">5</td>
-											</th:block>
-											<td th:text="${#numbers.formatInteger(prod.qty * prod.price , 3, 'COMMA')}">5</td>
-											<td th:text="${prod.shipStts}" id="stts">7</td>
-										</tr>
-									</tbody>
-								</table>
-								<hr>
+							<table id="productTable">
+								<thead>
+									<tr>
+										<th>이미지</th>
+										<th>상품명</th>
+										<!-- bnb 구분 -->
+										<th:block th:if="${prodInfo[0].boardCtg} != 'n4'">
+											<th>수량</th>
+											<th>가격</th>
+										</th:block>
+										<th:block th:if="${prodInfo[0].boardCtg} == 'n4'">
+											<th>체크인</th>
+											<th>체크아웃</th>
+										</th:block>
+										<th>합계</th>
+										<th>배송상태</th>
+									</tr>
+								</thead>
+								<tbody id="tbody">
+									<tr th:each="prod : ${prodInfo}" class="tr">
+										<td><img th:src="${prod.rep}" alt="" width="100px" height="100px" th:if="not ${#strings.isEmpty(prod. rep)}">
+											<div style="width: 100px; height: 100px;"
+												th:if="${#strings.isEmpty(prod. rep)}">
+												<p style="text-align: center; line-height: 100px;">이미지없음</p>
+											</div></td>
+										<td th:text="${prod.title}">2</td>
+										<!-- bnb 구분 -->
+										<th:block th:if="${prodInfo[0].boardCtg} != 'n4'">
+											<td th:text="${prod.qty}">4</td>
+											<td
+												th:text="${#numbers.formatInteger(prod.price, 3, 'COMMA')}">5</td>
+										</th:block>
+										<th:block th:if="${prodInfo[0].boardCtg} == 'n4'">
+											<td th:text="${#dates.format(prod.rsvStrDate, 'yyyy/MM/dd')}">4</td>
+											<td th:text="${#dates.format(prod.rsvEndDate, 'yyyy/MM/dd')}">5</td>
+										</th:block>
+										<td
+											th:text="${#numbers.formatInteger(prod.qty * prod.price , 3, 'COMMA')}">5</td>
+										<td th:text="${prod.shipStts}" id="stts">7</td>
+									</tr>
+								</tbody>
+							</table>
+							<hr>
 						</div>
 					</div>
 					<!-- 총액 시작 -->
@@ -131,13 +132,24 @@
 						<hr>
 						<div class="cart__total">
 							<ul>
-								<li><h5>총액 <span th:text="${#numbers.formatInteger(payInfo.totalPayPrice, 3, 'COMMA')}">0</span></h5></li>
-								<li><h5>사용포인트 <span th:text="${payInfo.usePnt}">0</span></h5></li>
-								<li><h5>결제방법 <span th:text="${payInfo.payMthd}">0</span></h5></li>
-								<li><h5>결제날짜 <span th:text="${#dates.format(payInfo.payDate, 'yyyy/MM/dd')}">0</span></h5></li>
+								<li><h5>
+										총액 <span
+											th:text="${#numbers.formatInteger(payInfo.totalPayPrice, 3, 'COMMA')}">0</span>
+									</h5></li>
+								<li><h5>
+										사용포인트 <span th:text="${payInfo.usePnt}">0</span>
+									</h5></li>
+								<li><h5>
+										결제방법 <span th:text="${payInfo.payMthd}">0</span>
+									</h5></li>
+								<li><h5>
+										결제날짜 <span
+											th:text="${#dates.format(payInfo.payDate, 'yyyy/MM/dd')}">0</span>
+									</h5></li>
 							</ul>
 						</div>
-						<button type="button" class="form-control miniBtn right" id="refundBtn">환불하기</button>
+						<button type="button" class="form-control miniBtn right"
+							id="refundBtn">환불하기</button>
 					</div>
 				</div>
 			</div>
@@ -196,60 +208,82 @@
 				if($(item).find('#stts').text() == "결제완료" || $(item).find('#stts').text() == "배송 전"){
 					bool = true;
 				}else{
-					alert('환불할 수 없는 상태입니다')
+					new swal({
+                		title: "환불할 수 없는 상태입니다",
+                		icon : "warning",
+                		confirmButtonColor: '#95D083'		
+                })	
 					return false;
 				}
 			})
 			
 			if(bool){
-				if(confirm('환불하시겠습니까? \n(환불 시 사용포인트는 소멸됩니다)')){
-					let payCode =/*[[${payInfo.payCode}]]*/;
-					let url = "https://api.tosspayments.com/v1/payments/"+payCode+"/cancel";
-					let boolean = false;
-					//토스 환불 처리
-					$.ajax({   
-						url : url,
-						method : "POST",
-						async : false,
-						headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": "Basic dGVzdF9za196WExrS0V5cE5BcldtbzUwblgzbG1lYXhZRzVSOg=="
-                     },
-						data : JSON.stringify({
-							"cancelReason" : "취소"
-						})
-					})
-					.done(function(result){
-					console.log(result)
-					boolean = true;
-					})
-					.fail(function(data, textStatus, errorThrown){
-					alert('환불에 실패하였습니다')
-					console.log(data)
-					})
+				new swal({
+									title: "환불하시겠습니까?",
+									text: "환불 시 포인트는 자동환불 됩니다",
+									icon: "info",
+									buttons: ["예", "아니오"]
+							}).then((YES) => {
+									if (YES) {
+										let payCode =/*[[${payInfo.payCode}]]*/;
+										let url = "https://api.tosspayments.com/v1/payments/"+payCode+"/cancel";
+										let boolean = false;
+										//토스 환불 처리
+										$.ajax({   
+											url : url,
+											method : "POST",
+											async : false,
+											headers: {
+																	"Content-Type": "application/json",
+																	"Authorization": "Basic dGVzdF9za196WExrS0V5cE5BcldtbzUwblgzbG1lYXhZRzVSOg=="
+															},
+											data : JSON.stringify({
+												"cancelReason" : "취소"
+											})
+										})
+										.done(function(result){
+										console.log(result)
+										boolean = true;
+										})
+										.fail(function(data, textStatus, errorThrown){
+											new swal({
+																title: "환불에 실패하였습니다",
+																icon : "error",
+																confirmButtonColor: '#95D083'		
+														})	
+										console.log(data)
+										})
 
-					if(boolean){
+										if(boolean){
 
-						let uri = "/myPage/refund"
-						//결제 상태 변경
-						$.ajax({
-							url : uri,
-							async : "false",
-							data : {
-								payNo : /*[[${payInfo.payNo}]]*/,
-								memNo : /*[[${session.mem.memNo}]]*/,
-								boardCtg : /*[[${prodInfo[0].boardCtg}]]*/ 
-							}
-						})
-						.done(function(){
-								alert('환불처리가 완료되었습니다.')
-								//부모창의 팝업 닫기 함수를 호출
-								parent.closePopUp()
-						})
-					}
-				}
-				
+											let uri = "/myPage/refund"
+											//결제 상태 변경
+											$.ajax({
+												url : uri,
+												async : "false",
+												data : {
+													payNo : /*[[${payInfo.payNo}]]*/,
+													memNo : /*[[${session.mem.memNo}]]*/,
+													boardCtg : /*[[${prodInfo[0].boardCtg}]]*/ 
+												}
+											})
+											.done(function(){
+												new swal({
+																	title: "환불처리가 완료되었습니다",
+																	icon : "success",
+																	confirmButtonColor: '#95D083'		
+															})	
+											.then(function(){
+													//부모창의 팝업 닫기 함수를 호출
+													parent.closePopUp()							
+											})
+											})
+										} 
+									}
+							});
 			}
+
+		
 		})
 	</script>
 </body>
