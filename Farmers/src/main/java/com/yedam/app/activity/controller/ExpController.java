@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.app.activity.service.ExpService;
@@ -37,17 +36,17 @@ public class ExpController {
 	// 전체조회
 	@PostMapping("expList")
 	@ResponseBody
-	public Map<String, Object> getExpListPage(ExpVO vo) {
-		int pageNum = vo.getPage() == 0 ? 1 : vo.getPage();
-		int total = expService.getCount(vo);
-		List<ExpVO> list = expService.selectExpApplyList(pageNum, vo);
+	public Map<String, Object> getExpListPage(ExpVO expVO) {
+		int pageNum = expVO.getPage() == 0 ? 1 : expVO.getPage();
+		int total = expService.getCount(expVO);
+		List<ExpVO> list = expService.getExpListPage(pageNum, expVO);
 		
-		PageVO pvo = new PageVO(pageNum, total);
+		PageVO page = new PageVO(pageNum, total);
 		Map<String, Object> map = new HashMap<>();
 		map.put("expList", list);
-		map.put("pageInfo", pvo);
-		if(vo.getDst1() != null) {
-			map.put("dst2", codeService.getCodeList(vo.getDst1()));
+		map.put("pageInfo", page);
+		if(expVO.getDst1() != null) {
+			map.put("dst2", codeService.getCodeList(expVO.getDst1()));
 		}
 		
 		return map;

@@ -5,20 +5,20 @@
 <mapper namespace="com.yedam.app.activity.mapper.ExpMapper">
 	
 	<!-- 농촌 체험하기 전체조회(페이징) -->
-	<select id="selectExpListPage" resultType="ExpVO">
+	<select id="selectExpListPage" resultMap="expApplyList" resultType="ExpVO">
 		select b.*
 		from (select ROWNUM rn, a.*
 			  from (select board_no, title, zip, addr, dst1, dst2, ppt_per, ex_str_date, ex_end_date, reg_date, reg_stts, lati, longi, deta_addr
 					from experience
 					<where>
 						reg_stts = 'e1'
-						<if test="expStart != null and !expStart.equals('')">
-							and ex_str_date > #{expStart}
+						<if test="expVO.exStrDate != null">
+							and ex_str_date > #{exStrDate}
 						</if>
-						<if test="dst1 != null and !dst1.equals('')">
+						<if test="expVO.dst1 != null and !expVO.dst1.equals('')">
 							and dst1 = #{dst1}
 						</if>
-						<if test="dst2 != null and !dst2.equals('')">
+						<if test="expVO.dst2 != null and !expVO.dst2.equals('')">
 							and dst2 = #{dst2}
 						</if>
 					</where>
