@@ -47,7 +47,7 @@
 
 <!-- 상세 조회 -->
 <select id="skilledInfo" resultType="SkilledVO">
-	SELECT s.board_no, s.mem_no, m.nick, FIND_CODE_NAME(dst1) dst1, FIND_CODE_NAME(dst2) dst2,
+	SELECT s.board_no, s.mem_no, m.nick, FIND_CODE_NAME(dst1) dst1Name, dst1, FIND_CODE_NAME(dst2) dst2,
 		   div, img, title, desct, FIND_CODE_NAME(day_div) day_div, FIND_CODE_NAME(wage_div) wage_div,
 		   price, FIND_CODE_NAME(cndt) cndt, addr_desct, stts, reg_Date
 	FROM skilled_expert s LEFT JOIN member m
@@ -84,7 +84,7 @@
 </update>
 
 <!-- 글 삭제 -->
-<delete id="deleteSkiiled" parameterType="String">
+<delete id="deleteSkilled" parameterType="String">
 	DELETE FROM skilled_expert
 	WHERE board_no = #{boardNo}
 </delete>

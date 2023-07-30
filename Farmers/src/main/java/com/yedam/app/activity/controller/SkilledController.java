@@ -97,18 +97,52 @@ public class SkilledController {
 	
 	// 수정 모달창 이동
 	@GetMapping("/updateSkilled")
-	public String updateSkilled(String boardNo) {
+	public String updateSkilled(String boardNo, Model model) {
+		model.addAttribute("dst1", codeService.getCodeList("0K"));
+		String dst1 = skilledService.skilledInfo(boardNo).getDst1();
+		model.addAttribute("dst2", codeService.getCodeList(dst1));
+		model.addAttribute("goldInfo", skilledService.skilledInfo(boardNo));
 		return "activity/skilled/updateSkilled";
 	}
 	
 	// 수정 처리
+	@PostMapping("/updateSkilled")
+	@ResponseBody
+	public Map<String, Object> updateSkilled(SkilledVO vo){
+		Map<String, Object> map = new HashMap<>();
+		boolean result = skilledService.updateSkilled(vo);
+		
+		if(result) {
+			map.put("retCode", "Success");
+		} else {
+			map.put("retCode", "Fail");
+		}
+		
+		return map;
+	}
 	
 	// 삭제 처리
 	@PostMapping("/deleteSkilled")
-	public Map<String, Object> deleteSkilled(String boardNo){
+	@ResponseBody
+	public Map<String, Object> deleteSkilled(@RequestParam(required = false) String boardNo){
 		Map<String, Object> map = new HashMap<>();
+		boolean result = skilledService.deleteSkilled(boardNo);
 			
+		if(result) {
+			map.put("retCode", "Success");
+		} else {
+			map.put("retCode", "Fail");
+		}
+		
 		return map;
+	}
+	
+	// 신청 모달창 이동
+	@GetMapping("/applySkilled")
+	public String applySkilled(String boardNo, Model model) {
+		model.addAttribute("dst1", codeService.getCodeList("0K"));
+		model.addAttribute("goldInfo", skilledService.skilledInfo(boardNo));
+		return "activity/skilled/applySkilled";
 	}
 	
 	

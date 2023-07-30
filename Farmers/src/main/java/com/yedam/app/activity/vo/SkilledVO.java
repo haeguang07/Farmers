@@ -16,6 +16,7 @@ public class SkilledVO {
 	private String memNo;
 	private String dst1;
 	private String dst2;
+	private String dst1Name;
 	private String div;
 	private String img;
 	private String title;
