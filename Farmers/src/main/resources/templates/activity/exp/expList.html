@@ -69,7 +69,7 @@
 										<h6 class="col-2"
 												style="text-align: center; line-height: 30px;">체험시작일자</h6>
 										<div>
-											<input type="date" id="expStart" name="expStart" style="float: center;">
+											<input type="date" id="expStart" name="exStrDate" style="float: center;">
 										</div>
 									</div>
 									<div class="row">
@@ -164,19 +164,15 @@
 			
 			// 페이지 로드
 			$(function() {
-				ajaxData(1)
+				ajaxData(1,null,null,null)
 			});
 			// 리스트 불러오기
-			function ajaxData(page, expStart, dst1, dst2) {
+			function ajaxData(page, exStrDate, dst1, dst2) {
+				vo = {dst1,dst2,exStrDate, page}
 				$.ajax({
 					url : '/expList',
 					type : 'POST',
-					data : {
-						pageNum : page,
-						expStart : expStart,
-						dst1 : dst1,
-						dst2 : dst2
-					}
+					data : vo
 				})
 				.done(function(data) {
 					console.log(data);
@@ -230,10 +226,15 @@
 			function printItem(index, item) {
 				let clone = $('#expItem').clone();
 				$(clone).removeClass('hideItem');
+				console.log(item);
+				let apl;
+				item.expApplyList.forEach((index, item) => {
+					apl = item.aplPer(index);
+				})
 				
 				$(clone).find('#number').text(index + 1);
 				$(clone).find('#title').text(item.title);
-				$(clone).find('#reception').text('현재 신청 인원' + '/' + item.pptPer);
+				$(clone).find('#reception').text(apl + '/' + item.pptPer);
 				$(clone).find('#addr').text(item.addr + ' ' + item.detaAddr);
 				$(clone).find('#date').text(item.exStrDate + ' ~ ' + item.exEndDate);
 				
@@ -310,7 +311,7 @@
 					page = 1;
 				}
 				
-				ajaxData(page, expStart, dst1, dst2);
+				ajaxData(page, exStrDate, dst1, dst2);
 			}
 			// 주요 재배 작물 카테고리 변경 시
 			$('#expStart').change(function() {
