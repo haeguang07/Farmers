@@ -61,7 +61,7 @@
 </style>
 </head>
 
-<body>
+<body id="body">
 	<!-- Header Section Begin -->
 	<header class="header">
 		<div class="header__top">
@@ -151,27 +151,14 @@
 						<div class="notification-box">
 
 							<!-- 알림 모달팝업창 -->
-							<div class="alarm-modal">
-								<div class="modal-content">
+							<div class="alarm-modal" id="bellModal">
+								<div class="modal-content" >
 									<div class="box">
 										<h3 class="alarmTitle">알림</h3>
-
-										<div class="alarm-notification">
+										<div class="alarm-notification" th:each="alert : ${session.alertList}">
 											<span class="alarm-close">&times;</span>
-											<p>새로운 메시지가 도착했습니다.</p>
-											<p class="time">2023-07-09 10:30 AM</p>
-										</div>
-
-										<div class="alarm-notification">
-											<span class="alarm-close">&times;</span>
-											<p>친구 요청이 왔습니다.</p>
-											<p class="time">2023-07-09 09:15 AM</p>
-										</div>
-
-										<div class="alarm-notification">
-											<span class="alarm-close">&times;</span>
-											<p>이벤트에 참여해주세요!</p>
-											<p class="time">2023-07-08 04:45 PM</p>
+											<p th:text="${alert.alrtTitle}">새로운 메시지가 도착했습니다.</p>
+											<p class="time" th:text="${#dates.format(alert.alrtDate, 'yyyy/MM/dd')}">2023-07-09 10:30 AM</p>
 										</div>
 									</div>
 								</div>
@@ -275,14 +262,18 @@
 
 	<script>
 		//알림창
-		var modal = document.querySelector('.modal');
-		var closeButton = document.querySelectorAll('.close');
+		var modal = document.querySelector('.alarm-modal');
+		var closeButton = document.querySelectorAll('.alarm-close');
 		var notificationButton = document.querySelector('.notification-btn');
 
 		// 모달 팝업 열기
 		function openModal() {
 			modal.style.display = 'block';
-			//modal.style.z-index = '9999999999';
+			$(modal).css({
+				"display" : "block",
+				'zIndex' : 999999,
+				'position' : 'relative'
+			});
 		}
 
 		// 모달 팝업 닫기
@@ -299,8 +290,9 @@
 		});
 
 		// 모달 팝업 영역 밖 클릭 시 닫기
-		window.addEventListener('click', function(event) {
-			if (event.target === modal) {
+		$('#body').on('click', function(event) {
+			if (event.target == document.getElementById("bellModal")) {
+				console.log('a')
 				closeModal();
 			}
 		});

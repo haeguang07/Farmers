@@ -9,5 +9,13 @@
 		VALUES (('alrt'||LPAD(alrt_seq.NEXTVAL,13,0)), #{memNo}, 'L1', #{alrtTitle} ,#{alrtDesct}, #{boardCtg}, sysdate)
 	</insert>
 	
+	<!-- 나의 미열람 알림조회 -->
+	<select id="myAlert" parameterType="String" resultType="AlertVO">
+		SELECT *
+		FROM alert
+		WHERE mem_no = #{memNo}
+		AND alrt_stts = 'L1'
+	</select>
+	
 	
 </mapper>

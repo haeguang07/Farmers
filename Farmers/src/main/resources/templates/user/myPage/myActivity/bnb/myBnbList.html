@@ -78,6 +78,11 @@
 		<script th:inline="javascript">
 			let memNo = /*[[${session.mem.memNo}]]*/ ;
 			let table;
+			
+			$(function(){
+				//사이드바
+				myMenucheck('나의 농촌비앤비')
+			})
 
 			// dataTables 생성 함수
 			$(function(){

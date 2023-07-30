@@ -33,21 +33,30 @@
 		.act {
 			background-color: rgb(105, 194, 142);
 		}
+		.activity{
+			background-color: #95D083;
+			color: white;
+		}
+		.myMenuBtn:focus {
+			background-color: #95D083;
+			color: white;
+		}
 	</style>
 </head>
 
 <body>
 	<div layout:fragment="myPageContent">
-		<div class="justify-content-center">
+		<div class="justify-content-center" style="margin-bottom: 20px;">
 			<h3 class="current text-center">나의 금손귀농인</h3>
 		</div>
 		<!-- Shop Section Begin -->
 		<div class="row">
 			<div class="col-lg-2"></div>
-			<button type="button" class="form-control col-lg-3 miniBtn" id="registration">등록</button>
-			<div class="col-lg-2"></div>
-			<button type="button" class="form-control col-lg-3 miniBtn" id="subscription">신청</button>
-			<div class="col-lg-2"></div>
+			<button type="button" class="form-control col-lg-2 miniBtn activity myMenuBtn" id="registration1">나의 구해요</button>
+			<div class="col-lg-1"></div>
+			<button type="button" class="form-control col-lg-2 miniBtn myMenuBtn" id="registration2">나의 할게요</button>
+			<div class="col-lg-1"></div>
+			<button type="button" class="form-control col-lg-2 miniBtn myMenuBtn" id="subscription">나의 지원</button>
 		</div>
 		<section class="shop myMargin">
 			<div class="container">
@@ -73,15 +82,21 @@
 			let table;
 			//기본 화면 데이터
 			$(function () {
+				//사이드바
+				myMenucheck('나의 금손귀농인')
+				
 				ajaxMyList()
 			})
 
-		// 	// //버튼 클릭 이벤트
-			$('#registration').on('click', function () {
+		  //버튼 클릭 이벤트
+			$('#registration1').on('click', function () {
 				ajaxMyList()
 			})
-			$('#subscription').on('click', function () {
+			$('#registration2').on('click', function () {
 				ajaxLendList()
+			})
+			$('#subscription').on('click', function () {
+				ajaxSubList()
 			})
 
 
@@ -146,7 +161,7 @@
 			};
 
 
-			// //등록 ajax 불러오기
+			//구해요 ajax 불러오기
 			function ajaxMyList() {
 				$.ajax({
 						url: "/myPage/mySkilledList",
@@ -166,11 +181,15 @@
 						mkDataTable()
 					})
 					.fail(function () {
-						alert('데이터 로드 실패')
+						new swal({
+	                		title: "fail",
+	                		icon : "error",
+	                		confirmButtonColor: '#95D083'		
+	                })	
 					})
 			}
 
-			//등록 tr 만들기 함수
+			//구해요 tr 만들기 함수
 			function makeMyTr(list) {
 				//thead
 				$('#thead').children().remove()
@@ -200,59 +219,113 @@
 				})
 			}
 
-			// //신청 ajax 불러오기
-			// function ajaxLendList() {
-			// 	$.ajax({
-			// 			url: "/myPage/myExpSubList",
-			// 			data: {
-			// 				memNo: memNo
-			// 			}
-			// 		})
-			// 		.done(function (result) {
-			// 			console.log(result)
+			//할게요 ajax 불러오기
+			function ajaxLendList() {
+				$.ajax({
+						url: "/myPage/myExpSubList",
+						data: {
+							memNo: memNo,
+							div : 'o1'
+						}
+					})
+					.done(function (result) {
+						console.log(result)
 
-			// 			//datatable 파괴
-			// 			if (typeof table != "undefined") {
-			// 				table.destroy();
-			// 			}
-			// 			makeSubTr(result)
-			// 			mkDataTable()
-			// 		})
-			// 		.fail(function () {
-			// 			alert('데이터 로드 실패')
-			// 		})
-			// }
+						//datatable 파괴
+						if (typeof table != "undefined") {
+							table.destroy();
+						}
+						makeMyTr2(result)
+						mkDataTable()
+					})
+					.fail(function () {
+						alert('데이터 로드 실패')
+					})
+			}
 
-			// // //신청 tr 만들기 함수
-			// function makeSubTr(list) {
-			// 	//thead
-			// 	$('#thead').children().remove()
-			// 	let tr = $('<tr>').addClass('th')
-			// 	let th1 = $('<th>').text('번호')
-			// 	let th2 = $('<th>').text('이미지')
-			// 	let th3 = $('<th>').text('제목')
-			// 	let th4 = $('<th>').text('신청일자')
-			// 	let th5 = $('<th>').text('신청상태')
-			// 	let th6 = $('<th>').text('상세확인')
-			// 	$(tr).append(th1, th2, th3, th4, th5, th6)
-			// 	$('#thead').append(tr)
+			//할게요 tr 만들기 함수
+			function makeMyTr2(list) {
+				//thead
+				$('#thead').children().remove()
+				let tr = $('<tr>').addClass('th')
+				let th1 = $('<th>').text('번호')
+				let th2 = $('<th>').text('제목')
+				let th3 = $('<th>').text('근무요일')
+				let th4 = $('<th>').text('등록일자')
+				let th5 = $('<th>').text('상태')
+				let th6 = $('<th>').text('신청확인')
+				$(tr).append(th1, th2, th3, th4, th5, th6)
+				$('#thead').append(tr)
 
-			// 	//tbody
-			// 	$('#tbody').children().remove()
-			// 	$(list).each(function (idx, item) {
-			// 		tr = $('<tr>').attr('no', item.boardNo)
-			// 									.attr('aplNo', item.aplNo)
-			// 		let td1 = $('<td>').text(item.boardNo)
-			// 		let td2 = $('<td>').append($('<img>').attr('src',item.rep))
-			// 		let td3 = $('<td>').text(item.title)
-			// 		let td4 = $('<td>').text(item.aplDate)
-			// 		let td5 = $('<td>').text(item.aplStts)
-			// 		let td6 = $('<td>').append($('<button class="form-control" type="button">상세확인</button> ').addClass('subBtn'))
+				//tbody
+				$('#tbody').children().remove()
+				$(list).each(function (idx, item) {
+					tr = $('<tr>').attr('no', item.boardNo)
+					let td1 = $('<td>').text(item.boardNo)
+					let td2 = $('<td>').text(item.title)
+					let td3 = $('<td>').text(item.dayDiv)
+					let td4 = $('<td>').text(item.regDate)
+					let td5 = $('<td>').text(item.stts)
+					let td6 = $('<td>').append($('<button class="form-control" type="button">신청확인</button>').addClass('myBtn2'))
 
-			// 		$(tr).append(td1, td2, td3, td4, td5, td6)
-			// 		$('#tbody').append(tr);
-			// 	})
-			// }
+					$(tr).append(td1, td2, td3, td4, td5, td6)
+					$('#tbody').append(tr);
+				})
+			}
+
+			//나의 신청 ajax 불러오기
+			function ajaxSubList() {
+				$.ajax({
+						url: "/myPage/mySkilledSubList",
+						data: {
+							memNo: memNo
+						}
+					})
+					.done(function (result) {
+						console.log(result)
+
+						//datatable 파괴
+						if (typeof table != "undefined") {
+							table.destroy();
+						}
+						makeMyTr(result)
+						mkDataTable()
+					})
+					.fail(function () {
+						alert('데이터 로드 실패')
+					})
+			}
+
+			//신청 tr 만들기 함수
+			function makeSubTr(list) {
+				//thead
+				$('#thead').children().remove()
+				let tr = $('<tr>').addClass('th')
+				let th1 = $('<th>').text('번호')
+				let th2 = $('<th>').text('제목')
+				let th3 = $('<th>').text('근무요일')
+				let th4 = $('<th>').text('등록일자')
+				let th5 = $('<th>').text('신청상태')
+				let th6 = $('<th>').text('상세확인')
+				$(tr).append(th1, th2, th3, th4, th5, th6)
+				$('#thead').append(tr)
+
+				//tbody
+				$('#tbody').children().remove()
+				$(list).each(function (idx, item) {
+					tr = $('<tr>').attr('no', item.boardNo)
+												.attr('aplNo', item.aplNo)
+					let td1 = $('<td>').text(item.boardNo)
+					let td2 = $('<td>').text(item.title)
+					let td3 = $('<td>').text(item.divDay)
+					let td4 = $('<td>').text(item.aplDate)
+					let td5 = $('<td>').text(item.aplStts)
+					let td6 = $('<td>').append($('<button class="form-control" type="button">상세확인</button> ').addClass('subBtn'))
+
+					$(tr).append(td1, td2, td3, td4, td5, td6)
+					$('#tbody').append(tr);
+				})
+			}
 
 			//tr 이동
 			// $(document).on("click", "tr", function (e) {
@@ -262,18 +335,31 @@
 			// 	}
 			// })
 
-			// //td 버튼 이벤트 (등록 리스트)
-			$(document).on("click", ".myBtn", function (e) {
-				e.stopPropagation()
+			// //td 버튼 이벤트 (구해요 리스트)
+			// $(document).on("click", ".myBtn", function (e) {
+			// 	e.stopPropagation()
 
-				//모달창
-				$.magnificPopup.open({
-					items: [{
-						src: "/myPage/myJobSearchList?boardNo="+$(e.target).closest('tr').attr('no'),
-						type: 'iframe'
-					}]
-				})
-			})
+			// 	//모달창
+			// 	$.magnificPopup.open({
+			// 		items: [{
+			// 			src: "/myPage/myJobSearchList?boardNo="+$(e.target).closest('tr').attr('no'),
+			// 			type: 'iframe'
+			// 		}]
+			// 	})
+			// })
+
+			// //td 버튼 이벤트 (할게요 리스트)
+			// $(document).on("click", ".myBtn2", function (e) {
+			// 	e.stopPropagation()
+
+			// 	//모달창
+			// 	$.magnificPopup.open({
+			// 		items: [{
+			// 			src: "/myPage/myJobSearchList?boardNo="+$(e.target).closest('tr').attr('no'),
+			// 			type: 'iframe'
+			// 		}]
+			// 	})
+			// })
 
 			// //td 버튼 이벤트 (신청 리스트)
 			// $(document).on("click", ".subBtn", function (e) {
@@ -298,6 +384,14 @@
 			// 	magnificPopup.close(); 
 			// 	location.reload();
 			// }
+
+			//버튼 active
+			$('.myMenuBtn').on('click',function(e){
+				$('.myMenuBtn').each(function(idx,item){
+					$(item).removeClass('activity')
+				})
+				$(e.target).addClass('activity')
+			})
 		</script>
 	</div>
 </body>

@@ -33,20 +33,28 @@
 		.act {
 			background-color: rgb(105, 194, 142);
 		}
+		.activity {
+			background-color: #95D083;
+			color: white;
+		}
+		.myMenuBtn:focus {
+			background-color: #95D083;
+			color: white;
+		}
 	</style>
 </head>
 
 <body>
 	<div layout:fragment="myPageContent">
-		<div class="justify-content-center">
+		<div class="justify-content-center" style="margin-bottom: 20px;">
 			<h3 class="current text-center">나의 경매장</h3>
 		</div>
 		<!-- Shop Section Begin -->
 		<div class="row">
 			<div class="col-lg-2"></div>
-			<button type="button" class="form-control col-lg-3 miniBtn" id="registration">등록</button>
+			<button type="button" class="form-control col-lg-3 miniBtn activity myMenuBtn" id="registration">나의 경매장</button>
 			<div class="col-lg-2"></div>
-			<button type="button" class="form-control col-lg-3 miniBtn" id="subscription">신청</button>
+			<button type="button" class="form-control col-lg-3 miniBtn myMenuBtn" id="subscription">나의 입찰</button>
 			<div class="col-lg-2"></div>
 		</div>
 		<section class="shop myMargin">
@@ -74,6 +82,9 @@
 			//기본 화면 데이터
 			$(function () {
 				ajaxMyList()
+				
+				//사이드바
+				myMenucheck('나의 경매장')
 			})
 
 			// //버튼 클릭 이벤트
@@ -115,7 +126,7 @@
 							targets: 5
 						}
 					],
-					order : [3, 'desc']
+					order: [3, 'desc']
 				});
 			}
 
@@ -165,7 +176,11 @@
 						mkDataTable()
 					})
 					.fail(function () {
-						alert('데이터 로드 실패')
+						new swal({
+	                		title: "fail",
+	                		icon : "error",
+	                		confirmButtonColor: '#95D083'		
+	                })	
 					})
 			}
 
@@ -188,7 +203,7 @@
 				$(list).each(function (idx, item) {
 					tr = $('<tr>').attr('no', item.boardNo)
 					let td1 = $('<td>').text(item.boardNo)
-					let td2 = $('<td>').append($('<img>').attr('src',item.rep))
+					let td2 = $('<td>').append($('<img>').attr('src', item.rep))
 					let td3 = $('<td>').text(item.title)
 					let td4 = $('<td>').text(item.actDate)
 					let td5 = $('<td>').text(item.regStts)
@@ -218,7 +233,11 @@
 						mkDataTable()
 					})
 					.fail(function () {
-						alert('데이터 로드 실패')
+						new swal({
+	                		title: "fail",
+	                		icon : "error",
+	                		confirmButtonColor: '#95D083'		
+	                })	
 					})
 			}
 
@@ -241,7 +260,7 @@
 				$(list).each(function (idx, item) {
 					tr = $('<tr>').attr('no', item.boardNo)
 					let td1 = $('<td>').text(item.boardNo)
-					let td2 = $('<td>').append($('<img>').attr('src',item.rep))
+					let td2 = $('<td>').append($('<img>').attr('src', item.rep))
 					let td3 = $('<td>').text(item.title)
 					let td4 = $('<td>').text(item.actDate)
 					let td5 = $('<td>').text(item.regStts)
@@ -267,7 +286,7 @@
 				// 모달창
 				$.magnificPopup.open({
 					items: [{
-						src: "/myPage/myAuctionBidForm?boardNo="+$(e.target).closest('tr').attr('no'),
+						src: "/myPage/myAuctionBidForm?boardNo=" + $(e.target).closest('tr').attr('no'),
 						type: 'iframe'
 					}]
 				})
@@ -289,6 +308,14 @@
 			function priceToString(price) {
 				return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 			}
+
+			//버튼 active
+			$('.myMenuBtn').on('click', function () {
+				$('.myMenuBtn').each(function (idx, item) {
+					console.log(item)
+					$(item).toggleClass('activity')
+				})
+			})
 		</script>
 	</div>
 </body>
