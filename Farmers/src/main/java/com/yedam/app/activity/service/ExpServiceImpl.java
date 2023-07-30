@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yedam.app.activity.mapper.ExpMapper;
-import com.yedam.app.activity.vo.DateVO;
 import com.yedam.app.activity.vo.ExpApplyVO;
 import com.yedam.app.activity.vo.ExpVO;
 
@@ -17,8 +16,8 @@ public class ExpServiceImpl implements ExpService {
 	ExpMapper expMapper;
 
 	@Override
-	public List<ExpVO> getExpListPage(int page, String expStart, String dst1, String dst2) {
-		return expMapper.selectExpListPage(page, expStart, dst1, dst2);
+	public List<ExpVO> getExpListPage(int page, ExpVO vo) {
+		return expMapper.selectExpListPage(page,vo);
 	}
 
 	@Override
@@ -43,8 +42,8 @@ public class ExpServiceImpl implements ExpService {
 	}
 
 	@Override
-	public int getCount(String expStart, String dst1, String dst2) {
-		return expMapper.getCount(expStart, dst1, dst2);
+	public int getCount(ExpVO vo) {
+		return expMapper.getCount(vo);
 	}
 
 	@Override
@@ -52,5 +51,9 @@ public class ExpServiceImpl implements ExpService {
 		return expMapper.insertExpApply(expaVO) > 0;
 	}
 
-	
+	@Override
+	public List<ExpVO> selectExpApplyList(int page,ExpVO expVO) {
+		return expMapper.selectExpApplyList(page ,expVO);
+	}
+
 }

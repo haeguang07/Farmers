@@ -34,10 +34,10 @@ public class ExpVO {
 	private double lati;
 	private double longi;
 	private String detaAddr;
-	
+	private int page;
 	// member
 	private String nick;
 	
 	//신청내역
-	List<ExpApplyVO> list;
+	List<ExpApplyVO> expApplyList;
 }

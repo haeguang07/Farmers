@@ -59,7 +59,18 @@
 	<!-- 게시글 수 카운팅 -->
 	<select id="getCount" resultType="int">
 		select count(*) from experience
-		where reg_stts = 'e1'
+		<where>
+			reg_stts = 'e1'
+			<if test="exStrDate != null">
+				and ex_str_date > #{exStrDate}
+			</if>
+			<if test="dst1 != null and !dst1.equals('')">
+				and dst1 = #{dst1}
+			</if>
+			<if test="dst2 != null and !dst2.equals('')">
+				and dst2 = #{dst2}
+			</if>
+		</where>
 	</select>
 	
 	<!-- 농촌 체험하기 신청(등록) -->
@@ -71,4 +82,49 @@
 		insert into experience_apply(apl_no, mem_no, apl_stts, board_no, apl_date, apl_per)
 		values(#{aplNo}, #{memNo}, 'e0', #{boardNo}, sysdate, #{aplPer})
 	</insert>
+	
+	<!-- 농촌 체험하기 신청자 리스트 -->
+	<select id="selectExpApply" resultType="ExpApplyVO">
+		select apl_no, mem_no, apl_stts, board_no, apl_date, apl_per
+		from experience_apply
+		where board_no = #{boardNo}
+	</select>
+	
+	<!-- 농촌 체험하기 신청 resultMap -->
+	<resultMap type="ExpApplyVO" id="expApplyList">
+		<result property="aplNo" column="apl_no" />
+		<result property="memNo" column="mem_no" />
+		<result property="aplStts" column="apl_stts" />
+		<result property="boardNo" column="board_no" />
+		<result property="aplDate" column="apl_date" />
+		<result property="aplPer" column="apl_per" />
+		<collection property="expApplyList" javaType="ArrayList"
+			column="boardNo = board_no" ofType="ExpApplyVO"
+			select="selectExpApply"></collection>
+	</resultMap>
+	
+	<select id="selectExpApplyList" resultMap="expApplyList" parameterType="ExpVO">
+		select b.*
+		from (select ROWNUM rn, a.*
+			  from (select board_no, title, zip, addr, dst1, dst2, ppt_per, ex_str_date, ex_end_date, reg_date, reg_stts, lati, longi, deta_addr
+					from experience
+					<where>
+						reg_stts = 'e1'
+						<if test="expVO.exStrDate != null">
+							and ex_str_date > #{exStrDate}
+						</if>
+						<if test="expVO.dst1 != null and !expVO.dst1.equals('')">
+							and dst1 = #{dst1}
+						</if>
+						<if test="expVO.dst2 != null and !expVO.dst2.equals('')">
+							and dst2 = #{dst2}
+						</if>
+					</where>
+					order by reg_date desc
+					) a
+		<![CDATA[
+			  where ROWNUM <= #{page} * 9) b
+		where b.rn > (#{page} - 1) * 9
+		]]>
+	</select>
 </mapper>
