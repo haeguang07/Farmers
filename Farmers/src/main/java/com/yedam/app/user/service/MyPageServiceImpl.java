@@ -262,6 +262,11 @@ public class MyPageServiceImpl implements MyPageService {
 	public List<SkilledVO> mySkilledList(SkilledVO vo) {
 		return myPageMapper.mySkilledList(vo);
 	}
+
+	@Override
+	public List<SkilledVO> mySkilledSubList(String memNo) {
+		return myPageMapper.mySkilledSubList(memNo);
+	}
 	
 	
 

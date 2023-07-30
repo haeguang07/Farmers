@@ -118,12 +118,24 @@ to {
 
 /* 지원사업 CSS */
 .eduArea {
-	border: 2px solid gray;
+	margin-top:10px;
 	height: 400px;
-	text-align: center;
 }
 
-.eduArea>table {
+.eduArea>div {
+	padding: 0px 25px;
+}
+
+.eduArea>p {
+	text-align: left;
+	margin: 10px;
+	font-weight: bold;
+	font-size: 15px;
+}
+
+#eduTable {
+	text-align: center;
+	font-size: 13px;
 	width: 90%;
 	margin: auto;
 }
@@ -151,7 +163,7 @@ to {
 .linkArea>a>p {
 	font-family: 'Gowun Dodum', sans-serif;
 	font-size: small;
-	text-align:center;
+	text-align: center;
 }
 
 .linkIcon {

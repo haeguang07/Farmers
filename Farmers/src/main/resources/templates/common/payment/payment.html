@@ -231,7 +231,11 @@
                     $('#allSumPrice').text(priceToString(afterPrice)+'원')
                     payPrice = afterPrice;
                 }else{
-                    alert('보유포인트를 초과된 입력입니다')
+                	new swal({
+                		title: "보유포인트를 초과한 입력입니다",
+                		icon : "warning",
+                		confirmButtonColor: '#95D083'		
+                })
                     $('#usePoint').val(0)
                 }
             })
@@ -293,19 +297,39 @@
                 button.addEventListener("click", function () {
                     //입력란 체크
                     if (!$('#memName').val()) {
-					alert('이름을 입력하세요');
+                    	new swal({
+	                		title: "이름을 입력하세요",
+	                		icon : "warning",
+	                		confirmButtonColor: '#95D083'		
+	                })
 					return;
 				    }else if ($('#memPhone').val() <= 0) {
-					alert('전화번호를 입력하세요');
+				    	new swal({
+	                		title: "전화번호를 입력하세요",
+	                		icon : "warning",
+	                		confirmButtonColor: '#95D083'		
+	                })
 					return;
 				    }else if ($('#addressCode').val() <= 0) {
-					alert('우편번호를 입력하세요');
+				    	new swal({
+	                		title: "우편번호를 입력하세요",
+	                		icon : "warning",
+	                		confirmButtonColor: '#95D083'		
+	                })
 					return;
 				    }else if ($('#address').val() <= 0) {
-					alert('주소를 입력하세요');
+				    	new swal({
+	                		title: "주소를 입력하세요",
+	                		icon : "warning",
+	                		confirmButtonColor: '#95D083'		
+	                })
 					return;
 				    }else if ($('#addressDetail').val() <= 0) {
-					alert('상세주소를 입력하세요');
+				    	new swal({
+	                		title: "상세주소를 입력하세요",
+	                		icon : "warning",
+	                		confirmButtonColor: '#95D083'		
+	                })
 					return;
                     }else{
                     

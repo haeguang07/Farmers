@@ -130,13 +130,21 @@
 				}
 			})
 			.done(function(){
-				alert('완료')
+				new swal({
+            		title: "처리가 완료되었습니다",
+            		icon : "success",
+            		confirmButtonColor: '#95D083'		
+            })	
 				$('.stts').empty();
 				$('.stts').append('신청 거절');
 				$(stts).empty() 
 				$(stts).append('승인 완료')
 			}).fail(function(){
-				alert('실패')
+				new swal({
+            		title: "fail",
+            		icon : "error",
+            		confirmButtonColor: '#95D083'		
+            })	
 			})
 		})
 
@@ -150,11 +158,19 @@
 				}
 			})
 			.done(function(){
-				alert('완료')
+				new swal({
+            		title: "처리가 완료되었습니다",
+            		icon : "success",
+            		confirmButtonColor: '#95D083'		
+            })	
 				$(stts).empty() 
 				$(stts).append('신청 거절')
 			}).fail(function(){
-				alert('실패')
+				new swal({
+            		title: "fail",
+            		icon : "error",
+            		confirmButtonColor: '#95D083'		
+            })	
 			})
 		})
 
