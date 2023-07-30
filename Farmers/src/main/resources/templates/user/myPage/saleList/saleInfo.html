@@ -2,73 +2,85 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="description" content="Male_Fashion Template">
-	<meta name="keywords" content="Male_Fashion, unica, creative, html">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Cart</title>
-	<link rel="stylesheet" href="/css/sungWookCss/sungook.css" type="text/css">
+<meta charset="UTF-8">
+<meta name="description" content="Male_Fashion Template">
+<meta name="keywords" content="Male_Fashion, unica, creative, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Cart</title>
+<link rel="stylesheet" href="/css/sungWookCss/sungook.css"
+	type="text/css">
 
-		<link rel="stylesheet" href="/css/jquery/bootstrap.min.css" type="text/css">
-		<link rel="stylesheet" href="/css/otherPlugins/font-awesome.min.css" type="text/css">
-		<link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
-		<link rel="stylesheet" href="/css/jquery/magnific-popup.css" type="text/css">
-		<link rel="stylesheet" href="/css/jquery/nice-select.css" type="text/css">
-		<link rel="stylesheet" href="/css/jquery/owl.carousel.min.css" type="text/css">
-		<link rel="stylesheet" href="/css/jquery/slicknav.min.css" type="text/css">
-		<link rel="stylesheet" href="/css/style.css" type="text/css">
-		<link rel="stylesheet" href="/css/jquery/jQueryUI.css">
-		<link rel="stylesheet" href="/css/otherPlugins/sweetAlert.css" type="text/css">
-		<!-- Js Plugins -->
-		<script src="/js/jquery/jquery-3.3.1.min.js"></script>
-		<script src="/js/jquery/bootstrap.min.js"></script>
-		<script src="/js/jquery/jquery.nice-select.min.js"></script>
-		<script src="/js/jquery/jquery.nicescroll.min.js"></script>
-		<script src="/js/jquery/jquery.magnific-popup.min.js"></script>
-		<script src="/js/jquery/jquery.countdown.min.js"></script>
-		<script src="/js/jquery/jquery.slicknav.js"></script>
-		<script src="/js/jquery/mixitup.min.js"></script>
-		<script src="/js/jquery/owl.carousel.min.js"></script>
-		<script src="/js/jquery/json.min.js"></script>
-		<script src="/js/jquery/jqueryUI.js"></script>
-		<script src="/js/otherPlugins/sweetAlert2-11.4.10.js"></script>
+<link rel="stylesheet" href="/css/jquery/bootstrap.min.css"
+	type="text/css">
+<link rel="stylesheet" href="/css/otherPlugins/font-awesome.min.css"
+	type="text/css">
+<link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery/magnific-popup.css"
+	type="text/css">
+<link rel="stylesheet" href="/css/jquery/nice-select.css"
+	type="text/css">
+<link rel="stylesheet" href="/css/jquery/owl.carousel.min.css"
+	type="text/css">
+<link rel="stylesheet" href="/css/jquery/slicknav.min.css"
+	type="text/css">
+<link rel="stylesheet" href="/css/style.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery/jQueryUI.css">
+<link rel="stylesheet" href="/css/otherPlugins/sweetAlert.css"
+	type="text/css">
+<!-- Js Plugins -->
+<script src="/js/jquery/jquery-3.3.1.min.js"></script>
+<script src="/js/jquery/bootstrap.min.js"></script>
+<script src="/js/jquery/jquery.nice-select.min.js"></script>
+<script src="/js/jquery/jquery.nicescroll.min.js"></script>
+<script src="/js/jquery/jquery.magnific-popup.min.js"></script>
+<script src="/js/jquery/jquery.countdown.min.js"></script>
+<script src="/js/jquery/jquery.slicknav.js"></script>
+<script src="/js/jquery/mixitup.min.js"></script>
+<script src="/js/jquery/owl.carousel.min.js"></script>
+<script src="/js/jquery/json.min.js"></script>
+<script src="/js/jquery/jqueryUI.js"></script>
+<script src="/js/otherPlugins/sweetAlert2-11.4.10.js"></script>
 
-	<!-- datatables -->
-	<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" type="text/css">
+<!-- datatables -->
+<script
+	src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css"
+	type="text/css">
 
-	<style>
-		.textCenter {
-			text-align: center;
-		}
+<style>
+.textCenter {
+	text-align: center;
+}
 
-		.miniBtn {
-			width: 100px;
-		}
+.miniBtn {
+	width: 100px;
+}
 
-		.right {
-			float: right;
-		}
+.right {
+	float: right;
+}
 
-		.image {
-			width: 100px;
-			height: 100px;
-		}
+.image {
+	width: 100px;
+	height: 100px;
+}
 
-		li {
-			margin-bottom: 10px;
-		}
+li {
+	margin-bottom: 10px;
+}
 
-		.miniBtn {
-			width: 300px;
-		}
-	</style>
+.miniBtn {
+	width: 300px;
+}
+</style>
 
 </head>
 
 <body>
-	<section class="shopping-cart spad" style="padding-top: 10px; margin-top: 100px;">
+	<section class="shopping-cart spad"
+		style="padding-top: 10px; margin-top: 100px;">
 		<div class="container">
 			<div class="row">
 				<div class="row col-lg-12">
@@ -101,12 +113,13 @@
 										<td th:text="${payInfo.shipStts}"></td>
 									</th:block>
 									<th:block th:if="${payInfo.shipStts} != '환불 완료'">
-										<td><select name="shipStts" id="stts" th:value="${payInfo.shipStts}" class="form-control">
+										<td><select name="shipStts" id="stts"
+											th:value="${payInfo.shipStts}" class="form-control">
 												<option value="결제완료">결제 완료</option>
 												<option value="배송 전">배송 전</option>
 												<option value="배송 중">배송 중</option>
 												<option value="배송 완료">배송 완료</option>
-											</select></td>
+										</select></td>
 									</th:block>
 								</tbody>
 							</table>
@@ -124,8 +137,10 @@
 								<tbody>
 									<td th:text="${payInfo.nick}"></td>
 									<td th:text="${payInfo.mbl}"></td>
-									<td th:text="${#dates.format(payInfo.rsvStrDate, 'yyyy/MM/dd')}"></td>
-									<td th:text="${#dates.format(payInfo.rsvEndDate, 'yyyy/MM/dd')}"></td>
+									<td
+										th:text="${#dates.format(payInfo.rsvStrDate, 'yyyy/MM/dd')}"></td>
+									<td
+										th:text="${#dates.format(payInfo.rsvEndDate, 'yyyy/MM/dd')}"></td>
 									<td th:text="${payInfo.shipStts}"></td>
 								</tbody>
 							</table>
@@ -149,9 +164,11 @@
 							<tbody>
 								<td th:text="${payInfo.title}"></td>
 								<td th:text="${payInfo.boardCtg}"></td>
-								<td th:text="${#numbers.formatInteger(payInfo.price, 3, 'COMMA')}"></td>
+								<td
+									th:text="${#numbers.formatInteger(payInfo.price, 3, 'COMMA')}"></td>
 								<td th:text="${payInfo.qty}"></td>
-								<td th:text="${#numbers.formatInteger(payInfo.totalPrice, 3, 'COMMA')}"></td>
+								<td
+									th:text="${#numbers.formatInteger(payInfo.totalPrice, 3, 'COMMA')}"></td>
 								<td th:text="${#dates.format(payInfo.payDate, 'yyyy/MM/dd')}"></td>
 							</tbody>
 						</table>
@@ -234,8 +251,8 @@
 	                		title: "상태변경이 완료되었습니다",
 	                		icon : "success",
 	                		confirmButtonColor: '#95D083'		
-	                })	
-
+	                })
+					.then(function(){
 						//구매자에게 알림 보내기
 						let memNo = /*[[${payInfo.memNo}]]*/;
 						let alertTitle =`[[${payInfo.title}]] 의 배송상태가 변경되었습니다`;
@@ -251,19 +268,20 @@
 							}
 						})
 						.done(function(){
-
-						//부모창의 팝업 닫기 함수를 호출
-						parent.closePopUp()
+							//부모창의 팝업 닫기 함수를 호출
+							parent.closePopUp()
 						})
+						.fail(function(){console.log('fail')})
+					 })
 					}else{
 						new swal({
 	                		title: "상태변경에 실패하였습니다",
 	                		icon : "error",
 	                		confirmButtonColor: '#95D083'		
-	                })	
+	                	})	
 					}
 				})
-				.fail(console.log('fail'))
+				
 				
 			} else {
 				new swal({
