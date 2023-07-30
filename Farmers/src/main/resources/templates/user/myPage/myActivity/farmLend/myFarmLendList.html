@@ -37,6 +37,10 @@
 			background-color: #95D083;
 			color: white;
 		}
+		.myMenuBtn:focus {
+			background-color: #95D083;
+			color: white;
+		}
 	</style>
 </head>
 
@@ -299,8 +303,8 @@
 			}
 
 			//버튼 active
-			$('.btn').on('click',function(){
-				$('.btn').each(function(idx,item){
+			$('.myMenuBtn').on('click',function(){
+				$('.myMenuBtn').each(function(idx,item){
 					console.log(item)
 					$(item).toggleClass('activity')
 				})

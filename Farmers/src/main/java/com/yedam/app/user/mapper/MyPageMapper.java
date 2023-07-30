@@ -160,5 +160,8 @@ public interface MyPageMapper {
 	
 	//금손귀농인 리스트
 	public List<SkilledVO> mySkilledList(SkilledVO vo);
+	
+	//금손귀농인 나의 신청 리스트
+	public List<SkilledVO> mySkilledSubList(String memNo);
 
 }

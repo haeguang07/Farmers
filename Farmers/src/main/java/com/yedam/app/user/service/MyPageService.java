@@ -157,7 +157,10 @@ public interface MyPageService {
 
 	// 나의 농촌체험 거절
 	public int updateExpApplyStts(String aplNo);
-	
-	//금손귀농인 리스트
+
+	// 금손귀농인 리스트
 	public List<SkilledVO> mySkilledList(SkilledVO vo);
+
+	// 금손귀농인 나의 신청 리스트
+	public List<SkilledVO> mySkilledSubList(String memNo);
 }

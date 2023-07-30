@@ -95,9 +95,9 @@
 			$('#registration2').on('click', function () {
 				ajaxLendList()
 			})
-			// $('#subscription').on('click', function () {
-			// 	ajaxLendList()
-			// })
+			$('#subscription').on('click', function () {
+				ajaxSubList()
+			})
 
 
 			// dataTables 생성 함수
@@ -235,6 +235,59 @@
 						if (typeof table != "undefined") {
 							table.destroy();
 						}
+						makeMyTr2(result)
+						mkDataTable()
+					})
+					.fail(function () {
+						alert('데이터 로드 실패')
+					})
+			}
+
+			//할게요 tr 만들기 함수
+			function makeMyTr2(list) {
+				//thead
+				$('#thead').children().remove()
+				let tr = $('<tr>').addClass('th')
+				let th1 = $('<th>').text('번호')
+				let th2 = $('<th>').text('제목')
+				let th3 = $('<th>').text('근무요일')
+				let th4 = $('<th>').text('등록일자')
+				let th5 = $('<th>').text('상태')
+				let th6 = $('<th>').text('신청확인')
+				$(tr).append(th1, th2, th3, th4, th5, th6)
+				$('#thead').append(tr)
+
+				//tbody
+				$('#tbody').children().remove()
+				$(list).each(function (idx, item) {
+					tr = $('<tr>').attr('no', item.boardNo)
+					let td1 = $('<td>').text(item.boardNo)
+					let td2 = $('<td>').text(item.title)
+					let td3 = $('<td>').text(item.dayDiv)
+					let td4 = $('<td>').text(item.regDate)
+					let td5 = $('<td>').text(item.stts)
+					let td6 = $('<td>').append($('<button class="form-control" type="button">신청확인</button>').addClass('myBtn2'))
+
+					$(tr).append(td1, td2, td3, td4, td5, td6)
+					$('#tbody').append(tr);
+				})
+			}
+
+			//나의 신청 ajax 불러오기
+			function ajaxSubList() {
+				$.ajax({
+						url: "/myPage/mySkilledSubList",
+						data: {
+							memNo: memNo
+						}
+					})
+					.done(function (result) {
+						console.log(result)
+
+						//datatable 파괴
+						if (typeof table != "undefined") {
+							table.destroy();
+						}
 						makeMyTr(result)
 						mkDataTable()
 					})
@@ -243,36 +296,36 @@
 					})
 			}
 
-			// // //신청 tr 만들기 함수
-			// function makeSubTr(list) {
-			// 	//thead
-			// 	$('#thead').children().remove()
-			// 	let tr = $('<tr>').addClass('th')
-			// 	let th1 = $('<th>').text('번호')
-			// 	let th2 = $('<th>').text('이미지')
-			// 	let th3 = $('<th>').text('제목')
-			// 	let th4 = $('<th>').text('신청일자')
-			// 	let th5 = $('<th>').text('신청상태')
-			// 	let th6 = $('<th>').text('상세확인')
-			// 	$(tr).append(th1, th2, th3, th4, th5, th6)
-			// 	$('#thead').append(tr)
+			//신청 tr 만들기 함수
+			function makeSubTr(list) {
+				//thead
+				$('#thead').children().remove()
+				let tr = $('<tr>').addClass('th')
+				let th1 = $('<th>').text('번호')
+				let th2 = $('<th>').text('제목')
+				let th3 = $('<th>').text('근무요일')
+				let th4 = $('<th>').text('등록일자')
+				let th5 = $('<th>').text('신청상태')
+				let th6 = $('<th>').text('상세확인')
+				$(tr).append(th1, th2, th3, th4, th5, th6)
+				$('#thead').append(tr)
 
-			// 	//tbody
-			// 	$('#tbody').children().remove()
-			// 	$(list).each(function (idx, item) {
-			// 		tr = $('<tr>').attr('no', item.boardNo)
-			// 									.attr('aplNo', item.aplNo)
-			// 		let td1 = $('<td>').text(item.boardNo)
-			// 		let td2 = $('<td>').append($('<img>').attr('src',item.rep))
-			// 		let td3 = $('<td>').text(item.title)
-			// 		let td4 = $('<td>').text(item.aplDate)
-			// 		let td5 = $('<td>').text(item.aplStts)
-			// 		let td6 = $('<td>').append($('<button class="form-control" type="button">상세확인</button> ').addClass('subBtn'))
+				//tbody
+				$('#tbody').children().remove()
+				$(list).each(function (idx, item) {
+					tr = $('<tr>').attr('no', item.boardNo)
+												.attr('aplNo', item.aplNo)
+					let td1 = $('<td>').text(item.boardNo)
+					let td2 = $('<td>').text(item.title)
+					let td3 = $('<td>').text(item.divDay)
+					let td4 = $('<td>').text(item.aplDate)
+					let td5 = $('<td>').text(item.aplStts)
+					let td6 = $('<td>').append($('<button class="form-control" type="button">상세확인</button> ').addClass('subBtn'))
 
-			// 		$(tr).append(td1, td2, td3, td4, td5, td6)
-			// 		$('#tbody').append(tr);
-			// 	})
-			// }
+					$(tr).append(td1, td2, td3, td4, td5, td6)
+					$('#tbody').append(tr);
+				})
+			}
 
 			//tr 이동
 			// $(document).on("click", "tr", function (e) {
@@ -282,18 +335,31 @@
 			// 	}
 			// })
 
-			// //td 버튼 이벤트 (등록 리스트)
-			$(document).on("click", ".myBtn", function (e) {
-				e.stopPropagation()
+			// //td 버튼 이벤트 (구해요 리스트)
+			// $(document).on("click", ".myBtn", function (e) {
+			// 	e.stopPropagation()
 
-				//모달창
-				$.magnificPopup.open({
-					items: [{
-						src: "/myPage/myJobSearchList?boardNo="+$(e.target).closest('tr').attr('no'),
-						type: 'iframe'
-					}]
-				})
-			})
+			// 	//모달창
+			// 	$.magnificPopup.open({
+			// 		items: [{
+			// 			src: "/myPage/myJobSearchList?boardNo="+$(e.target).closest('tr').attr('no'),
+			// 			type: 'iframe'
+			// 		}]
+			// 	})
+			// })
+
+			// //td 버튼 이벤트 (할게요 리스트)
+			// $(document).on("click", ".myBtn2", function (e) {
+			// 	e.stopPropagation()
+
+			// 	//모달창
+			// 	$.magnificPopup.open({
+			// 		items: [{
+			// 			src: "/myPage/myJobSearchList?boardNo="+$(e.target).closest('tr').attr('no'),
+			// 			type: 'iframe'
+			// 		}]
+			// 	})
+			// })
 
 			// //td 버튼 이벤트 (신청 리스트)
 			// $(document).on("click", ".subBtn", function (e) {
