@@ -2,13 +2,22 @@
 
 	<div class="body">
 		<h1>전원마켓</h1>
-		<br>
+		<div class="row">
+			<div class="col-4 row">
+				<div class="col">상태</div>
+				<select class="form-select col "  id="addon-wrapping"><option>승인대기</option><option>승인완료</option></select>
+			</div>
+			<div class="col-4 row">
+				<div class="col">신청일</div>
+				<input type="date" class="form-select col ">~<input type="date" class="form-select col ">
+			</div>
+		</div>
 		<div style="width: 1000px;" class="row"> 
 			<div class="col-2">선택한 신청을 </div>
 			<div class="col-2">
 				<select class="form-select"  v-model="stts">
 					<option selected value="">선택</option>
-					<option v-for="reqStts in reqSttsList" :value="reqStts.cmmnDetaCode">{{reqStts.codeDesct}}</option>
+					<option v-for="reqStts in regSttsList" :value="reqStts.cmmnDetaCode">{{reqStts.codeDesct}}</option>
 				</select>
 			</div>
 			<div  class="col-2"> 으로
@@ -187,7 +196,7 @@ methods:{
 			boardCtg: 'g0c'
 		}
 		console.log(obj)
-		axios.post('admin/rejectAlert', obj, {
+		axios.post('/admin/rejectAlert', obj, {
   		headers: {
     		'Content-Type': 'application/json',
   		}

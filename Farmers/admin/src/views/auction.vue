@@ -188,7 +188,7 @@ methods:{
 			boardCtg: 'g10'
 		}
 		console.log(obj)
-		axios.post('admin/rejectAlert', obj, {
+		axios.post('/admin/rejectAlert', obj, {
   		headers: {
     		'Content-Type': 'application/json',
   		}

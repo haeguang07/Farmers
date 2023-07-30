@@ -120,7 +120,7 @@ export default {
 	  },
     reply(){
       console.log(this.inquiry.replDesct)
-      fetch('admin/inquiryReply',{
+      fetch('/admin/inquiryReply',{
         method: 'PUT',  
         headers: {
           'Content-Type': 'application/json', 
@@ -157,7 +157,7 @@ export default {
   },
   
   mounted(){
-    fetch('admin/inquiryAdmin')
+    fetch('/admin/inquiryAdmin')
     .then(result=> result.json())
     .then(result=>{
       console.log(result);

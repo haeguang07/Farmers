@@ -3,6 +3,32 @@
 	<div class="body">
 		<h1>회원 관리</h1>
 		<br>
+
+		<div class="row">
+			<div class="col-4 row">
+				<select class="form-select col mx-3"  id="addon-wrapping"><option>아이디</option><option>닉네임</option></select>
+				<input type="text" class="form-control col"  aria-describedby="addon-wrapping">
+			</div>
+			<div class="col-4 row">
+				<div class="col">회원등급</div>
+				<select class="form-select col "  id="addon-wrapping"><option>정회원</option><option>준회원</option></select>
+			</div>
+			<div class="col-4 row">
+				<div class="col">상태</div>
+				<select class="form-select col "  id="addon-wrapping"><option>정상</option><option>정지</option></select>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-4 row">
+				<div class="col">회원가입경로</div>
+				<select class="form-select col "  id="addon-wrapping"><option>일반</option><option>카카오</option></select>
+			</div>
+			<div class="col-4 row">
+				<div class="col">가입일</div>
+				<input type="date" class="form-select col ">~<input type="date" class="form-select col ">
+			</div>
+		</div>
+
 		<div style="width: 1000px;" class="row"> 
 			<div class="col-2">선택한 회원을 </div>
 			<div class="col-2">
@@ -194,7 +220,7 @@ methods:{
 			boardCtg: 'g16'
 		}
 		console.log(obj)
-		fetch('admin/rejectAlert',{
+		fetch('/admin/rejectAlert',{
 			method:'POST',
 			headers: {
           'Content-Type': 'application/json', 
