@@ -4,36 +4,48 @@
 		<h1>회원 관리</h1>
 		<br>
 
-		<div class="row">
-			<div class="col-4 row">
-				<select class="form-select col mx-3"  id="addon-wrapping"><option>아이디</option><option>닉네임</option></select>
-				<input type="text" class="form-control col"  aria-describedby="addon-wrapping">
+		<div class="row ">
+			<div class="col-4 row " >
+				<select class="form-select col mx-3"  id="addon-wrapping" v-model="searchType">
+					<option value="아이디" selected>아이디</option><option value="닉네임">닉네임</option></select>
+					<input type="text" class="form-control col"  aria-describedby="addon-wrapping" v-model="searchText" @change="search">
 			</div>
-			<div class="col-4 row">
+			<div class="col-3 row">
 				<div class="col">회원등급</div>
-				<select class="form-select col "  id="addon-wrapping"><option>정회원</option><option>준회원</option></select>
+				<select class="form-select col" id="addon-wrapping" v-model="searchGrd" @change="search">
+					<option selected value="">선택</option>
+					<option v-for="grd in gradeList" :value="grd.cmmnDetaCode">{{grd.codeDesct}}</option>
+				</select>
 			</div>
 			<div class="col-4 row">
-				<div class="col">상태</div>
-				<select class="form-select col "  id="addon-wrapping"><option>정상</option><option>정지</option></select>
+				<div class="col text-center" >상태</div>
+				<select class="form-select col" id="addon-wrapping" v-model="searchStts" @change="search">
+					<option selected value="">선택</option>
+					<option v-for="status in sttsList " :value="status.cmmnDetaCode">{{status.codeDesct}}</option>
+				</select>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-4 row">
 				<div class="col">회원가입경로</div>
-				<select class="form-select col "  id="addon-wrapping"><option>일반</option><option>카카오</option></select>
+				<select class="form-select col " id="addon-wrapping" v-model="searchLogin" @change="search">
+					<option selected value="">전체</option>
+					<option value="일반">일반</option><option value="카카오">카카오</option>
+					<option value="구글">구글</option><option value="네이버">네이버</option>
+				</select>
 			</div>
-			<div class="col-4 row">
+			<div class="col-6 row">
 				<div class="col">가입일</div>
-				<input type="date" class="form-select col ">~<input type="date" class="form-select col ">
+				<input type="date" class="form-select col" v-model="searchStr" @change="search">&nbsp;-&nbsp; <input type="date" class="form-select col " v-model="searchEnd" :max="new Date()" @change="search">
 			</div>
 		</div>
 
 		<div style="width: 1000px;" class="row"> 
+			
 			<div class="col-2">선택한 회원을 </div>
 			<div class="col-2">
 				<select class="form-select"  v-model="grade">
-					<option selected value="">선택</option>
+					<option selected value="" >선택</option>
 					<option v-for="grd in gradeList" :value="grd.cmmnDetaCode">{{grd.codeDesct}}</option>
 				</select>
 			</div>
@@ -54,6 +66,7 @@
     		:headers="headers"
     		:items="memberList"
    		  item-value="memNo"
+				 no-data-text="조회된 회원이 없습니다"
 				return-object
     		show-select
 				hide-default-footer
@@ -118,40 +131,26 @@
 <script>
 
 import { VDataTable } from 'vuetify/labs/VDataTable'
-
+import axios from 'axios'
 export default{
   data(){
     return{
-			btnShow:true,
-			reason:'',
-			page:1,
-			selected:[],
-			itemsPerPage: 10,
-			member:{}, 
-      memberList:[],
-      checkedMembers:[],
-			grade:'',
-			gradeList:[],
-			stts:'',
-			sttsList:[],
-      headers:[
-	        {title: '아이디',
-					key: 'id',},
-	        { title: '성별',
-						key: 'gen'
-						},
-	        {title: '등급',
-	          key: 'memGrd'},
-					{title: '가입일',
-	          key: 'signDate'
-	        },
-					{title: '회원가입경로',
-	          key: 'loginPath'
-	        },
-	        {title: '닉네임',
-	          key: 'nick'},
-	        {title: '상태',
-	          key: 'stts'}
+			btnShow:true,reason:'',
+			searchType:'아이디',searchText:'',
+			searchStts:'',searchLogin:'',
+			searchStr:'',searchEnd:'',
+			searchGrd:"",page:1,
+			selected:[],itemsPerPage: 10,member:{}, 
+      memberList:[],checkedMembers:[],
+			grade:'',gradeList:[],
+			stts:'',sttsList:[],
+      headers:[{title: '아이디',key: 'id',},
+	        { title: '성별',key: 'gen'},
+	        {title: '등급',key: 'memGrd'},
+					{title: '가입일', key: 'signDate'},
+					{title: '회원가입경로',key: 'loginPath'},
+	        {title: '닉네임', key: 'nick'},
+	        {title: '상태',key: 'stts'}
 	      ]
     }
   },
@@ -159,6 +158,20 @@ export default{
       VDataTable,
     },
 methods:{
+	search(){
+		let obj={}
+		if(this.searchType=='아이디'){
+			obj.id=this.searchText;
+		}else{
+			obj.nick=this.searchText;
+		}
+		obj.stts=this.searchStts;
+		obj.grd=this.searchGrd;
+		obj.login =this.searchLogin;
+		obj.str=this.searchStr;
+		obj.end=this.searchEnd;
+		this.callList(obj)
+	},
 	changeBtn(){
 		console.log(this.selected);
 		let list =[];
@@ -196,7 +209,6 @@ methods:{
 	}
 	,
 	info(event,item){
-
 		let index=item.item.index;
 		this.member= this.memberList[index];
 		this.onpenModal()
@@ -222,9 +234,7 @@ methods:{
 		console.log(obj)
 		fetch('/admin/rejectAlert',{
 			method:'POST',
-			headers: {
-          'Content-Type': 'application/json', 
-      },
+			headers: {'Content-Type': 'application/json',  },
 			data:JSON.stringify(obj)
 		})
 		.then(result=> result.json())
@@ -234,21 +244,26 @@ methods:{
 	},
 	back(){
 		document.getElementById("myModal").style.display = "none";
+	},
+	callList(vo){
+		axios.get("/admin/members",{params: vo})
+		.then(response => {
+			console.log(response.data);
+			this.memberList = response.data.memberList;
+			this.sttsList=response.data.code['0C']
+	  	this.gradeList=response.data.code['0B']
+	  	this.gradeList.splice(0,1);
+		})
+		.catch(err => console.log(err));
+
 	}
 },
   mounted(){
-  	let vue= this;
-    fetch("/admin/members")
-    .then(result=> result.json())
-    .then(result=>{
-      console.log(result)
-      vue.memberList=result.memberList;
-	  	vue.sttsList=result.code['0C']
-	  	vue.gradeList=result.code['0B']
-	  	vue.gradeList.splice(0,1);
-	  	console.log(vue.sttsList,vue.gradeList);
-    })
-    .catch(err=> console.log(err))
+		this.sttsList = this.$store.state.allCode['0C'];
+		
+		this.allCode = this.$store.state.allCode;
+		console.log(this.allCode);
+  	this.callList()
 		//모달 닫기
 		
 		window.onclick = function(event) {

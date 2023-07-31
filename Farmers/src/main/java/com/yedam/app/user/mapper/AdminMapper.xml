@@ -28,7 +28,40 @@
 				,blck_date
 		FROM member m LEFT JOIN member_detail d 
 		ON(m.mem_no=d.mem_no)
-		WHERE NOT mem_grd =find_common_code('관리자')
+		<where>
+			AND NOT mem_grd =find_common_code('관리자')
+			<if test="id !=null and !id.equals('')">
+				AND id LIKE '%${id}%'
+			</if>
+			<if test="nick !=null and !nick.equals('')">
+				AND nick LIKE '%${nick}%'
+			</if>
+			<if test="grd !=null and !grd.equals('')">
+				AND mem_grd = #{grd}
+			</if>
+			<if test="login !=null and !login.equals('')">
+				<choose>
+					<when test="login == '일반' ">
+						AND login_path is null				
+					</when>
+					<otherwise>
+						AND login_path = #{login}
+					</otherwise>
+			</choose>
+			</if>
+			<if test="stts !=null and !stts.equals('')">
+				AND stts=#{stts}
+			</if>
+			<if test="str !=null">
+				AND sign_date > #{str}
+			</if>
+			<if test="end !=null">
+				 <![CDATA[
+				 AND sign_date < #{end}
+				 ]]>
+			</if>
+		</where>
+		
 		ORDER BY sign_date DESC
 	</select>
 	<!-- 전체 문의 조회 -->
@@ -44,14 +77,14 @@
 		        ,repl_desct
 		        ,repl_date
 		FROM inquiry
-		<where>
-			<if test="inqCtg !=null and inqCtg.equals('')">
-				inq_ctg =find_common_code(#{inqCtg})
+		<!--<where>
+			<if test="ctg !=null and !ctg.equals('')">
+				AND inq_ctg =find_common_code(#{ctg})
 			</if>
-			<if test="replStts !=null and replStts.equals('')">
-				repl_stts =find_common_code(#{replStts})
+			<if test="stts !=null and !stts.equals('')">
+				AND repl_stts =#{stts}
 			</if>
-		</where>
+		</where>  -->
 		ORDER BY inq_no DESC
 	</select>
 	<!-- 회원수정 -->
@@ -88,7 +121,21 @@
 				,lati
 				,longi
 		FROM farm_lend 
-		ORDER BY 1 DESC
+		<where>
+	  	<if test="stts != null and !stts.equals('')">
+	  		AND reg_stts= #{stts}
+	  	</if>
+	  	<if test="str != null">
+	  		AND reg_date > #{str}
+	  	</if>
+	  	<if test="end != null">
+	  	 	<![CDATA[
+	  		AND reg_date < #{end}
+	  		]]>
+	  	</if>
+	  </where>
+		
+		ORDER BY reg_date DESC
 	</select>
 	<!-- 농지대여 resultMap -->
 	<resultMap type="FarmLendVO" id="farmLend">
@@ -128,6 +175,7 @@
 		FROM attachment
 		WHERE atch_no = #{atchNo}
 	</select>
+	
 	<select id="selectMcrpList" resultType="string">
 		SELECT  find_code_name(mcrp) mcrp
 		FROM MAIN_CROPS
@@ -137,7 +185,7 @@
 	<!-- 동적으로 승인/거부-->
 	<update id="updateStatus" parameterType="UpdateSttsVO">
    		UPDATE ${tableName}
-   		SET req_stts = #{reqStts}
+   		SET reg_stts = #{reqStts}
    		WHERE board_no =#{boardNo}
 	</update>
 		
@@ -154,6 +202,19 @@
 				,reg_date
 				,find_code_name(reg_stts) reg_stts
 	  FROM market
+	   <where>
+	  	<if test="stts != null and !stts.equals('')">
+	  		AND reg_stts= #{stts}
+	  	</if>
+	  	<if test="str != null">
+	  		AND reg_date > #{str}
+	  	</if>
+	  	<if test="end != null">
+	  	 	<![CDATA[
+	  		AND reg_date < #{end}
+	  		]]>
+	  	</if>
+	  </where>
 	</select>
 	
 	<!-- 펀딩 조회 -->
@@ -173,20 +234,21 @@
 				,find_code_name(crp_ctg) crp_ctg
 				,find_code_name(fnd_stts) fnd_stts
 	  FROM funding
+	  <where>
+	  	<if test="stts != null and !stts.equals('')">
+	  		AND reg_stts= #{stts}
+	  	</if>
+	  	<if test="str != null">
+	  		AND reg_date > #{str}
+	  	</if>
+	  	<if test="end != null">
+	  		<![CDATA[
+	  		AND reg_date < #{end}
+	  		]]>
+	  	</if>
+	  </where>
 	</select>
 	
-	<!-- 신고 조회 -->
-	<select id="selectWarnList" resultType="WarnVO">
-	  SELECT 	rpt_no
-				,mem_no
-				,find_member_nick(mem_no) nick
-				,find_member_nick(mem_no) nick
-				,board_no
-				,find_code_name(prc_stts)
-				,rpt_rsn
-				,board_ctg
-	  FROM warn
-	</select>
 	
 	<!-- 경매장 조회 -->
 	<select id="selectAuctionList" resultType="AuctionVO">
@@ -206,6 +268,17 @@
 				,find_code_name(reg_stts) reg_stts
 				,atch_no
 	  FROM auction
+	  
+	  <where>
+	  	<if test="stts != null and !stts.equals('')">
+	  		AND reg_stts= #{stts}
+	  	</if>
+	  	<if test="str != null">
+	  		<![CDATA[
+	  		AND reg_date < #{end}
+	  		]]>
+	  	</if>
+	  </where>
 	</select>
 	
 	<!-- 비엔비 조회 -->
@@ -227,6 +300,21 @@
 				,lati
 				,longi
 	  FROM farmbnb
+	  <where>
+	  	<if test="stts != null and !stts.equals('')">
+	  		AND reg_stts= #{stts}
+	  	</if>
+	  	<if test="str != null">
+	  		<![CDATA[
+	  		AND reg_date < #{end}
+	  		]]>
+	  	</if>
+	  	<if test="end != null">
+	  		<![CDATA[
+	  		AND reg_date < #{end}
+	  		]]>
+	  	</if>
+	  </where>
 	</select>
 	<!-- 체험하기 조회 -->
 	<select id="selectExpList" resultType="expVO">
@@ -247,6 +335,19 @@
 				,lati
 				,longi
 		FROM experience
+		<where>
+	  	<if test="stts != null and !stts.equals('')">
+	  		AND reg_stts= #{stts}
+	  	</if>
+	  	<if test="str != null">
+	  		AND reg_date > #{str}
+	  	</if>
+	  	<if test="end != null">
+	  		<![CDATA[
+	  		AND reg_date < #{end}
+	  		]]>
+	  	</if>
+	  </where>
 	</select>
 		
 </mapper>

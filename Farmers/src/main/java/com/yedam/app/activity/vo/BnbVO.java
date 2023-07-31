@@ -4,6 +4,8 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 
 @Data
@@ -19,11 +21,15 @@ public class BnbVO {
 	private String addrDetail;
 	private String price;
 	private String rep;
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern ="yyyy-MM-dd")
 	private Date lendStrDate;
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern ="yyyy-MM-dd")
 	private Date lendEndDate;
 	private String detaDesct;
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern ="yyyy-MM-dd")
 	private Date regDate;
 	private String regStts;
 	private String lendStts;
