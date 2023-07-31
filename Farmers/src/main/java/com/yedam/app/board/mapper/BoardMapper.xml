@@ -144,5 +144,15 @@
 		DELETE FROM board
 		WHERE board_no = #{boardNo}
 	</delete>
+	
+	<!-- 조회수 증가 -->
+	<update id="hitCounting" parameterType="String">
+		UPDATE board
+		SET hit_count = (SELECT hit_count + 1
+						 FROM board
+						 WHERE board_no = #{boardNo})
+		WHERE board_no = #{boardNo}
+		
+	</update>
 
 </mapper>

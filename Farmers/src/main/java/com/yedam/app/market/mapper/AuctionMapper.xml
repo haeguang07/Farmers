@@ -56,7 +56,7 @@
                 	count(apl.price) AS bid_count, NVL(MAX(apl.price), 0) AS price
 		FROM member mem, auction act, auction_apply apl
 		WHERE mem.mem_no = act.mem_no
-		AND act.board_no = apl.board_no
+		AND act.board_no = apl.board_no (+)
 		AND act.board_no = #{boardNo}
 		GROUP BY mem.nick, mem.mem_grd, act.board_no, title, desct, sale_qty, bnp, 
 		                act_date, act_trm, ship_price, ship_dur_avg, ship_dur_max, rep, atch_no
