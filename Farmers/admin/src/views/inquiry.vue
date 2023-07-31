@@ -1,6 +1,6 @@
 <template>  
 <div>
-  <h1>문의 관리</h1>
+  <h3>문의 관리</h3>
 	<br>
   <v-data-table
     v-model:page="page"
@@ -8,6 +8,7 @@
     :headers="headers"
     :items="inquiryList"
     item-value="inqNo"
+    no-data-text="조회된 문의가 없습니다"
     hide-default-footer
     @click:row=info
     class="elevation-1"
@@ -72,6 +73,8 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 export default {
   data() {
     return {
+      searchStts:'',
+			searchStr:'',searchEnd:'',
       editor: ClassicEditor,
       editorData: '<p>Content of the editor.</p>',
       editorDisabled: true,
@@ -79,28 +82,14 @@ export default {
         width: '100%',
         height: '400px'
       },
-      idx:0,
-      page:1,
-			itemsPerPage: 10,
-      inquiry:{}, 
-      inquiryList:[],
-      headers:[
-	        {title: '문의번호',
-					key: 'inqNo',},
-	        { title: '카테고리',
-						key: 'inqCtg'
-						},
-	        {title: '제목',
-	          key: 'inqTitle'},
-					{title: '작성일',
-	          key: 'inqDate'
-	        },
-					{title: '작성자',
-	          key: 'name'
-	        },
-	        {title: '답변여부',
-	          key: 'replStts'}
-	      ],
+      idx:0,page:1,itemsPerPage: 10,
+      inquiry:{}, inquiryList:[],
+      headers:[{title: '문의번호',key: 'inqNo',},
+	        { title: '카테고리',key: 'inqCtg'},
+	        {title: '제목', key: 'inqTitle'},
+					{title: '작성일',key: 'inqDate'},
+					{title: '작성자',key: 'name'},
+	        {title: '답변여부', key: 'replStts'}],
         multiSearch: {},
     };
   },
@@ -108,6 +97,7 @@ export default {
     VDataTable
   },
   methods:{
+    
     info(event,inq){
      //console.log(inq.item.index,inq.item.key)
      this.idx=inq.item.index
@@ -164,6 +154,8 @@ export default {
       this.inquiryList=result;
     })
     .catch(err => console.log(err))
+
+    
     ClassicEditor.builtinPlugins.map( plugin => console.log(plugin.pluginName));
 		window.onclick = function(event) {
   		if (event.target == document.getElementById("myModal")) {
