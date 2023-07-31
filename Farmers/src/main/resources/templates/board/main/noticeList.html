@@ -14,6 +14,9 @@
 .center {
 	text-align: center;
 }
+.myInline {
+	display: inline;
+}
 </style>
 </head>
 <body>
@@ -53,7 +56,7 @@
 												<div class="shop__sidebar__categories">
 													<ul class="nice-scroll">
 														<li><b><a href="noticeList" style="color: black;">공지사항</a></b></li>
-														<li><a href="commnList">커뮤니티</a></li>
+														<li><a href="cmmnList">커뮤니티</a></li>
 														<li><a href="eventList">이벤트</a></li>
 													</ul>
 												</div>
@@ -81,8 +84,14 @@
 									</tbody>
 								</table>
 								<br>
-								<button type="button" th:onclick="'location.href=\''+ @{${'addCmmn'}} + '\''">등록</button>
 							</div>
+							<th:block th:if="not ${#strings.isEmpty(session.mem)}">
+								<div class="row" th:if="${session.mem.memGrd == 'b0'}">
+									<div class="col-lg-11"></div>
+									<button type="button" class="btn btn-success"
+										th:onclick="'location.href=\''+ @{${'/add/Notice'}} + '\''">등록</button>
+								</div>
+							</th:block>
 						</div>
 						<div class="row" id="pageDiv"></div>
 					</div>
@@ -154,6 +163,21 @@
 			    
 			    tr.on('click', function(){
 			    	location.href = `noticeInfo?postCtg=i2&boardNo=${item.boardNo}`;
+			    	
+			    	// 조회 수 증가 ajax 실행
+			    	$.ajax({
+			    		url: "/count",
+			    		method: "POST",
+			    		data: {
+			    			boardNo : item.boardNo
+			    		},
+			    		success: function(result){
+			    			console.log(result.retCode);
+			    		},
+			    		error: function(result){
+			    			console.log(result.retCode);
+			    		}
+			    	})
 			    })
 			}
             	
