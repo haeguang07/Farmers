@@ -1,15 +1,23 @@
 <template>
 
 	<div class="body">
-		<h1>농지대여</h1>
+		<h3>농지대여</h3>
 		<div class="row">
 			<div class="col-4 row">
-				<div class="col">상태</div>
-				<select class="form-select col "  id="addon-wrapping"><option>승인대기</option><option>승인완료</option></select>
+				<div class="col lh-2">상태</div>
+				<select class="form-select col" id="addon-wrapping" v-model="searchStts" @change="search">
+					<option value="">전체</option>
+					<option value="e0">승인대기</option>
+					<option value="e1">승인완료</option>
+					<option value="e6">대여종료</option>
+					<option value="e8">신청거절</option>
+				</select>
 			</div>
-			<div class="col-4 row">
-				<div class="col">신청일</div>
-				<input type="date" class="form-select col ">~<input type="date" class="form-select col ">
+			<div class="col-6 row">
+				<div class="col lh-2">신청일</div>
+				<input type="date" class="form-select col" v-model="searchStr" @change="search">
+					~
+				<input type="date" class="form-select col" v-model="searchEnd" @change="search">
 			</div>
 		</div>
 		<div style="width: 1000px;" class="row"> 
@@ -31,6 +39,7 @@
     		:headers="headers"
     		:items="boardList"
    		  item-value="boardNo"
+				 no-data-text="조회된 농지대여가 없습니다"
 				return-object
     		show-select
 				hide-default-footer
@@ -119,43 +128,34 @@ import axios from 'axios'
 export default{
   data(){
     return{
-			btnShow:true,
-			reason:'',
-			page:1,
-			selected:[],
+			searchStts:'e0',
+			searchStr:'',searchEnd:'',
+			btnShow:true,reason:'',
+			page:1,selected:[],
 			itemsPerPage: 10,
-			board:{}, 
-      boardList:[],
-			dst1:'',
-			dst1List:[],
-			dst2:'',
-			dst2List:[],
-      dst2All:{},
-      reqSttsList:[],
-      stts:'',
+			board:{}, boardList:[],
+			dst1:'',dst1List:[],
+			dst2:'',dst2List:[],
+      dst2All:{}, regSttsList:[],stts:'',
       headers:[
-	        {title: '번호',
-					key: 'boardNo',},
-	        {title: '주소',
-	          key: 'addr'},
-					{title: '면적',
-	          key: 'area'
-	        },
-					{title: '가격',
-	          key: 'lendPrice'
-	        },
-					{title: '신청일자',
-	          key: 'regDate'
-	        },
-	        {title: '승인상태',
-	          key: 'regStts'}
+	        {title: '번호',key: 'boardNo',},
+	        {title: '주소', key: 'addr'},
+					{title: '면적',key: 'area'},
+					{title: '가격',key: 'lendPrice' },
+					{title: '신청일자', key: 'regDate'},
+	        {title: '상태',key: 'regStts'}
 	      ]
     }
   },
-	components: {
-      VDataTable,
-    },
+	components: { VDataTable,},
 methods:{
+	search(){
+		let obj={}
+		obj.stts=this.searchStts;
+		obj.str=this.searchStr;
+		obj.end=this.searchEnd;
+		this.callList(obj);
+	},
 	changeBtn(){
 		console.log(this.selected);
 		if(this.stts==''){
@@ -181,7 +181,8 @@ methods:{
   	axios.put('/admin/chageRegStatus', list)
   	.then(response => {
 			console.log(response.data);
-			this.boardList = response.data;
+			let stts= this.searchStts
+			this.callList({stts})
 			this.selected = [];
     	this.stts = '';
     	this.board = {};
@@ -207,17 +208,17 @@ methods:{
 	},
 	refusal2(){
 		let obj ={
-			memNo : this.member.memNo,
+			boardNo : this.board.boardNo,
+			memNo: this.board.memNo,
 			alertTitle: '신청이 거부되었습니다',
 			alrtDesct: this.reason,
-			boardCtg: 'g00'
+			boardCtg: 'g00',
+			tableName:'farm_lend',
+			reqStts:'e8',
 		}
-		console.log(obj)
-		axios.post('/admin/rejectAlert', obj, {
-  		headers: {
-    		'Content-Type': 'application/json',
-  		}
-		})
+		let list = [obj];
+		this.modify(list)
+		axios.post('/admin/rejectAlert', obj)
 		.then((response) => {
   		console.log(response.data);
   		if (response.data.retCode == "Success") {
@@ -240,6 +241,14 @@ methods:{
 	},
 	back(){
 		document.getElementById("myModal").style.display = "none";
+	},
+	callList(vo){
+		axios.get("/admin/farms",{params: vo})
+		.then(response => {
+			console.log(response.data);
+			this.boardList = response.data;
+		})
+		.catch(err => console.log(err));
 	}
 },
   mounted(){
@@ -247,13 +256,8 @@ methods:{
 		this.dst1List = this.$store.state.dst1;
 		this.regSttsList = this.$store.state.regSttsList;
 		this.dst2All = this.$store.state.des2All;
-
-		axios.get("/admin/farms")
-		.then(response => {
-			console.log(response.data);
-			this.boardList = response.data;
-		})
-		.catch(err => console.log(err));
+		console.log(this.$store.state.regSttsList)
+		this.callList({stts:'e0'});
 			
 		//모달 닫기
 		

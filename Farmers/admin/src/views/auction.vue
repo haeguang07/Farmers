@@ -1,14 +1,32 @@
 <template>
 
 	<div class="body">
-		<h1>경매장</h1>
-		<br>
+		<h3>경매장</h3>
+		<div class="row">
+			<div class="col-4 row">
+				<div class="col">상태</div>
+				<select class="form-select col" id="addon-wrapping" v-model="searchStts"  @change="search">
+					<option value="">전체</option>
+					<option value="e0">승인대기</option>
+					<option value="e1">승인완료</option>
+					<option value="e5">경매종료</option>
+					<option value="e8">신청거절</option>
+				</select>
+			</div>
+			<div class="col-6 row">
+				<div class="col text-center">경매일</div>
+				<select class="form-select col" id="addon-wrapping" v-model="searchStr"  @change="search">
+					<option value="">전체</option>
+					<option v-for="date in dateList" :value="date" v-text="date"></option>
+				</select>
+			</div>
+		</div>
 		<div style="width: 1000px;" class="row"> 
 			<div class="col-2">선택한 신청을 </div>
 			<div class="col-2">
 				<select class="form-select"  v-model="stts">
 					<option selected value="">선택</option>
-					<option v-for="reqStts in reqSttsList" :value="reqStts.cmmnDetaCode">{{reqStts.codeDesct}}</option>
+					<option v-for="reqStts in regSttsList" :value="reqStts.cmmnDetaCode">{{reqStts.codeDesct}}</option>
 				</select>
 			</div>
 			<div  class="col-2"> 으로
@@ -22,6 +40,7 @@
     		:headers="headers"
     		:items="boardList"
    		  item-value="boardNo"
+				no-data-text="조회된 경매가 없습니다"
 				return-object
     		show-select
 				hide-default-footer
@@ -97,33 +116,19 @@ import axios from 'axios'
 export default{
   data(){
     return{
-			btnShow:true,
-			reason:'',
-			page:1,
-			selected:[],
-			itemsPerPage: 10,
-			board:{}, 
-      boardList:[],
-			dst1:'',
-			dst1List:[],
-			dst2:'',
-			dst2List:[],
-      dst2All:{},
-      reqSttsList:[],
-      stts:'',
+			searchStts:'e0',searchStr:'',dateList:[],
+			btnShow:true,reason:'',
+			page:1,selected:[],itemsPerPage: 10,
+			board:{},  boardList:[],
+			dst1:'',dst1List:[],
+			dst2:'',dst2List:[],
+      dst2All:{},regSttsList:[], stts:'',
       headers:[
-	        {title: '번호',
-					key: 'boardNo',},
-	        {title: '제목',
-	          key: 'title'},
-					{title: '시작시간',
-	          key: 'actDate'
-	        },
-					{title: '경매기간',
-	          key: 'actTrm'
-	        },
-	        {title: '상태',
-	          key: 'regStts'}
+	        {title: '번호',key: 'boardNo',},
+	        {title: '제목', key: 'title'},
+					{title: '시작시간', key: 'actDate' },
+					{title: '경매기간',key: 'actTrm'},
+	        {title: '상태',key: 'regStts'}
 	      ]
     }
   },
@@ -131,6 +136,14 @@ export default{
       VDataTable,
     },
 methods:{
+	search(){
+		let obj={}
+		obj.stts=this.searchStts;
+		obj.str=this.searchStr;
+		obj.end=this.searchEnd;
+		console.log(obj);
+		this.callList(obj)
+	},
 	changeBtn(){
 		console.log(this.selected);
 		if(this.stts==''){
@@ -156,7 +169,8 @@ methods:{
   	axios.put('/admin/chageRegStatus', list)
   	.then(response => {
 			console.log(response.data);
-			this.boardList = response.data;
+			let stts= this.searchStts
+			this.callList({stts})
 			this.selected = [];
     	this.stts = '';
     	this.board = {};
@@ -182,13 +196,18 @@ methods:{
 	},
 	refusal2(){
 		let obj ={
-			memNo : this.member.memNo,
+			boardNo : this.board.boardNo,
+			memNo: this.board.memNo,
 			alertTitle: '신청이 거부되었습니다',
 			alrtDesct: this.reason,
-			boardCtg: 'g10'
+			boardCtg: 'g10',
+			tableName:'acution',
+			reqStts:'e8',
+
 		}
-		console.log(obj)
-		axios.post('/admin/rejectAlert', obj, {
+		let list = [obj];
+		this.modify(list)
+		axios.post('/admin/rejectAlert', vo, {
   		headers: {
     		'Content-Type': 'application/json',
   		}
@@ -215,19 +234,34 @@ methods:{
 	},
 	back(){
 		document.getElementById("myModal").style.display = "none";
+	},
+	callList(vo){
+		console.log(vo)
+		axios.get("/admin/auctions",{params: vo})
+		.then(response => {
+			console.log(response.data);
+			this.boardList = response.data;
+		})
+		.catch(err => console.log(err));
 	}
 },
   mounted(){
 		this.dst1List = this.$store.state.dst1;
 		this.regSttsList = this.$store.state.regSttsList;
 		this.dst2All = this.$store.state.des2All;
+		//시간 구하기
+		let thisDate = new Date();
+		let day = thisDate.getDay();
+		let calcDate = thisDate.getDate() - day + ((day == 0 ? 1 : 8) + 0);
+		let nextDate = new Date(thisDate.setDate(calcDate)).toISOString().substring(0, 10);
+		let nextNextDate = new Date(nextDate);
+		nextNextDate.setDate(nextNextDate.getDate() + 7);
+		nextNextDate = nextNextDate.toISOString().substring(0, 10);
+		this.dateList= [nextDate,nextNextDate];
 
-		axios.get("/admin/auctions")
-		.then(response => {
-			console.log(response.data);
-			this.boardList = response.data;
-		})
-		.catch(err => console.log(err));
+		let obj={stts:'e0'}
+		this.callList(obj);
+		
 			
 		//모달 닫기
 		
