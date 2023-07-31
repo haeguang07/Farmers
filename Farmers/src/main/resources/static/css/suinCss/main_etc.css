@@ -173,8 +173,8 @@ to {
 	padding: 40px 0px 40px;
 	margin: 20px 0px 50px;
 	background-color: #fffff4;
-	border-radius: 10px;
-	border: orange 2px solid;
+	border-radius: 20px;
+	border: #ffbb3c 2px dotted;
 }
 
 .linkArea>p {

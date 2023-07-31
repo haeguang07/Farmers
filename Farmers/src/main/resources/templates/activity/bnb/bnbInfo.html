@@ -25,9 +25,7 @@
 <!-- datePicker -->
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
 <script src="./jquery-ui-1.12.1/datepicker-ko.js"></script>
 
 <title>농촌비앤비 상세페이지</title>
@@ -104,12 +102,12 @@
 							<div class="product__details__text">
 								<h3 th:text="|${bnb.title}|">제목</h3>
 								<span id="onePay" th:text="|${bnb.price}|" style="display: none"></span>
-								<div class="rating">
-									<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-										class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-										class="fa fa-star-o"></i> <span>[[${rev}]]</span> Reviews
-								</div>
-								<p>농촌 한달살기 체험 해보세요!</p>
+								<th:block th:if="${rev}>0">
+									<div class="rating">
+										리뷰 평균: <span id="revAvg" class="star"> </span> &nbsp;(리뷰 총
+										[[${rev}]]개)
+									</div>
+								</th:block>
 								<!-- 결제 -->
 								<div>
 
@@ -127,7 +125,8 @@
 												<!-- <input type="date" id="startDate"
 												th:min="${#dates.format(bnb.lendStrDate,'yyyy-MM-dd')}"
 												th:max="${#dates.format(bnb.lendEndDate,'yyyy-MM-dd')}"
-												onchange="minDate()"> --> <input type="text" id="startDate"
+												onchange="minDate()"> --> 
+												<input type="text" id="startDate"
 												class="form-control mini"
 												th:min="${#dates.format(bnb.lendStrDate,'yyyy-MM-dd')}"
 												th:max="${#dates.format(bnb.lendEndDate,'yyyy-MM-dd')}"
@@ -154,6 +153,9 @@
 										<tr>
 											<th colspan="2">
 												<div class="product__details__cart__option">
+													<p style="margin-top: 20px">
+														<b><i>"농촌 한달살기 체험 해보세요!"</i></b>
+													</p>
 													<span class="primary-btn" id="letPay">예약 및 결제하기</span>
 												</div>
 											</th>
@@ -219,7 +221,7 @@
 														</tbody>
 													</table>
 													<!-- 리뷰 등록 폼 -->
-													<div class="review-form">
+													<div class="review-form" style="display: none">
 														<div class="row1">
 															<label for="star">별점:</label> <select id="star">
 																<option value="0">별점 선택</option>
@@ -311,7 +313,9 @@
 		$(function(){
 				maxDate = /*[[${bnb.lendEndDate}]]*/;
 				maxDate = maxDate.substr(0,10)
-			
+				minDate = /*[[${bnb.lendStrDate}]]*/;
+				minDate = minDate.substr(0,10)
+				
 				//DB 예약 날짜 받아오기
 				$.ajax({
 					url : "checkRsvDate",
@@ -337,7 +341,7 @@
 					$('#startDate').datepicker({
 						beforeShowDay: disableDays,
 						dateFormat: "yy-mm-dd",
-						minDate: new Date(),
+						minDate: minDate,
 						maxDate: maxDate,
 						closeText: "닫기",
     				currentText: "오늘",
@@ -427,7 +431,6 @@
 			/*<![CDATA[*/
 			let boardNo = /*[[${bnb.boardNo}]]*/ ;
 			let mem = /*[[${session.mem}]]*/ ;
-			let memList = /*[[${pay}]]*/ ;
 			/*]]>*/
 			
 			
@@ -622,7 +625,7 @@
 			        }
 			      }
 			    ],
-			    autoWidth: false, // autoWidth 옵션 비활성화
+			    autoWidth: false // autoWidth 옵션 비활성화
 			    //order: [0, 'desc']
 			  });
 			} 
@@ -649,6 +652,12 @@
 			    starSelect.appendChild(option);
 			  }
 			
+			//리뷰 - 별점평균 
+			/*<![CDATA[*/
+			let avg = /*[[${avg}]]*/ ;
+			/*]]>*/
+			$('#revAvg').html(makeStars(avg));  
+			  
 			//리뷰 - 날짜포맷변경 
 			function formatDate(dateString) {
 			  const date = new Date(dateString);
@@ -694,7 +703,9 @@
 			})
 			
 			//리뷰등록폼 - 결제한 사람만 보이기
-			console.log("결제한 MemNo ", memList)
+			/*<![CDATA[*/
+			let memList = /*[[${pay}]]*/ ;
+			/*]]>*/
 			function findMem(element)  {
 			  if(element == mem.memNo) {
 				 let rvForm = document.querySelector('.review-form')
