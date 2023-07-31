@@ -10,7 +10,6 @@ import funding from '../views/funding.vue'
 import inquiry from '../views/inquiry.vue'
 import market from '../views/market.vue'
 import memberManagement from '../views/memberManagement.vue'
-import report from '../views/report.vue'
 import farmbnb from '../views/farmbnb.vue'
 
 const routes = [{
@@ -47,10 +46,6 @@ const routes = [{
     path: '/admin/v/inquiry',
     name: 'inquiry',
     component: inquiry
-  }, {
-    path: '/admin/v/report',
-    name: 'report',
-    component: report
   }
 
 

@@ -10,13 +10,12 @@ import org.springframework.stereotype.Service;
 import com.yedam.app.activity.vo.BnbVO;
 import com.yedam.app.activity.vo.ExpVO;
 import com.yedam.app.common.mapper.CodeMapper;
-import com.yedam.app.common.vo.SearchVO;
-import com.yedam.app.common.vo.WarnVO;
 import com.yedam.app.farm.vo.FarmLendVO;
 import com.yedam.app.market.vo.AuctionVO;
 import com.yedam.app.market.vo.FundingVO;
 import com.yedam.app.market.vo.MarketVO;
 import com.yedam.app.user.mapper.AdminMapper;
+import com.yedam.app.user.vo.AdminSearchVO;
 import com.yedam.app.user.vo.InquiryVO;
 import com.yedam.app.user.vo.MemberVO;
 import com.yedam.app.user.vo.UpdateSttsVO;
@@ -31,7 +30,7 @@ public class AdminServiceImpl implements AdminService {
 
 	// 회원
 	@Override
-	public List<MemberVO> getMemberList(SearchVO searchVO) {
+	public List<MemberVO> getMemberList(AdminSearchVO searchVO) {
 		return adminMapper.selectMemberList(searchVO);
 	}
 
@@ -42,13 +41,13 @@ public class AdminServiceImpl implements AdminService {
 		map.put("test", "");
 		adminMapper.updateMember(list, map);
 		System.out.println(map);
-		SearchVO vo = new SearchVO();
+		AdminSearchVO vo = new AdminSearchVO();
 		return getMemberList(vo);
 	}
 	// 문의
 	@Override
-	public List<InquiryVO> getInqueryList(SearchVO vo) {
-		return adminMapper.selectInqueryList(vo);
+	public List<InquiryVO> getInqueryList(AdminSearchVO searchVO) {
+		return adminMapper.selectInqueryList(searchVO);
 	}
 
 
@@ -60,44 +59,40 @@ public class AdminServiceImpl implements AdminService {
 
 	// 농지대여
 	@Override
-	public List<FarmLendVO> getFarmLendList() {
-		return adminMapper.selectFarmLendList();
+	public List<FarmLendVO> getFarmLendList(AdminSearchVO searchVO) {
+		return adminMapper.selectFarmLendList(searchVO);
 	}
 
 	// 마켓
 	@Override
-	public List<MarketVO> getMarketList() {
-		return adminMapper.selectMarketList();
+	public List<MarketVO> getMarketList(AdminSearchVO searchVO) {
+		return adminMapper.selectMarketList(searchVO);
 	}
 
 	// 비엔비
 	@Override
-	public List<BnbVO> getFarmBnbList() {
-		return adminMapper.selectFarmBnbList();
+	public List<BnbVO> getFarmBnbList(AdminSearchVO searchVO) {
+		return adminMapper.selectFarmBnbList(searchVO);
 	}
 
 	// 경매장
 	@Override
-	public List<AuctionVO> getAuctionList() {
-		return adminMapper.selectAuctionList();
+	public List<AuctionVO> getAuctionList(AdminSearchVO searchVO) {
+		return adminMapper.selectAuctionList(searchVO);
 	}
 
 	// 펀딩
 	@Override
-	public List<FundingVO> getFundingList() {
-		return adminMapper.selectFundingList();
+	public List<FundingVO> getFundingList(AdminSearchVO searchVO) {
+		return adminMapper.selectFundingList(searchVO);
 	}
 	//체험하기 
 	@Override
-	public List<ExpVO> getExpList() {
-		return adminMapper.selectExpList();
+	public List<ExpVO> getExpList(AdminSearchVO searchVO) {
+		return adminMapper.selectExpList(searchVO);
 	}
 	
-	// 신고
-	@Override
-	public List<WarnVO> getWarnList() {
-		return adminMapper.selectWarnList();
-	}
+
 
 	// 동적으로 승인/거부
 	@Override

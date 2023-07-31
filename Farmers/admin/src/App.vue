@@ -43,9 +43,6 @@
 							<router-link to="/admin/v/inquiry" class="nav-link collapsed">
 								<div class="sb-nav-link-icon"></div>문의관리
 							</router-link>
-							<a class="nav-link collapsed" href="/admin/v/report">
-								<div class="sb-nav-link-icon"></div>신고관리
-							</a>
 						</div>
 					</div>
 					<div class="sb-sidenav-footer">

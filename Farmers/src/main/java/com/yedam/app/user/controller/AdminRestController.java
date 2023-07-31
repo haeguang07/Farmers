@@ -17,13 +17,12 @@ import com.yedam.app.activity.vo.ExpVO;
 import com.yedam.app.common.service.AlertService;
 import com.yedam.app.common.service.CodeService;
 import com.yedam.app.common.vo.CodeVO;
-import com.yedam.app.common.vo.SearchVO;
-import com.yedam.app.common.vo.WarnVO;
 import com.yedam.app.farm.vo.FarmLendVO;
 import com.yedam.app.market.vo.AuctionVO;
 import com.yedam.app.market.vo.FundingVO;
 import com.yedam.app.market.vo.MarketVO;
 import com.yedam.app.user.service.AdminService;
+import com.yedam.app.user.vo.AdminSearchVO;
 import com.yedam.app.user.vo.AlertVO;
 import com.yedam.app.user.vo.InquiryVO;
 import com.yedam.app.user.vo.MemberVO;
@@ -49,19 +48,21 @@ public class AdminRestController {
 	@GetMapping("admin/getCodes")
 	public Map<String, List<CodeVO>> getPublicCode() {
 		Map<String, List<CodeVO>> code = codeService.getCodes("0K", "0E", "k0", "k1", "k2", "k3", "k4", "k5", "k6",
-				"k7", "k8","0Y","0Z");
+				"k7", "k8","0Y","0Z","0C");
 		List<CodeVO> list2 = code.get("0E");
 		int[] arr = { 7, 6, 5, 4, 3, 2, 0 };
 		for (int i = 0; i < arr.length; i++) {
 			list2.remove(arr[i]);
 		}
 		code.put("0E", list2);
+		System.out.println(code);
 		return code;
 	}
 
 	// 회원조회
 	@GetMapping("/admin/members")
-	public Map<String, Object> memberList(SearchVO searchVO) {
+	public Map<String, Object> memberList(AdminSearchVO searchVO) {
+		System.out.println(searchVO);
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<MemberVO> list = adminService.getMemberList(searchVO);
 		Map<String, List<CodeVO>> codeMap = codeService.getCodes("0B", "0C");
@@ -79,7 +80,7 @@ public class AdminRestController {
 
 	// 문의 조회
 	@GetMapping("/admin/inquiryAdmin")
-	public List<InquiryVO> inquiryAdmin(SearchVO searchVO) {
+	public List<InquiryVO> inquiryAdmin(AdminSearchVO searchVO) {
 		return adminService.getInqueryList(searchVO);
 	}
 
@@ -109,48 +110,45 @@ public class AdminRestController {
 
 	// 농지대여
 	@GetMapping("admin/farms")
-	public List<FarmLendVO> getFarms() {
-		return adminService.getFarmLendList();
+	public List<FarmLendVO> getFarms(AdminSearchVO vo) {
+		return adminService.getFarmLendList(vo);
 	}
 
 	// 마켓
 	@GetMapping("admin/markets")
-	public List<MarketVO> getMarkets() {
-		return adminService.getMarketList();
+	public List<MarketVO> getMarkets(AdminSearchVO vo) {
+		return adminService.getMarketList(vo);
 	}
 
 	// 비엔비
 	@GetMapping("admin/bnbs")
-	public List<BnbVO> getBnbs() {
-		return adminService.getFarmBnbList();
+	public List<BnbVO> getBnbs(AdminSearchVO vo) {
+		return adminService.getFarmBnbList(vo);
 	}
 
 	// 경매장
 	@GetMapping("admin/auctions")
-	public List<AuctionVO> getAuctions() {
-		return adminService.getAuctionList();
+	public List<AuctionVO> getAuctions(AdminSearchVO vo) {
+		System.out.println(vo);
+		return adminService.getAuctionList(vo);
 	}
 
 	// 펀딩
 	@GetMapping("admin/fundings")
-	public List<FundingVO> getFundings() {
-		return adminService.getFundingList();
+	public List<FundingVO> getFundings(AdminSearchVO vo) {
+		return adminService.getFundingList(vo);
 	}
 	// 펀딩
 	@GetMapping("admin/exps")
-	public List<ExpVO> getExps() {
-		return adminService.getExpList();
+	public List<ExpVO> getExps(AdminSearchVO vo) {
+		return adminService.getExpList(vo);
 	}
 
-	// 신고
-	@GetMapping("admin/warns")
-	public List<WarnVO> getWarns() {
-		return adminService.getWarnList();
-	}
 
 	// 동적으로 승인/거부
 	@PutMapping("admin/chageRegStatus")
-	public Map<String, Object> chageRegStatus(List<UpdateSttsVO> list) {
+	public Map<String, Object> chageRegStatus(@RequestBody List<UpdateSttsVO> list) {
+		System.out.println(list);
 		return adminService.chageStatus(list);
 	}
 
