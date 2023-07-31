@@ -492,7 +492,8 @@
 	<select id="myBoardList" parameterType="String" resultType="BoardVO">
 		SELECT board_no, 
 			   title,  
-			   FIND_CODE_NAME(post_ctg) post_ctg, 
+			   FIND_CODE_NAME(post_ctg) post_ctg_name, 
+			   post_ctg,
                hit_count, 
 			   wrt_date
 		FROM board
