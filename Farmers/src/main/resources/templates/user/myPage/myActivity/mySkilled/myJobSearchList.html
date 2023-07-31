@@ -56,24 +56,22 @@
 									<th>번호</th>
 									<th>신청자</th>
 									<th>연락처</th>
-									<th>신청인원</th>
 									<th>처리</th>
 								</tr>
 							</thead>
 							<tbody>
-								<!-- <th:block th:if="not ${#strings.isEmpty(applyList)}">
-									<tr th:each="apply : ${applyList}" th:data-aplNo="${apply.aplNo}" th:data-boardNo="${apply.boardNo}">
-										<td th:text="${apply.aplNo}"></td>
-										<td th:text="${apply.nick}"></td>
-										<td th:text="${apply.mbl}"></td>
-										<td th:text="${apply.aplPer}"></td>
-										<td th:if="${not #strings.equals(apply.regStts, '대여 종료')} and ${not #strings.equals(apply.aplStts, '신청 거절')}" class="stts">
+								<th:block th:if="not ${#strings.isEmpty(subList)}">
+									<tr th:each="sub : ${subList}" th:data-aplNo="${sub.aplNo}" th:data-boardNo="${sub.boardNo}">
+										<td th:text="${sub.aplNo}"></td>
+										<td th:text="${sub.nick}"></td>
+										<td th:text="${sub.mbl}"></td>
+										<td th:if="${not #strings.equals(sub.stts, '계약 완료')} and ${#strings.equals(sub.aplStts, '신청 완료')}" class="stts">
 											<button type="button" class="form-control accept">수락</button>
 											<button type="button" class="form-control refuse">거절</button>
 										</td>
-										<td th:if="${#strings.equals(apply.regStts, '대여 종료')} or ${#strings.equals(apply.aplStts, '신청 거절')}" th:text="${apply.aplStts}"></td>
+										<td th:if="${#strings.equals(sub.stts, '계약 완료')} or ${not #strings.equals(sub.aplStts, '신청 완료')}" th:text="${sub.aplStts}"></td>
 									</tr>
-								</th:block> -->
+								</th:block>
 							</tbody>
 						</table>
 					</div>
@@ -121,12 +119,14 @@
 		$('.accept').on('click',function(e){
 			let stts = $(e.target).closest('tr').find('.stts')
 			let boardNo =  $(e.target).closest('tr').data('boardno')
+			let aplNo =  $(e.target).closest('tr').data('aplno')
 			console.log(boardNo)
 			$.ajax({
-				url : "/myPage/myExpStts",
+				url : "/myPage/mySkilledSubAccept",
+				method : 'POST',
 				data : {
 					boardNo : boardNo ,
-					aplNo : $(e.target).closest('tr').data('aplno')
+					aplNo : aplNo
 				}
 			})
 			.done(function(){
@@ -152,7 +152,8 @@
 		$('.refuse').on('click',function(e){
 			let stts = $(e.target).closest('tr').find('.stts')
 			$.ajax({
-				url : "/myPage/myExpApplyStts",
+				url : "/myPage/skilledSubRefuse",
+				method : "POST",
 				data : {
 					aplNo : $(e.target).closest('tr').data('aplno')
 				}

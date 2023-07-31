@@ -63,6 +63,7 @@ public class BnbController {
 		System.out.println(bnbService.selectBnb(boardNo));
 		model.addAttribute("bnb", bnbService.selectBnb(boardNo));
 		model.addAttribute("rev", revService.getCount(boardNo));
+		model.addAttribute("avg", revService.getAverage(boardNo));
 		List<String> list = payService.getPayMember(boardNo);
 		model.addAttribute("pay", list);
 		return "activity/bnb/bnbInfo";

@@ -9,13 +9,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Funding</title>
-	<link rel="stylesheet" href="css/sungWookCss/sungook.css" type="text/css">
+	<link rel="stylesheet" href="/css/sungWookCss/sungook.css" type="text/css">
 </head>
 
 <body>
 	<div layout:fragment="content">
 		<!-- Breadcrumb Section Begin -->
-		<section class="">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12">
@@ -28,7 +27,6 @@
 					</div>
 				</div>
 			</div>
-		</section>
 		<div class="justify-content-center">
 			<br>
 			<h3 class="current text-center">농작물 펀딩</h3>
@@ -95,33 +93,6 @@
 									</div>
 								</div>
 							</div>
-						</div>
-						<div class="row" id="fundingDiv">
-							<!-- 페이지 이동 방식 -->
-							<!-- <div class="col-lg-4 col-md-6 col-sm-6"
-								th:each="funding : ${fundingList}">
-								<div class="product__item"
-									th:onclick="|location.href='@{fundingInfo(fndNo=${funding.fndNo})}'|">
-									<div class="product__item__pic set-bg"
-										data-setbg="img/product/product-2.jpg">
-										<ul class="product__hover">
-											<li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-										</ul>
-									</div>
-									<div class="product__item__text">
-										<a href="#" class="add-cart">+ Add To Cart</a>
-										<h6 th:text="${funding.fndTitle}">상품명</h6>
-										<p style="font-weight: 900; margin-bottom: 0;"
-											th:text="'목표금액 ' + ${funding.fndPrice} + '원'">가격</p>
-										<div>
-											<p class="myInline">달성률</p>
-											<p class="myFontSizeMin myInline">총금액</p>
-											<p class="myFontSizeMin myInline myRight"
-												th:text="${#dates.format(funding.fndEndDate, 'yyyy/MM/dd')}">디데이</p>
-										</div>
-									</div>
-								</div>
-							</div> -->
 						</div>
 						<div class="row">
 							<div class="col-lg-12" id="pageDiv">

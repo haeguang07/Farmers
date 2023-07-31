@@ -12,6 +12,7 @@ public class PageVO {
 	private int pageNum;
 	private int totalPosts;
 	
+
 	public PageVO(int pageNum, int total) {
 		this.pageNum = pageNum;
 		
