@@ -222,7 +222,7 @@
 			//할게요 ajax 불러오기
 			function ajaxLendList() {
 				$.ajax({
-						url: "/myPage/myExpSubList",
+						url: "/myPage/mySkilledList",
 						data: {
 							memNo: memNo,
 							div : 'o1'
@@ -288,7 +288,7 @@
 						if (typeof table != "undefined") {
 							table.destroy();
 						}
-						makeMyTr(result)
+						makeSubTr(result)
 						mkDataTable()
 					})
 					.fail(function () {
@@ -317,7 +317,7 @@
 												.attr('aplNo', item.aplNo)
 					let td1 = $('<td>').text(item.boardNo)
 					let td2 = $('<td>').text(item.title)
-					let td3 = $('<td>').text(item.divDay)
+					let td3 = $('<td>').text(item.dayDiv)
 					let td4 = $('<td>').text(item.aplDate)
 					let td5 = $('<td>').text(item.aplStts)
 					let td6 = $('<td>').append($('<button class="form-control" type="button">상세확인</button> ').addClass('subBtn'))
@@ -335,55 +335,55 @@
 			// 	}
 			// })
 
-			// //td 버튼 이벤트 (구해요 리스트)
-			// $(document).on("click", ".myBtn", function (e) {
-			// 	e.stopPropagation()
+			//td 버튼 이벤트 (구해요 리스트)
+			$(document).on("click", ".myBtn", function (e) {
+				e.stopPropagation()
 
-			// 	//모달창
-			// 	$.magnificPopup.open({
-			// 		items: [{
-			// 			src: "/myPage/myJobSearchList?boardNo="+$(e.target).closest('tr').attr('no'),
-			// 			type: 'iframe'
-			// 		}]
-			// 	})
-			// })
+				//모달창
+				$.magnificPopup.open({
+					items: [{
+						src: "/myPage/myJobSearchList?boardNo="+$(e.target).closest('tr').attr('no'),
+						type: 'iframe'
+					}]
+				})
+			})
 
-			// //td 버튼 이벤트 (할게요 리스트)
-			// $(document).on("click", ".myBtn2", function (e) {
-			// 	e.stopPropagation()
+			//td 버튼 이벤트 (할게요 리스트)
+			$(document).on("click", ".myBtn2", function (e) {
+				e.stopPropagation()
 
-			// 	//모달창
-			// 	$.magnificPopup.open({
-			// 		items: [{
-			// 			src: "/myPage/myJobSearchList?boardNo="+$(e.target).closest('tr').attr('no'),
-			// 			type: 'iframe'
-			// 		}]
-			// 	})
-			// })
+				//모달창
+				$.magnificPopup.open({
+					items: [{
+						src: "/myPage/myJobSearchList?boardNo="+$(e.target).closest('tr').attr('no'),
+						type: 'iframe'
+					}]
+				})
+			})
 
-			// //td 버튼 이벤트 (신청 리스트)
-			// $(document).on("click", ".subBtn", function (e) {
-			// 	e.stopPropagation()
+			//td 버튼 이벤트 (신청 리스트)
+			$(document).on("click", ".subBtn", function (e) {
+				e.stopPropagation()
 
-			// 	// 모달창
-			// 	$.magnificPopup.open({
-			// 		items: [{
-			// 			src: "/myPage/myExpSubInfo?aplNo=" + $(e.target).closest('tr').attr('aplNo'),
-			// 			type: 'iframe'
-			// 		}]
-			// 	})
-			// })
+				// 모달창
+				$.magnificPopup.open({
+					items: [{
+						src: "/myPage/mySkilledSubInfo?aplNo=" + $(e.target).closest('tr').attr('aplNo'),
+						type: 'iframe'
+					}]
+				})
+			})
 
 			// function priceToString(price) {
 			// 	return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 			// }
 
-			// //팝업창 닫기 함수
-			// function closePopUp(){
-			// 	var magnificPopup = $.magnificPopup.instance; 
-			// 	magnificPopup.close(); 
-			// 	location.reload();
-			// }
+			//팝업창 닫기 함수
+			function closePopUp(){
+				var magnificPopup = $.magnificPopup.instance; 
+				magnificPopup.close(); 
+				location.reload();
+			}
 
 			//버튼 active
 			$('.myMenuBtn').on('click',function(e){

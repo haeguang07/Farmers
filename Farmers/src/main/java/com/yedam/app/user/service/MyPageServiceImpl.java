@@ -267,6 +267,31 @@ public class MyPageServiceImpl implements MyPageService {
 	public List<SkilledVO> mySkilledSubList(String memNo) {
 		return myPageMapper.mySkilledSubList(memNo);
 	}
+
+	@Override
+	public List<SkilledVO> myJobSearchList(String boardNo) {
+		return myPageMapper.myJobSearchList(boardNo);
+	}
+
+	@Override
+	public SkilledVO mySkilledSubInfo(String aplNo) {
+		return myPageMapper.mySkilledSubInfo(aplNo);
+	}
+
+	@Override
+	public void SKilledSubAccept(SkilledVO vo) {
+		myPageMapper.SKilledSubAccept(vo);
+	}
+
+	@Override
+	public boolean skilledSubRefuse(String aplNo) {
+		return myPageMapper.skilledSubRefuse(aplNo)>0;
+	}
+
+	@Override
+	public boolean deleteSkilledApply(String aplNo) {
+		return myPageMapper.deleteSkilledApply(aplNo) > 0;
+	}
 	
 	
 
