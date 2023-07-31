@@ -1,7 +1,29 @@
 <template>  
 <div>
   <h3>문의 관리</h3>
-	<br>
+  <div class="row">
+			<div class="col-3 row">
+				<div class="col">상태</div>
+				<select class="form-select col" id="addon-wrapping" v-model="searchStts"  @change="search">
+					<option value="">전체</option>
+					<option value="d0">답변대기</option>
+					<option value="d1">답변완료</option>
+				</select>
+			</div>
+			<div class="col-4 row">
+        <div class="col">카테고리</div>
+				<select class="form-select col" id="addon-wrapping" v-model="searchCtg"  @change="search">
+					<option value="">전체</option>
+					<option v-for="ctg in ctgList" :value="ctg.cmmnDetaCode" v-text="ctg.codeDesct"></option>
+				</select>
+      </div>
+		</div>
+    <div class="row  my-4">
+      <div class="col-1">작성일</div>
+      <input type="date" class="form-select-plaintext col-2" v-model="searchStr"  @change="search">
+					~
+				<input type="date" class="form-select-plaintext col-2" v-model="searchEnd"  @change="search">
+    </div>
   <v-data-table
     v-model:page="page"
     v-model:items-per-page="itemsPerPage"
@@ -69,12 +91,17 @@
 <script>
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import axios from 'axios'
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
 
 export default {
   data() {
     return {
+
       searchStts:'',
 			searchStr:'',searchEnd:'',
+      ctgList:[],searchCtg:'',
       editor: ClassicEditor,
       editorData: '<p>Content of the editor.</p>',
       editorDisabled: true,
@@ -94,12 +121,11 @@ export default {
     };
   },
   components:{
-    VDataTable
+    VDataTable,VueDatePicker 
   },
   methods:{
-    
     info(event,inq){
-     //console.log(inq.item.index,inq.item.key)
+     
      this.idx=inq.item.index
      this.inquiry=this.inquiryList[this.idx];
      console.log(this.inquiry);
@@ -122,7 +148,6 @@ export default {
         if(result.retCode=='Success'){
           this.$swal({
               title: "답변을 성공적으로 보냈습니다",
-              //text: "You clicked the button!",
               icon: "success",
               showConfirmButton:false,
               timer:1500
@@ -136,27 +161,45 @@ export default {
               timer:1500
             });
         }
+        this.search();
       })
       .catch(err=>console.log(err))
       .finally(()=>this.back())
-      
+     
     },
     back(){
       document.getElementById("myModal").style.display = "none";
-    }
+    },
+	  callList(vo){
+      axios.get("/admin/inquiryAdmin",{params: vo})
+      .then(response => {
+        console.log(response.data);
+        this.inquiryList = response.data;
+      })
+      .catch(err => console.log(err));
+	},
+  search(){
+    let obj={};
+    obj.stts=this.searchStts;
+    obj.end=this.searchEnd;
+    obj.str=this.searchStr;
+    obj.ctg=this.searchCtg;
+    console.log(obj);
+    this.callList(obj)
+  }
+    
   },
   
   mounted(){
-    fetch('/admin/inquiryAdmin')
-    .then(result=> result.json())
-    .then(result=>{
-      console.log(result);
-      this.inquiryList=result;
-    })
-    .catch(err => console.log(err))
-
-    
-    ClassicEditor.builtinPlugins.map( plugin => console.log(plugin.pluginName));
+    this.callList({stts:'d0'})
+    this.searchStts='d0';
+    // Vuex에서 데이터 가져오기
+		//this.ctgList = 
+    axios.get('/admin/getCodes')
+        .then(response => {
+          this.ctgList=response.data['0F']
+        })
+        .catch(err=> console.log(err))
 		window.onclick = function(event) {
   		if (event.target == document.getElementById("myModal")) {
 				document.getElementById("myModal").style.display = "none";
@@ -178,7 +221,11 @@ export default {
 
 
 <style>
-ck-sticky-panel__content {
+.ck-content{
+  height: 300px;
+
+}
+.ck-sticky-panel__content {
   width: 600px;
 	height: 200px;
 }

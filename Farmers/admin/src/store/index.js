@@ -13,22 +13,22 @@ export default createStore({
     allCode:{}
   },
   getters: {
-    setDst1(state) {
+    getDst1(state) {
       return state.dst1;
     },
-    setRegSttsList(state) {
+    getRegSttsList(state) {
       return state.regSttsList;
     },
-    setAllCode(state) {
+    getAllCode(state) {
       return state.allCode;
     },
-    setDes2All(state) {
+    getDes2All(state) {
       return state.des2All;
     },
-    setWarnSttsList(state) {
+    getWarnSttsList(state) {
       return state.warnSttsList;
     },
-    setWarnReasonList(state) {
+    getWarnReasonList(state) {
       return state.warnReasonList;
     },
 
