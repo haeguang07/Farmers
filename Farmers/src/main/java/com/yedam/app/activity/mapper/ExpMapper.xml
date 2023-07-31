@@ -13,16 +13,16 @@
 					<where>
 						reg_stts = 'e1'
 						<if test="expVO.exStrDate != null">
-							and ex_str_date > #{exStrDate}
+							and ex_str_date > #{expVO.exStrDate}
 						</if>
 						<if test="expVO.dst1 != null and !expVO.dst1.equals('')">
-							and dst1 = #{dst1}
+							and dst1 = #{expVO.dst1}
 						</if>
 						<if test="expVO.dst2 != null and !expVO.dst2.equals('')">
-							and dst2 = #{dst2}
+							and dst2 = #{expVO.dst2}
 						</if>
 					</where>
-					order by reg_date desc
+					order by ex_str_date desc
 					) a
 		<![CDATA[
 			  where ROWNUM <= #{page} * 9) b
@@ -102,4 +102,5 @@
 			column="boardNo = board_no" ofType="ExpApplyVO"
 			select="selectExpApply"></collection>
 	</resultMap>
+	
 </mapper>

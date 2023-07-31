@@ -1,10 +1,12 @@
 package com.yedam.app.market.vo;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.yedam.app.common.vo.PaymentDetailVO;
 
 import lombok.Data;
 
@@ -34,4 +36,7 @@ public class CropsSaleVO {
 	
 	// member_detail
 	private String memGrd;
+	
+	// paymentDetail (구매내역)
+	private List<PaymentDetailVO> payList;
 }
