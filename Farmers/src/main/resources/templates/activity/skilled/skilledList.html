@@ -258,6 +258,21 @@ h5:has(.countdown) {
 			    goldData(div, 1);
 			})
 			
+			// 구해요/할게요 토글로 구현
+			$('#toggle').on('click', function(){
+				let goldWay = $(this).prop("checked");
+				
+				if (goldWay) {
+					console.log('volunteered');
+					$('#wanted').addClass('toggleshow');
+					$('#volunteered').toggleClass();
+				}else {
+					console.log('wanted');
+					$('#volunteered').toggleClass("toggleshow");
+					$('#wanted').toggleClass("toggleshow");
+				}
+			})
+			
 
 			// 리스트 데이터 가져오기
 			function goldData(div, pageNum, dst1, dst2, title, memNo){
@@ -447,7 +462,6 @@ h5:has(.countdown) {
 			
 			// 내가 쓴 글 보기
 			$('#check1').on('change', function(){
-				console.log('a')
 				console.log($(this).is(':checked'))
 				if($(this).is(':checked')  == true){
 					let memNo = /*[[${session.mem.memNo}]]*/;
