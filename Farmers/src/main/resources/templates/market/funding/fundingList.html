@@ -9,12 +9,18 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Funding</title>
-	<link rel="stylesheet" href="/css/sungWookCss/sungook.css" type="text/css">
+	<link rel="stylesheet" href="css/sungWookCss/sungook.css" type="text/css">
+	<style type="text/css">
+		.hideItem{
+		display : none;
+		}
+	</style>
 </head>
 
 <body>
 	<div layout:fragment="content">
 		<!-- Breadcrumb Section Begin -->
+		<section class="">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12">
@@ -27,6 +33,7 @@
 					</div>
 				</div>
 			</div>
+		</section>
 		<div class="justify-content-center">
 			<br>
 			<h3 class="current text-center">농작물 펀딩</h3>
@@ -94,14 +101,12 @@
 								</div>
 							</div>
 						</div>
+						<div class="row" id="fundingDiv">
+							<!-- 펀딩 상품 목록 -->
+						</div>
 						<div class="row">
 							<div class="col-lg-12" id="pageDiv">
-								<!-- 페이지 이동 방식 -->
-								<!-- 	<div class="product__pagination">
-									<a th:href="@{fundingList(pageNum=${pageInfo.startPage-1})}" th:if="${pageInfo.prev}">◁</a> 						
-										<a th:each="num : ${#numbers.sequence(pageInfo.startPage,pageInfo.endPage)}" th:class="${num == pageInfo.pageNum} ? 'active': '' " th:href="@{fundingList(pageNum=${num})}">[[${num}]]</a>
-									<a th:href="@{fundingList(pageNum=${pageInfo.endPage+1})}" th:if="${pageInfo.next}">▷</a>
-								</div> -->
+								<!-- 페이징 -->
 							</div>
 						</div>
 					</div>
@@ -153,11 +158,32 @@
 				}
 				]
 			}) */
+			
 			//페이지 로드 시 함수
 			$(function () {
 				ajaxData(1)
 			})
+			
+			//검색 버튼 클릭 시
+			$('#button-addon2').on('click', function () {
+				getCondition()
+			})
+			//검색 후 엔터 시
+				$("#search").on("keyup", function (key) {
+					if (key.keyCode == 13) {
+						getCondition()
+					}
+				});
 
+			//카테고리 변경 시
+			$('#category').change(function () {
+				getCondition()
+			})
+			//정렬 변경 시
+			$('#order').change(function () {
+				getCondition()
+			})
+			
 			//리스트 데이터 아작스로 가져오기
 			function ajaxData(page, category, order, search) {
 				$.ajax({
@@ -262,25 +288,6 @@
 				ajaxData(page, category, order, search)
 			}
 
-			//검색 버튼 클릭 시
-			$('#button-addon2').on('click', function () {
-				getCondition()
-			})
-			//검색 후 엔터 시
-				$("#search").on("keyup", function (key) {
-					if (key.keyCode == 13) {
-						getCondition()
-					}
-				});
-
-			//카테고리 변경 시
-			$('#category').change(function () {
-				getCondition()
-			})
-			//정렬 변경 시
-			$('#order').change(function () {
-				getCondition()
-			})
 		</script>
 	</div>
 </body>
