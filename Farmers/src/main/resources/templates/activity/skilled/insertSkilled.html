@@ -22,31 +22,32 @@
 	rel="stylesheet">
 
 
-		<!-- Css Styles -->
-		<link rel="stylesheet" href="/css/jquery/bootstrap.min.css" type="text/css">
-		<link rel="stylesheet" href="/css/otherPlugins/font-awesome.min.css" type="text/css">
-		<link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
-		<link rel="stylesheet" href="/css/jquery/magnific-popup.css" type="text/css">
-		<link rel="stylesheet" href="/css/jquery/nice-select.css" type="text/css">
-		<link rel="stylesheet" href="/css/jquery/owl.carousel.min.css" type="text/css">
-		<link rel="stylesheet" href="/css/jquery/slicknav.min.css" type="text/css">
-		<link rel="stylesheet" href="/css/style.css" type="text/css">
-		<link rel="stylesheet" href="/css/jquery/jQueryUI.css">
-		<link rel="stylesheet" href="/css/otherPlugins/sweetAlert.css" type="text/css">
-		<!-- Js Plugins -->
-		<script src="/js/jquery/jquery-3.3.1.min.js"></script>
-		<script src="/js/jquery/bootstrap.min.js"></script>
-		<script src="/js/jquery/jquery.nice-select.min.js"></script>
-		<script src="/js/jquery/jquery.nicescroll.min.js"></script>
-		<script src="/js/jquery/jquery.magnific-popup.min.js"></script>
-		<script src="/js/jquery/jquery.countdown.min.js"></script>
-		<script src="/js/jquery/jquery.slicknav.js"></script>
-		<script src="/js/jquery/mixitup.min.js"></script>
-		<script src="/js/jquery/owl.carousel.min.js"></script>
-		<script src="/js/jquery/json.min.js"></script>
-		<script src="/js/jquery/jqueryUI.js"></script>
-		<script src="/js/otherPlugins/sweetAlert2-11.4.10.js"></script>
+<!-- Css Styles -->
+<link rel="stylesheet" href="/css/jquery/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+<link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery/magnific-popup.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery/nice-select.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery/owl.carousel.min.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery/slicknav.min.css" type="text/css">
+<link rel="stylesheet" href="/css/style.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery/jQueryUI.css">
+<link rel="stylesheet" href="/css/otherPlugins/sweetAlert.css" type="text/css">
 
+<!-- Js Plugins -->
+<script src="/js/jquery/jquery-3.3.1.min.js"></script>
+<script src="/js/jquery/bootstrap.min.js"></script>
+<script src="/js/jquery/jquery.nice-select.min.js"></script>
+<script src="/js/jquery/jquery.nicescroll.min.js"></script>
+<script src="/js/jquery/jquery.magnific-popup.min.js"></script>
+<script src="/js/jquery/jquery.countdown.min.js"></script>
+<script src="/js/jquery/jquery.slicknav.js"></script>
+<script src="/js/jquery/mixitup.min.js"></script>
+<script src="/js/jquery/owl.carousel.min.js"></script>
+<script src="/js/jquery/json.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/jquery/jqueryUI.js"></script>
+<script src="/js/otherPlugins/sweetAlert2-11.4.10.js"></script>
 
 <style>
 .href {
@@ -92,7 +93,7 @@
 									<div class="col-lg-12">
 										<div class="product__details__text">
 											<div class="row">
-												<div class="row col-lg-12"> 
+												<div class="row col-lg-12">
 													<div class="col-md-3">
 														<p class="myInline col-lg-3 mb-0 textLeft">구분</p>
 													</div>
@@ -112,18 +113,31 @@
 													</div>
 													<div class="row col-md-9">
 														<!-- 지역1 선택창 -->
-														<select class="form-select form-group col-1.5 mr-2"
-															aria-label="Default select example" name="dst1">
-															<option value="" selected="selected">도</option>
-															<option th:each="opt : ${dst1}"
-																th:text="${opt.codeDesct}"
-																th:value="${opt.cmmnDetaCode}"></option>
-														</select>
-														<!-- 지역2 선택창 -->
-														<select class="form-select form-group col-1.5 mr-2"
-															aria-label="Default select example" name="dst2">
-															<option value="">시·군</option>
-														</select>
+														<div class="col-md-6">
+															<select class="form-control col-1.5 mr-2"
+																aria-label="Default select example" name="dst1" id="dst1">
+																<option value="" selected="selected">도</option>
+																<option value="k0">경기도</option>
+																<option value="k1">강원특별자치도</option>
+																<option value="k2">충청북도</option>
+																<option value="k3">충청남도</option>
+																<option value="k4">경상북도</option>
+																<option value="k5">경상남도</option>
+																<option value="k6">전라북도</option>
+																<option value="k7">전라남도</option>
+																<option value="k8">제주특별자치도</option>
+																<!-- <option th:each="opt : ${dst1}"
+																	th:text="${opt.codeDesct}"
+																	th:value="${opt.cmmnDetaCode}"></option> -->
+															</select>
+														</div>
+														<div>
+															<!-- 지역2 선택창 -->
+															<select class="form-control form-group col-1.5 mr-2"
+																aria-label="Default select example" name="dst2" id="dst2">
+																<option value="">시·군</option>
+															</select>
+														</div>
 													</div>
 												</div>
 												<div class="row col-lg-12">
@@ -179,8 +193,8 @@
 															value="p0"> 평일 </label> <label
 															class="form-check-label col-md-3"><input
 															type="radio" class="form-check-input" name="dayDiv"
-															value="p1"> 주말 </label>
-															<label class="form-check-label col-md-3"><input
+															value="p1"> 주말 </label> <label
+															class="form-check-label col-md-3"><input
 															type="radio" class="form-check-input" name="dayDiv"
 															value="p2" checked> 요일협의 </label>
 													</div>
@@ -192,21 +206,25 @@
 													<div class="col-md-3">
 														<p class="myInline col-lg-3 mb-0 textLeft">지불기준</p>
 													</div>
-													<select class="form-select form-group col-1.5 mr-2"
-														aria-label="Default select example" id="wageDiv" name="wageDiv">
-														<option value="" selected="selected">선택</option>
-														<option value="s0">시급</option>
-														<option value="s1">일급</option>
-														<option value="s2">월급</option>
-													</select>
+													<div class="row col-md-3">
+														<select class="form-control form-group col-1.5 mr-2"
+															aria-label="Default select example" id="wageDiv"
+															name="wageDiv">
+															<option value="" selected="selected">선택</option>
+															<option value="s0">시급</option>
+															<option value="s1">일급</option>
+															<option value="s2">월급</option>
+														</select>
+													</div>
 												</div>
 												<div class="row col-lg-12">
 													<div class="col-md-3">
 														<p class="myInline col-lg-3 mb-0 textLeft">금액</p>
 													</div>
 													<div class="row col-md-9">
-														<input type="number" class="form-control col-md-4"
-															name="price" value="0" min="100">
+														<input type="number" step="100"
+															class="form-control col-md-4" name="price" value="0"
+															min="100">
 													</div>
 												</div>
 											</div>
@@ -269,6 +287,38 @@
 	</section>
 
 	<script>
+		// 도 선택시 시 select 출력
+		$('[name="dst1"]').on('change', function(){
+			let dst1 = $('[name="dst1"]').val();
+			console.log(dst1);
+			
+			$.ajax({
+				url: "/dst2",
+				method: "POST",
+				data: {
+					"dst1" : dst1
+				},
+				dataType: "json",
+				success(data){					
+					// 지역2 select box 출력
+					if(data.dst2) {
+						$('#dst2').empty();
+						$('#dst2').append(`<option value="">시·군</option>`);
+						$(data.dst2).each((idx, item) => {
+							if(item.cmmnDetaCode == dst2){
+								$('#dst2').append(`<option value="${item.cmmnDetaCode}" selected>${item.codeDesct}</option>`)
+							}else {
+								$('#dst2').append(`<option value="${item.cmmnDetaCode}">${item.codeDesct}</option>`)
+							}
+						});
+					}
+				},
+				error(reject){
+					console.log(reject);
+				}
+			})
+		})
+		
 		//첨부파일 가져오기
 		$('#addFile').on('click', function() {
 			$('#inputFile').click()
@@ -293,70 +343,64 @@
 					formData.append("uploadFiles", files[i]); //키,값으로 append
 
 					$.ajax({
-							url : 'uploadsAjax',
-							type : 'POST',
-							processData : false, // 기본값은 true, ajax 통신을 통해 데이터를 전송할때, 기본적으로 key와 value 값을 Query String으로 변환해서 보내줌
-							contentType : false, // multipart/form-data 타입을 사용하기위해 false로 지정
-							data : formData,
-							success : function(result) {
-								console.log(result)
-								dbPath = result.dbPath
-								$('#addFile').html('<img src="' + result.loadPath + '">')
-								console.log(dbPath)
+						url : '/uploadsAjax',
+						type : 'POST',
+						processData : false, // 기본값은 true, ajax 통신을 통해 데이터를 전송할때, 기본적으로 key와 value 값을 Query String으로 변환해서 보내줌
+						contentType : false, // multipart/form-data 타입을 사용하기위해 false로 지정
+						data : formData,
+						success : function(result) {
+							console.log(result)
+							dbPath = result.dbPath
+							$('#addFile')
+									.html(
+											'<img src="' + result.loadPath + '">')
+							console.log(dbPath)
 
-							},
-							error : function(reject) {
-								console.log(reject)
-							}
+						},
+						error : function(reject) {
+							console.log(reject)
+						}
 					})
 				} else {
 					alert('이미지만 등록 가능합니다')
 				}
 			}
-
 		})
 
-		//ckEditor 데이터 가져오기
-		 $('#addBtn').on('click', function () {
+		// 등록 폼 확인 후 DB 등록
+		$('#addBtn').on('click', function() {
 
-			 //데이터 입력 확인
-			 if ($('.current').text() == '경매 신청일 선택') {
-					 alert('경매 신청일을 선택하세요');
-					 return;
-				 } else if (!$('[name="title"]').val()) {
-				 	alert('제목을 입력하세요');
-				 	return;
-				 } else if (!$('[name="wageDiv"]').val()) {
-					 alert('지불기준을 선택하세요');
-					 return;
-				 } else if ($('[name="price"]').val() <= 0) {
-					 alert('금액을 입력하세요');
-					 return;
-				 } else if ($('[name="desct"]').val()=="") {
-					 alert('본문 내용을 입력하세요');
-					 return;
-				 } else {
-					 let formData = $('#myForm').serializeObject();
+			//데이터 입력 확인
+			if (!$('[name="title"]').val()) {
+				alert('제목을 입력하세요');
+				return;
+			} else if (!$('[name="wageDiv"]').val()) {
+				alert('지불기준을 선택하세요');
+				return;
+			} else if ($('[name="price"]').val() <= 0) {
+				alert('금액을 입력하세요');
+				return;
+			} else if ($('[name="desct"]').val() == "") {
+				alert('본문 내용을 입력하세요');
+				return;
+			} else {
+				let formData = $('#myForm').serializeObject();
 
-					 formData.img = dbPath
-					 console.log(formData);
-					 
-				 //ajax 금손 등록
-				 $.ajax({
-					 url: "insertSkilled",
-					 method: "POST",
-					 data: formData
-				 })
-				 .done(function (result) {
-					 alert(result.retCode);
-					 // location.href = "auctionList"
-				 })
-				 .fail(function (result) {
-					 alert(result.body);
-					 // location.href = "auctionList"
-			 	}) 
-		 	}
-		 })
+				formData.img = dbPath
+				console.log(formData);
+
+				//ajax 금손 등록
+				$.ajax({
+					url : "/add/skilled",
+					method : "POST",
+					data : formData
+				}).done(function(result) {
+					parent.closePopUp();
+				}).fail(function(result) {
+					console.log(result);
+				})
+			}
+		})
 	</script>
 
 </body>

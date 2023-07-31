@@ -15,13 +15,13 @@ public class SkilledServiceImpl implements SkilledService {
 	SkilledMapper skilledMapper;
 	
 	@Override
-	public List<SkilledVO> skilledList(String div, int pageNum, String dst1, String dst2) {
-		return skilledMapper.skilledList(div, pageNum, dst1, dst2);
+	public List<SkilledVO> skilledList(String div, int pageNum, String dst1, String dst2, String title, String memNo) {
+		return skilledMapper.skilledList(div, pageNum, dst1, dst2, title, memNo);
 	}
 
 	@Override
-	public int listCount(String div) {
-		return skilledMapper.listCount(div);
+	public int listCount(String div, String dst1, String dst2, String title, String memNo) {
+		return skilledMapper.listCount(div, dst1, dst2, title, memNo);
 	}
 
 	@Override

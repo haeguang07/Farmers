@@ -32,18 +32,22 @@
 	flex: 0.1;
 }
 
+.rating{
+	font-size:13px;
+}
+
 /* 리뷰테이블 */
 #reviewTable th {
 	text-align: center;
 }
 
 /* 별모양 */
-#reviewTable i, #star i, .review-form i {
+#reviewTable i, .star i, .review-form i {
 	color: #f7941d;
 	font: normal normal normal 14px/1 FontAwesome;
 }
 
-#reviewTable_length{
+#reviewTable_length {
 	float: right;
 	margin: 0px 20px 10px;
 }

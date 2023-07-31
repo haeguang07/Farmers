@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Market, Auction">
+<meta name="keywords" content="Auction">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>공지사항 상세조회</title>
+<style>
+.title {
+	font-weight: bold;
+	font-size: 20px;
+}
+
+.right {
+	float: right;
+}
+
+.smallChar {
+	font-size: 14px;
+	color: gray;
+}
+
+.btn {
+	margin: 2px;
+}
+</style>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<!-- Breadcrumb Section Begin -->
+		<section class="breadcrumb-option">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="breadcrumb__text">
+							<h4>유귀농 공지사항</h4>
+							<div class="breadcrumb__links">
+								<span>홈페이지 소식을 확인하세요 !</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Breadcrumb Section End -->
+
+		<!-- Shop Section Begin -->
+		<section class="shop spad">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-3">
+						<div class="shop__sidebar">
+							<div class="shop__sidebar__accordion">
+								<div class="accordion" id="accordionExample">
+									<div class="card">
+										<div class="card-heading">
+											<a data-toggle="collapse" data-target="#collapseOne">유귀농
+												게시판</a>
+										</div>
+										<div id="collapseOne" class="collapse show"
+											data-parent="#accordionExample">
+											<div class="card-body">
+												<div class="shop__sidebar__categories">
+													<ul class="nice-scroll">
+														<li><b><a href="noticeList" style="color: black;">공지사항</a></b></li>
+														<li><a href="commnList">커뮤니티</a></li>
+														<li><a href="eventList">이벤트</a></li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-9">
+						<div class="row">
+							<div class="col-lg-11">
+								<h5 class="title text-left" th:text="${noticeInfo[0].title}"></h5>
+							</div>
+							<div>
+								<label class="smallChar">조회수 <span class="smallChar" th:text="${noticeInfo[0].hitCount}"></span></label>
+							</div>
+						</div>
+						<hr>
+						<div class="smallChar">
+							<span class="text-right">작성자 : 관리자</span><span class="right"
+								th:text="${#dates.format(noticeInfo[0].wrtDate, 'yyyy/MM/dd')}"></span>
+						</div>
+						<div class="content">
+							<br> <img
+								th:if="${noticeInfo[0].img != null and noticeInfo[0].img != (null)}"
+								th:src="${noticeInfo[0].img}" alt="">
+							<p class="desct" th:utext="${noticeInfo[0].desct}"></p>
+						</div>
+						<hr>
+						<div class="row">
+							<th:block th:if="not ${#strings.isEmpty(session.mem)}">
+								<div class="col-lg-9"></div>
+								<button type="button" id="updateBtn" class="btn btn-success"
+									th:if="${session.mem.memNo} == ${noticeInfo[0].memNo} or ${session.mem.memGrd == 'b0'}"
+									th:onclick="'location.href=\'' + @{${'/update/Notice?postCtg=i2&boardNo=' + noticeInfo[0].boardNo}} + '\''">수정</button>
+								<button type="button" class="btn btn-dark" id="delBtn"
+									th:if="${session.mem.memNo} == ${noticeInfo[0].memNo} or ${session.mem.memGrd == 'b0'}">삭제</button>
+								<button type="button" class="btn btn-secondary"
+									th:onclick="'location.href=\''+ @{${'noticeList'}} + '\''">목록</button>
+							</th:block>
+							<th:block th:if="${#strings.isEmpty(session.mem)}">
+								<div class="col-lg-11"></div>
+								<button type="button" class="btn btn-secondary"
+									th:onclick="'location.href=\''+ @{${'noticeList'}} + '\''">목록</button>
+							</th:block>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</section>
+
+
+		<script th:inline="javascript">
+			let boardNo = /*[[${noticeInfo[0].boardNo}]]*/;
+			console.log(boardNo);
+			
+			$('#delBtn').on('click', function(){
+				$.ajax({
+					url: "deleteEvent",
+					method: 'DELETE',
+					data: {boardNo},
+					success: function(data){
+						console.log(data);
+						alert('삭제가 완료되었습니다.');
+						location.href = "noticeList";
+					},
+					error: function(reject){
+						alert('삭제가 정상적으로 진행되지 않았습니다.');
+					}
+				})
+			})
+		</script>
+	</div>
+</body>
+</html>

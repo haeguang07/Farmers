@@ -67,6 +67,8 @@ public class MarketController {
 	public String getMkInfo(Model model, String boardNo) {
 		model.addAttribute("mk", mkService.getMarketInfo(boardNo));
 		model.addAttribute("rev", revService.getCount(boardNo));
+		model.addAttribute("avg", revService.getAverage(boardNo));
+		System.out.println(revService.getAverage(boardNo));
 		List<String> list = payService.getPayMember(boardNo);
 		model.addAttribute("pay", list);
 		return "market/market/marketInfo";

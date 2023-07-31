@@ -118,7 +118,7 @@ to {
 
 /* 지원사업 CSS */
 .eduArea {
-	margin-top:10px;
+	margin-top: 10px;
 	height: 400px;
 }
 
@@ -140,13 +140,38 @@ to {
 	margin: auto;
 }
 
+/* 이미지카드 CSS*/
+.card-container {
+	position: relative;
+	display: inline-block;
+	margin: 20px 0px;
+	cursor: pointer;
+}
+
+.card-img {
+	border-radius: 10px;
+}
+
+.card-text {
+	position: absolute;
+	bottom: 10px; /* 원하는 위치로 조정 가능 */
+	top: 5%;
+	left: 0;
+	width: 100%;
+	text-align: center;
+	color: skyblue;
+	font-family: 'Jua';
+	font-size: 30px;
+	padding: 5px;
+}
+
 /* 맨밑에 링크 아이콘 CSS*/
 .linkArea {
 	display: flex;
 	align-items: center; /* 수평 가운데 정렬 */
 	justify-content: center; /* 수직 가운데 정렬 */
 	padding: 40px 0px 40px;
-	margin-bottom: 20px;
+	margin: 20px 0px 50px;
 	background-color: #fffff4;
 	border-radius: 10px;
 	border: orange 2px solid;
@@ -164,6 +189,7 @@ to {
 	font-family: 'Gowun Dodum', sans-serif;
 	font-size: small;
 	text-align: center;
+	margin-bottom: 0px;
 }
 
 .linkIcon {
