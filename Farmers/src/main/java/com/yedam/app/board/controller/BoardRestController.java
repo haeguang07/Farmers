@@ -58,22 +58,6 @@ public class BoardRestController {
 
 		return map;
 	}
-
-	
-//	// 이벤트 상세 조회 값
-//	@GetMapping("eventInfoDetail")
-//	public Map<String, Object> eventInfoDetail(String postCtg, String boardNo){
-//		
-//		Map<String, Object> map = new HashMap<>();
-//		List<BoardVO> list = boardService.getBoardInfo(postCtg, boardNo);
-//		
-//		map.put("eventInfo", list);
-//		
-//		System.out.println("111111111111" + map);
-//		System.out.println("222222222222" + list);
-//		
-//		return map;
-//	}
 	
 	// 지역2 코드 반환
 	@GetMapping("getCode")
@@ -85,8 +69,22 @@ public class BoardRestController {
 		return map;
 	}
 	
+	// 조회 수 증가
+	@PostMapping("/count")
+	public Map<String, Object> hitCount(String boardNo){
+		Map<String, Object> map = new HashMap<>();
+		
+		if(boardService.hitCounting(boardNo)) {
+			map.put("retCode", "Success");
+		} else {
+			map.put("retCode", "Fail");
+		}
+			
+		return map;
+	}
+	
 	// 공지사항 등록
-	@PostMapping("addNotice")
+	@PostMapping("/add/Notice")
 	public Map<String, Object> addNotice(BoardVO vo) {
 		Map<String, Object> map = new HashMap<>();
 
@@ -105,7 +103,7 @@ public class BoardRestController {
 		Map<String, Object> map = new HashMap<>();
 		
 		System.out.println(vo);
-		
+			
 		if(boardService.insertBoard(vo)) {
 			map.put("retCode", "Success");
 		} else {
@@ -116,7 +114,7 @@ public class BoardRestController {
 	}
 	
 	// 이벤트 등록
-	@PostMapping("addEvent")
+	@PostMapping("add/addEvent")
 	public Map<String, Object> addEvent(BoardVO vo){
 		Map<String, Object> map = new HashMap<>();
 		
@@ -130,6 +128,19 @@ public class BoardRestController {
 		
 		return map;
 	}
+	
+	// 공지사항 수정
+	@PostMapping("/update/Notice")
+	public Map<String, Object> updateNotice(BoardVO vo){
+		Map<String, Object> map = new HashMap<>();
+		if(boardService.updateBoard(vo)) {
+			map.put("retCode", "Success");
+		}else {
+			map.put("retCode", "Fail");
+		}
+		return map;
+	}
+	
 	
 	// 커뮤니티 수정
 	@PostMapping("updateCmmn")

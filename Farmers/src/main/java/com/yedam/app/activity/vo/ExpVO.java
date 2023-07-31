@@ -39,5 +39,5 @@ public class ExpVO {
 	private String nick;
 	
 	//신청내역
-	List<ExpApplyVO> expApplyList;
+	private List<ExpApplyVO> expApplyList;
 }

@@ -16,8 +16,9 @@ public class SkilledVO {
 	private String memNo;
 	private String dst1;
 	private String dst2;
+	private String dst1Name;
 	private String div;
-	private String atchNo;
+	private String img;
 	private String title;
 	private String desct;
 	private String dayDiv;
@@ -38,4 +39,13 @@ public class SkilledVO {
 	@JsonFormat(pattern ="yyyy-MM-dd", timezone = "Asia/Seoul")
 	private String aplDate;
 	
+
+	// 추가
+	private String nick;
+	private String search;
+	
+
+	//신청자 정보
+	private String mbl;
+
 }

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{index}">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Market, Auction">
+<meta name="keywords" content="Auction">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>커뮤니티 수정</title>
+<style>
+.hidden {
+	display: none;
+}
+
+h4, h5 {
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+.ck-editor__editable {
+	height: 400px;
+}
+
+.plus {
+	font-size: 12px;
+	color: gray;
+}
+</style>
+</head>
+<body>
+	<div layout:fragment="content">
+		<!-- Breadcrumb Section Begin -->
+		<section class="breadcrumb-option">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="breadcrumb__text">
+							<h4>유귀농 공지사항</h4>
+							<div class="breadcrumb__links">
+								<span>홈페이지 소식을 확인하세요 !</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Breadcrumb Section End -->
+		<section class="blog-hero spad" style="background-color: white;">
+			<div class="container">
+				<div class="row d-flex justify-content-center">
+					<div class="col-lg-9 text-center">
+						<div class="blog__hero__text">
+							<h4>게시글 수정</h4>
+						</div>
+						<hr>
+						<div class="col-lg-12">
+							<div class="product__details__content">
+								<form id="myForm">
+									<div class="form-group row">
+										<label class="col-sm-3 col-form-label">제목</label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" name="title"
+												th:value="${noticeInfo[0].title}">
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="staticEmail" class="col-sm-3 col-form-label">작성자</label>
+										<div class="col-sm-9">
+											<input type="text" readonly class="form-control-plaintext"
+												th:value="${session.mem.nick}">
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+						<hr>
+						<div class="row col-lg-12">
+							<div class="col-lg-12">
+								<div class="row">
+									<div class="tab-content col-lg-12">
+										<div class="product__details__tab__content">
+											<h5>내용</h5>
+											<div>
+												<textarea name="text" id="editor"></textarea>
+												<input type="text" class="hidden desct"
+													th:value="${noticeInfo[0].desct}">
+											</div>
+										</div>
+									</div>
+								</div>
+								<br>
+								<div class="product__details__cart__option row"
+									style="margin-top: 40px;">
+									<button class="primary-btn col-lg-12"
+										style="color: white; margin: 0 auto; margin-top: 20px;"
+										id="updateBtn">수정하기</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+
+		<script th:inline="javascript">
+			let boardNo =  /*[[${noticeInfo[0].boardNo}]]*/;
+			
+			$(function() {	
+				//ckEditor 데이터 입력
+				let desct = $('.desct').val();
+				editor.setData(desct);
+			})
+			
+			//ckEditor 생성
+			let editor;
+			ClassicEditor
+				.create(document.querySelector('#editor'), {
+					language: "ko",
+					ckfinder: {
+						uploadUrl: '/image/upload'
+					}
+				})
+				.then(newEditor => {
+					editor = newEditor;
+				})
+				.catch(error => {
+					console.error(error);
+				});
+			
+			
+			
+			//ckEditor 데이터 가져오기
+			$('#updateBtn').on('click', function () {
+		
+				//데이터 입력 확인
+				if (!$('[name="title"]').val()) {
+					alert('제목을 입력하세요');
+					return;
+				} else {
+					let ckData = editor
+					let formData = $('#myForm').serializeObject();
+					formData.dst1 = '';
+					formData.dst2 = '';
+					formData.img = '';
+					formData.boardNo = boardNo;
+		
+					//상세 설명 존재하지 않을 시 출력 내용 설정
+					if (ckData.getData() == '') {
+						ckData.setData('<p>상세 설명이 존재하지 않습니다</p>')
+						formData.desct = ckData.getData()
+					} else {
+						formData.desct = ckData.getData()
+					}
+					console.log(formData);
+					
+					
+					
+					//ajax 게시글 수정
+					$.ajax({
+							url: "/update/Notice",
+							method: "POST",
+							data: formData
+						})
+						.done(function (result) {
+							alert('수정이 완료되었습니다.');
+							location.href = "/noticeInfo?postCtg=i2&boardNo=" + boardNo;
+						})
+						.fail(function (result) {
+							alert(result.body);
+					}) 
+				}
+			})
+		</script>
+	</div>
+</body>
+</html>

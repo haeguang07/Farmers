@@ -55,6 +55,8 @@ public class BnbVO {
 
 	// review
 	private int count;
+	private int round;
+	
 
 	// cart 데이터
 	private String cartNo;

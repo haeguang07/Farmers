@@ -59,9 +59,9 @@
 							</thead>
 							<tbody id="tbody">
 								<th:block th:if="not ${#strings.isEmpty(boardList)}">
-									<tr th:each="board : ${boardList}" th:no="${board.boardNo}" class="tr">
+									<tr th:each="board : ${boardList}" th:no="${board.boardNo}" th:ctg="${board.postCtg}" class="tr">
 										<td th:text="${board.boardNo}"></td>
-										<td th:text="${board.postCtg}"></td>
+										<td th:text="${board.postCtgName}"></td>
 										<td th:text="${board.title}"></td>
 										<td th:text="${#dates.format(board.wrtDate, 'yyyy/MM/dd')}"></td>
 										<td th:text="${board.hitCount}"></td>
@@ -109,7 +109,7 @@
 							targets: 4
 						}
 					],
-					order : [3, 'desc']
+					order : [0, 'desc']
 				});	
 			})
 
@@ -144,7 +144,8 @@
 			$(document).on("click", ".tr", function (e) {
 				if (!$(e.currentTarget).hasClass('th')) {
 					console.log($(e.currentTarget).attr('no'))
-					location.href = "/cmmnInfo?postCtg=i3&boardNo=" + $(e.currentTarget).attr('no')
+					let ctg = $(e.currentTarget).attr('ctg')
+					location.href = "/cmmnInfo?postCtg="+ctg+"&boardNo=" + $(e.currentTarget).attr('no')
 				}
 			})
 

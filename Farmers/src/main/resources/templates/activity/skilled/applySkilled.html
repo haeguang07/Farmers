@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Male_Fashion Template">
+<meta name="keywords" content="Male_Fashion, unica, creative, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>You GuiNong? Yes!</title>
+
+<!-- Google Font -->
+<link
+	href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+	rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Jua&family=Poor+Story&display=swap"
+	rel="stylesheet">
+
+<!-- Css Styles -->
+<link rel="stylesheet" href="/css/jquery/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+<link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery/magnific-popup.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery/nice-select.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery/owl.carousel.min.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery/slicknav.min.css" type="text/css">
+<link rel="stylesheet" href="/css/style.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery/jQueryUI.css">
+<link rel="stylesheet" href="/css/otherPlugins/sweetAlert.css" type="text/css">
+
+<!-- Js Plugins -->
+<script src="/js/jquery/jquery-3.3.1.min.js"></script>
+<script src="/js/jquery/bootstrap.min.js"></script>
+<script src="/js/jquery/jquery.nice-select.min.js"></script>
+<script src="/js/jquery/jquery.nicescroll.min.js"></script>
+<script src="/js/jquery/jquery.magnific-popup.min.js"></script>
+<script src="/js/jquery/jquery.countdown.min.js"></script>
+<script src="/js/jquery/jquery.slicknav.js"></script>
+<script src="/js/jquery/mixitup.min.js"></script>
+<script src="/js/jquery/owl.carousel.min.js"></script>
+<script src="/js/jquery/json.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/jquery/jqueryUI.js"></script>
+<script src="/js/otherPlugins/sweetAlert2-11.4.10.js"></script>
+<style>
+.blank {
+	margin-left: 5px;
+}
+
+.set-bg {
+	border-radius: 20px;
+}
+
+.space {
+	margin-top: 25px;
+}
+
+.hideBorder {
+	border: 0;
+	background-color: transparent;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.nickLabel {
+	display: inline-block;
+	font-size: 14px;
+	color: #ffffff;
+	background: #111111;
+	padding: 6px 10px 4px;
+	border-radius: 4px;
+}
+
+.btn {
+	float: right;
+	margin: 2px;
+}
+</style>
+<body>
+	<section class="shop-details">
+		<div class="product__details__pic" style="background-color: white;">
+			<div class="container">
+				<div class="row col-lg-12">
+					<div class="product__details__content col-lg-8">
+						<div class="container">
+							<div class="row d-flex justify-content-center row">
+								<div class="col-lg-12">
+									<div class="product__details__text">
+										<div class="row">
+											<h4>금손귀농인 구해요</h4> <span class="blank"> | 신청</span>
+											<br> <br>
+											<div class="row col-lg-12">
+												<div class="col-md-6">
+													<div class="product__item__pic set-bg"
+														th:if="${goldInfo.img == null and goldInfo.img == (null)} "
+														th:style="'background-image: url(/img/noImg.png)'"></div>
+													<div class="product__item__pic set-bg"
+														th:if="${goldInfo.img != null and goldInfo.img != (null)} "
+														th:style="'background-image: url(' + ${goldInfo.img} + ')'"></div>
+												</div>
+												<div class="col-md-6">
+													<div class="col-md-4">
+														<div class="nickLabel" th:text="${goldInfo.nick}">닉네임</div>
+													</div>
+													<br>
+													<div>
+														<label
+															class="form-check-label col-lg-12 col-md-12 text-left"><span
+															class="bold" th:text="${goldInfo.title}"></span></label>
+													</div>
+													<br>
+													<div>
+														<label class="col-lg-12 col-md-12 text-left"><span
+															th:text="${goldInfo.desct}"></span></label>
+													</div>
+												</div>
+											</div>
+											<div class="row col-lg-12"></div>
+
+
+											<div class="row col-lg-12 space">
+												<div class="col-md-4">
+													<p class="col-lg-3 mb-0 text-left">✅ 조건</p>
+												</div>
+												<div class="row col-md-8">
+													<label class="form-check-label text-left"><span
+														th:text="${goldInfo.dst1Name}"></span></label> <label
+														class="form-check-label text-left"><span
+														th:text="${goldInfo.dst2}"></span></label> / 
+														<label class="form-check-label text-left"><span
+														th:text="${goldInfo.dayDiv}"></span></label> /
+														<label class="form-check-label text-left"><span
+														th:text="${goldInfo.wageDiv}"></span></label> /
+														<label class="form-check-label text-left"><span
+														th:text="${#numbers.formatInteger(goldInfo.price, 1, 'COMMA')}"></span>원</label> /
+														<label class="form-check-label text-left"><span
+														th:text="${goldInfo.cndt}"></span></label>
+												</div>
+											</div>
+										</div>
+										<div class="row"
+											th:if="${goldInfo.addrDesct != null and goldInfo.addrDesct != '(null)'}">
+											<div class="row col-lg-12">
+												<div class="col-md-4">
+													<p class="col-lg-3 mb-0 text-left">✅ 추가 내용</p>
+												</div>
+												<div class="row col-md-8">
+													<label class="form-check-label text-left"><span
+														th:text="${goldInfo.addrDesct}"></span></label>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="row col-lg-12">
+												<div class="col-md-4">
+													<p class="col-lg-3 mb-0 text-left">✅ 신청 메세지</p>
+												</div>
+												<div class="row col-md-8">
+													<textarea class="form-control" rows="8" id="aplMsg"></textarea>
+												</div>
+											</div>
+										</div>
+										<div style="margin-top: 30px;">
+											<button type="button" class="btn btn-success" th:onclick="applySkilled()">신청</button>
+											<button type="button" class="btn btn-light">닫기</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<script th:inline="javascript">
+		function applySkilled(){
+			let memNo = /*[[${session.mem.memNo}]]*/;
+			let aplStts = 'kw';
+			let boardNo = /*[[${goldInfo.boardNo}]]*/;
+			let aplMsg = $('#aplMsg').text();
+			
+			$.ajax({
+				url: '/apply/Skilled',
+				method: 'POST',
+				data: {
+					memNo,
+					aplStts,
+					boardNo,
+					aplMsg
+				}
+			}).done(function(result) {
+				alert('신청이 완료되었습니다.');
+				parent.closePopUp();
+			}).fail(function(result) {
+				console.log(result);
+			})
+			
+		}
+	</script>
+
+</body>
+</html>

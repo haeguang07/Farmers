@@ -18,16 +18,22 @@
 <link href="/css/font/font2.css" rel="stylesheet">
 
 <!-- Css Styles -->
-<link rel="stylesheet" href="/css/jquery/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery/bootstrap.min.css"
+	type="text/css">
 <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
 <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
-<link rel="stylesheet" href="/css/jquery/magnific-popup.css" type="text/css">
-<link rel="stylesheet" href="/css/jquery/nice-select.css" type="text/css">
-<link rel="stylesheet" href="/css/jquery/owl.carousel.min.css" type="text/css">
-<link rel="stylesheet" href="/css/jquery/slicknav.min.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery/magnific-popup.css"
+	type="text/css">
+<link rel="stylesheet" href="/css/jquery/nice-select.css"
+	type="text/css">
+<link rel="stylesheet" href="/css/jquery/owl.carousel.min.css"
+	type="text/css">
+<link rel="stylesheet" href="/css/jquery/slicknav.min.css"
+	type="text/css">
 <link rel="stylesheet" href="/css/style.css" type="text/css">
 <link rel="stylesheet" href="/css/jquery/jQueryUI.css">
-<link rel="stylesheet" href="/css/otherPlugins/sweetAlert.css" type="text/css">
+<link rel="stylesheet" href="/css/otherPlugins/sweetAlert.css"
+	type="text/css">
 
 
 <!-- 알림창 css -->
@@ -149,39 +155,42 @@
 				<div class="col-lg-3 col-md-3">
 					<div class="header__nav__option" style="padding-top: 50px;">
 						<div class="notification-box">
-
+							<!--알림 , 장바구니 아이콘 -->
+							<th:block sec:authorize="isAuthenticated()">
+								<a href="#"><img src="/img/icon/bell.png" width="19px"
+									id="bell" alt=""></a>
+								<a th:href="@{/cart(memNo=${session.mem.memNo})}"> <img
+									src="/img/icon/cart.png" alt=""> <span>0</span>
+								</a>
+							</th:block>
 							<!-- 알림 모달팝업창 -->
 							<div class="alarm-modal">
 								<div class="alarm-modal-content">
-							<div class="alarm-modal" id="bellModal">
-								<div class="modal-content" >
-									<div class="box">
-										<h3 class="alarmTitle">알림</h3>
-										<div class="alarm-notification" th:each="alert : ${session.alertList}">
-											<span class="alarm-close">&times;</span>
-											<p th:text="${alert.alrtTitle}">새로운 메시지가 도착했습니다.</p>
-											<p class="time" th:text="${#dates.format(alert.alrtDate, 'yyyy/MM/dd')}">2023-07-09 10:30 AM</p>
+									<div class="alarm-modal" id="bellModal">
+										<div class="modal-content">
+											<div class="box">
+												<h3 class="alarmTitle">알림</h3>
+												<div class="alarm-notification"
+													th:each="alert : ${session.alertList}">
+													<span class="alarm-close">&times;</span>
+													<p th:text="${alert.alrtTitle}">새로운 메시지가 도착했습니다.</p>
+													<p class="time"
+														th:text="${#dates.format(alert.alrtDate, 'yyyy/MM/dd')}">2023-07-09
+														10:30 AM</p>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-							<!--알림 , 장바구니 아이콘 -->
-							<span th:if="not ${#strings.isEmpty(session. mem)}"> <a
-								href="#"><img src="/img/icon/bell.png" width="19px"
-									id="bell" alt=""></a> <a
-								th:href="@{/cart(memNo=${session.mem.memNo})}"> <img
-									src="/img/icon/cart.png" alt=""> <span>0</span>
-							</a>
-							</span>
-						</div>
+							<!-- 알림 모달팝업창 end-->
 
+						</div>
+					</div>
+					<div class="canvas__open">
+						<i class="fa fa-bars"></i>
 					</div>
 				</div>
-			</div>
-			<div class="canvas__open">
-				<i class="fa fa-bars"></i>
-			</div>
-		</div>
 	</header>
 	<!-- Header Section End -->
 

@@ -15,6 +15,7 @@ public class BoardVO {
 	private String boardNo;
 	private String memNo;
 	private String postCtg;
+	private String postCtgName;
 	private String dst1;
 	private String dst2;
 	private String title;

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="Male_Fashion Template">
+	<meta name="keywords" content="Male_Fashion, unica, creative, html">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Cart</title>
+	<link rel="stylesheet" href="/css/sungWookCss/sungook.css" type="text/css">
+			
+		<!-- Css Styles -->
+		<link rel="stylesheet" href="/css/jquery/bootstrap.min.css" type="text/css">
+		<link rel="stylesheet" href="/css/otherPlugins/font-awesome.min.css" type="text/css">
+		<link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+		<link rel="stylesheet" href="/css/jquery/magnific-popup.css" type="text/css">
+		<link rel="stylesheet" href="/css/jquery/nice-select.css" type="text/css">
+		<link rel="stylesheet" href="/css/jquery/owl.carousel.min.css" type="text/css">
+		<link rel="stylesheet" href="/css/jquery/slicknav.min.css" type="text/css">
+		<link rel="stylesheet" href="/css/style.css" type="text/css">
+		<link rel="stylesheet" href="/css/jquery/jQueryUI.css">
+		<link rel="stylesheet" href="/css/otherPlugins/sweetAlert.css" type="text/css">
+		<!-- Js Plugins -->
+		<script src="/js/jquery/jquery-3.3.1.min.js"></script>
+		<script src="/js/jquery/bootstrap.min.js"></script>
+		<script src="/js/jquery/jquery.nice-select.min.js"></script>
+		<script src="/js/jquery/jquery.nicescroll.min.js"></script>
+		<script src="/js/jquery/jquery.magnific-popup.min.js"></script>
+		<script src="/js/jquery/jquery.countdown.min.js"></script>
+		<script src="/js/jquery/jquery.slicknav.js"></script>
+		<script src="/js/jquery/mixitup.min.js"></script>
+		<script src="/js/jquery/owl.carousel.min.js"></script>
+		<script src="/js/jquery/json.min.js"></script>
+		<script src="/js/jquery/jqueryUI.js"></script>
+		<script src="/js/otherPlugins/sweetAlert2-11.4.10.js"></script>
+
+	<style>
+		.textCenter {
+			text-align: center;
+		}
+
+		.miniBtn {
+			width: 100px;
+		}
+
+		.right {
+			float: right;
+		}
+
+		.image {
+			width: 100px;
+			height: 100px;
+		}
+
+		li {
+			margin-bottom: 10px;
+		}
+		.no {
+			list-style: none;
+			margin-bottom: 0px;
+		}
+	</style>
+
+</head>
+
+<body>
+	<!-- 본문 시작 -->
+	<section class="shopping-cart spad" style="padding-top: 10px; margin-top: 100px;">
+		<div class="container">
+			<div class="row">
+				<!-- 사이드바 시작 -->
+				<div class="row col-lg-12">
+					<div class="col-lg-12">
+						<div class="shopping__cart__table" style="margin-bottom: 0px;">
+							<h4 class="textCenter">나의 신청</h4>
+							<hr>
+							<h5 class="textCenter" th:text="${SubInfo.title}">제목</h5>
+							<hr>
+							<div class="row">
+								<div class="col-md-12">
+									<h6 class="textCenter">신청자 정보</h6>
+									<hr>
+								</div>
+								<div class="row col-md-12">
+									<div class="col-md-6">
+										<p >이름 : <span th:text="${SubInfo.nick}">홍길동</span></p>
+									</div>
+									<div class="col-md-6">
+										<p>연락처 : <span th:text="${SubInfo.mbl}"> 01000000000</span></p>
+									</div>
+									<div class="col-md-6">
+										<!-- <p>신청 날짜 : <span th:text="${#dates.format(SubInfo.aplDate, 'yyyy/MM/dd')}">홍길동</span></p> -->
+										<p>신청 날짜 : <span th:text="${SubInfo.aplDate}">홍길동</span></p>
+									</div>
+									<div class="col-md-6">
+										<p>신청상태 : <span th:text="${SubInfo.aplStts}">몰라</span></p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div>
+							<hr>
+							<button type="button" class="form-control" style="width: 500px; margin: 0 auto;" id="cancle">신청
+								취소</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<script th:inline="javascript">
+		$('#cancle').on('click', function () {
+			if(/*[[${SubInfo.aplStts}]]*/ != '신청 수락'){
+			$.ajax({
+					url: "/myPage/deleteSKilledSub",
+					method:"POST",
+					data: {
+						aplNo : /*[[${SubInfo.aplNo}]]*/
+					}
+				})
+				.done(function (result) {
+					console.log(result)
+					if(result){
+						new swal({
+	                		title: "신청을 취소하였습니다",
+	                		icon : "success",
+	                		confirmButtonColor: '#95D083'		
+	                })	
+					.then(function(){						
+					//부모창의 팝업 닫기 함수를 호출
+					parent.closePopUp()
+					})	
+					}else{
+						new swal({
+	                		title: "신청취소에 실패하였습니다",
+	                		icon : "error",
+	                		confirmButtonColor: '#95D083'		
+	                })	
+					}
+				})
+				.fail(function () {
+					new swal({
+                		title: "fail",
+                		icon : "error",
+                		confirmButtonColor: '#95D083'		
+                })	
+				})
+			}else{
+				new swal({
+                		title: "취소할 수 없는 상태입니다",
+                		icon : "error",
+                		confirmButtonColor: '#95D083'		
+                })	
+			}
+		})
+	</script>
+</body>
+
+</html>

@@ -34,4 +34,9 @@ public class ReviewServiceImpl implements ReviewService {
 		return revMapper.delReview(revNo);
 	}
 
+	@Override
+	public int getAverage(String boardNo) {
+		return revMapper.getAverage(boardNo);
+	}
+
 }

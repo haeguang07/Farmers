@@ -17,4 +17,8 @@ public interface ReviewService {
 	
 	//리뷰삭제
 	public int delReview(String revNo);
+	
+	//리뷰평균
+	public int getAverage(String boardNo);
+	
 }

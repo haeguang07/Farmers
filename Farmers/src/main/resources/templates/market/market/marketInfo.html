@@ -70,14 +70,11 @@
 							<div class="product__details__text">
 								<h3 th:text="|${mk.title}|">상품명</h3>
 								<div class="rating">
-									<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-										class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-										class="fa fa-star-o"></i> <span>[[${rev}]]</span> Reviews
+									리뷰 평균: <span id="revAvg" class="star"> </span> &nbsp;(리뷰 총
+									[[${rev}]]개)
 								</div>
 
-
-
-								<!-- 결제 -->
+								<!-- 결제 테이블-->
 								<div>
 									<table class="table" id="dateTb">
 										<tr>
@@ -291,7 +288,6 @@
 			/*<![CDATA[*/
 			let boardNo = /*[[${mk.boardNo}]]*/ ;
 			let mem = /*[[${session.mem}]]*/ ;
-			let memList = /*[[${pay}]]*/ ;
 			/*]]>*/
 
 			//리뷰 - 조회 기능
@@ -382,7 +378,7 @@
 			  return stars;
 			}
 
-			//리뷰 별점 선택(select - option)
+			//리뷰 - 별점 선택(select - option)
 			const starSelect = document.getElementById('star');
 
 			  for (let i = 5; i >= 1; i--) {
@@ -392,7 +388,12 @@
 			    starSelect.appendChild(option);
 			  }
 			
-
+			//리뷰 - 별점평균 
+			/*<![CDATA[*/
+			let avg = /*[[${avg}]]*/ ;
+			/*]]>*/
+			$('#revAvg').html(makeStars(avg));
+			  
 			//리뷰-날짜포맷 변경 
 			function formatDate(dateString) {
 			  const date = new Date(dateString);
@@ -443,7 +444,6 @@
 			/*<![CDATA[*/
 			let memList = /*[[${pay}]]*/ ;
 			/*]]>*/
-			console.log("결제한 MemNo ", memList)
 			function findMem(element)  {
 			  if(element == mem.memNo) {
 				 let rvForm = document.querySelector('.review-form')
@@ -540,24 +540,6 @@
 					// 로그인이나 회원가입 페이지로 넘어가기
 				}
 			});
-		
-<<<<<<< HEAD
-
-=======
-			//
-			
-			console.log("MemList ", memList)
-			console.log("로그인멤버" , mem.memNo);
-			
-			function findMem(element)  {
-			  if(element == mem) 
-				  return "존재";
-			  else 
-				  return "fal";
-			}
-			const lists = memList.filter(findMem)
-			console.log(lists); // 0
->>>>>>> branch '김수인' of https://github.com/haeguang07/Farmers.git
 			
 		</script>
 	</div>
