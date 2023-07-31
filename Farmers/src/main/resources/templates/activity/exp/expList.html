@@ -164,14 +164,16 @@
 			
 			// 페이지 로드
 			$(function() {
-				ajaxData()
+				ajaxData(1);
 			});
 			// 리스트 불러오기
-			function ajaxData(requestData) {
+			function ajaxData(page, exStrDate, dst1, dst2) {
 				$.ajax({
 					url : '/expList',
 					type : 'POST',
-					data : requestData,
+					data : {
+						page, exStrDate, dst1, dst2
+					},
 					dataType : 'json'
 				})
 				.done(function(data) {
@@ -313,15 +315,7 @@
 					page = 1;
 				}
 				
-				// requestData에 조건들을 추가
-			    let requestData = {
-			        exStrDate: exStrDate,
-			        dst1: dst1,
-			        dst2: dst2,
-			        page: page // 페이지 번호도 추가하여 전달
-			    };
-				
-				ajaxData(requestData); // requestData를 인자로 ajaxData 함수 호출
+				ajaxData(page, exStrDate, dst1, dst2); // requestData를 인자로 ajaxData 함수 호출
 			}
 			// 주요 재배 작물 카테고리 변경 시
 			$('#expStart').change(function() {

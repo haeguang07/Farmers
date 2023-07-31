@@ -47,7 +47,7 @@
 	</select>
 	
 	<!-- 단건조회 -->
-	<select id="selectCropsSaleInfo" resultType="CropsSaleVO">
+	<select id="selectCropsSaleInfo" resultMap="PayDetail" resultType="CropsSaleVO">
 		select c.board_no, c.mem_no, c.title, c.crp_ctg, c.price, c.qty, c.rep, c.deta_desct, c.reg_date, c.reg_stts, m.nick
 		from crops_sale c left join member m
 		on c.mem_no = m.mem_no
@@ -121,5 +121,30 @@
 		from review
 		where board_no = #{boardNo}
 	</select>
+	
+	<!-- 결제상세 리스트 -->
+	<select id="selectPayList" resultType="PaymentDetailVO">
+		select pd.pay_deta_no, pd.board_no, pd.pay_no, pd.qty, pd.price, pd.ship_stts, pd.board_ctg, pd.rsv_str_date, pd.rsv_end_date, p.mem_no
+		from payment_detail pd left join payment p
+		on pd.pay_no = p.pay_no 
+		where board_no = #{boardNo}
+		and pd.ship_stts = 'B4'
+	</select>
+	
+	<!-- 결제상세 resultMap -->
+	<resultMap type="CropsSaleVO" id="PayDetail">
+		<result property="payDetaNo" column="pay_deta_no"></result>
+		<result property="boardNo" column="board_no"></result>
+		<result property="payNo" column="pay_no"></result>
+		<result property="qty" column="qty"></result>
+		<result property="price" column="price"></result>
+		<result property="shipStts" column="ship_stts"></result>
+		<result property="boardCtg" column="board_ctg"></result>
+		<result property="rsvStrDate" column="rsv_str_date"></result>
+		<result property="rsvEndDate" column="rsv_end_date"></result>
+		<collection property="payList" javaType="ArrayList"
+			column="boardNo = board_no" ofType="PaymentDetailVO"
+			select="selectPayList"></collection>
+	</resultMap>
 	
 </mapper>
