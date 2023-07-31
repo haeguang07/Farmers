@@ -38,4 +38,7 @@ public class SkilledVO {
 	@JsonFormat(pattern ="yyyy-MM-dd", timezone = "Asia/Seoul")
 	private String aplDate;
 	
+	//신청자 정보
+	private String mbl;
+	private String nick;
 }

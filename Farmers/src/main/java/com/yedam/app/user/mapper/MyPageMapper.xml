@@ -695,7 +695,7 @@
 		WHERE apl_no = #{aplNo}
 	</update>
 	
-	<!-- 금손귀농인 구해요 리스트 가져오기 -->
+	<!-- 금손귀농인 구해요 & 할게요 리스트 가져오기 -->
 	<select id="mySkilledList" parameterType="SkilledVO" resultType="SkilledVO">
 		SELECT board_no,
 			   title,
@@ -713,7 +713,8 @@
 			    title,  
 			    apl_no,
 			    find_code_name(apl_stts) apl_stts,
-			    apl_date
+			    apl_date,
+			    FIND_CODE_NAME(day_div) day_div
 	 	 FROM (SELECT board_no,
 					  apl_date,
 					  apl_stts,
@@ -721,16 +722,60 @@
      		   FROM SKILLED_EXPERT_APPLY
      		   WHERE mem_no = #{memNo})
 		 JOIN SKILLED_EXPERT USING (board_no)
-		 GROUP BY board_no, title, apl_stts,apl_date,apl_no
+		 GROUP BY board_no, title, apl_stts,apl_date,apl_no,day_div
 	</select>
 	
-	<!-- 금손귀농인 구직자 리스트 -->
-	<!-- <select id="myJobSearchList" parameterType="String" resultType="">
-		SELECT *
+	<!-- 나의 금손귀농인 구직자 리스트 -->
+	<select id="myJobSearchList" parameterType="String" resultType="SkilledVO">
+		SELECT apl_no,
+			   nick,
+			   mbl,
+			   FIND_CODE_NAME(apl_stts) apl_stts,
+			   FIND_CODE_NAME(b.stts) stts,
+			   board_no
 		FROM SKILLED_EXPERT_APPLY a 
 		RIGHT JOIN SKILLED_EXPERT b 
 		USING (board_no)
+        JOIN member_detail c ON (c.mem_no = a.mem_no)
+        JOIN member d ON (d.mem_no = a.mem_no)
 		WHERE board_no = #{boardNo}
 		ORDER BY price DESC
-	</select> -->
+	</select>
+	
+	<!-- 금손귀농인 나의 신청 상세 정보 -->
+	<select id="mySkilledSubInfo" parameterType="String" resultType="SkilledVO">
+		SELECT apl_no,
+			   nick,
+			   mbl,
+			   apl_date,
+			   title,
+			   FIND_CODE_NAME(apl_stts) apl_stts
+		FROM SKILLED_EXPERT_APPLY JOIN member_detail USING (mem_no) 
+                                  JOIN member USING (mem_no) 	
+							      JOIN SKILLED_EXPERT USING (board_no)
+		WHERE apl_no = #{aplNo}
+	</select>
+	
+	<!-- 금손귀농인 수락 처리 -->
+	<select id="SKilledSubAccept" parameterType="SkilledVO" resultType="SkilledVO">
+		{
+			CALL CHANGE_SKILLED_STTS(
+				#{boardNo, mode=IN , jdbcType=VARCHAR},
+				#{aplNo, mode=IN , jdbcType=VARCHAR}
+			)
+		}
+	</select>
+	
+	<!-- 금손귀농인 신청 거절 처리 -->
+	<update id="skilledSubRefuse" parameterType="String">
+		UPDATE SKILLED_EXPERT_APPLY
+		SET apl_stts = 'kv'
+		WHERE apl_no = #{aplNo}
+	</update>
+	
+	<!-- 금손귀농인 나의 신청 삭제하기 -->
+	<delete id="deleteSkilledApply" parameterType="String">
+		DELETE SKILLED_EXPERT_APPLY
+		WHERE apl_no = #{aplNo}
+	</delete>
 </mapper>

@@ -163,5 +163,20 @@ public interface MyPageMapper {
 	
 	//금손귀농인 나의 신청 리스트
 	public List<SkilledVO> mySkilledSubList(String memNo);
+	
+	//금손귀농인 나의 구해요 신청 리스트
+	public List<SkilledVO> myJobSearchList(String boardNo);
+	
+	//금손귀농인 나의 신청 상세 정보
+	public SkilledVO mySkilledSubInfo(String aplNo);
+	
+	//금손귀농인 신청 수락
+	public void SKilledSubAccept(SkilledVO vo);
+	
+	//금손귀농인 신청 거절
+	public int skilledSubRefuse(String aplNo);
+	
+	//금손귀농인 나의 신청 삭제
+	public int deleteSkilledApply(String aplNo);
 
 }

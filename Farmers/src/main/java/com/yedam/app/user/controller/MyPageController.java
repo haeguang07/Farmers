@@ -35,6 +35,8 @@ import com.yedam.app.user.vo.InquiryVO;
 import com.yedam.app.user.vo.MemberVO;
 import com.yedam.app.user.vo.PointsVO;
 
+import oracle.jdbc.proxy.annotation.Post;
+
 @Controller
 public class MyPageController {
 	@Autowired
@@ -564,6 +566,7 @@ public class MyPageController {
 	@GetMapping("myPage/mySkilledList")
 	@ResponseBody
 	public List<SkilledVO> mySkilledList(SkilledVO vo){
+		System.out.println(vo);
 		List<SkilledVO> list = myPageService.mySkilledList(vo);
 		return list;	
 	}
@@ -572,13 +575,52 @@ public class MyPageController {
 	@GetMapping("myPage/mySkilledSubList")
 	@ResponseBody
 	public List<SkilledVO> mySkilledSubList(String memNo){
-		return myPageService.mySkilledSubList(memNo);
+		List<SkilledVO> list = myPageService.mySkilledSubList(memNo);
+		System.out.println(list);
+		return list;
 	}
 	
 	//나의 금손귀농인 구직 리스트
 	@GetMapping("myPage/myJobSearchList")
-	public String myJobSearchList(String boardNo) {
+	public String myJobSearchList(String boardNo,Model model) {
+		List<SkilledVO> list = myPageService.myJobSearchList(boardNo);
+		model.addAttribute("subList", list); 
+		System.out.println(list);
 		return "user/myPage/myActivity/mySkilled/myJobSearchList";
 	}
+	
+	//나의 금손귀농인 신청 정보 페이지
+	@GetMapping("myPage/mySkilledSubInfo")
+	public String mySkilledSubInfo(String aplNo, Model model) {
+		SkilledVO vo = myPageService.mySkilledSubInfo(aplNo);
+		model.addAttribute("SubInfo", vo);
+		System.out.println(vo);
+		return "user/myPage/myActivity/mySkilled/mySkilledSubInfo";
+	}
+	
+	//나의 금손귀농인 신청 수락
+	@PostMapping("myPage/mySkilledSubAccept")
+	@ResponseBody
+	public void mySkilledSubAccept(SkilledVO vo) {
+		System.out.println(vo);
+		myPageService.SKilledSubAccept(vo);
+	}
+	
+	//나의 금손귀농인 신청 거절
+	@PostMapping("myPage/skilledSubRefuse")
+	@ResponseBody
+	public boolean skilledSubRefuse(String aplNo) {
+		return myPageService.skilledSubRefuse(aplNo);
+	}
+	
+	//금손 귀농인 나의 신청 삭제
+	@PostMapping("myPage/deleteSKilledSub")
+	@ResponseBody
+	public boolean deleteSkilledApply(String aplNo) {
+		return myPageService.deleteSkilledApply(aplNo);
+	}
+
+	
+
 	
 }
