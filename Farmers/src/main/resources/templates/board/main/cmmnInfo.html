@@ -11,21 +11,38 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>이벤트 상세조회</title>
 <style>
+.title {
+	font-weight: bold;
+	font-size: 20px;
+}
+
+.smallChar {
+	font-size: 14px;
+	color: gray;
+}
+
+.right {
+	float: right;
+}
 /* 좋아요 버튼 */
 table {
 	line-height: 40px;
 }
+
 .center {
 	text-align: center;
 }
+
 .vertical {
 	padding-top: 2px;
 	padding-bottom: -10px;
 	vertical-align: top;
 }
+
 #wrtDate {
 	font-size: 14px;
 }
+
 i {
 	cursor: pointer;
 	padding: 5px;
@@ -49,7 +66,7 @@ i:before {
 	font-style: normal;
 }
 
-span {
+.liked {
 	position: absolute;
 	bottom: 70px;
 	left: 0;
@@ -82,34 +99,46 @@ keyframes fade { 0% {
 50
 
 
+
+
 %
 {
 color
 
 
+
+
 :
 
 
+
+
 #e23b3b
+
+
 ;
-
-
 }
 100
 
 
+
+
 %
 {
 color
 
 
+
+
 :
 
 
+
+
 #transparent
+
+
 ;
-
-
 }
 }
 @
@@ -119,36 +148,52 @@ keyframes size { 0% {
 50
 
 
+
+
 %
 {
 padding
 
 
+
+
 :
+
+
 
 
 14px
 
 
+
+
 16px
 
 
+
+
 12px
+
+
 ;
-
-
 margin-top
+
+
 
 
 :
 
 
+
+
 -4px
+
+
 ;
-
-
 }
 100
+
+
 
 
 %
@@ -156,19 +201,27 @@ margin-top
 padding
 
 
+
+
 :
+
+
 
 
 10px
 
 
+
+
 12px
 
 
+
+
 8px
+
+
 ;
-
-
 }
 }
 </style>
@@ -212,7 +265,7 @@ padding
 												<div class="shop__sidebar__categories">
 													<ul class="nice-scroll">
 														<li><a href="noticeList">공지사항</a></li>
-														<li><a href="communityList" style="color: black;">커뮤니티</a></li>
+														<li><a href="cmmnList" style="color: black;">커뮤니티</a></li>
 														<li><b><a href="eventList">이벤트</a></b></li>
 													</ul>
 												</div>
@@ -227,14 +280,19 @@ padding
 						<div>
 							<h5 class="title text-left" th:text="${cmmnInfo[0].title}"></h5>
 							<hr>
-							<span class="text-right" th:text="${cmmnInfo[0].nick}"></span><span
-								th:text="${#dates.format(cmmnInfo[0].wrtDate, 'yyyy/MM/dd')}"></span>
+							<div class="smallChar">
+								<span class="text-right">작성자 : </span><span
+									th:text="${cmmnInfo[0].nick}"></span><span class="right"
+									th:text="${#dates.format(cmmnInfo[0].wrtDate, 'yyyy/MM/dd')}"></span>
+							</div>
 							<div class="content">
-								<p class="desct" th:text="${cmmnInfo[0].desct}"></p>
+								<br> <img
+									th:if="${cmmnInfo[0].img != null and cmmnInfo[0].img != (null)}"
+									th:src="${cmmnInfo[0].img}" alt="">
+								<p class="desct" th:utext="${cmmnInfo[0].desct}"></p>
 							</div>
 							<!-- 정회원, 관리자, 작성자에 따라 하트 및 버튼 목록 조건 걸어야 함 -->
 							<div>
-								<p th:text="${cmmnInfo}"></p>
 								<span>♡</span>
 							</div>
 							<hr>
@@ -260,24 +318,7 @@ padding
 										</div>
 									</div>
 									<div class="row col-lg-12">
-										<div id="cmtList">
-											<table id="cmt" style="display: none;">
-												<tr>
-													<td class="nickname" style="width:100px;" rowspan="2">닉네임</td>
-													<td class="cmtD" style="width:520px;" rowspan="2">댓글 내용</td>
-													<td class="center" style="width:70px;" rowspan="2">추천 <label class="rcmNum">0</label></td>
-													<td class="center" style="width:150px;">
-														<i></i>
-														<span>liked!</span>
-														<i class='fas fa-exclamation-triangle' style='font-size:18px;color:red'></i>
-														<i class="fa fa-close" style="font-size:20px;"></i>
-													</td>
-												</tr>
-												<tr style="border-bottom: 1px solid lightgray;">
-													<td class="center vertical" id="wrtDate"></td>
-												</tr>
-											</table>
-										</div>
+										<div id="cmtList"></div>
 									</div>
 								</div>
 							</div>
@@ -285,13 +326,22 @@ padding
 					</div>
 				</div>
 			</div>
+			<table id="cmt" style="display: none;">
+				<tr>
+					<td class="nickname" style="width: 100px;" rowspan="2">닉네임</td>
+					<td class="cmtD" style="width: 520px;" rowspan="2">댓글 내용</td>
+					<td class="center" style="width: 70px;" rowspan="2">추천 <label
+						class="rcmNum">0</label></td>
+					<td class="center" style="width: 150px;"><i></i> <span
+						class="liked">liked!</span> <i class='fas fa-exclamation-triangle'
+						style='font-size: 18px; color: red'></i> <i class="fa fa-close"
+						style="font-size: 20px;"></i></td>
+				</tr>
+				<tr style="border-bottom: 1px solid lightgray;">
+					<td class="center vertical" id="wrtDate"></td>
+				</tr>
+			</table>
 		</section>
-
-		<script
-			src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
-		<script
-			src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
-		<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
 
 		<script th:inline="javascript">
 			let boardNo = /*[[${cmmnInfo[0].boardNo}]]*/;
@@ -357,6 +407,7 @@ padding
 					},
 					success: function(data){
 						alert('댓글 등록이 완료되었습니다.');
+
 						replyData();
 					},
 					error: function(reject){
@@ -368,6 +419,7 @@ padding
 			
 			// 등록한 댓글 생성 및 추가 함수
 			function printReply(data){
+				$('#cmtList').children().remove();
 				let replyData = data.reply;
 				
 				$(replyData).each((idx, item) => {

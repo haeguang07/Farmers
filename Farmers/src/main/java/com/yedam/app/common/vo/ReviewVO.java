@@ -25,5 +25,6 @@ public class ReviewVO {
 	
 	private String nick;
 	private int count;
+	private int round;
 
 }

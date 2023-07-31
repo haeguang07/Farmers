@@ -12,10 +12,13 @@
 		r.rev_desct,
 		r.wrt_date,
 		r.img
-		from review r left join member m
+		from review r left
+		join member m
 		on r.mem_no = m.mem_no
 		where board_no =
 		#{boardNo}
+		order by
+		wrt_date
 	</select>
 	<insert id="addReview" parameterType="ReviewVO">
 		<selectKey keyProperty="revNo" resultType="String"
@@ -37,12 +40,22 @@
 		#{boardNo})
 	</insert>
 	<select id="getCount" resultType="int">
-		select count(*) as count
-		from review
+		select NVL(count(*),0) as count
+		from
+		review
 		where board_no = #{boardNo}
 	</select>
+
+	<select id="getAverage" resultType="int">
+		select round(NVL(sum(rate)/count(rate),0),0) as round
+		from review
+		where board_no =
+		#{boardNo}
+	</select>
+
 	<delete id="delReview" parameterType="String">
 		delete from review
-		where rev_no = #{revNo}
+		where
+		rev_no = #{revNo}
 	</delete>
 </mapper>

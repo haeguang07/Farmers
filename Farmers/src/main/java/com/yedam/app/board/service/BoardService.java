@@ -24,4 +24,8 @@ public interface BoardService {
 	public List<BoardVO> selReplyList(String boardNo);
 	// 댓글 작성
 	public boolean addReply(ReplyVO vo);
+	
+	// 조회수 증가
+	public boolean hitCounting(String boardNo);
+
 }

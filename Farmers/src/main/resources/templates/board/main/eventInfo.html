@@ -10,6 +10,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>이벤트 상세조회</title>
+<style>
+.title {
+	font-weight: bold;
+	font-size: 20px;
+}
+
+.right {
+	float: right;
+}
+
+.smallChar {
+	font-size: 14px;
+	color: gray;
+}
+</style>
 </head>
 
 <body>
@@ -50,7 +65,7 @@
 												<div class="shop__sidebar__categories">
 													<ul class="nice-scroll">
 														<li><a href="noticeList">공지사항</a></li>
-														<li><a href="communityList">커뮤니티</a></li>
+														<li><a href="cmmnList">커뮤니티</a></li>
 														<li><b><a href="eventList" style="color: black;">이벤트</a></b>
 														</li>
 													</ul>
@@ -66,31 +81,41 @@
 						<div>
 							<h5 class="title text-left" th:text="${eventInfo[0].title}"></h5>
 							<hr>
-							<span class="text-right">관리자 | </span><span th:text="${#dates.format(eventInfo[0].wrtDate, 'yyyy/MM/dd')}"></span>
+							<div class="smallChar">
+								<span class="text-right">작성자 : 관리자</span><span class="right"
+									th:text="${#dates.format(eventInfo[0].wrtDate, 'yyyy/MM/dd')}"></span>
+							</div>
 							<div class="content">
-								<p class="desct" th:text="${eventInfo[0].desct}"></p>
+								<br> 
+								<img
+									th:if="${eventInfo[0].img != null and eventInfo[0].img != (null)}"
+									th:src="${eventInfo[0].img}" alt="">
+								<p class="desct" th:utext="${eventInfo[0].desct}"></p>
 							</div>
 							<!-- 정회원, 관리자, 작성자에 따라 하트 및 버튼 목록 조건 걸어야 함 -->
 							<div>
-								<p th:text="${eventInfo}"></p>
 								<span>♡</span>
 							</div>
 							<hr>
 							<div>
-								<button type="button" id="updateBtn" th:onclick="'location.href=\'' + @{${'updateEvent?postCtg=i4&boardNo=' + eventInfo[0].boardNo + '&dst1=' + eventInfo[0].dst1}} + '\''">수정</button>
+								<button type="button" id="updateBtn"
+									th:onclick="'location.href=\'' + @{${'updateEvent?postCtg=i4&boardNo=' + eventInfo[0].boardNo + '&dst1=' + eventInfo[0].dst1}} + '\''">수정</button>
 								<button type="button" id="delBtn">삭제</button>
-								<button type="button" th:onclick="'location.href=\''+ @{${'eventList'}} + '\''">목록</button>
+								<button type="button"
+									th:onclick="'location.href=\''+ @{${'eventList'}} + '\''">목록</button>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</section>
-		
-		<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
-		<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
+
+		<script
+			src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+		<script
+			src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
 		<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
-		
+
 		<script th:inline="javascript">
 			let boardNo = /*[[${eventInfo[0].boardNo}]]*/;
 			console.log(boardNo);

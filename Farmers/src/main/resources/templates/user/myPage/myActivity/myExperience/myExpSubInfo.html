@@ -96,7 +96,7 @@
 										<p>신청 날짜 : <span th:text="${#dates.format(info.aplDate, 'yyyy/MM/dd')}">홍길동</span></p>
 									</div>
 									<div class="col-md-6">
-										<p>신청상태 : <span th:text="${info.aplStts}">몰라</span></p>
+										<p>신청상태 : <span th:text="${info.aplStts}" id="aplStts">몰라</span></p>
 									</div>
 								</div>
 							</div>
@@ -113,6 +113,7 @@
 	</section>
 	<script th:inline="javascript">
 		$('#cancle').on('click', function () {
+			if($("#aplStts").text() != "승인 완료"){
 			$.ajax({
 					url: "/myPage/deleteExpApply",
 					data: {
@@ -146,6 +147,13 @@
                 		confirmButtonColor: '#95D083'		
                 })	
 				})
+			}else{
+				new swal({
+            		title: "취소할 수 없는 상태입니다",
+            		icon : "error",
+            		confirmButtonColor: '#95D083'		
+            })	
+			}
 		})
 	</script>
 </body>

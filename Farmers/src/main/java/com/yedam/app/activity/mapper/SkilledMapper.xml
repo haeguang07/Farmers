@@ -28,7 +28,13 @@
 								AND dst1 = #{dst1}
 							</if>
 							<if test="dst2 != null and !dst2.equals('')">
-								ANd dst2 = #{dst2}
+								AND dst2 = #{dst2}
+							</if>
+							<if test="title != null and !title.equals('')">
+								AND title LIKE '%${title}%'
+							</if>
+							<if test="memNo != null and !memNo.equals('')">
+								AND s.mem_no = #{memNo}
 							</if>
 						ORDER BY s.reg_date DESC
 						) a
@@ -43,12 +49,25 @@
 		SELECT count(*)
 		FROM skilled_expert
 		WHERE div = #{div}
+			<if test="dst1 != null and !dst1.equals('')">
+				AND dst1 = #{dst1}
+			</if>
+			<if test="dst2 != null and !dst2.equals('')">
+				AND dst2 = #{dst2}
+			</if>
+			<if test="title != null and !title.equals('')">
+				AND title LIKE '%${title}%'
+			</if>
+			<if test="memNo != null and !memNo.equals('')">
+				AND mem_no = #{memNo}
+			</if>
 	</select>
 
 <!-- 상세 조회 -->
 <select id="skilledInfo" resultType="SkilledVO">
-	SELECT s.board_no, m.nick, dst1, dst2, div, img, title, desct, day_div, wage_div,
-			price, cndt, addr_desct, stts, reg_Date
+	SELECT s.board_no, s.mem_no, m.nick, FIND_CODE_NAME(dst1) dst1Name, dst1, FIND_CODE_NAME(dst2) dst2,
+		   div, img, title, desct, FIND_CODE_NAME(day_div) day_div, FIND_CODE_NAME(wage_div) wage_div,
+		   price, FIND_CODE_NAME(cndt) cndt, addr_desct, stts, reg_Date
 	FROM skilled_expert s LEFT JOIN member m
 	ON s.mem_no = m.mem_no
 	WHERE s.board_no = #{boardNo}
@@ -83,7 +102,7 @@
 </update>
 
 <!-- 글 삭제 -->
-<delete id="deleteSkiiled" parameterType="String">
+<delete id="deleteSkilled" parameterType="String">
 	DELETE FROM skilled_expert
 	WHERE board_no = #{boardNo}
 </delete>

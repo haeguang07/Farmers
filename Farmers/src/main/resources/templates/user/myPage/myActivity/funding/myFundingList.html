@@ -90,35 +90,16 @@
 				table = $('#myTable').DataTable({
 					language: lang_kor,
 					bAutoWidth: false, // 너비 자동맞춤을 false로 설정해주어야 지정한 너비가 제대로 출력된다.
-					columnDefs: [{
-							width: "10%",
-							targets: 0
-						},
-						{
-							width: "15%",
-							targets: 1
-						},
-						{
-							width: "25%",
-							targets: 2
-						},
-						{
-							width: "15%",
-							targets: 3
-						},
-						{
-							width: "13%",
-							targets: 4
-						},
-						{
-							width: "15%",
-							targets: 5
-						}
-					],
-					order : [3, 'desc']
+					columnDefs: [{width: "10%",targets: 0},
+											 {width: "15%",targets: 1},
+											 {width: "25%",targets: 2},
+											 {width: "15%",targets: 3},
+											 {width: "13%",targets: 4},
+											 {width: "15%",targets: 5}
+											],
+					order : [0, 'desc']
 				});	
 			})
-
 
 			// 한글 설정
 			var lang_kor = {
@@ -146,7 +127,7 @@
 				}
 			};
 
-			// // //tr 이동
+			// tr클릭 시 해당 상품 페이지로 이동
 			$(document).on("click", ".tr", function (e) {
 				if (!$(e.currentTarget).hasClass('th')) {
 					console.log($(e.currentTarget).attr('no'))
@@ -154,7 +135,7 @@
 				}
 			})
 
-			//td 버튼 이벤트
+			// td 버튼 클릭 시 상세정보 페이지 모달창
 			$(document).on("click", ".sub", function (e) {
 				e.stopPropagation()
 
