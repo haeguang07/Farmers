@@ -47,5 +47,6 @@ public class MarketVO {
 
 	// review
 	private int count;
+	private int round;
 
 }

@@ -45,4 +45,9 @@
 		delete from review
 		where rev_no = #{revNo}
 	</delete>
+	<select id="getAverage" resultType="int">
+		select round(sum(rate)/count(rate),0) round
+		from review
+		where board_no = #{boardNo}	
+	</select>
 </mapper>
