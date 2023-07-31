@@ -25,4 +25,7 @@ public interface BoardMapper {
 	public List<BoardVO> selReplyList(String boardNo);
 	// 댓글 작성
 	public int addReply(ReplyVO vo);
+	
+	// 조회수 증가
+	public int hitCounting(String boardNo);
 }

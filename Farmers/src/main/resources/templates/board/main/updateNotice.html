@@ -14,7 +14,7 @@
 	display: none;
 }
 
-h4,h5 {
+h4, h5 {
 	font-weight: bold;
 	margin-bottom: 20px;
 }
@@ -22,6 +22,7 @@ h4,h5 {
 .ck-editor__editable {
 	height: 400px;
 }
+
 .plus {
 	font-size: 12px;
 	color: gray;
@@ -36,9 +37,9 @@ h4,h5 {
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="breadcrumb__text">
-							<h4>유귀농 커뮤니티</h4>
+							<h4>유귀농 공지사항</h4>
 							<div class="breadcrumb__links">
-								<span>전국 각 도의 유귀농인들과 함께 소통해보아요 !</span>
+								<span>홈페이지 소식을 확인하세요 !</span>
 							</div>
 						</div>
 					</div>
@@ -51,40 +52,26 @@ h4,h5 {
 				<div class="row d-flex justify-content-center">
 					<div class="col-lg-9 text-center">
 						<div class="blog__hero__text">
-							<input class="hidden" name="postCtg">
 							<h4>게시글 수정</h4>
 						</div>
 						<hr>
-						<div class="row col-lg-12">
-							<div class="col-lg-4 col-md-9" id="addFile">
-								<img th:src="${cmmnInfo[0].img}" alt=""> <span class="plus">▲ 수정하려면 이미지를 클릭하세요</span>
-								<div class="col-lg-12"
-									style="background-color: lightgrey; display: none; height: 250px;">
-									<p style="display: table-cell; vertical-align: middle">이미지
-										등록</p>
-								</div>
-							</div>
+						<div class="col-lg-12">
 							<div class="product__details__content">
 								<form id="myForm">
-									<!-- 실제 파일 업로드 input (안보임) -->
-									<input type="file" id="inputFile" class="hidden">
-									<!-- 지역1 선택창 -->
-									<div class="col-4 dst1">
-										<select class="form-select form-group col-1.5 mr-2"
-											aria-label="Default select example" name="dst1" id="dst1">
-											<option value="">도</option>
-											<option th:each="opt : ${dst1}" th:text="${opt.codeDesct}"
-												th:value="${opt.cmmnDetaCode}"
-												th:selected="${opt.cmmnDetaCode == cmmnInfo[0].dst1}"></option>
-										</select>
+									<div class="form-group row">
+										<label class="col-sm-3 col-form-label">제목</label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" name="title"
+												th:value="${noticeInfo[0].title}">
+										</div>
 									</div>
-									<span>제목 <input type="text" class="form-control"
-										name="title" th:value="${cmmnInfo[0].title}"></span> <span>작성자
-										<input type="text" class="form-control col-lg-6 hidden"
-										readonly="readonly" th:value="${cmmnInfo[0].boardNo}"
-										name="boardNo"> <input type="text" class="form-control"
-										readonly="readonly" th:value="${session.mem.nick}">
-									</span>
+									<div class="form-group row">
+										<label for="staticEmail" class="col-sm-3 col-form-label">작성자</label>
+										<div class="col-sm-9">
+											<input type="text" readonly class="form-control-plaintext"
+												th:value="${session.mem.nick}">
+										</div>
+									</div>
 								</form>
 							</div>
 						</div>
@@ -98,7 +85,7 @@ h4,h5 {
 											<div>
 												<textarea name="text" id="editor"></textarea>
 												<input type="text" class="hidden desct"
-													th:value="${cmmnInfo[0].desct}">
+													th:value="${noticeInfo[0].desct}">
 											</div>
 										</div>
 									</div>
@@ -119,63 +106,14 @@ h4,h5 {
 
 
 		<script th:inline="javascript">
-			$(function() {
-				let dst1 = $('.dst1').find('.selected').attr('data-value');
-
+			let boardNo =  /*[[${noticeInfo[0].boardNo}]]*/;
+			
+			$(function() {	
 				//ckEditor 데이터 입력
 				let desct = $('.desct').val();
 				editor.setData(desct);
 			})
 			
-			
-			//첨부파일 가져오기
-			$('#addFile').on('click', 'img', function () {
-				$('#inputFile').click()
-			})
-			
-			let dbPath = /*[[${cmmnInfo[0].img}]]*/;
-		
-			//첨부파일 업로드
-			$('#inputFile').change(function () {
-				var formData = new FormData(); //FormData 객체 생성
-		
-				var inputFile = $("input[type='file']")
-				//input 태그의 type이 file인 것을 찯아서 inputFile 이라는 변수로 지정
-		
-				var files = inputFile[0].files;
-				// files : 선택한 모든 파일을 나열하는 FileList 객체입니다 multiple 특성을 지정하지 않았다면 두 개 이상의 파일을
-				// 포함하지 않습니다
-		
-				for (var i = 0; i < files.length; i++) {
-					console.log(files[i]);
-					if (files[i].type.includes('image')) {
-						formData.append("uploadFiles", files[i]); //키,값으로 append
-		
-						$.ajax({
-							url: 'uploadsAjax',
-							type: 'POST',
-							processData: false, // 기본값은 true, ajax 통신을 통해 데이터를 전송할때, 기본적으로 key와 value 값을 Query String으로 변환해서 보내줌
-							contentType: false, // multipart/form-data 타입을 사용하기위해 false로 지정
-							data: formData,
-							success: function (result) {
-								console.log(result)
-								dbPath = result.dbPath
-								$('#addFile>img').attr('src', result.loadPath)
-								console.log(dbPath)
-		
-							},
-							error: function (reject) {
-								console.log(reject)
-							}
-						})
-					} else {
-						alert('이미지만 등록 가능합니다')
-					}
-				}
-		
-			})
-			
-				
 			//ckEditor 생성
 			let editor;
 			ClassicEditor
@@ -204,6 +142,10 @@ h4,h5 {
 				} else {
 					let ckData = editor
 					let formData = $('#myForm').serializeObject();
+					formData.dst1 = '';
+					formData.dst2 = '';
+					formData.img = '';
+					formData.boardNo = boardNo;
 		
 					//상세 설명 존재하지 않을 시 출력 내용 설정
 					if (ckData.getData() == '') {
@@ -212,24 +154,22 @@ h4,h5 {
 					} else {
 						formData.desct = ckData.getData()
 					}
-					formData.img = dbPath
 					console.log(formData);
 					
-					let boardNo = /*[[${cmmnInfo[0].boardNo}]]*/;
 					
-					//ajax 이벤트 등록
+					
+					//ajax 게시글 수정
 					$.ajax({
-							url: "updateCmmn",
+							url: "/update/Notice",
 							method: "POST",
 							data: formData
 						})
 						.done(function (result) {
 							alert('수정이 완료되었습니다.');
-							location.href = "cmmnInfo?postCtg=i3&boardNo=" + boardNo;
+							location.href = "/noticeInfo?postCtg=i2&boardNo=" + boardNo;
 						})
 						.fail(function (result) {
 							alert(result.body);
-							// location.href = "auctionList"
 					}) 
 				}
 			})

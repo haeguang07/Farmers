@@ -9,7 +9,7 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Cart</title>
 	<link rel="stylesheet" href="/css/sungWookCss/sungook.css" type="text/css">
-	
+			
 		<!-- Css Styles -->
 		<link rel="stylesheet" href="/css/jquery/bootstrap.min.css" type="text/css">
 		<link rel="stylesheet" href="/css/otherPlugins/font-awesome.min.css" type="text/css">
@@ -75,7 +75,7 @@
 						<div class="shopping__cart__table" style="margin-bottom: 0px;">
 							<h4 class="textCenter">나의 신청</h4>
 							<hr>
-							<h5 class="textCenter" th:text="${aplInfo[0].addr}">제목</h5>
+							<h5 class="textCenter" th:text="${SubInfo.title}">제목</h5>
 							<hr>
 							<div class="row">
 								<div class="col-md-12">
@@ -84,28 +84,17 @@
 								</div>
 								<div class="row col-md-12">
 									<div class="col-md-6">
-										<p >이름 : <span th:text="${aplInfo[0].name}">홍길동</span></p>
+										<p >이름 : <span th:text="${SubInfo.nick}">홍길동</span></p>
 									</div>
 									<div class="col-md-6">
-										<p>연락처 : <span th:text="${aplInfo[0].mbl}"> 01000000000</span></p>
+										<p>연락처 : <span th:text="${SubInfo.mbl}"> 01000000000</span></p>
 									</div>
 									<div class="col-md-6">
-										<p>신청 날짜 : <span th:text="${#dates.format(aplInfo[0].aplDate, 'yyyy/MM/dd')}">홍길동</span></p>
+										<!-- <p>신청 날짜 : <span th:text="${#dates.format(SubInfo.aplDate, 'yyyy/MM/dd')}">홍길동</span></p> -->
+										<p>신청 날짜 : <span th:text="${SubInfo.aplDate}">홍길동</span></p>
 									</div>
 									<div class="col-md-6">
-										<p>신청상태 : <span th:text="${aplInfo[0].aplStts}" id="aplStts">몰라</span></p>
-									</div>
-								</div>
-								<div class="row col-md-12">
-									<div class="col-md-6" th:if="not ${#strings.isEmpty(aplInfo[0].atchFileName)}">
-										<h6>첨부파일</h6>
-										<ul>
-											<th:block  th:each="item : ${aplInfo}">
-												<li class="no">
-													<a th:href="${item.atchFileName}" th:download="${item.uplFileName}" th:text="${item.uplFileName}">다운로드</a>
-												</li>
-											</th:block>
-										</ul>
+										<p>신청상태 : <span th:text="${SubInfo.aplStts}">몰라</span></p>
 									</div>
 								</div>
 							</div>
@@ -122,23 +111,25 @@
 	</section>
 	<script th:inline="javascript">
 		$('#cancle').on('click', function () {
-			if($("#aplStts").text() != '승인 완료'){
+			if(/*[[${SubInfo.aplStts}]]*/ != '신청 수락'){
 			$.ajax({
-					url: "/myPage/deleteMyFarmSub",
+					url: "/myPage/deleteSKilledSub",
+					method:"POST",
 					data: {
-						aplNo : /*[[${aplInfo[0].aplNo}]]*/
+						aplNo : /*[[${SubInfo.aplNo}]]*/
 					}
 				})
 				.done(function (result) {
+					console.log(result)
 					if(result){
 						new swal({
 	                		title: "신청을 취소하였습니다",
 	                		icon : "success",
 	                		confirmButtonColor: '#95D083'		
-	                })
-					.then(function(){
-						//부모창의 팝업 닫기 함수를 호출
-						parent.closePopUp()						
+	                })	
+					.then(function(){						
+					//부모창의 팝업 닫기 함수를 호출
+					parent.closePopUp()
 					})	
 					}else{
 						new swal({
@@ -157,10 +148,10 @@
 				})
 			}else{
 				new swal({
-            		title: "취소할 수 없는 상태입니다",
-            		icon : "error",
-            		confirmButtonColor: '#95D083'		
-            })	
+                		title: "취소할 수 없는 상태입니다",
+                		icon : "error",
+                		confirmButtonColor: '#95D083'		
+                })	
 			}
 		})
 	</script>

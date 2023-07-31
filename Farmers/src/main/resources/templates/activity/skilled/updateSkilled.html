@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Male_Fashion Template">
+<meta name="keywords" content="Male_Fashion, unica, creative, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>You GuiNong? Yes!</title>
+
+<!-- Google Font -->
+<link
+	href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+	rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Jua&family=Poor+Story&display=swap"
+	rel="stylesheet">
+
+<!-- Css Styles -->
+<link rel="stylesheet" href="/css/jquery/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+<link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery/magnific-popup.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery/nice-select.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery/owl.carousel.min.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery/slicknav.min.css" type="text/css">
+<link rel="stylesheet" href="/css/style.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery/jQueryUI.css">
+
+<!-- Js Plugins -->
+<script src="/js/jquery/jquery-3.3.1.min.js"></script>
+<script src="/js/jquery/bootstrap.min.js"></script>
+<script src="/js/jquery/jquery.nice-select.min.js"></script>
+<script src="/js/jquery/jquery.nicescroll.min.js"></script>
+<script src="/js/jquery/jquery.magnific-popup.min.js"></script>
+<script src="/js/jquery/jquery.countdown.min.js"></script>
+<script src="/js/jquery/jquery.slicknav.js"></script>
+<script src="/js/jquery/mixitup.min.js"></script>
+<script src="/js/jquery/owl.carousel.min.js"></script>
+<script src="/js/jquery/json.min.js"></script>
+<script src="/js/jquery/jqueryUI.js"></script>
+<style>
+.btn {
+	float: right !important;
+	margin: 2px;
+}
+
+img {
+	border-radius: 20px;
+}
+
+.plus {
+	font-size: 12px;
+	color: gray;
+}
+
+.hidden {
+	display: none;
+}
+
+.btn {
+	float: right;
+}
+
+.spaceTop {
+	margin-top: 25px;
+}
+
+.spaceBottom {
+	margin-bottom: 5px;
+}
+
+.hideBorder {
+	border: 0;
+	background-color: transparent;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.nickLabel {
+	display: inline-block;
+	font-size: 14px;
+	color: #ffffff;
+	background: #111111;
+	padding: 6px 10px 4px;
+	border-radius: 4px;
+}
+</style>
+<body>
+	<section class="shop-details">
+		<div class="product__details__pic" style="background-color: white;">
+			<div class="container">
+				<div class="row col-lg-12">
+					<div class="product__details__content col-lg-8">
+						<form id="myForm">
+							<!-- 실제 파일 업로드 input (안보임) -->
+							<input type="file" id="inputFile" class="hidden">
+							<div class="container">
+								<div class="row d-flex justify-content-center row">
+									<div class="col-lg-12">
+										<div class="product__details__text">
+											<div class="row">
+												<h4>금손귀농인 구해요</h4>
+												<br> <br>
+												<div class="row col-lg-12">
+													<div class="col-md-6 plus" id="addFile">
+														<img th:if="${goldInfo.img == null and goldInfo.img == (null)}"
+															th:src="@{/img/noImg.png}">
+														<img th:if="${goldInfo.img != null and goldInfo.img != (null)}"
+															th:src="${goldInfo.img}" alt=""> 
+														<span style="display: block;">▲수정하려면 이미지를 클릭하세요</span>
+														<div class="col-lg-12"
+															style="background-color: lightgrey; display: none; height: 250px;">
+															<p style="display: table-cell; vertical-align: middle">이미지
+																등록</p>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="col-md-4">
+															<div class="nickLabel spaceBottom"
+																th:text="${goldInfo.nick}">닉네임</div>
+														</div>
+														<label class="col-lg-12 col-md-12 text-left spaceBottom">
+															<input class="form-control col-lg-3" name="title"
+															th:value="${goldInfo.title}"></input>
+														</label><label
+															class="form-check-label col-lg-12 col-md-12 text-left">
+															<textarea class="form-control col-lg-3" name="desct"
+																rows="5" th:text="${goldInfo.desct}"></textarea>
+														</label>
+													</div>
+												</div>
+												<div class="row col-lg-12"></div>
+
+
+												<div class="row col-lg-12 spaceTop spaceBottom">
+													<div class="col-md-3">
+														<p class="col-lg-3 mb-0 text-left">✅ 지역</p>
+													</div>
+													<div class="row col-md-9">
+														<!-- 지역1 선택창 -->
+														<div class="col-md-6">
+															<select class="form-control col-1.5 mr-2"
+																aria-label="Default select example" name="dst1"
+																id="dst1">
+																<option value="">도</option>
+																<option th:each="opt : ${dst1}"
+																	th:text="${opt.codeDesct}"
+																	th:value="${opt.cmmnDetaCode}"
+																	th:selected="${opt.cmmnDetaCode == goldInfo.dst1}"></option>
+															</select>
+														</div>
+														<div>
+															<!-- 지역2 선택창 -->
+															<select class="form-control form-group col-1.5 mr-2"
+																aria-label="Default select example" name="dst2"
+																id="dst2">
+																<option value="">시·군</option>
+																<option th:each="opt : ${dst2}"
+																	th:text="${opt.codeDesct}"
+																	th:value="${opt.cmmnDetaCode}"
+																	th:selected="${opt.codeDesct == goldInfo.dst2}"></option>
+															</select>
+														</div>
+													</div>
+												</div>
+												<div class="row col-lg-12 spaceBottom">
+													<div class="col-md-3">
+														<p class="col-lg-3 mb-0 text-left">✅ 요일</p>
+													</div>
+													<div class="row col-md-9">
+														<label class="form-check-label col-md-2"><input
+															type="radio" class="form-check-input" name="dayDiv"
+															value="p0" th:checked="${goldInfo.dayDiv == '평일'}">
+															평일 </label> <label class="form-check-label col-md-3"><input
+															type="radio" class="form-check-input" name="dayDiv"
+															value="p1" th:checked="${goldInfo.dayDiv == '주말'}">
+															주말 </label> <label class="form-check-label col-md-3"><input
+															type="radio" class="form-check-input" name="dayDiv"
+															value="p2" th:checked="${goldInfo.dayDiv == '요일협의'}">
+															요일협의 </label>
+													</div>
+												</div>
+												<div class="row col-lg-12 spaceBottom">
+													<div class="col-md-3">
+														<p class="col-lg-3 mb-0 text-left">✅ 지불기준</p>
+													</div>
+													<div class="row col-md-9">
+														<select
+															class="form-control form-group col-md-5 col-1.5 mr-2"
+															aria-label="Default select example" id="wageDiv"
+															name="wageDiv">
+															<option value="" selected="selected">선택</option>
+															<option value="s0"
+																th:selected="${goldInfo.wageDiv == '시급'}">시급</option>
+															<option value="s1"
+																th:selected="${goldInfo.wageDiv == '일급'}">일급</option>
+															<option value="s2"
+																th:selected="${goldInfo.wageDiv == '월급'}">월급</option>
+														</select>
+													</div>
+												</div>
+												<div class="row col-lg-12 spaceBottom">
+													<div class="col-md-3">
+														<p class="col-lg-3 mb-0 text-left">✅ 금액</p>
+													</div>
+													<div class="row col-md-9">
+														<input type="number" step="100"
+															class="form-control col-md-4" name="price"
+															th:value="${goldInfo.price}" min="100">
+													</div>
+												</div>
+												<div class="row col-lg-12 spaceBottom">
+													<div class="col-md-3">
+														<p class="col-lg-3 mb-0 text-left">✅ 체결 조건</p>
+													</div>
+													<div class="row col-md-9">
+														<label class="form-check-label col-md-3"><input
+															type="radio" class="form-check-input" name="cndt"
+															value="q0" th:checked="${goldInfo.cndt == '신청 대기'}">
+															신청 대기 </label> <label class="form-check-label col-md-4"><input
+															type="radio" class="form-check-input" name="cndt"
+															value="q1" th:checked="${goldInfo.cndt == '즉시 수락'}">
+															즉시 수락 </label>
+													</div>
+												</div>
+												<div class="row col-lg-12 spaceBottom">
+													<div class="col-md-3">
+														<p class="col-lg-3 mb-0 text-left">✅ 추가 내용</p>
+													</div>
+													<div class="row col-md-9">
+														<label class="form-check-label"><textarea name="addrDesct"
+																class="form-control col-lg-12 col-md-12" rows="3"
+																th:text=${goldInfo.addrDesct}></textarea></label>
+													</div>
+													<div class="row col-lg-12">
+														<div class="row col-lg-12 col-md-12">
+															<div style="margin-top: 30px;">
+																<button type="button" class="btn btn-success"
+																	th:onclick="updateComplete()">완료</button>
+																<button type="button" class="btn btn-light">취소</button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<script th:inline="javascript">
+	// 도 선택시 시 select 출력
+	$('[name="dst1"]').on('change', function(){
+		let dst1 = $('[name="dst1"]').val();
+		console.log(dst1);
+		
+		$.ajax({
+			url: "/dst2",
+			method: "POST",
+			data: {
+				"dst1" : dst1
+			},
+			dataType: "json",
+			success(data){					
+				// 지역2 select box 출력
+				if(data.dst2) {
+					$('#dst2').empty();
+					$('#dst2').append(`<option value="">시·군</option>`);
+					$(data.dst2).each((idx, item) => {
+						if(item.cmmnDetaCode == dst2){
+							$('#dst2').append(`<option value="${item.cmmnDetaCode}" selected>${item.codeDesct}</option>`)
+						}else {
+							$('#dst2').append(`<option value="${item.cmmnDetaCode}">${item.codeDesct}</option>`)
+						}
+					});
+				}
+			},
+			error(reject){
+				console.log(reject);
+			}
+		})
+	})
+	
+	//첨부파일 가져오기
+	$('#addFile').on('click', 'img', function () {
+		$('#inputFile').click()
+	})
+	
+	let dbPath = /*[[${goldInfo.img}]]*/;
+
+	//첨부파일 업로드
+	$('#inputFile').change(function () {
+		var formData = new FormData(); //FormData 객체 생성
+
+		var inputFile = $("input[type='file']")
+		//input 태그의 type이 file인 것을 찯아서 inputFile 이라는 변수로 지정
+
+		var files = inputFile[0].files;
+		// files : 선택한 모든 파일을 나열하는 FileList 객체입니다 multiple 특성을 지정하지 않았다면 두 개 이상의 파일을
+		// 포함하지 않습니다
+
+		for (var i = 0; i < files.length; i++) {
+			console.log(files[i]);
+			if (files[i].type.includes('image')) {
+				formData.append("uploadFiles", files[i]); //키,값으로 append
+
+				$.ajax({
+					url: 'uploadsAjax',
+					type: 'POST',
+					processData: false, // 기본값은 true, ajax 통신을 통해 데이터를 전송할때, 기본적으로 key와 value 값을 Query String으로 변환해서 보내줌
+					contentType: false, // multipart/form-data 타입을 사용하기위해 false로 지정
+					data: formData,
+					success: function (result) {
+						console.log(result)
+						dbPath = result.dbPath
+						$('#addFile>img').attr('src', result.loadPath)
+						console.log(dbPath)
+
+					},
+					error: function (reject) {
+						console.log(reject)
+					}
+				})
+			} else {
+				alert('이미지만 등록 가능합니다')
+			}
+		}
+
+	})
+	
+	// 업데이트 완료 버튼
+	function updateComplete(){
+		let boardno = /*[[${goldInfo.boardNo}]]*/;
+		let formData = $('myForm').serializeObject();
+		formData.boardNo = boardno;
+		
+		// ajax 등록
+		$.ajax({
+			url: "/updateSkilled",
+			method: "POST",
+			data: formData
+		})
+		.done(function (result){
+			alert('수정이 완료되었습니다.');
+			
+		})
+		.fail(function (result){
+			console.log(result);
+		})
+		
+	}
+	</script>
+	
+</body>
+</html>

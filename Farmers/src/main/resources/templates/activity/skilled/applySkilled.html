@@ -48,12 +48,12 @@
 <script src="/js/jquery/jqueryUI.js"></script>
 <script src="/js/otherPlugins/sweetAlert2-11.4.10.js"></script>
 <style>
-.set-bg {
-	border-radius: 20px;
+.blank {
+	margin-left: 5px;
 }
 
-.spaceBottom {
-	margin-bottom: 8px;
+.set-bg {
+	border-radius: 20px;
 }
 
 .space {
@@ -94,7 +94,7 @@
 								<div class="col-lg-12">
 									<div class="product__details__text">
 										<div class="row">
-											<h4>금손귀농인 구해요</h4>
+											<h4>금손귀농인 구해요</h4> <span class="blank"> | 신청</span>
 											<br> <br>
 											<div class="row col-lg-12">
 												<div class="col-md-6">
@@ -107,13 +107,15 @@
 												</div>
 												<div class="col-md-6">
 													<div class="col-md-4">
-														<div class="nickLabel spaceBottom" th:text="${goldInfo.nick}">닉네임</div>
+														<div class="nickLabel" th:text="${goldInfo.nick}">닉네임</div>
 													</div>
+													<br>
 													<div>
 														<label
-															class="form-check-label col-lg-12 col-md-12 text-left spaceBottom"><span
+															class="form-check-label col-lg-12 col-md-12 text-left"><span
 															class="bold" th:text="${goldInfo.title}"></span></label>
 													</div>
+													<br>
 													<div>
 														<label class="col-lg-12 col-md-12 text-left"><span
 															th:text="${goldInfo.desct}"></span></label>
@@ -124,98 +126,51 @@
 
 
 											<div class="row col-lg-12 space">
-												<div class="col-md-3">
-													<p class="col-lg-3 mb-0 text-left">✅ 지역</p>
+												<div class="col-md-4">
+													<p class="col-lg-3 mb-0 text-left">✅ 조건</p>
 												</div>
-												<div class="row col-md-9">
+												<div class="row col-md-8">
 													<label class="form-check-label text-left"><span
 														th:text="${goldInfo.dst1Name}"></span></label> <label
-														class="form-check-label col-lg-6 col-md-6 text-left"><span
-														th:text="${goldInfo.dst2}"></span></label>
-												</div>
-											</div>
-										</div>
-										<br>
-										<div class="row">
-											<div class="row col-lg-12">
-												<div class="col-md-3">
-													<p class="col-lg-3 mb-0 text-left">✅ 요일</p>
-												</div>
-												<div class="row col-md-9">
-													<label class="form-check-label text-left"><span
-														th:text="${goldInfo.dayDiv}"></span></label>
-												</div>
-											</div>
-										</div>
-										<br>
-										<div class="row">
-											<div class="row col-lg-12">
-												<div class="col-md-3">
-													<p class="col-lg-3 mb-0 text-left">✅ 지불기준</p>
-												</div>
-												<div class="row col-md-3">
-													<label class="form-check-label text-left"><span
-														th:text="${goldInfo.wageDiv}"></span></label>
-												</div>
-											</div>
-										</div>
-										<br>
-										<div class="row">
-											<div class="row col-lg-12">
-												<div class="col-md-3">
-													<p class="col-lg-3 mb-0 text-left">✅ 금액</p>
-												</div>
-												<div class="row col-md-9">
-													<label class="form-check-label text-left"><span
-														th:text="${#numbers.formatInteger(goldInfo.price, 1, 'COMMA')}"></span>원</label>
-												</div>
-											</div>
-										</div>
-										<br>
-										<div class="row">
-											<div class="row col-lg-12">
-												<div class="col-md-3">
-													<p class="col-lg-3 mb-0 text-left">✅ 체결 조건</p>
-												</div>
-												<div class="row col-md-9">
-													<label class="form-check-label text-left"><span
+														class="form-check-label text-left"><span
+														th:text="${goldInfo.dst2}"></span></label> / 
+														<label class="form-check-label text-left"><span
+														th:text="${goldInfo.dayDiv}"></span></label> /
+														<label class="form-check-label text-left"><span
+														th:text="${goldInfo.wageDiv}"></span></label> /
+														<label class="form-check-label text-left"><span
+														th:text="${#numbers.formatInteger(goldInfo.price, 1, 'COMMA')}"></span>원</label> /
+														<label class="form-check-label text-left"><span
 														th:text="${goldInfo.cndt}"></span></label>
 												</div>
 											</div>
 										</div>
-										<br>
 										<div class="row"
 											th:if="${goldInfo.addrDesct != null and goldInfo.addrDesct != '(null)'}">
 											<div class="row col-lg-12">
-												<div class="col-md-3">
+												<div class="col-md-4">
 													<p class="col-lg-3 mb-0 text-left">✅ 추가 내용</p>
 												</div>
-												<div class="row col-md-9">
+												<div class="row col-md-8">
 													<label class="form-check-label text-left"><span
 														th:text="${goldInfo.addrDesct}"></span></label>
 												</div>
 											</div>
 										</div>
-										<div style="margin-top: 30px;"
-											th:if="${session.mem.memNo} != ${goldInfo.memNo}">
-											<button type="button" class="btn btn-success" id="applyBtn"
-												th:if="${goldInfo.cndt == '신청 대기'}">신청</button>
-											<button type="button" class="btn btn-success"
-												th:if="${goldInfo.cndt == '즉시 수락'}">수락</button>
-											<button type="button" class="btn btn-light" th:onclick="closeBtn()">닫기</button>
+										<div class="row">
+											<div class="row col-lg-12">
+												<div class="col-md-4">
+													<p class="col-lg-3 mb-0 text-left">✅ 신청 메세지</p>
+												</div>
+												<div class="row col-md-8">
+													<textarea class="form-control" rows="8" id="aplMsg"></textarea>
+												</div>
+											</div>
 										</div>
-										<div style="margin-top: 30px;"
-											th:if="${session.mem.memNo} == ${goldInfo.memNo}">
-											<button type="button" class="btn btn-dark"
-												th:onclick="deleteInfo()">삭제</button>
-											<button type="button" class="btn btn-success"
-												th:onclick="updateInfo()">수정</button>
-											<button type="button" class="btn btn-light" th:onclick="closeBtn()">닫기</button>
+										<div style="margin-top: 30px;">
+											<button type="button" class="btn btn-success" th:onclick="applySkilled()">신청</button>
+											<button type="button" class="btn btn-light">닫기</button>
 										</div>
-									</div>
-									<!-- 새로운 모달 창 -->
-									<div id="updateModal" class="white-popup mfp-hide">
-										<!-- 여기에 모달 창에 로드할 컨텐츠를 표시할 공간 -->
 									</div>
 								</div>
 							</div>
@@ -227,39 +182,28 @@
 	</section>
 
 	<script th:inline="javascript">
-		let boardNo = /*[[${goldInfo.boardNo}]]*/;
-		let dst1 = /*[[${goldInfo.dst1}]]*/;
-		
-		function deleteInfo() {
-			boardNo = /*[[${goldInfo.boardNo}]]*/;
-			console.log(boardNo);
+		function applySkilled(){
+			let memNo = /*[[${session.mem.memNo}]]*/;
+			let aplStts = 'kw';
+			let boardNo = /*[[${goldInfo.boardNo}]]*/;
+			let aplMsg = $('#aplMsg').text();
+			
 			$.ajax({
-				url: '/deleteSkilled',
+				url: '/apply/Skilled',
 				method: 'POST',
-				data : {boardNo}
-			})
-			.done(function (result){
+				data: {
+					memNo,
+					aplStts,
+					boardNo,
+					aplMsg
+				}
+			}).done(function(result) {
+				alert('신청이 완료되었습니다.');
 				parent.closePopUp();
-				alert('삭제가 완료되었습니다.');
-			})
-			.fail(function (result){
+			}).fail(function(result) {
 				console.log(result);
 			})
-		}
-		
-		// 수정 클릭 시 모달창
-		function updateInfo(){
-			parent.closePopUp(boardNo);
-		}
-		
-		// 신청 클릭 시 모달창
-		$('#applyBtn').on('click', function(){
-			parent.closePopUp(boardNo);
-		})
-		
-		// 닫기 클릭 시 모달창 닫기
-		function closeBtn(){
-			parent.closePopUp();
+			
 		}
 	</script>
 

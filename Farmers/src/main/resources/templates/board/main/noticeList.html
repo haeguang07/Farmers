@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Market, Auction">
+<meta name="keywords" content="Auction">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>공지사항</title>
+<style>
+.center {
+	text-align: center;
+}
+.myInline {
+	display: inline;
+}
+</style>
+</head>
+<body>
+	<div layout:fragment="content">
+		<!-- Breadcrumb Section Begin -->
+		<section class="breadcrumb-option">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="breadcrumb__text">
+							<h4>유귀농 공지사항</h4>
+							<div class="breadcrumb__links">
+								<span>홈페이지 소식을 확인하세요 !</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Breadcrumb Section End -->
+
+		<section class="shop spad">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-3">
+						<div class="shop__sidebar">
+							<div class="shop__sidebar__accordion">
+								<div class="accordion" id="accordionExample">
+									<div class="card">
+										<div class="card-heading">
+											<a data-toggle="collapse" data-target="#collapseOne">유귀농
+												게시판</a>
+										</div>
+										<div id="collapseOne" class="collapse show"
+											data-parent="#accordionExample">
+											<div class="card-body">
+												<div class="shop__sidebar__categories">
+													<ul class="nice-scroll">
+														<li><b><a href="noticeList" style="color: black;">공지사항</a></b></li>
+														<li><a href="cmmnList">커뮤니티</a></li>
+														<li><a href="eventList">이벤트</a></li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row col-lg-9">
+						<div class="col-lg-12" style="margin-left: 0;">
+							<div class="shopping__cart__table" style="margin-bottom: 0px;">
+								<table id="myTable" class="center">
+									<thead>
+										<tr class="center">
+											<th class="">순번</th>
+											<th class="col-lg-6">제목</th>
+											<th class="">작성자</th>
+											<th class="">작성일</th>
+											<th class="">조회수</th>
+										</tr>
+									</thead>
+									<tbody id="noticeList">
+									</tbody>
+								</table>
+								<br>
+							</div>
+							<th:block th:if="not ${#strings.isEmpty(session.mem)}">
+								<div class="row" th:if="${session.mem.memGrd == 'b0'}">
+									<div class="col-lg-11"></div>
+									<button type="button" class="btn btn-success"
+										th:onclick="'location.href=\''+ @{${'/add/Notice'}} + '\''">등록</button>
+								</div>
+							</th:block>
+						</div>
+						<div class="row" id="pageDiv"></div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- pageDiv Clone용-->
+		<div class="product__pagination" style="display: none;" id="pageItem">
+			<a class="myInline" id="prevPage">◁</a>
+			<div id="pageNumDiv" class="myInline">
+				<a id="pageNum">a</a>
+			</div>
+			<a class="myInline" id="nextPage">▷</a>
+		</div>
+
+		<script th:inline="javascript">		
+			$(function(){
+				boardData('i2', 1);
+			})
+			
+			// 리스트 데이터 가져오기
+			function boardData(postCtg, pageNum){
+				$.ajax({
+					url: "boardList",
+					method: "GET",
+					data: {
+                        postCtg,
+						pageNum
+					},
+					success(data){
+						console.log(data);
+						printList(data);
+					},
+					error(reject){
+						console.log(reject);
+					}
+				})
+			}
+				
+			// 리스트 출력
+			function printList(data, dst1){
+				$('#noticeList').empty();
+				$('#pageDiv').children().remove();
+				
+				let noticeData = data.boardList;
+				let pageData = data.pageInfo;
+				
+				$(noticeData).each((idx, item) => {
+					printItem(item, idx);
+				})
+				
+				printPage(pageData);
+			}
+			
+			// 게시글 생성 및 추가 함수
+            function printItem(item, idx){
+				
+				let tr = $('<tr>');
+				
+			    tr.append($('<td>').text(idx + 1));
+
+			    tr.append($('<td>').text(item.title));
+			    tr.append($('<td>').text(item.wrtDate));
+			    tr.append($('<td>').text(item.nick));
+			    tr.append($('<td>').text(item.hitCount));
+
+			    $('#noticeList').append(tr);
+			    
+			    tr.on('click', function(){
+			    	location.href = `noticeInfo?postCtg=i2&boardNo=${item.boardNo}`;
+			    	
+			    	// 조회 수 증가 ajax 실행
+			    	$.ajax({
+			    		url: "/count",
+			    		method: "POST",
+			    		data: {
+			    			boardNo : item.boardNo
+			    		},
+			    		success: function(result){
+			    			console.log(result.retCode);
+			    		},
+			    		error: function(result){
+			    			console.log(result.retCode);
+			    		}
+			    	})
+			    })
+			}
+            	
+			
+         // 페이지 출력 
+			function printPage(pageData) {
+			    	
+				let pageItem = $('#pageItem').clone()
+				$(pageItem).css({'display' : 'block'});
+				$(pageItem).find('#prevPage').on('click',function(){
+					ajaxData(pageData.startPage - 1)
+				})
+				$(pageItem).find('#nextPage').on('click',function(){
+					ajaxData(pageData.endPage + 1)
+				})
+
+				if(!pageData.prev){
+					$(pageItem).find('#prevPage').hide()
+				}
+				if(!pageData.next){
+					$(pageItem).find('#nextPage').hide()
+				}
+
+				for (let i = pageData.startPage; i <= pageData.endPage; i++) {
+					let clone = $('#pageItem').find('#pageNum').clone()
+					$(clone).text(i);
+					if(i == pageData.pageNum){
+						$(clone).addClass('active')
+						$(clone).css('border-color','orange')
+					}
+					$(clone).on('click', function () {
+						getCondition(i);
+					})
+					$(pageItem).find('#pageNumDiv').append(clone)
+				}
+
+				$(pageItem).find('#pageNum')[0].remove()
+				$('#pageDiv').append(pageItem) 
+			}
+         
+			// 페이지 이동
+			function getCondition(pageNum){
+				let postCtg = 'i2';
+				
+				if(pageNum == null){
+					pageNum = 1
+				}
+
+				boardData(postCtg, pageNum);
+			}
+		</script>
+
+	</div>
+</body>
+</html>

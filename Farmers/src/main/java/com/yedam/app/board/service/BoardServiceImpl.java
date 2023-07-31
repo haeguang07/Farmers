@@ -55,4 +55,8 @@ public class BoardServiceImpl implements BoardService {
 		return boardMapper.addReply(vo) > 0;
 	}
 	
+	@Override
+	public boolean hitCounting(String boardNo) {
+		return boardMapper.hitCounting(boardNo) > 0;
+	}
 }
