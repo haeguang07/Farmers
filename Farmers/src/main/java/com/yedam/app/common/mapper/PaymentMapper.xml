@@ -17,11 +17,9 @@
 		{
 		CALL getpayproduct(
 		#{boardNo, mode=IN , jdbcType=VARCHAR},
-		#{boardCtg, mode=IN ,
-		jdbcType=VARCHAR},
+		#{boardCtg, mode=IN , jdbcType=VARCHAR},
 		#{title, mode=OUT , jdbcType=VARCHAR},
-		#{price,
-		mode=OUT , jdbcType=VARCHAR},
+		#{price, mode=OUT , jdbcType=VARCHAR},
 		#{rep, mode=OUT , jdbcType=VARCHAR}
 		)
 
