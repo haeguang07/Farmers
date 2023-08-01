@@ -12,8 +12,7 @@
 	</select>
 
 	<!-- 상품정보 -->
-	<select id="getProductInfo" statementType="CALLABLE"
-		parameterType="PaymentDetailVO" resultType="PaymentDetailVO">
+	<select id="getProductInfo" statementType="CALLABLE" parameterType="PaymentDetailVO" resultType="PaymentDetailVO">
 		{
 			CALL GETPAYPRODUCT(
 				#{boardNo, mode=IN , jdbcType=VARCHAR},
