@@ -1,10 +1,12 @@
 package com.yedam.app.activity.vo;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.yedam.app.common.vo.ReviewVO;
 
 import lombok.Data;
 
@@ -56,7 +58,6 @@ public class BnbVO {
 	// review
 	private int count;
 	private int round;
-	
 
 	// cart 데이터
 	private String cartNo;
@@ -64,4 +65,5 @@ public class BnbVO {
 	private String boardCtg;
 	private String codeDesct; // 상세코드로 테이블명 조회
 
+	private List<ReviewVO> reviews;
 }

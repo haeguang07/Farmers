@@ -49,7 +49,6 @@ public class BnbController {
 		List<BnbVO> list = bnbService.selectBnbList(region, page, order);
 		int total = bnbService.selectCount(region);
 		PageVO vo = new PageVO(page, total);
-
 		Map<String, Object> map = new HashMap<>();
 		map.put("bnb", list);
 		map.put("page", vo);
