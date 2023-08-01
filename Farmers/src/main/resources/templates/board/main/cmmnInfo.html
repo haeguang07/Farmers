@@ -335,7 +335,7 @@ padding
 					<td class="center" style="width: 150px;"><i></i> <span
 						class="liked">liked!</span> <i class='fas fa-exclamation-triangle'
 						style='font-size: 18px; color: red'></i> <i class="fa fa-close"
-						style="font-size: 20px;"></i></td>
+						style="font-size: 20px;" th:onclick="deleteReply()"></i></td>
 				</tr>
 				<tr style="border-bottom: 1px solid lightgray;">
 					<td class="center vertical" id="wrtDate"></td>
@@ -448,6 +448,11 @@ padding
 			      $( "i,span" ).toggleClass( "press", 1000 );
 			    });
 			  });
+			
+			// 댓글 삭제 기능
+			function deleteReply(){
+				
+			}
 		</script>
 	</div>
 </body>

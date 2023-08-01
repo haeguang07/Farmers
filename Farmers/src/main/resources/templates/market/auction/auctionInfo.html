@@ -9,6 +9,11 @@
 	type="text/css">
 
 <style>
+.big_img {
+	width: 550px;
+	height: 550px;	
+}
+
 .tab-pane p {
 	margin-bottom: 50px;
 }
@@ -176,33 +181,7 @@ label:has(.bidCount) {
 					<div class="col-lg-6">
 						<div class="product__details__img">
 							<div class="product__details__big__img">
-								<img class="big_img" src="/img/market/auction/Daechu.jpg" alt="">
-							</div>
-							<div class="product__details__thumb">
-								<div class="pt__item active">
-									<img data-imgbigurl="/img/market/auction/Daechu.jpg"
-										src="/img/market/auction/Daechu.jpg" alt="">
-								</div>
-								<div class="pt__item">
-									<img data-imgbigurl="/img/market/auction/Daechu-2.png"
-										src="/img/market/auction/Daechu-2.png" alt="">
-								</div>
-								<div class="pt__item">
-									<img data-imgbigurl="/img/market/auction/Daechu-3.png"
-										src="/img/market/auction/Daechu-3.png" alt="">
-								</div>
-								<div class="pt__item">
-									<img data-imgbigurl="/img/market/auction/Daechu-4.png"
-										src="/img/market/auction/Daechu-4.png" alt="">
-								</div>
-								<div class="pt__item">
-									<img data-imgbigurl="/img/market/auction/Daechu-5.png"
-										src="/img/market/auction/Daechu-5.png" alt="">
-								</div>
-								<div class="pt__item">
-									<img data-imgbigurl="/img/market/auction/Daechu-6.png"
-										src="/img/market/auction/Daechu-6.png" alt="">
-								</div>
+								<img class="big_img" th:src="${actInfo.rep}" alt="">
 							</div>
 						</div>
 					</div>
@@ -230,7 +209,7 @@ label:has(.bidCount) {
 							</ul>
 							<h5>
 								<label>현재 입찰 최고가 <span class="highestBid"
-									th:text="${#numbers.formatInteger(actInfo.price, 1, 'COMMA')}">N</span>원
+									th:text="${actInfo.price}">N</span>원
 								</label>
 							</h5>
 							<div class="product__details__option">
@@ -258,7 +237,7 @@ label:has(.bidCount) {
 													※ 최소 입찰금액은 1,000원이며, 500원 단위로 입찰 가능합니다.
 												</span>
 											</div>
-											<button class="nextBtn btn btn-outline-success" type="submit">다음</button>
+											<button class="nextBtn btn btn-outline-success" type="submit" id="bidNext">다음</button>
 										</div>
 
 										<!-- ******* 즉시구매 ******* -->
@@ -273,7 +252,7 @@ label:has(.bidCount) {
 											<span style="color: gray;"> ※ 정회원만 즉시 구매 가능합니다. <br>
 												※ 판매자가 제시한 즉시 구매가로, 구매 즉시 결제 후 낙찰이 완료됩니다.<br>
 											</span>
-											<button class="nextBtn btn btn-outline-success" type="submit">다음</button>
+											<button class="nextBtn btn btn-outline-success" type="submit" id="buyNext">다음</button>
 										</div>
 									</form>
 								</div>
@@ -293,7 +272,7 @@ label:has(.bidCount) {
 							<div class="tab-pane active" id="tabs-1" role="tabpanel">
 								<div class="row d-flex justify-content-center">
 									<div class="col-lg-8">
-										<p th:text="${actInfo.desct}"></p>
+										<p th:utext="${actInfo.desct}"></p>
 									</div>
 								</div>
 							</div>
@@ -365,20 +344,33 @@ label:has(.bidCount) {
 				let inputVal = $(this).val();
 				let value = parseInt(inputVal);
 				let balence = value % 500;
+				let hBidVal = /*[[${actInfo.price}]]*/;
 				
 				if(value < 1000){
 					$('#bidPrice').val('1000');
 					$('#bidPrice').focus();
 					alert('입찰금액은 최소 1000원부터입니다.');
 				}else {
-					if (balence !== 0){
-						// 입력한 값에서 가까운 내림한 500원 단위 값 출력
-						let roundedValue = value - balence;
-						$('#bidPrice').val(roundedValue);
-						alert('500원 단위로 입력 가능합니다.');
-					}else {
-						$('#bidPrice').val(inputVal);
+					if(inputVal <= hBidVal){
+						alert('입찰 금액은 현재 최고 입찰가보다 높아야 합니다.');
+						$(this).focus();
+					} else{
+						if (balence !== 0){
+							// 입력한 값에서 가까운 내림한 500원 단위 값 출력
+							let roundedValue = value - balence;
+							if(roundedValue <= hBidVal){
+								$('#bidPrice').val(roundedValue+500);
+								alert('입찰 금액은 현재 최고 입찰가보다 높고 500원 단위로 입력해야 합니다.');
+							}else {
+								$('#bidPrice').val(roundedValue);
+								alert('500원 단위로 입력 가능합니다.');
+							}
+						}else {
+							$('#bidPrice').val(inputVal);
+						}
 					}
+					
+					
 				}
 			})
 			
@@ -398,8 +390,15 @@ label:has(.bidCount) {
 					$('#bidPrice').val(dec);
 				}else if(btnVal == '+'){
 					let inc = Number(price);
+					let previousBid = parseInt($('.highestBid').text());
+					console.log(previousBid);
+					
 					if(inc === 0){
-						inc = 1000;
+						if(previousBid == 0){
+							inc = 1000;							
+						}else {
+							inc = previousBid + 500;
+						}
 					} else {
 						inc = inc + 500;
 					}
@@ -408,7 +407,7 @@ label:has(.bidCount) {
 			})
 			
 			// 입찰 기능			
-			$('.nextBtn').on('click', function(){
+			$('#bidNext').on('click', function(){
 				event.preventDefault();
 				let inputVal = $('#bidPrice').val();
 				
@@ -442,6 +441,8 @@ label:has(.bidCount) {
 								data: JSON.stringify(vo),
 								success(data){
 									console.log(data);
+									alert('입찰이 완료되었습니다. 입찰 내역은 마이페이지에서 확인 가능합니다.');
+									$('.highestBid').text(inputVal);
 								},
 								error(reject){
 									console.log(reject);
@@ -450,7 +451,33 @@ label:has(.bidCount) {
 						}
 				}
 			})
-		
+			
+			// 즉시 구매 기능
+			$('#buyNext').on('click', function(){
+				event.preventDefault();
+				let boardNo = $('#boardNo').val();
+				
+				// 구매 페이지로 보낼 배열
+				let productList = [];
+				
+				// 배열에 담을 구매상품정보 객체 생성
+				let obj = {
+						boardNo : boardNo,
+						qty : 1,
+						boardCtg : 'na'
+				}
+				
+				// 배열에 객체  담기
+				productList.push(obj);
+				
+				// 상품객체배열을 json 변환 후 결제피이지 파라미터로 보냄 (한글, 특수문자가 url 인코딩이 안되서 encodeURI 사용)
+				location.href = "payment?productList=" + encodeURI(JSON.stringify(productList));
+			})
+			
+			// 세자리 콤마
+			function numComma(num) {
+				return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+			}
 		</script>
 	</div>
 </body>

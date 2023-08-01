@@ -52,14 +52,14 @@
 	<!-- 단건 경매 정보 조회 -->
 	<select id="selectAuction" resultType="AuctionVO">
 		SELECT mem.nick, mem.mem_grd, act.board_no, title, desct, sale_qty, bnp, 
-            	act_date, act_trm, ship_price, ship_dur_avg, ship_dur_max, rep, atch_no, 
+            	act_date, act_trm, ship_price, ship_dur_avg, ship_dur_max, rep,
                 	count(apl.price) AS bid_count, NVL(MAX(apl.price), 0) AS price
 		FROM member mem, auction act, auction_apply apl
 		WHERE mem.mem_no = act.mem_no
 		AND act.board_no = apl.board_no (+)
 		AND act.board_no = #{boardNo}
 		GROUP BY mem.nick, mem.mem_grd, act.board_no, title, desct, sale_qty, bnp, 
-		                act_date, act_trm, ship_price, ship_dur_avg, ship_dur_max, rep, atch_no
+		                act_date, act_trm, ship_price, ship_dur_avg, ship_dur_max, rep
 	</select>
 	
 	
@@ -108,9 +108,6 @@
 								, ship_dur_max
 								, rep
 								, reg_stts
-								<if test="atchNo != null and !atchNo.equals('')">
-								, atch_no
-								</if>
 							)
 		VALUES ( #{boardNo}
 				 , #{memNo}
@@ -125,9 +122,6 @@
 				 , #{shipDurMax}
 				 , #{rep}
 				 , 'e1'
-				<if test="atchNo != null and !atchNo.equals('')">
-				, #{atchNo}
-				</if>
 				)
 	</insert>
 	<update id="updateAuctionReg">
