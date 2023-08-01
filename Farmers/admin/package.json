@@ -9,9 +9,15 @@
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^38.1.1",
     "@ckeditor/ckeditor5-vue": "^5.1.0",
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-brands-svg-icons": "^6.4.0",
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/vue-fontawesome": "^3.0.3",
     "@mdi/font": "5.9.55",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-plugin-vuex": "~5.0.0",
     "@vue/cli-service": "^5.0.8",
     "@vuepic/vue-datepicker": "^5.4.0",
     "@vueup/vue-quill": "^1.2.0",
@@ -29,16 +35,8 @@
     "vuetify": "^3.3.10",
     "vuex": "^4.0.0",
     "webfontloader": "^1.0.0",
-    "webpack-chain": "^6.5.1"
-  },
-  "devDependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.4.0",
-    "@fortawesome/free-solid-svg-icons": "^6.4.0",
-    "@fortawesome/vue-fontawesome": "^3.0.3",
-    "@vue/cli-plugin-babel": "~5.0.0",
-    "@vue/cli-plugin-router": "~5.0.0",
-    "@vue/cli-plugin-vuex": "~5.0.0",
-    "webpack-plugin-vuetify": "^2.0.0-alpha.0"
+    "webpack-chain": "^6.5.1",
+    "webpack-plugin-vuetify": "^2.0.1"
   },
   "browserslist": [
     "> 1%",
