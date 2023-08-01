@@ -209,7 +209,7 @@
 				};
 
 				$.ajax({
-					url: 'signup',
+					url: '/signup',
 					method: 'POST',
 					data: member,
 					success(data) {
