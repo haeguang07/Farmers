@@ -57,6 +57,8 @@ public class ExpController {
 	public String getExpInfo(ExpVO expVO, Model model) {
 		ExpVO info = expService.getExpInfo(expVO);
 		model.addAttribute("expInfo", info);
+		model.addAttribute("codeInfo", codeService.getCodeList("0N"));
+		model.addAttribute("apply", codeService.getCodeList("0E"));
 		return "activity/exp/expInfo";
 	}
 	
@@ -84,7 +86,7 @@ public class ExpController {
 	@ResponseBody
 	public String deleteExp(String boardNo) {
 		expService.deleteExpInfo(boardNo);
-		return "activity/exp/expList";
+		return "success";
 	}
 	
 	// 신청(등록) 기능

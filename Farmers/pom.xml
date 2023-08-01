@@ -206,7 +206,7 @@
 						</configuration>
 					</execution>
 				</executions>
-				
+
 				<configuration>
 					<workingDirectory>${basedir}/admin</workingDirectory>
 				</configuration>

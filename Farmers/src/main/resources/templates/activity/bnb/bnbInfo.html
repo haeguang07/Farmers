@@ -122,22 +122,16 @@
 										<tr>
 											<th>날짜 선택</th>
 											<td>
-												<!-- <input type="date" id="startDate"
-												th:min="${#dates.format(bnb.lendStrDate,'yyyy-MM-dd')}"
-												th:max="${#dates.format(bnb.lendEndDate,'yyyy-MM-dd')}"
-												onchange="minDate()"> --> 
 												<input type="text" id="startDate"
 												class="form-control mini"
 												th:min="${#dates.format(bnb.lendStrDate,'yyyy-MM-dd')}"
 												th:max="${#dates.format(bnb.lendEndDate,'yyyy-MM-dd')}"
-												onchange="minDate()" readonly> ~ <!-- <input type="date" id="endDate" class="form-control mini"
-												th:min="${#dates.format(bnb.lendStrDate,'yyyy-MM-dd')}"
-												th:max="${#dates.format(bnb.lendEndDate,'yyyy-MM-dd')}"
-												onchange="calculateDays()"></td> --> <input type="text"
+												readonly> ~ 
+												<input type="text"
 												id="endDate" class="form-control mini"
 												th:min="${#dates.format(bnb.lendStrDate,'yyyy-MM-dd')}"
 												th:max="${#dates.format(bnb.lendEndDate,'yyyy-MM-dd')}"
-												onchange="calculateDays()" readonly>
+												onchange="endChange()" readonly>
 											</td>
 										</tr>
 										<tr>
@@ -296,6 +290,36 @@
 		<script
 			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c573b65eabeb9b6da24ab52d832dc807"></script>
 		<script th:inline="javascript">
+
+		// --------- 지도 api
+		var latitude = document.getElementById('lati').innerText;
+		var longitude = document.getElementById('longi').innerText;
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+		mapOption = {
+			center : new kakao.maps.LatLng(latitude, longitude), // 지도의 중심좌표
+			level : 3, // 지도의 확대 레벨
+			mapTypeId : kakao.maps.MapTypeId.ROADMAP
+		};
+		var map = new kakao.maps.Map(mapContainer, mapOption);
+		// 지도에 마커를 생성하고 표시한다			
+		var marker = new kakao.maps.Marker({
+			position : new kakao.maps.LatLng(latitude, longitude), // 마커의 좌표
+			map : map
+		});
+		// --------- 지도 끝
+
+		
+		// --------- 변수선언
+		/*<![CDATA[*/
+		let boardNo = /*[[${bnb.boardNo}]]*/ ;
+		let mem = /*[[${session.mem}]]*/ ;
+		let memNo = "";
+		if(mem !=null){
+			memNo= mem.memNo
+		}
+		/*]]>*/
+		
+		
 		// 비활성화 날짜 체크 함수
 		function disableDays(date) {
 				var m = date.getMonth(), d = date.getDate(), y = date.getFullYear();
@@ -309,13 +333,14 @@
 		
 		var rsvDateList;
 		var maxDate;
+		
 		//datePicker
 		$(function(){
 				maxDate = /*[[${bnb.lendEndDate}]]*/;
 				maxDate = maxDate.substr(0,10)
 				minDate = /*[[${bnb.lendStrDate}]]*/;
 				minDate = minDate.substr(0,10)
-				
+				//console.log(minDate, maxDate)
 				//DB 예약 날짜 받아오기
 				$.ajax({
 					url : "checkRsvDate",
@@ -324,7 +349,8 @@
 					}
 				})
 				.done(function(result){
-					//예약 날짜 배열에 담기
+					//예약된 날짜(비활성) 배열에 담기
+					console.log("날짜?"+result)
 					rsvDateList = result;
 					//시작일 datePicker 생성 함수
 					strDateFunc()
@@ -336,61 +362,71 @@
 		
 			})
 
-				//시작날짜 datePiicker
-				function strDateFunc(){
-					$('#startDate').datepicker({
-						beforeShowDay: disableDays,
-						dateFormat: "yy-mm-dd",
-						minDate: minDate,
-						maxDate: maxDate,
-						closeText: "닫기",
-    				currentText: "오늘",
-    				prevText: '이전 달',
-   				  nextText: '다음 달',
-						monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-						monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-						dayNames: ['일', '월', '화', '수', '목', '금', '토'],
-						dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
-						dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-						weekHeader: "주",
-						yearSuffix: '년'
-					});
-				}
+			//시작날짜 datePiicker
+			function strDateFunc(){
+				$('#startDate').datepicker({
+					beforeShowDay: disableDays,
+					dateFormat: "yy-mm-dd",
+					minDate: minDate,
+					maxDate: maxDate,
+					closeText: "닫기",
+   				currentText: "오늘",
+   				prevText: '이전 달',
+  				  nextText: '다음 달',
+					monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+					monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+					dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+					dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+					dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+					weekHeader: "주",
+					yearSuffix: '년',
+				});
+			}
 
-				//종료날짜 datePiicker
-				function endDateFunc(setDate){
-					$('#endDate').datepicker( "destroy" )
-					$('#endDate').datepicker({
-						beforeShowDay : disableDays,
-						dateFormat: "yy-mm-dd",
-						minDate : setDate,
-						maxDate: maxDate,
-						closeText: "닫기",
-						currentText: "오늘",
-						prevText: '이전 달',
-						nextText: '다음 달',
-						monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-						monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-						dayNames: ['일', '월', '화', '수', '목', '금', '토'],
-						dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
-						dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-						weekHeader: "주",
-						yearSuffix: '년'
-						});
-				}
+			//종료날짜 datePiicker
+			function endDateFunc(setDate){
+				$('#endDate').datepicker( "destroy" )
+				$('#endDate').datepicker({
+					beforeShowDay : disableDays,
+					dateFormat: "yy-mm-dd",
+					minDate : setDate,
+					maxDate: maxDate,
+					closeText: "닫기",
+					currentText: "오늘",
+					prevText: '이전 달',
+					nextText: '다음 달',
+					monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+					monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+					dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+					dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+					dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+					weekHeader: "주",
+					yearSuffix: '년',
+					});
+			}
 
 				//시작날짜 변경 시
 				$('#startDate').change(function(){
-					let setDate = $('#startDate').val()
+					let setDate = $('#startDate').val();
 					//endDate datePicker 생성함수
-					endDateFunc(setDate)
+					$('#endDate').val('');
+					$('#night').text('');
+					$('#dateResult').text('');
+					$('#payResult').text('');
+					endDateFunc(setDate);
 				})
 
 				//종료날짜 변경 시
-				$('#endDate').change(function(){
-					//예약날짜 체크 함수
-					checkRsv()
-				})
+				function endChange(){
+					if($('#startDate').val() == null || $('#startDate').val().trim() === ''){
+						$('#endDate').val('');
+						Swal.fire({ title: '예약 시작 날짜를 선택하세요' , icon:'warning', confirmButtonText:"확인"});
+						return;
+					}else{
+						//예약날짜 체크 함수
+						checkRsv()
+					}
+				};
 
 				//설정날짜 사이에 예약날짜 유무확인
 				function checkRsv(){
@@ -399,52 +435,22 @@
 						if(new Date($('#endDate').val()) > new Date(date) && new Date(date) > new Date($('#startDate').val())){
 
 							//예약이 있을 경우 alert, value 비우기
-							alert('이미 예약이 존재하는 날짜입니다')
+							Swal.fire({ title: '이미 예약이 존재하는 날짜입니다.' ,
+								text:'비활성화된 날짜는 예약이 존재하는 날짜입니다. 예약된 날짜를 제외하여 선택해주시기 바랍니다.', icon:'error', confirmButtonText:"확인"});
 							$('#endDate').val('')
 							$('#startDate').val('')
-
+							$('#night').text('');
+							$('#dateResult').text('');
+							$('#payResult').text('');
 							//for문 벗어남
 							return false
+						}else{
+							//종료날짜 제대로 입력되면> 금액계산 함수
+							calculateDays();							
 						}
 					});
 				}
-
-			// --------- 지도 api
-			var latitude = document.getElementById('lati').innerText;
-			var longitude = document.getElementById('longi').innerText;
-			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-			mapOption = {
-				center : new kakao.maps.LatLng(latitude, longitude), // 지도의 중심좌표
-				level : 3, // 지도의 확대 레벨
-				mapTypeId : kakao.maps.MapTypeId.ROADMAP
-			};
-			var map = new kakao.maps.Map(mapContainer, mapOption);
-			// 지도에 마커를 생성하고 표시한다			
-			var marker = new kakao.maps.Marker({
-				position : new kakao.maps.LatLng(latitude, longitude), // 마커의 좌표
-				map : map
-			});
-			// --------- 지도 끝
-
-			
-			// --------- 변수선언
-			/*<![CDATA[*/
-			let boardNo = /*[[${bnb.boardNo}]]*/ ;
-			let mem = /*[[${session.mem}]]*/ ;
-			/*]]>*/
-			
-			
-			//--------- 날짜입력 설정
-			function minDate() {
-				let min = event.target.value;
-				console.log(min);
-				document.getElementById('endDate').value = '';
-				document.getElementById('night').innerHTML = '';
-				document.getElementById('dateResult').innerHTML = '';
-				document.getElementById('payResult').innerHTML = '';
-				document.getElementById('endDate').setAttribute('min', min);
-			}
-			
+	
 			// ---------- 날짜입력시 일수 및 금액 계산
 			function calculateDays() {
 				var startDate = new Date(
@@ -453,18 +459,23 @@
 				var timeDifference = endDate.getTime() - startDate.getTime();
 				var days = timeDifference / (1000 * 3600 * 24) + 1;
 				var nights = timeDifference / (1000 * 3600 * 24);
-				// 날짜계산
-				console.log('일 수:', days);
 				var resultElement = document.getElementById('dateResult');
 				var night = document.getElementById('night');
+				// 날짜계산
+				console.log('일 수:', days);
 				night.textContent = nights + " 박 ";
 				resultElement.textContent = days;
-				// 금액계산
-				var pay = document.getElementById('payResult');
-				var onePay = document.getElementById('onePay').innerText;
-				let total = days * onePay;
-				total = numComma(total);
-				pay.textContent = total;
+				if(days === 'NaN'){
+					resultElement.textContent='';
+					return;
+				} else {
+					// 금액계산
+					var pay = document.getElementById('payResult');
+					var onePay = document.getElementById('onePay').innerText;
+					let total = days * onePay;
+					total = numComma(total);
+					pay.textContent = total;
+				}
 			}
 
 			// ----------- 금액 천단위 콤마찍기 함수
@@ -493,13 +504,15 @@
 				let start = $('#startDate').val();
 				let end = $('#endDate').val();
 				if(mem == null) {
-					alert('로그인 필요');
-					// 로그인이나 회원가입 페이지로 넘어가기
+					//alert('로그인 필요');
+					Swal.fire({title: '로그인이 필요합니다.', icon:'warning', confirmButtonText:"확인"});
 				}else if(start == ''){
-					alert('예약 시작 날짜를 선택하세요')
+					//alert('예약 시작 날짜를 선택하세요')
+					Swal.fire({title: '예약 시작 날짜를 선택하세요', icon:'warning', confirmButtonText:"확인"});
 					return;
 				}else if(end == ''){
-					alert('예약 종료 날짜를 선택하세요')
+					//alert('예약 종료 날짜를 선택하세요')
+					Swal.fire({title: '예약 종료 날짜를 선택하세요', icon:'warning', confirmButtonText:"확인"});
 				}else{
 					//구매페이지로 보낼 배열
 					let productList = [];
@@ -671,11 +684,11 @@
 			$('#addBtn').on('click', function () {
 
 			  if (mem == null) {
-			    return alert('로그인 필요')
+			    return Swal.fire({ title: '로그인이 필요합니다' , icon:'warning', confirmButtonText:"확인"});
 			  } else if ($('#star').val() == '0') {
-			    return alert('별점을 선택하세요')
+			    return Swal.fire({ title: '별점을 선택하세요' , icon:'warning', confirmButtonText:"확인"});
 			  } else if ($('#reviewText').val() == '') {
-			    return alert('리뷰를 입력하세요')
+			    return Swal.fire({ title: '리뷰를 입력하세요' , icon:'warning', confirmButtonText:"확인"});
 			  } else {
 			    let star = $('#star').val();
 			    let text = $('#reviewText').val();
@@ -684,7 +697,7 @@
 			      url: `rev/review`,
 			      method: 'POST',
 			      data: {
-			        memNo: mem.memNo,
+			        memNo: memNo,
 			        rate: star,
 			        revDesct: text,
 			        boardNo: boardNo
@@ -703,19 +716,19 @@
 			})
 			
 			//리뷰등록폼 - 결제한 사람만 보이기
-			/*<![CDATA[*/
-			let memList = /*[[${pay}]]*/ ;
-			/*]]>*/
+			let memList = /*[[${pay}]]*/ ;			
+			memList.find(findMem);			
 			function findMem(element)  {
-			  if(element == mem.memNo) {
+			  if(element == memNo) {
 				 let rvForm = document.querySelector('.review-form')
 				 rvForm.style.display = 'block';
-				  return console.log("true");
-			  } else{
-				  return console.log("false");
+				 console.log("true");
+				  return ;
+			  } else {
+				  console.log("false");
+				  return ;
 			  } 
 			}
-			memList.findIndex(findMem);
 			
 			//리뷰 삭제 기능	
 			$('#reviewTable').on('click', '.revDel', function () {
@@ -723,12 +736,19 @@
 				  const revMem = rowData.find('.revData').data('memno');
 				  const revNo = rowData.find('.revData').data('revno');
 			  if(mem == null){
-				 alert('삭제할 수 없습니다.')				 
-			  }else if(revMem == mem.memNo){	  
-			 	 let confirmDelete = confirm("리뷰를 삭제하시겠습니까?");
-				 if (confirmDelete) {
-				    console.log("리뷰 삭제 번호:", revNo);
-		
+				 //alert('삭제할 수 없습니다.')
+				  Swal.fire({ title: '삭제할 수 없습니다.' , icon:'error', confirmButtonText:"확인"});
+			  }else if(revMem == memNo){	  
+			 	 Swal.fire({ title: '리뷰를 삭제하시겠습니까?' ,
+							icon:'warning', 
+							showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+							confirmButtonColor: '#d33', // confrim 버튼 색깔 지정
+							cancelButtonColor: '#3085d6', // cancel 버튼 색깔 지정
+							confirmButtonText: '삭제', // confirm 버튼 텍스트 지정
+							cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+	 				}).then(result => {
+	 						   // 만약 Promise리턴을 받으면,
+	 				if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
 				    $.ajax({
 				      url: 'rev/revDel',
 				      method: 'GET',
@@ -747,9 +767,9 @@
 				  } else {
 				    console.log("삭제 취소");
 				  }
-			  }
-			  else{
-				  alert('작성자만 삭제 가능합니다. ')
+			  })
+				}else{
+				  Swal.fire({ title: '작성자만 삭제 가능합니다' , icon:'error', confirmButtonText:"확인"});
 			  }		  	  
 		   });
 		// ---------------------------------  리뷰  기능  끝  ------------------------------------ //

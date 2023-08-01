@@ -1,10 +1,12 @@
 package com.yedam.app.market.vo;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.yedam.app.common.vo.ReviewVO;
 
 import lombok.Data;
 
@@ -48,5 +50,6 @@ public class MarketVO {
 	// review
 	private int count;
 	private int round;
+	private List<ReviewVO> reviews;
 
 }

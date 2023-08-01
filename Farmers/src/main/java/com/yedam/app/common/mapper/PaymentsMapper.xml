@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.yedam.app.common.mapper.PaymentsMapper">
+	<!-- 결제 회원 정보 -->
+	<select id="getMemberData" resultType="MemberPayVO">
+		SELECT *
+		FROM member JOIN
+		member_detail USING(mem_no)
+		WHERE mem_no = #{memNo}
+	</select>
+
+	<!-- 상품정보 -->
+	<select id="getProductInfo" statementType="CALLABLE" parameterType="PaymentDetailVO" resultType="PaymentDetailVO">
+		{
+			CALL GETPAYPRODUCT(
+				#{boardNo, mode=IN , jdbcType=VARCHAR},
+				#{boardCtg, mode=IN , jdbcType=VARCHAR},
+				#{title, mode=OUT , jdbcType=VARCHAR},
+				#{price, mode=OUT , jdbcType=VARCHAR},
+				#{rep, mode=OUT , jdbcType=VARCHAR}
+			)
+		}
+	</select>
+
+	<!-- payment 테이블 insert 프로시저 -->
+	<select id="insertPaymnet" parameterType="PaymentVO" statementType="CALLABLE" resultType="PaymentVO">
+		{
+		CALL insert_payment (
+		#{payNo,
+		mode=OUT , jdbcType = VARCHAR},
+		#{memNo, mode=IN , jdbcType = VARCHAR},
+		#{rcvName, mode=IN , jdbcType = VARCHAR},
+		#{rcvMbl, mode=IN , jdbcType
+		= VARCHAR},
+		#{rcvAddr, mode=IN , jdbcType = VARCHAR},
+		#{rcvDetaAddr,
+		mode=IN , jdbcType = VARCHAR},
+		#{usePnt, mode=IN , jdbcType = VARCHAR},
+		#{payMthd, mode=IN , jdbcType = VARCHAR},
+		#{totalPayPrice, mode=IN ,
+		jdbcType = VARCHAR},
+		#{payCode, mode=IN , jdbcType = VARCHAR}
+		)
+		}
+	</select>
+
+	<!--payment_detail 테이블 입력 프로시저 -->
+	<select id="insertPayDetail" parameterType="PayProductVO">
+		{
+		CALL
+		insert_pay_detail (
+		#{boardNo, mode=IN , jdbcType = VARCHAR},
+		#{payNo,mode=IN , jdbcType = VARCHAR},
+		#{memNo, mode=IN , jdbcType =
+		VARCHAR},
+		#{qty, mode=IN , jdbcType = VARCHAR},
+		#{price, mode=IN ,
+		jdbcType =VARCHAR},
+		#{boardCtg, mode=IN , jdbcType = VARCHAR},
+		#{rsvStrDate, mode=IN , jdbcType = DATE},
+		#{rsvEndDate, mode=IN ,
+		jdbcType = DATE}
+		)
+		}
+	</select>
+
+	<!-- resultMap 사용 -->
+	<resultMap type="PaymentVO" id="paymentResult">
+		<result property="payNo" column="pay_no" />
+		<result property="memNo" column="mem_no" />
+		<result property="rcvName" column="rcv_name" />
+		<result property="rcvMbl" column="rcv_mbl" />
+		<result property="rcvAddr" column="rcv_addr" />
+		<result property="rcvDetaAddr" column="rcv_deta_addr" />
+		<result property="usePnt" column="use_pnt" />
+		<result property="payMthd" column="pay_mthd" />
+		<result property="totalPayPrice" column="total_pay_price" />
+		<result property="payCode" column="pay_code" />
+		<result property="payDate" column="pay_date" />
+		<collection property="paymentDetails" javaType="ArrayList"
+			column="payNo = pay_no" ofType="PaymentDetailVO"
+			select="selectDetailForPay"></collection>
+	</resultMap>
+
+	<select id="getPayList" resultMap="paymentResult">
+		SELECT *
+		FROM payment
+		WHERE
+		pay_no = #{payNo}
+	</select>
+
+	<select id="selectDetailForPay" resultType="PaymentDetailVO">
+		SELECT PAY_DETA_NO,
+		BOARD_NO,
+		PAY_NO,
+		QTY,
+		PRICE,
+		find_code_name(ship_stts) SHIP_STTS,
+		BOARD_CTG,
+		rsv_str_date,
+		rsv_end_date
+		FROM payment_detail
+		WHERE pay_no = #{payNo}
+	</select>
+
+	<select id="getPayMember" resultType="String">
+		select mem_no
+		from payment p JOIN payment_detail d
+		on p.pay_no = d.pay_no
+		where board_no = #{boardNo}
+	</select>
+
+</mapper> 
