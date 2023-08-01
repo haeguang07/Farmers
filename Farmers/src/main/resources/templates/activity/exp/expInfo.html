@@ -68,7 +68,7 @@
 												<span th:text="|${#dates.format(expInfo.exStrDate, 'yyyy/MM/dd')} ~ ${#dates.format(expInfo.exEndDate, 'yyyy/MM/dd')}|">체험 시작 ~ 종료 일자</span></p>
 											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">참여 인원 : </b> 
 												<span id="aplPer"></span>
-												<span th:text="${expInfo.pptPer} + 명">최대 참여 인원</span>
+												<span th:text="최대 + ${expInfo.pptPer} + 명">최대 참여 인원</span>
 											</p>
 											<th:block th:if="${session.mem.memNo} != ${expInfo.memNo}">
 												<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">신청 인원 : </b>
@@ -150,7 +150,7 @@
 					console.log(apl);
 				}
 			})
-			$('#aplPer').append(apl + '명 /');
+			$('#aplPer').append('현재 ' + apl + '명 /');
 			
 			// 데이터에 있는 수량보다 높게 입력하려고 했을 때 실행되는 함수
 			function maxValue(Object) {
@@ -185,18 +185,39 @@
 				})
 				.done(function(result) {
 					console.log(result);
-					Swal.fire({
-						icon : 'success',
-						title : '신청 성공',
-						text : '성공적으로 신청이 되었습니다',
-						confirmButtonText : "확인"
-					})
-					Swal.fire({
-						icon : 'error',
-						title : '신청 실패',
-						text : '신청에 실패했습니다',
-						confirmButtonText : "확인"
-					})
+					if(result == "success") {
+						Swal.fire({
+							icon : 'success',
+							title : '신청 성공',
+							text : '성공적으로 신청이 되었습니다',
+							confirmButtonText : "확인"
+						})
+						.then(function() {
+							let alrtTitle = '농촌 체험하기를 신청하였습니다';
+							let alrtDesct = "'" + expInfo.title + "'" + '를 신청하였습니다';
+							let boardCtg = /*[[${codeInfo}]]*/;
+							$.ajax({
+								url : "/sendAlert",
+								method : "GET",
+								data : {
+									memNo : mem.memNo,
+									alrtTitle : alrtTitle,
+									alrtDesct : alrtDesct,
+									boardCtg : boardCtg[4].cmmnDetaCode
+								}
+							})
+							.done(function() {
+								location.href = "/myPage/myExpForm";
+							})
+						})
+					} else {
+						Swal.fire({
+							icon : 'error',
+							title : '신청 실패',
+							text : '신청에 실패했습니다',
+							confirmButtonText : "확인"
+						})
+					}
 				})
 				.fail(function(result) {
 					Swal.fire({
@@ -222,10 +243,32 @@
 				})
 				.done(function(result) {
 					console.log(result);
-					location.href = "/expList";
+					if(result == "success") {
+						Swal.fire({
+							icon : 'success',
+							title : '삭제 성공',
+							text : '성공적으로 삭제되었습니다',
+							confirmButtonText : "확인"
+						})
+						.then(function() {
+							location.href = "/expList";
+						})
+					} else {
+						Swal.fire({
+							icon : 'error',
+							title : '삭제 실패',
+							text : '삭제하지못했습니다',
+							confirmButtonText : "확인"
+						})
+					}
 				})
 				.fail(function(result) {
-					console.log(result);
+					Swal.fire({
+						icon : 'error',
+						title : '오류',
+						text : '페이지 호출 오류',
+						confirmButtonText : "확인"
+					})
 				})
 			});
 		</script>

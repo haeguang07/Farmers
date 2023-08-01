@@ -51,7 +51,7 @@
 													<ul>
 														<li><a href="/bnbList">농촌 비엔비</a></li>
 														<li><b><a href="/expList" style="color: black;">농촌 체험하기</a></b></li>
-														<li><a href="#">금손 귀농인</a></li>
+														<li><a href="/skilled">금손 귀농인</a></li>
 													</ul>
 												</div>
 											</div>
@@ -85,6 +85,7 @@
 											aria-label="Default select example" id="dst2">
 											<option value="">시·군</option>
 										</select>
+										<button type="button" class="form-control" style="width: 170px; float: right;" id="reset">검색 조건 초기화</button>
 									</div>
 								</div>
 							</div>
@@ -228,7 +229,6 @@
 			function printItem(index, item) {
 				let clone = $('#expItem').clone();
 				$(clone).removeClass('hideItem');
-				console.log(item);
 				let apl = 0;
 				item.expApplyList.forEach(index => {
 					if(index.aplStts === 'e1') {
@@ -238,9 +238,11 @@
 				
 				$(clone).find('#number').text(index + 1);
 				$(clone).find('#title').text(item.title);
-				$(clone).find('#reception').text(apl + '명 / ' + item.pptPer + '명');
-				$(clone).find('#addr').text(item.addr + ' ' + item.detaAddr);
-				$(clone).find('#date').text(item.exStrDate + ' ~ ' + item.exEndDate);
+				$(clone).find('#reception').text('현재 ' + apl + '명 / ' + '최대 ' + item.pptPer + '명');
+				let address = $(clone).find('#addr').text(item.addr + ', ' + item.detaAddr);
+				address.html(address.html().replace(', ', '<br>'))
+				let date = $(clone).find('#date').text(item.exStrDate + ' ~ ' + item.exEndDate);
+				date.html(date.html().replace('~', '<br>~<br>'));
 				
 				$(clone).find('#title').on('click', function() {
 					if(mem != null) {
@@ -329,6 +331,17 @@
 			$('#dst2').change(function() {
 				getCondition();
 			});
+			// 검색 조건 초기화 버튼 클릭 시
+			$('#reset').on('click', function() {
+				$('#expStart').val("");
+				$("#dst1 option:eq(0)").prop("selected", true);
+				$("#dst2 option:eq(0)").prop("selected", true);
+				
+				$('#dst1').niceSelect('update');
+				$('#dst2').niceSelect('update');
+				
+				getCondition();
+			})
 		</script>
 	</div>
 </body>
