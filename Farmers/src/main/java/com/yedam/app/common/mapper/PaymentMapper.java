@@ -12,7 +12,7 @@ public interface PaymentMapper {
 	public MemberPayVO getMemberData(String memNo);
 	
 	//결제상품정보
-	public PaymentDetailVO getProductInfo(PaymentDetailVO vo);
+	public void getProductInfo(PaymentDetailVO vo);
 	
 	//결제정보입력
 	public void insertPaymnet(PaymentVO vo);
