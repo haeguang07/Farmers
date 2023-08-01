@@ -12,6 +12,7 @@
     "@fortawesome/free-brands-svg-icons": "^6.4.0",
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
     "@mdi/font": "5.9.55",
+    "@vue/cli-service": "^5.0.8",
     "@vuepic/vue-datepicker": "^5.4.0",
     "@vueup/vue-quill": "^1.2.0",
     "axios": "^1.4.0",
@@ -27,7 +28,8 @@
     "vue3-tui-grid": "^0.1.51",
     "vuetify": "^3.3.10",
     "vuex": "^4.0.0",
-    "webfontloader": "^1.0.0"
+    "webfontloader": "^1.0.0",
+    "webpack-chain": "^6.5.1"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
@@ -36,7 +38,6 @@
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-plugin-vuex": "~5.0.0",
-    "@vue/cli-service": "~5.0.0",
     "webpack-plugin-vuetify": "^2.0.0-alpha.0"
   },
   "browserslist": [
