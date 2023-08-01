@@ -9,8 +9,12 @@
 <meta name="keywords" content="Auction">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>이벤트 상세조회</title>
+<title>커뮤니티 상세조회</title>
 <style>
+.hidden {
+	display: none;
+}
+
 .title {
 	font-weight: bold;
 	font-size: 20px;
@@ -101,9 +105,13 @@ keyframes fade { 0% {
 
 
 
+
+
 %
 {
 color
+
+
 
 
 
@@ -113,7 +121,11 @@ color
 
 
 
+
+
 #e23b3b
+
+
 
 
 ;
@@ -123,9 +135,13 @@ color
 
 
 
+
+
 %
 {
 color
+
+
 
 
 
@@ -135,7 +151,11 @@ color
 
 
 
+
+
 #transparent
+
+
 
 
 ;
@@ -150,6 +170,8 @@ keyframes size { 0% {
 
 
 
+
+
 %
 {
 padding
@@ -157,7 +179,11 @@ padding
 
 
 
+
+
 :
+
+
 
 
 
@@ -167,7 +193,11 @@ padding
 
 
 
+
+
 16px
+
+
 
 
 
@@ -175,8 +205,12 @@ padding
 12px
 
 
+
+
 ;
 margin-top
+
+
 
 
 
@@ -186,12 +220,18 @@ margin-top
 
 
 
+
+
 -4px
+
+
 
 
 ;
 }
 100
+
+
 
 
 
@@ -203,7 +243,11 @@ padding
 
 
 
+
+
 :
+
+
 
 
 
@@ -213,12 +257,18 @@ padding
 
 
 
+
+
 12px
 
 
 
 
+
+
 8px
+
+
 
 
 ;
@@ -277,49 +327,56 @@ padding
 						</div>
 					</div>
 					<div class="col-lg-9">
+						<div class="row">
+							<div class="col-lg-11">
+								<h5 class="title text-left" th:text="${cmmnInfo[0].title}"></h5>
+							</div>
+							<div>
+								<label class="smallChar">조회수 <span class="smallChar"
+									th:text="${cmmnInfo[0].hitCount}"></span></label>
+							</div>
+						</div>
+
+						<hr>
+						<div class="smallChar">
+							<span class="text-right">작성자 : </span><span
+								th:text="${cmmnInfo[0].nick}"></span><span class="right"
+								th:text="${#dates.format(cmmnInfo[0].wrtDate, 'yyyy/MM/dd')}"></span>
+						</div>
+						<div class="content">
+							<br> <img
+								th:if="${cmmnInfo[0].img != null and cmmnInfo[0].img != (null)}"
+								th:src="${cmmnInfo[0].img}" alt="">
+							<p class="desct" th:utext="${cmmnInfo[0].desct}"></p>
+						</div>
+						<!-- 정회원, 관리자, 작성자에 따라 하트 및 버튼 목록 조건 걸어야 함 -->
 						<div>
-							<h5 class="title text-left" th:text="${cmmnInfo[0].title}"></h5>
-							<hr>
-							<div class="smallChar">
-								<span class="text-right">작성자 : </span><span
-									th:text="${cmmnInfo[0].nick}"></span><span class="right"
-									th:text="${#dates.format(cmmnInfo[0].wrtDate, 'yyyy/MM/dd')}"></span>
-							</div>
-							<div class="content">
-								<br> <img
-									th:if="${cmmnInfo[0].img != null and cmmnInfo[0].img != (null)}"
-									th:src="${cmmnInfo[0].img}" alt="">
-								<p class="desct" th:utext="${cmmnInfo[0].desct}"></p>
-							</div>
-							<!-- 정회원, 관리자, 작성자에 따라 하트 및 버튼 목록 조건 걸어야 함 -->
-							<div>
-								<span>♡</span>
-							</div>
-							<hr>
-							<div>
-								<button type="button" id="updateBtn"
-									th:onclick="'location.href=\'' + @{${'updateCmmn?postCtg=i3&boardNo=' + cmmnInfo[0].boardNo + '&dst1=' + cmmnInfo[0].dst1}} + '\''">수정</button>
-								<button type="button" id="delBtn">삭제</button>
-								<button type="button"
-									th:onclick="'location.href=\''+ @{${'cmmnList'}} + '\''">목록</button>
-								<div class="col-lg-12">
-									<div class="form-group">
-										<table style="width: 800px;">
-											<tr>
-												<td><label for="cmtDesct" style="text-align: center;">댓글</label>
-												</td>
-												<td><textarea class="form-control"
-														style="display: inline-block;" id="cmtDesct" rows="3"
-														placeholder="댓글을 입력하세요"></textarea></td>
-											</tr>
-										</table>
-										<div>
-											<button type="button" id="addReply">댓글작성</button>
-										</div>
+							<span>♡</span>
+						</div>
+						<hr>
+						<div>
+							<button type="button" id="updateBtn"
+								th:onclick="'location.href=\'' + @{${'updateCmmn?postCtg=i3&boardNo=' + cmmnInfo[0].boardNo + '&dst1=' + cmmnInfo[0].dst1}} + '\''">수정</button>
+							<button type="button" id="delBtn">삭제</button>
+							<button type="button"
+								th:onclick="'location.href=\''+ @{${'cmmnList'}} + '\''">목록</button>
+							<div class="col-lg-12">
+								<div class="form-group">
+									<table style="width: 800px;">
+										<tr>
+											<td><label for="cmtDesct" style="text-align: center;">댓글</label>
+											</td>
+											<td><textarea class="form-control"
+													style="display: inline-block;" id="cmtDesct" rows="3"
+													placeholder="댓글을 입력하세요"></textarea></td>
+										</tr>
+									</table>
+									<div>
+										<button type="button" id="addReply">댓글작성</button>
 									</div>
-									<div class="row col-lg-12">
-										<div id="cmtList"></div>
-									</div>
+								</div>
+								<div class="row col-lg-12">
+									<div id="cmtList"></div>
 								</div>
 							</div>
 						</div>
@@ -334,10 +391,11 @@ padding
 						class="rcmNum">0</label></td>
 					<td class="center" style="width: 150px;"><i></i> <span
 						class="liked">liked!</span> <i class='fas fa-exclamation-triangle'
-						style='font-size: 18px; color: red'></i> <i class="fa fa-close"
-						style="font-size: 20px;" th:onclick="deleteReply()"></i></td>
+						style='font-size: 18px; color: red'></i> <i
+						class="fa fa-close delete" style="font-size: 20px;"></i></td>
 				</tr>
 				<tr style="border-bottom: 1px solid lightgray;">
+					<td class="hidden cmtNo"></td>
 					<td class="center vertical" id="wrtDate"></td>
 				</tr>
 			</table>
@@ -359,7 +417,7 @@ padding
 			
 			$('#delBtn').on('click', function(){
 				$.ajax({
-					url: "deleteCmmn",
+					url: "deleteBoard",
 					method: 'DELETE',
 					data: {boardNo},
 					success: function(data){
@@ -407,7 +465,7 @@ padding
 					},
 					success: function(data){
 						alert('댓글 등록이 완료되었습니다.');
-
+						$('#cmtDesct').val('');
 						replyData();
 					},
 					error: function(reject){
@@ -437,6 +495,7 @@ padding
 				$(clone).find('.nickname').text(item.nick);
 				$(clone).find('.cmtD').text(item.cmtDesct);
 				$(clone).find('.rcmNum').text(item.rcmNum);
+				$(clone).find('.hidden').text(item.cmtNo);
 				$(clone).find('#wrtDate').text(item.wrtDate);
 				
 				$('#cmtList').append(clone);
@@ -450,10 +509,28 @@ padding
 			  });
 			
 			// 댓글 삭제 기능
-			function deleteReply(){
-				
-			}
-		</script>
+		    $('#cmtList').on('click', '.delete', function(e) {
+		    	let deleteIcon = e.target;
+		        let reply = $(deleteIcon).closest('tbody');
+		        let cmtNo = reply.find('.cmtNo').text();
+		        console.log(cmtNo);
+		        
+		        $.ajax({
+		        	url: "deleteReply",
+		        	method: 'DELETE',
+		        	data: {cmtNo},
+		        	success: function(data){
+		        		console.log(data);
+		        		alert('댓글 삭제가 완료되었습니다.');
+		        		reply.remove();
+		        	},
+		        	error: function(reject){
+		        		alert('삭제가 정상적으로 진행되지 않았습니다.');
+		        	}
+		        }) 
+		    })
+			
+			</script>
 	</div>
 </body>
 </html>

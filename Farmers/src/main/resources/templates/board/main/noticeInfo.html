@@ -69,7 +69,7 @@
 												<div class="shop__sidebar__categories">
 													<ul class="nice-scroll">
 														<li><b><a href="noticeList" style="color: black;">공지사항</a></b></li>
-														<li><a href="commnList">커뮤니티</a></li>
+														<li><a href="cmmnList">커뮤니티</a></li>
 														<li><a href="eventList">이벤트</a></li>
 													</ul>
 												</div>
@@ -131,7 +131,7 @@
 			
 			$('#delBtn').on('click', function(){
 				$.ajax({
-					url: "deleteEvent",
+					url: "deleteBoard",
 					method: 'DELETE',
 					data: {boardNo},
 					success: function(data){

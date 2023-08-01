@@ -56,6 +56,11 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
+	public boolean deleteReply(String cmtNo) {
+		return boardMapper.deleteReply(cmtNo) > 0;
+	}
+	
+	@Override
 	public boolean hitCounting(String boardNo) {
 		return boardMapper.hitCounting(boardNo) > 0;
 	}

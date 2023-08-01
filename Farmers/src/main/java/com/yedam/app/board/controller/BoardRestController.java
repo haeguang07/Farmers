@@ -172,23 +172,9 @@ public class BoardRestController {
 		return map;
 	}
 	
-	// 커뮤니티 삭제
-	@DeleteMapping("deleteCmmn")
+	// 게시글 삭제
+	@DeleteMapping("deleteBoard")
 	public Map<String, Object> deleteCmmn(String boardNo){
-		Map<String, Object> map = new HashMap<>();
-		
-		if(boardService.deleteBoard(boardNo)) {
-			map.put("retCode", "Success");
-		} else {
-			map.put("retCode", "Fail");
-		}
-		
-		return map;
-	}
-	
-	// 이벤트 삭제
-	@DeleteMapping("deleteEvent")
-	public Map<String, Object> deleteEvent(String boardNo){
 		Map<String, Object> map = new HashMap<>();
 		
 		if(boardService.deleteBoard(boardNo)) {
@@ -223,5 +209,20 @@ public class BoardRestController {
 		
 		return map;
 	}
+	
+	// 댓글 삭제
+	@DeleteMapping("deleteReply")
+	public Map<String, Object> deleteReply(String cmtNo){
+		Map<String, Object> map = new HashMap<>();
+		
+		if(boardService.deleteReply(cmtNo)) {
+			map.put("retCode", "Success");
+		} else {
+			map.put("retCode", "Fail");
+		}
+		
+		return map;
+	}
+	
 
 }

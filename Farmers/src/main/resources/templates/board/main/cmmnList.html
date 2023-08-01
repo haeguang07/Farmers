@@ -179,6 +179,21 @@
 			    
 			    tr.on('click', function(){
 			    	location.href = `cmmnInfo?postCtg=i3&boardNo=${item.boardNo}`;
+			    	
+			    	// 조회 수 증가 ajax 실행
+			    	$.ajax({
+			    		url: "/count",
+			    		method: "POST",
+			    		data: {
+			    			boardNo : item.boardNo
+			    		},
+			    		success: function(result){
+			    			console.log(result.retCode);
+			    		},
+			    		error: function(result){
+			    			console.log(result.retCode);
+			    		}
+			    	})
 			    })
 			}
             	
