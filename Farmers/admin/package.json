@@ -34,7 +34,9 @@
     "vue3-tui-grid": "^0.1.51",
     "vuetify": "^3.3.10",
     "vuex": "^4.0.0",
-    "webfontloader": "^1.0.0"
+    "webfontloader": "^1.0.0",
+    "webpack-chain": "^6.5.1",
+    "webpack-plugin-vuetify": "^2.0.1"
   },
   "browserslist": [
     "> 1%",
