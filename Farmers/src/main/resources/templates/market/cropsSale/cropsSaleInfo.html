@@ -100,7 +100,7 @@
 											</div>
 											<hr>
 											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 25px;">가격</b> 
-												<span th:text="${#numbers.formatInteger(csInfo.price, 3, 'COMMA')} + '원'" style="font-size: 20px;"></span>
+												<span th:text="${#numbers.formatInteger(csInfo.price, 1, 'COMMA')} + '원'" style="font-size: 20px;"></span>
 											</p>
 											<p style="margin-bottom: 0px; text-align: left;"><b style="font-size: 20px;">별점</b>
 											(리뷰갯수 <span th:text="${reviewCount.count}">리뷰갯수</span> 개)
@@ -325,23 +325,52 @@
 			});
 			// 삭제 버튼 클릭 시
 			$('#delete').on('click', function() {
-				console.log(boardNo);
-				$.ajax({
-					url : "/cropsSaleDelete",
-					method : "POST",
-					data : 'boardNo=' + boardNo
+				Swal.fire({
+					icon : 'warning',
+					title : '게시물 삭제',
+					text : '게시물을 삭제하시겠습니까?',
+					showCancelButton: true, // 취소 버튼 보여주기
+					confirmButtonText : "승인",
+					cancelButtonText: '취소',
+					reverseButtons: true, // 버튼 순서 거꾸로
 				})
-				.done(function(result) {
-					console.log(result);
-					location.href="/cropsSaleList";
-				})
-				.fail(function(result) {
-					Swal.fire({
-						icon : 'error',
-						title : '삭제 실패',
-						text : '삭제에 실패했습니다',
-						confirmButtonText : "확인"
-					})
+				.then((result) => {
+					if(result.isConfirmed) {
+						$.ajax({
+							url : "/cropsSaleDelete",
+							method : "POST",
+							data : 'boardNo=' + boardNo
+						})
+						.done(function(result) {
+							console.log(result);
+							if(result == "success") {
+								Swal.fire({
+									icon : 'success',
+									title : '삭제 성공',
+									text : '성공적으로 삭제되었습니다',
+									confirmButtonText : "확인"
+								})
+								.then(function() {
+									location.href="/cropsSaleList";
+								})
+							} else {
+								Swal.fire({
+									icon : 'error',
+									title : '삭제 실패',
+									text : '삭제에 실패했습니다',
+									confirmButtonText : "확인"
+								})
+							}
+						})
+						.fail(function(result) {
+							Swal.fire({
+								icon : 'error',
+								title : '오류',
+								text : '페이지 호출 오류',
+								confirmButtonText : "확인"
+							})
+						})
+					}
 				})
 			});
 			

@@ -38,7 +38,7 @@ input[type=text], input[type=password] {
 	text-align: center;
 }
 
-button {
+.button {
 	background-color: #1F502A;
 	color: white;
 	padding: 14px 20px;

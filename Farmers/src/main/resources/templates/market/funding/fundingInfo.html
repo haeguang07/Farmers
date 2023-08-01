@@ -9,7 +9,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>FundingInfo</title>
-	<link rel="stylesheet" href="css/sungWookCss/sungook.css" type="text/css">
+	<link rel="stylesheet" href="css/sungwookCss/sungook.css" type="text/css">
 </head>
 
 <body>
@@ -187,7 +187,7 @@
 				productList.push(obj)
 
 				//상품객체배열을 json 변환 후 결제피이지 파라미터로 보냄 (한글, 특수문자가 url 인코딩이 안되서 encodeURI 사용)
-				location.href = "payment?productList=" + encodeURI(JSON.stringify(productList));
+				location.href = "/payment?productList=" + encodeURI(JSON.stringify(productList));
 			})
 		</script>
 	</div>

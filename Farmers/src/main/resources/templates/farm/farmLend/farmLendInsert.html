@@ -404,7 +404,7 @@
 					Swal.fire({
 						icon : 'info',
 						title : '주요 재배 작물 미등록',
-						text : '주요 재배 작물을 선택하세요',
+						text : '최소 하나의 주요 재배 작물을 선택하세요',
 						confirmButtonText : "확인"
 					})
 					return;
@@ -455,7 +455,9 @@
 								text : '등록이 완료되었습니다',
 								confirmButtonText : "확인"
 							})
-							location.href = "/farmLendList";							
+							.then(function() {
+								location.href = "/farmLendList";							
+							})
 						} else {
 							Swal.fire({
 								icon : 'error',
@@ -463,7 +465,6 @@
 								text : '등록에 실패했습니다',
 								confirmButtonText : "확인"
 							})
-							location.href = "/farmLendList";
 						}
 					})
 					.fail(function(result) {
@@ -473,7 +474,6 @@
 							text : '페이지 호출 오류',
 							confirmButtonText : "확인"
 						})
-						location.href = "/farmLendList";
 					})
 				}
 			});

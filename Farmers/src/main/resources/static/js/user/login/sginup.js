@@ -190,6 +190,7 @@
 					if(!confirm('아직 입력하지 않은 정보가 있습니다\n그대로 회원가입을 하시겠습니까?')){
 						return;
 					}
+					zip=0;
 
 				}
 
@@ -208,7 +209,7 @@
 				};
 
 				$.ajax({
-					url: 'signup',
+					url: '/signup',
 					method: 'POST',
 					data: member,
 					success(data) {

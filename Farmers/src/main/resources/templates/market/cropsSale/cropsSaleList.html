@@ -300,11 +300,15 @@
 				$(clone).removeClass('hideItem');
 				starRate(item.rateAvg, clone);
 				$(clone).find('#name').text(item.title);
-				$(clone).find('#price').text(item.price + '원');
+				$(clone).find('#price').text(priceToString(item.price) + '원');
 				$(clone).find('#rateCnt').text('('+item.rateCnt+')');
 				$(clone).find('#date').text(item.regDate);
 				$(clone).find('#img').css('background-image', 'url('+item.rep+')');
 				$(clone).find('#img').css('cursor', 'pointer');
+				
+				function priceToString(price) {
+					return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+				}
 				
 				$(clone).find('#img').on('click', function() {
 					location.href = "/cropsSaleInfo?boardNo=" + item.boardNo;
@@ -367,7 +371,6 @@
 			});
 			// 검색 창에서 엔터 클릭 시
 			$('#search').keyup(function(event) {
-				// console.log(event);
 				if(event.keyCode == 13 || event.which == 13) {
 					getCondition();
 				}

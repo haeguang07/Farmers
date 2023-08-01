@@ -115,7 +115,7 @@ public class CropsSaleController {
 	@ResponseBody
 	public String deleteCropsSale(String boardNo) {
 		csService.deleteCropsSaleInfo(boardNo);
-		return "market/cropsSale/cropsSaleList";
+		return "success";
 	}
 	
 	// 리뷰 리스트 조회

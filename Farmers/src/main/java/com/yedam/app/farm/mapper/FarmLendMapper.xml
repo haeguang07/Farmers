@@ -107,10 +107,10 @@
 	</update>
 	
 	<!-- 삭제 -->
-	<update id="deleteFarmLend" parameterType="FarmLendVO">
-		update farm_lend
-		set reg_stts = 'e6'
-		where board_no = #{boardNo}
+	<update id="deleteFarmLend" statementType="CALLABLE">
+		call delete_farmlend(
+			#{boardNo}
+		)
 	</update>
 	
 	<!-- 게시글 수 카운팅 -->
