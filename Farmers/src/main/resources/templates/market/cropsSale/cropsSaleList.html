@@ -138,42 +138,16 @@
 							</div>
 						</div>
 						<div class="row" id="cropsSaleDiv">
-							<!-- <div class="col-lg-4 col-md-6 col-sm-6" th:each="cropsSale : ${csList}">
-								<div class="product__item" th:onclick="|location.href='@{cropsSaleInfo(crpSaleNo=${cropsSale.crpSaleNo})}'|">
-									<div class="product__item__pic set-bg"
-										data-setbg="img/product/product-2.jpg">
-										<ul class="product__hover">
-											<li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-										</ul>
-									</div>
-									<div class="product__item__text">
-										<h6 th:text="${cropsSale.crpTitle}">상품명</h6>
-										<a href="#" class="add-cart">+ Add To Cart</a>
-										<p th:text="${cropsSale.price} + '원'">가격</p>
-										<div class="rating">
-											<i class="fa fa-star-o"></i>
-											<i class="fa fa-star-o"></i>
-											<i class="fa fa-star-o"></i>
-											<i class="fa fa-star-o"></i>
-											<i class="fa fa-star-o"></i>
-											<p th:text="${#dates.format(cropsSale.regDate, 'yyyy/MM/dd')}" style="display: inline-block; margin-left: 120px;">등록날짜</p>
-										</div>
-									</div>
-								</div>
-							</div> -->
 						</div>
 						<div class="row">
 							<div class="col-lg-12" id="pageDiv">
-								<!-- <div class="product__pagination">
-									<a class="active" href="#">1</a> <a href="#">2</a> <a href="#">3</a>
-								</div> -->
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-lg-12">
 								<button type="button" class="btn btn-dark"
-									style="width: 130px; height: 40px; float: right; margin-right: 30px; margin-bottom: 20px;"
-									id="add">판매물품 등록</button>
+									style="width: 130px; height: 40px; float: right; 
+									margin-right: 30px; margin-bottom: 20px;"id="add">판매물품 등록</button>
 							</div>
 						</div>
 					</div>
@@ -190,7 +164,7 @@
 					<p id="price" style="margin-bottom: 0px;">가격</p>
 					<div class="rating-wrap">
 						<div class="rating">
-							<div class="overlay"></div>						
+							<div class="overlay"></div>
 						</div>
 						<span id="rateCnt" style="line-height: 50px;"></span>
 					</div>
@@ -229,7 +203,7 @@
 	        	// 별점 마킹 함수
 	            function setRating(val = 0){
 	                $(clone).find('.overlay').css('width', parseInt(maskMax - val * starSize - Math.floor(val) * gutter) + 'px');// 마스크 크기 변경해서 별점 마킹
-	            }	
+	            }
     		}
 			
 			/*<![CDATA[*/
