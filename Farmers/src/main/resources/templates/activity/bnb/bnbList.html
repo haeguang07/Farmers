@@ -14,6 +14,11 @@
 .product__pagination {
 	margin: auto;
 }
+
+.review>i {
+	color: #f7941d;
+	font: normal normal normal 14px/1 FontAwesome;
+}
 </style>
 </head>
 <body>
@@ -130,6 +135,7 @@
 				<div class="product__item__text">
 					<h5 class="title">숙소명</h5>
 					<h6 class="price" style="color: grey">금액</h6>
+					<span class="review">리뷰</span>
 				</div>
 			</div>
 		</div>
@@ -168,7 +174,6 @@
 			let bnb= data.bnb;
 			let page = data.page; 
 			bnb.forEach(el => {
-				console.log(el)
 				printList(el)
 			})			
 			printPage(page,region,order);
@@ -184,8 +189,27 @@
 			$(clone).find('.set-bg').css("background-image",`url(${item.rep})`)
 			$(clone).find('.title').text(item.title);
 			item.price=number_format(item.price);
-			$(clone).find('.price').text(item.price+"원(1박)");
+			$(clone).find('.price').text("￦"+item.price+"(1박)");
+			if(item.round>0){
+				item.round=makeStars(item.round);
+				$(clone).find('.review').html(item.round);				
+			}
+			else{
+				$(clone).find('.review').text('');	
+			}
 			$('#bnbList').append(clone)
+		}
+		
+		//리뷰 - 별찍기 함수
+		function makeStars(num) {
+		  let stars = '';
+		  for (let i = 0; i < num; i++) {
+		    stars += '<i class="fa fa-star"/>';
+		  }
+		  for (let j = num; j < 5; j++) {
+		    stars += '<i class="fa fa-star-o"/>';
+		  }
+		  return stars;
 		}
 		
 		//천단위 콤마찍기 함수
@@ -219,7 +243,6 @@
 			if(!pageData.next){
 				$(pageItem).find('#nextPage').hide()
 			}
-
 			for (let i = pageData.startPage; i <= pageData.endPage; i++) {
 				let clone = $('#pageItem').find('#pageNum').clone()
 				$(clone).text(i);
@@ -232,7 +255,6 @@
 				})
 				$(pageItem).find('#pageNumDiv').append(clone)
 			}
-
 			$(pageItem).find('#pageNum')[0].remove()
 			$('#bnbPage').append(pageItem)
 		}
@@ -244,17 +266,12 @@
 			}
 			ajaxData(page, region,order);
 		}
-		
 		$('#order').on('change',function(){
 			let rg= $('#selectRG').val();
 			let od= $(this).val();
-			
 			ajaxData(1,rg,od);
-			
 		})
-		
 		</script>
-
 	</div>
 	<!-- Shop Section End -->
 

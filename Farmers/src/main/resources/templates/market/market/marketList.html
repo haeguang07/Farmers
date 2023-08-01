@@ -13,6 +13,11 @@
 .product__pagination {
 	margin: auto;
 }
+
+.review>i {
+	color: #f7941d;
+	font: normal normal normal 14px/1 FontAwesome;
+}
 </style>
 </head>
 <body>
@@ -69,46 +74,6 @@
 											</div>
 										</div>
 									</div>
-									<!-- 									<div class="card">
-										<div class="card-heading">
-											<a data-toggle="collapse" data-target="#collapseTwo">Branding</a>
-										</div>
-										<div id="collapseTwo" class="collapse show"
-											data-parent="#accordionExample">
-											<div class="card-body">
-												<div class="shop__sidebar__brand">
-													<ul>
-														<li><a href="#">Louis Vuitton</a></li>
-														<li><a href="#">Chanel</a></li>
-														<li><a href="#">Hermes</a></li>
-														<li><a href="#">Gucci</a></li>
-													</ul>
-												</div>
-											</div>
-										</div>
-									</div> -->
-									<!-- 가격필터 -->
-									<!-- 									<div class="card">
-										<div class="card-heading">
-											<a data-toggle="collapse" data-target="#collapseThree">Filter
-												Price</a>
-										</div>
-										<div id="collapseThree" class="collapse show"
-											data-parent="#accordionExample">
-											<div class="card-body">
-												<div class="shop__sidebar__price">
-													<ul>
-														<li><a href="#">$0.00 - $50.00</a></li>
-														<li><a href="#">$50.00 - $100.00</a></li>
-														<li><a href="#">$100.00 - $150.00</a></li>
-														<li><a href="#">$150.00 - $200.00</a></li>
-														<li><a href="#">$200.00 - $250.00</a></li>
-														<li><a href="#">250.00+</a></li>
-													</ul>
-												</div>
-											</div>
-										</div>
-									</div> -->
 									<!-- 글등록 버튼 - (정회원)인 경우에만 버튼 보임-->
 									<div sec:authorize="hasRole('ROLE_REGULAR')">
 										<div class="product__details__cart__option"
@@ -173,9 +138,11 @@
 				<div class="product__item__text">
 					<h5 class="title">상품명</h5>
 					<h6 class="price" style="color: grey">금액</h6>
+					<span class="review">리뷰</span>
 				</div>
 			</div>
 		</div>
+
 		<!-- 페이징처리 -->
 		<div class="product__pagination" style="display: none;" id="pageItem">
 			<a class="myInline" id="prevPage">◁</a>
@@ -186,7 +153,7 @@
 		</div>
 
 
- 		<script>
+		<script>
 			$(function(){
 				ajaxData(1)
 			})
@@ -230,9 +197,29 @@
 				$(clone).find('.set-bg').css("background-image",`url(${item.rep})`)
 				$(clone).find('.title').text(item.title);
 				item.price=number_format(item.price);
-				$(clone).find('.price').text(item.price+"원");
+				$(clone).find('.price').text("￦"+item.price+"(1박)");
+				if(item.round>0){
+					item.round=makeStars(item.round);
+					$(clone).find('.review').html(item.round);				
+				}
+				else{
+					$(clone).find('.review').text('');	
+				}
 				$('#mkList').append(clone)
 			}
+			
+			//리뷰 - 별찍기 함수
+			function makeStars(num) {
+			  let stars = '';
+			  for (let i = 0; i < num; i++) {
+			    stars += '<i class="fa fa-star"/>';
+			  }
+			  for (let j = num; j < 5; j++) {
+			    stars += '<i class="fa fa-star-o"/>';
+			  }
+			  return stars;
+			}
+			
 			
 			//천단위 콤마찍기 함수
 			function number_format(num) {	
@@ -298,7 +285,7 @@
 		})
 		</script>
 	</div>
-	
+
 	<!-- Shop Section End -->
 </body>
 
