@@ -7,7 +7,7 @@ import com.yedam.app.common.vo.PayProductVO;
 import com.yedam.app.common.vo.PaymentDetailVO;
 import com.yedam.app.common.vo.PaymentVO;
 
-public interface PaymentMapper {
+public interface PaymentsMapper {
 	//결제 시 필요한 회원 정보 가져오기
 	public MemberPayVO getMemberData(String memNo);
 	

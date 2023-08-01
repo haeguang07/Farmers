@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.yedam.app.common.mapper.PaymentMapper;
+import com.yedam.app.common.mapper.PaymentsMapper;
 import com.yedam.app.common.vo.MemberPayVO;
 import com.yedam.app.common.vo.PayProductVO;
 import com.yedam.app.common.vo.PaymentDetailVO;
@@ -14,7 +14,7 @@ import com.yedam.app.common.vo.PaymentVO;
 @Service
 public class PaymentServiceImpl implements PaymentService {
 	@Autowired
-	PaymentMapper paymentMapper;
+	PaymentsMapper paymentMapper;
 
 	@Override
 	public MemberPayVO getMemberData(String memNo) {
