@@ -22,8 +22,8 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 
 	@Override
-	public PaymentDetailVO getProductInfo(PaymentDetailVO vo) {
-		return paymentMapper.getProductInfo(vo);
+	public void getProductInfo(PaymentDetailVO vo) {
+		paymentMapper.getProductInfo(vo);
 	}
 
 	@Override

@@ -69,7 +69,7 @@
 											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">대여 기간 : </b> 
 												<span th:text="|${#dates.format(flInfo.lendStrDate, 'yyyy/MM/dd')} ~ ${#dates.format(flInfo.lendEndDate, 'yyyy/MM/dd')}|">대여 시작 ~ 종료 일자</span></p>
 											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">대여 가격 : </b> 
-												<span th:text="${#numbers.formatInteger(flInfo.lendPrice, 3, 'COMMA')} + '원'" style="font-size: 20px;"></span>
+												<span th:text="${#numbers.formatInteger(flInfo.lendPrice, 1, 'COMMA')} + '원'" style="font-size: 20px;"></span>
 												<span>(연간)</span>
 											</p>
 											<div class="row mb-2">
@@ -129,7 +129,7 @@
 			function closePopUp() {
 				var magnificPopup = $.magnificPopup.instance; 
 				magnificPopup.close();
-				location.reload();
+				location.href = "/myPage/myFarmLendListForm";
 			}
 			
 			// 목록으로 버튼 클릭 시
@@ -144,17 +144,52 @@
 			
 			// 삭제하기 버튼 클릭 시
 			$('#delete').on('click', function() {
-				$.ajax({
-					url : "/farmLendDelete",
-					method : "POST",
-					data : 'boardNo=' + boardNo
+				Swal.fire({
+					icon : 'warning',
+					title : '게시물 삭제',
+					text : '게시물을 삭제하시겠습니까?',
+					showCancelButton: true, // 취소 버튼 보여주기
+					confirmButtonText : "승인",
+					cancelButtonText: '취소',
+					reverseButtons: true, // 버튼 순서 거꾸로
 				})
-				.done(function(result) {
-					console.log(result);
-					location.href = "/farmLendList";
-				})
-				.fail(function(result) {
-					console.log(result);
+				.then((result) => {
+					if(result.isConfirmed) {
+						$.ajax({
+							url : "/farmLendDelete",
+							method : "POST",
+							data : 'boardNo=' + boardNo
+						})
+						.done(function(result) {
+							console.log(result);
+							if(result == "success") {
+								Swal.fire({
+									icon : 'success',
+									title : '삭제 성공',
+									text : '성공적으로 삭제되었습니다',
+									confirmButtonText : "확인"
+								})
+								.then(function() {
+									location.href = "/farmLendList";
+								})
+							} else {
+								Swal.fire({
+									icon : 'error',
+									title : '삭제 실패',
+									text : '삭제에 실패했습니다',
+									confirmButtonText : "확인"
+								})
+							}
+						})
+						.fail(function(result) {
+							Swal.fire({
+								icon : 'error',
+								title : '오류',
+								text : '페이지 호출 오류',
+								confirmButtonText : "확인"
+							})
+						})
+					}
 				})
 			});
 		</script>
