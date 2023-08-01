@@ -26,8 +26,7 @@
 	</select>
 
 	<!-- payment 테이블 insert 프로시저 -->
-	<select id="insertPaymnet" parameterType="PaymentVO"
-		statementType="CALLABLE" resultType="PaymentVO">
+	<select id="insertPaymnet" parameterType="PaymentVO" statementType="CALLABLE" resultType="PaymentVO">
 		{
 		CALL insert_payment (
 		#{payNo,
