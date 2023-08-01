@@ -5417,7 +5417,7 @@ textarea.form-control-lg {
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 80%;
   color: var(--bs-modal-color);
   pointer-events: auto;
   background-color: var(--bs-modal-bg);

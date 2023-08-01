@@ -115,7 +115,7 @@ import axios from 'axios'
 export default{
   data(){
     return{
-			searchStts:'',
+			searchStts:'e0',
 			searchStr:'',searchEnd:'',
 			btnShow:true,reason:'',page:1,
 			selected:[],itemsPerPage: 10,
@@ -169,6 +169,7 @@ methods:{
   	axios.put('/admin/chageRegStatus', list)
   	.then(response => {
 			console.log(response.data);
+			
 			let stts= this.searchStts
 			this.callList({stts})
 			this.selected = [];

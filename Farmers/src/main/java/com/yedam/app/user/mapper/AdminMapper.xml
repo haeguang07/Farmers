@@ -77,14 +77,22 @@
 		        ,repl_desct
 		        ,repl_date
 		FROM inquiry
-		<!--<where>
+		<where>
 			<if test="ctg !=null and !ctg.equals('')">
-				AND inq_ctg =find_common_code(#{ctg})
+				AND inq_ctg =#{ctg}
 			</if>
 			<if test="stts !=null and !stts.equals('')">
 				AND repl_stts =#{stts}
 			</if>
-		</where>  -->
+			<if test="str != null">
+	  			AND reg_date > #{str}
+	  		</if>
+	  		<if test="end != null">
+	  	 		<![CDATA[
+	  			AND reg_date < #{end}
+	  			]]>
+	  	</if>
+		</where> 
 		ORDER BY inq_no DESC
 	</select>
 	<!-- 회원수정 -->
@@ -266,7 +274,6 @@
 				,ship_dur_max
 				,rep
 				,find_code_name(reg_stts) reg_stts
-				,atch_no
 	  FROM auction
 	  
 	  <where>
@@ -274,9 +281,7 @@
 	  		AND reg_stts= #{stts}
 	  	</if>
 	  	<if test="str != null">
-	  		<![CDATA[
-	  		AND reg_date < #{end}
-	  		]]>
+	  		AND act_date = #{str}
 	  	</if>
 	  </where>
 	</select>
