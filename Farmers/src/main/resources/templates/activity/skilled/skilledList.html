@@ -251,11 +251,36 @@ h5:has(.countdown) {
 		</section>
 
 		<script th:inline="javascript">
+			// 세션 정보
+			let mem;
+			/*<![CDATA[*/
+			let bool= [[${not #strings.isEmpty(session.mem)}]];
+			if(bool){
+				mem = [[${session.mem}]]		
+			}
+			/*]]>*/
+		
+		
 			let div = 'o0';
 			let title = '';
 		
 			$(function(){
 			    goldData(div, 1);
+			})
+			
+			// 구해요/할게요 토글로 구현
+			$('#toggle').on('click', function(){
+				let goldWay = $(this).prop("checked");
+				
+				if (goldWay) {
+					console.log('volunteered');
+					$('#wanted').addClass('toggleshow');
+					$('#volunteered').toggleClass();
+				}else {
+					console.log('wanted');
+					$('#volunteered').toggleClass("toggleshow");
+					$('#wanted').toggleClass("toggleshow");
+				}
 			})
 			
 
@@ -445,12 +470,14 @@ h5:has(.countdown) {
 				
 			})
 			
+			
+			
+			
 			// 내가 쓴 글 보기
 			$('#check1').on('change', function(){
-				console.log('a')
 				console.log($(this).is(':checked'))
 				if($(this).is(':checked')  == true){
-					let memNo = /*[[${session.mem.memNo}]]*/;
+					let memNo = mem.memNo;
 					getCondition(1, title, memNo);
 				}else {
 					goldData(div, 1);
