@@ -30,14 +30,7 @@ library.add(faUserSecret)
 
 loadFonts()
 
-const app=createApp(App)
-  .use(router)
-  .use(store)
-  .use(vuetify)
-  .use(CKEditor)
-  .use(VueSweetalert2)
-  .component('font-awesome-icon', FontAwesomeIcon)
-  .component('VueDatePicker', VueDatePicker);
+const app=createApp(App).use(router).use(store).use(vuetify).use(CKEditor).use(VueSweetalert2).component('font-awesome-icon', FontAwesomeIcon).component('VueDatePicker', VueDatePicker);
 
   
   store.dispatch('fetchCodes'); 
