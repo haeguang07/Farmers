@@ -36,8 +36,8 @@
 						required></li>
 				</ul>
 				<div id="login_button">
-					<button type="submit" id="login">로그인</button>
-					<button type="button" id="join">회원가입</button>
+					<button type="submit" id="login" class="button">로그인</button>
+					<button type="button" id="join" class="button">회원가입</button>
 				</div>
 				<span class="psw"><a href="IDFound">아이디/비밀번호찾기</a></span>
 			</div>
@@ -58,10 +58,25 @@
 	<script th:inline="javascript">
 	
 			/*<![CDATA[*/
-				let errormsg = [[${session.errormsg}]]
-				console.log(errormsg);
-			if(errormsg!=null){
-				Swal.fire({ title: '로그인 실패' , text:errormsg,  icon: 'error',confirmButtonText:"확인"});
+				let error=null;
+				let urlParams = new URL(location.href).searchParams;
+				let errorMsg = urlParams.get('error');
+				console.log(errorMsg)
+				urlParams.delete('error')
+				if(errorMsg=='id'){
+			    	error='아이디가 존재하지 않습니다'
+			    }else if(errorMsg=='pass'){
+			    	error='비밀번호가 정확하지 않습니다'
+				}
+				
+				
+			
+			
+			
+				console.log(error);
+			
+			if(error !=null){
+				Swal.fire({ title: '로그인 실패' , text:error,  icon: 'error',confirmButtonText:"확인"});
 
 			}
 			/*]]>*/
