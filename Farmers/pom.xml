@@ -183,6 +183,9 @@
 						</goals>
 						<phase>prepare-package</phase>
 						<configuration>
+							<npmEnvironmentVar>
+								<PHANTOMJS_CDNURL>https://cnpmjs.org/downloads</PHANTOMJS_CDNURL>
+							</npmEnvironmentVar>
 							<executable>npm</executable>
 							<arguments>
 								<argument>install</argument>
@@ -198,6 +201,9 @@
 						</goals>
 						<phase>prepare-package</phase>
 						<configuration>
+							<npmEnvironmentVar>
+								<PHANTOMJS_CDNURL>https://cnpmjs.org/downloads</PHANTOMJS_CDNURL>
+							</npmEnvironmentVar>
 							<executable>npm</executable>
 							<arguments>
 								<argument>run</argument>
@@ -206,7 +212,7 @@
 						</configuration>
 					</execution>
 				</executions>
-				
+
 				<configuration>
 					<workingDirectory>${basedir}/admin</workingDirectory>
 				</configuration>
