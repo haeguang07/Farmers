@@ -15,13 +15,13 @@
 	<select id="getProductInfo" statementType="CALLABLE"
 		parameterType="PaymentDetailVO" resultType="PaymentDetailVO">
 		{
-		CALL getpayproduct(
-		#{boardNo, mode=IN , jdbcType=VARCHAR},
-		#{boardCtg, mode=IN , jdbcType=VARCHAR},
-		#{title, mode=OUT , jdbcType=VARCHAR},
-		#{price, mode=OUT , jdbcType=VARCHAR},
-		#{rep, mode=OUT , jdbcType=VARCHAR}
-		)
+			CALL GETPAYPRODUCT(
+				#{boardNo, mode=IN , jdbcType=VARCHAR},
+				#{boardCtg, mode=IN , jdbcType=VARCHAR},
+				#{title, mode=OUT , jdbcType=VARCHAR},
+				#{price, mode=OUT , jdbcType=VARCHAR},
+				#{rep, mode=OUT , jdbcType=VARCHAR}
+			)
 
 		}
 	</select>
