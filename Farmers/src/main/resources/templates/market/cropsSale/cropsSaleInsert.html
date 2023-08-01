@@ -114,6 +114,12 @@
 				return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 			}
 			
+			// 숫자가 아니면 빈 칸으로 만들어 버리는 것
+			$('input[type="number"]').keyup(function(e) {
+				let inputVal = $(this).val();
+				$(this).val(inputVal.replace(/[^0-9]/gi, ''));
+			});
+			
 			let dbPath;
 
 			// 첨부파일 가져오기

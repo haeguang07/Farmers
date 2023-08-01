@@ -50,10 +50,10 @@
 	</insert>
 	
 	<!-- 삭제 -->
-	<update id="deleteExp" parameterType="ExpVO">
-		update experience
-		set reg_stts = 'e2'
-		where board_no = #{boardNo}
+	<update id="deleteExp" statementType="CALLABLE">
+		call delete_experience(
+			#{boardNo}
+		)
 	</update>
 	
 	<!-- 게시글 수 카운팅 -->

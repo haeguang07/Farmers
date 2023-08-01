@@ -49,8 +49,8 @@
 											<div class="card-body">
 												<div class="shop__sidebar__categories">
 													<ul>
-														<li><a href="/farmGuide">귀농귀촌 가이드</a></li>
-														<li><a href="/farmEdu">지원사업/교육</a></li>
+														<li><a href="/guide">귀농귀촌 가이드</a></li>
+														<li><a href="/eduList">지원사업/교육</a></li>
 														<li><b><a href="/farmLendList" style="color: black;">농지대여</a></b></li>
 													</ul>
 												</div>
@@ -78,6 +78,7 @@
 											aria-label="Default select example" id="dst2">
 											<option value="">시·군</option>
 										</select>
+										<button type="button" class="form-control" style="width: 170px; float: right;" id="reset">검색 조건 초기화</button>
 									</div>
 									<div class="row">
 										<select class="form-select form-group col-1.5 mr-2"
@@ -248,11 +249,17 @@
 				$(clone).removeClass('hideItem');
 				
 				$(clone).find('#number').text(index + 1);
-				$(clone).find('#addr').text(item.addr + ', ' + item.detaAddr);
+				let address = $(clone).find('#addr').text(item.addr + ', ' + item.detaAddr);
+				address.html(address.html().replace(', ', '<br>'));
 				$(clone).find('#crops').text(item.mcrp);
-				$(clone).find('#area2').text(item.area + '(m²)');
-				$(clone).find('#price2').text(item.lendPrice + '원');
-				$(clone).find('#date').text(item.lendStrDate + ' ~ ' + item.lendEndDate);
+				$(clone).find('#area2').text(priceToString(item.area) + '(m²)');
+				$(clone).find('#price2').text(priceToString(item.lendPrice) + '원');
+				let date = $(clone).find('#date').text(item.lendStrDate + ' ~ ' + item.lendEndDate);
+				date.html(date.html().replace('~', '<br>~<br>'));
+				
+				function priceToString(price) {
+					return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+				}
 				
 				$(clone).find('#addr').on('click', function() {
 					if(mem != null) {
@@ -351,6 +358,22 @@
 			$('#area').change(function() {
 				getCondition();
 			});
+			// 검색 조건 초기화 버튼 클릭 시
+			$('#reset').on('click', function() {
+				$("#dst1 option:eq(0)").prop("selected", true);
+				$("#dst2 option:eq(0)").prop("selected", true);
+				$("#mcrp option:eq(0)").prop("selected", true);
+				$("#price option:eq(0)").prop("selected", true);
+				$("#area option:eq(0)").prop("selected", true);
+				
+				$('#dst1').niceSelect('update');
+				$('#dst2').niceSelect('update');
+				$('#mcrp').niceSelect('update');
+				$('#price').niceSelect('update');
+				$('#area').niceSelect('update');
+				
+				getCondition();
+			})
 		</script>
 	</div>
 </body>

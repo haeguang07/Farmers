@@ -67,6 +67,7 @@ public class FarmLendController {
 	public String getFarmLendInfo(FarmLendVO flVO, Model model) {
 		FarmLendVO info = flService.getFarmLendInfo(flVO);
 		model.addAttribute("flInfo", info);
+		model.addAttribute("codeInfo", codeService.getCodeList("0E"));
 		return "farm/farmLend/farmLendInfo";
 	}
 	
@@ -115,13 +116,14 @@ public class FarmLendController {
 	@ResponseBody
 	public String deleteFarmLend(String boardNo) {
 		flService.deleteFarmLendInfo(boardNo);
-		return "farm/farmLend/farmLendList";
+		return "success";
 	}
 	
 	// 신청 페이지 불러오기
 	@GetMapping("farmLendApply")
 	public String FarmLendApplyForm(FarmLendVO flVO, Model model) {
 		model.addAttribute("flInfo", flService.getFarmLendInfo(flVO));
+		model.addAttribute("codeInfo", codeService.getCodeList("0N"));
 		return "farm/farmLend/farmLendApply";
 	}
 	
