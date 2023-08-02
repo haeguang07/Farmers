@@ -80,11 +80,10 @@
 		<script th:inline="javascript">
 			let memNo = /*[[${session.mem.memNo}]]*/ ;
 			let table;
-			//기본 화면 데이터
 			$(function () {
 				//사이드바
 				myMenucheck('나의 금손귀농인')
-				
+				//기본 화면 데이터
 				ajaxMyList()
 			})
 
@@ -105,31 +104,14 @@
 				table = $('#myTable').DataTable({
 					language: lang_kor,
 					bAutoWidth: false, // 너비 자동맞춤을 false로 설정해주어야 지정한 너비가 제대로 출력된다.
-					columnDefs: [{
-							width: "10%",
-							targets: 0
-						},
-						{
-							width: "25%",
-							targets: 1
-						},
-						{
-							width: "15%",
-							targets: 2
-						},
-						{
-							width: "15%",
-							targets: 3
-						},
-						{
-							width: "13%",
-							targets: 4
-						},
-						{
-							width: "15%",
-							targets: 5
-						}
-					],
+					columnDefs: [
+											 {width: "10%",targets: 0},
+											 {width: "25%",targets: 1},
+											 {width: "15%",targets: 2},
+											 {width: "15%",targets: 3},
+											 {width: "13%",targets: 4},
+											 {width: "15%",targets: 5}
+											],
 					order : [0, 'desc']
 				});
 			}
@@ -330,8 +312,12 @@
 			//tr 이동
 			 $(document).on("click", "tr", function (e) {
 			 	if (!$(e.currentTarget).hasClass('th')) {
-			 		console.log($(e.currentTarget).attr('no'))
-			 		location.href = "/skilledInfo?boardNo=" + $(e.currentTarget).attr('no')
+					$.magnificPopup.open({
+					items: [{
+						src: "/skilledInfo?boardNo=" + $(e.currentTarget).attr('no'),
+						type: 'iframe'
+						}]
+					})
 			 	}
 			 })
 
