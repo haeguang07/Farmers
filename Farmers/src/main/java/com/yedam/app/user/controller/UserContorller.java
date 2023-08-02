@@ -1,5 +1,7 @@
 package com.yedam.app.user.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +17,11 @@ public class UserContorller {
 
 	// 로그인 페이지 이동
 	@GetMapping("login")
-	public String login(@PathVariable(required = false) String error,Model model) {
+	public String login(@PathVariable(required = false) String error,Model model, HttpServletRequest request) {
+		String uri = request.getHeader("Referer");
+	    if (uri != null && !uri.contains("/login")) {
+	        request.getSession().setAttribute("prevPage", uri);
+	    }
 		System.out.println(error);
 		return "user/login/login";
 	}

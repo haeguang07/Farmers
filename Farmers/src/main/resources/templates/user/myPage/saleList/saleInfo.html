@@ -253,10 +253,11 @@ li {
 	                		confirmButtonColor: '#95D083'		
 	                })
 					.then(function(){
+						let stts = $('#stts').val();
 						//구매자에게 알림 보내기
 						let memNo = /*[[${payInfo.memNo}]]*/;
 						let alertTitle =`[[${payInfo.title}]] 의 배송상태가 변경되었습니다`;
-						let alretDesct =  `[[${payInfo.title}]] 의 배송상태가 [[${payInfo.shipStts}]] 으로 변경되었습니다`;
+						let alretDesct =  `[[${payInfo.title}]] 의 배송상태가 ${stts} 으로 변경되었습니다`;
 						let boardCtg = /*[[${payInfo.boardCtgCode}]]*/
 						$.ajax({
 							url : "/sendAlert",

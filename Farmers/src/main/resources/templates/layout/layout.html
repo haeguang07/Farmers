@@ -91,9 +91,9 @@
 							</div>
 							<div class="header__top__hover" sec:authorize="isAuthenticated()">
 								<span><a href="/myPage/myPage" style="color: white;">마이페이지
-										<i class="arrow_carrot-down"></i>
+										<!-- <i class="arrow_carrot-down"></i> -->
 								</a></span>
-								<ul>
+							<!-- 	<ul>
 									<li><a class="href" href="/myPage/myPage">회원정보</a></li>
 									<li><a class="href" href="/myPage/myFarmLendListForm">나의활동</a></li>
 									<li><a class="href"
@@ -104,7 +104,7 @@
 										th:href="@{/myPage/mySaleList(memNo=${session.mem.memNo})}">판매내역</a></li>
 									<li><a class="href"
 										th:href="@{/myPage/myInquiry(memNo=${session.mem.memNo})}">문의하기</a></li>
-								</ul>
+								</ul> -->
 							</div>
 						</div>
 					</div>
@@ -155,36 +155,25 @@
 				<div class="col-lg-3 col-md-3">
 					<div class="header__nav__option" style="padding-top: 50px;">
 						<div class="notification-box">
-							<!--알림 , 장바구니 아이콘 -->
+
 							<th:block sec:authorize="isAuthenticated()">
-								<a href="#"><img src="/img/icon/bell.png" width="19px"
-									id="bell" alt=""></a>
-								<a th:href="@{/cart(memNo=${session.mem.memNo})}"> <img
-									src="/img/icon/cart.png" alt=""> <span>0</span>
-								</a>
-							</th:block>
-							<!-- 알림 모달팝업창 -->
-							<div class="alarm-modal">
-								<div class="alarm-modal-content">
-									<div class="alarm-modal" id="bellModal">
-										<div class="modal-content">
-											<div class="box">
-												<h3 class="alarmTitle">알림</h3>
-												<div class="alarm-notification"
-													th:each="alert : ${session.alertList}">
-													<span class="alarm-close">&times;</span>
-													<p th:text="${alert.alrtTitle}">새로운 메시지가 도착했습니다.</p>
-													<p class="time"
-														th:text="${#dates.format(alert.alrtDate, 'yyyy/MM/dd')}">2023-07-09
-														10:30 AM</p>
-												</div>
-											</div>
-										</div>
+								<!-- 알림 아이콘 -->
+								<div class="unique-bell-container">
+									<a href="#"><img src="/img/icon/bell.svg"
+										class="unique-bell-icon" width="19px" id="bell" alt=""></a>
+									<div class="unique-notification-modal"
+										id="uniqueNotificationModal">
+										<div class="unique-notification-item">새로운 알림이 도착했습니다!</div>
+										<div class="unique-notification-item">알림 목록의 예시 1</div>
+										<div class="unique-notification-item">알림 목록의 예시 2</div>
+										<div class="unique-notification-item">알림 목록의 예시 3</div>
 									</div>
 								</div>
-							</div>
-							<!-- 알림 모달팝업창 end-->
-
+								<!-- 장바구니 아이콘 -->
+								<a th:href="@{/cart(memNo=${session.mem.memNo})}">
+									<img src="/img/icon/cart.svg" id="cart" alt="">
+								</a>
+							</th:block>
 						</div>
 					</div>
 					<div class="canvas__open">
@@ -265,54 +254,23 @@
 	<!-- Footer Section End -->
 
 
-
-
-
-
 	<script src="/js/main.js"></script>
 
 	<script>
-		//알림창
-		var modal = document.querySelector('.alarm-modal');
-		var closeButton = document.querySelectorAll('.alarm-close');
-		var notificationButton = document.querySelector('.notification-btn');
+		
+	    // 알림벨 버튼을 클릭하면 알림 목록을 생성하고 모달창을 보여주는 이벤트 리스너 등록
+	    document.querySelector(".unique-bell-icon").addEventListener("click", () => {
+	      const modal = document.getElementById("uniqueNotificationModal");
+	      modal.style.display = "block";
+	    });
 
-		// 모달 팝업 열기
-		function openModal() {
-			modal.style.display = 'block';
-			$(modal).css({
-				"display" : "block",
-				'zIndex' : 999999,
-				'position' : 'relative'
-			});
-		}
-
-		// 모달 팝업 닫기
-		function closeModal() {
-			modal.style.display = 'none';
-		}
-
-		// X 버튼 클릭 시 알림창 닫기
-		closeButton.forEach(function(button) {
-			button.addEventListener('click', function() {
-				var notification = this.parentElement;
-				notification.style.display = 'none';
-			});
-		});
-
-		// 모달 팝업 영역 밖 클릭 시 닫기
-		$('#body').on('click', function(event) {
-			if (event.target == document.getElementById("bellModal")) {
-				console.log('a')
-				closeModal();
-			}
-		});
-
-		// 알림 클릭 시 모달 팝업 열기
-		let bell = document.getElementById('bell')
-		bell.addEventListener('click', function() {
-			openModal();
-		});
+	    // 모달창 외부를 클릭하면 모달창을 닫는 이벤트 리스너 등록
+	    document.addEventListener("click", (event) => {
+	      const modal = document.getElementById("uniqueNotificationModal");
+	      if (!modal.contains(event.target) && !event.target.classList.contains("unique-bell-icon")) {
+	        modal.style.display = "none";
+	      }
+	    });
 	</script>
 
 </body>
