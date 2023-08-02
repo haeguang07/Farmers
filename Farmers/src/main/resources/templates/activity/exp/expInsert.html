@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>체험글 작성</title>
-<link rel="stylesheet" href="/css/sungWookCss/sungook.css" type="text/css">
+<link rel="stylesheet" href="/css/sungwookCss/sungook.css" type="text/css">
 <style>
 .ck-editor__editable {
 	height: 400px;
@@ -57,7 +57,7 @@
 									<input type="text" name="longi" id="longitude">
 								</div>
 								<div class="checkout__input">
-									<p style="font-size: 20px;"><b>상품 상세</b></p>
+									<p style="font-size: 20px;"><b>체험 상세</b></p>
 									<textarea name="text" id="editor"></textarea>
 								</div>
 								<div class="checkout__input">
@@ -83,10 +83,6 @@
 		<!-- 우편번호 api -->
 		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js?autoload=false"></script>
 		<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=c573b65eabeb9b6da24ab52d832dc807&libraries=services"></script>
-		<!-- ck에디터 -->
-		<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
-		<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
-		<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
 		<script>
 			// 우편번호 api
 			$('#addressBtn').on('click', function() {
@@ -284,7 +280,9 @@
 								text : '성공적으로 등록이 되었습니다',
 								confirmButtonText : "확인"
 							})
-							location.href = "/expList";
+							.then(function() {
+								location.href = "/expList";
+							})
 						} else {
 							Swal.fire({
 								icon : 'error',
@@ -301,7 +299,6 @@
 							text : '페이지 호출 오류',
 							confirmButtonText : "확인"
 						})
-						location.href = "/expList";
 					})
 				}
 			});

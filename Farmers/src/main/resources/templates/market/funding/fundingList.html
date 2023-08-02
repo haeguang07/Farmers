@@ -26,24 +26,20 @@
 <body>
 	<div layout:fragment="content">
 		<!-- Breadcrumb Section Begin -->
-		<section class="">
+	<section class="breadcrumb-option">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="breadcrumb__text">
-							<h4>Shop</h4>
+							<h4>펀딩</h4>
 							<div class="breadcrumb__links">
-								<a href="./index.html">농촌마켓</a> <span>농작물펀딩</span>
+								<span>펀딩의 상품을 구경해보세요.</span>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</section>
-		<div class="justify-content-center">
-			<br>
-			<h3 class="current text-center">농작물 펀딩</h3>
-		</div>
 		<!-- Shop Section Begin -->
 		<section class="shop myMargin">
 			<div class="container">
@@ -232,15 +228,15 @@
 
 				//데이터 집어넣기
 				$(clone).find('#name').text(item.title)
-				$(clone).find('#price').text(item.fndPrice + '원')
+				$(clone).find('#price').text(priceToString(item.fndPrice) + '원')
 				if (item.dday != 0) {
 					$(clone).find('#dday').text('D-' + item.dday)
 				} else {
 					$(clone).find('#dday').text('D-DAY')
 				}
-				$(clone).find('#totalPrice').text(item.priceSum + '원')
+				$(clone).find('#totalPrice').text(priceToString(item.priceSum) + '원 달성!')
 				$(clone).find('#goalPer').text(item.goalPer + "%")
-				$(clone).find('#img').css("background-image", "url(" + item.rep + ")")
+				$(clone).find('#img').css("background-image", "url('"+item.rep+"')")
 				$(clone).find('#img').attr("data-setbg", item.rep)
 				$('#fundingDiv').append(clone)
 			}
@@ -294,6 +290,10 @@
 				ajaxData(page, category, order, search)
 			}
 
+			// 돈 콤마
+			function priceToString(price) {
+    			return price.toLocaleString('ko-KR')
+			}
 		</script>
 	</div>
 </body>

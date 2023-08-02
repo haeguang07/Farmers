@@ -104,26 +104,22 @@
 							targets: 0
 						},
 						{
-							width: "15%",
+							width: "30%",
 							targets: 1
 						},
 						{
-							width: "25%",
+							width: "15%",
 							targets: 2
 						},
 						{
-							width: "15%",
+							width: "10%",
 							targets: 3
 						},
 						{
 							width: "13%",
 							targets: 4
 						},
-						{
-							width: "15%",
-							targets: 5
-						}
-					],
+								],
 					order : [0, 'desc']
 				});
 			}
@@ -188,12 +184,12 @@
 				$('#thead').children().remove()
 				let tr = $('<tr>').addClass('th')
 				let th1 = $('<th>').text('번호')
-				let th2 = $('<th>').text('이미지')
+				/* let th2 = $('<th>').text('이미지') */
 				let th3 = $('<th>').text('제목')
 				let th4 = $('<th>').text('등록일자')
 				let th5 = $('<th>').text('상태')
 				let th6 = $('<th>').text('신청확인')
-				$(tr).append(th1, th2, th3, th4, th5, th6)
+				$(tr).append(th1, th3, th4, th5, th6)
 				$('#thead').append(tr)
 
 				//tbody
@@ -201,13 +197,13 @@
 				$(list).each(function (idx, item) {
 					tr = $('<tr>').attr('no', item.boardNo)
 					let td1 = $('<td>').text(item.boardNo)
-					let td2 = $('<td>').append($('<img>').attr('src',item.rep))
+					/* let td2 = $('<td>').append($('<img>').attr('src',item.rep)) */
 					let td3 = $('<td>').text(item.title)
 					let td4 = $('<td>').text(item.regDate)
 					let td5 = $('<td>').text(item.regStts)
 					let td6 = $('<td>').append($('<button class="form-control" type="button">신청확인</button>').addClass('myBtn'))
 
-					$(tr).append(td1, td2, td3, td4, td5, td6)
+					$(tr).append(td1, td3, td4, td5, td6)
 					$('#tbody').append(tr);
 				})
 			}
@@ -245,12 +241,12 @@
 				$('#thead').children().remove()
 				let tr = $('<tr>').addClass('th')
 				let th1 = $('<th>').text('번호')
-				let th2 = $('<th>').text('이미지')
+				/* let th2 = $('<th>').text('이미지') */
 				let th3 = $('<th>').text('제목')
 				let th4 = $('<th>').text('신청일자')
 				let th5 = $('<th>').text('신청상태')
 				let th6 = $('<th>').text('상세확인')
-				$(tr).append(th1, th2, th3, th4, th5, th6)
+				$(tr).append(th1, th3, th4, th5, th6)
 				$('#thead').append(tr)
 
 				//tbody
@@ -259,13 +255,13 @@
 					tr = $('<tr>').attr('no', item.boardNo)
 												.attr('aplNo', item.aplNo)
 					let td1 = $('<td>').text(item.boardNo)
-					let td2 = $('<td>').append($('<img>').attr('src',item.rep))
+					/* let td2 = $('<td>').append($('<img>').attr('src',item.rep)) */
 					let td3 = $('<td>').text(item.title)
 					let td4 = $('<td>').text(item.aplDate)
 					let td5 = $('<td>').text(item.aplStts)
 					let td6 = $('<td>').append($('<button class="form-control" type="button">상세확인</button> ').addClass('subBtn'))
 
-					$(tr).append(td1, td2, td3, td4, td5, td6)
+					$(tr).append(td1, td3, td4, td5, td6)
 					$('#tbody').append(tr);
 				})
 			}

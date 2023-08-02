@@ -22,8 +22,6 @@ public class CustomFailHandler implements AuthenticationFailureHandler {
 		if(exception instanceof InternalAuthenticationServiceException ) {
 			errormsg="id";
 		}
-		 HttpSession session = request.getSession();
-		 session.setAttribute("errormsg", errormsg);
 		System.out.println("Fail handler 실행");
 		response.sendRedirect("/login?error="+errormsg);
 	}

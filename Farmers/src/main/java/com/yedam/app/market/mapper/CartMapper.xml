@@ -12,7 +12,8 @@
 			   ca.mem_no, 
 			   board_ctg, 
 			   title, 
-			   price
+			   price,
+			   rep
 		FROM cart ca JOIN
 		<choose>
 			<when test="boardCtg.equals('n8')">

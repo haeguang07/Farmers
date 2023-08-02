@@ -94,10 +94,6 @@
 			</div>
 		</section>
 		<!-- Shop Details Section End -->
-		<!-- ck에디터 -->
-		<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
-		<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
-		<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
 		<script th:inline="javascript">
 			$(function() {
 				getSumPrice();
@@ -168,8 +164,6 @@
 						})
 					}
 				}
-
-
 			});
 			
 			// ckEditor 생성
@@ -208,7 +202,9 @@
 							text : '수정이 완료되었습니다',
 							confirmButtonText : "확인"
 						})
-						location.href="/cropsSaleList";
+						.then(function() {
+							location.href="/cropsSaleList";
+						})
 					} else {
 						Swal.fire({
 							icon : 'error',
@@ -216,7 +212,6 @@
 							text : '수정에 실패했습니다',
 							confirmButtonText : "확인"
 						})
-						location.href="/cropsSaleList";
 					}
 				})
 				.fail(function(result){
@@ -226,7 +221,6 @@
 						text : '페이지 호출 오류',
 						confirmButtonText : "확인"
 					})
-					location.href="/cropsSaleList";
 				})
 			});
 			

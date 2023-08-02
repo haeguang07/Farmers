@@ -183,7 +183,7 @@
 							}
 						})
 					} else {
-						alert('이미지만 등록 가능합니다')
+						Swal.fire({ title: '이미지만 등록 가능합니다' , icon:'warning', confirmButtonText:"확인"});
 					}
 				}
 			})
@@ -201,29 +201,6 @@
 				.catch(error => {
 					console.error(error);
 				});
-
-			//ckEditor 데이터 가져오기
-			/* $('#addBtn').on('click', function () {
-				let ckData = editor.getData()
-				let formData = $('#myForm').serializeObject()
-				formData.desct = ckData
-				formData.rep = dbPath
-				console.log(formData)
-
-				$.ajax({
-					url:"insertBnb",
-					method : "POST",
-					data : formData
-				})
-				.done(function(result){
-					alert(result);
-					location.href="bnbList"
-				})
-				.fail(function(result){
-					alert(result);
-					location.href="bnbList"
-				})
-			}) */
 		</script>
 	</div>
 </body>

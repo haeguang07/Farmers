@@ -113,7 +113,8 @@
                                                                 <p style="display: table-cell; vertical-align: middle; text-align: center; font-size: smaller;">이미지 없음</p></div>
                                                         </div>
                                                         <div class="product__cart__item__text myInlineBlock" style="padding-left: 10px;"> 
-                                                            <p th:text="${product.title}" id="productName" style="font-size: large; font-weight: 900;">상품명</p>
+                                                            <!-- <p th:text="${#strings.substring(product.title, 0, 20)}" id="productName" style="font-size: large; font-weight: 900;">상품명</p> -->
+                                                           <p th:text="${#strings.length(product.title) < 25 ? product.title : #strings.substring(product.title, 0, 25) + '...'}" id="productName" style="font-size: large; font-weight: 900;">상품명</p>
                                                         </div>
                                                         <div  class="product__cart__item__text myInlineBlock" th:if="not ${#strings.isEmpty(product.rsvStrDate)}" style="padding-left: 10px;">
                                                             <p>시작일 : <span th:text="${#dates.format(product.rsvStrDate, 'yyyy-MM-dd')}" id="rsvStrDate"></span></p>
@@ -375,8 +376,8 @@
                     
                     paymentWidget.requestPayment({
                         orderId: orderId, // 주문 ID(직접 만들어주세요)
-                        orderName: orderName, // 주문명
-                        successUrl: "http://localhost:8085/payLoad?paymentData="+JSON.stringify(paymentData)+"&payDatailData="+JSON.stringify(payDatailData), // 제에 성공하면 이동하는 페이지(직접 만들어주세요)
+                        orderName: orderName, // 주문명http://54.180.74.135:85/
+                        successUrl: "http://54.180.74.135:85/payLoad?paymentData="+JSON.stringify(paymentData)+"&payDatailData="+JSON.stringify(payDatailData), // 제에 성공하면 이동하는 페이지(직접 만들어주세요)
                         failUrl: "https://my-store.com/fail", // 결제에 실패하면 이동하는 페이지(직접 만들어주세요)
                         customerEmail: memberInfo.email,
                         customerName: memberInfo.name
