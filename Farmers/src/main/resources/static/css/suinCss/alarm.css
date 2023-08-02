@@ -42,7 +42,9 @@
 
 .notification-content {
 	margin-top: 5px;
-	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis
 }
 
 #bell, #cart {
