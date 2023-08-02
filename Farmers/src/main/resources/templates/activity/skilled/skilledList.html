@@ -210,8 +210,7 @@ h5:has(.countdown) {
 								</div>
 								<div class="col-lg-9">
 									<div class="container">
-										<div class="row" id="wanted"></div>
-										<div class="row toggleshow" id="volunteered"></div>
+										<div class="row" id="skList"></div>
 									</div>
 									<div class="row">
 										<div class="row" id="pageDiv"></div>
@@ -274,13 +273,12 @@ h5:has(.countdown) {
 				
 				if (goldWay) {
 					console.log('volunteered');
-					$('#wanted').addClass('toggleshow');
-					$('#volunteered').toggleClass();
+					div = 'o1';
 				}else {
 					console.log('wanted');
-					$('#volunteered').toggleClass("toggleshow");
-					$('#wanted').toggleClass("toggleshow");
+					div = 'o0'
 				}
+				goldData(div, 1);
 			})
 			
 
@@ -324,7 +322,7 @@ h5:has(.countdown) {
 
 			// 리스트 출력
 			function printList(data, dst1, dst2, title, memNo){
-				$('#wanted').children().remove();
+				$('#skList').children().remove();
 				$('#pageDiv').children().remove();
 				
 				let goldData = data.gold;
@@ -357,7 +355,7 @@ h5:has(.countdown) {
 				$(clone).find('.card-title').text(item.title);
 				$(clone).find('.card-text').text(item.desct);
 				
-				$('#wanted').append(clone);
+				$('#skList').append(clone);
 			}
 			
 			// 페이지 출력
@@ -485,7 +483,7 @@ h5:has(.countdown) {
 			})
 			
 			// 상세 조회 모달창 닫고 신청 모달창 열기
-			function modalUpdate(boardNo){
+			function modalApply(boardNo){
 				// 팝업
 				$.magnificPopup.open({
 					items: [{

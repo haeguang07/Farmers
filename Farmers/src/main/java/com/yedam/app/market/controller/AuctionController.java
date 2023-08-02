@@ -48,9 +48,5 @@ public class AuctionController {
 		return "market/auction/addAuction";
 	}
 	
-	// 등록 처리
-
-	
-	// 수정 페이지
 	
 }

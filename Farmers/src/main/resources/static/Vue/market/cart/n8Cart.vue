@@ -43,11 +43,11 @@
     </div>
     <!-- 총액 끝 -->
     <!-- clone용 태그 -->
-    <tr class="row product hideItem" id="cartItem">
+    <tr class="row product hideItem" id="cartItem"  style="padding-bottom : 20px">
       <td class="col-lg-1"><input type="checkbox" class="form-check-input myZoom mySelect" style="margin-left: 5px;"></td>
       <td class="product__cart__item col-lg-6">
         <div class="product__cart__item__pic">
-          <img src="" alt="" id="cartImage">
+          <img id="cartImage" width="100" height="100">
         </div>
         <div class="product__cart__item__text">
           <h6 id="title">상품명</h6>

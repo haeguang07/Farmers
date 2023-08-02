@@ -75,21 +75,20 @@
 							<hr>
 							<h5 class="textCenter" th:text="${alertInfo.alrtTitle}">제목</h5>
 							<hr>
-							<div class="row" style="margin: 0 auto;" th:utext="${alertInfo.alrtDesct}">
+							<div class="row" style="margin: 0 auto;">
+								<div class="row" style="margin: 0 auto;" th:utext="${alertInfo.alrtDesct}">
+							</div>
 							</div>
 							<hr>
 						</div>
-						<!-- <div>
-							<button type="button" class="form-control" style="width: 500px; margin: 0 auto;">해당 페이지로 이동</button>
-						</div> -->
+						<div>
+							<button type="button" class="form-control" style="width: 500px; margin: 0 auto;" onclick="parent.closePopUp()">목록으로</button>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
-	<script th:inline="javascript">
-		
-	</script>
 </body>
 
 </html>

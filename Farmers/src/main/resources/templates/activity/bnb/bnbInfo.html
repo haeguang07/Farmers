@@ -23,10 +23,11 @@
 	type="text/css">
 
 <!-- datePicker -->
-<link rel="stylesheet"
-	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="/jquery-ui-1.12.1/datepicker-ko.js"></script>
+<!-- <script src="js/otherPlugins/datepicker-ko.js"></script> -->
+<script src="/js/otherPlugins/datepicker-ko.js"></script>
 
 <title>농촌비앤비 상세페이지</title>
 <style>
@@ -247,7 +248,7 @@
 													</tr>
 													<tr>
 														<td>전화번호</td>
-														<td><span th:text="|${bnb.mbl}|"></span></td>
+														<td><span th:if="${bnb.mbl!=null and bnb.mbl!=''}" th:text="|${bnb.mbl}|"></span></td>
 													</tr>
 													<tr>
 														<td>이 메 일</td>
@@ -255,7 +256,7 @@
 													</tr>
 													<tr>
 														<td>주 소</td>
-														<td><span
+														<td><span th:if="${bnb.zip!=null and bnb.zip!=''}"
 															th:text="|${bnb.memAdr}, ${bnb.memAdrdeta} (우:${bnb.zip})|"></span>
 														</td>
 													</tr>
@@ -320,16 +321,7 @@
 		/*]]>*/
 		
 		
-		// 비활성화 날짜 체크 함수
-		function disableDays(date) {
-				var m = date.getMonth(), d = date.getDate(), y = date.getFullYear();
-				for (i = 0; i < rsvDateList.length; i++) {
-						if($.inArray(y + '-' +(m+1) + '-' + d,rsvDateList) != -1) {
-								return [false];
-						}
-				}
-				return [true];
-		}
+	
 		
 		var rsvDateList;
 		var maxDate;
@@ -404,6 +396,16 @@
 					yearSuffix: '년',
 					});
 			}
+				// 비활성화 날짜 체크 함수
+				function disableDays(date) {
+						var m = date.getMonth(), d = date.getDate(), y = date.getFullYear();
+						for (i = 0; i < rsvDateList.length; i++) {
+								if($.inArray(y + '-' +(m+1) + '-' + d,rsvDateList) != -1) {
+										return [false];
+								}
+						}
+						return [true];
+		}
 
 				//시작날짜 변경 시
 				$('#startDate').change(function(){
@@ -423,6 +425,7 @@
 						Swal.fire({ title: '예약 시작 날짜를 선택하세요' , icon:'warning', confirmButtonText:"확인"});
 						return;
 					}else{
+						console.log('What')
 						//예약날짜 체크 함수
 						checkRsv()
 					}
@@ -430,10 +433,11 @@
 
 				//설정날짜 사이에 예약날짜 유무확인
 				function checkRsv(){
+					console.log(rsvDateList)
+					if (rsvDateList.length != 0) { 
 					$(rsvDateList).each(function(idx, date){
 						// 선택된 날짜 사이에 예약일이 존재하는지 판단
 						if(new Date($('#endDate').val()) > new Date(date) && new Date(date) > new Date($('#startDate').val())){
-
 							//예약이 있을 경우 alert, value 비우기
 							Swal.fire({ title: '이미 예약이 존재하는 날짜입니다.' ,
 								text:'비활성화된 날짜는 예약이 존재하는 날짜입니다. 예약된 날짜를 제외하여 선택해주시기 바랍니다.', icon:'error', confirmButtonText:"확인"});
@@ -449,6 +453,9 @@
 							calculateDays();							
 						}
 					});
+				}else{
+					calculateDays();
+				}
 				}
 	
 			// ---------- 날짜입력시 일수 및 금액 계산
@@ -483,7 +490,8 @@
 				return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 			}
 
-			// ----------- 글삭제 버튼
+			// ----------- 글 삭제 버튼
+			$('#deleteButton').on('click', delPopUp);
 			function delPopUp(event) {
 				var confirmDelete = confirm("글을 삭제하시겠습니까?");
 				// 사용자가 "확인" 버튼을 눌렀을 때만 삭제 링크로 이동합니다.
@@ -494,9 +502,6 @@
 					console.log("삭제 완료");
 				}
 			}
-			$('#deleteButton').on('click', delPopUp);
-
-			
 			
 			// ------------------------- 결제하기 버튼 기능
 			$('#letPay').on('click', function() {
@@ -504,14 +509,11 @@
 				let start = $('#startDate').val();
 				let end = $('#endDate').val();
 				if(mem == null) {
-					//alert('로그인 필요');
 					Swal.fire({title: '로그인이 필요합니다.', icon:'warning', confirmButtonText:"확인"});
 				}else if(start == ''){
-					//alert('예약 시작 날짜를 선택하세요')
 					Swal.fire({title: '예약 시작 날짜를 선택하세요', icon:'warning', confirmButtonText:"확인"});
 					return;
 				}else if(end == ''){
-					//alert('예약 종료 날짜를 선택하세요')
 					Swal.fire({title: '예약 종료 날짜를 선택하세요', icon:'warning', confirmButtonText:"확인"});
 				}else{
 					//구매페이지로 보낼 배열

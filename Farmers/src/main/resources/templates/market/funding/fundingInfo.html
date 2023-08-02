@@ -134,12 +134,12 @@
 									<div class="row">
 										<div class="col-lg-3 col-md-6 col-sm-6 col-sm-6"  th:each="popular : ${polurInfo}" >
 											<div class="product__item" th:onclick="|location.href='@{fundingInfo(boardNo=${popular.boardNo})}'|">
-												<div class="product__item__pic set-bg" th:data-setbg="${popular.rep}" th:style="background-image : ${popular.rep}">
+												<div class="product__item__pic set-bg" th:data-setbg="${popular.rep}" th:style='|background-image: url("${popular.rep}");|'>
 													<span class="label">인기</span>
 												</div>
 												<div class="product__item__text">
 													<h5 th:text="${popular.title}"></h5>
-													<h5 th:text="${popular.fndPrice}+'원'"></h5>
+													<h5 th:text="${#numbers.formatInteger(popular.price, 3, 'COMMA')}+원"></h5>
 												</div>
 											</div>
 										</div>
