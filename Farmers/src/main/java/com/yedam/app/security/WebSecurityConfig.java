@@ -55,35 +55,6 @@ public class WebSecurityConfig  {
 		return new CustomFailHandler();
 	}
 	
-	   @Bean
-	   public AccessDeniedHandler accessDeniedHandler() {
-	       return (request, response, accessDeniedException) -> {
-	           RequestCache requestCache = new HttpSessionRequestCache();
-	           RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-	           SavedRequest savedRequest = requestCache.getRequest(request, response);
-	           HttpSession session = request.getSession();
-
-	           String uri = "/";
-
-	           System.out.println(request.getHeader("referer"));
-	           if (request.getHeader("referer") != null && !request.getHeader("referer").isEmpty()) {
-	               uri = request.getHeader("referer");
-	           }
-	           System.out.println(uri);
-	           if (savedRequest != null) {
-	               redirectStrategy.sendRedirect(request, response, savedRequest.getRedirectUrl());
-	               requestCache.removeRequest(request, response);
-	           } else {
-	               redirectStrategy.sendRedirect(request, response, uri);
-	           }
-
-	           if (accessDeniedException instanceof AccessDeniedException) {
-	               session.setAttribute("noAccess", "접근이 거부되었습니다. 권한이 없습니다.");
-	           } else {
-	               session.removeAttribute("noAccess"); 
-	           }
-	       };
-	   }
 	
 	
 	@Bean
@@ -91,17 +62,9 @@ public class WebSecurityConfig  {
 		http
 			.csrf().disable()
 			.authorizeHttpRequests()
-				.antMatchers("/").permitAll()
-				.antMatchers("/**").permitAll()
 				.antMatchers("/add/**", "/update/**").hasRole("USER")
 				.antMatchers("/admin/**").hasRole("ADMIN")
-				.anyRequest().authenticated()
-			.and()
-				.exceptionHandling().accessDeniedHandler(accessDeniedHandler())
-			.and()
-				.headers()
-				.frameOptions()
-				.disable()
+				.anyRequest().permitAll()
 			.and()
 			.formLogin()
 				.loginPage("/login")
@@ -118,8 +81,6 @@ public class WebSecurityConfig  {
 					.invalidateHttpSession(true)
 					.addLogoutHandler(new HeaderWriterLogoutHandler(new ClearSiteDataHeaderWriter(SOURCE)))
 					.permitAll())
-			 	.exceptionHandling().accessDeniedHandler(accessDeniedHandler())
-			.and()
 			.oauth2Login()				// OAuth2기반의 로그인인 경우
             .loginPage("/login")		// 인증이 필요한 URL에 접근하면 /loginForm으로 이동
             .successHandler(authenticationSuccessHandler())		// 로그인 성공하면 "/" 으로 이동
