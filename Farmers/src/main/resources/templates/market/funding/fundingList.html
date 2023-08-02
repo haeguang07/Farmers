@@ -228,13 +228,13 @@
 
 				//데이터 집어넣기
 				$(clone).find('#name').text(item.title)
-				$(clone).find('#price').text(item.fndPrice + '원')
+				$(clone).find('#price').text(priceToString(item.fndPrice) + '원')
 				if (item.dday != 0) {
 					$(clone).find('#dday').text('D-' + item.dday)
 				} else {
 					$(clone).find('#dday').text('D-DAY')
 				}
-				$(clone).find('#totalPrice').text(item.priceSum + '원')
+				$(clone).find('#totalPrice').text(priceToString(item.priceSum) + '원 달성!')
 				$(clone).find('#goalPer').text(item.goalPer + "%")
 				$(clone).find('#img').css("background-image", "url('"+item.rep+"')")
 				$(clone).find('#img').attr("data-setbg", item.rep)
@@ -290,6 +290,10 @@
 				ajaxData(page, category, order, search)
 			}
 
+			// 돈 콤마
+			function priceToString(price) {
+    			return price.toLocaleString('ko-KR')
+			}
 		</script>
 	</div>
 </body>
