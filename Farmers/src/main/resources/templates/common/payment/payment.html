@@ -113,7 +113,8 @@
                                                                 <p style="display: table-cell; vertical-align: middle; text-align: center; font-size: smaller;">이미지 없음</p></div>
                                                         </div>
                                                         <div class="product__cart__item__text myInlineBlock" style="padding-left: 10px;"> 
-                                                            <p th:text="${product.title}" id="productName" style="font-size: large; font-weight: 900;">상품명</p>
+                                                            <!-- <p th:text="${#strings.substring(product.title, 0, 20)}" id="productName" style="font-size: large; font-weight: 900;">상품명</p> -->
+                                                           <p th:text="${#strings.length(product.title) < 25 ? product.title : #strings.substring(product.title, 0, 25) + '...'}" id="productName" style="font-size: large; font-weight: 900;">상품명</p>
                                                         </div>
                                                         <div  class="product__cart__item__text myInlineBlock" th:if="not ${#strings.isEmpty(product.rsvStrDate)}" style="padding-left: 10px;">
                                                             <p>시작일 : <span th:text="${#dates.format(product.rsvStrDate, 'yyyy-MM-dd')}" id="rsvStrDate"></span></p>
