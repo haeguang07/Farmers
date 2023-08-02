@@ -30,7 +30,6 @@
 		     )
 		USING (board_no)
 		<where>
-			<!-- 관리자 승인 완료되면 e0으로 수정 필요 -->
 			AND reg_stts = 'e1' 
 			<if
 				test="category != null and !category.equals('') ">
@@ -129,7 +128,7 @@
 				#{fndPrice},
 				#{shipStrDate},
 				#{rep},
-				'e1',
+				'e0',
 				#{crpCtg},
 				'0',
 				sysdate

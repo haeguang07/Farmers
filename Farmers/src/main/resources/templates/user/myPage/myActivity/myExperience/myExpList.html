@@ -99,27 +99,13 @@
 				table = $('#myTable').DataTable({
 					language: lang_kor,
 					bAutoWidth: false, // 너비 자동맞춤을 false로 설정해주어야 지정한 너비가 제대로 출력된다.
-					columnDefs: [{
-							width: "10%",
-							targets: 0
-						},
-						{
-							width: "30%",
-							targets: 1
-						},
-						{
-							width: "15%",
-							targets: 2
-						},
-						{
-							width: "10%",
-							targets: 3
-						},
-						{
-							width: "13%",
-							targets: 4
-						},
-								],
+					columnDefs: [
+											 {width: "10%",targets: 0},
+										   {width: "30%",targets: 1},
+											 {width: "15%",targets: 2},
+											 {width: "10%",targets: 3},
+											 {width: "13%",targets: 4},
+											],
 					order : [0, 'desc']
 				});
 			}

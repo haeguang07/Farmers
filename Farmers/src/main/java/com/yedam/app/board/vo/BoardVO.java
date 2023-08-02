@@ -32,6 +32,8 @@ public class BoardVO {
 	
 	private int pageNum;
 	
+	private String cmtNo;
+	
 	List<ReplyVO> replys;
 	List<RecomVO> recoms;
 	
