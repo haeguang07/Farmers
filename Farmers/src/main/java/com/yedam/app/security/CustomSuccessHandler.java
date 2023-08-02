@@ -28,6 +28,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler{
 			Authentication authentication) throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
+		String referer = (String) session.getAttribute("returnUrl");
 	    MemberVO vo = ((PrincipalDetails)authentication.getPrincipal()).getMemberVO();
 	    if(vo!=null) {
 	    	session.setAttribute("mem", vo);
@@ -36,6 +37,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler{
 			session.setAttribute("alertList", list);
 	    }
 	    session.removeAttribute("errormsg");
+	    System.out.println(referer);
 		System.out.println("Success handler 실행");
 		response.sendRedirect("/");
 		

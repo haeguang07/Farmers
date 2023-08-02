@@ -20,7 +20,7 @@ public class EnTest {
 		System.out.println(result);
 		
 	}
-	@Test
+	//@Test
 	public void list() {
 		List<String> list = new ArrayList<>();
 		list.add("a");
@@ -32,7 +32,7 @@ public class EnTest {
 		
 	}
 	
-	//@Test
+	@Test
 	public void test() {
 		
 		PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
@@ -46,9 +46,10 @@ public class EnTest {
 		config.setIvGeneratorClassName("org.jasypt.iv.RandomIvGenerator");
 		config.setStringOutputType("base64");
 		encryptor.setConfig(config);
-		String enc=encryptor.encrypt("");
+		String enc=encryptor.encrypt("http://54.180.74.135:85/login/oauth2/code/naver");
 		System.out.println(enc);
-		String dec = encryptor.decrypt(enc);
+		String dec = encryptor.decrypt("UfsI1T6thD0RBKRtr5gbwdVSlfKzaR7HF7dV8UlbMDRDHQkpJZ4pDyJkNwb4xfHIsmbnUj5GWYCWyBueZrTPYGA+WHUoNpzIPp1/eYdM+Gg66dFabF7vE4jRUEQHpbTsaxBmPSwQL1P2Aot5B456+w==");
 		System.out.println(dec);
+		System.out.println("43788686364-5n35ged5pk4sp22tud0t51jnav2vfqhs.apps.googleusercontent.com".equals("43788686364-5n35ged5pk4sp22tud0t51jnav2vfqhs.apps.googleusercontent.com"));
 	}
 }
