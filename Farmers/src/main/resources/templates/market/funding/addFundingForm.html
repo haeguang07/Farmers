@@ -330,7 +330,9 @@
 		                		icon : "warning",
 		                		confirmButtonColor: '#95D083'		
 		                })
-							location.href = "fundingList"
+						.then(function(){							
+							location.href = "/fundingList"
+						})
 						})
 						.fail(function (result) {
 							new swal({
