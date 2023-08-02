@@ -70,13 +70,13 @@
 												<span id="aplPer"></span>
 												<span th:text="최대 + ${expInfo.pptPer} + 명">최대 참여 인원</span>
 											</p>
-											<th:block th:if="${session.mem.memNo} != ${expInfo.memNo}">
-												<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">신청 인원 : </b>
+											<th:block th:if="not ${#strings.isEmpty(session.mem)}">
+												<p style="margin-bottom: 20px; text-align: left;" th:if="${session.mem.memNo} != ${expInfo.memNo}"><b style="font-size: 20px;">신청 인원 : </b>
 													<span><input type="number" value="1" min="1" oninput="maxValue(this)" name="aplPer" class="form-control" style=" width: 150px; display: inline;"></span>
 													<span>명</span>
 												</p>
+												<button type="button" class="btn btn-dark mr-2" style="width: 150px; float: left;" id="applyBtn" th:if="${session.mem.memNo} != ${expInfo.memNo}">신청하기</button>
 											</th:block>
-											<button type="button" class="btn btn-dark mr-2" style="width: 150px; float: left;" id="applyBtn" th:if="${session.mem.memNo} != ${expInfo.memNo}">신청하기</button>
 											<button type="button" class="btn btn-dark" style="width: 150px; float: left;" id="toList">목록으로</button>
 										</div>
 									</div>
