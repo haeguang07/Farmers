@@ -280,7 +280,9 @@
 								text : '성공적으로 등록이 되었습니다',
 								confirmButtonText : "확인"
 							})
-							location.href = "/expList";
+							.then(function() {
+								location.href = "/expList";
+							})
 						} else {
 							Swal.fire({
 								icon : 'error',
@@ -297,7 +299,6 @@
 							text : '페이지 호출 오류',
 							confirmButtonText : "확인"
 						})
-						location.href = "/expList";
 					})
 				}
 			});
