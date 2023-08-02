@@ -2,24 +2,47 @@
 	position: relative;
 	display: inline-block;
 	z-index: 9999;
+	font-family: 'Gowun Dodum', sans-serif;
 }
 
 .unique-notification-modal {
 	position: absolute;
-	bottom: -200px;
-	left: 50%;
+	top: 150%;
+	left: 10%;
 	transform: translateX(-50%);
-	width: 300px;
+	width: 350px;
 	background-color: #fff;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	border-radius: 4px;
 	padding: 10px;
 	display: none;
+	background-color: #ffffec;
+	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+	text-align: left;
+}
+
+/* 파머스알림 제목 */
+.unique-notification-header {
+	text-align: left;
+	font-weight: bold;
+	color: rgb(31, 80, 42);
+	margin: 5px;
+	font-size: large;
 }
 
 .unique-notification-item {
 	padding: 8px;
 	border-bottom: 1px solid #ccc;
+	text-align: left;
+}
+
+.notification-date {
+	color: #999;
+	font-size: 12px;
+}
+
+.notification-content {
+	margin-top: 5px;
+	text-overflow: ellipsis;
 }
 
 #bell, #cart {
