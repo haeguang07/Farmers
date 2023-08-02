@@ -75,7 +75,7 @@ public class SkilledController {
 	}
 	
 	// 등록 처리
-	@PostMapping("/add/skilled")
+	@PostMapping("/add/Skilled")
 	@ResponseBody
 	public Map<String, Object> insertSkilled(SkilledVO vo){
 		Map<String, Object> map = new HashMap<>();

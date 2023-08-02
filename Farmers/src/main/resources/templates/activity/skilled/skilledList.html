@@ -251,11 +251,11 @@ h5:has(.countdown) {
 
 		<script th:inline="javascript">
 			// 세션 정보
-			let mem;
+			let member;
 			/*<![CDATA[*/
 			let bool= [[${not #strings.isEmpty(session.mem)}]];
 			if(bool){
-				mem = [[${session.mem}]]		
+				member = [[${session.mem}]]		
 			}
 			/*]]>*/
 		
@@ -475,7 +475,7 @@ h5:has(.countdown) {
 			$('#check1').on('change', function(){
 				console.log($(this).is(':checked'))
 				if($(this).is(':checked')  == true){
-					let memNo = mem.memNo;
+					let memNo = member.memNo;
 					getCondition(1, title, memNo);
 				}else {
 					goldData(div, 1);
