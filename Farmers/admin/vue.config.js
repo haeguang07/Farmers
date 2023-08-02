@@ -14,9 +14,7 @@ module.exports = defineConfig({
 
 
 module.exports = {
-  chainWebpack: (config) => {
-    config.resolve.symlinks(false)
-  },	
+
   indexPath : "admin.html",
   pluginOptions: {
     vuetify: {}
