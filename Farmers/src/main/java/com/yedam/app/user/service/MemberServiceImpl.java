@@ -27,7 +27,6 @@ public class MemberServiceImpl implements MemberService, UserDetailsService{
 		MemberVO vo = memberMapper.selectMember(username);
 		System.out.println(vo);
 		if(vo == null) {
-			
 			throw new InternalAuthenticationServiceException("존재하지 않는 아이디입니다");
 		}
 		return new PrincipalDetails(vo);
