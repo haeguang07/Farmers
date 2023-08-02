@@ -139,7 +139,7 @@
 												</div>
 												<div class="product__item__text">
 													<h5 th:text="${popular.title}"></h5>
-													<h5 th:text="${popular.fndPrice}+'원'"></h5>
+													<h5 th:text="${#numbers.formatInteger(popular.price, 3, 'COMMA')}+원"></h5>
 												</div>
 											</div>
 										</div>

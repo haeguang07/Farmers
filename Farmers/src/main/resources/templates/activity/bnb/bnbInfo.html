@@ -321,16 +321,7 @@
 		/*]]>*/
 		
 		
-		// 비활성화 날짜 체크 함수
-		function disableDays(date) {
-				var m = date.getMonth(), d = date.getDate(), y = date.getFullYear();
-				for (i = 0; i < rsvDateList.length; i++) {
-						if($.inArray(y + '-' +(m+1) + '-' + d,rsvDateList) != -1) {
-								return [false];
-						}
-				}
-				return [true];
-		}
+	
 		
 		var rsvDateList;
 		var maxDate;
@@ -405,6 +396,16 @@
 					yearSuffix: '년',
 					});
 			}
+				// 비활성화 날짜 체크 함수
+				function disableDays(date) {
+						var m = date.getMonth(), d = date.getDate(), y = date.getFullYear();
+						for (i = 0; i < rsvDateList.length; i++) {
+								if($.inArray(y + '-' +(m+1) + '-' + d,rsvDateList) != -1) {
+										return [false];
+								}
+						}
+						return [true];
+		}
 
 				//시작날짜 변경 시
 				$('#startDate').change(function(){
