@@ -47,7 +47,7 @@
       <td class="col-lg-1"><input type="checkbox" class="form-check-input myZoom mySelect" style="margin-left: 5px;"></td>
       <td class="product__cart__item col-lg-6">
         <div class="product__cart__item__pic">
-          <img src="" alt="" id="cartImage">
+          <img id="cartImage" width="100px" height="100px">
         </div>
         <div class="product__cart__item__text">
           <h6 id="title">상품명</h6>

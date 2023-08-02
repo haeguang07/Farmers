@@ -424,6 +424,7 @@
 						Swal.fire({ title: '예약 시작 날짜를 선택하세요' , icon:'warning', confirmButtonText:"확인"});
 						return;
 					}else{
+						console.log('What')
 						//예약날짜 체크 함수
 						checkRsv()
 					}
@@ -431,10 +432,11 @@
 
 				//설정날짜 사이에 예약날짜 유무확인
 				function checkRsv(){
+					console.log(rsvDateList)
+					if (rsvDateList.length != 0) { 
 					$(rsvDateList).each(function(idx, date){
 						// 선택된 날짜 사이에 예약일이 존재하는지 판단
 						if(new Date($('#endDate').val()) > new Date(date) && new Date(date) > new Date($('#startDate').val())){
-
 							//예약이 있을 경우 alert, value 비우기
 							Swal.fire({ title: '이미 예약이 존재하는 날짜입니다.' ,
 								text:'비활성화된 날짜는 예약이 존재하는 날짜입니다. 예약된 날짜를 제외하여 선택해주시기 바랍니다.', icon:'error', confirmButtonText:"확인"});
@@ -450,6 +452,9 @@
 							calculateDays();							
 						}
 					});
+				}else{
+					calculateDays();
+				}
 				}
 	
 			// ---------- 날짜입력시 일수 및 금액 계산

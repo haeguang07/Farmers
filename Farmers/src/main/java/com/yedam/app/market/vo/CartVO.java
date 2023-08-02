@@ -21,4 +21,5 @@ public class CartVO {
 	
 	//가공데이터
 	private int productQty;
+	private String rep;
 }
