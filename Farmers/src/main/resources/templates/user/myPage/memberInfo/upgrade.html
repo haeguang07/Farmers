@@ -152,6 +152,9 @@
 		                		icon : "success",
 		                		confirmButtonColor: '#95D083'		
 		                })	
+						.then(function(){
+							parent.closePopUp();		
+						})
 						}else{
 							new swal({
 		                		title: "등업신청이 실패하였습니다",
