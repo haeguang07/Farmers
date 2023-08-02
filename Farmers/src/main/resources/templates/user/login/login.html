@@ -5,7 +5,8 @@
 
 <title>You GuiNong? 로그인</title>
 <link rel="stylesheet" href="/css/user/login/login.css" type="text/css">
-<link rel="stylesheet" href="/css/otherPlugins/sweetAlert.css" type="text/css">
+<link rel="stylesheet" href="/css/otherPlugins/sweetAlert.css"
+	type="text/css">
 <script src="/js/jquery/jquery-3.3.1.min.js"></script>
 <script src="/js/jquery/json.min.js"></script>
 <script src="/js/otherPlugins/sweetAlert2-11.4.10.js"></script>
@@ -68,10 +69,6 @@
 			    }else if(errorMsg=='pass'){
 			    	error='비밀번호가 정확하지 않습니다'
 				}
-				
-				
-			
-			
 			
 				console.log(error);
 			
@@ -82,8 +79,6 @@
 			/*]]>*/
 	
 	
-	
-	
 		$("#main").on('click',()=> location.href="/")
 		$("#join").on("click",()=> location.href="/join")
 
@@ -91,6 +86,13 @@
 		function snsLogin() {
 			let path = $(this).attr('id');
 			location.href = `/oauth2/authorization/${path}`
+		}
+			
+		window.onkeydown = function() {
+			var kcode = event.keyCode;
+			if(kcode == 116) {
+				history.replaceState({}, null, location.pathname);
+			}
 		}
 	</script>
 
