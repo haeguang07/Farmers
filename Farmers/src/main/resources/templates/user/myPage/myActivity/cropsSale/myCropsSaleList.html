@@ -55,7 +55,6 @@
 									<th>가격</th>
 									<th>남은수량</th>
 									<th>상태</th>
-									<th>등록일자</th>
 									<th>판매현황</th>
 								</tr>
 							</thead>
@@ -66,7 +65,6 @@
 										<td th:text="${crops.title}"></td>
 										<td th:text="${#numbers.formatInteger(crops.price, 3, 'COMMA')}"></td>
 										<td th:text="${crops.qty}"></td>
-										<td th:text="${#dates.format(crops.regDate, 'yyyy/MM/dd')}"></td>
 										<td th:text="${crops.regStts}"></td>
 										<td><button class="form-control sub">판매현황</button></td>
 									</tr>
@@ -92,35 +90,13 @@
 				table = $('#myTable').DataTable({
 					language: lang_kor,
 					bAutoWidth: false, // 너비 자동맞춤을 false로 설정해주어야 지정한 너비가 제대로 출력된다.
-					columnDefs: [{
-							width: "10%",
-							targets: 0
-						},
-						{
-							width: "15%",
-							targets: 1
-						},
-						{
-							width: "15%",
-							targets: 2
-						},
-						{
-							width: "10%",
-							targets: 3
-						},
-						{
-							width: "15%",
-							targets: 4
-						},
-						{
-							width: "15%",
-							targets: 5
-						},
-						{
-							width: "20%",
-							targets: 5
-						}
-					],
+					columnDefs: [{width: "10%",targets: 0},
+								 {width: "35%",targets: 1},
+								 {width: "15%",targets: 2},
+								 {width: "10%",targets: 3},
+								 {width: "15%",targets: 4},
+								 {width: "15%",targets: 5}
+								],
 					order : [0, 'desc']
 				});	
 			})
