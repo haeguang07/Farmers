@@ -10,12 +10,10 @@ module.exports = defineConfig({
 		}
   }
 })
-const target = 'http://localhost:8085';
+
 
 module.exports = {
-  devServer: {
-    proxy: target
-  },
+
   indexPath : "admin.html",
   pluginOptions: {
     vuetify: {}

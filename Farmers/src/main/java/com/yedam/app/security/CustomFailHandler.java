@@ -22,8 +22,6 @@ public class CustomFailHandler implements AuthenticationFailureHandler {
 		if(exception instanceof InternalAuthenticationServiceException ) {
 			errormsg="id";
 		}
-
-		
 		System.out.println("Fail handler 실행");
 		response.sendRedirect("/login?error="+errormsg);
 	}
