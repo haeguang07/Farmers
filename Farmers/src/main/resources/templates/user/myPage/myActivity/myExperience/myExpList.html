@@ -119,11 +119,7 @@
 							width: "13%",
 							targets: 4
 						},
-						{
-							width: "15%",
-							targets: 5
-						}
-					],
+								],
 					order : [0, 'desc']
 				});
 			}
@@ -188,12 +184,12 @@
 				$('#thead').children().remove()
 				let tr = $('<tr>').addClass('th')
 				let th1 = $('<th>').text('번호')
-				let th2 = $('<th>').text('이미지')
+				/* let th2 = $('<th>').text('이미지') */
 				let th3 = $('<th>').text('제목')
 				let th4 = $('<th>').text('등록일자')
 				let th5 = $('<th>').text('상태')
 				let th6 = $('<th>').text('신청확인')
-				$(tr).append(th1, th2, th3, th4, th5, th6)
+				$(tr).append(th1, th3, th4, th5, th6)
 				$('#thead').append(tr)
 
 				//tbody
@@ -245,12 +241,12 @@
 				$('#thead').children().remove()
 				let tr = $('<tr>').addClass('th')
 				let th1 = $('<th>').text('번호')
-				let th2 = $('<th>').text('이미지')
+				/* let th2 = $('<th>').text('이미지') */
 				let th3 = $('<th>').text('제목')
 				let th4 = $('<th>').text('신청일자')
 				let th5 = $('<th>').text('신청상태')
 				let th6 = $('<th>').text('상세확인')
-				$(tr).append(th1, th2, th3, th4, th5, th6)
+				$(tr).append(th1, th3, th4, th5, th6)
 				$('#thead').append(tr)
 
 				//tbody

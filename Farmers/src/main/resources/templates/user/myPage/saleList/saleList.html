@@ -53,7 +53,7 @@
 									<th>이미지</th>
 									<th>제목</th> 
 									<th>구매자</th>
-									<th>카테고리</th>
+									<!-- <th>카테고리</th> -->
 									<th>결제일</th>
 									<th>배송상태</th>
 								</tr>
@@ -69,7 +69,7 @@
 									</td>
 									<td th:text="${sale.title}"></td>
 									<td th:text="${sale.nick}"></td>
-									<td th:text="${sale.boardCtg}"></td>
+									<!-- <td th:text="${sale.boardCtg}"></td> -->
 									<td th:text="${#dates.format(sale.payDate, 'yyyy/MM/dd')}"></td>
 									<td th:text="${sale.shipStts}"></td>
 								</tr>
@@ -90,6 +90,13 @@
 				
 				$('#myTable').DataTable({
 					language: lang_kor,
+					columnDefs: [{width: "10%",targets: 0},
+								 {width: "20%",targets: 1},
+								 {width: "30%",targets: 2},
+								 {width: "10%",targets: 3},
+								 {width: "15%",targets: 4},
+								 {width: "15%",targets: 5}
+								],
 					order: [ [ 0, "desc" ] ] 
 				});
 			})
