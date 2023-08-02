@@ -69,7 +69,7 @@ public class WebSecurityConfig  {
 	           if (request.getHeader("referer") != null && !request.getHeader("referer").isEmpty()) {
 	               uri = request.getHeader("referer");
 	           }
-
+	           System.out.println(uri);
 	           if (savedRequest != null) {
 	               redirectStrategy.sendRedirect(request, response, savedRequest.getRedirectUrl());
 	               requestCache.removeRequest(request, response);
@@ -97,7 +97,7 @@ public class WebSecurityConfig  {
 				.antMatchers("/admin/**").hasRole("ADMIN")
 				.anyRequest().authenticated()
 			.and()
-				 .exceptionHandling().accessDeniedHandler(accessDeniedHandler())
+				.exceptionHandling().accessDeniedHandler(accessDeniedHandler())
 			.and()
 				.headers()
 				.frameOptions()
@@ -110,6 +110,7 @@ public class WebSecurityConfig  {
 				.failureHandler(authenticationFailureHandler())
 				.permitAll()
 			.and()
+			 	
 				.headers().frameOptions().sameOrigin() //팝업창 띄우기
 			.and()
 			.logout((logout) -> logout
