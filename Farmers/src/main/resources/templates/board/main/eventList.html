@@ -49,9 +49,9 @@
 											<div class="card-body">
 												<div class="shop__sidebar__categories">
 													<ul class="nice-scroll">
-														<li><a href="noticeList">공지사항</a></li>
-														<li><a href="cmmnList">커뮤니티</a></li>
-														<li><b><a href="eventList" style="color: black;">이벤트</a></b>
+														<li><a href="/noticeList">공지사항</a></li>
+														<li><a href="/cmmnList">커뮤니티</a></li>
+														<li><b><a href="/eventList" style="color: black;">이벤트</a></b>
 														</li>
 													</ul>
 												</div>
@@ -98,10 +98,14 @@
 								</div>
 							</div>
 						</section>
-						<div class="row">
-							<button type="button"
-								th:onclick="'location.href=\''+ @{${'addEvent'}} + '\''">등록</button>
-						</div>
+						<th:block th:if="not ${#strings.isEmpty(session.mem)}">
+							<div class="row"
+								th:if="${session.mem.memGrd == 'b0'}">
+								<div class="col-lg-11"></div>
+								<button type="button" class="btn btn-success"
+									th:onclick="'location.href=\''+ @{${'/add/Event'}} + '\''">등록</button>
+							</div>
+						</th:block>
 
 						<!-- 이벤트 카드 리스트 clone -->
 						<div class="col-lg-4 col-md-6 col-sm-6" id="event"
@@ -146,7 +150,7 @@
             // 이벤트 리스트 데이터 가져오기
 			function boardData(postCtg, pageNum, dst1, dst2){
 				$.ajax({
-					url: "boardList",
+					url: "/boardList",
 					method: "GET",
 					data: {
                         postCtg,
@@ -204,7 +208,7 @@
             	let imageUrl = item.img;
             	$(clone).find('.set-bg').css('background-image', 'url('+imageUrl+')');
             	$(clone).find('.set-bg').on('click', function(){
-            		location.href = `eventInfo?postCtg=i4&boardNo=${item.boardNo}`
+            		location.href = `/eventInfo?postCtg=i4&boardNo=${item.boardNo}`
             	})
             	$(clone).find('.eDst2').text(item.dst2);
             	$(clone).find('.eTitle').text(item.title);

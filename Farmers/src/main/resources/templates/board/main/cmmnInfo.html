@@ -11,6 +11,14 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>커뮤니티 상세조회</title>
 <style>
+.replyForm {
+	margin-top: 30px;
+}
+
+.btn {
+	margin: 2px;
+}
+
 .hidden {
 	display: none;
 }
@@ -107,9 +115,13 @@ keyframes fade { 0% {
 
 
 
+
+
 %
 {
 color
+
+
 
 
 
@@ -123,7 +135,11 @@ color
 
 
 
+
+
 #e23b3b
+
+
 
 
 
@@ -137,9 +153,13 @@ color
 
 
 
+
+
 %
 {
 color
+
+
 
 
 
@@ -153,7 +173,11 @@ color
 
 
 
+
+
 #transparent
+
+
 
 
 
@@ -172,6 +196,8 @@ keyframes size { 0% {
 
 
 
+
+
 %
 {
 padding
@@ -181,7 +207,11 @@ padding
 
 
 
+
+
 :
+
+
 
 
 
@@ -195,7 +225,11 @@ padding
 
 
 
+
+
 16px
+
+
 
 
 
@@ -207,8 +241,12 @@ padding
 
 
 
+
+
 ;
 margin-top
+
+
 
 
 
@@ -222,7 +260,11 @@ margin-top
 
 
 
+
+
 -4px
+
+
 
 
 
@@ -230,6 +272,8 @@ margin-top
 ;
 }
 100
+
+
 
 
 
@@ -245,7 +289,11 @@ padding
 
 
 
+
+
 :
+
+
 
 
 
@@ -259,6 +307,8 @@ padding
 
 
 
+
+
 12px
 
 
@@ -266,7 +316,11 @@ padding
 
 
 
+
+
 8px
+
+
 
 
 
@@ -314,9 +368,9 @@ padding
 											<div class="card-body">
 												<div class="shop__sidebar__categories">
 													<ul class="nice-scroll">
-														<li><a href="noticeList">공지사항</a></li>
-														<li><a href="cmmnList" style="color: black;">커뮤니티</a></li>
-														<li><b><a href="eventList">이벤트</a></b></li>
+														<li><a href="/noticeList">공지사항</a></li>
+														<li><a href="/cmmnList" style="color: black;">커뮤니티</a></li>
+														<li><b><a href="/eventList">이벤트</a></b></li>
 													</ul>
 												</div>
 											</div>
@@ -355,24 +409,37 @@ padding
 						</div>
 						<hr>
 						<div>
-							<button type="button" id="updateBtn"
-								th:onclick="'location.href=\'' + @{${'updateCmmn?postCtg=i3&boardNo=' + cmmnInfo[0].boardNo + '&dst1=' + cmmnInfo[0].dst1}} + '\''">수정</button>
-							<button type="button" id="delBtn">삭제</button>
-							<button type="button"
-								th:onclick="'location.href=\''+ @{${'cmmnList'}} + '\''">목록</button>
-							<div class="col-lg-12">
+							<div class="row">
+								<th:block th:if="not ${#strings.isEmpty(session.mem)}">
+									<div class="col-lg-9"></div>
+									<button type="button" id="updateBtn"  class="btn btn-success"
+										th:if="${session.mem.memNo} == ${cmmnInfo[0].memNo}"
+										th:onclick="'location.href=\'' + @{${'/update/Cmmn?postCtg=i3&boardNo=' + cmmnInfo[0].boardNo + '&dst1=' + cmmnInfo[0].dst1}} + '\''">수정</button>
+									<button type="button" id="delBtn" class="btn btn-dark"
+										th:if="${session.mem.memNo} == ${cmmnInfo[0].memNo}">삭제</button>
+									<button type="button" class="btn btn-secondary"
+										th:onclick="'location.href=\''+ @{${'/cmmnList'}} + '\''">목록</button>
+								</th:block>
+								<th:block th:if="${#strings.isEmpty(session.mem)}">
+									<div class="col-lg-11"></div>
+									<button type="button" class="btn btn-secondary"
+										th:onclick="'location.href=\''+ @{${'/noticeList'}} + '\''">목록</button>
+								</th:block>
+							</div>
+							<div class="col-lg-12 replyForm">
 								<div class="form-group">
 									<table style="width: 800px;">
 										<tr>
 											<td><label for="cmtDesct" style="text-align: center;">댓글</label>
 											</td>
-											<td><textarea class="form-control"
+											<td><textarea class="form-control col-lg-12 col-md-10"
 													style="display: inline-block;" id="cmtDesct" rows="3"
 													placeholder="댓글을 입력하세요"></textarea></td>
 										</tr>
 									</table>
-									<div>
-										<button type="button" id="addReply">댓글작성</button>
+									<div class="row">
+										<div class="col-lg-10 col-md-10"></div>
+										<button type="button" class="btn btn-outline-success" id="addReply">댓글작성</button>
 									</div>
 								</div>
 								<div class="row col-lg-12">
@@ -396,6 +463,7 @@ padding
 				</tr>
 				<tr style="border-bottom: 1px solid lightgray;">
 					<td class="hidden cmtNo"></td>
+					<td class="hidden cmtMem"></td>
 					<td class="center vertical" id="wrtDate"></td>
 				</tr>
 			</table>
@@ -417,16 +485,25 @@ padding
 			
 			$('#delBtn').on('click', function(){
 				$.ajax({
-					url: "deleteBoard",
+					url: "/deleteBoard",
 					method: 'DELETE',
 					data: {boardNo},
 					success: function(data){
-						console.log(data);
-						alert('삭제가 완료되었습니다.');
-						location.href = "cmmnList";
+						Swal.fire({
+							title: '삭제가 완료되었습니다.',
+							icon: 'success',
+							confirmButtonText:"확인"
+						}).then((result) => {
+							location.href = "/cmmnList";							
+						})
 					},
 					error: function(reject){
-						alert('삭제가 정상적으로 진행되지 않았습니다.');
+						Swal.fire({
+							title: '삭제가 정상적으로 진행되지 않았습니다.',
+							text: '오류가 발생하였습니다.',
+							icon: 'warning',
+							confirmButtonText:"확인"
+						})
 					}
 				})
 			})
@@ -434,7 +511,7 @@ padding
 			// 댓글 리스트 출력
 			function replyData(){
 				$.ajax({
-					url: "reply",
+					url: "/reply",
 					method: "GET",
 					data: {boardNo},
 					success: function(data){
@@ -455,7 +532,7 @@ padding
 				let memNo = mem.memNo;
 				
 				$.ajax({
-					url: "reply",
+					url: "/reply",
 					method: "POST",
 					data: {
 						memNo,
@@ -464,12 +541,22 @@ padding
 						rcmNum
 					},
 					success: function(data){
-						alert('댓글 등록이 완료되었습니다.');
-						$('#cmtDesct').val('');
-						replyData();
+						Swal.fire({
+							title: '댓글 등록이 완료되었습니다.',
+							icon: 'success',
+							confirmButtonText:"확인"
+						}).then((result) => {
+							$('#cmtDesct').val('');
+							replyData();							
+						})
 					},
 					error: function(reject){
-						alert('다시 시도하세요.');
+						Swal.fire({
+							title: '댓글 등록이 정상적으로 진행되지 않았습니다.',
+							text: '다시 시도하세요.',
+							icon: 'warning',
+							confirmButtonText:"확인"
+						})
 					}
 				})
 				
@@ -495,7 +582,8 @@ padding
 				$(clone).find('.nickname').text(item.nick);
 				$(clone).find('.cmtD').text(item.cmtDesct);
 				$(clone).find('.rcmNum').text(item.rcmNum);
-				$(clone).find('.hidden').text(item.cmtNo);
+				$(clone).find('.cmtNo').text(item.cmtNo);
+				$(clone).find('.cmtMem').text(item.memNo);
 				$(clone).find('#wrtDate').text(item.wrtDate);
 				
 				$('#cmtList').append(clone);
@@ -513,21 +601,38 @@ padding
 		    	let deleteIcon = e.target;
 		        let reply = $(deleteIcon).closest('tbody');
 		        let cmtNo = reply.find('.cmtNo').text();
-		        console.log(cmtNo);
+		        let cmtMem = reply.find('.cmtMem').text();
 		        
-		        $.ajax({
-		        	url: "deleteReply",
-		        	method: 'DELETE',
-		        	data: {cmtNo},
-		        	success: function(data){
-		        		console.log(data);
-		        		alert('댓글 삭제가 완료되었습니다.');
-		        		reply.remove();
-		        	},
-		        	error: function(reject){
-		        		alert('삭제가 정상적으로 진행되지 않았습니다.');
-		        	}
-		        }) 
+		        if(mem.memNo == cmtMem){
+			        $.ajax({
+			        	url: "/deleteReply",
+			        	method: 'DELETE',
+			        	data: {cmtNo},
+			        	success: function(data){
+			        		Swal.fire({
+								title: '댓글 삭제가 완료되었습니다.',
+								icon: 'success',
+								confirmButtonText:"확인"
+							}).then((result) => {
+				        		reply.remove();							
+							})
+			        	},
+			        	error: function(reject){
+			        		Swal.fire({
+								title: '삭제가 정상적으로 진행되지 않았습니다.',
+								text: '오류가 발생하였습니다.',
+								icon: 'warning',
+								confirmButtonText:"확인"
+							})
+			        	}
+			        }) 
+		        } else {
+		        	Swal.fire({
+						title: '본인만 작성가능합니다.',
+						icon: 'error',
+						confirmButtonText:"확인"
+					})
+		        }
 		    })
 			
 			</script>

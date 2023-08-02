@@ -27,7 +27,7 @@ public class BoardRestController {
 	CodeService codeService;
 	
 	// 이벤트 전체 조회
-	@GetMapping("eventList")
+	@GetMapping("/eventList")
 	public ModelAndView eventList() {
 		// model.addAttribute("dst1", codeService.getCodeList("0K"));
 		ModelAndView mv = new ModelAndView("board/main/eventList");
@@ -37,7 +37,7 @@ public class BoardRestController {
 	
 
 	// 메인 게시판 전체 조회
-	@GetMapping("boardList")
+	@GetMapping("/boardList")
 	public Map<String, Object> boardList(@RequestParam(required = false, defaultValue = "i2") String postCtg,
 			@RequestParam(required = false, defaultValue = "0") int pageNum,
 			@RequestParam(required = false) String dst1, @RequestParam(required = false) String dst2) {
@@ -60,7 +60,7 @@ public class BoardRestController {
 	}
 	
 	// 지역2 코드 반환
-	@GetMapping("getCode")
+	@GetMapping("/getCode")
 	public Map<String, Object> getCode(@RequestParam(required = false) String dst1){
 		Map<String, Object> map = new HashMap<>();
 		
@@ -98,7 +98,7 @@ public class BoardRestController {
 	}
 	
 	// 커뮤니티 등록
-	@PostMapping("addCmmn")
+	@PostMapping("/add/Cmmn")
 	public Map<String, Object> addCmmn(BoardVO vo){
 		Map<String, Object> map = new HashMap<>();
 		
@@ -114,7 +114,7 @@ public class BoardRestController {
 	}
 	
 	// 이벤트 등록
-	@PostMapping("add/addEvent")
+	@PostMapping("/add/addEvent")
 	public Map<String, Object> addEvent(BoardVO vo){
 		Map<String, Object> map = new HashMap<>();
 		
@@ -143,7 +143,7 @@ public class BoardRestController {
 	
 	
 	// 커뮤니티 수정
-	@PostMapping("updateCmmn")
+	@PostMapping("/update/Cmmn")
 	public Map<String, Object> updateCmmn(BoardVO vo){
 		
 		Map<String, Object> map = new HashMap<>();
@@ -158,7 +158,7 @@ public class BoardRestController {
 	}
 	
 	// 이벤트 수정
-	@PostMapping("updateEvent")
+	@PostMapping("/update/Event")
 	public Map<String, Object> updateEvent(BoardVO vo){
 		
 		Map<String, Object> map = new HashMap<>();
@@ -173,7 +173,7 @@ public class BoardRestController {
 	}
 	
 	// 게시글 삭제
-	@DeleteMapping("deleteBoard")
+	@DeleteMapping("/deleteBoard")
 	public Map<String, Object> deleteCmmn(String boardNo){
 		Map<String, Object> map = new HashMap<>();
 		
@@ -187,7 +187,7 @@ public class BoardRestController {
 	}
 	
 	// 댓글 작성
-	@PostMapping("reply")
+	@PostMapping("/reply")
 	public Map<String, Object> addReply(ReplyVO vo){
 		Map<String, Object> map = new HashMap<>();
 		
@@ -201,7 +201,7 @@ public class BoardRestController {
 	}
 	
 	// 댓글 조회
-	@GetMapping("reply")
+	@GetMapping("/reply")
 	public Map<String, Object> replyList(String boardNo){
 		Map<String, Object> map = new HashMap<>();
 		List<BoardVO> list = boardService.selReplyList(boardNo);
@@ -211,7 +211,7 @@ public class BoardRestController {
 	}
 	
 	// 댓글 삭제
-	@DeleteMapping("deleteReply")
+	@DeleteMapping("/deleteReply")
 	public Map<String, Object> deleteReply(String cmtNo){
 		Map<String, Object> map = new HashMap<>();
 		

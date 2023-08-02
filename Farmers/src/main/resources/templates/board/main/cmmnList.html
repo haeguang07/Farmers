@@ -52,9 +52,9 @@
 											<div class="card-body">
 												<div class="shop__sidebar__categories">
 													<ul class="nice-scroll">
-														<li><a href="noticeList">공지사항</a></li>
-														<li><a href="communityList" style="color: black;">커뮤니티</a></li>
-														<li><b><a href="eventList">이벤트</a></b></li>
+														<li><a href="/noticeList">공지사항</a></li>
+														<li><a href="/communityList" style="color: black;">커뮤니티</a></li>
+														<li><b><a href="/eventList">이벤트</a></b></li>
 													</ul>
 												</div>
 											</div>
@@ -92,8 +92,14 @@
 									</tbody>
 								</table>
 								<br>
-								<button type="button" th:onclick="'location.href=\''+ @{${'addCmmn'}} + '\''">등록</button>
 							</div>
+							<th:block th:if="not ${#strings.isEmpty(session.mem)}">
+								<div class="row" th:if="${session.mem.memGrd == 'b1' or session.mem.memGrd == 'b0'}">
+									<div class="col-lg-11"></div>
+									<button type="button" class="btn btn-success"
+										th:onclick="'location.href=\''+ @{${'/add/Cmmn'}} + '\''">등록</button>
+								</div>
+							</th:block>
 						</div>
 						<div class="row" id="pageDiv"></div>
 					</div>
@@ -111,6 +117,15 @@
 		</div>
 
 		<script th:inline="javascript">
+			// 세션 정보
+			let mem;
+			/*<![CDATA[*/
+			let bool= [[${not #strings.isEmpty(session.mem)}]];
+			if(bool){
+				mem = [[${session.mem}]]		
+			}
+			/*]]>*/
+		
 			let dst1 = '';
 		
 			$(function(){
@@ -120,7 +135,7 @@
 			// 이벤트 리스트 데이터 가져오기
 			function boardData(postCtg, pageNum, dst1){
 				$.ajax({
-					url: "boardList",
+					url: "/boardList",
 					method: "GET",
 					data: {
                         postCtg,
@@ -178,23 +193,48 @@
 			    $('#cmmnList').append(tr);
 			    
 			    tr.on('click', function(){
-			    	location.href = `cmmnInfo?postCtg=i3&boardNo=${item.boardNo}`;
 			    	
-			    	// 조회 수 증가 ajax 실행
-			    	$.ajax({
-			    		url: "/count",
-			    		method: "POST",
-			    		data: {
-			    			boardNo : item.boardNo
-			    		},
-			    		success: function(result){
-			    			console.log(result.retCode);
-			    		},
-			    		error: function(result){
-			    			console.log(result.retCode);
+			    	if(mem){
+			    		if(mem.memGrd != 'b2'){
+					    	location.href = `/cmmnInfo?postCtg=i3&boardNo=${item.boardNo}`;
+					    	
+					    	// 조회 수 증가 ajax 실행
+					    	$.ajax({
+					    		url: "/count",
+					    		method: "POST",
+					    		data: {
+					    			boardNo : item.boardNo
+					    		},
+					    		success: function(result){
+					    			console.log(result.retCode);
+					    		},
+					    		error: function(result){
+					    			console.log(result.retCode);
+					    		}
+					    	})			    			
+			    		} else {
+			    			Swal.fire({
+								title: '정회원만 조회 가능합니다.',
+								text: '등업신청 하시겠습니까?',
+								icon: 'warning',
+								showCancelButton: true,
+								confirmButtonText:"확인",
+								cancelButtonText: "취소"
+							}).then((result) => {
+								location.href = `/myPage/myPage`;
+							})
 			    		}
-			    	})
-			    })
+			    	} else {
+			    		Swal.fire({
+							title: '로그인이 필요합니다.',
+							icon: 'warning',
+							confirmButtonText:"확인"
+						}).then((result) => {
+							location.href = `/login`;
+						})
+			    	}
+			    		
+				})
 			}
             	
 			
