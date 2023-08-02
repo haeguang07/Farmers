@@ -186,45 +186,79 @@
 			
 			// ckEditor 데이터 가져오기
 			$('#addBtn').on('click', function() {
-				let ckData = editor.getData();
-				let formData = $('#myForm').serializeObject();
-				formData.detaDesct = ckData;
-				formData.rep = dbPath;
-				console.log(formData);
-
-				$.ajax({
-					url : "/add/cropsSaleInsert",
-					method : "POST",
-					data : formData
-				})
-				.done(function(result){
-					if(result == "success") {
-						Swal.fire({
-							icon : 'success',
-							title : '등록 성공',
-							text : '성공적으로 등록이 되었습니다',
-							confirmButtonText : "확인"
-						})
-						location.href="/cropsSaleList";
-					} else {
-						Swal.fire({
-							icon : 'error',
-							title : '등록 실패',
-							text : '등록에 실패했습니다',
-							confirmButtonText : "확인"
-						})
-						location.href="/cropsSaleList";
-					}
-				})
-				.fail(function(result){
+				if(!$('[name="title"]').val()) {
 					Swal.fire({
-						icon : 'error',
-						title : '오류',
-						text : '페이지 호출 오류',
+						icon : 'info',
+						title : '제목 미기입',
+						text : '제목을 입력하세요',
 						confirmButtonText : "확인"
 					})
-					location.href = "/cropsSaleList";
-				})
+					return;
+				} else if(!$('#inputFile').val()) {
+					Swal.fire({
+						icon : 'info',
+						title : '대표이미지 미등록',
+						text : '대표이미지를 등록하세요',
+						confirmButtonText : "확인"
+					})
+					return;
+				} else if(!$('[name="crpCtg"]').val()) {
+					Swal.fire({
+						icon : 'info',
+						title : '상품 종류 미선택',
+						text : '상품 종류를 선택하세요',
+						confirmButtonText : "확인"
+					})
+					return;
+				} else if(!$('[name="price"]').val()) {
+					Swal.fire({
+						icon : 'info',
+						title : '가격 미기입',
+						text : '가격을 입력하세요',
+						confirmButtonText : "확인"
+					})
+					return;
+				} else {
+					let ckData = editor.getData();
+					let formData = $('#myForm').serializeObject();
+					formData.detaDesct = ckData;
+					formData.rep = dbPath;
+					console.log(formData);
+	
+					$.ajax({
+						url : "/add/cropsSaleInsert",
+						method : "POST",
+						data : formData
+					})
+					.done(function(result){
+						if(result == "success") {
+							Swal.fire({
+								icon : 'success',
+								title : '등록 성공',
+								text : '성공적으로 등록이 되었습니다',
+								confirmButtonText : "확인"
+							})
+							.then(function() {
+								location.href="/cropsSaleList";
+							})
+						} else {
+							Swal.fire({
+								icon : 'error',
+								title : '등록 실패',
+								text : '등록에 실패했습니다',
+								confirmButtonText : "확인"
+							})
+						}
+					})
+					.fail(function(result){
+						Swal.fire({
+							icon : 'error',
+							title : '오류',
+							text : '페이지 호출 오류',
+							confirmButtonText : "확인"
+						})
+					})
+				}
 			});
 			
 			// 취소버튼 클릭 시

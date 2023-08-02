@@ -64,9 +64,9 @@
 											<div class="card-body">
 												<div class="shop__sidebar__categories">
 													<ul class="nice-scroll">
-														<li><a href="noticeList">공지사항</a></li>
-														<li><a href="cmmnList">커뮤니티</a></li>
-														<li><b><a href="eventList" style="color: black;">이벤트</a></b>
+														<li><a href="/noticeList">공지사항</a></li>
+														<li><a href="/cmmnList">커뮤니티</a></li>
+														<li><b><a href="/eventList" style="color: black;">이벤트</a></b>
 														</li>
 													</ul>
 												</div>
@@ -97,12 +97,22 @@
 								<span>♡</span>
 							</div>
 							<hr>
-							<div>
-								<button type="button" id="updateBtn"
-									th:onclick="'location.href=\'' + @{${'updateEvent?postCtg=i4&boardNo=' + eventInfo[0].boardNo + '&dst1=' + eventInfo[0].dst1}} + '\''">수정</button>
-								<button type="button" id="delBtn">삭제</button>
-								<button type="button"
-									th:onclick="'location.href=\''+ @{${'eventList'}} + '\''">목록</button>
+							<div class="row">
+								<th:block th:if="not ${#strings.isEmpty(session.mem)}">
+								<div class="col-lg-9"></div>
+								<button type="button" id="updateBtn" class="btn btn-success"
+									th:if="${session.mem.memGrd == 'b0'}"
+									th:onclick="'location.href=\'' + @{${'/update/Event?postCtg=i4&boardNo=' + noticeInfo[0].boardNo}} + '\''">수정</button>
+								<button type="button" class="btn btn-dark" id="delBtn"
+									th:if="${session.mem.memGrd == 'b0'}">삭제</button>
+								<button type="button" class="btn btn-secondary"
+									th:onclick="'location.href=\''+ @{${'/eventList'}} + '\''">목록</button>
+							</th:block>
+							<th:block th:if="${#strings.isEmpty(session.mem)}">
+								<div class="col-lg-11"></div>
+								<button type="button" class="btn btn-secondary"
+									th:onclick="'location.href=\''+ @{${'/eventList'}} + '\''">목록</button>
+							</th:block>
 							</div>
 						</div>
 					</div>
@@ -122,16 +132,25 @@
 			
 			$('#delBtn').on('click', function(){
 				$.ajax({
-					url: "deleteEvent",
+					url: "/deleteBoard",
 					method: 'DELETE',
 					data: {boardNo},
 					success: function(data){
-						console.log(data);
-						alert('삭제가 완료되었습니다.');
-						location.href = "eventList";
+						Swal.fire({
+							title: '삭제가 완료되었습니다.',
+							icon: 'success',
+							confirmButtonText:"확인"
+						}).then((result) => {
+							location.href = "/eventList";							
+						})
 					},
 					error: function(reject){
-						alert('삭제가 정상적으로 진행되지 않았습니다.');
+						Swal.fire({
+							title: '삭제가 정상적으로 진행되지 않았습니다.',
+							text: '오류가 발생하였습니다.',
+							icon: 'warning',
+							confirmButtonText:"확인"
+						})
 					}
 				})
 			})

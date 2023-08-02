@@ -30,11 +30,14 @@ public class PaymenetController {
 
 	@GetMapping("payment") //requestBody 사용 가능
 	public String payment(@RequestParam(value = "productList") String productList, Model model) {
-
+		System.out.println("list!!!!!!!!!!!!!!!");
+		System.out.println(productList);
 		// json으로 받은 결제상품정보 List<PayProductVO>로 변환
 		Gson gson = new Gson();
 		List<PaymentDetailVO> list = gson.fromJson(productList, new TypeToken<ArrayList<PaymentDetailVO>>() {
 		}.getType());
+		System.out.println("list!!!!!!!!!!!!!!!");
+		System.out.println(list);
 		for (PaymentDetailVO vo : list) {
 			System.out.println(vo);
 			paymentService.getProductInfo(vo);

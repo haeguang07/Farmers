@@ -264,16 +264,25 @@ h4,h5 {
 					
 					//ajax 이벤트 수정
 					$.ajax({
-							url: "updateEvent",
+							url: "/update/Event",
 							method: "POST",
 							data: formData
 						})
 						.done(function (result) {
-							alert(result.retCode);
-							location.href = "eventInfo?postCtg=i4&boardNo=" + boardNo;
+							Swal.fire({
+								title: '수정이 완료되었습니다.',
+								icon: 'Success',
+								confirmButtonText:"확인"
+							}).then((result) => {
+								location.href = "/eventInfo?postCtg=i4&boardNo=" + boardNo;								
+							})
 						})
 						.fail(function (result) {
-							alert(result.body);
+							Swal.fire({
+								title: '수정 실패',
+								icon: 'warning',
+								confirmButtonText:"확인"
+							})
 							// location.href = "auctionList"
 					}) 
 				}

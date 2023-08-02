@@ -123,7 +123,7 @@
 											<th:block th:if="not ${#strings.isEmpty(session.mem)}">
 												<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">총액</b> <span id="sumPrice"></span></p>
 												<button type="button" class="btn btn-dark mr-2" style="width: 150px; float: left;" id="buy" th:if="${session.mem.memNo} != ${csInfo.memNo}">구매하기</button>
-												<button type="button" class="btn btn-dark" style="width: 150px; float: left;" id="cart" th:if="${session.mem.memNo} != ${csInfo.memNo}">장바구니 담기</button>
+												<button type="button" class="btn btn-dark" style="width: 150px; float: left;" id="addCart" th:if="${session.mem.memNo} != ${csInfo.memNo}">장바구니 담기</button>
 											</th:block>
 										</div>
 									</div>
@@ -263,15 +263,17 @@
 					Swal.fire({
 						icon : 'error',
 						title : '접근 불가',
-						text : '정회원만 이용할 수 있습니다. 로그인 해주세요',
+						text : '회원만 이용할 수 있습니다. 로그인 해주세요',
 						confirmButtonText : "확인"
 					})
-					// 로그인이나 회원가입 페이지로 넘어가기
+					.then(function() {
+						location.href = "/login";
+					})
 				}
 			});
 			
 			// 장바구니 담기 버튼 클릭 시
-			$('#cart').on('click', function() {
+			$('#addCart').on('click', function() {
 				let qty = $('#count').val();
 				let boardCtg = /*[[${codeInfo}]]*/
 				if(mem != null) {
@@ -291,16 +293,20 @@
 							text : '상품을 장바구니에 담았습니다',
 							confirmButtonText : "확인"
 						})
-						location.href = "/cart?memNo=" + mem.memNo;
+						.then(function() {
+							location.href = "/cart?memNo=" + mem.memNo;
+						})
 					})
 				} else {
 					Swal.fire({
 						icon : 'error',
 						title : '접근 불가',
-						text : '정회원만 이용할 수 있습니다. 로그인 해주세요',
+						text : '회원만 이용할 수 있습니다. 로그인 해주세요',
 						confirmButtonText : "확인"
 					})
-					// 로그인이나 회원가입 페이지로 넘어가기
+					.then(function() {
+						location.href = "/login";
+					})
 				}
 			});
 			

@@ -11,16 +11,25 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>커뮤니티 등록</title>
 <style>
+.mTop {
+	margin-top: 20px;
+}
+
+.vCenter {
+	vertical-align: center;
+}
+
 .hidden {
 	display: none;
 }
 
-h4 {
+h4, h5 {
 	font-weight: bold;
 }
+
 .ck-editor__editable {
-			height: 400px;
-		}
+	height: 400px;
+}
 </style>
 </head>
 <body>
@@ -62,22 +71,39 @@ h4 {
 								<form id="myForm">
 									<!-- 실제 파일 업로드 input (안보임) -->
 									<input type="file" id="inputFile" class="hidden">
-									<!-- 지역1 선택창 -->
-									<div class="col-4">
-										<select class="form-select form-group col-1.5 mr-2"
-											aria-label="Default select example" name="dst1" id="dst1">
-											<option value="" selected="selected">도</option>
-											<option th:each="opt : ${dst1}" th:text="${opt.codeDesct}"
-												th:value="${opt.cmmnDetaCode}"></option>
-										</select>
+									<div class="row mTop">
+										<!-- 지역1 선택창 -->
+										<div class="col-lg-4 col-md-4">
+											<span class="text-left vCenter">지역</span>
+										</div>
+										<br>
+										<br>
+										<div class="col-lg-4">
+											<select class="form-select form-group col-1.5 mr-2"
+												aria-label="Default select example" name="dst1" id="dst1">
+												<option value="" selected="selected">도</option>
+												<option th:each="opt : ${dst1}" th:text="${opt.codeDesct}"
+													th:value="${opt.cmmnDetaCode}"></option>
+											</select>
+										</div>
 									</div>
-									<span>제목 <input type="text" class="form-control"
-										name="title"></span> <span>작성자 <input type="text"
-										class="form-control col-lg-6 hidden" readonly="readonly"
-										th:value="${session.mem.memNo}" name="memNo"> <input
-										type="text" class="form-control" readonly="readonly"
-										th:value="${session.mem.nick}">
-									</span>
+									<div class="row">
+										<div class="col-lg-4 col-md-4">
+											<span>제목</span>
+										</div>
+										<input type="text" class="form-control col-lg-8 col-md-8"
+											name="title">
+									</div>
+									<div class="row">
+										<div class="col-lg-4 col-md-4">
+											<span>작성자</span>
+										</div>
+										<input type="text" class="form-control col-lg-6 hidden"
+											readonly="readonly" th:value="${session.mem.memNo}"
+											name="memNo"> <input type="text"
+											class="form-control-plaintext col-lg-8 col-md-8"
+											readonly="readonly" th:value="${session.mem.nick}">
+									</div>
 								</form>
 							</div>
 						</div>
@@ -87,7 +113,7 @@ h4 {
 								<div class="row">
 									<div class="tab-content col-lg-12">
 										<div class="product__details__tab__content">
-											<p>내용</p>
+											<h5>내용</h5>
 											<div>
 												<textarea name="text" id="editor"></textarea>
 											</div>
@@ -198,13 +224,18 @@ h4 {
 					
 					//ajax 이벤트 등록
 					$.ajax({
-							url: "addCmmn",
+							url: "/add/Cmmn",
 							method: "POST",
 							data: formData
 						})
 						.done(function (result) {
-							alert(result.retCode);
-							location.href = "cmmnList"
+							Swal.fire({
+								title: '등록이 완료되었습니다.',
+								icon: 'success',
+								confirmButtonText:"확인"
+							}).then((result) => {
+								location.href = "/cmmnList";								
+							})
 						})
 						.fail(function (result) {
 							alert(result.body);

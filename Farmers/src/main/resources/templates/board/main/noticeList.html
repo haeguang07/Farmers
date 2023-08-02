@@ -55,9 +55,9 @@
 											<div class="card-body">
 												<div class="shop__sidebar__categories">
 													<ul class="nice-scroll">
-														<li><b><a href="noticeList" style="color: black;">공지사항</a></b></li>
-														<li><a href="cmmnList">커뮤니티</a></li>
-														<li><a href="eventList">이벤트</a></li>
+														<li><b><a href="/noticeList" style="color: black;">공지사항</a></b></li>
+														<li><a href="/cmmnList">커뮤니티</a></li>
+														<li><a href="/eventList">이벤트</a></li>
 													</ul>
 												</div>
 											</div>
@@ -116,7 +116,7 @@
 			// 리스트 데이터 가져오기
 			function boardData(postCtg, pageNum){
 				$.ajax({
-					url: "boardList",
+					url: "/boardList",
 					method: "GET",
 					data: {
                         postCtg,
@@ -162,7 +162,7 @@
 			    $('#noticeList').append(tr);
 			    
 			    tr.on('click', function(){
-			    	location.href = `noticeInfo?postCtg=i2&boardNo=${item.boardNo}`;
+			    	location.href = `/noticeInfo?postCtg=i2&boardNo=${item.boardNo}`;
 			    	
 			    	// 조회 수 증가 ajax 실행
 			    	$.ajax({

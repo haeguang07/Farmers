@@ -28,7 +28,7 @@ public class BnbController {
 	BnbService bnbService;
 	@Autowired
 	ReviewService revService;
-	@Autowired
+	@Autowired 
 	CodeService codeService;
 	@Autowired
 	PaymentService payService;
