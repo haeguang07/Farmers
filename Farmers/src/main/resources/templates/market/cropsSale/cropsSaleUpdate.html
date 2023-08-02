@@ -164,8 +164,6 @@
 						})
 					}
 				}
-
-
 			});
 			
 			// ckEditor 생성
@@ -204,7 +202,9 @@
 							text : '수정이 완료되었습니다',
 							confirmButtonText : "확인"
 						})
-						location.href="/cropsSaleList";
+						.then(function() {
+							location.href="/cropsSaleList";
+						})
 					} else {
 						Swal.fire({
 							icon : 'error',
@@ -212,7 +212,6 @@
 							text : '수정에 실패했습니다',
 							confirmButtonText : "확인"
 						})
-						location.href="/cropsSaleList";
 					}
 				})
 				.fail(function(result){
@@ -222,7 +221,6 @@
 						text : '페이지 호출 오류',
 						confirmButtonText : "확인"
 					})
-					location.href="/cropsSaleList";
 				})
 			});
 			
