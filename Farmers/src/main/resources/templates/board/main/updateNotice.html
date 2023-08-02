@@ -165,11 +165,20 @@ h4, h5 {
 							data: formData
 						})
 						.done(function (result) {
-							alert('수정이 완료되었습니다.');
-							location.href = "/noticeInfo?postCtg=i2&boardNo=" + boardNo;
+							Swal.fire({
+								title: '수정이 완료되었습니다.',
+								icon: 'Success',
+								confirmButtonText:"확인"
+							}).then((result) => {
+								location.href = "/noticeInfo?postCtg=i2&boardNo=" + boardNo;								
+							})
 						})
 						.fail(function (result) {
-							alert(result.body);
+							Swal.fire({
+								title: '수정 실패',
+								icon: 'warning',
+								confirmButtonText:"확인"
+							})
 					}) 
 				}
 			})

@@ -27,7 +27,7 @@ public class BoardController {
 	}
 	
 	// 커뮤니티 페이지 이동
-	@GetMapping("cmmnList")
+	@GetMapping("/cmmnList")
 	public String cmmnList(Model model) {
 		model.addAttribute("dst1", codeService.getCodeList("0K"));
 		return "board/main/cmmnList";
@@ -43,7 +43,7 @@ public class BoardController {
 	}
 	
 	// 커뮤니티 상세 조회 페이지 이동
-	@GetMapping("cmmnInfo")
+	@GetMapping("/cmmnInfo")
 	public String cmmnInfo(Model model, String postCtg, String boardNo) {
 		
 		List<BoardVO> list = boardService.getBoardInfo(postCtg, boardNo);
@@ -53,7 +53,7 @@ public class BoardController {
 	}
 
 	// 이벤트 상세 조회 페이지 이동
-	@GetMapping("eventInfo")
+	@GetMapping("/eventInfo")
 	public String eventInfo(Model model, String postCtg, String boardNo) {
 		
 		List<BoardVO> list = boardService.getBoardInfo(postCtg, boardNo);
@@ -69,14 +69,14 @@ public class BoardController {
 	}
 	
 	// 커뮤니티 등록 페이지 이동
-	@GetMapping("addCmmn")
+	@GetMapping("/add/Cmmn")
 	public String addCmmn(Model model) {
 		model.addAttribute("dst1", codeService.getCodeList("0K"));
 		return "board/main/addCmmn";
 	}
 
 	// 이벤트 등록 페이지 이동
-	@GetMapping("addEvent")
+	@GetMapping("/add/Event")
 	public String addEvent(Model model) {
 		model.addAttribute("dst1", codeService.getCodeList("0K"));
 		return "board/main/addEvent";
@@ -90,7 +90,7 @@ public class BoardController {
 	}
 	
 	// 커뮤니티 수정 페이지 이동
-	@GetMapping("updateCmmn")
+	@GetMapping("/update/Cmmn")
 	public String updateCmmn(Model model, String postCtg, String boardNo, String dst1) {
 		model.addAttribute("cmmnInfo", boardService.getBoardInfo(postCtg, boardNo));
 		model.addAttribute("dst1", codeService.getCodeList("0K"));
@@ -98,7 +98,7 @@ public class BoardController {
 	}
 	
 	// 이벤트 수정 페이지 이동
-	@GetMapping("updateEvent")
+	@GetMapping("/update/Event")
 	public String updateEvent(Model model, String postCtg, String boardNo, String dst1) {
 		model.addAttribute("eventInfo", boardService.getBoardInfo(postCtg, boardNo));
 		model.addAttribute("dst1", codeService.getCodeList("0K"));

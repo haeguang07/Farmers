@@ -22,16 +22,22 @@
 	rel="stylesheet">
 
 <!-- Css Styles -->
-<link rel="stylesheet" href="/css/jquery/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery/bootstrap.min.css"
+	type="text/css">
 <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
 <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
-<link rel="stylesheet" href="/css/jquery/magnific-popup.css" type="text/css">
-<link rel="stylesheet" href="/css/jquery/nice-select.css" type="text/css">
-<link rel="stylesheet" href="/css/jquery/owl.carousel.min.css" type="text/css">
-<link rel="stylesheet" href="/css/jquery/slicknav.min.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery/magnific-popup.css"
+	type="text/css">
+<link rel="stylesheet" href="/css/jquery/nice-select.css"
+	type="text/css">
+<link rel="stylesheet" href="/css/jquery/owl.carousel.min.css"
+	type="text/css">
+<link rel="stylesheet" href="/css/jquery/slicknav.min.css"
+	type="text/css">
 <link rel="stylesheet" href="/css/style.css" type="text/css">
 <link rel="stylesheet" href="/css/jquery/jQueryUI.css">
-<link rel="stylesheet" href="/css/otherPlugins/sweetAlert.css" type="text/css">
+<link rel="stylesheet" href="/css/otherPlugins/sweetAlert.css"
+	type="text/css">
 
 <!-- Js Plugins -->
 <script src="/js/jquery/jquery-3.3.1.min.js"></script>
@@ -107,7 +113,8 @@
 												</div>
 												<div class="col-md-6">
 													<div class="col-md-4">
-														<div class="nickLabel spaceBottom" th:text="${goldInfo.nick}">닉네임</div>
+														<div class="nickLabel spaceBottom"
+															th:text="${goldInfo.nick}">닉네임</div>
 													</div>
 													<div>
 														<label
@@ -196,22 +203,26 @@
 												</div>
 											</div>
 										</div>
-										<div style="margin-top: 30px;"
-											th:if="${session.mem.memNo} != ${goldInfo.memNo}">
-											<button type="button" class="btn btn-success" id="applyBtn"
-												th:if="${goldInfo.cndt == '신청 대기'}">신청</button>
-											<button type="button" class="btn btn-success"
-												th:if="${goldInfo.cndt == '즉시 수락'}">수락</button>
-											<button type="button" class="btn btn-light" th:onclick="closeBtn()">닫기</button>
-										</div>
-										<div style="margin-top: 30px;"
-											th:if="${session.mem.memNo} == ${goldInfo.memNo}">
-											<button type="button" class="btn btn-dark"
-												th:onclick="deleteInfo()">삭제</button>
-											<button type="button" class="btn btn-success"
-												th:onclick="updateInfo()">수정</button>
-											<button type="button" class="btn btn-light" th:onclick="closeBtn()">닫기</button>
-										</div>
+										<th:block th:if="${not #strings.isEmpty(session.mem)}">
+											<div style="margin-top: 30px;"
+												th:if="${session.mem.memNo} != ${goldInfo.memNo}">
+												<button type="button" class="btn btn-success" id="applyBtn"
+													th:if="${goldInfo.cndt == '신청 대기'}">신청</button>
+												<button type="button" class="btn btn-success"
+													th:if="${goldInfo.cndt == '즉시 수락'}">수락</button>
+												<button type="button" class="btn btn-light"
+													th:onclick="closeBtn()">닫기</button>
+											</div>
+											<div style="margin-top: 30px;"
+												th:if="${session.mem.memNo} == ${goldInfo.memNo}">
+												<button type="button" class="btn btn-dark"
+													th:onclick="deleteInfo()">삭제</button>
+												<button type="button" class="btn btn-success"
+													th:onclick="updateInfo()">수정</button>
+												<button type="button" class="btn btn-light"
+													th:onclick="closeBtn()">닫기</button>
+											</div>
+										</th:block>
 									</div>
 									<!-- 새로운 모달 창 -->
 									<div id="updateModal" class="white-popup mfp-hide">

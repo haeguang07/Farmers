@@ -151,8 +151,13 @@ h4, h5 {
 							data: formData
 						})
 						.done(function (result) {
-							alert('등록이 완료되었습니다.');
-							location.href = "/noticeList"
+							Swal.fire({
+								title: '등록이 완료되었습니다.',
+								icon: 'success',
+								confirmButtonText:"확인"
+							}).then((result) => {
+								location.href = "/noticeList";
+							})
 						})
 						.fail(function (result) {
 							alert(result);
