@@ -34,42 +34,40 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler{
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 	    clearSession(request);
-
-        SavedRequest savedRequest = requestCache.getRequest(request, response);
 		//세션 가져오기
 		HttpSession session = request.getSession();
-		String prevPage = (String) request.getSession().getAttribute("prevPage");
-        if (prevPage != null) {
-            request.getSession().removeAttribute("prevPage");
-        }
-        String uri = "/";
-	    MemberVO vo = ((PrincipalDetails)authentication.getPrincipal()).getMemberVO();
-	    if(vo!=null) {
-	    	session.setAttribute("mem", vo);
-	    	String memNo = vo.getMemNo();			
+		//로그인 정보 세션에 저장하기
+		MemberVO vo = ((PrincipalDetails)authentication.getPrincipal()).getMemberVO();
+		if(vo!=null) {
+			session.setAttribute("mem", vo);
+			String memNo = vo.getMemNo();			
 			List<AlertVO> list = alertService.myAlert(memNo);
 			session.setAttribute("alertList", list);
-	    }
-	    session.removeAttribute("errormsg");
-		System.out.println("Success handler 실행");
-		System.out.println(prevPage);
-		  /**
-         * savedRequest 존재하는 경우 = 인증 권한이 없는 페이지 접근
-         * Security Filter가 인터셉트하여 savedRequest에 세션 저장
-         */
+		}
+		//이전 페이지 정보 (로그인 페이지 이동시 전페이지 정보 세션에 저장)
+		String prevPage = (String) request.getSession().getAttribute("prevPage");
+        if (prevPage != null) {
+        	//이전 페이지 url 변수에 저장후 세션 제거
+            request.getSession().removeAttribute("prevPage");
+        }
+        //기본 url는 메인페이지
+        String uri = "/";
+
+		 
+         //savedRequest 존재하는 경우 = 인증 권한이 없는 페이지 접근
+         //Security Filter가 인터셉트하여 savedRequest에 세션 저장
+	    SavedRequest savedRequest = requestCache.getRequest(request, response);
         if (savedRequest != null) {
             uri = savedRequest.getRedirectUrl();
         } else if (prevPage != null && !prevPage.equals("")) {
-            // 회원가입 - 로그인으로 넘어온 경우 "/"로 redirect
-            if (prevPage.contains("/auth/join")) {
+            // 회원가입(간편X) - 로그인으로 넘어온 경우 "/"로 redirect
+            if (prevPage.contains("join")) {
                 uri = "/";
             } else {
                 uri = prevPage;
             }
         }
-
         redirectStrategy.sendRedirect(request, response, uri);
-		
 	}
 	  // 로그인 실패 후 성공 시 남아있는 에러 세션 제거
 	 protected void clearSession(HttpServletRequest request) {
