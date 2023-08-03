@@ -12,6 +12,7 @@
 
 <script
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="/js/user/login/pwCheck.js"></script>
 <link rel="stylesheet" href="/css/sungwookCss/sungook.css"
 	type="text/css">
 <title>MemberModify</title>
@@ -282,14 +283,18 @@
                     $('#pwInput').toggleClass('hideItem')
                     $('#pw').val('');
                     $('#pwCheck').val('');
+
+										pwCheck($('#pw').val(),$('#pwCheck').val(),$('input[name=id]').val())
                 }
             })
 
             //수정완료 시
             $('#modifyDone').on('click',function(){
+								
+
                 if($('#pw').val() != $('#pwCheck').val()){
                 	new swal({
-                		title: "비밀버호가 다릅니다",
+                		title: "비밀번호가 다릅니다",
                 		icon : "warning",
                 		confirmButtonColor: '#95D083'		
                 })	

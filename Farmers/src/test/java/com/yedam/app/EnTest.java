@@ -33,7 +33,6 @@ public class EnTest {
 	
 	@Test
 	public void test() {
-		
 		PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
 		SimpleStringPBEConfig config = new SimpleStringPBEConfig();
 		config.setPassword("ghpISMTKWv3TcnM9b0TtwqkFxe0NODviM0lmDE6");
@@ -45,10 +44,9 @@ public class EnTest {
 		config.setIvGeneratorClassName("org.jasypt.iv.RandomIvGenerator");
 		config.setStringOutputType("base64");
 		encryptor.setConfig(config);
-		String enc=encryptor.encrypt("sungook0107@gamil.com");
+		String enc=encryptor.encrypt("프라임빌");
 		System.out.println(enc);
-		String dec = encryptor.decrypt(enc);
-		System.out.println(dec);
+
 		
 	}
 }
