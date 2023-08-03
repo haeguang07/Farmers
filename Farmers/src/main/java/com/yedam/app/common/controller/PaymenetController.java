@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jasypt.encryption.StringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +28,8 @@ import com.yedam.app.common.vo.PaymentVO;
 public class PaymenetController {
 	@Autowired
 	PaymentService paymentService;
+	@Autowired
+	StringEncryptor jasyptStringEncryptor;
 
 	@GetMapping("payment") //requestBody 사용 가능
 	public String payment(@RequestParam(value = "productList") String productList, Model model) {
@@ -52,7 +55,12 @@ public class PaymenetController {
 	@PostMapping("getMemberData")
 	@ResponseBody
 	public MemberPayVO getMemberData(String memNo) {
-		return paymentService.getMemberData(memNo);
+		MemberPayVO vo = paymentService.getMemberData(memNo);
+		vo.setZip(jasyptStringEncryptor.decrypt(vo.getZip()));
+		vo.setAddr(jasyptStringEncryptor.decrypt(vo.getAddr()));
+		vo.setMbl(jasyptStringEncryptor.decrypt(vo.getMbl()));
+		vo.setDetaAddr(jasyptStringEncryptor.decrypt(vo.getDetaAddr()));
+		return vo;
 	}
 
 	// 결제처리 페이지

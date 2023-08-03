@@ -283,12 +283,14 @@
                     $('#pwInput').toggleClass('hideItem')
                     $('#pw').val('');
                     $('#pwCheck').val('');
+
+										pwCheck($('#pw').val(),$('#pwCheck').val(),$('input[name=id]').val())
                 }
             })
 
             //수정완료 시
             $('#modifyDone').on('click',function(){
-								pwCheck($('#pw').val(),$('#pwCheck').val(),$('input[name=id]').val())
+								
 
                 if($('#pw').val() != $('#pwCheck').val()){
                 	new swal({

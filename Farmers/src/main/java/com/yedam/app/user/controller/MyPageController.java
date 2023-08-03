@@ -76,6 +76,7 @@ public class MyPageController {
 		vo.setAddr(jasyptStringEncryptor.decrypt(vo.getAddr()));
 		vo.setMbl(jasyptStringEncryptor.decrypt(vo.getMbl()));
 		vo.setDetaAddr(jasyptStringEncryptor.decrypt(vo.getDetaAddr()));
+		vo.setEmail(jasyptStringEncryptor.decrypt(vo.getEmail()));
 		
 		model.addAttribute("memberInfo", changCode(vo));
 
@@ -86,6 +87,12 @@ public class MyPageController {
 	@GetMapping("myPage/memberModify")
 	public String memberInfoModify(String memNo, Model model) {
 		MemberVO vo = myPageService.getMemberInfo(memNo);
+		
+		vo.setZip(jasyptStringEncryptor.decrypt(vo.getZip()));
+		vo.setAddr(jasyptStringEncryptor.decrypt(vo.getAddr()));
+		vo.setDetaAddr(jasyptStringEncryptor.decrypt(vo.getDetaAddr()));
+		vo.setMbl(jasyptStringEncryptor.decrypt(vo.getMbl()));
+		vo.setEmail(jasyptStringEncryptor.decrypt(vo.getEmail()));
 		model.addAttribute("memberInfo", changCode(vo));
 
 		return "user/myPage/memberInfo/memberModify";
@@ -100,6 +107,22 @@ public class MyPageController {
 		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
 		vo.setPw(scpwd.encode(vo.getPw()));
 		}
+		if(!vo.getZip().equals("")) {
+			vo.setZip(jasyptStringEncryptor.encrypt(vo.getZip()));
+		}
+		if(!vo.getAddr().equals("")) {
+			vo.setAddr(jasyptStringEncryptor.encrypt(vo.getAddr()));
+		}
+		if(!vo.getDetaAddr().equals("")) {
+			vo.setDetaAddr(jasyptStringEncryptor.encrypt(vo.getDetaAddr()));
+		}
+		if(!vo.getMbl().equals("")) {
+			vo.setMbl(jasyptStringEncryptor.encrypt(vo.getMbl()));
+		}
+		if(!vo.getEmail().equals("")) {
+			vo.setEmail(jasyptStringEncryptor.encrypt(vo.getEmail()));
+		}
+		
 		System.out.println(vo.getPw());
 		myPageService.modifyMember(vo);
 		return "user/myPage/memberInfo/pwCheck";
@@ -282,9 +305,7 @@ public class MyPageController {
 	@ResponseBody
 	public List<FarmLendVO> myFarmLendList(String memNo) {
 		List<FarmLendVO> list =  myPageService.myFarmLendList(memNo);
-		for (FarmLendVO farmLendVO : list) {
-			
-		}
+		
 		return list;
 	}
 	
@@ -292,7 +313,9 @@ public class MyPageController {
 	@GetMapping("myPage/subFarmLendList")
 	@ResponseBody
 	public List<FarmLendApplyVO> subFarmLendList(String memNo){
-		return myPageService.subFarmLendList(memNo);
+		List<FarmLendApplyVO> list = myPageService.subFarmLendList(memNo);
+		
+		return list;
 	}
 	
 	//나의 농지대여 신청자 리스트
@@ -311,6 +334,9 @@ public class MyPageController {
 	@GetMapping("myPage/FarmLendMySubInfo")
 	public String FarmLendMySubInfo(String aplNo,Model model) {
 		List<FarmLendApplyVO> list = myPageService.mySubInfo(aplNo);
+		for (FarmLendApplyVO vo : list) {
+			vo.setMbl(jasyptStringEncryptor.decrypt(vo.getMbl()));
+		}
 		System.out.println(list);
 		model.addAttribute("aplInfo", list);
 		return "user/myPage/myActivity/farmLend/farmLendMySubInfo";
@@ -478,6 +504,7 @@ public class MyPageController {
 	public String mySaleInfo(String payDetaNo, Model model) {
 		PaymentDetailVO vo = myPageService.mySalesPayInfo(payDetaNo);
 		System.out.println(vo);
+		System.out.println('a');
 		model.addAttribute("payInfo", vo);
 		return "user/myPage/saleList/saleInfo";
 	}
@@ -514,7 +541,9 @@ public class MyPageController {
 	@GetMapping("myPage/myExpSubPeoList")
 	public String myExpSubPeoList(String boardNo,Model model) {
 		List<ExpApplyVO> list = myPageService.myExpSubPeoList(boardNo);
-		System.out.println(list);
+		for (ExpApplyVO vo : list) {
+			vo.setMbl(jasyptStringEncryptor.decrypt(vo.getMbl()));
+		}
 		model.addAttribute("applyList", list);
 		return "user/myPage/myActivity/myExperience/myExpSubList";
 	}
@@ -523,7 +552,7 @@ public class MyPageController {
 	@GetMapping("myPage/myExpSubInfo")
 	public String myExpSubInfo(String aplNo, Model model) {
 		ExpApplyVO vo = myPageService.myExpSubInfo(aplNo);
-		System.out.println(vo);
+		vo.setMbl(jasyptStringEncryptor.decrypt(vo.getMbl()));
 		model.addAttribute("info", vo);
 		return "user/myPage/myActivity/myExperience/myExpSubInfo";
 	}
@@ -581,6 +610,9 @@ public class MyPageController {
 	@ResponseBody
 	public List<SkilledVO> mySkilledSubList(String memNo){
 		List<SkilledVO> list = myPageService.mySkilledSubList(memNo);
+		for (SkilledVO vo : list) {
+			vo.setMbl(jasyptStringEncryptor.decrypt(vo.getMbl()));
+		}
 		System.out.println(list);
 		return list;
 	}
