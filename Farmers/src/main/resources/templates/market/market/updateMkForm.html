@@ -72,11 +72,12 @@
 													<div class="row">
 														<div class="row col-lg-6">
 															<p class="myInline col-lg-6 mb-0 textLeft">카테고리</p>
-															<select class="form-control col-lg-6" name="mktCtg" disabled>
+															<select class="form-control col-lg-6" name="mktCtg"
+																disabled>
 																<th:block th:each="ctg:${ctgCode}">
 																	<option th:value="${ctg.cmmnDetaCode}"
-																			th:text="${ctg.codeDesct}"
-																			th:attr="selected=${ctg.cmmnDetaCode==mk.mktCtg ? true : false}"></option>
+																		th:text="${ctg.codeDesct}"
+																		th:attr="selected=${ctg.cmmnDetaCode==mk.mktCtg ? true : false}"></option>
 																</th:block>
 															</select>
 														</div>
@@ -187,7 +188,8 @@
 							}
 						})
 					} else {
-						alert('이미지만 등록 가능합니다')
+						Swal.fire({title: '이미지만 등록 가능합니다.', icon:'warning', confirmButtonText:"확인"});
+						
 					}
 				}
 			})
@@ -217,10 +219,10 @@
 
 				//데이터 입력 확인
 				if (!$('[name="title"]').val()) {
-					alert('제목을 입력하세요');
+					Swal.fire({title: '제목을 입력하세요', icon:'warning', confirmButtonText:"확인"});
 					return;
 				} else if ($('[name="price"]').val() <= 0) {
-					alert('금액을 입력하세요');
+					Swal.fire({title: '금액을 입력하세요', icon:'warning', confirmButtonText:"확인"});
 					return;
 				} else {
 					let ckData = editor
@@ -246,12 +248,17 @@
 						})
 						.done(function (result) {
 							console.log('성공');
-							alert(result);
-							location.href = "/mkInfo?boardNo="+/*[[${mk.boardNo}]]*/
+							Swal.fire({title: '수정이 완료되었습니다', 
+								icon:'success', 
+								confirmButtonText:"확인"
+							}).then(result => {
+							if (result.isConfirmed) {
+								location.href = "/mkInfo?boardNo="+/*[[${mk.boardNo}]]*/
+							}
+							})
 						})
 						.fail(function (result) {
 							console.log('실패');
-							alert(result);
 						})
 				}
 			})			

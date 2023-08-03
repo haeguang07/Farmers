@@ -175,7 +175,8 @@
 												<table class="table seller">
 													<tr>
 														<td>판 매 자</td>
-														<td><span th:text="|${mk.name} (아이디:${mk.id})|"></span></td>
+														<td><span
+															th:text="|${mk.name} (nickname:${mk.nick})|"></span></td>
 													</tr>
 													<tr>
 														<td>전화번호</td>
@@ -202,7 +203,7 @@
 					<hr>
 					<th:block th:if="${session.mem}!=null">
 						<div class="product__details__cart__option"
-							style="text-align: center"
+							style="text-align: center; margin:50px;"
 							th:if="${session.mem.memNo} == ${mk.memNo}">
 							<a th:href="@{update/updateMk(boardNo=${mk.boardNo})}"
 								class="primary-btn">글 수정</a> <a
@@ -212,14 +213,12 @@
 					</th:block>
 				</div>
 			</div>
-
 		</section>
 		<!-- dataTable -->
 		<script
 			src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 
 		<script th:inline="javascript">
-
 			// ------------ 수량입력시 금액 계산 기능
 			const getNum = Number($('#getNum').val());
 			const onePay = Number($('#onePay').text());
@@ -448,6 +447,7 @@
 			/*<![CDATA[*/
 			let memList = /*[[${pay}]]*/ ;
 			/*]]>*/
+			
 			memList.findIndex(findMem);
 			function findMem(element)  {
 			  if(element == memNo) {
@@ -504,11 +504,10 @@
 			   });
 			// ---------------------------------  리뷰  기능  끝  ------------------------------------ //
 
-			
+			let seller = /*[[${mk.memNo}]]*/ ;
 			// ----------- 장바구니 버튼 클릭
 			$('#mkCart').on('click', function () {
-					
-					if(mem != null) {
+					if(mem != null && memNo != seller) {
 						$.ajax({
 							url : 'insertCart',
 							data : {
@@ -525,7 +524,9 @@
 					       			 console.log("장바구니 실패: ", error);
 					      }
 					    })
-					} else {
+					}else if(seller === memNo){
+						Swal.fire({title: '판매자 입니다.', icon:'warning', confirmButtonText:"확인"});
+					}else {
 						Swal.fire({title: '로그인이 필요합니다.', icon:'warning', confirmButtonText:"확인"});
 					}
 				});
@@ -533,7 +534,7 @@
 			
 			// ----------- 결제 버튼 클릭
 			$('#letPay').on('click', function() {
-				if(mem != null) {
+				if(mem != null && memNo != seller) {
 					//구매페이지로 보낼 배열
 					let productList = [];
 					//배열에 담을 구매상품정보 객체 생성
@@ -544,9 +545,10 @@
 					              }
 					//배열에 객체 담기
 					productList.push(obj)
-					
 					//상품객체배열을 json 변환 후 결제피이지 파라미터로 보냄 (한글, 특수문자가 url 인코딩이 안되서 encodeURI 사용)
 					location.href = "payment?productList=" + encodeURI(JSON.stringify(productList));
+				}else if(seller == memNo){
+					Swal.fire({title: '판매자 입니다.', icon:'warning', confirmButtonText:"확인"});
 				} else {
 					Swal.fire({title: '로그인이 필요합니다.', icon:'warning', confirmButtonText:"확인"});
 					// 로그인이나 회원가입 페이지로 넘어가기
