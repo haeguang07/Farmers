@@ -123,8 +123,9 @@
 											<th:block th:if="not ${#strings.isEmpty(session.mem)}">
 												<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">총액</b> <span id="sumPrice"></span></p>
 												<button type="button" class="btn btn-dark mr-2" style="width: 150px; float: left;" id="buy" th:if="${session.mem.memNo} != ${csInfo.memNo}">구매하기</button>
-												<button type="button" class="btn btn-dark" style="width: 150px; float: left;" id="addCart" th:if="${session.mem.memNo} != ${csInfo.memNo}">장바구니 담기</button>
+												<button type="button" class="btn btn-dark mr-2" style="width: 150px; float: left;" id="addCart" th:if="${session.mem.memNo} != ${csInfo.memNo}">장바구니 담기</button>
 											</th:block>
+											<button type="button" class="btn btn-dark" style="width: 150px; float: left;" id="toList">목록으로</button>
 										</div>
 									</div>
 								</div>
@@ -318,6 +319,11 @@
 						location.href = "/login";
 					})
 				}
+			});
+			
+			// 목록으로 버튼 클릭 시
+			$('#toList').on('click', function() {
+				location.href = "/cropsSaleList";
 			});
 			
 			$(function() {
