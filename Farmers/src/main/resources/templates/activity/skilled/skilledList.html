@@ -12,11 +12,40 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>금손귀농인</title>
 <style>
+.set-bg {
+	border-radius: 20px;
+}
+
+.card-wageDiv, .card-dayDiv {
+	color: gray;
+}
+
+.card-text {
+	display:block;
+ 	overflow: hidden; 
+ 	text-overflow: ellipsis;
+ 	white-space: nowrap; 
+ 	width: 230px;
+}
+
+.myRight {
+	float: right;
+}
+
+.myFontSizeMin {
+	font-size: small;
+}
+
+.myInline {
+	display: inline;
+}
+
 .hidden {
 	display: none;
 }
+
 #skills {
-	padding: 5px;
+	padding: 15px;
 }
 
 #addBtn {
@@ -164,7 +193,7 @@ h5:has(.countdown) {
 							<div class="row">
 								<div class="col-lg-12 col-md-12 col-sm-12">
 									<div class="row" id="selCondition">
-										<div class="col-4"></div>
+										<div class="col-lg-6 col-md-4"></div>
 										<!-- 지역1 선택창 -->
 										<div>
 											<select class="form-select form-group col-1.5 mr-2"
@@ -193,7 +222,7 @@ h5:has(.countdown) {
 						</div>
 
 						<!-- 구해요 / 할게요 토글 -->
-						<div class="product__details__option">
+						<div class="shop__product__option">
 							<div class="skilledExpert">
 								<div class="FixedOption">
 									<input type="checkbox" id="toggle" class="toggleCheckbox" /> <label
@@ -201,47 +230,20 @@ h5:has(.countdown) {
 										<div>구해요</div>
 										<div>할게요</div>
 									</label>
-									<div sec:authorize="hasRole('ROLE_REGULAR')">
+									<div sec:authorize="hasRole('ROLE_REGULAR')" style="text-align: right; color: gray;">
 										<input type="checkbox" id="check1"> <label
 											for="check1">내가 쓴 글 보기</label>
-										<button type="button" id="addBtn" class="btn btn-secondary"
-											th:onclick="">등록</button>
-									</div>
-								</div>
-								<div class="col-lg-9">
-									<div class="container">
-										<div class="row" id="skList"></div>
-									</div>
-									<div class="row">
-										<div class="row" id="pageDiv"></div>
+										<button type="button" id="addBtn" class="btn btn-secondary">등록</button>
 									</div>
 								</div>
 							</div>
-						</div>
-
-						<!-- 이벤트 카드 리스트 clone용 -->
-						<div class="col-lg-4 col-md-6 col-sm-6" style="display: none;" id="skills">
-							<div class="">
-								<div class="card" style="width: 16rem;">
-									<div class="product__item__pic set-bg" data-setbg=""></div>
-									<div class="card-body">
-										<p class="hidden card-boardNo"></p>
-										<h5 class="card-title">Card title</h5>
-										<p class="card-text">Some quick example text to build on
-											the card title and make up the bulk of the card's content.</p>
-										<a href="#" id="detailBtn" class="btn btn-success">보기</a>
-									</div>
-								</div>
+							<div class="row" id="skList">
+								<!-- 금손 리스트 -->
 							</div>
-
-							<!-- pageDiv clone용-->
-							<div class="product__pagination" style="display: none;"
-								id="pageItem">
-								<a class="myInline" id="prevPage">◁</a>
-								<div id="pageNumDiv" class="myInline">
-									<a id="pageNum">a</a>
+							<div class="row" style="text-align: center;">
+								<div class="row col-lg-12" id="pageDiv">
+									<!-- 페이징 -->
 								</div>
-								<a class="myInline" id="nextPage">▷</a>
 							</div>
 						</div>
 					</div>
@@ -249,13 +251,54 @@ h5:has(.countdown) {
 			</div>
 		</section>
 
+		<!-- 이벤트 카드 리스트 clone용 -->
+		<div class="col-lg-4 col-md-6 col-sm-6 hidden" id="skills">
+			<div class="product__item">
+				<div class="product__item__pic set-bg" id="img" data-setbg="">
+				</div>
+				<div class="product__item__text">
+
+					<span class="card-nick" style="font-size: small;"> 닉네임 </span> | <span
+						class="card-dst2" style="font-size: small;">지역2</span>
+					<p class="hidden card-boardNo"></p>
+					<p style="font-weight: 900; margin-bottom: 0;" class="card-title">제목</p>
+					<p style="font-size: small;" class="card-text">본문</p>
+					<span class="myFontSizeMin myInline myRight card-wageDiv">조건</span>
+					<span class="myFontSizeMin myInline myRight">/</span>
+					<span class="myFontSizeMin myInline myRight card-dayDiv">조건</span>
+					<br>
+					<div>
+						<div>
+							<button id="detailBtn" class="btn btn-outline-success"
+								style="width: 50px; height: 30px; font-size: 12px;">보기</button>
+							<span class="myInline myRight">원</span>
+							<span class="myInline myRight card-price" style="font-weight: bold;">보수</span>
+							<img alt="" src="/img/bill.png" class="myInline myRight"
+								style="width: 14px; height: 18px; margin-right: 5px;">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- pageDiv clone용-->
+		<div class="product__pagination" style="display: none;" id="pageItem">
+			<a class="myInline" id="prevPage">◁</a>
+			<div id="pageNumDiv" class="myInline">
+				<a id="pageNum">a</a>
+			</div>
+			<a class="myInline" id="nextPage">▷</a>
+		</div>
+
+
+
 		<script th:inline="javascript">
 			// 세션 정보
-			let mem;
+			let member;
 			/*<![CDATA[*/
 			let bool= [[${not #strings.isEmpty(session.mem)}]];
 			if(bool){
-				mem = [[${session.mem}]]		
+				member = [[${session.mem}]]		
 			}
 			/*]]>*/
 		
@@ -352,8 +395,17 @@ h5:has(.countdown) {
 					//location.href = `eventInfo?postCtg=i4&boardNo=${item.boardNo}`
 				})
 				$(clone).find('.card-boardNo').text(item.boardNo);
+				$(clone).find('.card-nick').text(item.nick);
+				$(clone).find('.card-dst2').text(item.dst2);
+				$(clone).find('.card-dayDiv').text(item.dayDiv);
+				$(clone).find('.card-wageDiv').text(item.wageDiv);
 				$(clone).find('.card-title').text(item.title);
 				$(clone).find('.card-text').text(item.desct);
+				
+				// 금액 세 자리 콤마해서 넣기
+				let price = parseInt(item.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');;
+				
+				$(clone).find('.card-price').text(price);
 				
 				$('#skList').append(clone);
 			}
@@ -429,14 +481,14 @@ h5:has(.countdown) {
 			// 등록 모달창
 			$('#addBtn').magnificPopup({
 						items:[{
-						src:"/add/skilledForm",
+						src:"/add/Skilled",
 					}],
 					type: 'iframe'
-						})
+			})
 						
 			// 보기 클릭 시 상세 조회 모달창
 			$(document).on('click', '#detailBtn', function() {
-				let boardNo = $(this).closest('.card').find('.card-boardNo').text();
+				let boardNo = $(this).parent().parent().parent().find('.card-boardNo').text();
 				console.log(boardNo);
 				
 				// 팝업
@@ -468,14 +520,11 @@ h5:has(.countdown) {
 				
 			})
 			
-			
-			
-			
 			// 내가 쓴 글 보기
 			$('#check1').on('change', function(){
 				console.log($(this).is(':checked'))
 				if($(this).is(':checked')  == true){
-					let memNo = mem.memNo;
+					let memNo = member.memNo;
 					getCondition(1, title, memNo);
 				}else {
 					goldData(div, 1);
