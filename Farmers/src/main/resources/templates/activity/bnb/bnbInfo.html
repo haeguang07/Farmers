@@ -525,21 +525,16 @@
 			
 				// ------------------------- 결제하기 버튼 기능
 			$('#letPay').on('click', function() {
-				
 				let days = $('#dateResult').text();
 				let start = $('#startDate').val();
 				let end = $('#endDate').val();
-				/* if(mem != null && memNo != seller) { */
-				if(mem == null){
-					Swal.fire({title: '로그인이 필요합니다.', icon:'warning', confirmButtonText:"확인"});
-				}else if(seller === memNo){
-					Swal.fire({title: '판매자 입니다.', icon:'warning', confirmButtonText:"확인"});
-				}else if(start == ''){
-					Swal.fire({title: '예약 시작 날짜를 선택하세요', icon:'warning', confirmButtonText:"확인"});
-					return;
-				}else if(end == ''){
-					Swal.fire({title: '예약 종료 날짜를 선택하세요', icon:'warning', confirmButtonText:"확인"});
-				}else{
+				if(mem != null && memNo != seller){
+					if(start == ''){
+						Swal.fire({title: '예약 시작 날짜를 선택하세요', icon:'warning', confirmButtonText:"확인"});
+						return;
+					}else if(end == ''){
+						Swal.fire({title: '예약 종료 날짜를 선택하세요', icon:'warning', confirmButtonText:"확인"});
+					}else{
 					//구매페이지로 보낼 배열
 					let productList = [];
 					//배열에 담을 구매상품정보 객체 생성
@@ -554,8 +549,14 @@
 					productList.push(obj)
 					//상품객체배열을 json 변환 후 결제피이지 파라미터로 보냄 (한글, 특수문자가 url 인코딩이 안되서 encodeURI 사용)
 					location.href = "payment?productList=" + encodeURI(JSON.stringify(productList));
-				}
+					};
+				}else if(seller === memNo){
+					Swal.fire({title: '판매자 입니다.', icon:'warning', confirmButtonText:"확인"});
+				}else{
+					Swal.fire({title: '로그인이 필요합니다.', icon:'warning', confirmButtonText:"확인"});
+				} 
 			});
+			
 			// ------------------------- 결제 기능 끝
 			
 			
