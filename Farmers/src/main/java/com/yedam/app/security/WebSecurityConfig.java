@@ -102,7 +102,8 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 				.csrf().disable()
-					.authorizeHttpRequests().antMatchers("/add/**", "/update/**").hasRole("USER")
+					.authorizeHttpRequests()
+					.antMatchers("/add/**", "/update/**").hasRole("USER")
 					.antMatchers("/admin/**").hasRole("ADMIN")
 					.anyRequest().permitAll()
 				.and()

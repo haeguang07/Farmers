@@ -123,7 +123,7 @@ img {
 														</div>
 													</div>
 													<div class="col-md-6">
-														<div class="col-md-4">
+														<div class="col-md-12" style="text-align: left;">
 															<div class="nickLabel spaceBottom"
 																th:text="${goldInfo.nick}">닉네임</div>
 														</div>
@@ -350,13 +350,19 @@ img {
 		
 		// ajax 등록
 		$.ajax({
-			url: "/updateSkilled",
+			url: "/update/Skilled",
 			method: "POST",
 			data: formData
 		})
 		.done(function (result){
-			alert('수정이 완료되었습니다.');
-			
+			console.log(result);
+			Swal.fire({
+				title: '수정이 완료되었습니다.',
+				icon: 'success',
+				confirmButtonText:"확인",
+			}).then((result) => {
+				parent.closePopUp();
+			})	
 		})
 		.fail(function (result){
 			console.log(result);

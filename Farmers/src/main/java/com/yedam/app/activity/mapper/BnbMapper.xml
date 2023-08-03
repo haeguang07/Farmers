@@ -146,9 +146,9 @@
 	<select id="rsvDateCheck" parameterType="String"
 		resultType="String">
 	<![CDATA[ 
-		select * from(
+	select * from(
         SELECT TO_CHAR(lend_str_date + (LEVEL), 'yyyy-fmmm-dd') AS rsv_date
-          FROM (SELECT CASE WHEN lend_str_date < TO_CHAR(sysdate) THEN sysdate
+          FROM (SELECT CASE WHEN lend_str_date < TRUNC(sysdate) THEN sysdate
                        ELSE lend_str_date
                        END AS lend_str_date,
                        lend_end_date

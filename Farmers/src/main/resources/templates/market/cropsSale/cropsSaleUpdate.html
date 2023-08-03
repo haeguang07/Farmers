@@ -14,7 +14,7 @@
 <body>
 	<div layout:fragment="content">
 		<div class="justify-content-center">
-			<h3 class="current text-center">판매물품 수정</h3>
+			<h3 class="current text-center">판매상품 수정</h3>
 		</div>
 		<!-- Shop Details Section Begin -->
 		<section class="shop-details">
@@ -26,11 +26,10 @@
 							<div class="row">
 								<div class="row col-lg-12">
 									<div class="col-lg-4 col-md-9 row" id="addFile">
-										<!-- <div class="col-lg-12" style="background-color: lightgrey; display: table;">
+										<img th:src="${csInfo.rep}" alt="">
+										<span style="display: block; color: rgba(0, 0, 0, 0.5);">▲ 수정하려면 이미지를 클릭하세요</span>
+										<div class="col-lg-12" style="background-color: lightgrey; display: none;">
 											<p style="display: table-cell; vertical-align: middle;">대표 이미지 등록</p>
-										</div> -->
-										<div class="col-lg-12" th:src="@{csInfo.rep}" 
-											th:value="${csInfo.rep}" style="display: table;">
 										</div>
 									</div>
 									<div class="product__details__content col-lg-8">
@@ -85,7 +84,7 @@
 										</div>
 									</div>
 								</div>
-								<button type="submit" class="btn btn-dark mr-2" id="updateBtn">수정</button>
+								<button type="submit" class="btn btn-dark mr-2" id="updateBtn">저장</button>
 								<button type="button" class="btn btn-dark" id="cancel">취소</button>
 							</div>
 						</div>
@@ -181,6 +180,8 @@
 				console.error(error);
 			});
 			
+			let boardNo = /*[[${csInfo.boardNo}]]*/;
+			
 			// ckEditor 데이터 가져오기
 			$('#updateBtn').on('click', function() {
 				let ckData = editor.getData();
@@ -203,7 +204,7 @@
 							confirmButtonText : "확인"
 						})
 						.then(function() {
-							location.href="/cropsSaleList";
+							location.href="/cropsSaleInfo?boardNo=" + boardNo;
 						})
 					} else {
 						Swal.fire({
@@ -226,7 +227,7 @@
 			
 			// 취소버튼 클릭 시
 			$('#cancel').on('click', function() {
-				location.href="/cropsSaleInfo?boardNo=" + /*[[${csInfo.boardNo}]]*/;
+				location.href="/cropsSaleInfo?boardNo=" + boardNo;
 			});
 		</script>
 	</div>

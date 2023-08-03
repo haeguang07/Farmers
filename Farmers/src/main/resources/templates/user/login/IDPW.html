@@ -27,16 +27,15 @@
 			<my-pw-found v-show="isPw"></my-pw-found>
 		</div>
 		<script>
-        const {
-            createApp
-        } = Vue
+
+        const {createApp} = Vue
 
         createApp({
             components: {
                 'my-id-found': Vue.defineAsyncComponent(() =>
-                    loadModule('/Vue/user/login/idFound.vue', options)),
+                    loadModule('/Vue/user/login/IdFound.Vue', options)),
                 'my-pw-found': Vue.defineAsyncComponent(() =>
-                    loadModule('/Vue/user/login/pwFound.vue', options))
+                    loadModule('/Vue/user/login/pwFound.Vue', options))
             },
             data(){
                 return{

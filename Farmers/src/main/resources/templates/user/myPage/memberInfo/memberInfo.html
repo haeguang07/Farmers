@@ -156,15 +156,23 @@
 
             //등업신청 모달창
             $('#upgradeBtn').on('click',function(){
+                console.log()
                 if(/*[[${not #strings.equals(session.mem.memGrd, 'b1')}]]*/){
-
-                    $.magnificPopup.open({
-                        items:[{
-                            src:"/myPage/upgradeMember?data="+encodeURI(JSON.stringify(/*[[${memberInfo}]]*/)),
-                            type: 'iframe'
-                        }
-                    ]
-			    })
+                    if(/*[[${not #strings.isEmpty(memberInfo.addr) and not #strings.isEmpty(memberInfo.zip)}]]*/){
+                        $.magnificPopup.open({
+                            items:[{
+                                src:"/myPage/upgradeMember?data="+encodeURI(JSON.stringify(/*[[${memberInfo}]]*/)),
+                                type: 'iframe'
+                            }
+                        ]
+                    })
+                }else{
+                    new swal({
+                		title: "주소를 먼저 수정하여주십시오",
+                		icon : "warning",
+                		confirmButtonColor: '#95D083'		
+                 })
+                }
             }else{
                 //alert("정회원은 등업할 수 없습니다")
                 new swal({

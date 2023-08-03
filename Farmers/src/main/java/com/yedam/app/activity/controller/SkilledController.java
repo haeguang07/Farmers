@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -27,7 +28,7 @@ public class SkilledController {
 	CodeService codeService;
 	
 	// 금손귀농인 메인 페이지 리턴
-	@GetMapping("skilled")
+	@GetMapping("/skilled")
 	public String skilledExpert(Model model){
 		model.addAttribute("dst1", codeService.getCodeList("0K"));
 		return "activity/skilled/skilledList";
@@ -69,13 +70,13 @@ public class SkilledController {
 	}
 	
 	// 등록 모달창 이동
-	@GetMapping("/add/skilledForm")
+	@GetMapping("/add/Skilled")
 	public String skilledInsert() {
 		return "activity/skilled/insertSkilled";
 	}
 	
 	// 등록 처리
-	@PostMapping("/add/skilled")
+	@PostMapping("/add/Skilled")
 	@ResponseBody
 	public Map<String, Object> insertSkilled(SkilledVO vo){
 		Map<String, Object> map = new HashMap<>();
@@ -85,7 +86,7 @@ public class SkilledController {
 		} else {
 			map.put("retCode", "Fail");
 		}
-		
+		System.out.println(map);
 		return map;
 	}
 	

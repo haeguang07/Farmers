@@ -12,11 +12,11 @@
 						SELECT s.board_no
 				  			   , m.nick
 						       , s.dst1
-						       , s.dst2
+						       , FIND_CODE_NAME(s.dst2) dst2
 						       , s.title
 						       , s.desct
-						       , s.day_div
-						       , s.wage_div
+						       , FIND_CODE_NAME(s.day_div) day_div
+						       , FIND_CODE_NAME(s.wage_div) wage_div
 						       , s.price
 						       , s.img
 						       , s.reg_date

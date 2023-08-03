@@ -12,6 +12,7 @@
 
 <script
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="/js/user/login/pwCheck.js"></script>
 <link rel="stylesheet" href="/css/sungwookCss/sungook.css"
 	type="text/css">
 <title>MemberModify</title>
@@ -39,8 +40,7 @@
 										<p style="visibility: hidden;">
 											<span>*</span>
 										</p>
-										<button type="button" class="form-control" id="changePw"
-											readonly>비밀번호변경</button>
+										<button type="button" class="form-control" id="changePw" th:if="${#strings.isEmpty(session.mem.loginPath)}">비밀번호변경</button>
 									</div>
 								</div>
 								<div class="row hideItem" id="pwInput">
@@ -283,14 +283,18 @@
                     $('#pwInput').toggleClass('hideItem')
                     $('#pw').val('');
                     $('#pwCheck').val('');
+
+										pwCheck($('#pw').val(),$('#pwCheck').val(),$('input[name=id]').val())
                 }
             })
 
             //수정완료 시
             $('#modifyDone').on('click',function(){
+								
+
                 if($('#pw').val() != $('#pwCheck').val()){
                 	new swal({
-                		title: "비밀버호가 다릅니다",
+                		title: "비밀번호가 다릅니다",
                 		icon : "warning",
                 		confirmButtonColor: '#95D083'		
                 })	
@@ -303,6 +307,12 @@
                 }else if(!$('[name=email]').val()){
                 	new swal({
                 		title: "이메일을 입력해주세요",
+                		icon : "warning",
+                		confirmButtonColor: '#95D083'		
+                })	
+                }else if(!$('[name=nick]').val()){
+                	new swal({
+                		title: "닉네임을 입력해주세요",
                 		icon : "warning",
                 		confirmButtonColor: '#95D083'		
                 })	
