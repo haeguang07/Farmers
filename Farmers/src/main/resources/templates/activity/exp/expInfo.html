@@ -152,7 +152,7 @@
 			})
 			$('#aplPer').append('현재 ' + apl + '명 /');
 			
-			// 데이터에 있는 수량보다 높게 입력하려고 했을 때 실행되는 함수
+			// 데이터에 있는 인원보다 높게 입력하려고 했을 때 실행되는 함수
 			function maxValue(Object) {
 				let max = /*[[${expInfo.pptPer}]]*/
 				if(Object.value > max) {
@@ -168,7 +168,7 @@
 			
 			/*<![CDATA[*/
 			let boardNo = /*[[${expInfo.boardNo}]]*/;
-			//let mem = /*[[${session.mem}]]*/
+			let mem = /*[[${session.mem}]]*/
 			/*]]>*/
 			
 			// 신청하기 버튼 클릭 시
