@@ -96,5 +96,11 @@ public class PaymenetController {
 		model.addAttribute("result", result);
 		return "common/payment/paySuccess";
 	}
+	
+	//결제 실패 시 페이지 이동
+	@GetMapping("payFail")
+	public String failPage() {
+		return "common/payment/payFail";
+	}
 
 }

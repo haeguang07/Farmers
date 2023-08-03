@@ -3,6 +3,7 @@ package com.yedam.app.user.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jasypt.encryption.StringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -35,8 +36,6 @@ import com.yedam.app.user.vo.InquiryVO;
 import com.yedam.app.user.vo.MemberVO;
 import com.yedam.app.user.vo.PointsVO;
 
-import oracle.jdbc.proxy.annotation.Post;
-
 @Controller
 public class MyPageController {
 	@Autowired
@@ -45,7 +44,11 @@ public class MyPageController {
 	PaymentService paymentService;
 	@Autowired
 	AlertService alertService;
-
+	@Autowired
+	StringEncryptor jasyptStringEncryptor;
+	
+	BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
+	
 	////////////// 회원정보 페이지//////////////
 	// 마이페이지 (기본화면)
 	@GetMapping("myPage/myPage")
@@ -57,7 +60,6 @@ public class MyPageController {
 	@GetMapping("myPage/myPwCheck")
 	@ResponseBody
 	public boolean pwCheck(String pw, String memNo) {
-		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
 
 		MemberVO vo = myPageService.checkPassword(memNo);
 		boolean result = scpwd.matches(pw, vo.getPw());
@@ -68,10 +70,13 @@ public class MyPageController {
 	// 회원정보 페이지
 	@GetMapping("myPage/memberInfo")
 	public String memberInfo(String memNo, Model model) {
-		System.out.println(memNo);
 		MemberVO vo = myPageService.getMemberInfo(memNo);
-		System.out.println(vo);
-
+		
+		vo.setZip(jasyptStringEncryptor.decrypt(vo.getZip()));
+		vo.setAddr(jasyptStringEncryptor.decrypt(vo.getAddr()));
+		vo.setMbl(jasyptStringEncryptor.decrypt(vo.getMbl()));
+		vo.setDetaAddr(jasyptStringEncryptor.decrypt(vo.getDetaAddr()));
+		
 		model.addAttribute("memberInfo", changCode(vo));
 
 		return "user/myPage/memberInfo/memberInfo";
