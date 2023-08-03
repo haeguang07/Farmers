@@ -40,7 +40,6 @@ public class MarketController {
 	@Autowired
 	StringEncryptor jasyptStringEncryptor;
 
-	
 	// 전체조회 페이지
 	@GetMapping("marketList")
 	public String marketList(Model model) {
@@ -68,7 +67,11 @@ public class MarketController {
 	@GetMapping("mkInfo")
 	public String getMkInfo(Model model, String boardNo) {
 		MarketVO vo = mkService.getMarketInfo(boardNo);
-		
+		vo.setZip(jasyptStringEncryptor.decrypt(vo.getZip()));
+		vo.setMemAdr(jasyptStringEncryptor.decrypt(vo.getMemAdr()));
+		vo.setMemAdrdeta(jasyptStringEncryptor.decrypt(vo.getMemAdrdeta()));
+		vo.setEmail(jasyptStringEncryptor.decrypt(vo.getEmail()));
+		vo.setMbl(jasyptStringEncryptor.decrypt(vo.getMbl()));
 		model.addAttribute("mk", vo);
 		model.addAttribute("rev", revService.getCount(boardNo));
 		model.addAttribute("avg", revService.getAverage(boardNo));

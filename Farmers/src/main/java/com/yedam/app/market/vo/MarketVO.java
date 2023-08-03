@@ -45,7 +45,7 @@ public class MarketVO {
 	private String memAdr;
 	private String memAdrdeta;
 	private String mbl;
-	private int zip;
+	private String zip;
 
 	// review
 	private int count;
