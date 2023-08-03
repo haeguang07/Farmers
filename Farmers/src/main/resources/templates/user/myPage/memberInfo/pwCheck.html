@@ -42,6 +42,9 @@
 			<!-- 장바구니 내용 끝 -->
 		<script th:inline="javascript">
 			$(function(){
+				if(/*[[${session.mem.loginPath}]]*/ == ''){
+					location.href="memberInfo?memNo="+ /*[[${session.mem.memNo}]]*/
+				}
 				//사이드바
 				myMenucheck('회원정보')
 			})
