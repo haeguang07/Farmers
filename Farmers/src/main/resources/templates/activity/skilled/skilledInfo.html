@@ -112,7 +112,7 @@
 														th:style="'background-image: url(' + ${goldInfo.img} + ')'"></div>
 												</div>
 												<div class="col-md-6">
-													<div class="col-md-4">
+													<div class="col-md-12" style="text-align: left;">
 														<div class="nickLabel spaceBottom"
 															th:text="${goldInfo.nick}">닉네임</div>
 													</div>
@@ -245,13 +245,19 @@
 			boardNo = /*[[${goldInfo.boardNo}]]*/;
 			console.log(boardNo);
 			$.ajax({
-				url: '/deleteSkilled',
-				method: 'POST',
+				url: "/deleteSkilled",
+				method: "POST",
 				data : {boardNo}
 			})
 			.done(function (result){
-				parent.closePopUp();
-				alert('삭제가 완료되었습니다.');
+				console.log(result);
+				Swal.fire({
+					title: '삭제가 완료되었습니다.',
+					icon: 'success',
+					confirmButtonText:"확인",
+				}).then((result) => {
+					parent.closePopUp();
+				})	
 			})
 			.fail(function (result){
 				console.log(result);

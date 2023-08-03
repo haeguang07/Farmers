@@ -27,7 +27,7 @@ public class SkilledController {
 	CodeService codeService;
 	
 	// 금손귀농인 메인 페이지 리턴
-	@GetMapping("skilled")
+	@GetMapping("/skilled")
 	public String skilledExpert(Model model){
 		model.addAttribute("dst1", codeService.getCodeList("0K"));
 		return "activity/skilled/skilledList";
@@ -69,7 +69,7 @@ public class SkilledController {
 	}
 	
 	// 등록 모달창 이동
-	@GetMapping("/add/skilledForm")
+	@GetMapping("/add/Skilled")
 	public String skilledInsert() {
 		return "activity/skilled/insertSkilled";
 	}
@@ -85,7 +85,6 @@ public class SkilledController {
 		} else {
 			map.put("retCode", "Fail");
 		}
-		
 		return map;
 	}
 	
