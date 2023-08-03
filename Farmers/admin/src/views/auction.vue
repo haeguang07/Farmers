@@ -3,9 +3,9 @@
 	<div class="body">
 		<h3>경매장</h3>
 		<div class="row">
-			<div class="col-4 row">
-				<div class="col">상태</div>
-				<select class="form-select col" id="addon-wrapping" v-model="searchStts"  @change="search">
+			<div class="col-1">상태</div>
+			<div class="col-2">
+				<select class="form-select" id="addon-wrapping" v-model="searchStts"  @change="search">
 					<option value="">전체</option>
 					<option value="e0">승인대기</option>
 					<option value="e1">승인완료</option>
@@ -13,13 +13,14 @@
 					<option value="e8">신청거절</option>
 				</select>
 			</div>
-			<div class="col-6 row">
-				<div class="col text-center">경매일</div>
-				<select class="form-select col" id="addon-wrapping" v-model="searchStr"  @change="search">
+			<div class="col-1 text-center">경매일</div>
+			<div class="col-2">
+				<select class="form-select" id="addon-wrapping" v-model="searchStr"  @change="search">
 					<option value="">전체</option>
 					<option v-for="date in dateList" :value="date" v-text="date"></option>
 				</select>
 			</div>
+			<div class="col-auto"></div>
 		</div>
 		<div style="width: 1000px;" class="row"> 
 			<div class="col-2">선택한 신청을 </div>

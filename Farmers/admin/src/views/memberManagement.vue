@@ -5,39 +5,49 @@
 		<br>
 
 		<div class="row ">
-			<div class="col-4 row " >
-				<select class="form-select col mx-3"  id="addon-wrapping" v-model="searchType">
-					<option value="아이디" selected>아이디</option><option value="닉네임">닉네임</option></select>
+				<div class="col-2">
+					<select class="form-select col mx-3"  id="addon-wrapping" v-model="searchType">
+						<option value="아이디" selected>아이디</option><option value="닉네임">닉네임</option>
+					</select>
+				</div>
+				<div class="col-2">
 					<input type="text" class="form-control col"  aria-describedby="addon-wrapping" v-model="searchText" @change="search">
-			</div>
-			<div class="col-3 row">
-				<div class="col">회원등급</div>
-				<select class="form-select col" id="addon-wrapping" v-model="searchGrd" @change="search">
-					<option selected value="">선택</option>
-					<option v-for="grd in gradeList" :value="grd.cmmnDetaCode">{{grd.codeDesct}}</option>
-				</select>
-			</div>
-			<div class="col-4 row">
-				<div class="col text-center" >상태</div>
-				<select class="form-select col" id="addon-wrapping" v-model="searchStts" @change="search">
-					<option selected value="">선택</option>
-					<option v-for="status in sttsList " :value="status.cmmnDetaCode">{{status.codeDesct}}</option>
-				</select>
+				</div>
+
+				<div class="col-1">회원등급</div>
+				<div class="col-2">
+					<select class="form-select" id="addon-wrapping" v-model="searchGrd" @change="search">
+						<option selected value="">선택</option>
+						<option v-for="grd in gradeList" :value="grd.cmmnDetaCode">{{grd.codeDesct}}</option>
+					</select>
+				</div>
+				
+				<div class="col-1 text-center">상태</div>
+				<div class="col-2">
+					<select class="form-select col" id="addon-wrapping" v-model="searchStts" @change="search">
+						<option selected value="">선택</option>
+						<option v-for="status in sttsList " :value="status.cmmnDetaCode">{{status.codeDesct}}</option>
+					</select>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-4 row">
-				<div class="col">회원가입경로</div>
-				<select class="form-select col " id="addon-wrapping" v-model="searchLogin" @change="search">
-					<option selected value="">전체</option>
-					<option value="일반">일반</option><option value="카카오">카카오</option>
-					<option value="구글">구글</option><option value="네이버">네이버</option>
-				</select>
-			</div>
-			<div class="col-6 row">
-				<div class="col">가입일</div>
-				<input type="date" class="form-select col" v-model="searchStr" @change="search">&nbsp;-&nbsp; <input type="date" class="form-select col " v-model="searchEnd" :max="new Date()" @change="search">
-			</div>
+				<div class="col-2" style="margin-left: 15px;">회원가입경로</div>
+				<div class="col-2">
+					<select class="form-select" id="addon-wrapping" v-model="searchLogin" @change="search">
+						<option selected value="">전체</option>
+						<option value="일반">일반</option><option value="카카오">카카오</option>
+						<option value="구글">구글</option><option value="네이버">네이버</option>
+					</select>
+				</div>
+
+				<div class="col-1">가입일</div>
+				<div class="col-2">
+					<input type="date" class="form-select" v-model="searchStr" @change="search">
+				</div>
+				&nbsp;-&nbsp;
+				<div class="col-2">
+					<input type="date" class="form-select" v-model="searchEnd" :max="new Date()" @change="search">
+				</div>
 		</div>
 
 		<div style="width: 1000px;" class="row"> 
