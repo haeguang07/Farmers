@@ -128,7 +128,7 @@
 									<br>
 									<div class="product__details__cart__option row" style="margin-top: 40px;">
 										<button class="primary-btn col-lg-12" style="color: white; margin: 0 auto; margin-top: 20px;"
-											id="addBtn">등록하기</button>
+											id="addBtn">수정하기</button>
 									</div>
 								</div>
 							</div>
@@ -148,6 +148,7 @@
 			let dbPath;
 			$(function () {
 				//카테고리 select 창 데이터 입력
+				$('select[name=crpCtg]').val(/*[[${fundingInfo.crpCtg}]]*/)
 				$('.current').text(/*[[${fundingInfo.crpCtg}]]*/)
 				$('.option selected focus').toggleClass('selected focus');
 				$('.option').each(function(index, item){
@@ -349,10 +350,11 @@
 					if($('#inputFile').val()){
 						formData.rep = dbPath
 					}
+					
 					formData.boardNo = /*[[${fundingInfo.boardNo}]]*/
-
+					console.log(formData.crpCtg)
 					//ajax 펀딩 등록
-					$.ajax({
+						$.ajax({
 							url: "modifyFunding",
 							method: "POST",
 							data: formData
@@ -360,10 +362,12 @@
 						.done(function (result) {
 							new swal({
 		                		title: result,
-		                		icon : "warning",
+		                		icon : "success",
 		                		confirmButtonColor: '#95D083'		
 		                })
-							location.href = "fundingList"
+						.then(function(){
+							location.href = "fundingList"							
+							})
 						})
 						.fail(function (result) {
 							new swal({
@@ -372,7 +376,7 @@
 		                		confirmButtonColor: '#95D083'		
 		                })
 							location.href = "fundingList"
-						})
+						}) 
 
 				}
 			})

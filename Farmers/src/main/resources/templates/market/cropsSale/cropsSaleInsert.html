@@ -202,7 +202,7 @@
 						confirmButtonText : "확인"
 					})
 					return;
-				} else if(!$('[name="crpCtg"]').val() == '') {
+				} else if($('[name="crpCtg"]').val() == '') {
 					Swal.fire({
 						icon : 'info',
 						title : '상품 종류 미선택',

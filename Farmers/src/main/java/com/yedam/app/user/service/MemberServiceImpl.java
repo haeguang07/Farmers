@@ -1,5 +1,7 @@
 package com.yedam.app.user.service;
 
+import java.util.List;
+
 import org.jasypt.encryption.StringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -42,6 +44,7 @@ public class MemberServiceImpl implements MemberService, UserDetailsService{
 	//아이디 중복
 	@Override
 	public boolean idCheck(String id) {
+		
 		String uid=memberMapper.selectId(id);
 		if(uid != null) {
 			return false;			
@@ -62,23 +65,38 @@ public class MemberServiceImpl implements MemberService, UserDetailsService{
 	//이메일 중복
 	@Override
 	public boolean emailCheck(String email) {
-		MemberVO vo = memberMapper.selectByEmail(email);
-		if(vo==null) {
-			return true;
-		}else {
-			return false;			
+		System.out.println(email);
+
+		List<MemberVO> emailList=memberMapper.selectEmail();
+		 System.out.println(emailList);
+		boolean result= true;
+		for (MemberVO emails: emailList) {
+			System.out.println("for:" +emails.getEmail());
+			String decryptEmail=jasyptStringEncryptor.decrypt(emails.getEmail());
+			if(decryptEmail.equals(email)) result=false;
+
 		}
+		return result;			
 	}
 
 
 	//회원가입 기능(0714) //개인정보 암호화 해야함
 	@Override
 	public boolean join(MemberVO vo) {
+		//개인정보 암호화
 		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
 		vo.setPw(scpwd.encode(vo.getPw()));
-
+		//다른 개인정보는 복호화를 위해 양방향으로
+		vo.setZip(jasyptStringEncryptor.encrypt(vo.getZip()));
+		vo.setAddr(jasyptStringEncryptor.encrypt(vo.getAddr()));
+		vo.setDetaAddr(jasyptStringEncryptor.encrypt(vo.getDetaAddr()));
+		vo.setMbl(jasyptStringEncryptor.encrypt(vo.getMbl()));
+		vo.setEmail(jasyptStringEncryptor.encrypt(vo.getEmail()));
+		//member에 삽입
 		int result=memberMapper.insertMember(vo);
+		//memberDetail에 삽입
 		int result2 = memberMapper.insertMemberDetail(vo);
+		
 		if(result*result2>0) {
 			return true;
 		}

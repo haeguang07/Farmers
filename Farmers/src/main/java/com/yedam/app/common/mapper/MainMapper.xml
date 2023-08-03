@@ -4,10 +4,11 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.app.common.mapper.MainMapper">
 	<select id="selectImg" resultType="MainVO">
-		select *
-		from recom_crops natural join recom_crops_info
+		select * 
+		from recom_crops join recom_crops_info
+		on recom_crops.map_no = recom_crops_info.map_no
 		where dst_ctg = #{dstCtg}
-		order by map_no
+		order by (recom_crops.map_no)*1	
 	</select>
 </mapper>
 
