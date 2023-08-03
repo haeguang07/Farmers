@@ -74,6 +74,10 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 			vo.setEmail(dbEmail);
 			vo.setNick(username);
 			vo.setPw(password);
+			vo.setZip(jasyptStringEncryptor.encrypt(""));
+			vo.setAddr(jasyptStringEncryptor.encrypt(""));
+			vo.setDetaAddr(jasyptStringEncryptor.encrypt(""));
+			vo.setMbl(jasyptStringEncryptor.encrypt(""));
 			vo.setLoginPath(loginPath);
 			vo.setGen(gender);
 			vo.setProf(prof);
