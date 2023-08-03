@@ -538,48 +538,64 @@
 						result = true;
 					}
 				})
+				let deliy = false;
+				csInfo.payList.forEach(index => {
+					console.log(index.shipStts);
+					if(index.shipStts == 'B4') {
+						deliy = true;
+					}
+				})
 				if(mem != null) {
 					if(result) {
-						if(!$('#star').val()) {
-							Swal.fire({
-								icon : 'error',
-								title : '별점 미등록',
-								text : '별점을 선택하세요',
-								confirmButtonText : "확인"
-							})
-							return;
-						} else if($('#reviewText').val() == '') {
-							Swal.fire({
-								icon : 'error',
-								title : '리뷰 내용 미등록',
-								text : '리뷰 내용을 입력하세요',
-								confirmButtonText : "확인"
-							})
+						if(deliy) {
+							if(!$('#star').val()) {
+								Swal.fire({
+									icon : 'error',
+									title : '별점 미등록',
+									text : '별점을 선택하세요',
+									confirmButtonText : "확인"
+								})
+								return;
+							} else if($('#reviewText').val() == '') {
+								Swal.fire({
+									icon : 'error',
+									title : '리뷰 내용 미등록',
+									text : '리뷰 내용을 입력하세요',
+									confirmButtonText : "확인"
+								})
+							} else {
+								let star = $('#star').val();
+								let text = $('#reviewText').val();
+								let day = new Date();
+								$.ajax({
+									url : "/cropsSaleInfo/reviewInsert",
+									method : "POST",
+									data : {
+										memNo : mem.memNo,
+										rate : star,
+										revDesct : text,
+										boardNo : boardNo
+									},
+									dataType : 'json',
+									success : function(result) {
+										console.log(result);
+										reviewAjax();
+										// 작성한 리뷰 값 초기화
+										$('#reviewText').val('');
+										$('#star').val(0);
+										$('#star').niceSelect('update');
+									},
+									error : function(error) {
+										console.log(error);
+									}
+								})
+							}
 						} else {
-							let star = $('#star').val();
-							let text = $('#reviewText').val();
-							let day = new Date();
-							$.ajax({
-								url : "/cropsSaleInfo/reviewInsert",
-								method : "POST",
-								data : {
-									memNo : mem.memNo,
-									rate : star,
-									revDesct : text,
-									boardNo : boardNo
-								},
-								dataType : 'json',
-								success : function(result) {
-									console.log(result);
-									reviewAjax();
-									// 작성한 리뷰 값 초기화
-									$('#reviewText').val('');
-									$('#star').val(0);
-									$('#star').niceSelect('update');
-								},
-								error : function(error) {
-									console.log(error);
-								}
+							Swal.fire({
+								icon : 'error',
+								title : '리뷰 등록 실패',
+								text : '상품의 배송이 완료되어야 리뷰를 작성할 수 있습니다.',
+								confirmButtonText : "확인"
 							})
 						}
 					} else {

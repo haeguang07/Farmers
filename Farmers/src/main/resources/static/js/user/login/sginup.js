@@ -192,53 +192,55 @@
 				let mblVal= mbl.val();
 				if(zip=='' || mblVal==''){
 					if(!confirm('이대로 회원가입하시겠습니까?')){return}
-					/*Swal.fire(
-						{ title: '아직 입력하지 않은 정보가 있습니다. 이대로 회원가입하시겠습니까?' ,
+					Swal.fire({title: '아직 입력하지 않은 정보가 있습니다. 이대로 회원가입하시겠습니까?' ,
 						  icon: 'warning',
 						  confirmButtonText:"예", 
 						  showCancelButton: true,
 						  cancelButtonText: '취소',
 						  closeOnConfirm : false,
-						  closeOnCancel : true},
-						  function(isConfirm){if(!isConfirm){return;}}
-					)*/
+						  closeOnCancel : true})
+						  .then((result)=>{
+							  if(result.isConfirmed){
+							  	let member = {
+									id: $('#id').data('set'),
+									pw: $('#pw').val(),
+									email: $('#joinEmail').data('set'),
+									nick: $('#nickname').data('set'),
+									name: $('#name').val(),
+									zip,
+									addr: adr.val(),
+									detaAddr: adr2.val(),
+									mbl:mbl.val(),
+									bDate: birth.val(),
+									gen: gen.val()
+								};
+
+								$.ajax({
+									url: '/signup',
+									method: 'POST',
+									data: member,
+									success(data) {
+										if (data.retCode == "Success") {
+											Swal.fire({ title: '회원가입이 성공적으로 진행되었습니다' , icon: 'seccess',confirmButtonText:"확인"});
+											location.href = "/login";
+										} else if (data.retCode == "Fail") {
+											Swal.fire({ title: '회원가입을 실패 했습니다.',text:'관리자에게 문의해주세요' , icon: 'error',confirmButtonText:"확인"});
+											location.reload();
+										} else {
+											Swal.fire({ title: '알 수 없는 오류.',text:'관리자에게 문의해주세요' , icon: 'error',confirmButtonText:"확인"});
+										}
+									},
+									error(err) {
+										console.log(err)
+									}
+								})
+						  	 }
+						  })
 				}
 					
 				
 
-				let member = {
-					id: $('#id').data('set'),
-					pw: $('#pw').val(),
-					email: $('#joinEmail').data('set'),
-					nick: $('#nickname').data('set'),
-					name: $('#name').val(),
-					zip,
-					addr: adr.val(),
-					detaAddr: adr2.val(),
-					mbl:mbl.val(),
-					bDate: birth.val(),
-					gen: gen.val()
-				};
-
-				$.ajax({
-					url: '/signup',
-					method: 'POST',
-					data: member,
-					success(data) {
-						if (data.retCode == "Success") {
-							Swal.fire({ title: '회원가입이 성공적으로 진행되었습니다' , icon: 'seccess',confirmButtonText:"확인"});
-							location.href = "/login";
-						} else if (data.retCode == "Fail") {
-							Swal.fire({ title: '회원가입을 실패 했습니다.',text:'관리자에게 문의해주세요' , icon: 'error',confirmButtonText:"확인"});
-							location.reload();
-						} else {
-							Swal.fire({ title: '알 수 없는 오류.',text:'관리자에게 문의해주세요' , icon: 'error',confirmButtonText:"확인"});
-						}
-					},
-					error(err) {
-						console.log(err)
-					}
-				})
+				
 				
 			})
 
