@@ -305,6 +305,12 @@
                 		icon : "warning",
                 		confirmButtonColor: '#95D083'		
                 })	
+                }else if(!$('[name=nick]').val()){
+                	new swal({
+                		title: "닉네임을 입력해주세요",
+                		icon : "warning",
+                		confirmButtonColor: '#95D083'		
+                })	
                 }else{
                 	new swal({
                 		title: "회원정보 수정완료",

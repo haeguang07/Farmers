@@ -66,12 +66,12 @@ public class MemberServiceImpl implements MemberService, UserDetailsService{
 	@Override
 	public boolean emailCheck(String email) {
 		System.out.println(email);
-		String dbEmail = jasyptStringEncryptor.encrypt(email);
-		System.out.println(dbEmail);
+
 		List<MemberVO> emailList=memberMapper.selectEmail();
 		 System.out.println(emailList);
 		boolean result= true;
 		for (MemberVO emails: emailList) {
+			System.out.println("for:" +emails.getEmail());
 			String decryptEmail=jasyptStringEncryptor.decrypt(emails.getEmail());
 			if(decryptEmail.equals(email)) result=false;
 

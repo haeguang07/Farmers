@@ -36,7 +36,7 @@
 	</select>
 	<select id='selectMemberByNo' resultType='memberVO'>
 		<include refid="searchMemberAll"></include>
-		WHERE mem_no= #{memNo}
+		WHERE m.mem_no= #{memNo}
 	</select>
 	<select id='selectMembetDetail' resultType='MemberDetailVO'>
 		SELECT * 
