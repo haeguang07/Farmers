@@ -39,8 +39,7 @@
 										<p style="visibility: hidden;">
 											<span>*</span>
 										</p>
-										<button type="button" class="form-control" id="changePw"
-											readonly>비밀번호변경</button>
+										<button type="button" class="form-control" id="changePw" th:if="${#strings.isEmpty(session.mem.loginPath)}">비밀번호변경</button>
 									</div>
 								</div>
 								<div class="row hideItem" id="pwInput">

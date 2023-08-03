@@ -50,8 +50,8 @@
 													<div class="row">
 														<div class="row col-lg-6">
 															<p class="myInline col-lg-6 mb-0 textLeft">판매자</p>
-															<input type="text" class="form-control col-lg-6" readonly th:value="${session.mem.memNo}"
-																name="memNo">
+															<input type="text" class="form-control col-lg-6" readonly th:value="${session.mem.nick}"
+																name="memNo" th:data-memNo="${session.mem.memNo}">
 														</div>
 														<div class="row col-lg-6" style="display: none;">
 															<p class="myInline col-lg-6 mb-0 textLeft">결제일</p>
@@ -254,6 +254,7 @@
 
 			//ckEditor 데이터 가져오기
 			$('#addBtn').on('click', function () {
+	
 
 				//데이터 입력 확인
 				if (!$('[name="title"]').val()) {
@@ -308,6 +309,7 @@
 				} else {
 					let ckData = editor
 					let formData = $('#myForm').serializeObject()
+					formData.memNo = $('input[name=memNo]').data('memno')
 
 					//상세 설명 존재하지 않을 시 출력 내용 설정
 					if(ckData.getData() == ''){

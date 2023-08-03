@@ -67,7 +67,7 @@
                     })
                     .done(function (result1) {
                         console.log(result1)
-                        paymentData.payMthd = result1.easyPay.provider;
+                        paymentData.payMthd = result1.method;
                         console.log(paymentData)
 
                         //payment 테이블에 insert
