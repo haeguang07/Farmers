@@ -17,8 +17,7 @@
 	rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link
-	href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Jua&family=Poor+Story&display=swap"
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Jua&family=Poor+Story&display=swap"
 	rel="stylesheet">
 
 
@@ -270,7 +269,7 @@
 											</div>
 											<div class="product__details__cart__option row"
 												style="margin-top: 40px;">
-												<button class="primary-btn col-lg-12"
+												<button type="button" class="primary-btn col-lg-12"
 													style="color: white; margin: 0 auto; margin-top: 20px;"
 													id="addBtn">등록하기</button>
 											</div>
@@ -387,17 +386,28 @@
 				let formData = $('#myForm').serializeObject();
 
 				formData.img = dbPath
-				console.log(formData);
-
+				console.log('1111'+formData);
+			
 				//ajax 금손 등록
 				$.ajax({
-					url : "/add/skilled",
+					url : "/add/Skilled",
 					method : "POST",
-					data : formData
-				}).done(function(result) {
-					parent.closePopUp();
-				}).fail(function(result) {
-					console.log(result);
+					data : formData,
+					success: function(result){
+						console.log(result);
+						Swal.fire({
+							title: '등록이 완료되었습니다.',
+							icon: 'success',
+							confirmButtonText:"확인"
+						}).then((result) => {
+							if(result.isConfirmed){
+								parent.closePopUp();				
+							}
+						})
+					},
+					error: function(result){
+						console.log(result);
+					}
 				})
 			}
 		})

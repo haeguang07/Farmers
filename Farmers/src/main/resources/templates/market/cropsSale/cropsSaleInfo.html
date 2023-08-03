@@ -236,7 +236,7 @@
 			}
 			
 			/*<![CDATA[*/
-			//let mem = /*[[${session.mem}]]*/;
+			let mem = /*[[${session.mem}]]*/;
 			let boardNo = /*[[${csInfo.boardNo}]]*/;
 			/*]]>*/
 			
@@ -531,21 +531,21 @@
 			
 			// 리뷰 등록 기능
 			$('#addBtn').on('click', function() {
-				let result = false;
-				csInfo.payList.forEach(index => {
-					console.log(index.memNo);
-					if(mem.memNo == index.memNo) {
-						result = true;
-					}
-				})
-				let deliy = false;
-				csInfo.payList.forEach(index => {
-					console.log(index.shipStts);
-					if(index.shipStts == 'B4') {
-						deliy = true;
-					}
-				})
 				if(mem != null) {
+					let result = false;
+					csInfo.payList.forEach(index => {
+						console.log(index.memNo);
+						if(mem.memNo == index.memNo) {
+							result = true;
+						}
+					})
+					let deliy = false;
+					csInfo.payList.forEach(index => {
+						console.log(index.shipStts);
+						if(index.shipStts == 'B4') {
+							deliy = true;
+						}
+					})
 					if(result) {
 						if(deliy) {
 							if(!$('#star').val()) {
