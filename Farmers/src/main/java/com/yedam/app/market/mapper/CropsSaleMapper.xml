@@ -128,7 +128,6 @@
 		from payment_detail pd left join payment p
 		on pd.pay_no = p.pay_no 
 		where board_no = #{boardNo}
-		and pd.ship_stts = 'B4'
 	</select>
 	
 	<!-- 결제상세 resultMap -->

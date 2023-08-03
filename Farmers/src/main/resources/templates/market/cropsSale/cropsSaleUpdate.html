@@ -26,12 +26,10 @@
 							<div class="row">
 								<div class="row col-lg-12">
 									<div class="col-lg-4 col-md-9 row" id="addFile">
-										<!-- <img th:src="${csInfo.rep}" alt="이미지가 없습니다." th:value="${csInfo.rep}"> -->
-										<div class="col-lg-12" style="background-color: lightgrey; display: table;">
+										<img th:src="${csInfo.rep}" alt="">
+										<span style="display: block; color: rgba(0, 0, 0, 0.5);">▲수정하려면 이미지를 클릭하세요</span>
+										<div class="col-lg-12" style="background-color: lightgrey; display: none;">
 											<p style="display: table-cell; vertical-align: middle;">대표 이미지 등록</p>
-										</div>
-										<div class="col-lg-12" th:src="@{${csInfo.rep}}" 
-											th:value="${csInfo.rep}" style="display: table;">
 										</div>
 									</div>
 									<div class="product__details__content col-lg-8">
