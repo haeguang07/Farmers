@@ -97,7 +97,6 @@ li {
 									<tr>
 										<th>구매자</th>
 										<th>연락처</th>
-										<th>우편번호</th>
 										<th>주소</th>
 										<th>상세주소</th>
 										<th>배송상태</th>
@@ -106,7 +105,6 @@ li {
 								<tbody>
 									<td th:text="${payInfo.nick}"></td>
 									<td th:text="${payInfo.mbl}"></td>
-									<td th:text="${payInfo.zip}"></td>
 									<td th:text="${payInfo.rcvAddr}"></td>
 									<td th:text="${payInfo.rcvDetaAddr}"></td>
 									<th:block th:if="${payInfo.shipStts} == '환불 완료'">

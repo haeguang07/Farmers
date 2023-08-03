@@ -26,7 +26,7 @@ public class PaymentDetailVO {
 	private String payCode;
 	private String rcvAddr;
 	private String rcvDetaAddr;
-	private int zip;
+	private String zip;
 	
 	//가공 데이터
 	private int totalPrice;
