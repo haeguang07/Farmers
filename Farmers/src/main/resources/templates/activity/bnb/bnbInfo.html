@@ -23,7 +23,8 @@
 	type="text/css">
 
 <!-- datePicker -->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <!-- <script src="js/otherPlugins/datepicker-ko.js"></script> -->
@@ -122,18 +123,15 @@
 										</tr>
 										<tr>
 											<th>날짜 선택</th>
-											<td>
-												<input type="text" id="startDate"
+											<td><input type="text" id="startDate"
 												class="form-control mini"
 												th:min="${#dates.format(bnb.lendStrDate,'yyyy-MM-dd')}"
 												th:max="${#dates.format(bnb.lendEndDate,'yyyy-MM-dd')}"
-												readonly> ~ 
-												<input type="text"
-												id="endDate" class="form-control mini"
+												readonly> ~ <input type="text" id="endDate"
+												class="form-control mini"
 												th:min="${#dates.format(bnb.lendStrDate,'yyyy-MM-dd')}"
 												th:max="${#dates.format(bnb.lendEndDate,'yyyy-MM-dd')}"
-												onchange="endChange()" readonly>
-											</td>
+												onchange="endChange()" readonly></td>
 										</tr>
 										<tr>
 											<th>총 일수</th>
@@ -248,7 +246,8 @@
 													</tr>
 													<tr>
 														<td>전화번호</td>
-														<td><span th:if="${bnb.mbl!=null and bnb.mbl!=''}" th:text="|${bnb.mbl}|"></span></td>
+														<td><span th:if="${bnb.mbl!=null and bnb.mbl!=''}"
+															th:text="|${bnb.mbl}|"></span></td>
 													</tr>
 													<tr>
 														<td>이 메 일</td>
@@ -290,8 +289,9 @@
 		<!-- 지도 api -->
 		<script
 			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c573b65eabeb9b6da24ab52d832dc807"></script>
+	
+			
 		<script th:inline="javascript">
-
 		// --------- 지도 api
 		var latitude = document.getElementById('lati').innerText;
 		var longitude = document.getElementById('longi').innerText;
@@ -323,10 +323,10 @@
 		
 	
 		
+		//------------- datePicker
 		var rsvDateList;
 		var maxDate;
 		
-		//datePicker
 		$(function(){
 				maxDate = /*[[${bnb.lendEndDate}]]*/;
 				maxDate = maxDate.substr(0,10)
@@ -493,15 +493,39 @@
 			// ----------- 글 삭제 버튼
 			$('#deleteButton').on('click', delPopUp);
 			function delPopUp(event) {
-				var confirmDelete = confirm("글을 삭제하시겠습니까?");
-				// 사용자가 "확인" 버튼을 눌렀을 때만 삭제 링크로 이동합니다.
-				if (!confirmDelete) {
-					event.preventDefault(); // 이벤트의 기본 동작을 막아서 링크로 이동하지 않게 합니다.
-					console.log("삭제 취소");
-				} else {
-					console.log("삭제 완료");
-				}
+				Swal.fire({ title: '글을 정말 삭제하시겠습니까?' ,
+						icon:'warning', 
+						showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+						confirmButtonColor: '#d33', // confrim 버튼 색깔 지정
+						cancelButtonColor: '#3085d6', // cancel 버튼 색깔 지정
+						confirmButtonText: '삭제', // confirm 버튼 텍스트 지정
+						cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+	 				}).then(result => {
+		 				if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+					    /* $.ajax({
+					      url: 'rev/revDel',
+					      method: 'GET',
+					      data: {
+					        revNo: revNo
+					      },
+					      success: function (result) {
+					        rowData.remove();
+					        console.log("리뷰 삭제 결과:", result);
+					        
+					      },
+					      error: function (error) {
+					        console.log("리뷰 삭제 오류:", error);
+					      }
+					    }); */
+					    return;
+					  } else {
+						  event.preventDefault();
+					    console.log("삭제 취소");
+					  }
+			 	 })
 			}
+			
+			
 			
 			// ------------------------- 결제하기 버튼 기능
 			$('#letPay').on('click', function() {

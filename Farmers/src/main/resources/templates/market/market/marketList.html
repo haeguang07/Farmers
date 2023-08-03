@@ -197,7 +197,7 @@
 				$(clone).find('.set-bg').css("background-image",`url(${item.rep})`)
 				$(clone).find('.title').text(item.title);
 				item.price=number_format(item.price);
-				$(clone).find('.price').text("￦"+item.price+"(1박)");
+				$(clone).find('.price').text("￦"+item.price);
 				if(item.round>0){
 					item.round=makeStars(item.round);
 					$(clone).find('.review').html(item.round);				
