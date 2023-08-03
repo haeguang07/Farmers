@@ -6,7 +6,7 @@
 	<!-- 알림보내기 -->
 	<insert id="addAlert" parameterType="AlertVO">
 		INSERT INTO alert (ALRT_NO, MEM_NO,ALRT_STTS, ALRT_TITLE, ALRT_DESCT,BOARD_CTG,ALRT_DATE)
-		VALUES (('ALRT'||LPAD(alrt_seq.NEXTVAL,13,0)), 
+		VALUES (('ALRT'||LPAD(alrt_seq.NEXTVAL,6,0)), 
 		        #{memNo}, 
 		        'L1', 
 		        #{alrtTitle} ,
