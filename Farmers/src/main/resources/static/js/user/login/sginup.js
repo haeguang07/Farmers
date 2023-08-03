@@ -196,9 +196,7 @@
 						  icon: 'warning',
 						  confirmButtonText:"예", 
 						  showCancelButton: true,
-						  cancelButtonText: '취소',
-						  closeOnConfirm : false,
-						  closeOnCancel : true})
+						  cancelButtonText: '취소'})
 						  .then((result)=>{
 							  if(result.isConfirmed){
 							  	let member = {
@@ -219,13 +217,15 @@
 									url: '/signup',
 									method: 'POST',
 									data: member,
+									async: false,
 									success(data) {
 										if (data.retCode == "Success") {
-											Swal.fire({ title: '회원가입이 성공적으로 진행되었습니다' , icon: 'seccess',confirmButtonText:"확인"});
-											location.href = "/login";
+											Swal.fire({ title: '회원가입이 성공적으로 진행되었습니다' , icon: 'success',confirmButtonText:"확인"})
+											.then((result)=>{location.href = "/login"});
+
 										} else if (data.retCode == "Fail") {
-											Swal.fire({ title: '회원가입을 실패 했습니다.',text:'관리자에게 문의해주세요' , icon: 'error',confirmButtonText:"확인"});
-											location.reload();
+											Swal.fire({ title: '회원가입을 실패 했습니다.',text:'관리자에게 문의해주세요' , icon: 'error',confirmButtonText:"확인"})
+											.then((result)=>{location.reload()});
 										} else {
 											Swal.fire({ title: '알 수 없는 오류.',text:'관리자에게 문의해주세요' , icon: 'error',confirmButtonText:"확인"});
 										}
