@@ -622,6 +622,9 @@ public class MyPageController {
 	@GetMapping("myPage/myJobSearchList")
 	public String myJobSearchList(String boardNo,Model model) {
 		List<SkilledVO> list = myPageService.myJobSearchList(boardNo);
+		for (SkilledVO vo : list) {
+			vo.setMbl(jasyptStringEncryptor.decrypt(vo.getMbl()));
+		}
 		model.addAttribute("subList", list); 
 		System.out.println(list);
 		return "user/myPage/myActivity/mySkilled/myJobSearchList";
@@ -632,6 +635,7 @@ public class MyPageController {
 	public String mySkilledSubInfo(String aplNo, Model model) {
 		SkilledVO vo = myPageService.mySkilledSubInfo(aplNo);
 		model.addAttribute("SubInfo", vo);
+		vo.setMbl(jasyptStringEncryptor.decrypt(vo.getMbl()));
 		System.out.println(vo);
 		return "user/myPage/myActivity/mySkilled/mySkilledSubInfo";
 	}
