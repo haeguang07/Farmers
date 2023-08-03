@@ -145,7 +145,7 @@
 								<div class="tab-pane active" id="tabs-5" role="tabpanel">
 									<div class="product__details__tab__content">
 										<div class="product__details__tab__content__item"
-											th:utext="${csInfo.detaDesct}">상세 설명</div>
+											th:utext="${csInfo.detaDesct}" style="text-align: center;">상세 설명</div>
 									</div>
 								</div>
 								<div class="tab-pane" id="tabs-6" role="tabpanel">
@@ -219,7 +219,7 @@
 	                document.querySelector('.overlay').style.width = parseInt(maskMax - val * starSize - Math.floor(val) * gutter) + 'px';// 마스크 크기 변경해서 별점 마킹
 	            }
         	})
-			
+        	
 			// 데이터에 있는 수량보다 높게 입력하려고 했을 때 실행되는 함수
 			function maxValue(Object) {
 				let max = /*[[${csInfo.qty}]]*/
@@ -231,44 +231,54 @@
 						confirmButtonText : "확인"
 					})
 					Object.value = max;
+					getSumPrice();
 				}
 			}
 			
 			/*<![CDATA[*/
-			let mem = /*[[${session.mem}]]*/;
+			//let mem = /*[[${session.mem}]]*/;
 			let boardNo = /*[[${csInfo.boardNo}]]*/;
 			/*]]>*/
 			
 			// 구매하기 버튼 클릭 시
 			$('#buy').on('click', function() {
-				let boardCtg = /*[[${codeInfo}]]*/
-				if(mem != null) {
-					// 구매 페이지로 보낼 배열
-					let productList = [];
-					
-					// 배열에 담을 구매 상품 정보 객체 생성
-					let obj = {
-							boardNo : boardNo,
-							qty : $('#count').val(),
-							boardCtg : boardCtg[7].cmmnDetaCode
-					}
-					
-					// 배열에 객체 담기
-					productList.push(obj);
-					
-					// 상품 객체 배열을 json 변환 후 결제 페이지로 파라미터를 보냄
-					// (한글, 특수문자가 url 인코딩이 안되서 encodeURI 사용)
-					location.href = "/payment?productList=" + encodeURI(JSON.stringify(productList));
-				} else {
+				if($('#count').val() == 0) {
 					Swal.fire({
 						icon : 'error',
-						title : '접근 불가',
-						text : '회원만 이용할 수 있습니다. 로그인 해주세요',
+						title : '매진',
+						text : '상품의 남은 수량이 없습니다',
 						confirmButtonText : "확인"
 					})
-					.then(function() {
-						location.href = "/login";
-					})
+				} else {
+					let boardCtg = /*[[${codeInfo}]]*/
+					if(mem != null) {
+						// 구매 페이지로 보낼 배열
+						let productList = [];
+						
+						// 배열에 담을 구매 상품 정보 객체 생성
+						let obj = {
+								boardNo : boardNo,
+								qty : $('#count').val(),
+								boardCtg : boardCtg[7].cmmnDetaCode
+						}
+						
+						// 배열에 객체 담기
+						productList.push(obj);
+						
+						// 상품 객체 배열을 json 변환 후 결제 페이지로 파라미터를 보냄
+						// (한글, 특수문자가 url 인코딩이 안되서 encodeURI 사용)
+						location.href = "/payment?productList=" + encodeURI(JSON.stringify(productList));
+					} else {
+						Swal.fire({
+							icon : 'error',
+							title : '접근 불가',
+							text : '회원만 이용할 수 있습니다. 로그인 해주세요',
+							confirmButtonText : "확인"
+						})
+						.then(function() {
+							location.href = "/login";
+						})
+					}
 				}
 			});
 			
@@ -311,6 +321,9 @@
 			});
 			
 			$(function() {
+				if($('#count').val() == 0) {
+	        		$('#count').val() = 0;
+	        	}
 				getSumPrice();
 			});
 			
@@ -525,48 +538,64 @@
 						result = true;
 					}
 				})
+				let deliy = false;
+				csInfo.payList.forEach(index => {
+					console.log(index.shipStts);
+					if(index.shipStts == 'B4') {
+						deliy = true;
+					}
+				})
 				if(mem != null) {
 					if(result) {
-						if(!$('#star').val()) {
-							Swal.fire({
-								icon : 'error',
-								title : '별점 미등록',
-								text : '별점을 선택하세요',
-								confirmButtonText : "확인"
-							})
-							return;
-						} else if($('#reviewText').val() == '') {
-							Swal.fire({
-								icon : 'error',
-								title : '리뷰 내용 미등록',
-								text : '리뷰 내용을 입력하세요',
-								confirmButtonText : "확인"
-							})
+						if(deliy) {
+							if(!$('#star').val()) {
+								Swal.fire({
+									icon : 'error',
+									title : '별점 미등록',
+									text : '별점을 선택하세요',
+									confirmButtonText : "확인"
+								})
+								return;
+							} else if($('#reviewText').val() == '') {
+								Swal.fire({
+									icon : 'error',
+									title : '리뷰 내용 미등록',
+									text : '리뷰 내용을 입력하세요',
+									confirmButtonText : "확인"
+								})
+							} else {
+								let star = $('#star').val();
+								let text = $('#reviewText').val();
+								let day = new Date();
+								$.ajax({
+									url : "/cropsSaleInfo/reviewInsert",
+									method : "POST",
+									data : {
+										memNo : mem.memNo,
+										rate : star,
+										revDesct : text,
+										boardNo : boardNo
+									},
+									dataType : 'json',
+									success : function(result) {
+										console.log(result);
+										reviewAjax();
+										// 작성한 리뷰 값 초기화
+										$('#reviewText').val('');
+										$('#star').val(0);
+										$('#star').niceSelect('update');
+									},
+									error : function(error) {
+										console.log(error);
+									}
+								})
+							}
 						} else {
-							let star = $('#star').val();
-							let text = $('#reviewText').val();
-							let day = new Date();
-							$.ajax({
-								url : "/cropsSaleInfo/reviewInsert",
-								method : "POST",
-								data : {
-									memNo : mem.memNo,
-									rate : star,
-									revDesct : text,
-									boardNo : boardNo
-								},
-								dataType : 'json',
-								success : function(result) {
-									console.log(result);
-									reviewAjax();
-									// 작성한 리뷰 값 초기화
-									$('#reviewText').val('');
-									$('#star').val(0);
-									$('#star').niceSelect('update');
-								},
-								error : function(error) {
-									console.log(error);
-								}
+							Swal.fire({
+								icon : 'error',
+								title : '리뷰 등록 실패',
+								text : '상품의 배송이 완료되어야 리뷰를 작성할 수 있습니다.',
+								confirmButtonText : "확인"
 							})
 						}
 					} else {
