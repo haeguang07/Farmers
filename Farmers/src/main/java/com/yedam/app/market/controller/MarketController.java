@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jasypt.encryption.StringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,12 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.yedam.app.activity.vo.BnbVO;
 import com.yedam.app.common.service.CodeService;
 import com.yedam.app.common.service.PaymentService;
 import com.yedam.app.common.service.ReviewService;
 import com.yedam.app.common.vo.CodeVO;
-import com.yedam.app.common.vo.PaymentVO;
 import com.yedam.app.common.vo.ReviewVO;
 import com.yedam.app.market.service.CartService;
 import com.yedam.app.market.service.MarketService;
@@ -38,7 +37,10 @@ public class MarketController {
 	CartService cartService;
 	@Autowired
 	PaymentService payService;
+	@Autowired
+	StringEncryptor jasyptStringEncryptor;
 
+	
 	// 전체조회 페이지
 	@GetMapping("marketList")
 	public String marketList(Model model) {
@@ -65,10 +67,11 @@ public class MarketController {
 	// 단건조회
 	@GetMapping("mkInfo")
 	public String getMkInfo(Model model, String boardNo) {
-		model.addAttribute("mk", mkService.getMarketInfo(boardNo));
+		MarketVO vo = mkService.getMarketInfo(boardNo);
+		
+		model.addAttribute("mk", vo);
 		model.addAttribute("rev", revService.getCount(boardNo));
 		model.addAttribute("avg", revService.getAverage(boardNo));
-		System.out.println(revService.getAverage(boardNo));
 		List<String> list = payService.getPayMember(boardNo);
 		model.addAttribute("pay", list);
 		return "market/market/marketInfo";
@@ -142,7 +145,6 @@ public class MarketController {
 		}
 	}
 
-		
 	// 삭제
 	@GetMapping("deleteMk")
 	public String deleteMk(String boardNo) {
@@ -166,6 +168,5 @@ public class MarketController {
 			return "장바구니 등록실패";
 		}
 	}
-	
-}
 
+}
