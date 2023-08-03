@@ -40,9 +40,13 @@ public class LoginRestController {
 		String title = "인증번호 발송";
 		String subject = "<h3>안녕하세요</h3>\n <h4>인증번호는" + random + "입니다</h4>\n";
 		EmailVO msg = new EmailVO(to, title, subject);
-		emailService.sendMail(msg);
 		Map<String, Object> map = new HashMap<>();
-		map.put("random", random);
+		if(emailService.sendMail(msg)) {
+			map.put("retCode", "Success");
+			map.put("random", random);
+		}else {
+			map.put("retCode","Fail");
+		}
 		return map;
 
 	}

@@ -29,7 +29,7 @@ public class MemberVO implements Serializable {
 	
 	//Detail
 	private String name;
-	private int	zip;
+	private String zip;
 	private String addr;
 	private String detaAddr;
 	private String mbl;
