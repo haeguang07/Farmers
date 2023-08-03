@@ -219,7 +219,6 @@
 								text : '수정에 실패했습니다',
 								confirmButtonText : "확인"
 							})
-							location.href = "/farmLendInfo?boardNo=" + boardNo;
 						}
 					})
 					.fail(function(result) {
@@ -229,7 +228,6 @@
 							text : '페이지 호출 오류',
 							confirmButtonText : "확인"
 						})
-						location.href = "/farmLendInfo?boardNo=" + boardNo;
 					})
 				}
 			});
