@@ -1,8 +1,10 @@
 package com.yedam.app.security;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.jasypt.encryption.StringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -18,6 +20,8 @@ import com.yedam.app.user.vo.MemberVO;
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 	@Autowired
 	MemberMapper memberMapper;
+	@Autowired
+	StringEncryptor jasyptStringEncryptor;
 
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -53,25 +57,38 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 		String gender = oAuth2UserInfo.getGender();
 		String id = provider.substring(0, 2)+"_"+ providerId;
 		System.out.println(id);
-		MemberVO byEmail = memberMapper.selectByEmail(email);
+		
+		List<MemberVO> emailList=memberMapper.selectEmail();		
+		String dbEmail = jasyptStringEncryptor.encrypt(email);
+		String memNo="";
+		for (MemberVO emails: emailList) {
+			String decryptEmail=jasyptStringEncryptor.decrypt(emails.getEmail());
+			if(decryptEmail.equals(email)) memNo= emails.getEmail();
+		}
+		
+		MemberVO vo = memberMapper.selectMemberByNo(memNo);
 
 		// DB에 없는 사용자라면 회원가입처리
-		if (byEmail == null) {
-			byEmail = new MemberVO();
-			byEmail.setEmail(email);
-			byEmail.setNick(username);
-			byEmail.setPw(password);
-			byEmail.setLoginPath(loginPath);
-			byEmail.setGen(gender);
-			byEmail.setProf(prof);
-			byEmail.setName(name);
-			byEmail.setId(id);
-			byEmail.setMemGrd("b0");
-			memberMapper.insertMember(byEmail);
-			memberMapper.insertMemberDetail(byEmail);
+		if (vo == null) {
+			vo = new MemberVO();
+			vo.setEmail(dbEmail);
+			vo.setNick(username);
+			vo.setPw(password);
+			vo.setZip(jasyptStringEncryptor.encrypt(""));
+			vo.setAddr(jasyptStringEncryptor.encrypt(""));
+			vo.setDetaAddr(jasyptStringEncryptor.encrypt(""));
+			vo.setMbl(jasyptStringEncryptor.encrypt(""));
+			vo.setLoginPath(loginPath);
+			vo.setGen(gender);
+			vo.setProf(prof);
+			vo.setName(name);
+			vo.setId(id);
+			vo.setMemGrd("b0");
+			memberMapper.insertMember(vo);
+			memberMapper.insertMemberDetail(vo);
 		}
 
-		return new PrincipalDetails(byEmail, oAuth2User.getAttributes());
+		return new PrincipalDetails(vo, oAuth2User.getAttributes());
 	}
 
 }

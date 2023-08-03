@@ -60,12 +60,16 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler{
         if (savedRequest != null) {
             uri = savedRequest.getRedirectUrl();
         } else if (prevPage != null && !prevPage.equals("")) {
-            // 회원가입(간편X) - 로그인으로 넘어온 경우 "/"로 redirect
+            // 회원가입(간편X                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ) - 로그인으로 넘어온 경우 "/"로 redirect
             if (prevPage.contains("join")) {
                 uri = "/";
             } else {
                 uri = prevPage;
             }
+        }
+        //만약 관리자가 로그인할 경우 관리자 페이지로 이동
+        if(vo.getMemGrd()=="b0") {
+        	uri="/admin";
         }
         redirectStrategy.sendRedirect(request, response, uri);
 	}
