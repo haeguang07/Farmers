@@ -503,6 +503,7 @@ public class MyPageController {
 	@GetMapping("myPage/mySaleInfo")
 	public String mySaleInfo(String payDetaNo, Model model) {
 		PaymentDetailVO vo = myPageService.mySalesPayInfo(payDetaNo);
+		vo.setMbl(jasyptStringEncryptor.decrypt(vo.getMbl()));
 		System.out.println(vo);
 		System.out.println('a');
 		model.addAttribute("payInfo", vo);

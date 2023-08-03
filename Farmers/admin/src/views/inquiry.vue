@@ -2,27 +2,31 @@
 <div>
   <h3>문의 관리</h3>
   <div class="row">
-			<div class="col-3 row">
-				<div class="col">상태</div>
-				<select class="form-select col" id="addon-wrapping" v-model="searchStts"  @change="search">
+    <div class="col-1">상태</div>
+    <div class="col-2">
+				<select class="form-select" id="addon-wrapping" v-model="searchStts"  @change="search">
 					<option value="">전체</option>
 					<option value="d0">답변대기</option>
 					<option value="d1">답변완료</option>
 				</select>
 			</div>
-			<div class="col-4 row">
-        <div class="col">카테고리</div>
-				<select class="form-select col" id="addon-wrapping" v-model="searchCtg"  @change="search">
+      <div class="col-1">카테고리</div>
+			<div class="col-2">
+				<select class="form-select" id="addon-wrapping" v-model="searchCtg"  @change="search">
 					<option value="">전체</option>
 					<option v-for="ctg in ctgList" :value="ctg.cmmnDetaCode" v-text="ctg.codeDesct"></option>
 				</select>
       </div>
 		</div>
-    <div class="row  my-4">
+    <div class="row">
       <div class="col-1">작성일</div>
-      <input type="date" class="form-select-plaintext col-2" v-model="searchStr"  @change="search">
+      <div class="col-2">
+        <input type="date" class="form-select" v-model="searchStr"  @change="search">
+      </div>
 					~
-				<input type="date" class="form-select-plaintext col-2" v-model="searchEnd"  @change="search">
+      <div class="col-2">
+				<input type="date" class="form-select" v-model="searchEnd"  @change="search">
+      </div>
     </div>
   <v-data-table
     v-model:page="page"
