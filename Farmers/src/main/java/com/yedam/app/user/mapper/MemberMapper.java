@@ -1,12 +1,15 @@
 package com.yedam.app.user.mapper;
 
+import java.util.List;
+
 import com.yedam.app.user.vo.MemberVO;
 
 public interface MemberMapper {
 	// 회원 조회
 	public MemberVO selectMember(String id);
-	//회원조회 (이메일)--간편로그인용
-	public MemberVO selectByEmail(String email);
+	public MemberVO selectMemberByNo(String memNo);
+	//이메일 중복용 
+	public List<MemberVO> selectEmail();
 
 	// 아이디중복
 	public String selectId(String id);

@@ -11,30 +11,32 @@
 			btn.on('click', function (e) {
 				let emailText = email.val();
 				if (emailText == "") {
-					alert('이메일을 입력하세요');
+					Swal.fire({ title: '이메일을 입력하세요' , icon: 'warning',confirmButtonText:"확인"});
 					return;
 				}else if(!regEmail.test(emailText)){
-					alert('정확한 이메일을 입력하세요');
+					Swal.fire({ title: '정확한 이메일을 입력하세요' , icon: 'warning',confirmButtonText:"확인"});
 					return;
 				}
 				$.ajax({
 					url: 'emailCheck',
 					method: 'get',
-					data: {
-						emailText
-					},
+					data: {emailText},
 					success(data) {
 						if(data.retCode=="Success"){
-							alert("해당 이메일로 성공적으로 인증번호를 보냈습니다")
+							Swal.fire({ title: '해당 이메일로 성공적으로 인증번호를 보냈습니다' , icon: 'success',confirmButtonText:"확인"});
 							$.ajax('sendEmail?emailText='+emailText)
 							.done(data=>{
-								num = data.random;
-								console.log(num);															
+								if(data.retCode=='Success'){
+									num = data.random;
+									console.log(num);															
+								}else{
+									Swal.fire({ title: '유효하지 않는 이메일입니다' , icon: 'error',confirmButtonText:"확인"});
+								}
 							})
 							.catch(err=> console.log(err))
 							
 						}else if(data.retCode=="Fail"){
-							alert('이미 있는 이메일입니다')
+							Swal.fire({ title: '이미 있는 이메일입니다' , icon: 'warning',confirmButtonText:"확인"});
 						}
 					},
 					error(err) {
@@ -48,10 +50,11 @@
 			cBtn.on('click', function (e) {
 				let cNum = $('#certifytext').val();
 				if (cNum == num) {
-					alert('인증성공');
+					Swal.fire({ title: '인증성공' , icon: 'success',confirmButtonText:"확인"});
+					email.removeData('set');
 					email.data('set', email.val());
 				} else {
-					alert('인증번호를 정확히 입력하세요');
+					Swal.fire({ title: '인증번호를 정확히 입력하세요' , icon: 'warning',confirmButtonText:"확인"});
 				}
 			})
 			
@@ -73,7 +76,7 @@
 			let idCheckBtn = $('#idCheck');
 			idCheckBtn.on('click', function () {
 				if (!regId.test(id.val())) {
-					alert('아이디는 6자~15자리의 영문자, 숫자를 입력하세요');
+					Swal.fire({ title: '아이디는 6자~15자리의 영문자, 숫자를 입력하세요' , icon: 'error',confirmButtonText:"확인"});
 					return;
 				} else {
 					let uid = id.val();
@@ -85,18 +88,18 @@
 						method: 'get',
 						success(data) {
 							if (data.retCode == 'Success') {
-								alert('중복체크 성공');
+							Swal.fire({ title: '중복체크 성공' , icon: 'success',confirmButtonText:"확인"});
 								id.data('set', uid);
 								console.log(id.data('set'));
 							} else if (data.retCode == 'Fail') {
-								alert('이미 있는 아이디 입니다. 다시 입력해주세요');
+								Swal.fire({ title: '이미 있는 아이디 입니다. 다른 아이디를 입력해주세요' , icon: 'warning',confirmButtonText:"확인"});
 								id.val('');
 								if (id.name) {
 									id.removeData('set');
 								}
 								id.focus();
 							} else {
-								alert('알 수 없는 오류');
+								Swal.fire({ title: '알 수 없는 오류' , icon: 'error',confirmButtonText:"확인"});
 							}
 						},
 						error(err) {
@@ -113,7 +116,7 @@
 			let nickcheckBtn = $('#nickcheck');
 			nickcheckBtn.on('click', function () {
 				if (!reqNick.test(nickname.val())) {
-					alert('닉네임는 2~8자리 입력하세요');
+					Swal.fire({ title: '닉네임는 2~8자리 입력하세요' , icon: 'warning',confirmButtonText:"확인"});
 					return;
 				} else {
 					let nick = nickname.val();
@@ -125,18 +128,19 @@
 						},
 						success(data) {
 							if (data.retCode == 'Success') {
-								alert('중복체크 성공');
+								Swal.fire({ title: '중복체크 성공' , icon: 'success',confirmButtonText:"확인"});
+
 								nickname.data('set', nick);
 								console.log(nickname);
 							} else if (data.retCode == 'Fail') {
-								alert('이미 있는 닉네임 입니다. 다시 입력해주세요');
+								Swal.fire({ title: '이미 있는 닉네임 입니다. 다시 입력해주세요' , icon: 'warning',confirmButtonText:"확인"});
 								nickname.val('')
 								if (nickname.data('set')) {
 									nickname.removeData('set');
 								}
 								nickname.focus();
 							} else {
-								alert('알 수 없는 오류');
+								Swal.fire({ title: '알 수 없는 오류' , icon: 'error',confirmButtonText:"확인"});
 							}
 						},
 						error(err) {
@@ -155,20 +159,20 @@
 
 			function step1() {
 				if (!regId.test(id.val())) {
-					alert('아이디는 6자~15자리의 영문자, 숫자를 입력하세요');
+					Swal.fire({ title: '아이디는 6자~15자리의 영문자, 숫자를 입력하세요' , icon: 'warning',confirmButtonText:"확인"});
 					return false;
 				} else if (!id.data('set')) {
-					alert('아이디 중복체크를 해주세요');
+					Swal.fire({ title: '아이디 중복체크를 해주세요' , icon: 'warning',confirmButtonText:"확인"});
 					return false;
 				} else if (!pwCheck('pw','pwpwCheck','id')) {
 					$('#pw2').val('');
 					$('#pwpwCheck').val('');
 					return false;
 				} else if (!nickname.data('set')) {
-					alert('닉네임 중복체크를 해주세요');
+					Swal.fire({ title: '닉네임 중복체크를 해주세요' , icon: 'warning',confirmButtonText:"확인"});
 					return false;
 				} else if (!email.data('set')) {
-					alert('이메일 인증을 해주세요');
+					Swal.fire({ title: '이메일 인증을 해주세요' , icon: 'warning',confirmButtonText:"확인"});
 					return false;
 				}
 
@@ -187,12 +191,20 @@
 				let zip =post.val();
 				let mblVal= mbl.val();
 				if(zip=='' || mblVal==''){
-					if(!confirm('아직 입력하지 않은 정보가 있습니다\n그대로 회원가입을 하시겠습니까?')){
-						return;
-					}
-					zip=0;
-
+					if(!confirm('이대로 회원가입하시겠습니까?')){return}
+					/*Swal.fire(
+						{ title: '아직 입력하지 않은 정보가 있습니다. 이대로 회원가입하시겠습니까?' ,
+						  icon: 'warning',
+						  confirmButtonText:"예", 
+						  showCancelButton: true,
+						  cancelButtonText: '취소',
+						  closeOnConfirm : false,
+						  closeOnCancel : true},
+						  function(isConfirm){if(!isConfirm){return;}}
+					)*/
 				}
+					
+				
 
 				let member = {
 					id: $('#id').data('set'),
@@ -214,18 +226,19 @@
 					data: member,
 					success(data) {
 						if (data.retCode == "Success") {
-							alert('회원가입 성공')
+							Swal.fire({ title: '회원가입이 성공적으로 진행되었습니다' , icon: 'seccess',confirmButtonText:"확인"});
 							location.href = "/login";
 						} else if (data.retCode == "Fail") {
-							alert('회원가입 실패')
+							Swal.fire({ title: '회원가입을 실패 했습니다.',text:'관리자에게 문의해주세요' , icon: 'error',confirmButtonText:"확인"});
 							location.reload();
 						} else {
-							alert('알 수 없는 오류')
+							Swal.fire({ title: '알 수 없는 오류.',text:'관리자에게 문의해주세요' , icon: 'error',confirmButtonText:"확인"});
 						}
 					},
 					error(err) {
 						console.log(err)
 					}
 				})
+				
 			})
 
