@@ -221,7 +221,9 @@
 								confirmButtonText:"확인",
 								cancelButtonText: "취소"
 							}).then((result) => {
-								location.href = `/myPage/myPage`;
+								if(result.isConfirmed){
+									location.href = `/myPage/myPage`;									
+								}
 							})
 			    		}
 			    	} else {
