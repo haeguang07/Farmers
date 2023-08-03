@@ -355,8 +355,14 @@ img {
 			data: formData
 		})
 		.done(function (result){
-			alert('수정이 완료되었습니다.');
-			
+			console.log(result);
+			Swal.fire({
+				title: '수정이 완료되었습니다.',
+				icon: 'success',
+				confirmButtonText:"확인",
+			}).then((result) => {
+				parent.closePopUp();
+			})	
 		})
 		.fail(function (result){
 			console.log(result);
