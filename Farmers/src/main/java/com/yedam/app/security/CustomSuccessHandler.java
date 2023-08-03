@@ -53,22 +53,22 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler{
         //기본 url는 메인페이지
         String uri = "/";
 
-		 
          //savedRequest 존재하는 경우 = 인증 권한이 없는 페이지 접근
          //Security Filter가 인터셉트하여 savedRequest에 세션 저장
 	    SavedRequest savedRequest = requestCache.getRequest(request, response);
         if (savedRequest != null) {
             uri = savedRequest.getRedirectUrl();
         } else if (prevPage != null && !prevPage.equals("")) {
-            // 회원가입(간편X                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ) - 로그인으로 넘어온 경우 "/"로 redirect
-            if (prevPage.contains("join")) {
+            // 회원가입(간편X)이면 메인으로                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ) - 로그인으로 넘어온 경우 "/"로 redirect
+            if (prevPage.contains("/join")) {
                 uri = "/";
             } else {
                 uri = prevPage;
             }
         }
+
         //만약 관리자가 로그인할 경우 관리자 페이지로 이동
-        if(vo.getMemGrd()=="b0") {
+        if(vo.getMemGrd().equals("b0")) {
         	uri="/admin";
         }
         redirectStrategy.sendRedirect(request, response, uri);
