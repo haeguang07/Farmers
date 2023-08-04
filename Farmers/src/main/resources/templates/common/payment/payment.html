@@ -170,7 +170,9 @@
         </section>
         <!-- Checkout Section End -->
         <script th:inline="javascript">
-            
+        	let uri = /*[[${#httpServletRequest.requestURI}]]*/
+        	let url = /*[[${#httpServletRequest.requestURL}]]*/
+        	let path = url.replace(uri, '')
             //회원정보가져오기
             var memberInfo;
             $(function () {
@@ -386,7 +388,7 @@
                         orderId: orderId, // 주문 ID(직접 만들어주세요)
                         orderName: orderName, // 주문명http://54.180.74.135:85/
                         //successUrl: "http://54.180.74.135:85/payLoad?paymentData="+JSON.stringify(paymentData)+"&payDatailData="+JSON.stringify(payDatailData), // 제에 성공하면 이동하는 페이지(직접 만들어주세요)
-                        successUrl: "http://localhost:8085/payLoad?paymentData="+JSON.stringify(paymentData)+"&payDatailData="+JSON.stringify(payDatailData),
+                        successUrl: path+"/payLoad?paymentData="+JSON.stringify(paymentData)+"&payDatailData="+JSON.stringify(payDatailData),
                         failUrl: "http://54.180.74.135:85/payFail", // 결제에 실패하면 이동하는 페이지(직접 만들어주세요)
                         customerEmail: memberInfo.email,
                         customerName: memberInfo.name
