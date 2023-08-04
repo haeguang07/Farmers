@@ -118,7 +118,7 @@
 	<!-- 펀딩 등록 -->
 	<insert id="insertFunding" parameterType="FundingVO">
 		INSERT INTO funding
-		VALUES ('n9'||LPAD(funding_seq.NEXTVAL,13,0),
+		VALUES ('n9'||LPAD(funding_seq.NEXTVAL,6,0),
 				#{memNo},
 				#{title},
 				#{desct},

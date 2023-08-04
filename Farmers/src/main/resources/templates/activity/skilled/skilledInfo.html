@@ -100,7 +100,7 @@
 								<div class="col-lg-12">
 									<div class="product__details__text">
 										<div class="row">
-											<h4>금손귀농인 구해요</h4>
+											<h4>금손귀농인</h4>&nbsp;<h4 th:text="${goldInfo.div}"></h4>
 											<br> <br>
 											<div class="row col-lg-12">
 												<div class="col-md-6">
@@ -244,24 +244,36 @@
 		function deleteInfo() {
 			boardNo = /*[[${goldInfo.boardNo}]]*/;
 			console.log(boardNo);
-			$.ajax({
-				url: "/deleteSkilled",
-				method: "POST",
-				data : {boardNo}
+			
+			Swal.fire({
+				title: '정말 삭제하시겠습니까?',
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonText:"확인",
+				cancelButtonText: "취소"
+			}).then((result) => {
+				if(result.isConfirmed){
+					$.ajax({
+						url: "/deleteSkilled",
+						method: "POST",
+						data : {boardNo}
+					})
+					.done(function (result){
+						console.log(result);
+						Swal.fire({
+							title: '삭제가 완료되었습니다.',
+							icon: 'success',
+							confirmButtonText:"확인",
+						}).then((result) => {
+							parent.closePopUp();
+						})	
+					})
+					.fail(function (result){
+						console.log(result);
+					})
+				}
 			})
-			.done(function (result){
-				console.log(result);
-				Swal.fire({
-					title: '삭제가 완료되었습니다.',
-					icon: 'success',
-					confirmButtonText:"확인",
-				}).then((result) => {
-					parent.closePopUp();
-				})	
-			})
-			.fail(function (result){
-				console.log(result);
-			})
+			
 		}
 		
 		// 수정 클릭 시 모달창

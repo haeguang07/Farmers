@@ -131,6 +131,25 @@
  			WHERE ACT_DATE < SYSDATE-1
  		]]>
 	</update>
+	
+	<!-- 즉시 구매 프로시저 (pay_no로 조회) -->
+	<select id="buyAuctionAlert" statementType="CALLABLE"
+		parameterType="PaymentVO" resultType="PaymentVO">
+		<!-- {
+		CALL buyAuctionAlert(
+		#{payNo, mode=IN, jdbcType=VARCHAR},
+		#{boardCtg,mode=OUT , jdbcType=VARCHAR},
+		#{totalPayPrice, mode=OUT ,jdbcType=VARCHAR},
+		#{payMthd, mode=OUT ,jdbcType=VARCHAR},
+		#{payDate,mode=OUT , jdbcType=DATE},
+		#{boardNo,mode=OUT , jdbcType=VARCHAR},
+		#{title, mode=OUT , jdbcType=VARCHAR},
+		#{rep, mode=OUT ,jdbcType=VARCHAR},
+		#{count, mode=OUT ,jdbcType=VARCHAR}
+		)
+
+		} -->
+	</select>
 
 	
 

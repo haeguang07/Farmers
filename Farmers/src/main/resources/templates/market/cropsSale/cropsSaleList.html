@@ -139,9 +139,12 @@
 						</div>
 						<div class="row">
 							<div class="col-lg-12">
-								<button type="button" class="btn btn-dark"
-									style="width: 130px; height: 40px; float: right; 
-									margin-right: 30px; margin-bottom: 20px;"id="add">판매상품 등록</button>
+								<th:block th:if="not ${#strings.isEmpty(session.mem)}">
+									<button type="button" class="btn btn-dark"
+										style="width: 130px; height: 40px; float: right; 
+										margin-right: 30px; margin-bottom: 20px;"id="add"
+										th:if="${session.mem.memGrd == 'b1'} or ${session.mem.memGrd == 'b0'}">판매상품 등록</button>
+								</th:block>
 							</div>
 						</div>
 					</div>
@@ -206,25 +209,7 @@
 			
 			// 등록 버튼 클릭 시
 			$('#add').on('click', function() {
-				if(mem != null) {
-					if(mem.memGrd == 'b0' || mem.memGrd == 'b1') {
-						location.href = "/add/cropsSaleInsert";
-					} else {
-						Swal.fire({
-							icon : 'error',
-							title : '접근 불가',
-							text : '정회원 이상의 회원만 등록이 가능합니다',
-							confirmButtonText : "확인"
-						})
-					}
-				} else {
-					Swal.fire({
-						icon : 'error',
-						title : '접근 불가',
-						text : '정회원 이상의 회원만 등록이 가능합니다',
-						confirmButtonText : "확인"
-					})
-				}
+				location.href = "/add/cropsSaleInsert";
 			});
 			// 페이지 로드
 			$(function() {

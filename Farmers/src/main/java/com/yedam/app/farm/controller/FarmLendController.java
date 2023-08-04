@@ -17,7 +17,7 @@ import com.yedam.app.common.service.CodeService;
 import com.yedam.app.farm.service.FarmLendService;
 import com.yedam.app.farm.vo.FarmLendApplyVO;
 import com.yedam.app.farm.vo.FarmLendVO;
-import com.yedam.app.market.vo.PageVO;
+import com.yedam.app.farm.vo.PageDTO;
 
 @Controller
 public class FarmLendController {
@@ -51,7 +51,7 @@ public class FarmLendController {
 		int total = flService.getCount(dst1, dst2, mcrp, price, area);
 		List<FarmLendVO> list = flService.getFarmLendListPage(pageNum, dst1, dst2, mcrp, price, area);
 		
-		PageVO vo = new PageVO(pageNum, total);
+		PageDTO vo = new PageDTO(pageNum, total);
 		Map<String, Object> map = new HashMap<>();
 		map.put("flList", list);
 		map.put("pageInfo", vo);

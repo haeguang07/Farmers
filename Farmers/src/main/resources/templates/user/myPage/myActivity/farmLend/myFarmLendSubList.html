@@ -52,11 +52,12 @@
 						<hr>
 					</div>
 					<div class="col-lg-12">
-						<table id="myTable">
+						<table id="myTable" class="table">
 							<thead>
 								<tr>
 									<th>번호</th>
 									<th>신청자</th>
+									<th>연락처</th>
 									<th>첨부파일</th>
 									<th>처리</th>
 									<th style="display: none;">a</th>
@@ -67,6 +68,7 @@
 									<tr th:each="li : ${list}" th:data-aplNo="${li.aplNo}" th:data-memNo="${li.memNo}">
 										<td th:text="${li.aplNo}"></td>
 										<td th:text="${li.name}"></td>
+										<td th:text="${li.mbl}"></td>
 										<td><button type="button" class="form-control download">다운로드</button></td>
 										<td th:if="${#strings.equals(vo.regStts, 'e1')} and ${not #strings.equals(li.aplStts, '신청 거절')}" class="stts">
 											<button type="button" class="form-control accept">수락</button>

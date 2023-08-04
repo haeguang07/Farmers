@@ -12,6 +12,10 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>금손귀농인</title>
 <style>
+.nice-select {
+	width: 149px;
+}
+
 .set-bg {
 	border-radius: 20px;
 }
@@ -146,7 +150,7 @@ h5:has(.countdown) {
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="breadcrumb__text">
-							<h4>농촌 체험</h4>
+							<h4>금손 귀농인</h4>
 							<div class="breadcrumb__links">
 								<span>정겨운 우리의 고향에서 할 수 있는 다양한 활동을 경험해보세요!</span>
 							</div>
@@ -193,10 +197,10 @@ h5:has(.countdown) {
 							<div class="row">
 								<div class="col-lg-12 col-md-12 col-sm-12">
 									<div class="row" id="selCondition">
-										<div class="col-lg-6 col-md-4"></div>
+										<div class="col-lg-4 col-md-2"></div>
 										<!-- 지역1 선택창 -->
 										<div>
-											<select class="form-select form-group col-1.5 mr-2"
+											<select class="form-select form-group col-1.5 mr-2 dst1" 
 												aria-label="Default select example" id="dst1">
 												<option value="" selected="selected">도</option>
 												<option th:each="opt : ${dst1}" th:text="${opt.codeDesct}"
@@ -241,7 +245,7 @@ h5:has(.countdown) {
 								<!-- 금손 리스트 -->
 							</div>
 							<div class="row" style="text-align: center;">
-								<div class="row col-lg-12" id="pageDiv">
+								<div class="col-lg-12" id="pageDiv">
 									<!-- 페이징 -->
 								</div>
 							</div>
@@ -433,7 +437,7 @@ h5:has(.countdown) {
 					$(clone).text(i);
 					if(i == pageData.pageNum){
 						$(clone).addClass('active')
-						$(clone).css('border-color','orange')
+						$(clone).css('border-color','green')
 					}
 					$(clone).on('click', function () {
 						getCondition(i, title, dst1, dst2);
@@ -491,13 +495,38 @@ h5:has(.countdown) {
 				let boardNo = $(this).parent().parent().parent().find('.card-boardNo').text();
 				console.log(boardNo);
 				
-				// 팝업
-				$.magnificPopup.open({
-					items: [{
-						src: "/skilledInfo?boardNo=" + boardNo,
-						type: 'iframe'
-					}]
-				})
+				if(member){
+		    		if(member.memGrd != 'b2'){
+		    			// 팝업
+						$.magnificPopup.open({
+							items: [{
+								src: "/skilledInfo?boardNo=" + boardNo,
+								type: 'iframe'
+							}]
+						})
+		    		} else {
+		    			Swal.fire({
+							title: '정회원만 조회 가능합니다.',
+							text: '등업신청 하시겠습니까?',
+							icon: 'warning',
+							showCancelButton: true,
+							confirmButtonText:"확인",
+							cancelButtonText: "취소"
+						}).then((result) => {
+							if(result.isConfirmed){
+								location.href = `/myPage/myPage`;									
+							}
+						})
+		    		}
+		    	} else {
+		    		Swal.fire({
+						title: '로그인이 필요합니다.',
+						icon: 'warning',
+						confirmButtonText:"확인"
+					}).then((result) => {
+						location.href = `/login`;
+					})
+		    	}
 			})
 			
 			// 상세 조회 모달창 닫고 수정 모달창 열기

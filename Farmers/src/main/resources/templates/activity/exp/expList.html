@@ -94,8 +94,10 @@
 						</div>
 						<div class="row">
 							<div class="col-lg-12">
-								<button type="button" class="btn btn-dark" style="width: 130px; height: 40px; 
-								float: right; margin-bottom: 20px;" id="add">체험글 작성</button>
+								<th:block th:if="not ${#strings.isEmpty(session.mem)}">
+									<button type="button" class="btn btn-dark" style="width: 130px; height: 40px; 
+									float: right; margin-bottom: 20px;" id="add" th:if="${session.mem.memGrd == 'b1'} or ${session.mem.memGrd == 'b0'}">체험글 작성</button>
+								</th:block>
 							</div>
 						</div>
 					</div>
@@ -138,25 +140,7 @@
 			
 			// 등록 버튼 클릭 시
 			$('#add').on('click', function() {
-				if(mem != null) {
-					if(mem.memGrd == 'b0' || mem.memGrd == 'b1') {
-						location.href = "/add/expInsert";
-					} else {
-						Swal.fire({
-							icon : 'error',
-							title : '접근 불가',
-							text : '정회원 이상의 회원만 등록이 가능합니다',
-							confirmButtonText : "확인"
-						})
-					}
-				} else {
-					Swal.fire({
-						icon : 'error',
-						title : '접근 불가',
-						text : '정회원 이상의 회원만 등록이 가능합니다',
-						confirmButtonText : "확인"
-					})
-				}
+				location.href = "/add/expInsert";
 			});
 			
 			// 페이지 로드
@@ -234,12 +218,12 @@
 				
 				$(clone).find('#number').text(index + 1);
 				$(clone).find('#title').text(item.title);
-				let reception = $(clone).find('#reception').text('현재 ' + apl + '명/' + ',' + '최대 ' + item.pptPer + '명');
-				reception.html(reception.html().replace(',', '<br>'));
+				let reception = $(clone).find('#reception').text('현재 ' + apl + '명' + '/' + '최대 ' + item.pptPer + '명');
+				//reception.html(reception.html().replace(',', '<br>'));
 				let address = $(clone).find('#addr').text(item.addr + ', ' + item.detaAddr);
 				address.html(address.html().replace(', ', '<br>'))
 				let date = $(clone).find('#date').text(item.exStrDate + ' ~ ' + item.exEndDate);
-				date.html(date.html().replace('~', '<br>~<br>'));
+				//date.html(date.html().replace('~', '<br>~<br>'));
 				
 				$(clone).find('#title').on('click', function() {
 					location.href = "expInfo?boardNo=" + item.boardNo;
