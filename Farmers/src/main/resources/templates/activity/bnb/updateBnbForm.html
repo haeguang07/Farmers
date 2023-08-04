@@ -112,13 +112,13 @@
 														<p class="myInline col-lg-3 mb-0 textLeft">주소</p>
 														<input type="text" class="form-control col-lg-8" id="adr"
 															name="address" th:value="${bnb.addr}"
-															style="margin-left: -15px">
+															style="margin-left: -15px" readonly>
 													</div>
 													<br>
 													<div class="row">
 														<p class="myInline col-lg-3 mb-0 textLeft">상세주소</p>
 														<input type="text" class="form-control col-lg-8"
-															id="adrDetail" name="address"
+															id="adrDetail" name="addrDetail"
 															th:value="${bnb.addrDetail}" style="margin-left: -15px">
 													</div>
 													<!-- 위도, 경도 -->
@@ -337,10 +337,7 @@
 				if (!$('[name="title"]').val()) {
 					Swal.fire({ title: '제목을 입력하세요' , icon:'warning', confirmButtonText:"확인"});
 					return;
-				} else if (!$('[name="address"]').val()) {
-					Swal.fire({ title: '주소를 입력하세요' , icon:'warning', confirmButtonText:"확인"});
-					return;
-				} else if (!$('[name="adrDetail"]').val()) {
+				} else if (!$('[name="addrDetail"]').val()) {
 					Swal.fire({ title: '상세주소를 입력하세요' , icon:'warning', confirmButtonText:"확인"});
 					return;
 				} else if ($('[name="price"]').val() <= 0) {

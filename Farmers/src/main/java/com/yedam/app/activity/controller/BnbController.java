@@ -48,7 +48,6 @@ public class BnbController {
 	public Map<String, Object> getBnbList(@RequestParam(required = false) String region,
 			@RequestParam(required = false, defaultValue = "1") int page,
 			@RequestParam(required = false, defaultValue = "최신순") String order) {
-		System.out.println(order);
 		List<BnbVO> list = bnbService.selectBnbList(region, page, order);
 		int total = bnbService.selectCount(region);
 		PageVO vo = new PageVO(page, total);
@@ -82,7 +81,6 @@ public class BnbController {
 	@ResponseBody
 	@GetMapping("rev/review")
 	public List<ReviewVO> getReview(String boardNo) {
-		System.out.println(boardNo);
 		return revService.getReview(boardNo);
 	}
 
@@ -91,7 +89,6 @@ public class BnbController {
 	@PostMapping("rev/review")
 	public ReviewVO addReview(ReviewVO vo) {
 		revService.addReview(vo);
-		System.out.println(vo);
 		return vo;
 	}
 
@@ -99,7 +96,6 @@ public class BnbController {
 	@ResponseBody
 	@GetMapping("rev/revDel")
 	public String delReview(String revNo) {
-		System.out.println(revNo);
 		int result = revService.delReview(revNo);
 		if (result > 0) {
 			return "delete success!";
@@ -118,7 +114,6 @@ public class BnbController {
 	// 등록처리
 	@PostMapping("add/insertBnb")
 	public String addBnb(BnbVO vo) {
-		System.out.println(vo);
 		bnbService.insertBnb(vo);
 		return "redirect:/bnbList";
 	}
