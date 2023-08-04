@@ -209,25 +209,7 @@
 			
 			// 등록 버튼 클릭 시
 			$('#add').on('click', function() {
-				if(mem != null) {
-					if(mem.memGrd == 'b0' || mem.memGrd == 'b1') {
-						location.href = "/add/cropsSaleInsert";
-					} else {
-						Swal.fire({
-							icon : 'error',
-							title : '접근 불가',
-							text : '정회원 이상의 회원만 등록이 가능합니다',
-							confirmButtonText : "확인"
-						})
-					}
-				} else {
-					Swal.fire({
-						icon : 'error',
-						title : '접근 불가',
-						text : '정회원 이상의 회원만 등록이 가능합니다',
-						confirmButtonText : "확인"
-					})
-				}
+				location.href = "/add/cropsSaleInsert";
 			});
 			// 페이지 로드
 			$(function() {
