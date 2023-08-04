@@ -260,6 +260,14 @@
 						confirmButtonText : "확인"
 					})
 					return;
+				} else if (!$('[name="exEndDate"]').val()) {
+					Swal.fire({
+						icon : 'info',
+						title : '체험 종료 일자 미선택',
+						text : '체험 종료 일자를 선택하세요',
+						confirmButtonText : "확인"
+					})
+					return;
 				} else {
 					let ckData = editor.getData();
 					let formData = $('#myForm').serializeObject();
