@@ -70,11 +70,14 @@
               <div class="col-3 row"><span class="col-4">신청인</span><span class="col-5">{{board.memNo}}</span></div>
             </div>
             <div class="row">
-              <div class="col-5 row"><span class="col-3">제목</span><span class="col-5">{{board.title}}</span></div>
+              <div class="col-5 row">
+								<span class="col-3">제목</span><span class="col-8">{{board.title}}</span>
+							</div>
               <div class="col-5 row"><span class="col-3">지역</span><span class="col-5">{{board.dst1}}</span></div>
             </div>
             <div class="row">
-              <span class="col-3">주소</span><span class="col-8">{{board.addr}}</span>
+              <div class="col-3">주소</div>
+							<div class="col-8">{{board.addr}}</div>
             </div>
             <div class="row">
               <div class="col-5 row"><span class="col-4">체험시작시간</span><span class="col-5">{{board.exStrDate}}</span></div>
@@ -83,7 +86,7 @@
 
             <div class="row">
               <div class="col-3" style="padding-left: 20px;">상세내용</div>
-                  <div class="col-5" style="overflow: auto; height: 350px;" v-html="board.detaDesct"></div>
+                  <div class="col-8" style="overflow: auto; height: 350px;" v-html="board.detaDesct"></div>
             </div>
             <div class="text-end">
               <div v-if="board.regStts=='승인 대기'">

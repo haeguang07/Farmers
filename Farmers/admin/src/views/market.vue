@@ -81,7 +81,7 @@
 
             <div class="row" >
               <div class="col-3" style="padding-left: 20px;">상세내용</div>
-							<div class="col-5" style="overflow: auto; height: 350px;" v-html="board.detaDesct"></div>
+							<div class="col-8" style="overflow: auto; height: 350px;" v-html="board.detaDesct"></div>
             </div>
             <div class="text-end">
               <div v-if="board.regStts=='승인 대기'" >
