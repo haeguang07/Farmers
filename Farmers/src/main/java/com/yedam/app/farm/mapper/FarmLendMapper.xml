@@ -87,7 +87,7 @@
 			#{lendStrDate},
 			#{lendEndDate},
 			#{lendPrice},
-			'e1',
+			'e0',
 			#{memNo},
 			#{dst1},
 			#{dst2},
