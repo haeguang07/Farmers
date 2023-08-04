@@ -300,12 +300,23 @@
 					.done(function() {
 						Swal.fire({
 							icon : 'success',
-							title : '장바구니 담기 성공',
-							text : '상품을 장바구니에 담았습니다',
+							title : '상품을 장바구니에 담았습니다',
 							confirmButtonText : "확인"
 						})
 						.then(function() {
-							location.href = "/cart?memNo=" + mem.memNo;
+							Swal.fire({
+								icon : 'question',
+								title : '장바구니로 이동하시겠습니까?',
+								showCancelButton: true, // 취소 버튼 보여주기
+								confirmButtonText : "이동",
+								cancelButtonText: '머물기',
+								reverseButtons: true, // 버튼 순서 거꾸로
+							})
+							.then((result) => {
+								if(result.isConfirmed) {
+									location.href = "/cart?memNo=" + mem.memNo;
+								}
+							})
 						})
 					})
 				} else {
