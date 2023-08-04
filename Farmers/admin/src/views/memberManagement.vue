@@ -3,36 +3,41 @@
 	<div class="body">
 		<h1>회원 관리</h1>
 		<br>
-
-		<div class="row ">
-				<div class="col-2">
-					<select class="form-select col mx-3"  id="addon-wrapping" v-model="searchType">
+		
+		<div class="row">
+			<div class="col-1" style="margin-left: 15px;">검색조건</div>
+				<div class="col-1">
+					<select class="form-select"  id="addon-wrapping" v-model="searchType">
 						<option value="아이디" selected>아이디</option><option value="닉네임">닉네임</option>
 					</select>
 				</div>
 				<div class="col-2">
-					<input type="text" class="form-control col"  aria-describedby="addon-wrapping" v-model="searchText" @change="search">
+					<input type="text" class="form-control"  aria-describedby="addon-wrapping" v-model="searchText" @change="search">
 				</div>
-
-				<div class="col-1">회원등급</div>
-				<div class="col-2">
+			</div>
+				
+		<div class="row">
+			<div class="col-1" style="margin-left: 15px;">회원등급</div>
+				<div class="col-1">
 					<select class="form-select" id="addon-wrapping" v-model="searchGrd" @change="search">
 						<option selected value="">선택</option>
 						<option v-for="grd in gradeList" :value="grd.cmmnDetaCode">{{grd.codeDesct}}</option>
 					</select>
 				</div>
 				
-				<div class="col-1 text-center">상태</div>
-				<div class="col-2">
+				<div class="col-1">활동상태</div>
+				<div class="col-1">
 					<select class="form-select col" id="addon-wrapping" v-model="searchStts" @change="search">
 						<option selected value="">선택</option>
 						<option v-for="status in sttsList " :value="status.cmmnDetaCode">{{status.codeDesct}}</option>
 					</select>
 			</div>
 		</div>
+				
+		
 		<div class="row">
-				<div class="col-2" style="margin-left: 15px;">회원가입경로</div>
-				<div class="col-2">
+			<div class="col-1" style="margin-left: 15px;">가입경로</div>
+				<div class="col-1">
 					<select class="form-select" id="addon-wrapping" v-model="searchLogin" @change="search">
 						<option selected value="">전체</option>
 						<option value="일반">일반</option><option value="카카오">카카오</option>
@@ -44,29 +49,25 @@
 				<div class="col-2">
 					<input type="date" class="form-select" v-model="searchStr" @change="search">
 				</div>
-				&nbsp;-&nbsp;
-				<div class="col-2">
-					<input type="date" class="form-select" v-model="searchEnd" :max="new Date()" @change="search">
-				</div>
 		</div>
-
-		<div style="width: 1000px;" class="row"> 
-			
-			<div class="col-2">선택한 회원을 </div>
+		<hr>
+		<div style="width: 1000px; float: right;" class="row"> 
+			<div class="col-4"></div>
+			<div class="col-2 text-end">📌 선택한 회원</div>
 			<div class="col-2">
 				<select class="form-select"  v-model="grade">
-					<option selected value="" >선택</option>
+					<option selected value="" >등급선택</option>
 					<option v-for="grd in gradeList" :value="grd.cmmnDetaCode">{{grd.codeDesct}}</option>
 				</select>
 			</div>
 			<div class="col-2">
 				<select class="form-select"  v-model="stts">
-					<option selected value="">선택</option>
+					<option selected value="">활동선택</option>
 					<option v-for="status in sttsList" :value="status.cmmnDetaCode">{{status.codeDesct}}</option>
 				</select>
 			</div>
-			<div  class="col-2"> 으로
-				<button @click="changeBtn" class="btn btn-primary mb-3">변경</button>
+			<div class="col-2  text-center">
+				<button @click="changeBtn" class="btn btn-primary">변경하기</button>
 			</div>
 		</div>
 		<v-data-table
@@ -82,6 +83,7 @@
 				hide-default-footer
 				@click:row=info
    		 class="elevation-1"
+				style="clear: both;"
 				>
 
 				<template v-slot:bottom>
@@ -309,7 +311,7 @@ methods:{
   padding-top: 100px; /* Location of the box */
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
+  width: 80%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
@@ -319,7 +321,7 @@ methods:{
 /* Modal Content */
 .modal-content {
   background-color: #fefefe;
-  margin: auto;
+  margin: 0,auto;
   padding: 20px;
   border: 1px solid #888;
   width: 80%;

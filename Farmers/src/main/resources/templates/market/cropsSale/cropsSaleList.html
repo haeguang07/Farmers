@@ -139,9 +139,12 @@
 						</div>
 						<div class="row">
 							<div class="col-lg-12">
-								<button type="button" class="btn btn-dark"
-									style="width: 130px; height: 40px; float: right; 
-									margin-right: 30px; margin-bottom: 20px;"id="add">판매상품 등록</button>
+								<th:block th:if="not ${#strings.isEmpty(session.mem)}">
+									<button type="button" class="btn btn-dark"
+										style="width: 130px; height: 40px; float: right; 
+										margin-right: 30px; margin-bottom: 20px;"id="add"
+										th:if="${session.mem.memGrd == 'b1'} or ${session.mem.memGrd == 'b0'}">판매상품 등록</button>
+								</th:block>
 							</div>
 						</div>
 					</div>

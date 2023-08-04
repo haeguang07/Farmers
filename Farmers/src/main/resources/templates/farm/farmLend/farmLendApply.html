@@ -116,6 +116,7 @@
 												<span th:text="${#numbers.formatInteger(flInfo.lendPrice, 3, 'COMMA')} + '원'" style="font-size: 20px;"></span>
 												<span>(연간)</span>
 											</p>
+											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 25px;">합계 : <span id="sumPrice"></span></b></p>
 											<div class="checkout__input">
 												<p style="text-align: left;">제출 서류</p>
 												<div class="row ml-1">
@@ -137,7 +138,6 @@
 												<ul id="fileList" style="text-align: left; list-style: none; padding: 10px;"></ul>
 												<input type="file" id="inputFile" name="files" style="display: none;" multiple>
 											</div>
-											<p style="margin-bottom: 20px; text-align: right;">합계 : <span id="sumPrice"></span></p>
 											<div class="row mb-2">
 												<button type="button" class="btn btn-dark mr-2" style="width: 150px; float: left;" id="applyBtn">신청하기</button>
 											</div>
