@@ -262,7 +262,7 @@
 														<p class="myInline col-lg-3 mb-0 textLeft">추가 내용</p>
 													</div>
 													<div class="row col-md-9">
-														<textarea class="form-control col-lg-3"
+														<textarea class="form-control col-lg-3" name="addrDesct"
 															id="exampleFormControlTextarea5" rows="3"></textarea>
 													</div>
 												</div>
@@ -371,22 +371,37 @@
 
 			//데이터 입력 확인
 			if (!$('[name="title"]').val()) {
-				alert('제목을 입력하세요');
+				Swal.fire({
+					title: '제목을 입력하세요.',
+					icon: 'warning',
+					confirmButtonText:"확인"
+				}).then((result) => {})
 				return;
 			} else if (!$('[name="wageDiv"]').val()) {
-				alert('지불기준을 선택하세요');
+				Swal.fire({
+					title: '지불기준을 입력하세요.',
+					icon: 'warning',
+					confirmButtonText:"확인"
+				}).then((result) => {})
 				return;
 			} else if ($('[name="price"]').val() <= 0) {
-				alert('금액을 입력하세요');
+				Swal.fire({
+					title: '금액을 입력하세요.',
+					icon: 'warning',
+					confirmButtonText:"확인"
+				}).then((result) => {})
 				return;
 			} else if ($('[name="desct"]').val() == "") {
-				alert('본문 내용을 입력하세요');
+				Swal.fire({
+					title: '본문 내용을 입력하세요.',
+					icon: 'warning',
+					confirmButtonText:"확인"
+				}).then((result) => {})
 				return;
 			} else {
 				let formData = $('#myForm').serializeObject();
 
-				formData.img = dbPath
-				console.log('1111'+formData);
+				formData.img = dbPath;
 			
 				//ajax 금손 등록
 				$.ajax({
