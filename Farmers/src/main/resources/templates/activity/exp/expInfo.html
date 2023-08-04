@@ -236,39 +236,52 @@
 			
 			// 삭제하기 버튼 클릭 시
 			$('#delete').on('click', function() {
-				$.ajax({
-					url : "/expDelete",
-					method : "POST",
-					data : 'boardNo=' + boardNo
+				Swal.fire({
+					icon : 'warning',
+					title : '게시물 삭제',
+					text : '게시물을 삭제하시겠습니까?',
+					showCancelButton: true, // 취소 버튼 보여주기
+					confirmButtonText : "승인",
+					cancelButtonText: '취소',
+					reverseButtons: true, // 버튼 순서 거꾸로
 				})
-				.done(function(result) {
-					console.log(result);
-					if(result == "success") {
-						Swal.fire({
-							icon : 'success',
-							title : '삭제 성공',
-							text : '성공적으로 삭제되었습니다',
-							confirmButtonText : "확인"
+				.then((result) => {
+					if(result.isConfirmed) {
+						$.ajax({
+							url : "/expDelete",
+							method : "POST",
+							data : 'boardNo=' + boardNo
 						})
-						.then(function() {
-							location.href = "/expList";
+						.done(function(result) {
+							console.log(result);
+							if(result == "success") {
+								Swal.fire({
+									icon : 'success',
+									title : '삭제 성공',
+									text : '성공적으로 삭제되었습니다',
+									confirmButtonText : "확인"
+								})
+								.then(function() {
+									location.href = "/expList";
+								})
+							} else {
+								Swal.fire({
+									icon : 'error',
+									title : '삭제 실패',
+									text : '삭제하지못했습니다',
+									confirmButtonText : "확인"
+								})
+							}
 						})
-					} else {
-						Swal.fire({
-							icon : 'error',
-							title : '삭제 실패',
-							text : '삭제하지못했습니다',
-							confirmButtonText : "확인"
+						.fail(function(result) {
+							Swal.fire({
+								icon : 'error',
+								title : '오류',
+								text : '페이지 호출 오류',
+								confirmButtonText : "확인"
+							})
 						})
 					}
-				})
-				.fail(function(result) {
-					Swal.fire({
-						icon : 'error',
-						title : '오류',
-						text : '페이지 호출 오류',
-						confirmButtonText : "확인"
-					})
 				})
 			});
 		</script>
