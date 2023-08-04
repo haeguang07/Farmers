@@ -40,7 +40,8 @@
 										<p style="visibility: hidden;">
 											<span>*</span>
 										</p>
-										<button type="button" class="form-control" id="changePw" th:if="${#strings.isEmpty(session.mem.loginPath)}">비밀번호변경</button>
+										<button type="button" class="form-control" id="changePw"
+											th:if="${#strings.isEmpty(session.mem.loginPath)}">비밀번호변경</button>
 									</div>
 								</div>
 								<div class="row hideItem" id="pwInput">
@@ -279,14 +280,25 @@
 
             //비밀번호 변경 input
             $('#changePw').on('click',function(){
-                if(confirm('비밀번호를 변경/취소 하시겠습니까?')){
-                    $('#pwInput').toggleClass('hideItem')
-                    $('#pw').val('');
-                    $('#pwCheck').val('');
-
-										pwCheck($('#pw').val(),$('#pwCheck').val(),$('input[name=id]').val())
-                }
-            })
+            	new swal({
+                    title: "비밀번호를 변경/취소 하시겠습니까?",
+                    icon: "info",
+										confirmButtonText: "예",
+										cancelButtonText: "아니요",
+										showCancelButton: true,
+    								allowOutsideClick: false,
+                })
+								.then(function(isConfirm) {
+									console.log(isConfirm)
+        				if (isConfirm.isConfirmed) {
+								console.log('s')
+        				 $('#pwInput').toggleClass('hideItem')
+                 $('#pw').val('');
+                 $('#pwCheck').val('');
+									pwCheck($('#pw').val(),$('#pwCheck').val(),$('input[name=id]').val())
+								}
+						})
+					})
 
             //수정완료 시
             $('#modifyDone').on('click',function(){

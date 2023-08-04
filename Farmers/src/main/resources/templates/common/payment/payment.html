@@ -170,7 +170,9 @@
         </section>
         <!-- Checkout Section End -->
         <script th:inline="javascript">
-            
+        	let uri = /*[[${#httpServletRequest.requestURI}]]*/
+        	let url = /*[[${#httpServletRequest.requestURL}]]*/
+        	let path = url.replace(uri, '')
             //회원정보가져오기
             var memberInfo;
             $(function () {
@@ -196,11 +198,19 @@
 
             //회원정보입력 버튼 클릭
             $('#memberInfo').on('click', function () {
+        		if(!memberInfo.zip == ''){        			
                 $('#memName').val(memberInfo.name)
                 $('#memPhone').val(memberInfo.mbl)
                 $('#addressCode').val(memberInfo.zip)
                 $('#address').val(memberInfo.addr)
                 $('#addressDetail').val(memberInfo.detaAddr)
+        		}else{
+        			new swal({
+                		title: "회원정보가 존재하지 않습니다",
+                		icon : "warning",
+                		confirmButtonColor: '#95D083'		
+                })
+        		}
             })
 
             //전체 계산 금액 계산
@@ -378,8 +388,8 @@
                         orderId: orderId, // 주문 ID(직접 만들어주세요)
                         orderName: orderName, // 주문명http://54.180.74.135:85/
                         //successUrl: "http://54.180.74.135:85/payLoad?paymentData="+JSON.stringify(paymentData)+"&payDatailData="+JSON.stringify(payDatailData), // 제에 성공하면 이동하는 페이지(직접 만들어주세요)
-                        successUrl: "http://localhost:8085/payLoad?paymentData="+JSON.stringify(paymentData)+"&payDatailData="+JSON.stringify(payDatailData),
-                        failUrl: "http://54.180.74.135:85/payFail", // 결제에 실패하면 이동하는 페이지(직접 만들어주세요)
+                        successUrl: path+"/payLoad?paymentData="+JSON.stringify(paymentData)+"&payDatailData="+JSON.stringify(payDatailData),
+                        failUrl: path+"/payFail", // 결제에 실패하면 이동하는 페이지(직접 만들어주세요)
                         customerEmail: memberInfo.email,
                         customerName: memberInfo.name
                     })
