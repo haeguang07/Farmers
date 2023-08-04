@@ -185,7 +185,17 @@
 			</div>
 		</div>
 
-		<script>
+		<script th:inline="javascript">
+			// 세션 정보
+			let mem;
+			/*<![CDATA[*/
+			let bool= [[${not #strings.isEmpty(session.mem)}]];
+			if(bool){
+				mem = [[${session.mem}]]		
+			}
+			/*]]>*/
+			
+			
 			// 경매장 전체 조회 실행
 			$(function(){
 				ajaxData(1);
@@ -237,8 +247,36 @@
 				let imageUrl = '/img/market/auction/' + item.rep;
 				$(clone).find('.set-bg').css('background-image', 'url('+ imageUrl +')');
 				$(clone).find('.set-bg').on('click', function(){
-					location.href = `auctionInfo?boardNo=${item.boardNo}`
+					
+					if(mem){
+						if(mem.memGrd != 'b2'){
+							// 상세조회 이동
+							location.href = `auctionInfo?boardNo=${item.boardNo}`
+						} else {
+							Swal.fire({
+								title: '정회원만 조회 가능합니다.',
+								text: '등업신청 하시겠습니까?',
+								icon: 'warning',
+								showCancelButton: true,
+								confirmButtonText:"확인",
+								cancelButtonText: "취소"
+							}).then((result) => {
+								if(result.isConfirmed){
+									location.href = `/myPage/myPage`;									
+								}
+							})
+						}
+					} else {
+						Swal.fire({
+							title: '로그인이 필요합니다.',
+							icon: 'warning',
+							confirmButtonText:"확인"
+						}).then((result) => {
+							location.href = `/login`;
+						})
+					}
 				})
+				
 				$(clone).find('h6').text(item.title);				
 				$(clone).find('.buyNow').text(number_format(item.bnp) + '원');
 				$(clone).find('.currentBid').text(number_format(item.price));
