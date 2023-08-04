@@ -22,6 +22,7 @@
 			</div>
 			<div class="col-auto"></div>
 		</div>
+		<hr>
 		<div style="width: 1000px;" class="row"> 
 			<div class="col-2">선택한 신청을 </div>
 			<div class="col-2">

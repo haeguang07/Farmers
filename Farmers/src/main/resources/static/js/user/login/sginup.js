@@ -164,7 +164,7 @@
 				} else if (!id.data('set')) {
 					Swal.fire({ title: '아이디 중복체크를 해주세요' , icon: 'warning',confirmButtonText:"확인"});
 					return false;
-				} else if (!pwCheck('pw','pwpwCheck','id')) {
+				} else if (!pwCheck('pw','pwCheck','id')) {
 					$('#pw2').val('');
 					$('#pwpwCheck').val('');
 					return false;
