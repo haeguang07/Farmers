@@ -57,7 +57,7 @@
 									<input type="text" name="longi" id="longitude">
 								</div>
 								<div class="checkout__input">
-									<p style="font-size: 20px;"><b>체험 상세</b></p>
+									<p style="font-size: 20px;"><b>상세 설명</b></p>
 									<textarea name="text" id="editor"></textarea>
 								</div>
 								<div class="checkout__input">
@@ -255,8 +255,8 @@
 				} else if (!$('[name="exStrDate"]').val()) {
 					Swal.fire({
 						icon : 'info',
-						title : '체험 시작 일자 미등록',
-						text : '체험 시작 일자를 등록하세요',
+						title : '체험 시작 일자 미선택',
+						text : '체험 시작 일자를 선택하세요',
 						confirmButtonText : "확인"
 					})
 					return;
@@ -277,7 +277,7 @@
 							Swal.fire({
 								icon : 'success',
 								title : '등록 성공',
-								text : '성공적으로 등록이 되었습니다',
+								text : '등록이 완료되었습니다',
 								confirmButtonText : "확인"
 							})
 							.then(function() {
