@@ -491,13 +491,38 @@ h5:has(.countdown) {
 				let boardNo = $(this).parent().parent().parent().find('.card-boardNo').text();
 				console.log(boardNo);
 				
-				// 팝업
-				$.magnificPopup.open({
-					items: [{
-						src: "/skilledInfo?boardNo=" + boardNo,
-						type: 'iframe'
-					}]
-				})
+				if(member){
+		    		if(member.memGrd != 'b2'){
+		    			// 팝업
+						$.magnificPopup.open({
+							items: [{
+								src: "/skilledInfo?boardNo=" + boardNo,
+								type: 'iframe'
+							}]
+						})
+		    		} else {
+		    			Swal.fire({
+							title: '정회원만 조회 가능합니다.',
+							text: '등업신청 하시겠습니까?',
+							icon: 'warning',
+							showCancelButton: true,
+							confirmButtonText:"확인",
+							cancelButtonText: "취소"
+						}).then((result) => {
+							if(result.isConfirmed){
+								location.href = `/myPage/myPage`;									
+							}
+						})
+		    		}
+		    	} else {
+		    		Swal.fire({
+						title: '로그인이 필요합니다.',
+						icon: 'warning',
+						confirmButtonText:"확인"
+					}).then((result) => {
+						location.href = `/login`;
+					})
+		    	}
 			})
 			
 			// 상세 조회 모달창 닫고 수정 모달창 열기
