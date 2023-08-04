@@ -61,7 +61,7 @@
 			from dual
 		</selectKey>
 		insert into crops_sale(board_no, mem_no, title, crp_ctg, price, qty, rep, deta_desct, reg_date, reg_stts)
-		values(#{boardNo}, #{memNo}, #{title}, #{crpCtg}, #{price}, #{qty}, #{rep}, #{detaDesct}, sysdate, 'e1')
+		values(#{boardNo}, #{memNo}, #{title}, #{crpCtg}, #{price}, #{qty}, #{rep}, #{detaDesct}, sysdate, 'e0')
 	</insert>
 	
 	<!-- 수정 -->
