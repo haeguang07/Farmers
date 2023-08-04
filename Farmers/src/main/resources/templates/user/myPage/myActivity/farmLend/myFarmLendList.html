@@ -52,9 +52,9 @@
 		<!-- Shop Section Begin -->
 		<div class="row">
 			<div class="col-lg-2"></div>
-			<button type="button" class="form-control col-lg-3 miniBtn activity myMenuBtn" id="registration">등록</button>
+			<button type="button" class="form-control col-lg-3 miniBtn activity myMenuBtn" id="registration">나의 농지</button>
 			<div class="col-lg-2"></div>
-			<button type="button" class="form-control col-lg-3 miniBtn myMenuBtn" id="subscription">신청</button>
+			<button type="button" class="form-control col-lg-3 miniBtn myMenuBtn" id="subscription">나의 대여 신청</button>
 			<div class="col-lg-2"></div>
 		</div>
 		<section class="shop myMargin">
@@ -233,7 +233,7 @@
 				let tr = $('<tr>').addClass('th')
 				let th1 = $('<th>').text('번호')
 				let th2 = $('<th>').text('주소')
-				let th3 = $('<th>').text('글쓴이')
+				let th3 = $('<th>').css('display','none')
 				let th4 = $('<th>').text('신청일자')
 				let th5 = $('<th>').text('신청상태')
 				let th6 = $('<th>').text('신청확인')
@@ -247,7 +247,7 @@
 												.attr('aplNo', item.aplNo)
 					let td1 = $('<td>').text(item.aplNo)
 					let td2 = $('<td>').text(item.addr + ' ' + item.detaAddr)
-					let td3 = $('<td>').text(item.name)
+					let td3 = $('<td>').css('display','none')
 					let td4 = $('<td>').text(item.aplDate)
 					let td5 = $('<td>').text(item.aplStts)
 					let td6 = $('<td>').append($('<button class="form-control" type="button">신청확인</button> ').addClass('subBtn'))
@@ -259,7 +259,7 @@
 
 			//tr 이동
 			$(document).on("click", "tr", function (e) {
-				if (!$(e.currentTarget).hasClass('th')) {
+				if (!$(e.currentTarget).hasClass('th') && $(e.currentTarget).hasClass('dataTables_empty')) {
 					console.log($(e.currentTarget).attr('no'))
 					location.href = "/farmLendInfo?boardNo=" + $(e.currentTarget).attr('no')
 				}

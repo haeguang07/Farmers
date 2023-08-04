@@ -146,8 +146,8 @@
 	<select id="rsvDateCheck" parameterType="String"
 		resultType="String">
 	<![CDATA[ 
-	select * from(
-        SELECT TO_CHAR(lend_str_date + (LEVEL), 'yyyy-fmmm-dd') AS rsv_date
+	SELECT TO_CHAR(rsv_date, 'yyyy-fmmm-dd') rsv_date from(
+        SELECT lend_str_date + (LEVEL) AS rsv_date
           FROM (SELECT CASE WHEN lend_str_date < TRUNC(sysdate) THEN sysdate
                        ELSE lend_str_date
                        END AS lend_str_date,
@@ -157,7 +157,8 @@
         CONNECT BY LEVEL <= lend_end_date - lend_str_date + 1) a 
 		WHERE EXISTS (SELECT qty
 		              FROM payment_detail
-		              WHERE a.rsv_date BETWEEN rsv_str_date AND rsv_end_date
+		              WHERE a.rsv_date BETWEEN  rsv_str_date AND rsv_end_date
+		              AND ship_stts = 'B1' 
 		              AND board_no = #{boardNo})
 		]]>
 	</select>

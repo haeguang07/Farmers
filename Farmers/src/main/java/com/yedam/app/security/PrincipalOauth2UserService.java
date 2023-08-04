@@ -61,13 +61,18 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 		List<MemberVO> emailList=memberMapper.selectEmail();		
 		String dbEmail = jasyptStringEncryptor.encrypt(email);
 		String memNo="";
+		System.out.println(email);
 		for (MemberVO emails: emailList) {
 			String decryptEmail=jasyptStringEncryptor.decrypt(emails.getEmail());
-			if(decryptEmail.equals(email)) memNo= emails.getEmail();
+			if(decryptEmail.equals(email)) {
+				memNo= emails.getMemNo();
+				System.out.println(decryptEmail);
+					};
 		}
 		
 		MemberVO vo = memberMapper.selectMemberByNo(memNo);
-
+		System.out.println(memNo);
+		System.out.println(vo);
 		// DB에 없는 사용자라면 회원가입처리
 		if (vo == null) {
 			vo = new MemberVO();
@@ -83,7 +88,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 			vo.setProf(prof);
 			vo.setName(name);
 			vo.setId(id);
-			vo.setMemGrd("b0");
+			vo.setMemGrd("b2");
 			memberMapper.insertMember(vo);
 			memberMapper.insertMemberDetail(vo);
 		}

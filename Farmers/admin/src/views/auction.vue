@@ -70,7 +70,7 @@
               <div class="col-4 row"><span class="col-3">신청인</span><span class="col-5">{{board.memNo}}</span></div>
             </div>
             <div class="row">
-              <div class="col-10 row"><span class="col-1">제목</span><span class="col-5">{{board.title}}</span></div>
+              <div class="col-10 row"><span class="col-1">제목</span><span class="col-7">{{board.title}}</span></div>
             </div>
             <div class="row">
 							<div class="col-4 row"><span class="col-3">경매수량</span><span class="col-5">{{board.saleQty}}</span></div>
@@ -84,14 +84,14 @@
 
             <div class="row">
               <div class="col-3" style="padding-left: 20px;">상세내용</div>
-							<div class="col-5" style="overflow: auto; height: 350px;" v-html="board.desct"></div>
+							<div class="col-8" style="overflow: auto; height: 350px;" v-html="board.desct"></div>
             </div>
             <div class="text-end">
               <div v-if="board.regStts=='승인 대기;'">
                 <button v-show="btnShow" class="btn btn-primary mb-3 mx-3" @click="apply">승인</button>
                 <select v-model="reason" v-show="!btnShow">
                   <option value="부적절한 경매품목입니다">부적절한 경매품목입니다</option>
-                  <option value="이유2">이유2</option>
+                  <option value="경매정보가 정확하지 않습니다">경매정보가 정확하지 않습니다</option>
                 </select>
                 <button class="btn btn-primary mb-3 mx-3" @click="refusal1" v-show="btnShow">승인거부</button>
                 <button class="btn btn-primary mb-3 mx-3" @click="refusal2" v-show="!btnShow">승인거부</button>
