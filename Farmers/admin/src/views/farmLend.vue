@@ -77,7 +77,7 @@
               <div class="col-5 row"><span class="col-3">종료일</span><span class="col-5">{{board.lendEndDate}}</span></div>
             </div>
             <div class="row">
-              <span class="col-3">주소</span><span class="col-8">{{board.addr}}</span>
+              <div class="col-3">주소</div><div class="col-8">{{board.addr}}</div>
             </div>
             <div class="row">
               <div class="col-5 row">

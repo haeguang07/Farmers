@@ -88,7 +88,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 			vo.setProf(prof);
 			vo.setName(name);
 			vo.setId(id);
-			vo.setMemGrd("b0");
+			vo.setMemGrd("b2");
 			memberMapper.insertMember(vo);
 			memberMapper.insertMemberDetail(vo);
 		}
