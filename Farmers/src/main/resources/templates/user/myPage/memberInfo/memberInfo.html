@@ -12,7 +12,7 @@
     <style>
         .mfp-content {
             width: 1500px;
-            height: 900px;
+            height: 700px;
         }
     </style>
 </head>
@@ -199,9 +199,12 @@
                 new swal({
                         title: "탈퇴하시겠습니까?",
                         icon: "info",
-                        buttons: ["예", "아니오"],
-                    }).then((YES) => {
-                        if (YES) {
+                        confirmButtonText: "예",
+						cancelButtonText: "아니요",
+						showCancelButton: true,
+						allowOutsideClick: false,
+                    }).then((confirm) => {
+                        if (confirm.isConfirmed) {
                             new swal({
                             	title : "탈퇴를 원하시면 '탈퇴'를 입력해주세요", 
                                 input: 'text',

@@ -196,11 +196,19 @@
 
             //회원정보입력 버튼 클릭
             $('#memberInfo').on('click', function () {
+        		if(!memberInfo.zip == ''){        			
                 $('#memName').val(memberInfo.name)
                 $('#memPhone').val(memberInfo.mbl)
                 $('#addressCode').val(memberInfo.zip)
                 $('#address').val(memberInfo.addr)
                 $('#addressDetail').val(memberInfo.detaAddr)
+        		}else{
+        			new swal({
+                		title: "회원정보가 존재하지 않습니다",
+                		icon : "warning",
+                		confirmButtonColor: '#95D083'		
+                })
+        		}
             })
 
             //전체 계산 금액 계산

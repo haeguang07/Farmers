@@ -50,6 +50,16 @@
 			})
 		
 			$('#checkBtn').on('click',function(){
+				memberPwCheck()
+			})
+
+			$('#pwCheck').keypress(function(event) {
+				if (window.event.keyCode == 13) {
+					memberPwCheck()
+   			}
+			})
+
+			function memberPwCheck(){
 				$.ajax({
 					url : "myPwCheck",
 					data : {
@@ -68,13 +78,12 @@
 	                		confirmButtonColor: '#95D083'		
 	                })	
 						$('#pwCheck').val('');
-						$('#pwCheck').focus();
 					}
 				})
 				.fail(function(){
 					console.log('fail')
 				})
-			})
+			}
 		</script>
 	</div>
 </body>
