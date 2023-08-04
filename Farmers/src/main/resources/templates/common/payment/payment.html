@@ -377,8 +377,8 @@
                     paymentWidget.requestPayment({
                         orderId: orderId, // 주문 ID(직접 만들어주세요)
                         orderName: orderName, // 주문명http://54.180.74.135:85/
-                        successUrl: "http://54.180.74.135:85/payLoad?paymentData="+JSON.stringify(paymentData)+"&payDatailData="+JSON.stringify(payDatailData), // 제에 성공하면 이동하는 페이지(직접 만들어주세요)
-                        //successUrl: "http://localhost:8085/payLoad?paymentData="+JSON.stringify(paymentData)+"&payDatailData="+JSON.stringify(payDatailData),
+                        //successUrl: "http://54.180.74.135:85/payLoad?paymentData="+JSON.stringify(paymentData)+"&payDatailData="+JSON.stringify(payDatailData), // 제에 성공하면 이동하는 페이지(직접 만들어주세요)
+                        successUrl: "http://localhost:8085/payLoad?paymentData="+JSON.stringify(paymentData)+"&payDatailData="+JSON.stringify(payDatailData),
                         failUrl: "http://54.180.74.135:85/payFail", // 결제에 실패하면 이동하는 페이지(직접 만들어주세요)
                         customerEmail: memberInfo.email,
                         customerName: memberInfo.name

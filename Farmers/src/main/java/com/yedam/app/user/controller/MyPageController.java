@@ -20,6 +20,7 @@ import com.yedam.app.activity.vo.SkilledVO;
 import com.yedam.app.board.vo.BoardVO;
 import com.yedam.app.common.service.AlertService;
 import com.yedam.app.common.service.PaymentService;
+import com.yedam.app.common.vo.AttachmentVO;
 import com.yedam.app.common.vo.PaymentDetailVO;
 import com.yedam.app.common.vo.PaymentVO;
 import com.yedam.app.farm.vo.FarmLendApplyVO;
@@ -336,6 +337,8 @@ public class MyPageController {
 		List<FarmLendApplyVO> list = myPageService.mySubInfo(aplNo);
 		for (FarmLendApplyVO vo : list) {
 			vo.setMbl(jasyptStringEncryptor.decrypt(vo.getMbl()));
+			System.out.println(vo);
+			vo.setUplFileName(jasyptStringEncryptor.decrypt(vo.getUplFileName()));
 		}
 		System.out.println(list);
 		model.addAttribute("aplInfo", list);
