@@ -65,13 +65,14 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 		for (MemberVO emails: emailList) {
 			String decryptEmail=jasyptStringEncryptor.decrypt(emails.getEmail());
 			if(decryptEmail.equals(email)) {
-				memNo= emails.getEmail();
+				memNo= emails.getMemNo();
 				System.out.println(decryptEmail);
 					};
 		}
 		
 		MemberVO vo = memberMapper.selectMemberByNo(memNo);
-
+		System.out.println(memNo);
+		System.out.println(vo);
 		// DB에 없는 사용자라면 회원가입처리
 		if (vo == null) {
 			vo = new MemberVO();
