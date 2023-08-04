@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jasypt.encryption.StringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,10 +29,12 @@ public class BnbController {
 	BnbService bnbService;
 	@Autowired
 	ReviewService revService;
-	@Autowired 
+	@Autowired
 	CodeService codeService;
 	@Autowired
 	PaymentService payService;
+	@Autowired
+	StringEncryptor jasyptStringEncryptor;
 
 	// 전체조회
 	@GetMapping("/bnbList")
@@ -58,7 +61,15 @@ public class BnbController {
 	// 단건조회
 	@GetMapping("bnbInfo")
 	public String getBnbInfo(Model model, String boardNo) {
-		System.out.println(bnbService.selectBnb(boardNo));
+		/*
+		 * BnbVO vo = bnbService.selectBnb(boardNo);
+		 * vo.setZip(jasyptStringEncryptor.decrypt(vo.getZip()));
+		 * vo.setMemAdr(jasyptStringEncryptor.decrypt(vo.getMemAdr()));
+		 * vo.setMemAdrdeta(jasyptStringEncryptor.decrypt(vo.getMemAdrdeta()));
+		 * vo.setEmail(jasyptStringEncryptor.decrypt(vo.getEmail()));
+		 * vo.setMbl(jasyptStringEncryptor.decrypt(vo.getMbl()));
+		 * model.addAttribute("bnb", vo);
+		 */
 		model.addAttribute("bnb", bnbService.selectBnb(boardNo));
 		model.addAttribute("rev", revService.getCount(boardNo));
 		model.addAttribute("avg", revService.getAverage(boardNo));
