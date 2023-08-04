@@ -241,6 +241,7 @@
 				,find_code_name(reg_stts) reg_stts
 				,find_code_name(crp_ctg) crp_ctg
 				,find_code_name(fnd_stts) fnd_stts
+				,reg_date 
 	  FROM funding
 	  <where>
 	  	<if test="stts != null and !stts.equals('')">

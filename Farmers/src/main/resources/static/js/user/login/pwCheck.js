@@ -7,6 +7,7 @@ let regPw = /^[a-zA-Z0-9!@#$%^&*()?_~]{8,15}$/; // 8~15자리 숫자, 영문, �
 		let password2 = $('#'+pwCheck);
 		if (!regPw.test(password.val())) {
 			Swal.fire({ title: '비밀번호는 숫자, 영문, 특수문자 조합으로 8~15자리를 사용해야 합니다.' , icon: 'warning',confirmButtonText:"확인"});
+			password.val("");password2.val("");
 			return false;
 		}
 		let chk = 0;
@@ -15,21 +16,26 @@ let regPw = /^[a-zA-Z0-9!@#$%^&*()?_~]{8,15}$/; // 8~15자리 숫자, 영문, �
 		if (password[0].value.search(/[!@#$%^&*()?_~]/g) != -1) chk++;
 		if (chk < 2) {
 			Swal.fire({ title: '비밀번호는 숫자, 영문, 특수문자를 두가지이상 혼용하여야 합니다' , icon: 'warning',confirmButtonText:"확인"});
+			password.val("");password2.val("");
 			return false;
 		}
 		// 동일한 문자/숫자 4이상, 연속된 문자
 		if (/(\w)\1\1\1/.test(password.val()) || isContinuedValue(password.val())) {
 			Swal.fire({ title: '비밀번호에 4자 이상의 연속 또는 반복 문자 및 숫자를 사용하실 수 없습니다.' , icon: 'warning',confirmButtonText:"확인"});
+			password.val("");password2.val("");
 			return false;
 		}
 		// 아이디 포함 여부
 		if (password[0].value.search(finalId.val()) > -1) {
 			Swal.fire({ title: 'ID가 포함된 비밀번호는 사용하실 수 없습니다.' , icon: 'warning',confirmButtonText:"확인"});
+			password.val("");password2.val("");
 			return false;
 		}
+
 		// 기존 비밀번호와 새 비밀번호 일치 여부
-		if (password[0].value != password[0].value) {
-			Swal.fire({ title: '기존 비밀본호와 새 비밀번호가 일치하지 않습니다.' , icon: 'warning',confirmButtonText:"확인"});
+		if (password[0].value != password2[0].value) {
+			Swal.fire({ title: '기존 비밀번호와 새 비밀번호가 일치하지 않습니다.' , icon: 'warning',confirmButtonText:"확인"});
+			password.val("");password2.val("");
 			return false;
 		}
 		return true;

@@ -34,4 +34,7 @@ public class FundingVO {
 	private int payCount;
 	private String nick;
 	private float goalPer;
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern ="yyyy-MM-dd")
+	private Date regDate;
 }
