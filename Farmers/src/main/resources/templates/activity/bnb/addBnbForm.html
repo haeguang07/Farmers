@@ -50,6 +50,7 @@
 			<form th:action="@{/add/insertBnb}" method="POST" th:object="${bnb}" id="myForm">
 				<div class="product__details__pic" style="background-color: white;">
 					<div class="container">
+					<h3 class="addTitle" style="text-align:left; margin-bottom:50px;">농촌비앤비 등록페이지</h3>
 						<div class="row">
 							<div class="row col-lg-12">
 								<div class="col-lg-4 col-md-9 row" id="addFile">
@@ -135,7 +136,8 @@
 														<div class="row col-lg-6">
 															<p class="myInline col-lg-6 mb-0 textLeft">금액(1일)</p>
 															<input type="number" class="form-control col-lg-6"
-																name="price" value="0" th:field="*{price}">
+																name="price" value="0" min="1" th:field="*{price}"
+																style="text-align: right;">
 														</div>
 													</div>
 													<br>
@@ -258,7 +260,7 @@
 			src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
 		<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
 
-		<script>
+		<script th:inline="javascript">
 			let dbPath;
 	
 			//첨부파일 가져오기
@@ -320,7 +322,7 @@
 				});
 
 			
-			//최소날짜 
+			//예약 종료날짜 - 최소날짜설정 
 			function minDate() {
 				let min = event.target.value;
 				console.log(min);
@@ -328,12 +330,23 @@
 				document.getElementById('endDate').setAttribute('min', min);
 			}
 			
-			//등록하기 버튼 예외처리			
+			
+			//등록버튼- 엔터키 제출 막기
+	        $('#myForm').on('keydown', function (event) {
+	            if (event.key === "Enter") {
+	                event.preventDefault(); // 엔터키 기본 동작 막기
+	                //console.log("엔터키: 폼 제출 막음");
+	            }
+	        });
+			
+			//등록버튼 - 클릭시 예외처리 및 제출			
 			$('#addBtn').on('click', function () {
-
 				//데이터 입력 확인
 				if (!$('[name="title"]').val()) {
 					Swal.fire({ title: '제목을 입력하세요' , icon:'warning', confirmButtonText:"확인"});
+					return;
+				} else if (!$('#inputFile').val()) {
+					Swal.fire({ title: '대표 이미지를 등록하세요' , icon:'warning', confirmButtonText:"확인"});
 					return;
 				} else if ($('[name="crpCtg"]').val() <= 0) {
 					Swal.fire({ title: '지역을 선택하세요' , icon:'warning', confirmButtonText:"확인"});
@@ -341,9 +354,9 @@
 				} else if ($('[name="addrNum"]').val() =="") {
 					Swal.fire({ title: '우편번호를 입력하세요' , icon:'warning', confirmButtonText:"확인"});
 					return;
-				} else if (!$('[name="addrDetail"]').val()) {
+				} else if ($('[name="addrDetail"]').val() =="") {
 					Swal.fire({ title: '상세주소를 입력하세요' , icon:'warning', confirmButtonText:"확인"});
-					return;			
+					return;
 				} else if ($('[name="price"]').val() <= 0) {
 					Swal.fire({ title: '금액을 입력하세요' , icon:'warning', confirmButtonText:"확인"});
 					return;
@@ -354,13 +367,14 @@
 					Swal.fire({ title: '예약 종료일을 입력하세요' , icon:'warning', confirmButtonText:"확인"});
 					return;
 				} else {
-/* 					let ckData = editor
+ 					let ckData = editor
 					let formData = $('#myForm').serializeObject()
 					console.log(formData);
 					//상세 설명 존재하지 않을 시 출력 내용 설정
 					if(ckData.getData() == ''){
 						ckData.setData('<p>상세 설명이 존재하지 않습니다</p>')
 						formData.desct = ckData.getData()
+						return;
 					}else{
 						formData.desct = ckData.getData()
 					}

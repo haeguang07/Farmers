@@ -158,7 +158,6 @@
 							</div>
 						</div>
 					</div>
-					<div id="test"></div>
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="product__details__tab">
@@ -274,9 +273,9 @@
 							style="text-align: center; margin: 50px;"
 							th:if="${session.mem.memNo} == ${bnb.memNo}">
 							<a th:href="@{update/updateBnb(boardNo=${bnb.boardNo})}"
-								class="primary-btn">글 수정</a> <a
-								th:href="@{deleteBnb(boardNo=${bnb.boardNo})}"
-								class="primary-btn" id="deleteButton">글 삭제</a>
+								class="primary-btn">글 수정</a> 
+							<a th:href="@{deleteBnb(boardNo=${bnb.boardNo})}"
+								class="primary-btn" id="deleteButton"><button type="button">글 삭제</button></a>
 						</div>
 					</th:block>
 				</div>
@@ -487,8 +486,9 @@
 				return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 			}
 
-			// ----------- 글 삭제 버튼
+			// ----------- 글삭제 버튼
 			$('#deleteButton').on('click', delPopUp);
+			//삭제 팝업 이벤트
 			function delPopUp(event) {				Swal.fire({ title: '글을 정말 삭제하시겠습니까?' ,
 						icon:'warning', 
 						showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
@@ -498,26 +498,12 @@
 						cancelButtonText: '취소', // cancel 버튼 텍스트 지정
 	 				}).then(result => {
 		 				if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
-					    $.ajax({
-					      url: 'rev/revDel',
-					      method: 'GET',
-					      data: {
-					        revNo: revNo
-					      },
-					      success: function (result) {
-					        rowData.remove();
-					        console.log("리뷰 삭제 결과:", result);
-					        
-					      },
-					      error: function (error) {
-					        console.log("리뷰 삭제 오류:", error);
-					      }
-					    }); 
-					    return;
-					  } else {
-						  event.preventDefault();
-					    console.log("삭제 취소");
-					  }
+		 					console.log('삭제')
+
+		 				} else {
+							  event.preventDefault();
+						    console.log("삭제 취소");
+						  }
 			 	 })
 			}
 						let seller = /*[[${bnb.memNo}]]*/ ;
@@ -805,3 +791,4 @@
 </body>
 
 </html>
+
