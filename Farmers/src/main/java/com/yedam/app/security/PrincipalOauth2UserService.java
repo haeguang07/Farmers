@@ -61,9 +61,13 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 		List<MemberVO> emailList=memberMapper.selectEmail();		
 		String dbEmail = jasyptStringEncryptor.encrypt(email);
 		String memNo="";
+		System.out.println(email);
 		for (MemberVO emails: emailList) {
 			String decryptEmail=jasyptStringEncryptor.decrypt(emails.getEmail());
-			if(decryptEmail.equals(email)) memNo= emails.getEmail();
+			if(decryptEmail.equals(email)) {
+				memNo= emails.getEmail();
+				System.out.println(decryptEmail);
+					};
 		}
 		
 		MemberVO vo = memberMapper.selectMemberByNo(memNo);
