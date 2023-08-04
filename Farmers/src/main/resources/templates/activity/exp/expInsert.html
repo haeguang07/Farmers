@@ -260,7 +260,7 @@
 						confirmButtonText : "확인"
 					})
 					return;
-				} else if (!$('[name="exEndDate"]')val()) {
+				} else if (!$('[name="exEndDate"]').val()) {
 					Swal.fire({
 						icon : 'info',
 						title : '체험 종료 일자 미선택',

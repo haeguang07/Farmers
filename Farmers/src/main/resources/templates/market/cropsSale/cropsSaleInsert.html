@@ -63,10 +63,6 @@
 																<input type="number" class="form-control col-lg-6" id="qty" name="qty" value="1" min="1">
 																<span style="margin-left: 10px; line-height: 50px;">개</span>
 															</div>
-															<div class="row" style="margin-bottom: 10px;">
-																<p class="textLeft col-lg-2 mb-0" style="line-height: 40px;">총액</p>
-																<span id="sumPrice" style="line-height: 40px;"></span>
-															</div>
 														</div>
 													</div>
 												</div>
@@ -93,26 +89,6 @@
 		</section>
 		<!-- Shop Details Section End -->
 		<script>
-			$(function() {
-				getSumPrice();
-			});
-			
-			$('#qty').change(function() {
-				getSumPrice();
-			});
-			
-			$('#price').change(function() {
-				getSumPrice();
-			});
-			
-			function getSumPrice() {
-				$('#sumPrice').text(priceToString(Number($('#qty').val()) * Number($('#price').val())) + '원');
-			}
-			
-			function priceToString(price) {
-				return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-			}
-			
 			// 숫자가 아니면 빈 칸으로 만들어 버리는 것
 			$('input[type="number"]').keyup(function(e) {
 				let inputVal = $(this).val();
