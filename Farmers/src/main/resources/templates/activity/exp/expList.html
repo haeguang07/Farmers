@@ -234,12 +234,12 @@
 				
 				$(clone).find('#number').text(index + 1);
 				$(clone).find('#title').text(item.title);
-				let reception = $(clone).find('#reception').text('현재 ' + apl + '명/' + ',' + '최대 ' + item.pptPer + '명');
-				reception.html(reception.html().replace(',', '<br>'));
+				let reception = $(clone).find('#reception').text('현재 ' + apl + '명' + '/' + '최대 ' + item.pptPer + '명');
+				//reception.html(reception.html().replace(',', '<br>'));
 				let address = $(clone).find('#addr').text(item.addr + ', ' + item.detaAddr);
 				address.html(address.html().replace(', ', '<br>'))
 				let date = $(clone).find('#date').text(item.exStrDate + ' ~ ' + item.exEndDate);
-				date.html(date.html().replace('~', '<br>~<br>'));
+				//date.html(date.html().replace('~', '<br>~<br>'));
 				
 				$(clone).find('#title').on('click', function() {
 					location.href = "expInfo?boardNo=" + item.boardNo;
