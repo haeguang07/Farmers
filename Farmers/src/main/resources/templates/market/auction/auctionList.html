@@ -21,6 +21,10 @@
 .emphasis__red {
 	color: red;
 }
+
+.center {
+	text-align: center;
+}
 </style>
 
 <body>
@@ -112,7 +116,9 @@
 							</div>
 						</th:block>
 						<div class="row" id="auctionList"></div>
-						<div class="row" id="pageDiv"></div>
+						<div class="row center">
+							<div class="col-lg-12" id="pageDiv"></div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -335,7 +341,7 @@
 					$(clone).text(i);
 					if(i == pageData.pageNum){
 						$(clone).addClass('active')
-						$(clone).css('border-color','orange')
+						$(clone).css('border-color','green')
 					}
 					$(clone).on('click', function () {
 						getCondition(i, order);
