@@ -61,7 +61,7 @@
               <div class="col-5 row"><span class="col-3">회원번호</span><span class="col-5">{{inquiry.memNo}}</span></div>
               <div class="col-5 row"><span class="col-3">닉네임</span><span class="col-5">{{inquiry.name}}</span></div>
             </div>
-            <div class="row" style="padding-left: 17px;">
+            <div class="row" style="padding-left: 17px; margin-bottom: 20px;">
               <span class="col-3">제목</span>
               <span class="col-5">{{inquiry.inqTitle}}</span>
             </div>
