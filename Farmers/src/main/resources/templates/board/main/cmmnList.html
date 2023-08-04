@@ -94,14 +94,17 @@
 								<br>
 							</div>
 							<th:block th:if="not ${#strings.isEmpty(session.mem)}">
-								<div class="row" th:if="${session.mem.memGrd == 'b1' or session.mem.memGrd == 'b0'}">
+								<div class="row"
+									th:if="${session.mem.memGrd == 'b1' or session.mem.memGrd == 'b0'}">
 									<div class="col-lg-11"></div>
 									<button type="button" class="btn btn-success"
 										th:onclick="'location.href=\''+ @{${'/add/Cmmn'}} + '\''">등록</button>
 								</div>
 							</th:block>
+							<div class="row center" >
+								<div class="col-lg-12" id="pageDiv"></div>
+							</div>
 						</div>
-						<div class="row" id="pageDiv"></div>
 					</div>
 				</div>
 			</div>
@@ -266,7 +269,7 @@
 					$(clone).text(i);
 					if(i == pageData.pageNum){
 						$(clone).addClass('active')
-						$(clone).css('border-color','orange')
+						$(clone).css('border-color','green')
 					}
 					$(clone).on('click', function () {
 						getCondition(i, dst1);
