@@ -15,7 +15,7 @@ import com.yedam.app.activity.service.ExpService;
 import com.yedam.app.activity.vo.ExpApplyVO;
 import com.yedam.app.activity.vo.ExpVO;
 import com.yedam.app.common.service.CodeService;
-import com.yedam.app.market.vo.PageVO;
+import com.yedam.app.farm.vo.PageDTO;
 
 @Controller
 public class ExpController {
@@ -41,7 +41,7 @@ public class ExpController {
 		int total = expService.getCount(expVO);
 		List<ExpVO> list = expService.getExpListPage(pageNum, expVO);
 		
-		PageVO page = new PageVO(pageNum, total);
+		PageDTO page = new PageDTO(pageNum, total);
 		Map<String, Object> map = new HashMap<>();
 		map.put("expList", list);
 		map.put("pageInfo", page);
