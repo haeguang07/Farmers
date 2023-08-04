@@ -129,16 +129,17 @@
 									<textarea rows="3" cols="80" style="font-size: 15px;" name="desct"></textarea>
 								</div>
 								<div class="mb-3">
-									<p>대여 기간</p>
+									<p>대여 기간(대여 시작일로부터 5년)</p>
 									<input type="date" name="lendStrDate"> <!-- 대여 시작 일자 -->
 									~ 
 									<input type="text" id="date" name="lendEndDate" readonly> <!-- 대여 종료 일자 -->
 								</div>
 								<div class="checkout__input">
 									<p>대여 가격</p>
-									<input type="number" class="col-lg-4" value="1" min="1" id="price" name="lendPrice">
+									<input type="number" class="col-lg-3" value="1" min="1" id="price" name="lendPrice">
 									<p style="display: inline; vertical-align: middle;">(연간)</p>
 								</div>
+								<p><b style="font-size: 25px;">합계 : <span id="sumPrice"></span></b></p>
 								<div class="checkout__input">
 									<p>제출 서류</p>
 									<div class="row ml-1">
@@ -164,7 +165,6 @@
 									<ul id="fileList" style="list-style: none; padding: 10px;"></ul>
 									<input type="file" id="inputFile" name="files" style="display: none;" multiple>
 								</div>
-								<p style="line-height: 40px; text-align: right;">합계 : <span id="sumPrice" style="line-height: 40px;"></span></p>
 								<button type="button" class="btn btn-dark mr-2" id="addBtn">등록</button>
 								<button type="button" class="btn btn-dark" id="cancel">취소</button>
 							</div>
