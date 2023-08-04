@@ -44,7 +44,7 @@ public class EnTest {
 		config.setIvGeneratorClassName("org.jasypt.iv.RandomIvGenerator");
 		config.setStringOutputType("base64");
 		encryptor.setConfig(config);
-		String enc=encryptor.encrypt("프라임빌");
+		String enc=encryptor.encrypt("light@yedam.com");
 		System.out.println(enc);
 
 		
