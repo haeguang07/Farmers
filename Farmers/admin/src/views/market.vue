@@ -48,8 +48,8 @@
 				@click:row=info
    		 class="elevation-1"
 				>
-				<template v-slot:item.calories="{ item }">
-    			{{ formatNumberWithCommas(item.price) }}
+				<template v-slot:item.price="{ item }">
+    			{{ formatNumber(item.price) }}
   			</template>
 				<template v-slot:bottom>
       		<div class="text-center pt-2">
@@ -81,7 +81,7 @@
 						<table class="table">
 							<tbody>
 								<tr>
-									<th>가격</th><td v-text="board.price"></td>
+									<th>가격</th><td v-text="formatNumber(board.price)"></td>
 									<th>수량</th><td v-text="board.qty"></td>
 								</tr>
 								<tr>
@@ -122,7 +122,7 @@ export default{
   data(){
     return{
 			searchStts:'e0',searchStr:'',searchEnd:'',
-			btnShow:true,reason:'',
+			btnShow:true,reason:'정보 누락 또는 오류',
 			page:1,selected:[],
 			itemsPerPage: 10,
 			board:{},  boardList:[],
@@ -246,7 +246,10 @@ methods:{
 			this.boardList = response.data;
 		})
 		.catch(err => console.log(err));
-	}
+	},
+	formatNumber(number) {
+      return number.toLocaleString();
+  }
 },
   mounted(){
 		this.dst1List = this.$store.state.dst1;

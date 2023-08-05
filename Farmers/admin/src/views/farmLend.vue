@@ -48,9 +48,11 @@
 				@click:row=info
    		 class="elevation-1"
 				>
-				<template v-slot:item.calories="{ item }">
-    			{{ formatNumberWithCommas(item.lendPrice) }}
-    			{{ formatNumberWithCommas(item.area) }}
+				<template v-slot:item.lendPrice="{ item }">
+    			{{ formatNumber(item.lendPrice) }}
+  			</template>
+				<template v-slot:item.area="{ item }">
+    			{{ formatNumber(item.area) }}
   			</template>
 				<template v-slot:bottom>
       		<div class="text-center pt-2">
@@ -140,7 +142,7 @@ export default{
     return{
 			searchStts:'e0',
 			searchStr:'',searchEnd:'',
-			btnShow:true,reason:'',
+			btnShow:true,reason:'제출서류가 정확하지 않습니다',
 			page:1,selected:[],
 			itemsPerPage: 10,
 			board:{}, boardList:[],
@@ -259,7 +261,10 @@ methods:{
 			this.boardList = response.data;
 		})
 		.catch(err => console.log(err));
-	}
+	},
+	formatNumber(number) {
+      return number.toLocaleString();
+  }
 },
   mounted(){
   	// Vuex에서 데이터 가져오기

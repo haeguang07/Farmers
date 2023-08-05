@@ -249,7 +249,10 @@ methods:{
 			this.boardList = response.data;
 		})
 		.catch(err => console.log(err));
-	}
+	},
+	formatNumber(number) {
+      return number.toLocaleString();
+  }
 },
   mounted(){
 		this.dst1List = this.$store.state.dst1;

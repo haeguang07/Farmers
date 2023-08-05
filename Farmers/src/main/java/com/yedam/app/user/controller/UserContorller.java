@@ -22,7 +22,6 @@ public class UserContorller {
 	    if (uri != null && !uri.contains("/login")) {
 	        request.getSession().setAttribute("prevPage", uri);
 	    }
-		System.out.println(error);
 		return "user/login/login";
 	}
 

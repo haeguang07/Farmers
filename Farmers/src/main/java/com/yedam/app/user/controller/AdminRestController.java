@@ -98,7 +98,6 @@ public class AdminRestController {
 	public Map<String, String> rejectAlert(@RequestBody AlertVO vo) {
 		Map<String, String> map = new HashMap<>();
 		if (alertService.addAlert(vo)) {
-			System.out.println(vo);
 			map.put("retCode", "Success");
 		} else {
 			map.put("retCode", "Fail");
