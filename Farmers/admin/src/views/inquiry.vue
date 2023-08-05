@@ -76,7 +76,7 @@
             </div>
           </div>
           <div class="text-end">
-            <button class="btn btn-primary mb-3 mx-3"  v-if="inquiry.replStts=='답변 대기'" @click="reply">답변보내기</button>
+            <button class="btn btn-success mb-3 mx-3"  v-if="inquiry.replStts=='답변 대기'" @click="reply">답변보내기</button>
             <button class="btn btn-primary mb-3 mx-3" @click="back">돌아가기</button>
           </div>
         </div>

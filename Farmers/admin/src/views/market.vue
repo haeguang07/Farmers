@@ -31,7 +31,7 @@
 				</select>
 			</div>
 			<div class="col-1">
-				<button @click="changeBtn" class="btn btn-primary mb-3">변경</button>
+				<button @click="changeBtn" class="btn btn-success mb-3">변경</button>
 			</div>
 		</div>
 		<v-data-table
@@ -84,7 +84,7 @@
             </div>
             <div class="text-end">
               <div v-if="board.regStts=='승인 대기'" >
-                <button v-show="btnShow" class="btn btn-primary mb-3 mx-3" @click="apply">승인</button>
+                <button v-show="btnShow" class="btn btn-success mb-3 mx-3" @click="apply">승인</button>
                 <select v-model="reason" v-show="!btnShow">
                   <option value="상품명과 상세내용이 일치하지 않습니다" >상품명과 상세내용이 일치하지 않습니다</option>
                   <option value="상세내용이 부적절합니다">상세내용이 부적절합니다</option>
