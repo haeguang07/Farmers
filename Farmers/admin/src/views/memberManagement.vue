@@ -322,10 +322,13 @@ methods:{
 /* Modal Content */
 .modal-content {
   background-color: #fefefe;
-  margin: 0,auto;
+  margin: auto;
   padding: 20px;
   border: 1px solid #888;
   width: 60%;
+}
+table{
+	margin: 0 auto;
 }
 
 /* The Close Button */
