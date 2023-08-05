@@ -44,6 +44,13 @@
         opacity: unset;
     }
 }
+.csName {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 250px;
+}
 </style>
 </head>
 <body>
@@ -157,7 +164,7 @@
 				<div class="product__item__pic set-bg" id="img"
 					data-setbg="img/product/product-2.jpg"></div>
 				<div class="product__item__text">
-					<h5 id="name" style="font-size: small;">상품명</h5>
+					<h5 id="name" style="font-size: small;" class="csName">상품명</h5>
 					<p id="price" style="margin-bottom: 0px;">가격</p>
 					<div class="rating-wrap">
 						<div class="rating">
