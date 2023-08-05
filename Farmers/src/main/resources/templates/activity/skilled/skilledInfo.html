@@ -88,6 +88,15 @@
 	float: right;
 	margin: 2px;
 }
+
+.right {
+	text-align: right;
+}
+
+.smallChar {
+	font-size: 14px;
+	color: lightgray;
+}
 </style>
 <body>
 	<section class="shop-details">
@@ -206,8 +215,12 @@
 										<th:block th:if="${not #strings.isEmpty(session.mem)}">
 											<div style="margin-top: 30px;"
 												th:if="${session.mem.memNo} != ${goldInfo.memNo}">
+												<div class="row">
+													<span class="col"></span>
+													<span class="col-md-4 right smallChar" th:if="${applyer=='Y'}">이미 신청한 게시글입니다.</span>												
+												</div>
 												<button type="button" class="btn btn-success" id="applyBtn"
-													th:if="${goldInfo.cndt == '신청 대기'}">신청</button>
+													th:if="${goldInfo.cndt == '신청 대기'}" th:disabled="${applyer=='Y'} ? 'disabled'">신청</button>
 												<button type="button" class="btn btn-success"
 													th:if="${goldInfo.cndt == '즉시 수락'}">수락</button>
 												<button type="button" class="btn btn-light"
@@ -238,8 +251,21 @@
 	</section>
 
 	<script th:inline="javascript">
+		// 세션 정보
+		let member;
+		/*<![CDATA[*/
+		let bool= [[${not #strings.isEmpty(session.mem)}]];
+		if(bool){
+			member = [[${session.mem}]]		
+		}
+		/*]]>*/
+		
 		let boardNo = /*[[${goldInfo.boardNo}]]*/;
 		let dst1 = /*[[${goldInfo.dst1}]]*/;
+		
+		$(function(){
+			
+		})
 		
 		function deleteInfo() {
 			boardNo = /*[[${goldInfo.boardNo}]]*/;
