@@ -5,28 +5,28 @@
 		<br>
 		
 		<div class="row">
-			<div class="col-1" style="margin-left: 15px;">검색조건</div>
-				<div class="col-1">
-					<select class="form-select"  id="addon-wrapping" v-model="searchType">
-						<option value="아이디" selected>아이디</option><option value="닉네임">닉네임</option>
-					</select>
-				</div>
-				<div class="col-2">
-					<input type="text" class="form-control"  aria-describedby="addon-wrapping" v-model="searchText" @change="search">
-				</div>
+			<div class="col-1" style="margin-left: 15px;"><b>검색조건</b></div>
+			<div class="col-1" style="width: 10%; flex: 0 0 10%;max-width: 10%;">
+				<select class="form-select form-group"  id="addon-wrapping" v-model="searchType" >
+					<option value="아이디" selected><b>아이디</b></option><option value="닉네임"><b>닉네임</b></option>
+				</select>
 			</div>
+			<div class="col-2">
+				<input type="text" class="form-control"  aria-describedby="addon-wrapping" v-model="searchText" @change="search">
+			</div>
+		</div>
 				
 		<div class="row">
-			<div class="col-1" style="margin-left: 15px;">회원등급</div>
-				<div class="col-1">
-					<select class="form-select" id="addon-wrapping" v-model="searchGrd" @change="search">
+			<div class="col-1" style="margin-left: 15px;"><b>회원등급</b></div>
+				<div class="col-1" style="width: 10%; flex: 0 0 10%;max-width: 10%;">
+					<select class="form-select" id="addon-wrapping" v-model="searchGrd" @change="search" >
 						<option selected value="">선택</option>
 						<option v-for="grd in gradeList" :value="grd.cmmnDetaCode">{{grd.codeDesct}}</option>
 					</select>
 				</div>
 				
-				<div class="col-1">활동상태</div>
-				<div class="col-1">
+				<div class="col-1"><b>활동상태</b></div>
+				<div class="col-1 text-center" style="width: 10%; flex: 0 0 10%;max-width: 10%;">
 					<select class="form-select col" id="addon-wrapping" v-model="searchStts" @change="search">
 						<option selected value="">선택</option>
 						<option v-for="status in sttsList " :value="status.cmmnDetaCode">{{status.codeDesct}}</option>
@@ -36,8 +36,8 @@
 				
 		
 		<div class="row">
-			<div class="col-1" style="margin-left: 15px;">가입경로</div>
-				<div class="col-1">
+			<div class="col-1" style="margin-left: 15px;"><b>가입경로</b></div>
+				<div class="col-1" style="width: 10%; flex: 0 0 10%;max-width: 10%;">
 					<select class="form-select" id="addon-wrapping" v-model="searchLogin" @change="search">
 						<option selected value="">전체</option>
 						<option value="일반">일반</option><option value="카카오">카카오</option>
@@ -45,18 +45,18 @@
 					</select>
 				</div>
 
-				<div class="col-1">가입일</div>
-				<div class="col-2">
+				<div class="col-1"><b>가입일</b></div>
+				<div class="col-2" style="width: 14%; flex: 0 0 14%;max-width: 14%;">
 					<input type="date" class="form-select" v-model="searchStr" @change="search">
 				</div>
 		</div>
 		<hr>
 		<div style="width: 1000px; float: right;" class="row"> 
 			<div class="col-4"></div>
-			<div class="col-2 text-end">📌 선택한 회원</div>
+			<div class="col-2 text-end" >📌<b>선택한 회원</b></div>
 			<div class="col-2">
 				<select class="form-select"  v-model="grade">
-					<option selected value="" >등급선택</option>
+					<option selected value="">등급선택</option>
 					<option v-for="grd in gradeList" :value="grd.cmmnDetaCode">{{grd.codeDesct}}</option>
 				</select>
 			</div>
@@ -100,21 +100,22 @@
       <div class="modal-content">
         <span class="close">&times;</span>
         <div v-if="Object.keys(member).length>0">
-          <div >
-            <div class="row">
-              <div class="col-5 row"><span class="col-3">회원번호</span><span class="col-5">{{member.memNo}}</span></div>
-              <div class="col-5 row"><span class="col-3">가입일자</span><span class="col-5">{{member.sginDate}}</span></div>
-            </div>
-            <div class="row">
-              <div class="col-5 row"><span class="col-3">아이디</span><span class="col-5">{{member.id}}</span></div>
-              <div class="col-5 row"><span class="col-3">닉네임</span><span class="col-5">{{member.nick}}</span></div>
-            </div>
+          <div>
+						<table class="table">
+							<tr>
+								<th>회원번호</th><td th:text="member.memNo"></td>
+								<th>가입일자</th><td th:text="member.sginDate"></td>
+							</tr>
+							<tr>
+								<th>아이디</th><td th:text="member.id"></td>
+								<th>닉네임</th><td th:text="member.nick"></td>
+							</tr>
+							<tr v-if="member.memGrd=='준회원'">
+								<th>제출서류</th><td v-if="member.grdAtchFile !=null"><img class="col-5" :src="member.grdAtchFile"></td>
+								<td v-else="member.grdAtchFile==null"> 제출 서류가 없습니다</td>
+							</tr>
+						</table>
             
-            <div class="row" v-if="member.memGrd=='준회원'" style="width: 600px; height: 300px;">
-              <div class="col-3" style="padding-left: 20px;">제출서류</div>
-                  <img class="col-5" v-if="member.grdAtchFile !=null" :src="member.grdAtchFile">
-									<span class="col-5" v-else="member.grdAtchFile==null">제출서류가 없습니다</span>
-                </div>
           </div>
           <div class="text-end">
 						<div v-if="member.memGrd=='준회원' && member.grdAtchFile !=null" >
