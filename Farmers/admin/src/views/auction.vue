@@ -2,9 +2,10 @@
 
 	<div class="body">
 		<h3>경매장</h3>
+		<br>
 		<div class="row">
-			<div class="col-1">상태</div>
-			<div class="col-2">
+			<div class="col-1 fw-bolder lh-lg text-center">상태</div>
+			<div class="col-2" style="width: 13%; flex: 0 0 13%;max-width: 13%;">
 				<select class="form-select" id="addon-wrapping" v-model="searchStts"  @change="search">
 					<option value="">전체</option>
 					<option value="e0">승인대기</option>
@@ -13,8 +14,8 @@
 					<option value="e8">신청거절</option>
 				</select>
 			</div>
-			<div class="col-1 text-center">경매일</div>
-			<div class="col-2">
+			<div class="col-1 fw-bolder lh-lg text-center">경매일</div>
+			<div class="col-2" style="width: 13%; flex: 0 0 13%;max-width: 13%;">
 				<select class="form-select" id="addon-wrapping" v-model="searchStr"  @change="search">
 					<option value="">전체</option>
 					<option v-for="date in dateList" :value="date" v-text="date"></option>
@@ -23,15 +24,16 @@
 			<div class="col-auto"></div>
 		</div>
 		<hr>
-		<div style="width: 1000px;" class="row"> 
-			<div class="col-2">선택한 신청을 </div>
-			<div class="col-2">
+		<div class="row">
+			<div class="col"></div>
+			<div class="col-1 text-end fw-bolder lh-lg"  style="width: 14%; flex: 0 0 14%;max-width: 14%;">선택한 신청을</div>
+			<div class="col-1" style="width: 13%; flex: 0 0 14%;max-width: 13%;">
 				<select class="form-select"  v-model="stts">
 					<option selected value="">선택</option>
 					<option v-for="reqStts in regSttsList" :value="reqStts.cmmnDetaCode">{{reqStts.codeDesct}}</option>
 				</select>
 			</div>
-			<div  class="col-2"> 으로
+			<div class="col-1">
 				<button @click="changeBtn" class="btn btn-primary mb-3">변경</button>
 			</div>
 		</div>

@@ -5,7 +5,7 @@
 		<br>
 		
 		<div class="row">
-			<div class="col-1" style="margin-left: 15px;"><b>검색조건</b></div>
+			<div class="col-1 lh-lg text-center" style="margin-left: 15px;"><b>검색조건</b></div>
 			<div class="col-1" style="width: 10%; flex: 0 0 10%;max-width: 10%;">
 				<select class="form-select form-group"  id="addon-wrapping" v-model="searchType" >
 					<option value="아이디" selected><b>아이디</b></option><option value="닉네임"><b>닉네임</b></option>
@@ -17,7 +17,7 @@
 		</div>
 				
 		<div class="row">
-			<div class="col-1" style="margin-left: 15px;"><b>회원등급</b></div>
+			<div class="col-1 lh-lg text-center" style="margin-left: 15px;"><b>회원등급</b></div>
 				<div class="col-1" style="width: 10%; flex: 0 0 10%;max-width: 10%;">
 					<select class="form-select" id="addon-wrapping" v-model="searchGrd" @change="search" >
 						<option selected value="">선택</option>
@@ -25,7 +25,7 @@
 					</select>
 				</div>
 				
-				<div class="col-1"><b>활동상태</b></div>
+				<div class="col-1 lh-lg"><b>활동상태</b></div>
 				<div class="col-1 text-center" style="width: 10%; flex: 0 0 10%;max-width: 10%;">
 					<select class="form-select col" id="addon-wrapping" v-model="searchStts" @change="search">
 						<option selected value="">선택</option>
@@ -36,7 +36,7 @@
 				
 		
 		<div class="row">
-			<div class="col-1" style="margin-left: 15px;"><b>가입경로</b></div>
+			<div class="col-1 lh-lg text-center" style="margin-left: 15px;"><b>가입경로</b></div>
 				<div class="col-1" style="width: 10%; flex: 0 0 10%;max-width: 10%;">
 					<select class="form-select" id="addon-wrapping" v-model="searchLogin" @change="search">
 						<option selected value="">전체</option>
@@ -45,7 +45,7 @@
 					</select>
 				</div>
 
-				<div class="col-1"><b>가입일</b></div>
+				<div class="col-1 lh-lg"><b>가입일</b></div>
 				<div class="col-2" style="width: 14%; flex: 0 0 14%;max-width: 14%;">
 					<input type="date" class="form-select" v-model="searchStr" @change="search">
 				</div>
@@ -53,7 +53,7 @@
 		<hr>
 		<div style="width: 1000px; float: right;" class="row"> 
 			<div class="col-4"></div>
-			<div class="col-2 text-end" >📌<b>선택한 회원</b></div>
+			<div class="col-2 text-end lh-lg" >📌<b>선택한 회원</b></div>
 			<div class="col-2">
 				<select class="form-select"  v-model="grade">
 					<option selected value="">등급선택</option>
@@ -103,12 +103,12 @@
           <div>
 						<table class="table">
 							<tr>
-								<th>회원번호</th><td th:text="member.memNo"></td>
-								<th>가입일자</th><td th:text="member.sginDate"></td>
+								<th>회원번호</th><td v-text="member.memNo"></td>
+								<th>가입일자</th><td v-text="member.sginDate"></td>
 							</tr>
 							<tr>
-								<th>아이디</th><td th:text="member.id"></td>
-								<th>닉네임</th><td th:text="member.nick"></td>
+								<th>아이디</th><td v-text="member.id"></td>
+								<th>닉네임</th><td v-text="member.nick"></td>
 							</tr>
 							<tr v-if="member.memGrd=='준회원'">
 								<th>제출서류</th><td v-if="member.grdAtchFile !=null"><img class="col-5" :src="member.grdAtchFile"></td>
