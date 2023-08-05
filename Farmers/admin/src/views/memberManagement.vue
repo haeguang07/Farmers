@@ -111,8 +111,8 @@
 									<th>닉네임</th><td v-text="member.nick"></td>
 								</tr>
 								<tr v-if="member.memGrd=='준회원'">
-									<th>제출서류</th><td v-if="member.grdAtchFile !=null"><img class="col-5" :src="member.grdAtchFile"></td>
-									<td v-else="member.grdAtchFile==null"> 제출 서류가 없습니다</td>
+									<th>제출서류</th><td colspan="3" v-if="member.grdAtchFile !=null"><img class="col-5" :src="member.grdAtchFile"></td>
+									<td colspan="3" v-else="member.grdAtchFile==null"> 제출 서류가 없습니다</td>
 								</tr>
 							</tbody>
 						</table>

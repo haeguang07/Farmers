@@ -61,34 +61,52 @@
 			</v-data-table>
 				
 			<!-- The Modal -->
-  <div id="myModal" class="modal">
+  	<div id="myModal" class="modal">
       <!-- Modal content -->
       <div class="modal-content">
         <span class="close">&times;</span>
         <div v-if="Object.keys(board).length>0">
-          <div >
-            <div class="row">
-              <div class="col-4 row"><span class="col-3">신청번호</span><span class="col-5">{{board.boardNo}}</span></div>
-              <div class="col-4 row"><span class="col-3">신청일자</span><span class="col-5">{{board.regDate}}</span></div>
-              <div class="col-4 row"><span class="col-3">신청인</span><span class="col-5">{{board.memNo}}</span></div>
-            </div>
-            <div class="row">
-              <div class="col-10 row"><span class="col-1">제목</span><span class="col-7">{{board.title}}</span></div>
-            </div>
-            <div class="row">
-							<div class="col-4 row"><span class="col-3">경매수량</span><span class="col-5">{{board.saleQty}}</span></div>
-              <div class="col-4 row"><span class="col-4">즉시구매가</span><span class="col-5">{{board.bnp}}</span></div>
-              <div class="col-4 row"><span class="col-3">배송비</span><span class="col-5">{{board.shipPrice}}</span></div>
-            </div>
-            <div class="row">
-              <div class="col-5 row"><span class="col-3">경매시간</span><span class="col-5">{{board.actDate}}</span></div>
-              <div class="col-5 row"><span class="col-3">경매기간</span><span class="col-5">{{board.actTrm}}</span></div>
-            </div>
-
-            <div class="row">
-              <div class="col-3" style="padding-left: 20px;">상세내용</div>
-							<div class="col-8" style="overflow: auto; height: 350px;" v-html="board.desct"></div>
-            </div>
+					<table class="table">
+							<tbody>
+								<tr>
+									<th>신청번호</th><td v-text="board.boardNo"></td>
+									<th>신청일자</th><td v-text="board.regDate"></td>
+									<th>신청인</th><td v-text="board.memNo"></td>
+								</tr>
+							</tbody>
+						</table>
+						<table class="table">
+							<tbody>
+								<tr>
+									<th>제목</th><td colspan="3" v-text="board.title"></td>
+								</tr>
+							</tbody>
+							</table>
+							<table class="table">
+								<tbody>
+									<tr>
+										<th>경매수량</th><td v-text="board.saleQty"></td>
+										<th>즉시구매가</th><td v-text="board.bnp"></td>
+										<th>배송비</th><td v-text="board.shipPrice"></td>
+									</tr>
+								</tbody>
+							</table>
+							<table class="table">
+								<tbody>
+									<tr>
+										<th>경매시간</th><td v-text="board.actDate"></td>
+										<th>경매기간</th><td v-text="board.actTrm"></td>
+									</tr>
+									<tr>
+										<th>상세내용</th><td colspan="3" v-text="board.desct" style="overflow: auto;"></td>
+									</tr>
+									<tr v-if="board.memGrd=='준회원'">
+										<th>제출서류</th><td colspan="3" v-if="board.grdAtchFile !=null"><img class="col-5" :src="board.grdAtchFile"></td>
+										<td colspan="3" v-else="board.grdAtchFile==null"> 제출 서류가 없습니다</td>
+									</tr>
+								</tbody>
+							</table>
+          <div>
             <div class="text-end">
               <div v-if="board.regStts=='승인 대기;'">
                 <button v-show="btnShow" class="btn btn-success mb-3 mx-3" @click="apply">승인</button>
@@ -121,7 +139,7 @@ export default{
   data(){
     return{
 			searchStts:'e0',searchStr:'',dateList:[],
-			btnShow:true,reason:'',
+			btnShow:true,reason:'부적절한 경매품목입니다',
 			page:1,selected:[],itemsPerPage: 10,
 			board:{},  boardList:[],
 			dst1:'',dst1List:[],
