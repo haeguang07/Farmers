@@ -131,12 +131,12 @@ export default{
 			dst2:'',dst2List:[],
       dst2All:{}, regSttsList:[], stts:'',
       headers:[
-	        {title: '번호',key: 'boardNo',},
+	        {title: '번호',key: 'boardNo',align: 'center'},
 	        {title: '제목',key: 'title'},
-					{title: '시작시간',key: 'lendStrDate'},
-					{title: '종료시간',key: 'lendEndDate' },
-          {title: '신청일자',key: 'regDate'},
-	        {title: '상태', key: 'regStts'}
+					{title: '시작시간',key: 'lendStrDate',align: 'center'},
+					{title: '종료시간',key: 'lendEndDate',align: 'center' },
+          {title: '신청일자',key: 'regDate',align: 'center'},
+	        {title: '상태', key: 'regStts',align: 'center'}
 	      ]
     }
   },

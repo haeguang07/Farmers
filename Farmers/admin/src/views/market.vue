@@ -48,7 +48,9 @@
 				@click:row=info
    		 class="elevation-1"
 				>
-
+				<template v-slot:item.calories="{ item }">
+    			{{ formatNumberWithCommas(item.price) }}
+  			</template>
 				<template v-slot:bottom>
       		<div class="text-center pt-2">
         		<v-pagination v-model="page" :length="pageCount"></v-pagination>
@@ -128,12 +130,12 @@ export default{
 			dst2:'',dst2List:[],
       dst2All:{},regSttsList:[],stts:'',
       headers:[
-	        {title: '번호',key: 'boardNo',},
+	        {title: '번호',key: 'boardNo',align: 'start'},
 	        {title: '제목', key: 'title'},
 					{title: '카테고리',key: 'mktCtg'},
-					{title: '금액',key: 'price'},
-          {title: '신청일자', key: 'regDate'},
-	        {title: '상태',key: 'regStts'}
+					{title: '금액',key: 'price', align: 'end'},
+          {title: '신청일자', key: 'regDate',align: 'start'},
+	        {title: '상태',key: 'regStts',align: 'start'}
 	      ]
     }
   },

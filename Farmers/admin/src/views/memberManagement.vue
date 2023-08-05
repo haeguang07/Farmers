@@ -159,12 +159,12 @@ export default{
 			grade:'',gradeList:[],
 			stts:'',sttsList:[],
       headers:[{title: '아이디',key: 'id',},
-	        { title: '성별',key: 'gen'},
-	        {title: '등급',key: 'memGrd'},
-					{title: '가입일', key: 'signDate'},
+	        { title: '성별',key: 'gen',align: 'center'},
+	        {title: '등급',key: 'memGrd',align: 'center'},
+					{title: '가입일', key: 'signDate',align: 'center'},
 					{title: '회원가입경로',key: 'loginPath'},
 	        {title: '닉네임', key: 'nick'},
-	        {title: '상태',key: 'stts'}
+	        {title: '상태',key: 'stts',align: 'center'}
 	      ]
     }
   },
