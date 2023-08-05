@@ -66,7 +66,7 @@
       <div class="modal-content">
         <span class="close">&times;</span>
         <div v-if="Object.keys(board).length>0">
-					<table class="table">
+					<table class="table"  style="margin-bottom: 0px;">
 							<tbody>
 								<tr>
 									<th>신청번호</th><td v-text="board.boardNo"></td>
@@ -75,14 +75,14 @@
 								</tr>
 							</tbody>
 						</table>
-						<table class="table">
+						<table class="table" style="margin-bottom: 0px;">
 							<tbody>
 								<tr>
 									<th>제목</th><td colspan="3" v-text="board.title"></td>
 								</tr>
 							</tbody>
 							</table>
-							<table class="table">
+							<table class="table"  style="margin-bottom: 0px;">
 								<tbody>
 									<tr>
 										<th>경매수량</th><td v-text="board.saleQty"></td>
