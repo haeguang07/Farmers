@@ -143,11 +143,11 @@ export default{
 			dst2:'',dst2List:[],
       dst2All:{},regSttsList:[], stts:'',
       headers:[
-	        {title: '번호',key: 'boardNo',},
+	        {title: '번호',key: 'boardNo',align: 'center'},
 	        {title: '제목', key: 'title'},
-					{title: '시작시간', key: 'actDate' },
-					{title: '경매기간',key: 'actTrm'},
-	        {title: '상태',key: 'regStts'}
+					{title: '시작시간', key: 'actDate',align: 'center' },
+					{title: '경매기간',key: 'actTrm',align: 'center'},
+	        {title: '상태',key: 'regStts',align: 'center'}
 	      ]
     }
   },
