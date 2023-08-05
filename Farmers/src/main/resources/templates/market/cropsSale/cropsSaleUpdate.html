@@ -6,9 +6,12 @@
 <meta charset="UTF-8">
 <title>농작물 판매 수정</title>
 <style>
-	.ck-editor__editable {
-		height: 400px;
-	}
+.ck-editor__editable {
+	height: 400px;
+}
+#rep {
+	cursor: pointer;
+}
 </style>
 </head>
 <body>
@@ -26,7 +29,7 @@
 							<div class="row">
 								<div class="row col-lg-12">
 									<div class="col-lg-4 col-md-9 row" id="addFile">
-										<img th:src="${csInfo.rep}" alt="">
+										<img th:src="${csInfo.rep}" alt="" id="rep">
 										<span style="display: block; color: rgba(0, 0, 0, 0.5);">▲ 수정하려면 이미지를 클릭하세요</span>
 										<div class="col-lg-12" style="background-color: lightgrey; display: none;">
 											<p style="display: table-cell; vertical-align: middle;">대표 이미지 등록</p>

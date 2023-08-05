@@ -10,6 +10,9 @@
 .ck-editor__editable {
 	height: 400px;
 }
+#rep {
+	cursor: pointer;
+}
 </style>
 </head>
 	<div layout:fragment="content">
@@ -30,7 +33,7 @@
 									<input type="text" class="col-lg-8" name="title">
 								</div>
 								<div id="addFile" class="col-lg-4 mb-2" style="padding: 0px;">
-									<div style="background-color: lightgrey; display: table;">
+									<div style="background-color: lightgrey; display: table;" id="rep">
 										<p style="display: table-cell; text-align: center; vertical-align: middle; width: 400px; height: 400px;">대표 이미지 등록</p>
 									</div>
 								</div>
@@ -62,7 +65,7 @@
 								</div>
 								<div class="checkout__input">
 									<p>참여 인원</p>
-									<input type="number" class="col-lg-4" value="1" min="1" id="pptPer" name="pptPer">
+									<input type="number" class="col-lg-3" value="1" min="1" id="pptPer" name="pptPer">
 									<p style="display: inline; vertical-align: middle;">(명)</p>
 								</div>
 								<div class="mb-3">
