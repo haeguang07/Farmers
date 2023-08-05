@@ -60,9 +60,9 @@
 			
 			</v-data-table>
 				
-			<!-- The Modal -->
+			<!-- 모달창 -->
   	<div id="myModal" class="modal">
-      <!-- Modal content -->
+      <!-- 모달창 내용 -->
       <div class="modal-content">
         <span class="close">&times;</span>
         <div v-if="Object.keys(board).length>0">
@@ -98,12 +98,9 @@
 										<th>경매기간</th><td v-text="board.actTrm"></td>
 									</tr>
 									<tr>
-										<th>상세내용</th><td colspan="3" v-text="board.desct" style="overflow: auto;"></td>
+										<th>상세내용</th><td colspan="3" v-html="board.desct" style="overflow: auto;"></td>
 									</tr>
-									<tr v-if="board.memGrd=='준회원'">
-										<th>제출서류</th><td colspan="3" v-if="board.grdAtchFile !=null"><img class="col-5" :src="board.grdAtchFile"></td>
-										<td colspan="3" v-else="board.grdAtchFile==null"> 제출 서류가 없습니다</td>
-									</tr>
+									
 								</tbody>
 							</table>
           <div>

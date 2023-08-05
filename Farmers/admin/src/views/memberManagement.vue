@@ -93,9 +93,9 @@
 			
 		</v-data-table>
 				
-			<!-- The Modal -->
+			<!-- 모달창 -->
   	<div id="myModal" class="modal">
-      <!-- Modal content -->
+      <!-- 모달창 내용 -->
       <div class="modal-content">
         <span class="close">&times;</span>
         <div v-if="Object.keys(member).length>0">
