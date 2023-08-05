@@ -48,7 +48,9 @@
 				@click:row=info
    		 class="elevation-1"
 				>
-
+				<template v-slot:item.calories="{ item }">
+    			{{ formatNumberWithCommas(item.price) }}
+  			</template>
 				<template v-slot:bottom>
       		<div class="text-center pt-2">
         		<v-pagination v-model="page" :length="pageCount"></v-pagination>
@@ -63,34 +65,40 @@
       <div class="modal-content">
         <span class="close">&times;</span>
         <div v-if="Object.keys(board).length>0">
-          <div >
-            <div class="row">
-              <div class="col-5 row"><span class="col-3">신청번호</span><span class="col-5">{{board.boardNo}}</span></div>
-              <div class="col-5 row"><span class="col-3">신청일자</span><span class="col-5">{{board.regDate}}</span></div>
-              <div class="col-5 row"><span class="col-3">신청인</span><span class="col-5">{{board.memNo}}</span></div>
-            </div>
-            <div class="row">
-              <div class="col-5 row"><span class="col-3">제목</span><span class="col-5">{{board.title}}</span></div>
-              <div class="col-5 row"><span class="col-3">카테고리</span><span class="col-5">{{board.mktCtg}}</span></div>
-            </div>
-            <div class="row">
-              <div class="col-5 row"><span class="col-3">가격</span><span class="col-5">{{board.price}}</span></div>
-              <div class="col-5 row"><span class="col-3">수량</span><span class="col-5">{{board.qty}}</span></div>
-            </div>
-
-            <div class="row" >
-              <div class="col-3" style="padding-left: 20px;">상세내용</div>
-							<div class="col-8" style="overflow: auto; height: 350px;" v-html="board.detaDesct"></div>
-            </div>
+					<table class="table" style="margin-bottom: 0px;">
+							<tbody>
+								<tr>
+									<th>신청번호</th><td v-text="board.boardNo"></td>
+									<th>신청일자</th><td v-text="board.regDate"></td>
+									<th>신청인</th><td v-text="board.memNo"></td>
+								</tr>
+								<tr>
+									<th>제목</th><td colspan="3" v-text="board.title"></td>
+									<th>카테고리</th><td v-text="board.mktCtg"></td>
+								</tr>
+							</tbody>
+						</table>
+						<table class="table">
+							<tbody>
+								<tr>
+									<th>가격</th><td v-text="board.price"></td>
+									<th>수량</th><td v-text="board.qty"></td>
+								</tr>
+								<tr>
+									<th>상세내용</th><td colspan="3" class="desct" v-html="board.detaDesct"></td>
+								</tr>
+							</tbody>
+						</table>
+          <div>
             <div class="text-end">
               <div v-if="board.regStts=='승인 대기'" >
                 <button v-show="btnShow" class="btn btn-success mb-3 mx-3" @click="apply">승인</button>
                 <select v-model="reason" v-show="!btnShow">
-                  <option value="상품명과 상세내용이 일치하지 않습니다" >상품명과 상세내용이 일치하지 않습니다</option>
-                  <option value="상세내용이 부적절합니다">상세내용이 부적절합니다</option>
+                  <option value="정보 누락 또는 오류">정보 누락 또는 오류</option>
+                  <option value="부적절한 내용이 있습니다">부적절한 내용</option>
                 </select>
-                <button class="btn btn-primary mb-3 mx-3" @click="refusal1" v-show="btnShow">승인거부</button>
-                <button class="btn btn-primary mb-3 mx-3" @click="refusal2" v-show="!btnShow">승인거부</button>
+                <button class="btn btn-danger mb-3 mx-3" @click="refusal1" v-show="btnShow">승인거부</button>
+                <button class="btn btn-danger mb-3 mx-3" @click="refusal2" v-show="!btnShow">승인거부</button>
               </div>
               <div v-else>
                   <button class="btn btn-primary mb-3 mx-3" @click="back">돌아가기</button>
@@ -122,12 +130,12 @@ export default{
 			dst2:'',dst2List:[],
       dst2All:{},regSttsList:[],stts:'',
       headers:[
-	        {title: '번호',key: 'boardNo',},
+	        {title: '번호',key: 'boardNo',align: 'start'},
 	        {title: '제목', key: 'title'},
 					{title: '카테고리',key: 'mktCtg'},
-					{title: '금액',key: 'price'},
-          {title: '신청일자', key: 'regDate'},
-	        {title: '상태',key: 'regStts'}
+					{title: '금액',key: 'price', align: 'end'},
+          {title: '신청일자', key: 'regDate',align: 'start'},
+	        {title: '상태',key: 'regStts',align: 'start'}
 	      ]
     }
   },
@@ -194,7 +202,7 @@ methods:{
 		let obj ={
 			boardNo : this.board.boardNo,
 			memNo: this.board.memNo,
-			alertTitle: '신청이 거부되었습니다',
+			alrtTitle: '신청이 거부되었습니다',
 			alrtDesct: this.reason,
 			boardCtg: 'g0c',
 			tableName:'market',

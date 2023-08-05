@@ -100,7 +100,7 @@
         <span class="close">&times;</span>
         <div v-if="Object.keys(member).length>0">
           <div>
-						<table class="table">
+						<table class="table" style="margin-bottom: 0px;">
 							<tbody>
 								<tr>
 									<th>회원번호</th><td v-text="member.memNo"></td>
@@ -125,8 +125,8 @@
 								<option value="이미지가 정확하지 않습니다">이미지가 정확하지 않습니다</option>
 								<option value="주소지와 등본의 주소가 일치하지 않습니다">주소지와 등본의 주소가 일치하지 않습니다</option>
 							</select>
-							<button class="btn btn-primary mb-3 mx-3" @click="refusal1" v-show="btnShow">승인거부</button>
-							<button class="btn btn-primary mb-3 mx-3" @click="refusal2" v-show="!btnShow">승인거부</button>
+							<button class="btn btn-danger mb-3 mx-3" @click="refusal1" v-show="btnShow">승인거부</button>
+							<button class="btn btn-danger mb-3 mx-3" @click="refusal2" v-show="!btnShow">승인거부</button>
 						</div>
 						<div v-else>
 							<button class="btn btn-primary mb-3 mx-3" @click="back">돌아가기</button>
@@ -159,12 +159,12 @@ export default{
 			grade:'',gradeList:[],
 			stts:'',sttsList:[],
       headers:[{title: '아이디',key: 'id',},
-	        { title: '성별',key: 'gen'},
-	        {title: '등급',key: 'memGrd'},
-					{title: '가입일', key: 'signDate'},
+	        { title: '성별',key: 'gen',align: 'center'},
+	        {title: '등급',key: 'memGrd',align: 'center'},
+					{title: '가입일', key: 'signDate',align: 'center'},
 					{title: '회원가입경로',key: 'loginPath'},
 	        {title: '닉네임', key: 'nick'},
-	        {title: '상태',key: 'stts'}
+	        {title: '상태',key: 'stts',align: 'center'}
 	      ]
     }
   },
@@ -241,7 +241,7 @@ methods:{
 	refusal2(){
 		let obj ={
 			memNo : this.member.memNo,
-			alertTitle: '등업신청이 거부되었습니다',
+			alrtTitle: '등업신청이 거부되었습니다',
 			alrtDesct: this.reason,
 			boardCtg: 'g16'
 		}
@@ -304,7 +304,13 @@ methods:{
 .body{
 	padding: 10px;
 }
-
+img{
+	max-width: 600px;
+}
+.desct{
+	max-width: 600px;
+	overflow: auto;
+}
 /* The Modal (background) */
 .modal {
   display: none; /* Hidden by default */

@@ -98,7 +98,7 @@
 										<th>경매기간</th><td v-text="board.actTrm"></td>
 									</tr>
 									<tr>
-										<th>상세내용</th><td colspan="3" v-html="board.desct" style="overflow: auto;"></td>
+										<th>상세내용</th><td colspan="3" class="desct" v-html="board.desct"></td>
 									</tr>
 									
 								</tbody>
@@ -108,11 +108,11 @@
               <div v-if="board.regStts=='승인 대기;'">
                 <button v-show="btnShow" class="btn btn-success mb-3 mx-3" @click="apply">승인</button>
                 <select v-model="reason" v-show="!btnShow">
-                  <option value="부적절한 경매품목입니다">부적절한 경매품목입니다</option>
-                  <option value="경매정보가 정확하지 않습니다">경매정보가 정확하지 않습니다</option>
+                  <option value="정보 누락 또는 오류">정보 누락 또는 오류</option>
+                  <option value="부적절한 내용이 있습니다">부적절한 내용</option>
                 </select>
-                <button class="btn btn-primary mb-3 mx-3" @click="refusal1" v-show="btnShow">승인거부</button>
-                <button class="btn btn-primary mb-3 mx-3" @click="refusal2" v-show="!btnShow">승인거부</button>
+                <button class="btn btn-danger mb-3 mx-3" @click="refusal1" v-show="btnShow">승인거부</button>
+                <button class="btn btn-danger mb-3 mx-3" @click="refusal2" v-show="!btnShow">승인거부</button>
               </div>
               <div v-else>
                   <button class="btn btn-primary mb-3 mx-3" @click="back">돌아가기</button>
@@ -143,11 +143,11 @@ export default{
 			dst2:'',dst2List:[],
       dst2All:{},regSttsList:[], stts:'',
       headers:[
-	        {title: '번호',key: 'boardNo',},
+	        {title: '번호',key: 'boardNo',align: 'center'},
 	        {title: '제목', key: 'title'},
-					{title: '시작시간', key: 'actDate' },
-					{title: '경매기간',key: 'actTrm'},
-	        {title: '상태',key: 'regStts'}
+					{title: '시작시간', key: 'actDate',align: 'center' },
+					{title: '경매기간',key: 'actTrm',align: 'center'},
+	        {title: '상태',key: 'regStts',align: 'center'}
 	      ]
     }
   },
@@ -217,7 +217,7 @@ methods:{
 		let obj ={
 			boardNo : this.board.boardNo,
 			memNo: this.board.memNo,
-			alertTitle: '신청이 거부되었습니다',
+			alrtTitle: '신청이 거부되었습니다',
 			alrtDesct: this.reason,
 			boardCtg: 'g10',
 			tableName:'acution',

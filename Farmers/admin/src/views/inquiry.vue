@@ -49,31 +49,31 @@
       <div class="modal-content">
         <span class="close">&times;</span>
         <div v-if="Object.keys(inquiry).length>0">
-          <div >
-            <div class="row">
-              <div class="col-5 row"><span class="col-3">문의번호</span><span class="col-5">{{inquiry.inqNo}}</span></div>
-              <div class="col-5 row"><span class="col-3">문의일자</span><span class="col-5">{{inquiry.inqDate}}</span></div>
-            </div>
-            <div class="row">
-              <div class="col-5 row"><span class="col-3">회원번호</span><span class="col-5">{{inquiry.memNo}}</span></div>
-              <div class="col-5 row"><span class="col-3">닉네임</span><span class="col-5">{{inquiry.name}}</span></div>
-            </div>
-            <div class="row" style="padding-left: 17px; margin-bottom: 20px;">
-              <span class="col-3">제목</span>
-              <span class="col-5">{{inquiry.inqTitle}}</span>
-            </div>
-            <div class="row">
-              <div class="col-3" style="line-height: 200px;">문의내용</div>
-                <div class="col-5" v-html="inquiry.inqDesct" style=" margin-left: 12px; width: 600px; height: 200px;overflow: auto; border: 1px solid lightgray;">
-                </div>
-            </div>
-            <div class="row">
-              <div class="col-3">답변</div>
-                <div v-if="inquiry.replStts=='답변 대기'" style="width: 600px; height: 300px;">
-                  <ckeditor :editor="editor" v-model="inquiry.replDesct" :config="editorReplyConfig"></ckeditor>
-                </div>
-                <div v-else style="width: 500px; height: 300px;" v-html="inquiry.replDesct"> </div>
-            </div>
+          <div>
+            <table class="table">
+							<tbody>
+								<tr>
+									<th>문의번호</th><td v-text="inquiry.goalPrice"></td>
+									<th>문의일자</th><td v-text="inquiry.fndPrice"></td>
+								</tr>
+								<tr>
+									<th>회원번호</th><td v-text="inquiry.fndStrDate"></td>
+									<th>닉네임</th><td v-text="inquiry.shipStrDate"></td>
+								</tr>
+								<tr>
+									<th>제목</th><td colspan="3" v-text="board.inqTitle"></td>
+								</tr>
+                <tr>
+                  <th>문의내용</th>
+                  <td colspan="3" v-html="inquiry.inqDesct"></td>
+                </tr>
+                <tr>
+                  <th>답변</th>
+                  <td colspan="3" v-if="inquiry.replStts=='답변 대기'"> <ckeditor :editor="editor" v-model="inquiry.replDesct" :config="editorReplyConfig"></ckeditor></td>
+                  <td colspan="3" v-else v-html="inquiry.replDesct"></td>
+                </tr>
+							</tbody>
+						</table>
           </div>
           <div class="text-end">
             <button class="btn btn-success mb-3 mx-3"  v-if="inquiry.replStts=='답변 대기'" @click="reply">답변보내기</button>
@@ -112,12 +112,12 @@ export default {
       },
       idx:0,page:1,itemsPerPage: 10,
       inquiry:{}, inquiryList:[],
-      headers:[{title: '문의번호',key: 'inqNo',},
+      headers:[{title: '문의번호',key: 'inqNo',align: 'center'},
 	        { title: '카테고리',key: 'inqCtg'},
 	        {title: '제목', key: 'inqTitle'},
-					{title: '작성일',key: 'inqDate'},
+					{title: '작성일',key: 'inqDate',align: 'center'},
 					{title: '작성자',key: 'name'},
-	        {title: '답변여부', key: 'replStts'}],
+	        {title: '답변여부', key: 'replStts',align: 'center'}],
         multiSearch: {},
     };
   },

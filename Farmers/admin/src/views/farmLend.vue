@@ -41,14 +41,17 @@
     		:headers="headers"
     		:items="boardList"
    		  item-value="boardNo"
-				 no-data-text="조회된 농지대여가 없습니다"
+				no-data-text="조회된 농지대여가 없습니다"
 				return-object
     		show-select
 				hide-default-footer
 				@click:row=info
    		 class="elevation-1"
 				>
-
+				<template v-slot:item.calories="{ item }">
+    			{{ formatNumberWithCommas(item.lendPrice) }}
+    			{{ formatNumberWithCommas(item.area) }}
+  			</template>
 				<template v-slot:bottom>
       		<div class="text-center pt-2">
         		<v-pagination v-model="page" :length="pageCount"></v-pagination>
@@ -64,29 +67,34 @@
         <span class="close">&times;</span>
         <div v-if="Object.keys(board).length>0">
           <div >
-            <div class="row">
-              <div class="col-5 row"><span class="col-3">신청번호</span><span class="col-5">{{board.boardNo}}</span></div>
-              <div class="col-5 row"><span class="col-3">신청일자</span><span class="col-5">{{board.regDate}}</span></div>
-            </div>
-            <div class="row">
-              <div class="col-5 row"><span class="col-3">신청인</span><span class="col-5">{{board.memNo}}</span></div>
-              <div class="col-5 row"><span class="col-3">가격(년)</span><span class="col-5">{{board.lendPrice}}</span></div>
-            </div>
-            <div class="row">
-              <div class="col-5 row"><span class="col-3">시작일</span><span class="col-5">{{board.lendStrDate}}</span></div>
-              <div class="col-5 row"><span class="col-3">종료일</span><span class="col-5">{{board.lendEndDate}}</span></div>
-            </div>
-            <div class="row">
-              <div class="col-3">주소</div><div class="col-8">{{board.addr}}</div>
-            </div>
-            <div class="row">
-              <div class="col-5 row">
-                <span class="col-3">크기</span>
-                <span class="col-5">{{board.area}}</span></div>
-              <div class="col-5 row">
-                <span class="col-5">주요제배작물</span>
-                <span class="col-5"><span v-for="mcrp in board.mcrpList">{{mcrp}}, </span></span></div>
-            </div>
+						<table class="table" style="margin-bottom: 0px;">
+							<tbody>
+								<tr>
+									<th>신청번호</th><td v-text="board.boardNo"></td>
+									<th>신청일자</th><td v-text="board.regDate"></td>
+								</tr>
+								<tr>
+									<th>신청인</th><td v-text="board.memNo"></td>
+									<th>가격(년)</th><td v-text="board.lendPrice"></td>
+								</tr>
+								<tr>
+									<th>시작일</th><td v-text="board.lendStrDate"></td>
+									<th>종료일</th><td v-text="board.lendEndDate"></td>
+								</tr>
+								<tr>
+									<th>주소</th><td colspan="3" v-text="board.addr"></td>
+								</tr>
+								<tr>
+									<th>크기</th><td v-text="board.area"></td>
+									<th>주요제배작물</th>
+									<td>
+										<span v-for="(mcrp,index) in board.mcrpList">{{ mcrp }}
+											<span v-if="index != Object.keys(board.mcrpList).length - 1">, </span>
+										</span>
+									</td>
+								</tr>
+							</tbody>
+						</table>
             <div class="row" v-if="board.regStts=='승인 대기'" style="width: 600px; height: 300px;">
               <div class="col-3" style="padding-left: 20px;">제출서류</div>
                   <div class="col-5" v-if="board.files !=null">
@@ -106,8 +114,8 @@
 								<option value="제출서류가 정확하지 않습니다" selected>제출서류가 정확하지 않습니다</option>
 								<option value="제출서류가 부족합니다">제출서류가 부족합니다</option>
 							</select>
-							<button class="btn btn-primary mb-3 mx-3" @click="refusal1" v-show="btnShow">승인거부</button>
-							<button class="btn btn-primary mb-3 mx-3" @click="refusal2" v-show="!btnShow">승인거부</button>
+							<button class="btn btn-danger mb-3 mx-3" @click="refusal1" v-show="btnShow">승인거부</button>
+							<button class="btn btn-danger mb-3 mx-3" @click="refusal2" v-show="!btnShow">승인거부</button>
 						</div>
 						<div v-else>
 							<button class="btn btn-primary mb-3 mx-3" @click="back">돌아가기</button>
@@ -140,12 +148,12 @@ export default{
 			dst2:'',dst2List:[],
       dst2All:{}, regSttsList:[],stts:'',
       headers:[
-	        {title: '번호',key: 'boardNo',},
+	        {title: '번호',key: 'boardNo',align: 'center'},
 	        {title: '주소', key: 'addr'},
-					{title: '면적',key: 'area'},
-					{title: '가격',key: 'lendPrice' },
-					{title: '신청일자', key: 'regDate'},
-	        {title: '상태',key: 'regStts'}
+					{title: '면적',key: 'area',align: 'end'},
+					{title: '가격',key: 'lendPrice',align: 'end' },
+					{title: '신청일자', key: 'regDate',align: 'center'},
+	        {title: '상태',key: 'regStts',align: 'center'}
 	      ]
     }
   },
@@ -212,7 +220,7 @@ methods:{
 		let obj ={
 			boardNo : this.board.boardNo,
 			memNo: this.board.memNo,
-			alertTitle: '신청이 거부되었습니다',
+			alrtTitle: '신청이 거부되었습니다',
 			alrtDesct: this.reason,
 			boardCtg: 'g00',
 			tableName:'farm_lend',

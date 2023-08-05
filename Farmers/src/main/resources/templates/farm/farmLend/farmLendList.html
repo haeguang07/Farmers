@@ -11,6 +11,13 @@
   	max-height: 400px;
   	overflow: scroll !important;
 }
+.farmAddr {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 190px;
+}
 </style>
 </head>
 <body>
@@ -131,7 +138,7 @@
 			<tbody class="hideItem" id="farmLendItem">
 				<tr>
 					<td id="number">번호</td>
-					<td id="addr">주소지</td>
+					<td id="addr" class="farmAddr">주소지</td>
 					<td id="crops">재배 작물</td>
 					<td id="area2">면적</td>
 					<td id="price2">가격</td>
@@ -230,12 +237,12 @@
 				
 				$(clone).find('#number').text(index + 1);
 				let address = $(clone).find('#addr').text(item.addr + ', ' + item.detaAddr);
-				address.html(address.html().replace(', ', '<br>'));
+				//address.html(address.html().replace(', ', '<br>'));
 				$(clone).find('#crops').text(item.mcrp);
 				$(clone).find('#area2').text(priceToString(item.area) + '(m²)');
 				$(clone).find('#price2').text(priceToString(item.lendPrice) + '원');
 				let date = $(clone).find('#date').text(item.lendStrDate + ' ~ ' + item.lendEndDate);
-				date.html(date.html().replace('~', '<br>~<br>'));
+				//date.html(date.html().replace('~', '<br>~<br>'));
 				
 				function priceToString(price) {
 					return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
