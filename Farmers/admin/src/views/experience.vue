@@ -64,7 +64,7 @@
         <span class="close">&times;</span>
         <div v-if="Object.keys(board).length>0">
           <div >
-            <table class="table">
+            <table class="table" style="margin-bottom: 0px;">
 							<tbody>
 								<tr>
 									<th>신청번호</th><td v-text="board.boardNo"></td>
@@ -77,7 +77,7 @@
 								</tr>
 							</tbody>
             </table>
-						<table class="table">
+						<table class="table" style="width: 100%;">
 							<tbody>
 								<tr>
 									<th>주소</th><td colspan="3" v-text="board.addr"></td>
