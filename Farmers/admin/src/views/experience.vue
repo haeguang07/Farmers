@@ -77,7 +77,7 @@
 								</tr>
 							</tbody>
             </table>
-						<table>
+						<table class="table">
 							<tbody>
 								<tr>
 									<th>주소</th><td colspan="3" v-text="board.addr"></td>
