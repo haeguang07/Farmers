@@ -1,5 +1,6 @@
 package com.yedam.app.user.vo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -7,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 @Data
-public class AlertVO {
+public class AlertVO implements Serializable {
 //	ALRT_NO	알림 번호
 //	MEM_NO	회원 번호
 //	ALRT_STTS	알림 상태

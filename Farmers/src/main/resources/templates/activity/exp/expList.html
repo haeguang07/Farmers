@@ -18,6 +18,9 @@
  	white-space: nowrap; 
  	width: 200px;
 }
+.nice-select {
+	width: 150px;
+}
 </style>
 </head>
 <body>
@@ -265,7 +268,7 @@
 					$(clone).text(i);
 					if(i == pageData.pageNum) {
 						$(clone).addClass('active');
-						$(clone).css('border-color', 'orange');
+						$(clone).css('border-color', 'green');
 					}
 					$(clone).on('click', function() {
 						getCondition(i);
