@@ -81,7 +81,7 @@
 							<tbody>
 								<tr>
 									<th>목표금액</th><td v-text="board.goalPrice"></td>
-									<th>펀딩가격</th><td v-text="board.fndPrice"></td>
+									<th>펀딩가격</th><td>{{ formatNumber(board.fndPrice) }}</td>
 								</tr>
 								<tr>
 									<th>시작일</th><td v-text="board.fndStrDate"></td>
@@ -132,12 +132,12 @@ export default{
 			dst2:'',dst2List:[],
       dst2All:{},regSttsList:[],stts:'',
       headers:[
-	        {title: '번호',key: 'boardNo',},
+	        {title: '번호',key: 'boardNo',align: 'center'},
 	        {title: '제목', key: 'title'},
-					{title: '시작시간', key: 'fndStrDate'},
-					{title: '종료시간',key: 'fndEndDate' },
-          {title: '신청일자',key: 'regDate' },
-	        {title: '상태',key: 'regStts'}
+					{title: '시작시간', key: 'fndStrDate',align: 'center'},
+					{title: '종료시간',key: 'fndEndDate',align: 'center' },
+          {title: '신청일자',key: 'regDate',align: 'center' },
+	        {title: '상태',key: 'regStts',align: 'center'}
 	      ]
     }
   },
@@ -251,7 +251,10 @@ methods:{
 			this.boardList = response.data;
 		})
 		.catch(err => console.log(err));
-	}
+	},
+	formatNumber(number) {
+      return number.toLocaleString();
+  }
 },
   mounted(){
 		this.dst1List = this.$store.state.dst1;

@@ -201,7 +201,7 @@
 	<select id="selectMarketList" resultType="MarketVO">
 	  SELECT 	board_no
 				,mem_no
-				,find_code_name(mkt_ctg) mkt_ctg
+				,mkt_ctg
 				,title
 				,price
 				,qty
