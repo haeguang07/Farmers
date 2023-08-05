@@ -2,10 +2,11 @@
 
 	<div class="body">
 		<h3>농촌 체험하기</h3>
+		<br>
 		<div class="row">
-			<div class="col-1">상태</div>
-			<div class="col-2">
-				<select class="form-select" id="addon-wrapping" v-model="searchStts"  @change="search">
+			<div class="col-1 fw-bolder lh-lg text-center">상태</div>
+			<div class="col-1" style="width: 13%; flex: 0 0 13%;max-width: 13%;">
+				<select class="form-select" id="addon-wrapping" v-model="searchStts" @change="search">
 					<option value="">전체</option>
 					<option value="e0">승인대기</option>
 					<option value="e1">승인완료</option>
@@ -13,25 +14,24 @@
 					<option value="e8">신청거절</option>
 				</select>
 			</div>
-			<div class="col-1">신청일</div>
-			<div class="col-2">
-				<input type="date" class="form-select" v-model="searchStr"  @change="search">
-			</div>
-				~
-			<div class="col-2">
-				<input type="date" class="form-select" v-model="searchEnd"  @change="search">
+			<div class="col-1 fw-bolder lh-lg text-center">신청일</div>
+			<div class="col-1" style="width: 14%; flex: 0 0 14%;max-width: 14%;">
+				<input type="date" class="form-select" v-model="searchStr" @change="search">
 			</div>
 		</div>
-		<div style="width: 1000px;" class="row"> 
-			<div class="col-2">선택한 신청을 </div>
-			<div class="col-2">
+		<hr>
+		
+		<div class="row">
+			<div class="col"></div>
+			<div class="col-1 text-end fw-bolder lh-lg"  style="width: 14%; flex: 0 0 14%;max-width: 14%;">선택한 신청을</div>
+			<div class="col-1" style="width: 13%; flex: 0 0 14%;max-width: 13%;">
 				<select class="form-select"  v-model="stts">
 					<option selected value="">선택</option>
 					<option v-for="reqStts in regSttsList" :value="reqStts.cmmnDetaCode">{{reqStts.codeDesct}}</option>
 				</select>
 			</div>
-			<div  class="col-2"> 으로
-				<button @click="changeBtn" class="btn btn-primary mb-3">변경</button>
+			<div class="col-1">
+				<button @click="changeBtn" class="btn btn-success mb-3">변경</button>
 			</div>
 		</div>
 		<v-data-table
@@ -57,40 +57,44 @@
 			
 			</v-data-table>
 				
-			<!-- The Modal -->
+			<!-- 모달창 -->
   <div id="myModal" class="modal">
-      <!-- Modal content -->
+      <!-- 모달창 내용 -->
       <div class="modal-content">
         <span class="close">&times;</span>
         <div v-if="Object.keys(board).length>0">
           <div >
-            <div class="row">
-              <div class="col-4 row"><span class="col-3">신청번호</span><span class="col-5">{{board.boardNo}}</span></div>
-              <div class="col-4 row"><span class="col-3">신청일자</span><span class="col-5">{{board.regDate}}</span></div>
-              <div class="col-3 row"><span class="col-4">신청인</span><span class="col-5">{{board.memNo}}</span></div>
-            </div>
-            <div class="row">
-              <div class="col-5 row">
-								<span class="col-3">제목</span><span class="col-8">{{board.title}}</span>
-							</div>
-              <div class="col-5 row"><span class="col-3">지역</span><span class="col-5">{{board.dst1}}</span></div>
-            </div>
-            <div class="row">
-              <div class="col-3">주소</div>
-							<div class="col-8">{{board.addr}}</div>
-            </div>
-            <div class="row">
-              <div class="col-5 row"><span class="col-4">체험시작시간</span><span class="col-5">{{board.exStrDate}}</span></div>
-              <div class="col-5 row"><span class="col-4">체험종료시간</span><span class="col-5">{{board.exEndDate}}</span></div>
-            </div>
+            <table class="table">
+							<tbody>
+								<tr>
+									<th>신청번호</th><td v-text="board.boardNo"></td>
+									<th>신청일자</th><td v-text="board.regDate"></td>
+									<th>신청인</th><td v-text="board.boardNo"></td>
+								</tr>
+								<tr>
+									<th>제목</th><td colspan="3" v-text="board.title"></td>
+									<th>지역</th><td v-text="board.dst1"></td>
+								</tr>
+							</tbody>
+            </table>
+						<table>
+							<tbody>
+								<tr>
+									<th>주소</th><td colspan="3" v-text="board.addr"></td>
+								</tr>
+								<tr>
+									<th>체험시작시간</th><td v-text="board.exStrDate"></td>
+									<th>체험종료시간</th><td v-text="board.exEndDate"></td>
+								</tr>
+								<tr>
+									<th>상세내용</th><td colspan="3" style="overflow: auto;" v-html="board.detaDesct"></td>
+								</tr>
+							</tbody>
+						</table>
 
-            <div class="row">
-              <div class="col-3" style="padding-left: 20px;">상세내용</div>
-                  <div class="col-8" style="overflow: auto; height: 350px;" v-html="board.detaDesct"></div>
-            </div>
             <div class="text-end">
               <div v-if="board.regStts=='승인 대기'">
-                <button v-show="btnShow" class="btn btn-primary mb-3 mx-3" @click="apply">승인</button>
+                <button v-show="btnShow" class="btn btn-success mb-3 mx-3" @click="apply">승인</button>
                 <select v-model="reason" v-show="!btnShow">
                   <option value="체험제목과 상세내용이 일치하지않습니다">일치하지않습니다</option>
                   <option value="이유2">이유2</option>

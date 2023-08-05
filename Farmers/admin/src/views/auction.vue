@@ -2,9 +2,10 @@
 
 	<div class="body">
 		<h3>경매장</h3>
+		<br>
 		<div class="row">
-			<div class="col-1">상태</div>
-			<div class="col-2">
+			<div class="col-1 fw-bolder lh-lg text-center">상태</div>
+			<div class="col-2" style="width: 13%; flex: 0 0 13%;max-width: 13%;">
 				<select class="form-select" id="addon-wrapping" v-model="searchStts"  @change="search">
 					<option value="">전체</option>
 					<option value="e0">승인대기</option>
@@ -13,8 +14,8 @@
 					<option value="e8">신청거절</option>
 				</select>
 			</div>
-			<div class="col-1 text-center">경매일</div>
-			<div class="col-2">
+			<div class="col-1 fw-bolder lh-lg text-center">경매일</div>
+			<div class="col-2" style="width: 13%; flex: 0 0 13%;max-width: 13%;">
 				<select class="form-select" id="addon-wrapping" v-model="searchStr"  @change="search">
 					<option value="">전체</option>
 					<option v-for="date in dateList" :value="date" v-text="date"></option>
@@ -23,16 +24,17 @@
 			<div class="col-auto"></div>
 		</div>
 		<hr>
-		<div style="width: 1000px;" class="row"> 
-			<div class="col-2">선택한 신청을 </div>
-			<div class="col-2">
+		<div class="row">
+			<div class="col"></div>
+			<div class="col-1 text-end fw-bolder lh-lg"  style="width: 14%; flex: 0 0 14%;max-width: 14%;">선택한 신청을</div>
+			<div class="col-1" style="width: 13%; flex: 0 0 14%;max-width: 13%;">
 				<select class="form-select"  v-model="stts">
 					<option selected value="">선택</option>
 					<option v-for="reqStts in regSttsList" :value="reqStts.cmmnDetaCode">{{reqStts.codeDesct}}</option>
 				</select>
 			</div>
-			<div  class="col-2"> 으로
-				<button @click="changeBtn" class="btn btn-primary mb-3">변경</button>
+			<div class="col-1">
+				<button @click="changeBtn" class="btn btn-success mb-3">변경</button>
 			</div>
 		</div>
 		<v-data-table
@@ -58,38 +60,53 @@
 			
 			</v-data-table>
 				
-			<!-- The Modal -->
-  <div id="myModal" class="modal">
-      <!-- Modal content -->
+			<!-- 모달창 -->
+  	<div id="myModal" class="modal">
+      <!-- 모달창 내용 -->
       <div class="modal-content">
         <span class="close">&times;</span>
         <div v-if="Object.keys(board).length>0">
-          <div >
-            <div class="row">
-              <div class="col-4 row"><span class="col-3">신청번호</span><span class="col-5">{{board.boardNo}}</span></div>
-              <div class="col-4 row"><span class="col-3">신청일자</span><span class="col-5">{{board.regDate}}</span></div>
-              <div class="col-4 row"><span class="col-3">신청인</span><span class="col-5">{{board.memNo}}</span></div>
-            </div>
-            <div class="row">
-              <div class="col-10 row"><span class="col-1">제목</span><span class="col-7">{{board.title}}</span></div>
-            </div>
-            <div class="row">
-							<div class="col-4 row"><span class="col-3">경매수량</span><span class="col-5">{{board.saleQty}}</span></div>
-              <div class="col-4 row"><span class="col-4">즉시구매가</span><span class="col-5">{{board.bnp}}</span></div>
-              <div class="col-4 row"><span class="col-3">배송비</span><span class="col-5">{{board.shipPrice}}</span></div>
-            </div>
-            <div class="row">
-              <div class="col-5 row"><span class="col-3">경매시간</span><span class="col-5">{{board.actDate}}</span></div>
-              <div class="col-5 row"><span class="col-3">경매기간</span><span class="col-5">{{board.actTrm}}</span></div>
-            </div>
-
-            <div class="row">
-              <div class="col-3" style="padding-left: 20px;">상세내용</div>
-							<div class="col-8" style="overflow: auto; height: 350px;" v-html="board.desct"></div>
-            </div>
+					<table class="table">
+							<tbody>
+								<tr>
+									<th>신청번호</th><td v-text="board.boardNo"></td>
+									<th>신청일자</th><td v-text="board.regDate"></td>
+									<th>신청인</th><td v-text="board.memNo"></td>
+								</tr>
+							</tbody>
+						</table>
+						<table class="table">
+							<tbody>
+								<tr>
+									<th>제목</th><td colspan="3" v-text="board.title"></td>
+								</tr>
+							</tbody>
+							</table>
+							<table class="table">
+								<tbody>
+									<tr>
+										<th>경매수량</th><td v-text="board.saleQty"></td>
+										<th>즉시구매가</th><td v-text="board.bnp"></td>
+										<th>배송비</th><td v-text="board.shipPrice"></td>
+									</tr>
+								</tbody>
+							</table>
+							<table class="table">
+								<tbody>
+									<tr>
+										<th>경매시간</th><td v-text="board.actDate"></td>
+										<th>경매기간</th><td v-text="board.actTrm"></td>
+									</tr>
+									<tr>
+										<th>상세내용</th><td colspan="3" v-html="board.desct" style="overflow: auto;"></td>
+									</tr>
+									
+								</tbody>
+							</table>
+          <div>
             <div class="text-end">
               <div v-if="board.regStts=='승인 대기;'">
-                <button v-show="btnShow" class="btn btn-primary mb-3 mx-3" @click="apply">승인</button>
+                <button v-show="btnShow" class="btn btn-success mb-3 mx-3" @click="apply">승인</button>
                 <select v-model="reason" v-show="!btnShow">
                   <option value="부적절한 경매품목입니다">부적절한 경매품목입니다</option>
                   <option value="경매정보가 정확하지 않습니다">경매정보가 정확하지 않습니다</option>
@@ -119,7 +136,7 @@ export default{
   data(){
     return{
 			searchStts:'e0',searchStr:'',dateList:[],
-			btnShow:true,reason:'',
+			btnShow:true,reason:'부적절한 경매품목입니다',
 			page:1,selected:[],itemsPerPage: 10,
 			board:{},  boardList:[],
 			dst1:'',dst1List:[],

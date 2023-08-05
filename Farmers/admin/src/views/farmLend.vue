@@ -2,9 +2,10 @@
 
 	<div class="body">
 		<h3>농지대여</h3>
+		<br>
 		<div class="row">
-			<div class="col-1">상태</div>
-			<div class="col-2">
+			<div class="col-1 fw-bolder lh-lg text-center">상태</div>
+			<div class="col-1" style="width: 13%; flex: 0 0 13%;max-width: 13%;">
 				<select class="form-select" id="addon-wrapping" v-model="searchStts" @change="search">
 					<option value="">전체</option>
 					<option value="e0">승인대기</option>
@@ -13,25 +14,24 @@
 					<option value="e8">신청거절</option>
 				</select>
 			</div>
-			<div class="col-1">신청일</div>
-			<div class="col-2">
+			<div class="col-1 fw-bolder lh-lg text-center">신청일</div>
+			<div class="col-1" style="width: 14%; flex: 0 0 14%;max-width: 14%;">
 				<input type="date" class="form-select" v-model="searchStr" @change="search">
 			</div>
-			~
-			<div class="col-2">
-				<input type="date" class="form-select" v-model="searchEnd" @change="search">
-			</div>
 		</div>
-		<div style="width: 1000px;" class="row"> 
-			<div class="col-2">선택한 신청을 </div>
-			<div class="col-2">
+		<hr>
+		
+		<div class="row">
+			<div class="col"></div>
+			<div class="col-1 text-end fw-bolder lh-lg"  style="width: 14%; flex: 0 0 14%;max-width: 14%;">선택한 신청을</div>
+			<div class="col-1" style="width: 13%; flex: 0 0 14%;max-width: 13%;">
 				<select class="form-select"  v-model="stts">
 					<option selected value="">선택</option>
 					<option v-for="reqStts in regSttsList" :value="reqStts.cmmnDetaCode">{{reqStts.codeDesct}}</option>
 				</select>
 			</div>
-			<div  class="col-2"> 으로
-				<button @click="changeBtn" class="btn btn-primary mb-3">변경</button>
+			<div class="col-1">
+				<button @click="changeBtn" class="btn btn-success mb-3">변경</button>
 			</div>
 		</div>
 		<v-data-table
@@ -57,9 +57,9 @@
 			
 			</v-data-table>
 				
-			<!-- The Modal -->
+			<!-- 모달창 -->
   <div id="myModal" class="modal">
-      <!-- Modal content -->
+      <!-- 모달창 내용 -->
       <div class="modal-content">
         <span class="close">&times;</span>
         <div v-if="Object.keys(board).length>0">
@@ -101,7 +101,7 @@
           </div>
           <div class="text-end">
 						<div v-if="board.regStts=='승인 대기' && board.files !=null" >
-							<button v-show="btnShow" class="btn btn-primary mb-3 mx-3" @click="apply">승인</button>
+							<button v-show="btnShow" class="btn btn-success mb-3 mx-3" @click="apply">승인</button>
 							<select v-model="reason" v-show="!btnShow">
 								<option value="제출서류가 정확하지 않습니다" selected>제출서류가 정확하지 않습니다</option>
 								<option value="제출서류가 부족합니다">제출서류가 부족합니다</option>
