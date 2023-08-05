@@ -31,6 +31,7 @@
 <link rel="stylesheet" href="/css/jquery/slicknav.min.css" type="text/css">
 <link rel="stylesheet" href="/css/style.css" type="text/css">
 <link rel="stylesheet" href="/css/jquery/jQueryUI.css">
+<link rel="stylesheet" href="/css/otherPlugins/sweetAlert.css" type="text/css">
 
 <!-- Js Plugins -->
 <script src="/js/jquery/jquery-3.3.1.min.js"></script>
@@ -43,7 +44,9 @@
 <script src="/js/jquery/mixitup.min.js"></script>
 <script src="/js/jquery/owl.carousel.min.js"></script>
 <script src="/js/jquery/json.min.js"></script>
+<script src="/js/main.js"></script>
 <script src="/js/jquery/jqueryUI.js"></script>
+<script src="/js/otherPlugins/sweetAlert2-11.4.10.js"></script>
 <style>
 .btn {
 	float: right !important;
@@ -52,6 +55,7 @@
 
 img {
 	border-radius: 20px;
+	cursor: pointer;
 }
 
 .plus {
@@ -266,7 +270,6 @@ img {
 	// 도 선택시 시 select 출력
 	$('[name="dst1"]').on('change', function(){
 		let dst1 = $('[name="dst1"]').val();
-		console.log(dst1);
 		
 		$.ajax({
 			url: "/dst2",
@@ -314,7 +317,7 @@ img {
 		// 포함하지 않습니다
 
 		for (var i = 0; i < files.length; i++) {
-			console.log(files[i]);
+			// console.log(files[i]);
 			if (files[i].type.includes('image')) {
 				formData.append("uploadFiles", files[i]); //키,값으로 append
 
@@ -325,10 +328,10 @@ img {
 					contentType: false, // multipart/form-data 타입을 사용하기위해 false로 지정
 					data: formData,
 					success: function (result) {
-						console.log(result)
+						// console.log(result)
 						dbPath = result.dbPath
 						$('#addFile>img').attr('src', result.loadPath)
-						console.log(dbPath)
+						// console.log(dbPath)
 
 					},
 					error: function (reject) {
@@ -336,7 +339,11 @@ img {
 					}
 				})
 			} else {
-				alert('이미지만 등록 가능합니다')
+				Swal.fire({
+					title: '이미지만 등록 가능합니다.',
+					icon: 'warning',
+					confirmButtonText:"확인"
+				}).then((result) => {})
 			}
 		}
 
@@ -345,27 +352,42 @@ img {
 	// 업데이트 완료 버튼
 	function updateComplete(){
 		let boardno = /*[[${goldInfo.boardNo}]]*/;
-		let formData = $('myForm').serializeObject();
+		let formData = $('#myForm').serializeObject();
 		formData.boardNo = boardno;
+		formData.img = dbPath;
+		// console.log(formData);
 		
-		// ajax 등록
-		$.ajax({
-			url: "/update/Skilled",
-			method: "POST",
-			data: formData
-		})
-		.done(function (result){
-			console.log(result);
-			Swal.fire({
-				title: '수정이 완료되었습니다.',
-				icon: 'success',
-				confirmButtonText:"확인",
-			}).then((result) => {
-				parent.closePopUp();
-			})	
-		})
-		.fail(function (result){
-			console.log(result);
+		// ajax 신청
+		Swal.fire({
+			title: '수정하시겠습니까?',
+			icon: 'info',
+			showCancelButton: true,
+			confirmButtonText: '확인',
+		}).then((result) => {
+			$.ajax({
+				url: "/update/Skilled",
+				method: "POST",
+				data: formData
+			})
+			.done(function (result){
+				Swal.fire({
+					title: '수정이 완료되었습니다.',
+					icon: 'success',
+					confirmButtonText:"확인",
+				}).then((result) => {
+					parent.closePopUp();
+				})	
+			})
+			.fail(function (result){
+				Swal.fire({
+					title: '오류가 발생하였습니다.',
+					text: '다시 시도부탁드립니다.',
+					icon: 'error',
+					confirmButtonText:"확인",
+				}).then((result) => {
+					parent.closePopUp();
+				})	
+			})
 		})
 		
 	}

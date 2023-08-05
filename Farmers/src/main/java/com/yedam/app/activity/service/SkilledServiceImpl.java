@@ -48,5 +48,10 @@ public class SkilledServiceImpl implements SkilledService {
 	public boolean applySkilled(SkilledVO vo) {
 		return skilledMapper.applySkilled(vo) > 0;
 	}
+	
+	@Override
+	public List<SkilledVO> applyList(String boardNo) {
+		return skilledMapper.applyList(boardNo);
+	}
 
 }
