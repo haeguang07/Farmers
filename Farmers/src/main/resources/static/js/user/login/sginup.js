@@ -29,8 +29,6 @@
 								if(data.retCode=='Success'){
 									num = data.random;
 									console.log(num);															
-								}else{
-									Swal.fire({ title: '유효하지 않는 이메일입니다' , icon: 'error',confirmButtonText:"확인"});
 								}
 							})
 							.catch(err=> console.log(err))
