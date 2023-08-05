@@ -67,59 +67,60 @@
 				</select>
 			</div>
 			<div class="col-2  text-center">
-				<button @click="changeBtn" class="btn btn-primary">변경하기</button>
+				<button @click="changeBtn" class="btn btn-success">변경하기</button>
 			</div>
 		</div>
 		<v-data-table
-				v-model="selected"
-				v-model:page="page"
-    		v-model:items-per-page="itemsPerPage"
-    		:headers="headers"
-    		:items="memberList"
-   		  item-value="memNo"
-				 no-data-text="조회된 회원이 없습니다"
-				return-object
-    		show-select
-				hide-default-footer
-				@click:row=info
-   		 class="elevation-1"
-				style="clear: both;"
-				>
+			v-model="selected"
+			v-model:page="page"
+    	v-model:items-per-page="itemsPerPage"
+    	:headers="headers"
+    	:items="memberList"
+   		item-value="memNo"
+			no-data-text="조회된 회원이 없습니다"
+			return-object
+    	show-select
+			hide-default-footer
+			@click:row=info
+   		class="elevation-1"
+			style="clear: both;">
 
-				<template v-slot:bottom>
-      		<div class="text-center pt-2">
-        		<v-pagination v-model="page" :length="pageCount"></v-pagination>
-        	</div>
-    		</template>
+			<template v-slot:bottom>
+				<div class="text-center pt-2">
+					<v-pagination v-model="page" :length="pageCount"></v-pagination>
+				</div>
+			</template>
 			
-			</v-data-table>
+		</v-data-table>
 				
 			<!-- The Modal -->
-  <div id="myModal" class="modal">
+  	<div id="myModal" class="modal">
       <!-- Modal content -->
       <div class="modal-content">
         <span class="close">&times;</span>
         <div v-if="Object.keys(member).length>0">
           <div>
 						<table class="table">
-							<tr>
-								<th>회원번호</th><td v-text="member.memNo"></td>
-								<th>가입일자</th><td v-text="member.sginDate"></td>
-							</tr>
-							<tr>
-								<th>아이디</th><td v-text="member.id"></td>
-								<th>닉네임</th><td v-text="member.nick"></td>
-							</tr>
-							<tr v-if="member.memGrd=='준회원'">
-								<th>제출서류</th><td v-if="member.grdAtchFile !=null"><img class="col-5" :src="member.grdAtchFile"></td>
-								<td v-else="member.grdAtchFile==null"> 제출 서류가 없습니다</td>
-							</tr>
+							<tbody>
+								<tr>
+									<th>회원번호</th><td v-text="member.memNo"></td>
+									<th>가입일자</th><td v-text="member.signDate"></td>
+								</tr>
+								<tr>
+									<th>아이디</th><td v-text="member.id"></td>
+									<th>닉네임</th><td v-text="member.nick"></td>
+								</tr>
+								<tr v-if="member.memGrd=='준회원'">
+									<th>제출서류</th><td v-if="member.grdAtchFile !=null"><img class="col-5" :src="member.grdAtchFile"></td>
+									<td v-else="member.grdAtchFile==null"> 제출 서류가 없습니다</td>
+								</tr>
+							</tbody>
 						</table>
             
           </div>
           <div class="text-end">
 						<div v-if="member.memGrd=='준회원' && member.grdAtchFile !=null" >
-							<button v-show="btnShow" class="btn btn-primary mb-3 mx-3" @click="apply">승인</button>
+							<button v-show="btnShow" class="btn btn-success mb-3 mx-3" @click="apply">승인</button>
 							<select v-model="reason" v-show="!btnShow">
 								<option value="이미지가 정확하지 않습니다">이미지가 정확하지 않습니다</option>
 								<option value="주소지와 등본의 주소가 일치하지 않습니다">주소지와 등본의 주소가 일치하지 않습니다</option>

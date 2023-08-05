@@ -31,7 +31,7 @@
 				</select>
 			</div>
 			<div class="col-1">
-				<button @click="changeBtn" class="btn btn-primary mb-3">변경</button>
+				<button @click="changeBtn" class="btn btn-success mb-3">변경</button>
 			</div>
 		</div>
 		<v-data-table
@@ -101,7 +101,7 @@
           </div>
           <div class="text-end">
 						<div v-if="board.regStts=='승인 대기' && board.files !=null" >
-							<button v-show="btnShow" class="btn btn-primary mb-3 mx-3" @click="apply">승인</button>
+							<button v-show="btnShow" class="btn btn-success mb-3 mx-3" @click="apply">승인</button>
 							<select v-model="reason" v-show="!btnShow">
 								<option value="제출서류가 정확하지 않습니다" selected>제출서류가 정확하지 않습니다</option>
 								<option value="제출서류가 부족합니다">제출서류가 부족합니다</option>
