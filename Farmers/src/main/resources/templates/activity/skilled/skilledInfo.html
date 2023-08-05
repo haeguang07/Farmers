@@ -243,7 +243,6 @@
 		
 		function deleteInfo() {
 			boardNo = /*[[${goldInfo.boardNo}]]*/;
-			console.log(boardNo);
 			
 			Swal.fire({
 				title: '정말 삭제하시겠습니까?',
@@ -259,7 +258,6 @@
 						data : {boardNo}
 					})
 					.done(function (result){
-						console.log(result);
 						Swal.fire({
 							title: '삭제가 완료되었습니다.',
 							icon: 'success',
@@ -278,12 +276,14 @@
 		
 		// 수정 클릭 시 모달창
 		function updateInfo(){
-			parent.closePopUp(boardNo);
+			let div = 'update';
+			parent.closePopUp(boardNo, div);
 		}
 		
 		// 신청 클릭 시 모달창
 		$('#applyBtn').on('click', function(){
-			parent.closePopUp(boardNo);
+			let div = 'apply';
+			parent.closePopUp(boardNo, div);
 		})
 		
 		// 닫기 클릭 시 모달창 닫기

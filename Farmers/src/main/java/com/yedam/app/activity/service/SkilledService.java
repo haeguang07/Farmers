@@ -20,5 +20,7 @@ public interface SkilledService {
 	public boolean deleteSkilled(String boardNo);
 	// 신청
 	public boolean applySkilled(SkilledVO vo);
+	// 신청인 조회
+	public List<SkilledVO> applyList(String boardNo);
 	
 }

@@ -202,7 +202,7 @@ h5:has(.countdown) {
 										<div>
 											<select class="form-select form-group col-1.5 mr-2 dst1" 
 												aria-label="Default select example" id="dst1">
-												<option value="" selected="selected">도</option>
+												<option value="" selected="selected">도 전체</option>
 												<option th:each="opt : ${dst1}" th:text="${opt.codeDesct}"
 													th:value="${opt.cmmnDetaCode}"></option>
 											</select>
@@ -211,7 +211,7 @@ h5:has(.countdown) {
 										<div>
 											<select class="form-select form-group col-1.5 mr-2"
 												aria-label="Default select example" id="dst2">
-												<option value="">시·군</option>
+												<option value="">시·군 전체</option>
 											</select>
 										</div>
 										<!-- 검색창 -->
@@ -319,10 +319,10 @@ h5:has(.countdown) {
 				let goldWay = $(this).prop("checked");
 				
 				if (goldWay) {
-					console.log('volunteered');
+					// console.log('volunteered');
 					div = 'o1';
 				}else {
-					console.log('wanted');
+					// console.log('wanted');
 					div = 'o0'
 				}
 				goldData(div, 1);
@@ -343,7 +343,7 @@ h5:has(.countdown) {
 						memNo
 					},
 					success(data){
-						console.log(data);
+						// console.log(data);
 						printList(data, dst1, dst2, title, memNo);
 						
 						// 지역2 select box 출력
@@ -387,7 +387,7 @@ h5:has(.countdown) {
 				let clone = $('#skills').clone();
 				$(clone).css({'display' : 'block'});
 				let imageUrl = item.img;
-				console.log(imageUrl);
+				// console.log(imageUrl);
 				
 				// 데이터 넣기
 		
@@ -471,14 +471,18 @@ h5:has(.countdown) {
 			});
 			
 			//팝업창 닫기 함수
-			function closePopUp(boardNo){
-				console.log(boardNo);
+			function closePopUp(boardNo, div){
+				// console.log(boardNo, div);
 				var magnificPopup = $.magnificPopup.instance; 
 				magnificPopup.close(); 
 				if(typeof boardNo == 'undefined'){
 					location.reload();
 				}else {
-					modalUpdate(boardNo);
+					if (div === 'update'){
+						modalUpdate(boardNo);						
+					} else if (div === 'apply'){
+						modalApply(boardNo);
+					}
 				}
 			}
 			
@@ -493,7 +497,6 @@ h5:has(.countdown) {
 			// 보기 클릭 시 상세 조회 모달창
 			$(document).on('click', '#detailBtn', function() {
 				let boardNo = $(this).parent().parent().parent().find('.card-boardNo').text();
-				console.log(boardNo);
 				
 				if(member){
 		    		if(member.memGrd != 'b2'){
@@ -543,7 +546,6 @@ h5:has(.countdown) {
 			// 검색 기능
 			$('.searchBtn').on('click', function(){
 				title = $('#searchVal').val();
-				console.log(title);
 				
 				getCondition(1, title);
 				
@@ -551,7 +553,7 @@ h5:has(.countdown) {
 			
 			// 내가 쓴 글 보기
 			$('#check1').on('change', function(){
-				console.log($(this).is(':checked'))
+				// console.log($(this).is(':checked'))
 				if($(this).is(':checked')  == true){
 					let memNo = member.memNo;
 					getCondition(1, title, memNo);

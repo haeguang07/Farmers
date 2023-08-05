@@ -289,7 +289,6 @@
 		// 도 선택시 시 select 출력
 		$('[name="dst1"]').on('change', function(){
 			let dst1 = $('[name="dst1"]').val();
-			console.log(dst1);
 			
 			$.ajax({
 				url: "/dst2",
@@ -337,7 +336,7 @@
 			// 포함하지 않습니다
 
 			for (var i = 0; i < files.length; i++) {
-				console.log(files[i]);
+				// console.log(files[i]);
 				if (files[i].type.includes('image')) {
 					formData.append("uploadFiles", files[i]); //키,값으로 append
 
@@ -348,12 +347,12 @@
 						contentType : false, // multipart/form-data 타입을 사용하기위해 false로 지정
 						data : formData,
 						success : function(result) {
-							console.log(result)
+							// console.log(result)
 							dbPath = result.dbPath
 							$('#addFile')
 									.html(
 											'<img src="' + result.loadPath + '">')
-							console.log(dbPath)
+							// console.log(dbPath)
 
 						},
 						error : function(reject) {
@@ -361,7 +360,11 @@
 						}
 					})
 				} else {
-					alert('이미지만 등록 가능합니다')
+					Swal.fire({
+						title: '이미지만 등록 가능합니다.',
+						icon: 'warning',
+						confirmButtonText:"확인"
+					}).then((result) => {})
 				}
 			}
 		})
@@ -409,7 +412,6 @@
 					method : "POST",
 					data : formData,
 					success: function(result){
-						console.log(result);
 						Swal.fire({
 							title: '등록이 완료되었습니다.',
 							icon: 'success',
