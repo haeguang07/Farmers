@@ -312,7 +312,7 @@ methods:{
   padding-top: 100px; /* Location of the box */
   left: 0;
   top: 0;
-  width: 80%; /* Full width */
+  width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
@@ -325,7 +325,7 @@ methods:{
   margin: 0,auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%;
+  width: 60%;
 }
 
 /* The Close Button */
