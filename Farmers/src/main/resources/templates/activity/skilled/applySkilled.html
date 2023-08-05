@@ -131,7 +131,7 @@
 												</div>
 												<div class="row col-md-8">
 													<label class="form-check-label text-left"><span
-														th:text="${goldInfo.dst1Name}"></span></label> <label
+														th:text="${goldInfo.dst1Name}"></span></label>&nbsp;<label
 														class="form-check-label text-left"><span
 														th:text="${goldInfo.dst2}"></span></label> / 
 														<label class="form-check-label text-left"><span
@@ -186,7 +186,7 @@
 			let memNo = /*[[${session.mem.memNo}]]*/;
 			let aplStts = 'kw';
 			let boardNo = /*[[${goldInfo.boardNo}]]*/;
-			let aplMsg = $('#aplMsg').text();
+			let aplMsg = $('#aplMsg').val();
 			
 			Swal.fire({
 				title: '신청하시겠습니까?',
@@ -206,11 +206,18 @@
 				}).done(function(result) {
 					Swal.fire({
 						title: '신청이 완료되었습니다.',
-						text: '신청 진행 현황은 마이페이지에서 확인할 수 있습니다.',
+						text: '신청 진행 현황은 마이페이지에서 확인할 수 있습니다. 마이페이지로 이동하시겠습니까?',
 						icon: 'success',
-						confirmButtonText:"확인",
+						showDenyButton: true,
+						confirmButtonText:"네",
+						denyButtonText: '아니오',
 					}).then((result) => {
-						parent.closePopUp();
+						if(result.isConfirmed){
+							let div = 'myPage';
+							parent.closePopUp(boardNo, div);
+						} else if(result.isDenied){
+							parent.closePopUp();							
+						}
 					})
 				}).fail(function(result) {
 					Swal.fire({
