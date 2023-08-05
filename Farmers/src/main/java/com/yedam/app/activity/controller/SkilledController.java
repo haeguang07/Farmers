@@ -40,7 +40,6 @@ public class SkilledController {
 	public Map<String, Object> dst2List(@RequestParam(required = false) String dst1){
 		Map<String, Object> map = new HashMap<>();
 		map.put("dst2", codeService.getCodeList(dst1));
-		System.out.println(dst1);
 		return map;
 	}
 	
@@ -86,7 +85,6 @@ public class SkilledController {
 		} else {
 			map.put("retCode", "Fail");
 		}
-		System.out.println(map);
 		return map;
 	}
 	
@@ -129,7 +127,6 @@ public class SkilledController {
 	@ResponseBody
 	public Map<String, Object> deleteSkilled(@RequestParam(required = false) String boardNo){
 		Map<String, Object> map = new HashMap<>();
-		System.out.println(boardNo);
 		boolean result = skilledService.deleteSkilled(boardNo);
 			
 		if(result) {
@@ -145,6 +142,7 @@ public class SkilledController {
 	@GetMapping("/apply/Skilled")
 	public String applySkilled(String boardNo, Model model) {
 		model.addAttribute("goldInfo", skilledService.skilledInfo(boardNo));
+		model.addAttribute("applyList", skilledService.applyList(boardNo));
 		return "activity/skilled/applySkilled";
 	}
 	

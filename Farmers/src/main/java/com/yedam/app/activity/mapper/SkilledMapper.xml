@@ -119,4 +119,12 @@
 	VALUES (#{aplNo}, #{memNo}, #{aplMsg}, #{aplStts}, #{boardNo}, sysdate)
 </insert>
 
+<!-- 신청인 조회 -->
+<select id="applyList" parameterType="String">
+	SELECT apl.mem_no, apl.board_no
+	FROM skilled_expert_apply apl LEFT JOIN skilled_expert skl
+	ON apl.board_no = skl.board_no
+	WHERE apl.board_no = #{boardNo}
+</select>
+
 </mapper>
