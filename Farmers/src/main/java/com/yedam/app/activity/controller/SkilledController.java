@@ -4,12 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -17,6 +19,7 @@ import com.yedam.app.activity.service.SkilledService;
 import com.yedam.app.activity.vo.SkilledVO;
 import com.yedam.app.common.service.CodeService;
 import com.yedam.app.market.vo.PageVO;
+import com.yedam.app.user.vo.MemberVO;
 
 @Controller
 public class SkilledController {
@@ -91,8 +94,19 @@ public class SkilledController {
 	
 	// 상세 조회 모달창 이동
 	@GetMapping("/skilledInfo")
-	public String skilledInfo(String boardNo, Model model) {
+	public String skilledInfo(String boardNo, Model model, HttpServletRequest req) {
 		model.addAttribute("goldInfo", skilledService.skilledInfo(boardNo));
+		HttpSession session = req.getSession();
+		MemberVO vo = (MemberVO) session.getAttribute("mem");
+		String currentMemNo = vo.getMemNo();
+		List<SkilledVO> aplList = skilledService.applyList(boardNo);
+		String result = "N";
+		for(SkilledVO apl : aplList) {
+			if(apl.getMemNo().equals(currentMemNo)) {
+				result = "Y";
+			}
+		}
+		model.addAttribute("applyer", result);
 		return "activity/skilled/skilledInfo";
 	}
 	
@@ -142,7 +156,6 @@ public class SkilledController {
 	@GetMapping("/apply/Skilled")
 	public String applySkilled(String boardNo, Model model) {
 		model.addAttribute("goldInfo", skilledService.skilledInfo(boardNo));
-		model.addAttribute("applyList", skilledService.applyList(boardNo));
 		return "activity/skilled/applySkilled";
 	}
 	

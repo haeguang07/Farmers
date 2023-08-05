@@ -349,7 +349,7 @@ h5:has(.countdown) {
 						// 지역2 select box 출력
 						if(data.dst2) {
 							$('#dst2').empty();
-							$('#dst2').append(`<option value="">시·군</option>`);
+							$('#dst2').append(`<option value="">시·군 전체</option>`);
 							$(data.dst2).each((idx, item) => {
 								if(item.cmmnDetaCode == dst2){
 									$('#dst2').append(`<option value="${item.cmmnDetaCode}" selected>${item.codeDesct}</option>`)
@@ -482,6 +482,8 @@ h5:has(.countdown) {
 						modalUpdate(boardNo);						
 					} else if (div === 'apply'){
 						modalApply(boardNo);
+					} else if (div === 'myPage'){
+						location.href = `/myPage/mySkilledForm?memNo=member.memNo`;
 					}
 				}
 			}
