@@ -221,7 +221,7 @@
 												</div>
 												<button type="button" class="btn btn-success" id="applyBtn"
 													th:if="${goldInfo.cndt == '신청 대기'}" th:disabled="${applyer=='Y'} ? 'disabled'">신청</button>
-												<button type="button" class="btn btn-success"
+												<button type="button" class="btn btn-success" th:onclick="applyConfirm()"
 													th:if="${goldInfo.cndt == '즉시 수락'}">수락</button>
 												<button type="button" class="btn btn-light"
 													th:onclick="closeBtn()">닫기</button>
@@ -316,6 +316,98 @@
 		function closeBtn(){
 			parent.closePopUp();
 		}
+		
+		// 수락 클릭 시 즉시 수락 진행
+		function applyConfirm(){
+			let memNo = member.memNo;
+			
+			Swal.fire({
+				title: '즉시 수락하시겠습니까?',
+				text: '즉시 수락의 경우, 작성자의 별도 수락 없이 바로 계약이 진행되며 신청 취소가 불가합니다. 진행하시겠습니까?',
+				icon: 'info',
+				showDenyButton: true,
+				confirmButtonText: '네',
+				denyButtonText: '아니오',
+			}).then((result) => {
+				if(result.isConfirmed){
+					$.ajax({
+						url: '/apply/Skilled',
+						method: 'POST',
+						data: {
+							memNo : memNo,
+							aplStts : 'kx',
+							boardNo,
+							aplMsg : ''
+						}
+					}).done(function(result) {
+						memNo = /*[[${goldInfo.memNo}]]*/;
+						let title = /*[[${goldInfo.title}]]*/;
+						let alrtTitle = '등록하신 금손 귀농인 게시글이 즉시 수락되었습니다.';
+						let alrtDesct = '금손 귀농인 게시글 ' + "'" + title + "'" + '이 즉시 수락되었습니다. \n마이페이지 나의 금손 귀농인에서 내역 확인이 가능합니다.\n지금 바로 확인하세요!\n감사합니다.😊'
+						
+						// 즉시 수락 상태 변경 ajax
+						$.ajax({
+							url: '/confirm/Skilled',
+							method: 'POST',
+							data: {boardNo},
+							success: function(result){
+								// console.log(result);
+							}
+						})
+						
+						// 즉시 수락 작성자 알림 ajax
+						$.ajax({
+							url: '/sendAlert',
+							method: 'GET',
+							data: {
+								memNo : memNo,
+								alrtTitle : alrtTitle,
+								alrtDesct : alrtDesct,
+								boardCtg : 'n3'
+							},
+							success: function(result){
+								Swal.fire({
+									title: '즉시 수락이 완료되었습니다.',
+									text: '금손 귀농인 수락 현황은 마이페이지에서 확인할 수 있습니다. 마이페이지로 이동하시겠습니까?',
+									icon: 'success',
+									showDenyButton: true,
+									confirmButtonText:"네",
+									denyButtonText: '아니오',
+								}).then((result) => {
+									if(result.isConfirmed){
+										let div = 'myPage';
+										parent.closePopUp(boardNo, div);
+									} else if(result.isDenied){
+										parent.closePopUp();							
+									}
+								})
+							},
+							error: function(result){
+								Swal.fire({
+									title: '오류가 발생하였습니다.',
+									text: '다시 시도부탁드립니다.',
+									icon: 'error',
+									confirmButtonText:"확인",
+								}).then((result) => {
+									parent.closePopUp();
+								})
+							}
+						})
+					}).fail(function(result) {
+						Swal.fire({
+							title: '오류가 발생하였습니다.',
+							text: '다시 시도부탁드립니다.',
+							icon: 'error',
+							confirmButtonText:"확인",
+						}).then((result) => {
+							parent.closePopUp();
+						})	
+					})
+					
+				}
+			})
+		}
+		
 	</script>
 
 </body>

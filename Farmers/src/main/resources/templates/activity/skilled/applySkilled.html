@@ -189,46 +189,76 @@
 			let aplMsg = $('#aplMsg').val();
 			
 			Swal.fire({
-				title: '신청하시겠습니까?',
+				title: '정말 신청하시겠습니까?',
 				icon: 'info',
-				showCancelButton: true,
-				confirmButtonText: '확인',
+				showDenyButton: true,
+				confirmButtonText: '네',
+				denyButtonText: '아니오',
 			}).then((result) => {
-				$.ajax({
-					url: '/apply/Skilled',
-					method: 'POST',
-					data: {
-						memNo,
-						aplStts,
-						boardNo,
-						aplMsg
-					}
-				}).done(function(result) {
-					Swal.fire({
-						title: '신청이 완료되었습니다.',
-						text: '신청 진행 현황은 마이페이지에서 확인할 수 있습니다. 마이페이지로 이동하시겠습니까?',
-						icon: 'success',
-						showDenyButton: true,
-						confirmButtonText:"네",
-						denyButtonText: '아니오',
-					}).then((result) => {
-						if(result.isConfirmed){
-							let div = 'myPage';
-							parent.closePopUp(boardNo, div);
-						} else if(result.isDenied){
-							parent.closePopUp();							
+				if(result.isConfirmed){
+					$.ajax({
+						url: '/apply/Skilled',
+						method: 'POST',
+						data: {
+							memNo,
+							aplStts,
+							boardNo,
+							aplMsg
 						}
+					}).done(function(result) {
+						let memNo = /*[[${goldInfo.memNo}]]*/;
+						let title = /*[[${goldInfo.title}]]*/;
+						let alrtTitle = '등록하신 금손 귀농인 게시글에 신청자가 있습니다.';
+						let alrtDesct = '금손 귀농인 게시글 ' + "'" + title + "'" + '에 신청자가 있습니다. \n마이페이지 나의 금손 귀농인에서 신청 메세지를 확인 가능합니다. \n응답을 기다리는 유귀농인을 위해 빠른 확인 부탁드립니다!\n감사합니다.😊'
+						
+						$.ajax({
+							url: '/sendAlert',
+							method: 'GET',
+							data: {
+								memNo : memNo,
+								alrtTitle : alrtTitle,
+								alrtDesct : alrtDesct,
+								boardCtg : 'n3'
+							},
+							success: function(result){
+								Swal.fire({
+									title: '신청이 완료되었습니다.',
+									text: '신청 진행 현황은 마이페이지에서 확인할 수 있습니다. 마이페이지로 이동하시겠습니까?',
+									icon: 'success',
+									showDenyButton: true,
+									confirmButtonText:"네",
+									denyButtonText: '아니오',
+								}).then((result) => {
+									if(result.isConfirmed){
+										let div = 'myPage';
+										parent.closePopUp(boardNo, div);
+									} else if(result.isDenied){
+										parent.closePopUp();							
+									}
+								})
+							},
+							error: function(result){
+								Swal.fire({
+									title: '오류가 발생하였습니다.',
+									text: '다시 시도부탁드립니다.',
+									icon: 'error',
+									confirmButtonText:"확인",
+								}).then((result) => {
+									parent.closePopUp();
+								})
+							}
+						})
+					}).fail(function(result) {
+						Swal.fire({
+							title: '오류가 발생하였습니다.',
+							text: '다시 시도부탁드립니다.',
+							icon: 'error',
+							confirmButtonText:"확인",
+						}).then((result) => {
+							parent.closePopUp();
+						})	
 					})
-				}).fail(function(result) {
-					Swal.fire({
-						title: '오류가 발생하였습니다.',
-						text: '다시 시도부탁드립니다.',
-						icon: 'error',
-						confirmButtonText:"확인",
-					}).then((result) => {
-						parent.closePopUp();
-					})	
-				})
+				}
 			})
 		}
 	</script>

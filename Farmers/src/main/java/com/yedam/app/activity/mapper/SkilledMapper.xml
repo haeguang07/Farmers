@@ -121,10 +121,17 @@
 
 <!-- 신청인 조회 -->
 <select id="applyList" parameterType="String">
-	SELECT apl.mem_no, apl.board_no
+	SELECT apl_no, skl.board_no, apl.mem_no, apl_stts
 	FROM skilled_expert_apply apl LEFT JOIN skilled_expert skl
 	ON apl.board_no = skl.board_no
 	WHERE apl.board_no = #{boardNo}
 </select>
+
+<!-- 즉시 수락 시 게시글 상태 변경 -->
+<update id="updateStts" parameterType="String">
+	UPDATE skilled_expert
+	SET stts = 'kx'
+	WHERE board_no = #{boardNo}
+</update>
 
 </mapper>

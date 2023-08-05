@@ -48,6 +48,10 @@
 <script src="/js/jquery/jqueryUI.js"></script>
 <script src="/js/otherPlugins/sweetAlert2-11.4.10.js"></script>
 <style>
+.nice-select {
+	width: 149px;
+}
+
 .btn {
 	float: right !important;
 	margin: 2px;
@@ -154,7 +158,7 @@ img {
 															<select class="form-control col-1.5 mr-2"
 																aria-label="Default select example" name="dst1"
 																id="dst1">
-																<option value="">도</option>
+																<option value="">도 전체</option>
 																<option th:each="opt : ${dst1}"
 																	th:text="${opt.codeDesct}"
 																	th:value="${opt.cmmnDetaCode}"
@@ -166,7 +170,7 @@ img {
 															<select class="form-control form-group col-1.5 mr-2"
 																aria-label="Default select example" name="dst2"
 																id="dst2">
-																<option value="">시·군</option>
+																<option value="">시·군 전체</option>
 																<option th:each="opt : ${dst2}"
 																	th:text="${opt.codeDesct}"
 																	th:value="${opt.cmmnDetaCode}"
@@ -282,7 +286,7 @@ img {
 				// 지역2 select box 출력
 				if(data.dst2) {
 					$('#dst2').empty();
-					$('#dst2').append(`<option value="">시·군</option>`);
+					$('#dst2').append(`<option value="">시·군 전체</option>`);
 					$(data.dst2).each((idx, item) => {
 						if(item.cmmnDetaCode == dst2){
 							$('#dst2').append(`<option value="${item.cmmnDetaCode}" selected>${item.codeDesct}</option>`)
