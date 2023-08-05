@@ -64,11 +64,11 @@
         <span class="close">&times;</span>
         <div v-if="Object.keys(board).length>0">
           <div >
-            <div class="row">
-              <div class="col-4 row"><span class="col-3">신청번호</span><span class="col-5">{{board.boardNo}}</span></div>
-              <div class="col-4 row"><span class="col-3">신청일자</span><span class="col-5">{{board.regDate}}</span></div>
-              <div class="col-3 row"><span class="col-4">신청인</span><span class="col-5">{{board.memNo}}</span></div>
-            </div>
+            <table class="table">
+              <tr><td>신청번호</td><td v-text="board.boardNo"></td></tr>
+              <tr><td>신청일자</td><td v-text="board.regDate"></td></tr>
+              <tr><td>신청인</td><td  v-text="board.boardNo"></td></tr>
+            </table>
             <div class="row">
               <div class="col-5 row">
 								<span class="col-3">제목</span><span class="col-8">{{board.title}}</span>
