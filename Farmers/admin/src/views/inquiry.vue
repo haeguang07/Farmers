@@ -1,17 +1,18 @@
 <template>  
 <div>
   <h3>문의 관리</h3>
+  <br>
   <div class="row">
-    <div class="col-1">상태</div>
-    <div class="col-2">
+    <div class="col-1 fw-bolder lh-lg text-center">답변여부</div>
+    <div class="col-2" style="width: 13%; flex: 0 0 13%;max-width: 13%;">
 				<select class="form-select" id="addon-wrapping" v-model="searchStts"  @change="search">
 					<option value="">전체</option>
 					<option value="d0">답변대기</option>
 					<option value="d1">답변완료</option>
 				</select>
 			</div>
-      <div class="col-1">카테고리</div>
-			<div class="col-2">
+      <div class="col-1 fw-bolder lh-lg text-center">카테고리</div>
+			<div class="col-2" style="width: 13%; flex: 0 0 13%;max-width: 13%;">
 				<select class="form-select" id="addon-wrapping" v-model="searchCtg"  @change="search">
 					<option value="">전체</option>
 					<option v-for="ctg in ctgList" :value="ctg.cmmnDetaCode" v-text="ctg.codeDesct"></option>
@@ -19,13 +20,9 @@
       </div>
 		</div>
     <div class="row">
-      <div class="col-1">작성일</div>
-      <div class="col-2">
+      <div class="col-1 fw-bolder lh-lg text-center">작성일</div>
+      <div class="col-2" style="width: 13%; flex: 0 0 14%;max-width: 14%;">
         <input type="date" class="form-select" v-model="searchStr"  @change="search">
-      </div>
-					~
-      <div class="col-2">
-				<input type="date" class="form-select" v-model="searchEnd"  @change="search">
       </div>
     </div>
   <v-data-table
