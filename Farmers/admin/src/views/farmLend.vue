@@ -48,12 +48,7 @@
 				@click:row=info
    		 class="elevation-1"
 				>
-				<template v-slot:item.lendPrice="{ item }">
-    			{{ formatNumber(item.lendPrice) }}
-  			</template>
-				<template v-slot:item.area="{ item }">
-    			{{ formatNumber(item.area) }}
-  			</template>
+
 				<template v-slot:bottom>
       		<div class="text-center pt-2">
         		<v-pagination v-model="page" :length="pageCount"></v-pagination>
@@ -263,7 +258,8 @@ methods:{
 		.catch(err => console.log(err));
 	},
 	formatNumber(number) {
-		if (value === null || value === undefined) {
+			console.log(number)
+		if (number === null || number === undefined) {
         return '';
     }
       return String(number).replace(/\B(?=(\d{3})+(?!\d))/g, ",");

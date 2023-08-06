@@ -81,8 +81,12 @@
 							</div>
 							<hr>
 						</div>
-						<div>
+						<div th:if="${not #strings.equals(alertInfo.boardCtg, 'nc')}">
 							<button type="button" class="form-control" style="width: 500px; margin: 0 auto;" onclick="parent.closePopUp()">목록으로</button>
+						</div>
+						<div th:if="${#strings.equals(alertInfo.boardCtg, 'nc')}" style="text-align: center;">
+							<button type="button" class="form-control" style="width: 250px; margin: 0 auto; display: inline-block;" >결제하기</button>
+							<button type="button" class="form-control" style="width: 250px; margin: 0 auto; display: inline-block;" onclick="parent.closePopUp()">닫기</button>
 						</div>
 					</div>
 				</div>
