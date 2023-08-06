@@ -27,7 +27,6 @@ public class MemberServiceImpl implements MemberService, UserDetailsService{
 	public UserDetails loadUserByUsername(String username) throws InternalAuthenticationServiceException {
 		
 		MemberVO vo = memberMapper.selectMember(username);
-		System.out.println(vo);
 		if(vo == null) {
 			throw new InternalAuthenticationServiceException("존재하지 않는 아이디입니다");
 		}
@@ -65,10 +64,8 @@ public class MemberServiceImpl implements MemberService, UserDetailsService{
 	//이메일 중복
 	@Override
 	public boolean emailCheck(String email) {
-		System.out.println(email);
 
 		List<MemberVO> emailList=memberMapper.selectEmail();
-		 System.out.println(emailList);
 		boolean result= true;
 		for (MemberVO emails: emailList) {
 			System.out.println("for:" +emails.getEmail());

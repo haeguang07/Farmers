@@ -48,10 +48,7 @@
 				@click:row=info
    		 class="elevation-1"
 				>
-				<template v-slot:item.calories="{ item }">
-    			{{ formatNumberWithCommas(item.lendPrice) }}
-    			{{ formatNumberWithCommas(item.area) }}
-  			</template>
+
 				<template v-slot:bottom>
       		<div class="text-center pt-2">
         		<v-pagination v-model="page" :length="pageCount"></v-pagination>
@@ -75,7 +72,7 @@
 								</tr>
 								<tr>
 									<th>신청인</th><td v-text="board.memNo"></td>
-									<th>가격(년)</th><td v-text="board.lendPrice"></td>
+									<th>가격(년)</th><td v-text="formatNumber(board.lendPrice)"></td>
 								</tr>
 								<tr>
 									<th>시작일</th><td v-text="board.lendStrDate"></td>
@@ -140,7 +137,7 @@ export default{
     return{
 			searchStts:'e0',
 			searchStr:'',searchEnd:'',
-			btnShow:true,reason:'',
+			btnShow:true,reason:'제출서류가 정확하지 않습니다',
 			page:1,selected:[],
 			itemsPerPage: 10,
 			board:{}, boardList:[],
@@ -259,7 +256,14 @@ methods:{
 			this.boardList = response.data;
 		})
 		.catch(err => console.log(err));
-	}
+	},
+	formatNumber(number) {
+			console.log(number)
+		if (number === null || number === undefined) {
+        return '';
+    }
+      return String(number).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
 },
   mounted(){
   	// Vuex에서 데이터 가져오기

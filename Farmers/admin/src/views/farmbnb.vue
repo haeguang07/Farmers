@@ -249,7 +249,13 @@ methods:{
 			this.boardList = response.data;
 		})
 		.catch(err => console.log(err));
-	}
+	},
+	formatNumber(number) {
+		if (number === null || number === undefined) {
+        return '';
+    }
+      return number.toLocaleString();
+  }
 },
   mounted(){
 		this.dst1List = this.$store.state.dst1;

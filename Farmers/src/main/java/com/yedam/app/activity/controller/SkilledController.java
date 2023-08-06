@@ -124,6 +124,7 @@ public class SkilledController {
 	@PostMapping("/update/Skilled")
 	@ResponseBody
 	public Map<String, Object> updateSkilled(SkilledVO vo){
+		System.out.println(vo);
 		Map<String, Object> map = new HashMap<>();
 		boolean result = skilledService.updateSkilled(vo);
 		
@@ -165,6 +166,22 @@ public class SkilledController {
 	public Map<String, Object> applyComplete(SkilledVO vo){
 		Map<String, Object> map = new HashMap<>();
 		boolean result = skilledService.applySkilled(vo);
+		
+		if(result) {
+			map.put("retCode", "Success");
+		} else {
+			map.put("retCode", "Fail");
+		}
+		
+		return map;
+	}
+	
+	// 즉시 수락 처리
+	@PostMapping("/confirm/Skilled")
+	@ResponseBody
+	public Map<String, Object> updateStts(String boardNo){
+		Map<String, Object> map = new HashMap<>();
+		boolean result = skilledService.updateStts(boardNo);
 		
 		if(result) {
 			map.put("retCode", "Success");

@@ -78,7 +78,7 @@
 						<table class="table" style="margin-bottom: 0px;">
 							<tbody>
 								<tr>
-									<th>제목</th><td colspan="3" v-text="board.title"></td>
+									<th>제목</th><td colspan="3" v-text="board.title" class="text-start"></td>
 								</tr>
 							</tbody>
 							</table>
@@ -86,8 +86,8 @@
 								<tbody>
 									<tr>
 										<th>경매수량</th><td v-text="board.saleQty"></td>
-										<th>즉시구매가</th><td v-text="board.bnp"></td>
-										<th>배송비</th><td v-text="board.shipPrice"></td>
+										<th>즉시구매가</th><td v-text="formatNumber(board.bnp)"></td>
+										<th>배송비</th><td v-text="formatNumber(board.shipPrice)"></td>
 									</tr>
 								</tbody>
 							</table>
@@ -262,7 +262,13 @@ methods:{
 			this.boardList = response.data;
 		})
 		.catch(err => console.log(err));
-	}
+	},
+	formatNumber(number) {
+		if (value === null || value === undefined) {
+        return '';
+    }
+      return number.toLocaleString();
+  }
 },
   mounted(){
 		this.dst1List = this.$store.state.dst1;
