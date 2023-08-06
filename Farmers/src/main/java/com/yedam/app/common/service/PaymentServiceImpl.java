@@ -46,4 +46,9 @@ public class PaymentServiceImpl implements PaymentService {
 		return paymentMapper.getPayMember(boardNo);
 	}
 
+	@Override
+	public PaymentDetailVO getAuctionPay(PaymentDetailVO vo) {
+		return paymentMapper.getAuctionPay(vo);
+	}
+
 }

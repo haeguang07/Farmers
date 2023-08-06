@@ -111,5 +111,17 @@
 		on p.pay_no = d.pay_no
 		where board_no = #{boardNo}
 	</select>
+	
+	<!-- 경매장 입찰 결제 -->
+	<select id="getAuctionPay" parameterType="PaymentDetailVO" resultType="PaymentDetailVO" statementType="CALLABLE">
+		{
+		CALL PAY_AUCTION (
+			#{aplNo, mode=IN , jdbcType = VARCHAR},
+			#{rep, mode=OUT , jdbcType = VARCHAR},
+			#{title, mode=OUT , jdbcType = VARCHAR},
+			#{price, mode=OUT , jdbcType = VARCHAR}
+			)
+		}
+	</select>
 
 </mapper> 
