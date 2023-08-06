@@ -251,6 +251,9 @@ methods:{
 		.catch(err => console.log(err));
 	},
 	formatNumber(number) {
+		if (value === null || value === undefined) {
+        return '';
+    }
       return number.toLocaleString();
   }
 },
