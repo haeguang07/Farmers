@@ -263,7 +263,7 @@ methods:{
 		.catch(err => console.log(err));
 	},
 	formatNumber(number) {
-		if (value === null || value === undefined) {
+		if (number === null || number === undefined) {
         return '';
     }
       return String(number).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
