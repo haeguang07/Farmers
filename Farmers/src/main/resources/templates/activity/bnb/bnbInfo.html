@@ -314,11 +314,12 @@
 		/*<![CDATA[*/
 		let boardNo = /*[[${bnb.boardNo}]]*/ ;
 		let mem = /*[[${session.mem}]]*/ ;
+		let memList = /*[[${pay}]]*/ ;
 		let memNo = "";
 		if(mem !=null){
 			memNo= mem.memNo
 		}
-		console.log(memNo)
+		console.log(memNo);
 		/*]]>*/
 		
 		
@@ -490,7 +491,9 @@
 			$('#deleteButton').on('click', delPopUp);
 			//삭제 팝업 이벤트
 			function delPopUp(event) {
-				event.preventDefault();				Swal.fire({ title: '글을 정말 삭제하시겠습니까?' ,
+				if(memList.length<0){
+					event.preventDefault();
+					Swal.fire({ title: '글을 정말 삭제하시겠습니까?' ,
 						icon:'warning', 
 						showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
 						confirmButtonColor: '#d33', // confrim 버튼 색깔 지정
@@ -505,9 +508,11 @@
 						    console.log("삭제 취소");
 						}
 			 	 	})
+				}else{
+					Swal.fire({title: '삭제할 수 없습니다',text:'결제건이 존재합니다', icon:'warning', confirmButtonText:"확인"});
+				}
 			}
 						let seller = /*[[${bnb.memNo}]]*/ ;
-			$('#test').text(seller+memNo)
 			
 		// ------------------------- 결제하기 버튼 기능
 			$('#letPay').on('click', function() {
@@ -726,7 +731,7 @@
 			})
 			
 			//리뷰등록폼 - 결제한 사람만 보이기
-			let memList = /*[[${pay}]]*/ ;			
+			
 			memList.find(findMem);			
 			function findMem(element)  {
 			  if(element == memNo) {
