@@ -263,6 +263,7 @@ methods:{
 		.catch(err => console.log(err));
 	},
 	formatNumber(number) {
+			console.log(number)
 		if (number === null || number === undefined) {
         return '';
     }
