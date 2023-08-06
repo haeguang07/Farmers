@@ -75,9 +75,9 @@
 												<span th:text="${#numbers.formatInteger(flInfo.lendPrice, 1, 'COMMA')} + '원'" style="font-size: 20px;"></span>
 												<span>(연간)</span>
 											</p>
-											<div class="row mb-2">
+											<div class="row" style="justify-content: center;">
 												<th:block th:if="not ${#strings.isEmpty(session.mem)}">
-													<button type="button" class="btn btn-dark mr-2" style="width: 150px; float: left;" id="applyBtn" 
+													<button type="button" class="btn btn-success mr-2" style="width: 150px; float: left;" id="applyBtn" 
 														th:if="${session.mem.memNo} != ${flInfo.memNo}">신청하기</button>
 													<button type="button" class="btn btn-dark mr-2" style="width: 150px;" id="update" 
 														th:if="${session.mem.memNo} == ${flInfo.memNo} or ${session.mem.memGrd == 'b0'}">수정하기</button>

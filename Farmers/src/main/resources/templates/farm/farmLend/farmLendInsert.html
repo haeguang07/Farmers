@@ -61,6 +61,9 @@
     border-radius: 50%; /* 동그라미 모양을 위해 반지름 값을 50%로 설정 */
     background-color: lightgray;
 }
+.nice-select {
+	width: 110px;
+}
 </style>
 </head>
 	<div layout:fragment="content">
@@ -165,8 +168,10 @@
 									<ul id="fileList" style="list-style: none; padding: 10px;"></ul>
 									<input type="file" id="inputFile" name="files" style="display: none;" multiple>
 								</div>
-								<button type="button" class="btn btn-dark mr-2" id="addBtn">등록</button>
-								<button type="button" class="btn btn-dark" id="cancel">취소</button>
+								<div style="text-align: center;">
+									<button type="button" class="btn btn-success col-lg-2" id="addBtn">등록하기</button>
+									<button type="button" class="btn btn-dark col-lg-2" id="cancel">취소</button>
+								</div>
 							</div>
 						</div>
 					</form>

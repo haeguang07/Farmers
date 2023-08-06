@@ -51,6 +51,9 @@
 	white-space: nowrap;
 	width: 250px;
 }
+.nice-select {
+	width: 120px;
+}
 </style>
 </head>
 <body>
@@ -116,7 +119,7 @@
 												<option value="x1">과일</option>
 												<option value="x2">곡물</option>
 											</select>
-											<div class="col-7">
+											<div class="col-6">
 												<input type="text" class="form-control from-group"
 													id="search" placeholder="상품명을 입력하세요">
 											</div>
@@ -147,7 +150,7 @@
 						<div class="row">
 							<div class="col-lg-12">
 								<th:block th:if="not ${#strings.isEmpty(session.mem)}">
-									<button type="button" class="btn btn-dark"
+									<button type="button" class="btn btn-success"
 										style="width: 130px; height: 40px; float: right; 
 										margin-right: 30px; margin-bottom: 20px;"id="add"
 										th:if="${session.mem.memGrd == 'b1'} or ${session.mem.memGrd == 'b0'}">판매상품 등록</button>
