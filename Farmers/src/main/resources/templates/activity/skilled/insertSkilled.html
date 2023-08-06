@@ -406,7 +406,8 @@
 				return;
 			} else {
 				let formData = $('#myForm').serializeObject();
-
+				let price = $('[name="price"]').val();
+				formData.price = price.replace(/[^\d]+/g, "");
 				formData.img = dbPath;
 			
 				//ajax 금손 등록

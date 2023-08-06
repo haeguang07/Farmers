@@ -48,12 +48,7 @@
 				@click:row=info
    		 class="elevation-1"
 				>
-				<template v-slot:item.lendPrice="{ item }">
-    			{{ formatNumber(item.lendPrice) }}
-  			</template>
-				<template v-slot:item.area="{ item }">
-    			{{ formatNumber(item.area) }}
-  			</template>
+
 				<template v-slot:bottom>
       		<div class="text-center pt-2">
         		<v-pagination v-model="page" :length="pageCount"></v-pagination>
@@ -77,7 +72,7 @@
 								</tr>
 								<tr>
 									<th>신청인</th><td v-text="board.memNo"></td>
-									<th>가격(년)</th><td v-text="board.lendPrice"></td>
+									<th>가격(년)</th><td v-text="formatNumber(board.lendPrice)"></td>
 								</tr>
 								<tr>
 									<th>시작일</th><td v-text="board.lendStrDate"></td>
@@ -263,7 +258,11 @@ methods:{
 		.catch(err => console.log(err));
 	},
 	formatNumber(number) {
-      return number.toLocaleString();
+			console.log(number)
+		if (number === null || number === undefined) {
+        return '';
+    }
+      return String(number).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 },
   mounted(){

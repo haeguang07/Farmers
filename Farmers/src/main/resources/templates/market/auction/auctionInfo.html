@@ -349,7 +349,11 @@ label:has(.bidCount) {
 				if(value < 1000){
 					$('#bidPrice').val('1000');
 					$('#bidPrice').focus();
-					alert('입찰금액은 최소 1000원부터입니다.');
+					Swal.fire({
+						title: '입찰금액은 최소 1000원부터입니다.',
+						icon: 'warning',
+						confirmButtonText:"확인",
+					}).then((result) => {})
 				}else {
 					if(inputVal <= hBidVal){
 						alert('입찰 금액은 현재 최고 입찰가보다 높아야 합니다.');
@@ -360,10 +364,18 @@ label:has(.bidCount) {
 							let roundedValue = value - balence;
 							if(roundedValue <= hBidVal){
 								$('#bidPrice').val(roundedValue+500);
-								alert('입찰 금액은 현재 최고 입찰가보다 높고 500원 단위로 입력해야 합니다.');
+								Swal.fire({
+									title: '입찰 금액은 현재 최고 입찰가보다 높고 500원 단위로 입력해야 합니다.',
+									icon: 'warning',
+									confirmButtonText:"확인",
+								}).then((result) => {})
 							}else {
 								$('#bidPrice').val(roundedValue);
-								alert('500원 단위로 입력 가능합니다.');
+								Swal.fire({
+									title: '500원 단위로 입력 가능합니다.',
+									icon: 'warning',
+									confirmButtonText:"확인",
+								}).then((result) => {})
 							}
 						}else {
 							$('#bidPrice').val(inputVal);
@@ -384,7 +396,11 @@ label:has(.bidCount) {
 					dec = dec - 500;
 						if(dec == 1000){						
 						}else if(dec < 1000){
-							alert('입찰금액은 최소 1000원부터입니다.');
+							Swal.fire({
+								title: '입찰금액은 최소 1000원부터입니다.',
+								icon: 'warning',
+								confirmButtonText:"확인",
+							}).then((result) => {})
 							dec = 1000;
 						}
 					$('#bidPrice').val(dec);
@@ -412,10 +428,24 @@ label:has(.bidCount) {
 				let inputVal = $('#bidPrice').val();
 				
 				if(!bool){
-					alert('로그인 후 이용 가능합니다.');
-					return;
+					Swal.fire({
+						title: '로그인이 필요합니다.',
+						text: '확인을 누르시면 로그인 페이지로 이동합니다.',
+						icon: 'warning',
+						showCancelButton: true,
+						confirmButtonText:"확인",
+						cancelButtonText: "취소",
+					}).then((result) => {
+						if(result.isConfirmed){
+							location.href = `/login`;								
+						}
+					})
 				}else if(inputVal == ''){
-					alert('입찰 금액을 입력하세요.');
+					Swal.fire({
+						title: '입찰 금액을 입력하세요.',
+						icon: 'warning',
+						confirmButtonText:"확인",
+					}).then((result) => {})
 					return;
 				}else {
 						// APL_NO(시퀀스), MEM_NO(세션), ACT_NO(값), BID_PRICE(값), SBID_STTS(디폴트 값)
@@ -428,12 +458,16 @@ label:has(.bidCount) {
 						if(bidPrice < 1000){
 							event.preventDefault();
 							$('#bidPrice').val('1000');
-							alert('입찰금액은 최소 1000원입니다.');
+							Swal.fire({
+								title: '입찰금액은 최소 1000원부터입니다.',
+								icon: 'warning',
+								confirmButtonText:"확인",
+							}).then((result) => {})
 							$('#bidPrice').focus();
 						}else {
 							
 							$.ajax({
-								url: "bidAuction",
+								url: "/add/bidAuction",
 								method: "POST",
 								headers: {
 									'Content-Type' : 'application/json'
@@ -441,8 +475,30 @@ label:has(.bidCount) {
 								data: JSON.stringify(vo),
 								success(data){
 									console.log(data);
-									alert('입찰이 완료되었습니다. 입찰 내역은 마이페이지에서 확인 가능합니다.');
-									$('.highestBid').text(inputVal);
+									
+									$.ajax({
+										url: "/procedure/bidAuction",
+										method: "POST",
+										data: vo,
+										success: function(result){
+											Swal.fire({
+												title: '입찰이 완료되었습니다.',
+												text: '입찰 내역은 마이페이지에서 확인 가능합니다. 마이페이지로 이동하시겠습니까?',
+												icon: 'success',
+												showDenyButton: true,
+												confirmButtonText:"네",
+												denyButtonText: '아니오',
+											}).then((result) => {
+												if(result.isConfirmed){
+													location.href = `/myPage/myAuctionForm?memNo=mem.memNo`;
+												}
+											})
+											$('.highestBid').text(inputVal);
+										},
+										error: function(result){
+											console.log(result);
+										}
+									})
 								},
 								error(reject){
 									console.log(reject);

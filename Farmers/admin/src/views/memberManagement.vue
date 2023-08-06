@@ -70,26 +70,28 @@
 				<button @click="changeBtn" class="btn btn-success">변경하기</button>
 			</div>
 		</div>
+		<div style="clear: both;"></div>
 		<v-data-table
 			v-model="selected"
 			v-model:page="page"
     	v-model:items-per-page="itemsPerPage"
     	:headers="headers"
     	:items="memberList"
-   		item-value="memNo"
 			no-data-text="조회된 회원이 없습니다"
 			return-object
     	show-select
 			hide-default-footer
 			@click:row=info
-   		class="elevation-1"
-			style="clear: both;">
-
-			<template v-slot:bottom>
-				<div class="text-center pt-2">
-					<v-pagination v-model="page" :length="pageCount"></v-pagination>
+   		class="elevation-1">
+			 <template v-slot:bottom>
+      <div class="text-center pt-2">
+        <v-pagination
+          v-model="page"
+          :length="pageCount"
+        ></v-pagination>
 				</div>
-			</template>
+				</template>
+			
 			
 		</v-data-table>
 				
