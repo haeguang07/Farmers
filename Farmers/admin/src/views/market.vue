@@ -49,6 +49,7 @@
    		 class="elevation-1"
 				>
 				<template v-slot:item.price="{ item }">
+					{{ console.log("Item for lendPrice:", item) }}
     			{{ formatNumber(item.price) }}
   			</template>
 				<template v-slot:bottom>
@@ -248,7 +249,7 @@ methods:{
 		.catch(err => console.log(err));
 	},
 	formatNumber(number) {
-		if (value === null || value === undefined) {
+		if (number === null || number === undefined) {
         return '';
     }
       return number.toLocaleString();
