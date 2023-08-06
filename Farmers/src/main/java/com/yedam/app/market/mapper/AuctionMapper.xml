@@ -72,7 +72,7 @@
 			FROM dual
 		</selectKey>
 		INSERT INTO auction_apply
-		VALUES (#{aplNo}, #{memNo}, #{boardNo}, #{price}, 'F1')
+		VALUES (#{aplNo}, #{memNo}, #{boardNo}, #{price}, 'F0')
 	</insert>
 	
 	<!-- 다음 경매 리스트 조회 -->
@@ -121,7 +121,7 @@
 				 , #{shipDurAvg}
 				 , #{shipDurMax}
 				 , #{rep}
-				 , 'e1'
+				 , 'e0'
 				)
 	</insert>
 	<update id="updateAuctionReg">
@@ -132,25 +132,33 @@
  		]]>
 	</update>
 	
-	<!-- 즉시 구매 프로시저 (pay_no로 조회) -->
+	<!-- 즉시 구매 프로시저 -->
 	<select id="buyAuctionAlert" statementType="CALLABLE"
-		parameterType="PaymentVO" resultType="PaymentVO">
-		<!-- {
-		CALL buyAuctionAlert(
-		#{payNo, mode=IN, jdbcType=VARCHAR},
-		#{boardCtg,mode=OUT , jdbcType=VARCHAR},
-		#{totalPayPrice, mode=OUT ,jdbcType=VARCHAR},
-		#{payMthd, mode=OUT ,jdbcType=VARCHAR},
-		#{payDate,mode=OUT , jdbcType=DATE},
-		#{boardNo,mode=OUT , jdbcType=VARCHAR},
-		#{title, mode=OUT , jdbcType=VARCHAR},
-		#{rep, mode=OUT ,jdbcType=VARCHAR},
-		#{count, mode=OUT ,jdbcType=VARCHAR}
-		)
-
-		} -->
+		parameterType="AuctionVO">
+		{
+			CALL buyAuctionAlert(
+				#{memNo, mode=IN, jdbcType=VARCHAR},
+				#{boardNo, mode=IN, jdbcType=VARCHAR},
+				#{price, mode=IN, jdbcType=INTEGER}
+			)
+		}
 	</select>
 
+	<!-- 입찰 완료 시 프로시저 -->
+	<select id="bidAuctionAlert" statementType="CALLABLE"
+		parameterType="AuctionVO">
+		{
+			CALL bidAuctionAlert(
+				#{memNo, mode=IN, jdbcType=VARCHAR},
+				#{boardNo, mode=IN, jdbcType=VARCHAR},
+				#{price, mode=IN, jdbcType=INTEGER}
+			)
+		}
+	</select>
 	
+	<!-- 경매 종료일 매 00시마다 스케줄러 -->
+	<select id="expiredAuction" statementType="CALLABLE">
+		{CALL expiredAuction()}
+	</select>
 
 </mapper>
