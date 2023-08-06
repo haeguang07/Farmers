@@ -41,4 +41,8 @@ public interface AuctionMapper {
 	
 	// 경매종료일 스케줄러
 	public void expiredAuction();
+	
+	// 경매 종료 후 24시간내 미결제 시 스케줄러
+	public void expiredAuctionPay();
+	
 }
