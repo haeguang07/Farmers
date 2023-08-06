@@ -22,5 +22,7 @@ public interface SkilledService {
 	public boolean applySkilled(SkilledVO vo);
 	// 신청인 조회
 	public List<SkilledVO> applyList(String boardNo);
+	// 즉시 수락 시 게시글 상태 변경
+	public boolean updateStts(String boardNo);
 	
 }

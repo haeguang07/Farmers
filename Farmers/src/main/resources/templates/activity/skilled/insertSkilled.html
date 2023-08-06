@@ -49,6 +49,10 @@
 <script src="/js/otherPlugins/sweetAlert2-11.4.10.js"></script>
 
 <style>
+.nice-select {
+	width: 149px;
+}
+
 .href {
 	font-weight: 900;
 	color: black;
@@ -115,7 +119,7 @@
 														<div class="col-md-6">
 															<select class="form-control col-1.5 mr-2"
 																aria-label="Default select example" name="dst1" id="dst1">
-																<option value="" selected="selected">도</option>
+																<option value="" selected="selected">도 전체</option>
 																<option value="k0">경기도</option>
 																<option value="k1">강원특별자치도</option>
 																<option value="k2">충청북도</option>
@@ -134,7 +138,7 @@
 															<!-- 지역2 선택창 -->
 															<select class="form-control form-group col-1.5 mr-2"
 																aria-label="Default select example" name="dst2" id="dst2">
-																<option value="">시·군</option>
+																<option value="">시·군 전체</option>
 															</select>
 														</div>
 													</div>
@@ -221,9 +225,8 @@
 														<p class="myInline col-lg-3 mb-0 textLeft">금액</p>
 													</div>
 													<div class="row col-md-9">
-														<input type="number" step="100"
-															class="form-control col-md-4" name="price" value="0"
-															min="100">
+														<input type="text"
+															class="form-control col-md-4" name="price" value="0">
 													</div>
 												</div>
 											</div>
@@ -301,7 +304,7 @@
 					// 지역2 select box 출력
 					if(data.dst2) {
 						$('#dst2').empty();
-						$('#dst2').append(`<option value="">시·군</option>`);
+						$('#dst2').append(`<option value="">시·군 전체</option>`);
 						$(data.dst2).each((idx, item) => {
 							if(item.cmmnDetaCode == dst2){
 								$('#dst2').append(`<option value="${item.cmmnDetaCode}" selected>${item.codeDesct}</option>`)
@@ -428,6 +431,26 @@
 				})
 			}
 		})
+		
+		// 금액 세 자리 콤마
+	    function numberWithCommas(x) {
+	      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+	    }
+	
+	    // 입력된 숫자를 쉼표가 포함된 형식으로 변환하는 함수
+	    function formatNumber(input) {
+	      var inputValue = input.value.replace(/,/g, ''); // 입력 값에서 쉼표(,) 제거
+	      var numberValue = parseInt(inputValue, 10); // 정수로 변환
+	      if (!isNaN(numberValue) && isFinite(numberValue)) {
+	        var formattedValue = numberWithCommas(numberValue); // 쉼표(,)를 추가하여 포맷팅
+	        input.value = formattedValue; // 포맷팅된 값을 입력 필드에 설정
+	      }
+	    }
+	
+	    // input 이벤트를 사용하여 입력 값 변화 감지
+	    $('[name="price"]').on('change', function() {
+	      formatNumber(this);
+	    });
 	</script>
 
 </body>

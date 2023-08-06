@@ -263,7 +263,8 @@ h5:has(.countdown) {
 				<div class="product__item__text">
 
 					<span class="card-nick" style="font-size: small;"> 닉네임 </span> | <span
-						class="card-dst2" style="font-size: small;">지역2</span>
+						class="card-dst1" style="font-size: small;">지역1</span>&nbsp;<span
+						class="card-dst2" style="font-size: small;"></span>
 					<p class="hidden card-boardNo"></p>
 					<p style="font-weight: 900; margin-bottom: 0;" class="card-title">제목</p>
 					<p style="font-size: small;" class="card-text">본문</p>
@@ -323,8 +324,9 @@ h5:has(.countdown) {
 					div = 'o1';
 				}else {
 					// console.log('wanted');
-					div = 'o0'
+					div = 'o0';
 				}
+				$('#check1').prop("checked", false);
 				goldData(div, 1);
 			})
 			
@@ -400,7 +402,22 @@ h5:has(.countdown) {
 				})
 				$(clone).find('.card-boardNo').text(item.boardNo);
 				$(clone).find('.card-nick').text(item.nick);
-				$(clone).find('.card-dst2').text(item.dst2);
+				
+				let dst1 = item.dst1Name;
+				console.log(dst1);
+				
+				if(item.dst1Name === null){
+					$(clone).find('.card-dst1').text('전체');
+				} else if (item.dst1Name != ''){
+					if(item.dst2 === null){
+						$(clone).find('.card-dst1').text(item.dst1Name);
+						$(clone).find('.card-dst2').text('전체');
+					}else {
+						$(clone).find('.card-dst1').text(item.dst1Name);
+						$(clone).find('.card-dst2').text(item.dst2);
+					}
+				}
+
 				$(clone).find('.card-dayDiv').text(item.dayDiv);
 				$(clone).find('.card-wageDiv').text(item.wageDiv);
 				$(clone).find('.card-title').text(item.title);

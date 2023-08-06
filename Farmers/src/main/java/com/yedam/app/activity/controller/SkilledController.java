@@ -175,5 +175,21 @@ public class SkilledController {
 		return map;
 	}
 	
+	// 즉시 수락 처리
+	@PostMapping("/confirm/Skilled")
+	@ResponseBody
+	public Map<String, Object> updateStts(String boardNo){
+		Map<String, Object> map = new HashMap<>();
+		boolean result = skilledService.updateStts(boardNo);
+		
+		if(result) {
+			map.put("retCode", "Success");
+		} else {
+			map.put("retCode", "Fail");
+		}
+		
+		return map;
+	}
+	
 	
 }
