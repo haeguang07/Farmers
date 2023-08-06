@@ -73,10 +73,17 @@ public class AuctionServiceImpl implements AuctionService {
 		auctionMapper.bidAuctionAlert(vo);
 	}
 	
-	@Scheduled(cron = "0 0 0 * * ?")
+	@Scheduled(cron = "0 0 0 * * ?") // 매일 자정마다 실행 스케줄러
 	@Override
 	public void expiredAuction() {
 		auctionMapper.expiredAuction();
-		System.out.println("11111111");
+		System.out.println("111 expiredAuction exe");
+	}
+	
+	@Scheduled(cron = "0 0 0 * * ?")
+	@Override
+	public void expiredAuctionPay() {
+		auctionMapper.expiredAuctionPay();	
+		System.out.println("222 expiredAuctionPay exe");
 	}
 }

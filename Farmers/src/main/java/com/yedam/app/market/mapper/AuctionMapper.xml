@@ -160,5 +160,9 @@
 	<select id="expiredAuction" statementType="CALLABLE">
 		{CALL expiredAuction()}
 	</select>
-
+	
+	<!-- 경매 종료 후 24시간 내 미결제 시 스케줄러 -->
+	<select id="expiredAuctionPay" statementType="CALLABLE">
+		{CALL expiredAuctionPay()}
+	</select>
 </mapper>
