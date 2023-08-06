@@ -100,7 +100,7 @@
         <span class="close">&times;</span>
         <div v-if="Object.keys(member).length>0">
           <div>
-						<table class="table">
+						<table class="table" style="margin-bottom: 0px;">
 							<tbody>
 								<tr>
 									<th>회원번호</th><td v-text="member.memNo"></td>
@@ -125,8 +125,8 @@
 								<option value="이미지가 정확하지 않습니다">이미지가 정확하지 않습니다</option>
 								<option value="주소지와 등본의 주소가 일치하지 않습니다">주소지와 등본의 주소가 일치하지 않습니다</option>
 							</select>
-							<button class="btn btn-primary mb-3 mx-3" @click="refusal1" v-show="btnShow">승인거부</button>
-							<button class="btn btn-primary mb-3 mx-3" @click="refusal2" v-show="!btnShow">승인거부</button>
+							<button class="btn btn-danger mb-3 mx-3" @click="refusal1" v-show="btnShow">승인거부</button>
+							<button class="btn btn-danger mb-3 mx-3" @click="refusal2" v-show="!btnShow">승인거부</button>
 						</div>
 						<div v-else>
 							<button class="btn btn-primary mb-3 mx-3" @click="back">돌아가기</button>
@@ -159,12 +159,12 @@ export default{
 			grade:'',gradeList:[],
 			stts:'',sttsList:[],
       headers:[{title: '아이디',key: 'id',},
-	        { title: '성별',key: 'gen'},
-	        {title: '등급',key: 'memGrd'},
-					{title: '가입일', key: 'signDate'},
+	        { title: '성별',key: 'gen',align: 'center'},
+	        {title: '등급',key: 'memGrd',align: 'center'},
+					{title: '가입일', key: 'signDate',align: 'center'},
 					{title: '회원가입경로',key: 'loginPath'},
 	        {title: '닉네임', key: 'nick'},
-	        {title: '상태',key: 'stts'}
+	        {title: '상태',key: 'stts',align: 'center'}
 	      ]
     }
   },
@@ -241,7 +241,7 @@ methods:{
 	refusal2(){
 		let obj ={
 			memNo : this.member.memNo,
-			alertTitle: '등업신청이 거부되었습니다',
+			alrtTitle: '등업신청이 거부되었습니다',
 			alrtDesct: this.reason,
 			boardCtg: 'g16'
 		}
@@ -304,20 +304,34 @@ methods:{
 .body{
 	padding: 10px;
 }
-
-/* The Modal (background) */
+img{
+	max-width: 600px;
+}
+/* 모달안 크기 제한 */
+.desct{
+	max-width: 600px;
+	overflow: auto;
+}
+/* 글자수 */
+.text-overflow {
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* 모달 */
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 100000000; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
+  display: none; 
+  position: fixed; 
+  z-index: 100000000; 
+  padding-top: 100px; 
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.4);
 }
 
 /* Modal Content */
@@ -332,7 +346,7 @@ table{
 	margin: 0 auto;
 }
 
-/* The Close Button */
+/* X  버튼 */
 .close {
   color: #aaaaaa;
   float: right;

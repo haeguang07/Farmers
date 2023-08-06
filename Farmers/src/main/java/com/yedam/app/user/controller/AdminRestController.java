@@ -55,14 +55,12 @@ public class AdminRestController {
 			list2.remove(arr[i]);
 		}
 		code.put("0E", list2);
-		System.out.println(code);
 		return code;
 	}
 
 	// 회원조회
 	@GetMapping("/admin/members")
 	public Map<String, Object> memberList(AdminSearchVO searchVO) {
-		System.out.println(searchVO);
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<MemberVO> list = adminService.getMemberList(searchVO);
 		Map<String, List<CodeVO>> codeMap = codeService.getCodes("0B", "0C");
@@ -74,14 +72,12 @@ public class AdminRestController {
 	// 회원수정
 	@PutMapping("/admin/members/update")
 	public List<MemberVO> memberUpdate(@RequestBody List<MemberVO> list) {
-		System.out.println(list);
 		return adminService.modifyMemberStts(list);
 	}
 
 	// 문의 조회
 	@GetMapping("/admin/inquiryAdmin")
 	public List<InquiryVO> inquiryAdmin(AdminSearchVO searchVO) {
-		System.out.println(searchVO);
 		return adminService.getInqueryList(searchVO);
 	}
 
@@ -130,7 +126,6 @@ public class AdminRestController {
 	// 경매장
 	@GetMapping("admin/auctions")
 	public List<AuctionVO> getAuctions(AdminSearchVO vo) {
-		System.out.println(vo);
 		return adminService.getAuctionList(vo);
 	}
 
@@ -149,7 +144,6 @@ public class AdminRestController {
 	// 동적으로 승인/거부
 	@PutMapping("admin/chageRegStatus")
 	public Map<String, Object> chageRegStatus(@RequestBody List<UpdateSttsVO> list) {
-		System.out.println(list);
 		return adminService.chageStatus(list);
 	}
 

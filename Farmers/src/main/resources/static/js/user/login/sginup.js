@@ -29,8 +29,6 @@
 								if(data.retCode=='Success'){
 									num = data.random;
 									console.log(num);															
-								}else{
-									Swal.fire({ title: '유효하지 않는 이메일입니다' , icon: 'error',confirmButtonText:"확인"});
 								}
 							})
 							.catch(err=> console.log(err))
@@ -191,7 +189,6 @@
 				let zip =post.val();
 				let mblVal= mbl.val();
 				if(zip=='' || mblVal==''){
-					if(!confirm('이대로 회원가입하시겠습니까?')){return}
 					Swal.fire({title: '아직 입력하지 않은 정보가 있습니다. 이대로 회원가입하시겠습니까?' ,
 						  icon: 'warning',
 						  confirmButtonText:"예", 

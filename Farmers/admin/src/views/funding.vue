@@ -41,7 +41,7 @@
     		:headers="headers"
     		:items="boardList"
    		  item-value="boardNo"
-				 no-data-text="조회된 펀딩이 없습니다"
+				no-data-text="조회된 펀딩이 없습니다"
 				return-object
     		show-select
 				hide-default-footer
@@ -63,38 +63,44 @@
       <div class="modal-content">
         <span class="close">&times;</span>
         <div v-if="Object.keys(board).length>0">
-          <div >
-            <div class="row">
-              <div class="col-5 row"><span class="col-3">신청번호</span><span class="col-5">{{board.boardNo}}</span></div>
-              <div class="col-5 row"><span class="col-3">신청일자</span><span class="col-5">{{board.regDate}}</span></div>
-              <div class="col-5 row"><span class="col-3">신청인</span><span class="col-5">{{board.memNo}}</span></div>
-            </div>
-            <div class="row">
-              <div class="col-7 row"><span class="col-3">제목</span><span class="col-7">{{board.title}}</span></div>
-              <div class="col-3 row"><span class="col-3">배송시작시간</span><span class="col-5">{{board.shipStrDate}}</span></div>
-            </div>
-						<div class="row">
-              <div class="col-5 row"><span class="col-3">펀딩목표금액</span><span class="col-5">{{board.fndStrDate}}</span></div>
-              <div class="col-5 row"><span class="col-3">펀딩가격</span><span class="col-5">{{board.fndEndDate}}</span></div>
-            </div>
-            <div class="row">
-              <div class="col-5 row"><span class="col-3">펀딩시작시간</span><span class="col-5">{{board.fndStrDate}}</span></div>
-              <div class="col-5 row"><span class="col-3">펀딩종료시간</span><span class="col-5">{{board.fndEndDate}}</span></div>
-            </div>
-
-            <div class="row">
-              <div class="col-2" style="padding-left: 20px;">상세내용</div>
-							<div class="col-8" style="overflow: auto; height: 350px;" v-html="board.desct"></div>
-            </div>
+          <div>
+						<table class="table" style="margin-bottom: 0px;">
+							<tbody>
+								<tr>
+									<th>신청번호</th><td v-text="board.boardNo"></td>
+									<th>신청일자</th><td v-text="board.regDate"></td>
+									<th>신청인</th><td v-text="board.memNo"></td>
+								</tr>
+								<tr>
+									<th>제목</th><td colspan="3" v-text="board.title"></td>
+									<th>배송일</th><td v-text="board.shipStrDate"></td>
+								</tr>
+							</tbody>
+						</table>
+						<table class="table">
+							<tbody>
+								<tr>
+									<th>목표금액</th><td v-text="formatNumber(board.goalPrice)"></td>
+									<th>펀딩가격</th><td>{{ formatNumber(board.fndPrice) }}</td>
+								</tr>
+								<tr>
+									<th>시작일</th><td v-text="board.fndStrDate"></td>
+									<th>종료일</th><td v-text="board.shipStrDate"></td>
+								</tr>
+								<tr>
+									<th>상세내용</th><td colspan="3" class="desct" v-html="board.desct"></td>
+								</tr>
+							</tbody>
+						</table>
             <div class="text-end">
               <div v-if="board.regStts=='승인 대기'" >
                 <button v-show="btnShow" class="btn btn-success mb-3 mx-3" @click="apply">승인</button>
                 <select v-model="reason" v-show="!btnShow">
-                  <option value="부적절한 펀딩품목입니다">부적절한 펀딩품목입니다</option>
-                  <option value="펀딩내용이 정확하지 않습니다">펀딩내용이 정확하지 않습니다</option>
+                  <option value="정보 누락 또는 오류">정보 누락 또는 오류</option>
+                  <option value="부적절한 내용이 있습니다">부적절한 내용</option>
                 </select>
-                <button class="btn btn-primary mb-3 mx-3" @click="refusal1" v-show="btnShow">승인거부</button>
-                <button class="btn btn-primary mb-3 mx-3" @click="refusal2" v-show="!btnShow">승인거부</button>
+                <button class="btn btn-danger mb-3 mx-3" @click="refusal1" v-show="btnShow">승인거부</button>
+                <button class="btn btn-danger mb-3 mx-3" @click="refusal2" v-show="!btnShow">승인거부</button>
               </div>
               <div v-else>
                   <button class="btn btn-primary mb-3 mx-3" @click="back">돌아가기</button>
@@ -126,12 +132,12 @@ export default{
 			dst2:'',dst2List:[],
       dst2All:{},regSttsList:[],stts:'',
       headers:[
-	        {title: '번호',key: 'boardNo',},
+	        {title: '번호',key: 'boardNo',align: 'center'},
 	        {title: '제목', key: 'title'},
-					{title: '시작시간', key: 'fndStrDate'},
-					{title: '종료시간',key: 'fndEndDate' },
-          {title: '신청일자',key: 'regDate' },
-	        {title: '상태',key: 'regStts'}
+					{title: '시작시간', key: 'fndStrDate',align: 'center'},
+					{title: '종료시간',key: 'fndEndDate',align: 'center' },
+          {title: '신청일자',key: 'regDate',align: 'center' },
+	        {title: '상태',key: 'regStts',align: 'center'}
 	      ]
     }
   },
@@ -201,7 +207,7 @@ methods:{
 		let obj ={
 			boardNo : this.board.boardNo,
 			memNo: this.board.memNo,
-			alertTitle: '신청이 거부되었습니다',
+			alrtTitle: '신청이 거부되었습니다',
 			alrtDesct: this.reason,
 			boardCtg: 'g0e',
 			tableName:'funding',
@@ -245,7 +251,10 @@ methods:{
 			this.boardList = response.data;
 		})
 		.catch(err => console.log(err));
-	}
+	},
+	formatNumber(number) {
+      return number.toLocaleString();
+  }
 },
   mounted(){
 		this.dst1List = this.$store.state.dst1;

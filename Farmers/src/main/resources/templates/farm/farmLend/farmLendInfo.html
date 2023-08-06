@@ -12,6 +12,9 @@
 	height: 300px;
 	margin: 20px 5px;
 }
+#desct {
+	white-space: pre-line;
+}
 </style>
 </head>
 <body>
@@ -45,7 +48,7 @@
 									<div class="col-lg-12">
 										<div class="product__details__text">
 											<div class="row">
-												<h4 class="textLeft col-lg-9" th:text="${flInfo.addr} + ' ' + ${flInfo.detaAddr}" style="display: inline; text-align: left; font-size: 30px;">상품명</h4>
+												<h4 class="textLeft col-lg-8" th:text="${flInfo.addr} + ' ' + ${flInfo.detaAddr}" style="display: inline; text-align: left; font-size: 30px;">상품명</h4>
 												<p style="margin-bottom: 20px;" class="mr-2"><b style="font-size: 15px;">작성자</b> <span th:text="${flInfo.nick}">작성자</span></p>
 												<p style="margin-bottom: 20px;"><b style="font-size: 15px;">작성일자</b> <span th:text="${#dates.format(flInfo.regDate, 'yyyy/MM/dd')}">작성일자</span></p>
 											</div>
@@ -65,7 +68,7 @@
 											</div>
 											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">면적 : </b><span th:text="${flInfo.area}"></span> <span>(m²)</span></p>
 											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">주요 재배 작물 : </b> <span th:text="${flInfo.mcrp}">작물 목록</span></p>
-											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">부가 설명 : </b> <span th:text="${flInfo.desct}">내용</span></p>
+											<pre style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">부가 설명 : </b> <span th:text="${flInfo.desct}" id="desct">내용</span></pre>
 											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">대여 기간 : </b> 
 												<span th:text="|${#dates.format(flInfo.lendStrDate, 'yyyy/MM/dd')} ~ ${#dates.format(flInfo.lendEndDate, 'yyyy/MM/dd')}|">대여 시작 ~ 종료 일자</span></p>
 											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">대여 가격 : </b> 

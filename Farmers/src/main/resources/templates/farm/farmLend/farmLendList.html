@@ -11,6 +11,21 @@
   	max-height: 400px;
   	overflow: scroll !important;
 }
+.farmAddr {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 190px;
+}
+.nice-select {
+	width: 150px;
+}
+.nice-select .current {
+	display : block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
 </style>
 </head>
 <body>
@@ -123,7 +138,7 @@
 					<th id="thNumber">번호</th>
 					<th id="thAddr">주소</th>
 					<th id="thCrops">재배 작물</th>
-					<th id="thArea">면적</th>
+					<th id="thArea">면적(m²)</th>
 					<th id="thPrice">가격</th>
 					<th id="thDate">대여기간</th>
 				</tr>
@@ -131,7 +146,7 @@
 			<tbody class="hideItem" id="farmLendItem">
 				<tr>
 					<td id="number">번호</td>
-					<td id="addr">주소지</td>
+					<td id="addr" class="farmAddr">주소지</td>
 					<td id="crops">재배 작물</td>
 					<td id="area2">면적</td>
 					<td id="price2">가격</td>
@@ -209,7 +224,8 @@
 				$(head).find('#thNumber').html('번호');
 				$(head).find('#thAddr').html('주소');
 				$(head).find('#thCrops').html('재배 작물');
-				$(head).find('#thArea').html('면적');
+				$(head).find('#thArea').html('면적(m²)');
+				//toLowerCase(thArea);
 				$(head).find('#thPrice').html('가격');
 				$(head).find('#thDate').html('대여기간');
 				
@@ -230,12 +246,12 @@
 				
 				$(clone).find('#number').text(index + 1);
 				let address = $(clone).find('#addr').text(item.addr + ', ' + item.detaAddr);
-				address.html(address.html().replace(', ', '<br>'));
+				//address.html(address.html().replace(', ', '<br>'));
 				$(clone).find('#crops').text(item.mcrp);
-				$(clone).find('#area2').text(priceToString(item.area) + '(m²)');
+				$(clone).find('#area2').text(priceToString(item.area));
 				$(clone).find('#price2').text(priceToString(item.lendPrice) + '원');
 				let date = $(clone).find('#date').text(item.lendStrDate + ' ~ ' + item.lendEndDate);
-				date.html(date.html().replace('~', '<br>~<br>'));
+				//date.html(date.html().replace('~', '<br>~<br>'));
 				
 				function priceToString(price) {
 					return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -292,7 +308,7 @@
 					$(clone).text(i);
 					if(i == pageData.pageNum) {
 						$(clone).addClass('active');
-						$(clone).css('border-color', 'orange');
+						$(clone).css('border-color', 'green');
 					}
 					$(clone).on('click', function() {
 						getCondition(i);
