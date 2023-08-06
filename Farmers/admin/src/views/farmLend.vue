@@ -266,7 +266,7 @@ methods:{
 		if (value === null || value === undefined) {
         return '';
     }
-      return number.toLocaleString();
+      return String(number).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 },
   mounted(){
