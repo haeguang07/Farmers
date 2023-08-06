@@ -304,7 +304,11 @@
 							}
 						})
 					} else {
-						alert('이미지만 등록 가능합니다')
+						Swal.fire({
+							title: '이미지만 등록 가능합니다.',
+							icon: 'warning',
+							confirmButtonText:"확인"
+						}).then((result) => {})
 					}
 				}
 

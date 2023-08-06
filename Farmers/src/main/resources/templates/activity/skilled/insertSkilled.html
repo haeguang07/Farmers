@@ -225,9 +225,8 @@
 														<p class="myInline col-lg-3 mb-0 textLeft">금액</p>
 													</div>
 													<div class="row col-md-9">
-														<input type="number" step="100"
-															class="form-control col-md-4" name="price" value="0"
-															min="100">
+														<input type="text"
+															class="form-control col-md-4" name="price" value="0">
 													</div>
 												</div>
 											</div>
@@ -432,6 +431,26 @@
 				})
 			}
 		})
+		
+		// 금액 세 자리 콤마
+	    function numberWithCommas(x) {
+	      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+	    }
+	
+	    // 입력된 숫자를 쉼표가 포함된 형식으로 변환하는 함수
+	    function formatNumber(input) {
+	      var inputValue = input.value.replace(/,/g, ''); // 입력 값에서 쉼표(,) 제거
+	      var numberValue = parseInt(inputValue, 10); // 정수로 변환
+	      if (!isNaN(numberValue) && isFinite(numberValue)) {
+	        var formattedValue = numberWithCommas(numberValue); // 쉼표(,)를 추가하여 포맷팅
+	        input.value = formattedValue; // 포맷팅된 값을 입력 필드에 설정
+	      }
+	    }
+	
+	    // input 이벤트를 사용하여 입력 값 변화 감지
+	    $('[name="price"]').on('change', function() {
+	      formatNumber(this);
+	    });
 	</script>
 
 </body>

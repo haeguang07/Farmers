@@ -109,7 +109,9 @@
 								<div class="col-lg-12">
 									<div class="product__details__text">
 										<div class="row">
-											<h4>금손귀농인</h4>&nbsp;<h4 th:text="${goldInfo.div}"></h4>
+											<h4>금손귀농인</h4>
+											&nbsp;
+											<h4 th:text="${goldInfo.div}"></h4>
 											<br> <br>
 											<div class="row col-lg-12">
 												<div class="col-md-6">
@@ -144,10 +146,21 @@
 													<p class="col-lg-3 mb-0 text-left">✅ 지역</p>
 												</div>
 												<div class="row col-md-9">
-													<label class="form-check-label text-left"><span
-														th:text="${goldInfo.dst1Name}"></span></label> <label
-														class="form-check-label col-lg-6 col-md-6 text-left"><span
-														th:text="${goldInfo.dst2}"></span></label>
+													<th:block th:if="${goldInfo.dst1Name == null}">
+														<label class="form-check-label text-left"> <span>전체</span>
+														</label>
+													</th:block>
+													<th:block th:unless="${goldInfo.dst1Name == null}">
+														<label class="form-check-label text-left"><span
+															th:text="${goldInfo.dst1Name}"></span></label>
+														<label class="form-check-label text-left"> <span
+															th:if="${goldInfo.dst2 == null}">&nbsp;&nbsp;&nbsp;&nbsp;전체</span></label>
+														<label
+															class="form-check-label col-lg-6 col-md-6 text-left">
+															<span th:if="${goldInfo.dst2 != null}"
+															th:text="${goldInfo.dst2}"></span>
+														</label>
+													</th:block>
 												</div>
 											</div>
 										</div>
@@ -216,12 +229,15 @@
 											<div style="margin-top: 30px;"
 												th:if="${session.mem.memNo} != ${goldInfo.memNo}">
 												<div class="row">
-													<span class="col"></span>
-													<span class="col-md-4 right smallChar" th:if="${applyer=='Y'}">이미 신청한 게시글입니다.</span>												
+													<span class="col"></span> <span
+														class="col-md-4 right smallChar" th:if="${applyer=='Y'}">이미
+														신청한 게시글입니다.</span>
 												</div>
 												<button type="button" class="btn btn-success" id="applyBtn"
-													th:if="${goldInfo.cndt == '신청 대기'}" th:disabled="${applyer=='Y'} ? 'disabled'">신청</button>
-												<button type="button" class="btn btn-success" th:onclick="applyConfirm()"
+													th:if="${goldInfo.cndt == '신청 대기'}"
+													th:disabled="${applyer=='Y'} ? 'disabled'">신청</button>
+												<button type="button" class="btn btn-success"
+													th:onclick="applyConfirm()"
 													th:if="${goldInfo.cndt == '즉시 수락'}">수락</button>
 												<button type="button" class="btn btn-light"
 													th:onclick="closeBtn()">닫기</button>
@@ -323,7 +339,7 @@
 			
 			Swal.fire({
 				title: '즉시 수락하시겠습니까?',
-				text: '즉시 수락의 경우, 작성자의 별도 수락 없이 바로 계약이 진행되며 신청 취소가 불가합니다. 진행하시겠습니까?',
+				text: '즉시 수락의 경우, 작성자의 별도 수락 없이 바로 계약이 진행됩니다. 수락하시겠습니까?',
 				icon: 'info',
 				showDenyButton: true,
 				confirmButtonText: '네',

@@ -12,6 +12,7 @@
 						SELECT s.board_no
 				  			   , m.nick
 						       , s.dst1
+						       , FIND_CODE_NAME(s.dst1) dst1Name
 						       , FIND_CODE_NAME(s.dst2) dst2
 						       , s.title
 						       , s.desct

@@ -169,7 +169,7 @@
 										</div>
 										<div style="margin-top: 30px;">
 											<button type="button" class="btn btn-success" th:onclick="applySkilled()">신청</button>
-											<button type="button" class="btn btn-light">닫기</button>
+											<button type="button" class="btn btn-light" th:onclick="closeBtn()">닫기</button>
 										</div>
 									</div>
 								</div>
@@ -261,6 +261,12 @@
 				}
 			})
 		}
+		
+		// 닫기 클릭 시 모달창 닫기
+		function closeBtn(){
+			parent.closePopUp();
+		}
+		
 	</script>
 
 </body>
