@@ -10,6 +10,9 @@
   	max-height: 400px;
   	overflow: scroll !important;
 }
+.nice-select {
+	width: 110px;
+}
 </style>
 </head>
 	<div layout:fragment="content">
@@ -84,8 +87,10 @@
 									<p style="display: inline; vertical-align: middle;">(연간)</p>
 								</div>
 								<p><b style="font-size: 25px;">합계 : <span id="sumPrice" style="line-height: 40px;"></span></b></p>
-								<button type="button" class="btn btn-dark mr-2" id="saveBtn">저장</button>
-								<button type="button" class="btn btn-dark" id="cancel">취소</button>
+								<div style="text-align: center;">
+									<button type="button" class="btn btn-success col-lg-2" id="saveBtn">저장하기</button>
+									<button type="button" class="btn btn-dark col-lg-2" id="cancel">취소</button>
+								</div>
 							</div>
 						</div>
 					</form>
