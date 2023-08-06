@@ -78,7 +78,7 @@
 						<table class="table" style="margin-bottom: 0px;">
 							<tbody>
 								<tr>
-									<th>제목</th><td colspan="3" v-text="board.title"></td>
+									<th>제목</th><td colspan="3" v-text="board.title" class="text-start"></td>
 								</tr>
 							</tbody>
 							</table>
@@ -264,6 +264,9 @@ methods:{
 		.catch(err => console.log(err));
 	},
 	formatNumber(number) {
+		if (value === null || value === undefined) {
+        return '';
+    }
       return number.toLocaleString();
   }
 },

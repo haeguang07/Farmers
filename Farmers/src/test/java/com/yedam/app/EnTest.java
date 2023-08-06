@@ -46,6 +46,8 @@ public class EnTest {
 		encryptor.setConfig(config);
 		String enc=encryptor.encrypt("light@yedam.com");
 		System.out.println(enc);
+		String dnc = encryptor.decrypt("WZ1I3TJ3k9Efb68lt2a5K8L5Aft/tqHIj5x9cHgrxae1vObApWNQF+r8VC3jVsdLuuISfw+Ej5/rKTiaFSl5phkrNh2EFEOrkArlJtROUc8=+OXd2uOiR3q8dnIg==");
+		System.out.println(dnc);
 
 		
 	}
