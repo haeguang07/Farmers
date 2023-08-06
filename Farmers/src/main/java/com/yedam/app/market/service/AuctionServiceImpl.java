@@ -80,7 +80,7 @@ public class AuctionServiceImpl implements AuctionService {
 		System.out.println("111 expiredAuction exe");
 	}
 	
-	@Scheduled(cron = "0 0 0 * * ?")
+	@Scheduled(cron = "0 0 0 * * ?") 
 	@Override
 	public void expiredAuctionPay() {
 		auctionMapper.expiredAuctionPay();	
