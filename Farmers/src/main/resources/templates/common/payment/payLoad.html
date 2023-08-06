@@ -96,8 +96,19 @@
                             .done(function (result3) {
                                 myResult = true
                                 console.log('detail seuccess')
+                 				if(paymentData.check == 'bid'){
+                 					$.ajax({
+                 						url :"/procedure/bidAuction",
+                 						method : "POST",
+                 						data : {
+                 							boardNo : paymentData.boardNo,
+                 							memNo : /*[[${session.mem.memNo}]]*/,
+                 							price : paymentData.totalPayPrice
+                 						}
+                 					})
+                 				}
                                 setTimeout(function () {
-                                    location.href = "paySuccess?result=" + myResult
+                                   location.href = "paySuccess?result=" + myResult
                                 }, 3000);
                             })
                             .fail(function () {

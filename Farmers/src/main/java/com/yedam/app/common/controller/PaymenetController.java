@@ -117,7 +117,7 @@ public class PaymenetController {
 		System.out.println(vo);
 		vo.setQty(1);
 		vo.setTotalPrice(vo.getPrice());
-		vo.setBoardCtg("na");
+		vo.setBoardCtg("nc");
 		list.add(vo);
 		System.out.println(list);
 		model.addAttribute("productList", list);

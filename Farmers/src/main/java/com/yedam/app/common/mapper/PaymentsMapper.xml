@@ -119,7 +119,8 @@
 			#{aplNo, mode=IN , jdbcType = VARCHAR},
 			#{rep, mode=OUT , jdbcType = VARCHAR},
 			#{title, mode=OUT , jdbcType = VARCHAR},
-			#{price, mode=OUT , jdbcType = VARCHAR}
+			#{price, mode=OUT , jdbcType = VARCHAR},
+			#{boardNo, mode=OUT , jdbcType = VARCHAR}
 			)
 		}
 	</select>
