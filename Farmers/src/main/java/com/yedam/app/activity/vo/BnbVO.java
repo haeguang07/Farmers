@@ -51,6 +51,7 @@ public class BnbVO {
 	private String email;
 	private String nick;
 	private String name;
+	private String memZip;
 	private String memAdr;
 	private String memAdrdeta;
 	private String mbl;
