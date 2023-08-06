@@ -40,7 +40,6 @@ public class AdminServiceImpl implements AdminService {
 		Map<String, Object> map = new HashMap<>();
 		map.put("test", "");
 		adminMapper.updateMember(list, map);
-		System.out.println(map);
 		AdminSearchVO vo = new AdminSearchVO();
 		return getMemberList(vo);
 	}

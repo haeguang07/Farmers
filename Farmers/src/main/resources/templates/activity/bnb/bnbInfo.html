@@ -273,9 +273,9 @@
 							style="text-align: center; margin: 50px;"
 							th:if="${session.mem.memNo} == ${bnb.memNo}">
 							<a th:href="@{update/updateBnb(boardNo=${bnb.boardNo})}"
-								class="primary-btn">글 수정</a> 
-							<a th:href="@{deleteBnb(boardNo=${bnb.boardNo})}"
-								class="primary-btn" id="deleteButton"><button type="button">글 삭제</button></a>
+								class="primary-btn">글 수정</a>
+								<a
+								class="primary-btn" id="deleteButton" style="color:white">글	삭제</a>
 						</div>
 					</th:block>
 				</div>
@@ -489,27 +489,27 @@
 			// ----------- 글삭제 버튼
 			$('#deleteButton').on('click', delPopUp);
 			//삭제 팝업 이벤트
-			function delPopUp(event) {				Swal.fire({ title: '글을 정말 삭제하시겠습니까?' ,
+			function delPopUp(event) {
+				event.preventDefault();				Swal.fire({ title: '글을 정말 삭제하시겠습니까?' ,
 						icon:'warning', 
 						showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
 						confirmButtonColor: '#d33', // confrim 버튼 색깔 지정
 						cancelButtonColor: '#3085d6', // cancel 버튼 색깔 지정
 						confirmButtonText: '삭제', // confirm 버튼 텍스트 지정
-						cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+						cancelButtonText: '취소' // cancel 버튼 텍스트 지정
 	 				}).then(result => {
 		 				if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
-		 					console.log('삭제')
-
+		 					//Swal.fire('글이 삭제되었습니다', 'success');
+		 					location.href="/deleteBnb?boardNo="+boardNo
 		 				} else {
-							  event.preventDefault();
 						    console.log("삭제 취소");
-						  }
-			 	 })
+						}
+			 	 	})
 			}
 						let seller = /*[[${bnb.memNo}]]*/ ;
 			$('#test').text(seller+memNo)
 			
-				// ------------------------- 결제하기 버튼 기능
+		// ------------------------- 결제하기 버튼 기능
 			$('#letPay').on('click', function() {
 				let days = $('#dateResult').text();
 				let start = $('#startDate').val();

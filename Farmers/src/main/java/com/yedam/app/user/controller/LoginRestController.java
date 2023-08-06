@@ -55,7 +55,6 @@ public class LoginRestController {
 	@PostMapping("IDFound")
 	public Map<String, String> IDFound(@RequestBody MemberVO member) {
 		Map<String, String> map = new HashMap<>();
-		System.out.println(member);
 		String id = memberService.idFound(member.getEmail());
 		if (id == null) {
 			map.put("retCode", "Fail");
@@ -71,7 +70,6 @@ public class LoginRestController {
 	@PostMapping("pwFind")
 	public Map<String, String> pwFind(@RequestBody MemberVO member) {
 		Map<String, String> map = new HashMap<>();
-		System.out.println(member);
 		String memNo = memberService.pwFound(member);
 		if (memNo == null) {
 			map.put("retCode", "Fail");
@@ -95,7 +93,6 @@ public class LoginRestController {
 		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
 		String password = scpwd.encode(random);
 		member.setPw(password);
-		System.out.println(member);
 		memberService.pwChange(member);
 		return random;
 	}
@@ -143,7 +140,6 @@ public class LoginRestController {
 	public Map<String, Object> signup(MemberVO member) {
 		Map<String, Object> map = new HashMap<>();
 
-		System.out.println(member);
 		if (memberService.join(member)) {
 			map.put("retCode", "Success");
 		} else {
@@ -153,33 +149,6 @@ public class LoginRestController {
 		return map;
 	}
 
-	// 로그인 정보보기
-	@GetMapping("info/oauth/login")
-	public Map<String, Object> oauthLoginInfo(Authentication authentication,
-			@AuthenticationPrincipal OAuth2User oAuth2UserPrincipal) {
-		OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-		Map<String, Object> attributes = oAuth2User.getAttributes();
-		System.out.println(attributes);
-		// PrincipalOauth2UserService의 getAttributes내용과 같음
-		return attributes; // 세션에 담긴 user가져올 수 있음음
-	}
-
-	@GetMapping("info/loginInfo")
-	public String loginInfo(Authentication authentication, @AuthenticationPrincipal PrincipalDetails principalDetails) {
-		String result = "";
-
-		PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
-		if (principal.getMemberVO().getLoginPath() == null) {
-			result = result + "Form 로그인 : " + principal;
-		} else {
-			result = result + "OAuth2 로그인 : " + principal;
-		}
-		return result;
-	}
-
-	
-	
-	
 
 	// 램덤 13자리 문자열
 	private String getRamdom() {

@@ -41,7 +41,7 @@
     		:headers="headers"
     		:items="boardList"
    		  item-value="boardNo"
-				 no-data-text="조회된 펀딩이 없습니다"
+				no-data-text="조회된 펀딩이 없습니다"
 				return-object
     		show-select
 				hide-default-footer
@@ -80,7 +80,7 @@
 						<table class="table">
 							<tbody>
 								<tr>
-									<th>목표금액</th><td v-text="board.goalPrice"></td>
+									<th>목표금액</th><td v-text="formatNumber(board.goalPrice)"></td>
 									<th>펀딩가격</th><td>{{ formatNumber(board.fndPrice) }}</td>
 								</tr>
 								<tr>

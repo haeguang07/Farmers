@@ -15,7 +15,6 @@ public class CustomFailHandler implements AuthenticationFailureHandler {
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
-		System.out.println(request.getParameter("username"));
 		
 		
 		String errormsg= "pass";
@@ -23,7 +22,7 @@ public class CustomFailHandler implements AuthenticationFailureHandler {
 		if(exception instanceof InternalAuthenticationServiceException ) {
 			errormsg="id";
 		}
-		System.out.println("Fail handler 실행");
+		
 		response.sendRedirect("/login?error="+errormsg);
 	}
 
