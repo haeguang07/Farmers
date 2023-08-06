@@ -3,6 +3,7 @@ package com.yedam.app.market.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.yedam.app.market.mapper.AuctionMapper;
@@ -61,5 +62,28 @@ public class AuctionServiceImpl implements AuctionService {
 		
 		return auctionMapper.updateAuctionReg()>0;
 	}
+	
+	@Override
+	public void buyAuctionAlert(AuctionVO vo) {
+		auctionMapper.buyAuctionAlert(vo);
+	}
 
+	@Override
+	public void bidAuctionAlert(AuctionVO vo) {
+		auctionMapper.bidAuctionAlert(vo);
+	}
+	
+	@Scheduled(cron = "0 0 0 * * ?") // 매일 자정마다 실행 스케줄러
+	@Override
+	public void expiredAuction() {
+		auctionMapper.expiredAuction();
+		System.out.println("111 expiredAuction exe");
+	}
+	
+	@Scheduled(cron = "0 0 0 * * ?") 
+	@Override
+	public void expiredAuctionPay() {
+		auctionMapper.expiredAuctionPay();	
+		System.out.println("222 expiredAuctionPay exe");
+	}
 }
