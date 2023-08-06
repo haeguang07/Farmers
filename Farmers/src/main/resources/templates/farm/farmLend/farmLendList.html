@@ -89,7 +89,7 @@
 											aria-label="Default select example" id="dst2">
 											<option value="">시·군</option>
 										</select>
-										<button type="button" class="form-control" style="width: 170px; float: right;" id="reset">검색 조건 초기화</button>
+										<button type="button" class="form-control" style="width: 170px;" id="reset">검색 조건 초기화</button>
 									</div>
 									<div class="row">
 										<select class="form-select form-group col-1.5 mr-2"
@@ -123,7 +123,7 @@
 						<div class="row">
 							<div class="col-lg-12">
 								<th:block th:if="not ${#strings.isEmpty(session.mem)}">
-									<button type="button" class="btn btn-dark" style="width: 130px; height: 40px; 
+									<button type="button" class="btn btn-success" style="width: 130px; height: 40px; 
 									float: right; margin-bottom: 20px;" id="add" th:if="${session.mem.memGrd == 'b1'} or ${session.mem.memGrd == 'b0'}">농지 내놓기</button>
 								</th:block>
 							</div>
