@@ -54,7 +54,7 @@ public class AuctionRestController {
 	}
 	
 	// 입찰하기
-	@PostMapping("bidAuction")
+	@PostMapping("/add/bidAuction")
 	public Map<String, Object> bidAuction(@RequestBody AuctionVO vo){
 		
 		Map<String, Object> map = new HashMap<>();
@@ -70,7 +70,7 @@ public class AuctionRestController {
 	}
 	
 	// 경매 등록
-	@PostMapping("insertAuction")
+	@PostMapping("/add/insertAuction")
 	public Map<String, Object> InsertAuction(AuctionVO vo){
 		
 		System.out.println(vo);
@@ -85,6 +85,20 @@ public class AuctionRestController {
 		}
 		
 		return map;
+	}
+	
+	// 즉시 구매 프로시저 발동
+	@PostMapping("/procedure/buyAuction")
+	public String buyAuctionAlert(AuctionVO vo) {
+		actService.buyAuctionAlert(vo);
+		return "Success";
+	}
+	
+	// 입찰 프로시저 발동
+	@PostMapping("/procedure/bidAuction")
+	public String bidAuctionAlert(AuctionVO vo) {
+		actService.bidAuctionAlert(vo);
+		return "Success";
 	}
 	
 }

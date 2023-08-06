@@ -32,4 +32,17 @@ public interface AuctionMapper {
 	
 	//상태
 	public int updateAuctionReg();
+	
+	// 즉시 구매 프로시저 (알람 및 상태 변경)
+	public void buyAuctionAlert(AuctionVO vo);
+	
+	// 입찰 프로시저 (알람 및 상태 변경)
+	public void bidAuctionAlert(AuctionVO vo);
+	
+	// 경매종료일 스케줄러
+	public void expiredAuction();
+	
+	// 경매 종료 후 24시간내 미결제 시 스케줄러
+	public void expiredAuctionPay();
+	
 }

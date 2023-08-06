@@ -124,7 +124,6 @@ public class SkilledController {
 	@PostMapping("/update/Skilled")
 	@ResponseBody
 	public Map<String, Object> updateSkilled(SkilledVO vo){
-		System.out.println(vo);
 		Map<String, Object> map = new HashMap<>();
 		boolean result = skilledService.updateSkilled(vo);
 		
