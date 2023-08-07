@@ -91,10 +91,15 @@
 									href="login" sec:authorize="isAnonymous()">로그인</a> <a
 									th:href="@{/logout}" sec:authorize="isAuthenticated()">로그아웃</a>
 							</div>
-							<div class="header__top__hover" sec:authorize="isAuthenticated()">
-								<span><a href="/myPage/myPage" style="color: white;">마이페이지
-								</a></span>
-							</div>
+							<th:block th:if="not ${#strings.isEmpty(session.mem)}">
+								<div class="header__top__hover" sec:authorize="isAuthenticated()" th:if="${session.mem.memGrd}!='b0'">
+									<span><a href="/myPage/myPage" style="color: white;">마이페이지
+									</a></span>
+								</div>
+								<div class="header__top__hover" sec:authorize="hasRole('ADMIN')">
+									<span><a href="/admin" style="color: white;">관리자페이지</a></span>
+								</div>
+							</th:block>
 						</div>
 					</div>
 				</div>
