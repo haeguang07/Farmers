@@ -55,11 +55,6 @@
 			<if test="str !=null">
 				AND sign_date > #{str}
 			</if>
-			<if test="end !=null">
-				 <![CDATA[
-				 AND sign_date < #{end}
-				 ]]>
-			</if>
 		</where>
 		
 		ORDER BY sign_date DESC
@@ -85,13 +80,8 @@
 				AND repl_stts =#{stts}
 			</if>
 			<if test="str != null">
-	  			AND reg_date > #{str}
+	  			AND inq_date > #{str}
 	  		</if>
-	  		<if test="end != null">
-	  	 		<![CDATA[
-	  			AND reg_date < #{end}
-	  			]]>
-	  	</if>
 		</where> 
 		ORDER BY inq_no DESC
 	</select>
@@ -135,11 +125,6 @@
 	  	</if>
 	  	<if test="str != null">
 	  		AND reg_date > #{str}
-	  	</if>
-	  	<if test="end != null">
-	  	 	<![CDATA[
-	  		AND reg_date < #{end}
-	  		]]>
 	  	</if>
 	  </where>
 		
@@ -217,11 +202,6 @@
 	  	<if test="str != null">
 	  		AND reg_date > #{str}
 	  	</if>
-	  	<if test="end != null">
-	  	 	<![CDATA[
-	  		AND reg_date < #{end}
-	  		]]>
-	  	</if>
 	  </where>
 	</select>
 	
@@ -250,11 +230,6 @@
 	  	<if test="str != null">
 	  		AND reg_date > #{str}
 	  	</if>
-	  	<if test="end != null">
-	  		<![CDATA[
-	  		AND reg_date < #{end}
-	  		]]>
-	  	</if>
 	  </where>
 	</select>
 	
@@ -275,6 +250,7 @@
 				,ship_dur_max
 				,rep
 				,find_code_name(reg_stts) reg_stts
+				, (act_date + act_trm) AS act_expire_date
 	  FROM auction
 	  
 	  <where>
@@ -315,11 +291,6 @@
 	  		AND reg_date < #{end}
 	  		]]>
 	  	</if>
-	  	<if test="end != null">
-	  		<![CDATA[
-	  		AND reg_date < #{end}
-	  		]]>
-	  	</if>
 	  </where>
 	</select>
 	<!-- 체험하기 조회 -->
@@ -348,11 +319,7 @@
 	  	<if test="str != null">
 	  		AND reg_date > #{str}
 	  	</if>
-	  	<if test="end != null">
-	  		<![CDATA[
-	  		AND reg_date < #{end}
-	  		]]>
-	  	</if>
+
 	  </where>
 	</select>
 		
