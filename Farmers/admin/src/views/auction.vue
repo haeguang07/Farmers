@@ -145,8 +145,8 @@ export default{
       headers:[
 	        {title: '번호',key: 'boardNo',align: 'center'},
 	        {title: '제목', key: 'title'},
-					{title: '시작시간', key: 'actDate',align: 'center' },
-					{title: '경매기간',key: 'actTrm',align: 'center'},
+					{title: '시작일', key: 'actDate',align: 'center' },
+					{title: '종료일',key: 'actExpireDate',align: 'center'},
 	        {title: '상태',key: 'regStts',align: 'center'}
 	      ]
     }
