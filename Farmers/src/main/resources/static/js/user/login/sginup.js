@@ -27,8 +27,7 @@
 							$.ajax('sendEmail?emailText='+emailText)
 							.done(data=>{
 								if(data.retCode=='Success'){
-									num = data.random;
-									console.log(num);															
+									num = data.random;												
 								}
 							})
 							.catch(err=> console.log(err))
@@ -88,7 +87,6 @@
 							if (data.retCode == 'Success') {
 							Swal.fire({ title: '중복체크 성공' , icon: 'success',confirmButtonText:"확인"});
 								id.data('set', uid);
-								console.log(id.data('set'));
 							} else if (data.retCode == 'Fail') {
 								Swal.fire({ title: '이미 있는 아이디 입니다. 다른 아이디를 입력해주세요' , icon: 'warning',confirmButtonText:"확인"});
 								id.val('');
@@ -129,7 +127,6 @@
 								Swal.fire({ title: '중복체크 성공' , icon: 'success',confirmButtonText:"확인"});
 
 								nickname.data('set', nick);
-								console.log(nickname);
 							} else if (data.retCode == 'Fail') {
 								Swal.fire({ title: '이미 있는 닉네임 입니다. 다시 입력해주세요' , icon: 'warning',confirmButtonText:"확인"});
 								nickname.val('')

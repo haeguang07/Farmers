@@ -9,7 +9,7 @@
 <meta name="keywords" content="Male_Fashion, unica, creative, html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>Funding</title>
+<title>MyPage</title>
 <link rel="stylesheet" href="/css/sungwookCss/sungook.css"
 	type="text/css">
 <script
@@ -21,6 +21,9 @@
 .mfp-content {
 	width: 1500px;
 	height: 750px;
+}
+table.dataTable tbody td {
+		  vertical-align: middle;
 }
 </style>
 </head>
@@ -97,7 +100,8 @@
 				
 				$('#myTable').DataTable({
 					language : lang_kor,
-					order : [ [ 4, "desc" ] ]
+					order : [ [ 4, "desc" ] ],
+					lengthMenu : [5,10]
 				});
 			})
 

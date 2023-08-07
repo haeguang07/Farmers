@@ -61,7 +61,7 @@
 									<th>닉네임</th><td v-text="inquiry.shipStrDate"></td>
 								</tr>
 								<tr>
-									<th>제목</th><td colspan="3" v-text="board.inqTitle"></td>
+									<th>제목</th><td colspan="3" v-text="inquiry.inqTitle"></td>
 								</tr>
                 <tr>
                   <th>문의내용</th>
@@ -69,7 +69,9 @@
                 </tr>
                 <tr>
                   <th>답변</th>
-                  <td colspan="3" v-if="inquiry.replStts=='답변 대기'"> <ckeditor :editor="editor" v-model="inquiry.replDesct" :config="editorReplyConfig"></ckeditor></td>
+                  <td colspan="3" v-if="inquiry.replStts=='답변 대기'"> 
+                    <ckeditor :editor="editor" v-model="inquiry.replDesct" :config="editorReplyConfig"></ckeditor>
+                  </td>
                   <td colspan="3" v-else v-html="inquiry.replDesct"></td>
                 </tr>
 							</tbody>
@@ -129,14 +131,12 @@ export default {
      
      this.idx=inq.item.index
      this.inquiry=this.inquiryList[this.idx];
-     console.log(this.inquiry);
      this.onpenModal()
     },
     onpenModal(){
 		  document.getElementById("myModal").style.display = "block";
 	  },
     reply(){
-      console.log(this.inquiry.replDesct)
       fetch('/admin/inquiryReply',{
         method: 'PUT',  
         headers: {
@@ -174,7 +174,6 @@ export default {
 	  callList(vo){
       axios.get("/admin/inquiryAdmin",{params: vo})
       .then(response => {
-        console.log(response.data);
         this.inquiryList = response.data;
       })
       .catch(err => console.log(err));
@@ -185,7 +184,6 @@ export default {
     obj.end=this.searchEnd;
     obj.str=this.searchStr;
     obj.ctg=this.searchCtg;
-    console.log(obj);
     this.callList(obj)
   }
     
@@ -216,7 +214,10 @@ export default {
       pageCount () {
         return Math.ceil(this.inquiryList.length / this.itemsPerPage)
       },
-    }
+  },
+  created() {
+    document.title = "문의관리";
+  }
 };
 </script>
 

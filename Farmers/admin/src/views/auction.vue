@@ -145,8 +145,8 @@ export default{
       headers:[
 	        {title: '번호',key: 'boardNo',align: 'center'},
 	        {title: '제목', key: 'title'},
-					{title: '시작시간', key: 'actDate',align: 'center' },
-					{title: '경매기간',key: 'actTrm',align: 'center'},
+					{title: '시작일', key: 'actDate',align: 'center' },
+					{title: '종료일',key: 'actExpireDate',align: 'center'},
 	        {title: '상태',key: 'regStts',align: 'center'}
 	      ]
     }
@@ -160,11 +160,9 @@ methods:{
 		obj.stts=this.searchStts;
 		obj.str=this.searchStr;
 		obj.end=this.searchEnd;
-		console.log(obj);
 		this.callList(obj)
 	},
 	changeBtn(){
-		console.log(this.selected);
 		if(this.stts==''){
 			this.$swal({
       	title: "상태를 선택하세요",
@@ -181,13 +179,11 @@ methods:{
 					tableName:'auction'}
 			    list.push(obj);
 		  });
-		console.log(list);
 		this.modify(list)
 	},
 	modify(list){
   	axios.put('/admin/chageRegStatus', list)
   	.then(response => {
-			console.log(response.data);
 			let stts= this.searchStts
 			this.callList({stts})
 			this.selected = [];
@@ -232,7 +228,6 @@ methods:{
   		}
 		})
 		.then((response) => {
-  		console.log(response.data);
   		if (response.data.retCode == "Success") {
     		this.$swal({
 					title: "신청이 거부가 성공적으로 이루졌습니다.",
@@ -255,10 +250,8 @@ methods:{
 		document.getElementById("myModal").style.display = "none";
 	},
 	callList(vo){
-		console.log(vo)
 		axios.get("/admin/auctions",{params: vo})
 		.then(response => {
-			console.log(response.data);
 			this.boardList = response.data;
 		})
 		.catch(err => console.log(err));
