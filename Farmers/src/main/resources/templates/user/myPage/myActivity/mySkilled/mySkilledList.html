@@ -106,8 +106,8 @@
 					bAutoWidth: false, // 너비 자동맞춤을 false로 설정해주어야 지정한 너비가 제대로 출력된다.
 					columnDefs: [
 											 {width: "10%",targets: 0},
-											 {width: "25%",targets: 1},
-											 {width: "15%",targets: 2},
+											 {width: "28%",targets: 1},
+											 {width: "12%",targets: 2},
 											 {width: "15%",targets: 3},
 											 {width: "13%",targets: 4},
 											 {width: "15%",targets: 5}
@@ -301,7 +301,7 @@
 					let td1 = $('<td>').text(item.boardNo)
 					let td2 = $('<td>').text(item.title)
 					let td3 = $('<td>').text(item.dayDiv)
-					let td4 = $('<td>').text(item.aplDate)
+					let td4 = $('<td>').text(item.aplDate.substr(0, 10))
 					let td5 = $('<td>').text(item.aplStts)
 					let td6 = $('<td>').append($('<button class="form-control" type="button">상세확인</button> ').addClass('subBtn'))
 
