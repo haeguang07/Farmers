@@ -288,7 +288,7 @@
 	  	</if>
 	  	<if test="str != null">
 	  		<![CDATA[
-	  		AND reg_date < #{end}
+	  		AND reg_date > #{str}
 	  		]]>
 	  	</if>
 	  </where>
