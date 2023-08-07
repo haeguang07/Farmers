@@ -27,20 +27,23 @@
 	</resultMap>
 
 	<select id="getAverage" resultType="int">
-		select round(NVL(sum(rate)/count(rate),0),0) as round
+		select
+		round(NVL(sum(rate)/count(rate),0),0) as round
 		from review
-		where board_no = #{boardNo}
+		where
+		board_no = #{boardNo}
 	</select>
 
 	<!-- 전체조회-페이징 -->
 	<select id="selectBnbList" resultMap="review">
 		select b.*
 		from (select rownum rn, a.*
-		from (select * from farmbnb
+			from (select * from farmbnb
+				where reg_stts='e1'
 		<if test="dst1 != null and !dst1.equals('')">
-			where dst1=#{dst1}
+				and dst1=#{dst1}
 		</if>
-		) a
+				) a
 			<![CDATA[
 			WHERE rownum <= #{page} * 9) b
 		WHERE b.rn > (#{page}-1) * 9
@@ -162,5 +165,12 @@
 		              AND board_no = #{boardNo})
 		]]>
 	</select>
+
+	<update id="updateEndDate">
+		update farmbnb set reg_stts='e6'
+		<![CDATA[ 
+		where lend_end_date<sysdate
+		]]>
+	</update>
 </mapper>
 
