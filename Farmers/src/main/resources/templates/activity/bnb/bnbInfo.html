@@ -491,7 +491,8 @@
 			$('#deleteButton').on('click', delPopUp);
 			//삭제 팝업 이벤트
 			function delPopUp(event) {
-				if(memList.length<0){
+				console.log(memList)
+				if(memList.length<1){
 					event.preventDefault();
 					Swal.fire({ title: '글을 정말 삭제하시겠습니까?' ,
 						icon:'warning', 
