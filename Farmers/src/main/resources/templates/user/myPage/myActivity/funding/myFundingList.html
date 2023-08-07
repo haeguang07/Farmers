@@ -129,7 +129,7 @@
 
 			// tr클릭 시 해당 상품 페이지로 이동
 			$(document).on("click", ".tr", function (e) {
-				if (!$(e.currentTarget).hasClass('th')) {
+				if (!$(e.currentTarget).hasClass('th') && !$(e.currentTarget).find('td').hasClass('dataTables_empty')) {
 					console.log($(e.currentTarget).attr('no'))
 					location.href = "/fundingInfo?boardNo=" + $(e.currentTarget).attr('no')
 				}
