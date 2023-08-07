@@ -46,7 +46,7 @@
 		INSERT INTO attachment
 				(ATCH_FILE_NO,MEM_NO,ATCH_FILE_NAME,UPL_FILE_NAME,UPL_DATE,BOARD_NO)
 		VALUES
-				('ATCH'||LPAD(ATCH_NO_SEQ.NEXTVAL,13,0),
+				('ATCH'||LPAD(ATCH_NO_SEQ.NEXTVAL,6,0),
 				#{memNo},
 				#{atchFileName},
 				#{uplFileName},

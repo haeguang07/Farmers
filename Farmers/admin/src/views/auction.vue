@@ -264,7 +264,7 @@ methods:{
 		.catch(err => console.log(err));
 	},
 	formatNumber(number) {
-		if (value === null || value === undefined) {
+		if (number === null || number === undefined) {
         return '';
     }
       return number.toLocaleString();
@@ -305,7 +305,10 @@ methods:{
       pageCount () {
         return Math.ceil(this.boardList.length / this.itemsPerPage)
       },
-    }
+  },
+	created() {
+    document.title = "경매관리";
+  }
 }
 
 </script>
