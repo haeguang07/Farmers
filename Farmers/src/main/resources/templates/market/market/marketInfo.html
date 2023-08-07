@@ -203,7 +203,7 @@
 					<hr>
 					<th:block th:if="${session.mem}!=null">
 						<div class="product__details__cart__option"
-							style="text-align: center; margin:50px;"
+							style="text-align: center; margin: 50px;"
 							th:if="${session.mem.memNo} == ${mk.memNo}">
 							<a th:href="@{update/updateMk(boardNo=${mk.boardNo})}"
 								class="primary-btn">글 수정</a> <a
@@ -241,23 +241,21 @@
 			}
 
 			
-			// ----------- 글삭제 버튼
-/* 			$('#deleteButton').on('click', delPopUp);
-			//삭제 팝업 이벤트
-			function delPopUp(event) {
-				var confirmDelete = confirm("글을 삭제하시겠습니까?");
-				if (!confirmDelete) {
-					event.preventDefault(); // 이벤트의 기본 동작을 막아서 링크로 이동하지 않게 합니다.
-					console.log("삭제 취소");
-				} else {
-					console.log("삭제 완료");
-				}
-			}
-			 */
+			//변수
+			/*<![CDATA[*/
+			let boardNo = /*[[${mk.boardNo}]]*/ ;
+			let mem = /*[[${session.mem}]]*/ ;
+			let memList = /*[[${pay}]]*/ ;
+			let memNo = "";
+			if(mem !=null){memNo=mem.memNo};
+			/*]]>*/
+			
+			
 			// ----------- 글삭제 버튼		
 			$('#deleteButton').on('click', delPopUp);
 			//삭제 팝업 이벤트
 			function delPopUp(event) {
+				if(memList.length<1){
 				event.preventDefault();
 				Swal.fire({ title: '글을 정말 삭제하시겠습니까?' ,
 						icon:'warning', 
@@ -273,6 +271,9 @@
 						    console.log("삭제 취소");
 						}
 			 	 	})
+				}else{
+					Swal.fire({title: '삭제할 수 없습니다',text:'결제건이 존재합니다', icon:'warning', confirmButtonText:"확인"});
+				}
 			}
 			
 			// ---------------------------------  리뷰  기능   ------------------------------------ //
@@ -301,15 +302,7 @@
 			    "sortDescending": " :  내림차순 정렬"
 			  }
 			};
-			
-			/*<![CDATA[*/
-			let boardNo = /*[[${mk.boardNo}]]*/ ;
-			let mem = /*[[${session.mem}]]*/ ;
-			let memNo = "";
-			if(mem !=null){
-				memNo= mem.memNo
-			}
-			/*]]>*/
+
 
 			//리뷰 - 조회 기능
 			$(document).ready(function () {
@@ -462,9 +455,7 @@
 			  
 			
 			//리뷰등록폼 - 결제한 사람만 보이기
-			/*<![CDATA[*/
-			let memList = /*[[${pay}]]*/ ;
-			/*]]>*/
+
 			
 			memList.findIndex(findMem);
 			function findMem(element)  {
