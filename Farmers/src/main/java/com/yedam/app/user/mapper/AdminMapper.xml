@@ -275,6 +275,7 @@
 				,ship_dur_max
 				,rep
 				,find_code_name(reg_stts) reg_stts
+				, (act_date + act_trm) AS act_expire_date
 	  FROM auction
 	  
 	  <where>

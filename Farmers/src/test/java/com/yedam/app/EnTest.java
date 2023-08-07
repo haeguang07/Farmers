@@ -3,13 +3,16 @@ package com.yedam.app;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
-import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
+import org.jasypt.encryption.StringEncryptor;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-//@SpringBootTest
+@SpringBootTest
 public class EnTest {
+	@Autowired
+	StringEncryptor jasyptStringEncryptor;
 	//@Test
 	public void encTest() {
 		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
@@ -30,25 +33,16 @@ public class EnTest {
 		}
 		
 	}
-	
 	@Test
-	public void test() {
-		PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
-		SimpleStringPBEConfig config = new SimpleStringPBEConfig();
-		config.setPassword("ghpISMTKWv3TcnM9b0TtwqkFxe0NODviM0lmDE6");
-		config.setAlgorithm("PBEWITHHMACSHA512ANDAES_256");
-		config.setKeyObtentionIterations("1000");
-		config.setPoolSize("1");
-		config.setProviderName("SunJCE");
-		config.setSaltGeneratorClassName("org.jasypt.salt.RandomSaltGenerator");
-		config.setIvGeneratorClassName("org.jasypt.iv.RandomIvGenerator");
-		config.setStringOutputType("base64");
-		encryptor.setConfig(config);
-		String enc=encryptor.encrypt("light@yedam.com");
+	public void encTest2() {
+		String enc=jasyptStringEncryptor.encrypt("");
 		System.out.println(enc);
-		String dnc = encryptor.decrypt("WZ1I3TJ3k9Efb68lt2a5K8L5Aft/tqHIj5x9cHgrxae1vObApWNQF+r8VC3jVsdLuuISfw+Ej5/rKTiaFSl5phkrNh2EFEOrkArlJtROUc8=+OXd2uOiR3q8dnIg==");
+		String dnc= jasyptStringEncryptor.decrypt(enc);
 		System.out.println(dnc);
-
 		
 	}
+
+
+		
+	
 }
