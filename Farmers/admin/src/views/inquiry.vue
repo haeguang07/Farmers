@@ -61,7 +61,7 @@
 									<th>닉네임</th><td v-text="inquiry.shipStrDate"></td>
 								</tr>
 								<tr>
-									<th>제목</th><td colspan="3" v-text="board"></td>
+									<th>제목</th><td colspan="3" v-text="inquiry.inqTitle"></td>
 								</tr>
                 <tr>
                   <th>문의내용</th>
