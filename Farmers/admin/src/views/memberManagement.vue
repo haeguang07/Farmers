@@ -189,13 +189,11 @@ methods:{
 		this.callList(obj)
 	},
 	changeBtn(){
-		console.log(this.selected);
 		let list =[];
 		this.selected.forEach(item => {
 			let obj={memNo: item.memNo, stts:this.stts,memGrd:this.grade}
 			list.push(obj);
 		});
-		console.log(list);
 		this.modify(list)
 	},
 	modify(list){
@@ -208,7 +206,6 @@ methods:{
 		})
 		.then(result=>result.json())
 		.then(result=> {
-			console.log(result);
 			this.$swal({
               title: "회원 상태를 변경하였습니다",
               icon: "success",
@@ -247,14 +244,21 @@ methods:{
 			alrtDesct: this.reason,
 			boardCtg: 'g16'
 		}
-		console.log(obj)
 		fetch('/admin/rejectAlert',{
 			method:'POST',
 			headers: {'Content-Type': 'application/json',  },
 			data:JSON.stringify(obj)
 		})
 		.then(result=> result.json())
-		.then(result=> console.log(reuslt))
+		.then(result=> {	
+			this.$swal({
+					title: "성공적으로 거부되었습니다",
+					icon: "success",
+					showConfirmButton:false,
+					timer:1500
+				});
+			}
+		)
 		.catch(err=> console.log(err))
 		.finally(()=> this.back())
 	},
@@ -264,7 +268,6 @@ methods:{
 	callList(vo){
 		axios.get("/admin/members",{params: vo})
 		.then(response => {
-			console.log(response.data);
 			this.memberList = response.data.memberList;
 			this.sttsList=response.data.code['0C']
 	  	this.gradeList=response.data.code['0B']
@@ -278,10 +281,9 @@ methods:{
 		this.sttsList = this.$store.state.allCode['0C'];
 		
 		this.allCode = this.$store.state.allCode;
-		console.log(this.allCode);
   	this.callList()
+
 		//모달 닫기
-		
 		window.onclick = function(event) {
   		if (event.target == document.getElementById("myModal")) {
 				document.getElementById("myModal").style.display = "none";
@@ -297,7 +299,10 @@ methods:{
       pageCount () {
         return Math.ceil(this.memberList.length / this.itemsPerPage)
       },
-    }
+  },
+	created() {
+    document.title = "회원관리";
+  }
 }
 
 </script>

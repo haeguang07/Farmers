@@ -24,7 +24,7 @@
 .unique-notification-header {
 	text-align: left;
 	font-weight: bold;
-	color: rgb(31, 80, 42);
+	color: #ff0000;
 	margin: 5px;
 	font-size: large;
 }

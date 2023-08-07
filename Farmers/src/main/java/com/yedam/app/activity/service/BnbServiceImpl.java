@@ -3,6 +3,7 @@ package com.yedam.app.activity.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.yedam.app.activity.mapper.BnbMapper;
@@ -48,6 +49,13 @@ public class BnbServiceImpl implements BnbService {
 	@Override
 	public List<String> rsvDateCheck(String boardNo) {
 		return bnbMapper.rsvDateCheck(boardNo);
+	}
+
+	@Scheduled(cron = "0 0 6 * * *") //초 분 시 일 월 요일
+	@Override
+	public int updateEndDate() {
+		System.out.println("스케쥴 실행");
+		return bnbMapper.updateEndDate();
 	}
 
 }

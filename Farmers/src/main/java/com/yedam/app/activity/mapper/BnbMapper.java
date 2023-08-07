@@ -28,5 +28,7 @@ public interface BnbMapper {
 	//예약 날짜 확인
 	public List<String> rsvDateCheck(String boardNo);
 	
+	public int updateEndDate();
+	
 }
 

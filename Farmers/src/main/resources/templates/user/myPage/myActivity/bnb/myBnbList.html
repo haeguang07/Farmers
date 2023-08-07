@@ -8,7 +8,7 @@
 	<meta name="keywords" content="Male_Fashion, unica, creative, html">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Funding</title>
+	<title>MyPage</title>
 	<link rel="stylesheet" href="/css/sungwookCss/sungook.css" type="text/css">
 	<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" type="text/css">
@@ -95,7 +95,8 @@
 							     {width: "15%",targets: 3},
 								 {width: "15%",targets: 4}
 					  			],
-					order : [0, 'desc']
+					order : [0, 'desc'],
+					lengthMenu : [5,10]
 				});	
 			})
 
@@ -128,7 +129,7 @@
 
 			//tr 이동
 			$(document).on("click", ".tr", function (e) {
-				if (!$(e.currentTarget).hasClass('th')) {
+				if (!$(e.currentTarget).hasClass('th') && !$(e.currentTarget).find('td').hasClass('dataTables_empty')) {
 					console.log($(e.currentTarget).attr('no'))
 					location.href = "/bnbInfo?boardNo=" + $(e.currentTarget).attr('no')
 				}

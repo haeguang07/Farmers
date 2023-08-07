@@ -37,9 +37,9 @@
 		select b.*
 		from (select rownum rn, a.*
 		from (select * from market
-		<if
-			test="mktCtg != null and !mktCtg.equals('') and !mktCtg.equals('전체')">
-			where mkt_ctg=#{mktCtg}
+			where reg_stts='e1'	
+		<if test="mktCtg != null and !mktCtg.equals('') and !mktCtg.equals('전체')">
+			and mkt_ctg=#{mktCtg}
 		</if>
 		) a
 			<![CDATA[

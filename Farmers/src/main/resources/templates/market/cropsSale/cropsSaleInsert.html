@@ -145,8 +145,7 @@
 					} else {
 						Swal.fire({
 							icon : 'error',
-							title : '이미지 등록 실패',
-							text : '이미지만 등록 가능합니다',
+							title : '이미지만 등록 가능합니다',
 							confirmButtonText : "확인"
 						})
 					}
@@ -173,24 +172,21 @@
 				if(!$('[name="title"]').val()) {
 					Swal.fire({
 						icon : 'info',
-						title : '제목 미기입',
-						text : '제목을 입력하세요',
+						title : '제목을 입력하세요',
 						confirmButtonText : "확인"
 					})
 					return;
 				} else if(!$('#inputFile').val()) {
 					Swal.fire({
 						icon : 'info',
-						title : '대표이미지 미등록',
-						text : '대표이미지를 등록하세요',
+						title : '대표이미지를 등록하세요',
 						confirmButtonText : "확인"
 					})
 					return;
-				} else if($('[name="crpCtg"]').val() == '') {
+				} else if($('[name="crpCtg"]').val() == null) {
 					Swal.fire({
 						icon : 'info',
-						title : '상품 종류 미선택',
-						text : '상품 종류를 선택하세요',
+						title : '상품 종류를 선택하세요',
 						confirmButtonText : "확인"
 					})
 					return;
@@ -210,8 +206,7 @@
 						if(result == "success") {
 							Swal.fire({
 								icon : 'success',
-								title : '등록 성공',
-								text : '등록이 완료되었습니다',
+								title : '등록이 완료되었습니다',
 								confirmButtonText : "확인"
 							})
 							.then(function() {
@@ -220,8 +215,7 @@
 						} else {
 							Swal.fire({
 								icon : 'error',
-								title : '등록 실패',
-								text : '등록에 실패했습니다',
+								title : '등록하지못했습니다',
 								confirmButtonText : "확인"
 							})
 						}
@@ -229,8 +223,7 @@
 					.fail(function(result){
 						Swal.fire({
 							icon : 'error',
-							title : '오류',
-							text : '페이지 호출 오류',
+							title : '페이지 호출 오류',
 							confirmButtonText : "확인"
 						})
 					})

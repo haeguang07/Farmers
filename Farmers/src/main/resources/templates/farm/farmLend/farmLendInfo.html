@@ -132,7 +132,19 @@
 			function closePopUp() {
 				var magnificPopup = $.magnificPopup.instance; 
 				magnificPopup.close();
-				location.href = "/myPage/myFarmLendListForm";
+				Swal.fire({
+					icon : 'question',
+					title : '나의 농지대여로 이동하시겠습니까?',
+					showCancelButton: true, // 취소 버튼 보여주기
+					confirmButtonText : "네",
+					cancelButtonText: '아니요',
+					reverseButtons: false, // 버튼 순서 거꾸로
+				})
+				.then((result) => {
+					if(result.isConfirmed) {
+						location.href = "/myPage/myFarmLendListForm";
+					}
+				})
 			}
 			
 			// 목록으로 버튼 클릭 시
@@ -149,8 +161,7 @@
 			$('#delete').on('click', function() {
 				Swal.fire({
 					icon : 'warning',
-					title : '게시물 삭제',
-					text : '게시물을 삭제하시겠습니까?',
+					title : '게시물을 삭제하시겠습니까?',
 					showCancelButton: true, // 취소 버튼 보여주기
 					confirmButtonText : "네",
 					cancelButtonText: '아니요',
@@ -168,8 +179,7 @@
 							if(result == "success") {
 								Swal.fire({
 									icon : 'success',
-									title : '삭제 성공',
-									text : '성공적으로 삭제되었습니다',
+									title : '삭제되었습니다',
 									confirmButtonText : "확인"
 								})
 								.then(function() {
@@ -178,8 +188,7 @@
 							} else {
 								Swal.fire({
 									icon : 'error',
-									title : '삭제 실패',
-									text : '삭제에 실패했습니다',
+									title : '삭제하지못했습니다',
 									confirmButtonText : "확인"
 								})
 							}
@@ -187,8 +196,7 @@
 						.fail(function(result) {
 							Swal.fire({
 								icon : 'error',
-								title : '오류',
-								text : '페이지 호출 오류',
+								title : '페이지 호출 오류',
 								confirmButtonText : "확인"
 							})
 						})

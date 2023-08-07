@@ -93,7 +93,7 @@ public class FundingController {
 	}
 
 	// 펀딩 등록 페이지
-	@GetMapping("addFunding")
+	@GetMapping("add/addFunding")
 	public String addFundingForm() {
 		return "market/funding/addFundingForm";
 	}
@@ -112,7 +112,7 @@ public class FundingController {
 	}
 
 	// 펀딩 수정 페이지
-	@GetMapping("modifyFunding")
+	@GetMapping("update/modifyFunding")
 	public String modifyFundingForm(FundingVO vo, Model model) {
 		FundingVO result = fundingService.getFundingInfo(vo);
 		model.addAttribute("fundingInfo", result);
