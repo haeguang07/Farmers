@@ -165,4 +165,15 @@
 	<select id="expiredAuctionPay" statementType="CALLABLE">
 		{CALL expired_Auction_Pay()}
 	</select>
+	
+	<!-- 판매자 정보 가져오기 -->
+	<select id="sellerInfo" resultType="AuctionVO">
+		SELECT *
+		FROM auction a JOIN (SELECT mem_no, name, id, email, zip, nick,
+									addr as mem_adr, deta_addr
+									as mem_adrDeta, mbl
+							FROM member NATURAL JOIN member_detail) m
+		ON a.mem_no = m.mem_no
+		WHERE board_no= #{boardNo}
+	</select>
 </mapper>

@@ -11,6 +11,12 @@
 <style>
 #tabs-2 {
 	margin-top: 50px;
+	
+}
+
+#tabs-2 h5 {
+	font-weight: bold;
+	margin-bottom: 10px;
 }
 
 .big_img {
@@ -283,28 +289,28 @@ label:has(.bidCount) {
 								<div class="row d-flex justify-content-center">
 									<div class="col-lg-8">
 										<h5>판매자 정보</h5>
-										<!-- <table class="table seller">
+										<table class="table seller">
 											<tr>
 												<td>판 매 자</td>
 												<td><span
-													th:text="|${bnb.name} (nickname: ${bnb.nick})|"></span></td>
+													th:text="|${seller.name} (nickname: ${seller.nick})|"></span></td>
 											</tr>
 											<tr>
 												<td>전화번호</td>
-												<td><span th:if="${bnb.mbl!=null and bnb.mbl!=''}"
-													th:text="|${bnb.mbl}|"></span></td>
+												<td><span th:if="${seller.mbl!=null and seller.mbl!=''}"
+													th:text="|${seller.mbl}|"></span></td>
 											</tr>
 											<tr>
 												<td>이 메 일</td>
-												<td><span th:text="|${bnb.email}|"></span></td>
+												<td><span th:text="|${seller.email}|"></span></td>
 											</tr>
 											<tr>
 												<td>주 소</td>
-												<td><span th:if="${bnb.zip!=null and bnb.zip!=''}"
-													th:text="|${bnb.memAdr}, ${bnb.memAdrdeta} (우:${bnb.zip})|"></span>
+												<td><span th:if="${seller.zip!=null and seller.zip!=''}"
+													th:text="|${seller.memAdr}, ${seller.memAdrdeta}|"></span>
 												</td>
 											</tr>
-										</table> -->
+										</table>
 									</div>
 								</div>
 							</div>

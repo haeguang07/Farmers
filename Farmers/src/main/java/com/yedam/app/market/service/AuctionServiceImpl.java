@@ -86,4 +86,9 @@ public class AuctionServiceImpl implements AuctionService {
 		auctionMapper.expiredAuctionPay();	
 		System.out.println("222 expiredAuctionPay exe");
 	}
+	
+	@Override
+	public AuctionVO sellerInfo(String boardNo) {
+		return auctionMapper.sellerInfo(boardNo);
+	}
 }

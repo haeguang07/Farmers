@@ -43,6 +43,14 @@ public class AuctionVO {
 	private String sbidStts;
 	
 	// 멤버
+	private String id;
+	private String email;
 	private String nick;
+	private String name;
+	private String zip;
+	private String memZip;
+	private String memAdr;
+	private String memAdrdeta;
+	private String mbl;
 	
 }
