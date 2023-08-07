@@ -16,8 +16,8 @@ public class AuctionController {
 	@Autowired
 	AuctionService actService;
 	
-	//매주 월요일 9시 상태 변경
-	@Scheduled(cron = "0 0 9 * * 1") 
+	//매일 자정 상태 변경
+	@Scheduled(cron = "0 0 0 * * ?") 
 	public void update() {
 		boolean result=actService.updateAuctionReg();
 		System.out.println(result);
