@@ -132,7 +132,19 @@
 			function closePopUp() {
 				var magnificPopup = $.magnificPopup.instance; 
 				magnificPopup.close();
-				location.href = "/myPage/myFarmLendListForm";
+				Swal.fire({
+					icon : 'question',
+					title : '나의 농지대여로 이동하시겠습니까?',
+					showCancelButton: true, // 취소 버튼 보여주기
+					confirmButtonText : "네",
+					cancelButtonText: '아니요',
+					reverseButtons: false, // 버튼 순서 거꾸로
+				})
+				.then((result) => {
+					if(result.isConfirmed) {
+						location.href = "/myPage/myFarmLendListForm";
+					}
+				})
 			}
 			
 			// 목록으로 버튼 클릭 시
