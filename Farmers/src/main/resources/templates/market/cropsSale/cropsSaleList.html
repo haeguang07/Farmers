@@ -164,8 +164,7 @@
 		<!-- Shop Section End -->
 		<div class="col-lg-4 col-md-6 col-sm-6 hideItem" id="cropsSaleItem">
 			<div class="product__item">
-				<div class="product__item__pic set-bg" id="img"
-					data-setbg="img/product/product-2.jpg"></div>
+				<div class="product__item__pic set-bg" id="img" data-setbg=""></div>
 				<div class="product__item__text">
 					<h5 id="name" style="font-size: small;" class="csName">상품명</h5>
 					<p id="price" style="margin-bottom: 0px;">가격</p>
@@ -266,7 +265,8 @@
 				$(clone).find('#price').text(priceToString(item.price) + '원');
 				$(clone).find('#rateCnt').text('('+item.rateCnt+')');
 				$(clone).find('#date').text(item.regDate);
-				$(clone).find('#img').css('background-image', 'url('+item.rep+')');
+				$(clone).find('#img').css('background-image', "url('"+item.rep+"')");
+				$(clone).find('#img').attr("data-setbg", item.rep);
 				$(clone).find('#img').css('cursor', 'pointer');
 				
 				function priceToString(price) {

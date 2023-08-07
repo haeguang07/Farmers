@@ -224,8 +224,7 @@
 			if(uploadFiles.length < 4) {
 				Swal.fire({
 					icon : 'info',
-					title : '첨부파일 미등록',
-					text : '필수 첨부파일을 참고하여 첨부하세요',
+					title : '필수 첨부파일을 참고하여 첨부하세요',
 					confirmButtonText : "확인"
 				})
 			} else {
@@ -242,8 +241,7 @@
 						console.log(result);
 						Swal.fire({
 							icon : 'success',
-							title : '신청 성공',
-							text : '신청이 완료되었습니다',
+							title : '신청되었습니다',
 							confirmButtonText : "확인"
 						})
 						.then(function() {
@@ -274,8 +272,7 @@
 						console.log(result);
 						Swal.fire({
 							icon : 'error',
-							title : '신청 실패',
-							text : '신청에 실패하였습니다',
+							title : '신청하지못했습니다',
 							confirmButtonText : "확인"
 						})
 						location.href = "/farmLendList";
@@ -284,8 +281,7 @@
 				.fail(function(result) {
 					Swal.fire({
 						icon : 'error',
-						title : '오류',
-						text : '페이지 호출 오류',
+						title : '페이지 호출 오류',
 						confirmButtonText : "확인"
 					})
 				})
