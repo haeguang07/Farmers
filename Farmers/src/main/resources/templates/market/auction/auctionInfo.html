@@ -209,7 +209,7 @@ label:has(.bidCount) {
 							</ul>
 							<h5>
 								<label>현재 입찰 최고가 <span class="highestBid"
-									th:text="${actInfo.price}">N</span>원
+									th:text="${#numbers.formatInteger(actInfo.price, 1, 'COMMA')}">N</span>원
 								</label>
 							</h5>
 							<div class="product__details__option">
@@ -228,8 +228,7 @@ label:has(.bidCount) {
 											<div class="bidInput">
 												<button class="roundBtn" type="button">-</button>
 												<input type="number" step="500" class="form-control"
-													id="bidPrice" oninput="number_format()"
-													placeholder="입찰금액을 입력하세요.">
+													id="bidPrice" placeholder="입찰금액을 입력하세요.">
 												<button class="roundBtn" type="button">+</button>
 											</div>
 											<div>
@@ -306,8 +305,9 @@ label:has(.bidCount) {
 			/*]]>*/
 			
 			
-			// 상세 조회 시 countdown 실행
+			
 			$(function() {
+				// 상세 조회 시 countdown 실행
 				countdown();
 			})
 
@@ -394,7 +394,7 @@ label:has(.bidCount) {
 				if(btnVal == '-'){
 					let dec = Number(price);
 					dec = dec - 500;
-						if(dec == 1000){						
+						if(dec >= 1000){						
 						}else if(dec < 1000){
 							Swal.fire({
 								title: '입찰금액은 최소 1000원부터입니다.',
@@ -406,7 +406,7 @@ label:has(.bidCount) {
 					$('#bidPrice').val(dec);
 				}else if(btnVal == '+'){
 					let inc = Number(price);
-					let previousBid = parseInt($('.highestBid').text());
+					let previousBid = parseInt($('.highestBid').text().replace(/[^\d]+/g, ""));
 					console.log(previousBid);
 					
 					if(inc === 0){

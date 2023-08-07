@@ -110,7 +110,7 @@
 				formData.append("uploadFiles", files[i]); //키,값으로 append
 
 				$.ajax({
-					url: 'uploadsAjax',
+					url: '/uploadsAjax',
 					type: 'POST',
 					processData: false, // 기본값은 true, ajax 통신을 통해 데이터를 전송할때, 기본적으로 key와 value 값을 Query String으로 변환해서 보내줌
 					contentType: false, // multipart/form-data 타입을 사용하기위해 false로 지정
@@ -141,7 +141,7 @@
 				}
 
 				$.ajax({
-					url: 'upgradeMember',
+					url: '/upgradeMember',
 					type: 'POST',
 					data: vo,
 					success: function (result) {

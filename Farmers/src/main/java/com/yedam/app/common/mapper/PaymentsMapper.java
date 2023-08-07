@@ -26,4 +26,7 @@ public interface PaymentsMapper {
 	//게시판별 결제한 멤버
 	public List<String> getPayMember(String boardNo);
 	
+	//경매 입찰 결제
+	public PaymentDetailVO getAuctionPay(PaymentDetailVO vo);
+	
 }

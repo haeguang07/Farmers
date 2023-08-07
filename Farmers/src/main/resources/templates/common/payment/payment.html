@@ -354,9 +354,19 @@
                         rcvAddr : $('#address').val(),
                         rcvDetaAddr : $('#addressDetail').val(),
                         usePnt : $('#usePoint').val(),
+                        boardCtg : /*[[${productList[0].boardCtg}]]*/,
+                        boardNo: /*[[${productList[0].boardNo}]]*/
                         //결제 방법, 코드, 총액은 결제 완료 후 객체에 입력
                     }
+                    if(/*[[${#strings.equals( productList[0].boardCtg, 'na')}]]*/){
+                    	paymentData.check = 'soon'
+                    }
                     
+                   
+                    if(/*[[${#strings.equals( productList[0].boardCtg, 'nc')}]]*/){
+                    	paymentData.check = 'bid'
+                    	paymentData.boardCtg = 'na'
+                    }
                     //json 을 다시 변환시킬때 ''을 인식할 수 없어서 오류가 뜸
                     // 그래서 null 변수를 선언 후 '' 일 경우에 null값으로 보냄
                     let vStrDate = null;
@@ -379,6 +389,10 @@
                             boardCtg : $(item).attr('data-ctg'),
                             rsvStrDate : vStrDate,
                             rsvEndDate : vEndDate
+                        }
+                        
+                        if(detailObj.boardCtg == 'nc'){
+                        	detailObj.boardCtg = 'na'
                         }
                         payDatailData.push(detailObj)
                     })

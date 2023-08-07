@@ -136,7 +136,7 @@
 	<select id="buyAuctionAlert" statementType="CALLABLE"
 		parameterType="AuctionVO">
 		{
-			CALL buyAuctionAlert(
+			CALL buy_Auction_Alert(
 				#{memNo, mode=IN, jdbcType=VARCHAR},
 				#{boardNo, mode=IN, jdbcType=VARCHAR},
 				#{price, mode=IN, jdbcType=INTEGER}
@@ -148,7 +148,7 @@
 	<select id="bidAuctionAlert" statementType="CALLABLE"
 		parameterType="AuctionVO">
 		{
-			CALL bidAuctionAlert(
+			CALL bid_Auction_Alert(
 				#{memNo, mode=IN, jdbcType=VARCHAR},
 				#{boardNo, mode=IN, jdbcType=VARCHAR},
 				#{price, mode=IN, jdbcType=INTEGER}
