@@ -39,6 +39,9 @@
 	table.dataTable tbody td {
 		  vertical-align: middle;
 		}
+		table.dataTable thead th {
+		 text-align: center;
+}
 	</style>
 </head>
 
@@ -93,6 +96,12 @@
 		$(function () {
 			$('#myTable').DataTable({
 				language : lang_kor,
+				columnDefs: [{width: "10%",targets: 0,orderable: true,
+			        render: function (data, type, row, meta) {
+				          // meta.row는 0부터 시작하는 행의 인덱스입니다.
+				          return meta.row + 1;
+				            }}
+							],
 				lengthMenu : [5,10]
 			});
 		})

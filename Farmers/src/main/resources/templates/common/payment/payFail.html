@@ -20,7 +20,7 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12">
                         <div class="contact__text">
-                            <div class="section-title" style="text-align: center;" th:if="${result == 'false'}">
+                            <div class="section-title" style="text-align: center;">
                                 <h2>결제 실패</h2>
                                 <p>결제가 실패했습니다</p>
                                 <br>
@@ -38,12 +38,6 @@
                 </div>
             </div>
         </section>
-        <!-- Contact Section End -->
-        <script th:inline="javascript">
-            $('#myPage').on('click',function(){
-                location.href="/myPage/myPayList?memNo="+/*[[${session.mem.memNo}]]*/;
-            })
-        </script>
     </div>
    
 </body>
