@@ -11,6 +11,10 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>이벤트 상세조회</title>
 <style>
+.btn {
+	margin-right: 2px;
+}
+
 .title {
 	font-weight: bold;
 	font-size: 20px;
@@ -102,7 +106,7 @@
 								<div class="col-lg-9"></div>
 								<button type="button" id="updateBtn" class="btn btn-success"
 									th:if="${session.mem.memGrd == 'b0'}"
-									th:onclick="'location.href=\'' + @{${'/update/Event?postCtg=i4&boardNo=' + noticeInfo[0].boardNo}} + '\''">수정</button>
+									th:onclick="'location.href=\'' + @{${'/update/Event?postCtg=i4&boardNo=' + eventInfo[0].boardNo}} + '\''">수정</button>
 								<button type="button" class="btn btn-dark" id="delBtn"
 									th:if="${session.mem.memGrd == 'b0'}">삭제</button>
 								<button type="button" class="btn btn-secondary"
