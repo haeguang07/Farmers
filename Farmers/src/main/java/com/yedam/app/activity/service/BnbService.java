@@ -25,7 +25,10 @@ public interface BnbService {
 	// 삭제
 	public int deleteBnb(String boardNo);
 
-	//예약 날짜 확인
-		public List<String> rsvDateCheck(String boardNo);
+	// 예약 날짜 확인
+	public List<String> rsvDateCheck(String boardNo);
+
+	//스케쥴러
+	public int updateEndDate();
 
 }
