@@ -25,5 +25,6 @@ public class AlertVO implements Serializable {
 	private String boardCtg;
 	@JsonFormat(pattern ="yyyy-MM-dd")
 	private Date alrtDate;
+	private String boardNo;
 	
 }

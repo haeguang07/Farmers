@@ -22,8 +22,11 @@ public interface PaymentService {
 
 	// resultMap 사용 결제 정보
 	public PaymentVO getPayList(String payNo);
-	
-	//게시판별 결제한 멤버
+
+	// 게시판별 결제한 멤버
 	public List<String> getPayMember(String boardNo);
-	
+
+	// 경매 입찰 결제
+	public PaymentDetailVO getAuctionPay(PaymentDetailVO vo);
+
 }

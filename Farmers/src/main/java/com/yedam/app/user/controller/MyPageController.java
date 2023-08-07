@@ -198,6 +198,7 @@ public class MyPageController {
 		List<PaymentVO> list = myPageService.myPayNo(memNo);
 		List<PaymentVO> getInfoList = new ArrayList<PaymentVO>();
 		for (PaymentVO vo : list) {
+			System.out.println(vo);
 			myPageService.myPayList(vo);
 			getInfoList.add(vo);
 		}

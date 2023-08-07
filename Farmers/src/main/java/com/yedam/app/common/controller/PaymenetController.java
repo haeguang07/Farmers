@@ -1,7 +1,6 @@
 package com.yedam.app.common.controller;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -107,5 +106,21 @@ public class PaymenetController {
 	public String failPage() {
 		return "common/payment/payFail";
 	}
-
+	
+	
+	//경매 입찰 결제 페이지
+	@GetMapping("auctionPayPage")
+	public String auctionPayPage(PaymentDetailVO vo,Model model) {
+		System.out.println(vo);
+		List<PaymentDetailVO> list = new ArrayList<PaymentDetailVO>();
+		paymentService.getAuctionPay(vo);
+		System.out.println(vo);
+		vo.setQty(1);
+		vo.setTotalPrice(vo.getPrice());
+		vo.setBoardCtg("nc");
+		list.add(vo);
+		System.out.println(list);
+		model.addAttribute("productList", list);
+		return "common/payment/payment";
+	}
 }
