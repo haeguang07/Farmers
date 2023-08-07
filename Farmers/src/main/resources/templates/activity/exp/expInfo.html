@@ -158,8 +158,7 @@
 				if(Object.value > max) {
 					Swal.fire({
 						icon : 'error',
-						title : '신청 인원 초과',
-						text : '신청할 수 있는 인원을 초과했습니다!',
+						title : '신청할 수 있는 인원을 초과했습니다!',
 						confirmButtonText : "확인"
 					})
 					Object.value = max - apl;
@@ -188,8 +187,7 @@
 					if(result == "success") {
 						Swal.fire({
 							icon : 'success',
-							title : '신청 성공',
-							text : '성공적으로 신청이 되었습니다',
+							title : '신청되었습니다',
 							confirmButtonText : "확인"
 						})
 						.then(function() {
@@ -213,8 +211,7 @@
 					} else {
 						Swal.fire({
 							icon : 'error',
-							title : '신청 실패',
-							text : '신청에 실패했습니다',
+							title : '신청하지못했습니다',
 							confirmButtonText : "확인"
 						})
 					}
@@ -222,8 +219,7 @@
 				.fail(function(result) {
 					Swal.fire({
 						icon : 'error',
-						title : '오류',
-						text : '페이지 호출 오류',
+						title : '페이지 호출 오류',
 						confirmButtonText : "확인"
 					})
 				})
@@ -238,8 +234,7 @@
 			$('#delete').on('click', function() {
 				Swal.fire({
 					icon : 'warning',
-					title : '게시물 삭제',
-					text : '게시물을 삭제하시겠습니까?',
+					title : '게시물을 삭제하시겠습니까?',
 					showCancelButton: true, // 취소 버튼 보여주기
 					confirmButtonText : "네",
 					cancelButtonText: '아니요',
@@ -257,8 +252,7 @@
 							if(result == "success") {
 								Swal.fire({
 									icon : 'success',
-									title : '삭제 성공',
-									text : '성공적으로 삭제되었습니다',
+									title : '삭제되었습니다',
 									confirmButtonText : "확인"
 								})
 								.then(function() {
@@ -267,8 +261,7 @@
 							} else {
 								Swal.fire({
 									icon : 'error',
-									title : '삭제 실패',
-									text : '삭제하지못했습니다',
+									title : '삭제하지못했습니다',
 									confirmButtonText : "확인"
 								})
 							}
@@ -276,8 +269,7 @@
 						.fail(function(result) {
 							Swal.fire({
 								icon : 'error',
-								title : '오류',
-								text : '페이지 호출 오류',
+								title : '페이지 호출 오류',
 								confirmButtonText : "확인"
 							})
 						})

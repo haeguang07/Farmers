@@ -159,12 +159,9 @@
 			<div class="product__item">
 				<div class="product__item__pic set-bg" data-setbg="">
 					<span id="lastAuctionDay"></span>
-					<!-- <ul class="product__hover">
-						<li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-					</ul> -->
 				</div>
 				<div class="product__item__text">
-					<h6>상품명</h6>
+					<h6 class="titleLeng">상품명</h6>
 					<a href="#" class="add-cart">+ 즉시 구매가 <span class="buyNow"></span></a>
 					현재 입찰가 <span class="currentBid"></span>원
 					<div class="countdown">
@@ -283,7 +280,7 @@
 					}
 				})
 				
-				$(clone).find('h6').text(item.title);				
+				$(clone).find('h6').text(item.title);
 				$(clone).find('.buyNow').text(number_format(item.bnp) + '원');
 				$(clone).find('.currentBid').text(number_format(item.price));
 				
