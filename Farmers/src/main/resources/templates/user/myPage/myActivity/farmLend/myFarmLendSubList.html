@@ -37,10 +37,14 @@
 	<!-- dataTable -->
 	<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" type="text/css">
+	<style type="text/css">
+	table.dataTable tbody td {
+		  vertical-align: middle;
+		}
+	</style>
 </head>
 
 <body>
-	<hr>
 	<!-- Shop Details Section Begin -->
 	<section class="shop-details">
 		<div class="product__details__pic" style="background-color: white;">
@@ -95,7 +99,8 @@
 		// dataTables
 		$(function () {
 			$('#myTable').DataTable({
-				language : lang_kor
+				language : lang_kor,
+				lengthMenu : [5,10]
 			});
 		})
 

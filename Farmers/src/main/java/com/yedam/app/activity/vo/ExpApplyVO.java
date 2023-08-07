@@ -15,7 +15,7 @@ public class ExpApplyVO {
 	private String aplStts;
 	private String boardNo;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
-	@JsonFormat(pattern ="yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date aplDate;
 	private int aplPer;
 	
