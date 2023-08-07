@@ -59,7 +59,7 @@
 	</sql>
 	
 	<!-- 단건조회 -->
-	<select id="selectFarmLendInfo" resultType="FarmLendVO">
+	<select id="selectFarmLendInfo" resultMap="farmlendApply" resultType="FarmLendVO">
 		select f.board_no, f.zip, f.addr, f.deta_addr, f.area, f.desct, f.lend_str_date, f.lend_end_date, f.lend_price, f.atch_no, f.reg_date, f.reg_stts, f.lati, f.longi, mem_no, LISTAGG(m.code_desct, ', ') WITHIN GROUP(ORDER BY m.mcrp) AS mcrp, member.nick
 		from farm_lend f left join (select mc.mcrp, mc.board_no, cc.cmmn_deta_code, cc.code_desct, cc.cmmn_code_no, cc.condition1, cc.condition2
 		                            from main_crops mc join common_code_detail cc
@@ -137,5 +137,25 @@
 			#{aplDate}
 		)
 	</insert>
+	
+	<!-- 농촌 대여 신청자 리스트 -->
+	<select id="selectFarmLendApply" resultType="FarmLendApplyVO">
+		select apl_no, mem_no, apl_stts, board_no, atch_no, apl_date
+		from farm_lend_apply
+		where board_no = #{boardNo}
+	</select>
+	
+	<!-- 농지 대여 resultMap -->
+	<resultMap type="FarmLendVO" id="farmlendApply">
+		<result property="aplNo" column="apl_no" />
+		<result property="memNo" column="mem_no" />
+		<result property="aplStts" column="apl_stts" />
+		<result property="boardNo" column="board_no" />
+		<result property="atchNo" column="atch_no" />
+		<result property="aplDate" column="apl_date" />
+		<collection property="applys" javaType="ArrayList"
+			column="boardNo = board_no" ofType="FarmLendApplyVO"
+			select="selectFarmLendApply"></collection>
+	</resultMap>
 	
 </mapper>

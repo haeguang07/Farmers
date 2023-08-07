@@ -77,7 +77,10 @@
 												</p>
 												<button type="button" class="btn btn-success mr-2" style="width: 150px; float: left;" id="applyBtn" th:if="${session.mem.memNo} != ${expInfo.memNo}">신청하기</button>
 											</th:block>
-											<button type="button" class="btn btn-dark" style="width: 150px; float: left;" id="toList">목록으로</button>
+											<button type="button" class="btn btn-dark" style="width: 150px; float: left;" id="toList">목록으로</button><br><br>
+											<div class="row ml-1">
+												<p style="color: lightgray;" id="already"></p>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -126,7 +129,12 @@
 		<!-- 카카오 지도 api -->
 		<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c573b65eabeb9b6da24ab52d832dc807"></script>
 		<script th:inline="javascript">
+			/*<![CDATA[*/
 			let expInfo = /*[[${expInfo}]]*/;
+			let boardNo = /*[[${expInfo.boardNo}]]*/;
+			let mem = /*[[${session.mem}]]*/
+			/*]]>*/
+			
 			// 지도 api
 			var latitude = document.getElementById('lati').innerText;
 			var longitude = document.getElementById('longi').innerText;
@@ -143,6 +151,7 @@
 				map : map
 			});
 			
+			// 현재 신청 인원
 			let apl = 0;
 			expInfo.expApplyList.forEach(index => {
 				if(index.aplStts === 'e1') {
@@ -151,6 +160,17 @@
 				}
 			})
 			$('#aplPer').append('현재 ' + apl + '명 /');
+			
+			// 이미 신청을 한 회원이면 신청하기 버튼이 비활성화
+			expInfo.expApplyList.forEach(index => {
+				if(index.memNo == mem.memNo) {
+					if(index.aplStts === 'e0' || index.aplStts === 'e1') {
+						$('[name="aplPer"]').attr('readonly', true);
+						$('#applyBtn').attr('disabled', true);
+						$('#already').append('이미 신청한 게시글입니다');
+					}
+				}
+			})
 			
 			// 데이터에 있는 인원보다 높게 입력하려고 했을 때 실행되는 함수
 			function maxValue(Object) {
@@ -164,11 +184,6 @@
 					Object.value = max - apl;
 				}
 			}
-			
-			/*<![CDATA[*/
-			let boardNo = /*[[${expInfo.boardNo}]]*/;
-			let mem = /*[[${session.mem}]]*/
-			/*]]>*/
 			
 			// 신청하기 버튼 클릭 시
 			$('#applyBtn').on('click', function() {
