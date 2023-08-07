@@ -214,7 +214,11 @@ h4,h5 {
 							}
 						})
 					} else {
-						alert('이미지만 등록 가능합니다')
+						Swal.fire({
+							title: '이미지만 등록 가능합니다.',
+							icon: 'warning',
+							confirmButtonText:"확인"
+						}).then((result) => {})
 					}
 				}
 		
@@ -244,8 +248,11 @@ h4,h5 {
 		
 				//데이터 입력 확인
 				if (!$('[name="title"]').val()) {
-					alert('제목을 입력하세요');
-					return;
+					Swal.fire({
+						title: '제목을 입력하세요.',
+						icon: 'warning',
+						confirmButtonText:"확인"
+					}).then((result)=>{})
 				} else {
 					let ckData = editor
 					let formData = $('#myForm').serializeObject();
