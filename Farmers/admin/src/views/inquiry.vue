@@ -53,12 +53,12 @@
             <table class="table">
 							<tbody>
 								<tr>
-									<th>문의번호</th><td v-text="inquiry.goalPrice"></td>
-									<th>문의일자</th><td v-text="inquiry.fndPrice"></td>
+									<th>문의번호</th><td v-text="inquiry.inqNo"></td>
+									<th>문의일자</th><td v-text="inquiry.inqDate"></td>
 								</tr>
 								<tr>
-									<th>회원번호</th><td v-text="inquiry.fndStrDate"></td>
-									<th>닉네임</th><td v-text="inquiry.shipStrDate"></td>
+									<th>회원번호</th><td v-text="inquiry.memNo"></td>
+									<th>닉네임</th><td v-text="inquiry.name"></td>
 								</tr>
 								<tr>
 									<th>제목</th><td colspan="3" v-text="inquiry.inqTitle"></td>

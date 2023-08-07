@@ -49,6 +49,7 @@
    		 class="elevation-1"
 				>
 				<template v-slot:item.price="{ item }">
+					{{ console.log(item.row) }}
     			{{ formatNumber(item.row.price) }}
   			</template>
 				<template v-slot:bottom>
@@ -247,7 +248,7 @@ methods:{
 		if (number === null || number === undefined) {
         return '';
     }
-      return number.toLocaleString();
+      return String(number).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 },
   mounted(){
