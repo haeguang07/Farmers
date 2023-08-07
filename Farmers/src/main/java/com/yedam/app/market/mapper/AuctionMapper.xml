@@ -158,11 +158,11 @@
 	
 	<!-- 경매 종료일 매 00시마다 스케줄러 -->
 	<select id="expiredAuction" statementType="CALLABLE">
-		{CALL expiredAuction()}
+		{CALL expired_Auction()}
 	</select>
 	
 	<!-- 경매 종료 후 24시간 내 미결제 시 스케줄러 -->
 	<select id="expiredAuctionPay" statementType="CALLABLE">
-		{CALL expiredAuctionPay()}
+		{CALL expired_Auction_Pay()}
 	</select>
 </mapper>
