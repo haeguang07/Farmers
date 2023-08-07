@@ -138,8 +138,7 @@
 					} else {
 						Swal.fire({
 							icon : 'error',
-							title : '이미지 등록 실패',
-							text : '이미지만 등록 가능합니다',
+							title : '이미지만 등록 가능합니다',
 							confirmButtonText : "확인"
 						})
 					}
@@ -180,8 +179,7 @@
 					if(result.result == true) {
 						Swal.fire({
 							icon : 'success',
-							title : '수정 완료',
-							text : '수정이 완료되었습니다',
+							title : '수정되었습니다',
 							confirmButtonText : "확인"
 						})
 						.then(function() {
@@ -190,8 +188,7 @@
 					} else {
 						Swal.fire({
 							icon : 'error',
-							title : '수정 실패',
-							text : '수정에 실패했습니다',
+							title : '수정하지못했습니다',
 							confirmButtonText : "확인"
 						})
 					}
@@ -199,8 +196,7 @@
 				.fail(function(result){
 					Swal.fire({
 						icon : 'error',
-						title : '오류',
-						text : '페이지 호출 오류',
+						title : '페이지 호출 오류',
 						confirmButtonText : "확인"
 					})
 				})
