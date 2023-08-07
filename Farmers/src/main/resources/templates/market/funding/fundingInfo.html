@@ -176,11 +176,10 @@
 			//구매 페이지로 이동
 			$('#getPay').on('click',function(e){
 				let productList = [];
-
 				//배열에 담을 구매상품정보 객체 생성
 				let obj = {
 										boardNo: /*[[${fundingInfo.boardNo}]]*/,
-										qty: $(e.target).closest('.row').find('#count').val(),
+										qty: $('#count').val(),
 										boardCtg: 'n9'
 									}
 

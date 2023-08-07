@@ -34,4 +34,7 @@ public class PaymentDetailVO {
 	private String mbl; //구매자 전화번호
 	private String memNo; //구매자 번호
 	private String boardCtgCode;
+	
+	//경매
+	private String aplNo;
 }
