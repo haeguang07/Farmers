@@ -49,7 +49,7 @@
    		 class="elevation-1"
 				>
 				<template v-slot:item.price="{ item }">
-    			{{ formatNumber(item.price) }}
+    			{{ formatNumber(item.row.price) }}
   			</template>
 				<template v-slot:bottom>
       		<div class="text-center pt-2">
