@@ -305,7 +305,10 @@ methods:{
       pageCount () {
         return Math.ceil(this.boardList.length / this.itemsPerPage)
       },
-    }
+  },
+	created() {
+    document.title = "경매관리";
+  }
 }
 
 </script>
