@@ -31,6 +31,9 @@
 		USING (board_no)
 		<where>
 			AND reg_stts = 'e1' 
+			<![CDATA[
+			AND FND_STR_DATE < sysdate+2
+			]]>
 			<if
 				test="category != null and !category.equals('') ">
 				AND crp_ctg = #{category}

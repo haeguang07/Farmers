@@ -97,7 +97,7 @@ a:hover,
 a:focus {
 	text-decoration: none;
 	outline: none;
-	color: #ffffff;
+	font-weight: bolder;
 }
 
 ul,
@@ -1078,6 +1078,14 @@ ol {
 	-webkit-transition: all, 0.3s;
 	-o-transition: all, 0.3s;
 	transition: all, 0.3s;
+}
+
+.product__item__text h6.titleLeng {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 260px;
 }
 
 .product__item__text .rating {
