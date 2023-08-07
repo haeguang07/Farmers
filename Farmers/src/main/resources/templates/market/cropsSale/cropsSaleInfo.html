@@ -92,9 +92,9 @@
 											<div class="row">
 												<h4 class="textLeft col-lg-9" th:text="${csInfo.title}" style="display: inline; text-align: left; font-size: 30px;">상품명</h4>
 												<div th:if="not ${#strings.isEmpty(session.mem)}">
-													<button type="button" class="btn btn-dark mr-2" style="width: 60px; height: 40px;" id="update" 
+													<button type="button" class="btn btn-info mr-2" style="width: 60px; height: 40px;" id="update" 
 														th:if="${session.mem.memNo} == ${csInfo.memNo} or ${session.mem.memGrd == 'b0'}">수정</button>
-													<button type="button" class="btn btn-dark" style="width: 60px; height: 40px;" id="delete" 
+													<button type="button" class="btn btn-danger" style="width: 60px; height: 40px;" id="delete" 
 														th:if="${session.mem.memNo} == ${csInfo.memNo} or ${session.mem.memGrd == 'b0'}">삭제</button>
 												</div>
 											</div>
@@ -123,7 +123,7 @@
 											<th:block th:if="not ${#strings.isEmpty(session.mem)}">
 												<p style="margin-bottom: 20px; text-align: left;" th:if="${session.mem.memNo} != ${csInfo.memNo}"><b style="font-size: 20px;">총액</b> <span id="sumPrice"></span></p>
 												<button type="button" class="btn btn-success mr-2" style="width: 150px; float: left;" id="buy" th:if="${session.mem.memNo} != ${csInfo.memNo}">구매하기</button>
-												<button type="button" class="btn btn-dark mr-2" style="width: 150px; float: left;" id="addCart" th:if="${session.mem.memNo} != ${csInfo.memNo}">장바구니 담기</button>
+												<button type="button" class="btn btn-primary mr-2" style="width: 150px; float: left;" id="addCart" th:if="${session.mem.memNo} != ${csInfo.memNo}">장바구니 담기</button>
 											</th:block>
 											<button type="button" class="btn btn-dark" style="width: 150px; float: left;" id="toList">목록으로</button>
 										</div>
@@ -298,22 +298,16 @@
 						Swal.fire({
 							icon : 'success',
 							title : '상품을 장바구니에 담았습니다',
-							confirmButtonText : "확인"
+							text : '장바구니로 이동하시겠습니까?',
+							showCancelButton: true, // 취소 버튼 보여주기
+							confirmButtonText : "네",
+							cancelButtonText: '아니요',
+							reverseButtons: false, // 버튼 순서 거꾸로
 						})
-						.then(function() {
-							Swal.fire({
-								icon : 'question',
-								title : '장바구니로 이동하시겠습니까?',
-								showCancelButton: true, // 취소 버튼 보여주기
-								confirmButtonText : "네",
-								cancelButtonText: '아니요',
-								reverseButtons: false, // 버튼 순서 거꾸로
-							})
-							.then((result) => {
-								if(result.isConfirmed) {
-									location.href = "/cart?memNo=" + mem.memNo;
-								}
-							})
+						.then((result) => {
+							if(result.isConfirmed) {
+								location.href = "/cart?memNo=" + mem.memNo;
+							}
 						})
 					})
 				} else {

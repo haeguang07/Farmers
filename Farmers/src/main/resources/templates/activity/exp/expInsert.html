@@ -152,6 +152,7 @@
 			// date 타입 최소 날짜 제한
 			minDateSet(new Date, strDate)
 			strDate.change(function() {
+				endDate.val('');
 				minDateSet(new Date(strDate.val()), endDate);
 			});
 			
