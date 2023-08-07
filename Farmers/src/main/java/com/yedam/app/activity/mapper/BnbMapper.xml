@@ -64,8 +64,9 @@
 	<select id="selectCount">
 		select count(*)
 		from farmbnb
+		where reg_stts='e1'
 		<if test="dst1 != null and !dst1.equals('')">
-			where dst1=#{dst1}
+			and dst1=#{dst1}
 		</if>
 	</select>
 
