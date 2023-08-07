@@ -290,7 +290,7 @@
 
 		//알람 리스트 출력 함수
 		function makeAlert(data){
-			data = data.slice(-5); //최근 5개만 출력하기
+			data = data.slice(-5); //최신 5개만 출력하기
 			$('#unique-alert-content').text('');
 			data.forEach(el => {
 				$('#unique-alert-content').append('<div class="unique-notification-item">'
