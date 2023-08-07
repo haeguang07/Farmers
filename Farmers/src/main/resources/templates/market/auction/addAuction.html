@@ -87,7 +87,6 @@
 						let nextNextDate = new Date(nextDate);
 						nextNextDate.setDate(nextNextDate.getDate() + 7);
 						nextNextDate = nextNextDate.toISOString().substring(0, 10);
-						console.log(nextDate, nextNextDate);
 
 						$("select[name='actDate']").append(
 							$('<option />').attr('value', 'oneWeekLater').text(nextDate)
@@ -281,7 +280,7 @@
 				// 포함하지 않습니다
 
 				for (var i = 0; i < files.length; i++) {
-					console.log(files[i]);
+					// console.log(files[i]);
 					if (files[i].type.includes('image')) {
 						formData.append("uploadFiles", files[i]); //키,값으로 append
 
@@ -292,11 +291,11 @@
 							contentType: false, // multipart/form-data 타입을 사용하기위해 false로 지정
 							data: formData,
 							success: function (result) {
-								console.log(result)
+								// console.log(result)
 								dbPath = result.dbPath
 								$('#addFile')
 									.html('<img src="' + result.loadPath + '">')
-								console.log(dbPath)
+								// console.log(dbPath)
 
 							},
 							error: function (reject) {
@@ -360,25 +359,53 @@
 
 				//데이터 입력 확인
 				if ($('.current').text() == '경매 신청일 선택') {
-					alert('경매 신청일을 선택하세요');
+					Swal.fire({
+						title: '경매 신청일을 선택하세요.',
+						icon: 'warning',
+						confirmButtonText:"확인"
+					}).then((result) => {})
 					return;
 				} else if (!$('[name="title"]').val()) {
-					alert('제목을 입력하세요');
+					Swal.fire({
+						title: '제목을 입력하세요.',
+						icon: 'warning',
+						confirmButtonText:"확인"
+					}).then((result) => {})
 					return;
 				} else if ($('[name="saleQty"]').val() <= 0) {
-					alert('판매수량을 입력하세요');
+					Swal.fire({
+						title: '판매수량을 입력하세요.',
+						icon: 'warning',
+						confirmButtonText:"확인"
+					}).then((result) => {})
 					return;
 				} else if ($('[name="bnp"]').val() <= 0) {
-					alert('즉시 구매가를 입력하세요');
+					Swal.fire({
+						title: '즉시 구매가를 입력하세요.',
+						icon: 'warning',
+						confirmButtonText:"확인"
+					}).then((result) => {})
 					return;
 				} else if ($('[name="shipPrice"]').val()=="") {
-					alert('배송비 항목을 입력하세요');
+					Swal.fire({
+						title: '배송비 항목을 입력하세요.',
+						icon: 'warning',
+						confirmButtonText:"확인"
+					}).then((result) => {})
 					return;
 				} else if (!$('[name="shipDurAvg"]').val()) {
-					alert('배송 평균소요시간을 입력하세요');
+					Swal.fire({
+						title: '배송 평균소요시간을 입력하세요.',
+						icon: 'warning',
+						confirmButtonText:"확인"
+					}).then((result) => {})
 					return;
 				} else if (!$('[name="shipDurMax"]').val()) {
-					alert('배송 최대소요시간을 입력하세요');
+					Swal.fire({
+						title: '배송 최대소요시간을 입력하세요.',
+						icon: 'warning',
+						confirmButtonText:"확인"
+					}).then((result) => {})
 					return;
 				} else {
 					let ckData = editor
@@ -393,21 +420,34 @@
 						formData.desct = ckData.getData()
 					}
 					formData.rep = dbPath
-					console.log(formData);
+					
 					//ajax 경매 등록
 					$.ajax({
 							url: "/add/insertAuction",
 							method: "POST",
 							data: formData
+					})
+					.done(function (result) {
+						Swal.fire({
+							title: '등록이 완료되었습니다.',
+							icon: 'success',
+							confirmButtonText:"확인"
+						}).then((result) => {
+							if(result.isConfirmed){
+								location.href = "auctionList";	
+							}
 						})
-						.done(function (result) {
-							alert(result.retCode);
-							// location.href = "auctionList"
+					})
+					.fail(function (result) {
+						Swal.fire({
+							title: '오류가 발생하였습니다.',
+							text: '잠시 후 다시 시도하세요.',
+							icon: 'warning',
+							confirmButtonText:"확인"
+						}).then((result) => {
+							location.href = "auctionList";	
 						})
-						.fail(function (result) {
-							alert(result.body);
-							// location.href = "auctionList"
-						}) 
+					}) 
 				}
 			})
 		</script>
