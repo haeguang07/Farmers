@@ -49,6 +49,7 @@
 
 .slide-image > img {
   width: 100%;
+  height: 100%
   object-fit: cover;
 }
 
@@ -237,11 +238,11 @@
 		</div> -->
 		
 		
-		<div class="nextContainer" id="nextAuction">
+		<div class="nextContainer" id="nextAuction" style="display: none;">
 			<div class="slide-container">
 				<div class="slide-image">
 					<img src="">
-					<p>상품명</p>
+					<!-- <p class="nextTitle">상품명</p>  -->
 				</div>
 			</div>
 		</div>
@@ -465,6 +466,12 @@
 				$(clone).find('.item__title').text(item.title);
 				
 				$('#nextAuctionList').append(clone); */
+				
+				let imageUrl = '/img/market/auction/' + item.rep;
+				$(clone).find('img').attr('src', imageUrl);
+				// $(clone).find('.nextTitle').text(item.title);
+				
+				$('#nextAuctionList').append(clone);
 				
 			}
 			

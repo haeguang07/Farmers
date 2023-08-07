@@ -114,7 +114,7 @@ public class BoardRestController {
 	}
 	
 	// 이벤트 등록
-	@PostMapping("/add/addEvent")
+	@PostMapping("/add/Event")
 	public Map<String, Object> addEvent(BoardVO vo){
 		Map<String, Object> map = new HashMap<>();
 		

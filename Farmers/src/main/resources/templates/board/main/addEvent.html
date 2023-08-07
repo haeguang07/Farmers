@@ -11,6 +11,10 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>이벤트 등록</title>
 <style>
+.nice-select {
+	width: 165px;
+}
+
 .hidden {
 	display: none;
 }
@@ -18,9 +22,10 @@
 h4, h5 {
 	font-weight: bold;
 }
+
 .ck-editor__editable {
-			height: 400px;
-		}
+	height: 400px;
+}
 </style>
 </head>
 <body>
@@ -62,29 +67,44 @@ h4, h5 {
 								<form id="myForm">
 									<!-- 실제 파일 업로드 input (안보임) -->
 									<input type="file" id="inputFile" class="hidden">
-									<!-- 지역1 선택창 -->
-									<div class="col-4">
-										<select class="form-select form-group col-1.5 mr-2"
-											aria-label="Default select example" name="dst1" id="dst1">
-											<option value="" selected="selected">도</option>
-											<option th:each="opt : ${dst1}" th:text="${opt.codeDesct}"
-												th:value="${opt.cmmnDetaCode}"></option>
-										</select>
+									<div class="row mt-4">
+										<div class="col-lg-4 col-md-3 font-weight-bold">
+											<span style="line-height: 2.5;">지역 선택</span>
+										</div>
+										<!-- 지역1 선택창 -->
+										<div class="col-4 mb-3">
+											<select class="form-select form-group col-1.5 mr-2"
+												aria-label="Default select example" name="dst1" id="dst1">
+												<option value="" selected="selected">도 전체</option>
+												<option th:each="opt : ${dst1}" th:text="${opt.codeDesct}"
+													th:value="${opt.cmmnDetaCode}"></option>
+											</select>
+										</div>
+										<!-- 지역2 선택창 -->
+										<div class="col-4">
+											<select class="form-select form-group col-1.5 mr-2"
+												aria-label="Default select example" name="dst2" id="dst2">
+												<option value="">시·군 전체</option>
+											</select>
+										</div>
 									</div>
-									<!-- 지역2 선택창 -->
-									<div class="col-4">
-										<select class="form-select form-group col-1.5 mr-2"
-											aria-label="Default select example" name="dst2" id="dst2">
-											<option value="">시·군</option>
-										</select>
+									<div class="row mb-4">
+										<div class="col-lg-4 col-md-3 font-weight-bold">
+											<span>제목</span>
+										</div>
+										<input type="text" class="form-control col-lg-8 col-md-9"
+											name="title">
 									</div>
-									<span>제목 <input type="text" class="form-control"
-										name="title"></span> <span>작성자 <input type="text"
-										class="form-control col-lg-6 hidden" readonly="readonly"
-										th:value="${session.mem.memNo}" name="memNo"> <input
-										type="text" class="form-control" readonly="readonly"
-										th:value="${session.mem.nick}">
-									</span>
+									<div class="row">
+										<div class="col-lg-4 col-md-3 font-weight-bold">
+											<span>작성자</span>
+										</div>
+										<input type="text" class="form-control col-lg-6 hidden"
+											readonly="readonly" th:value="${session.mem.memNo}"
+											name="memNo"> <input type="text"
+											class="form-control col-lg-8 col-md-9" readonly="readonly"
+											th:value="${session.mem.nick}">
+									</div>
 								</form>
 							</div>
 						</div>
@@ -122,18 +142,18 @@ h4, h5 {
 		
 		function dstList(dst1){
 			$.ajax({
-				url: "getCode",
+				url: "/getCode",
 				method: "GET",
 				data: {
 					dst1
 				},
 				success(data){
-					console.log(data.dst2);
+					// console.log(data.dst2);
 					
 					// 지역2 select box 출력
  					if(data.dst2) {
 						$('#dst2').empty();
-						$('#dst2').append(`<option value="">시·군</option>`);
+						$('#dst2').append(`<option value="">시·군 전체</option>`);
 						$(data.dst2).each((idx, item) => {
 							if(item.cmmnDetaCode == dst2){
 								$('#dst2').append(`<option value="${item.cmmnDetaCode}" selected>${item.codeDesct}</option>`)
@@ -181,22 +201,22 @@ h4, h5 {
 			// 포함하지 않습니다
 	
 			for (var i = 0; i < files.length; i++) {
-				console.log(files[i]);
+				// console.log(files[i]);
 				if (files[i].type.includes('image')) {
 					formData.append("uploadFiles", files[i]); //키,값으로 append
 	
 					$.ajax({
-						url: 'uploadsAjax',
+						url: '/uploadsAjax',
 						type: 'POST',
 						processData: false, // 기본값은 true, ajax 통신을 통해 데이터를 전송할때, 기본적으로 key와 value 값을 Query String으로 변환해서 보내줌
 						contentType: false, // multipart/form-data 타입을 사용하기위해 false로 지정
 						data: formData,
 						success: function (result) {
-							console.log(result)
+							// console.log(result)
 							dbPath = result.dbPath
 							$('#addFile')
 								.html('<img src="' + result.loadPath + '">')
-							console.log(dbPath)
+							// console.log(dbPath)
 	
 						},
 						error: function (reject) {
@@ -254,7 +274,7 @@ h4, h5 {
 					formData.desct = ckData.getData()
 				}
 				formData.img = dbPath
-				console.log(formData);
+				// console.log(formData);
 				
 				//ajax 이벤트 등록
 				$.ajax({
