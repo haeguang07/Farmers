@@ -48,7 +48,7 @@
 									<div class="col-lg-12">
 										<div class="product__details__text">
 											<div class="row">
-												<h4 class="textLeft col-lg-8" th:text="${flInfo.addr} + ' ' + ${flInfo.detaAddr}" style="display: inline; text-align: left; font-size: 30px;">상품명</h4>
+												<h4 class="textLeft col-lg-9" th:text="${flInfo.addr} + ' ' + ${flInfo.detaAddr}" style="display: inline; text-align: left; font-size: 30px;">상품명</h4>
 												<p style="margin-bottom: 20px;" class="mr-2"><b style="font-size: 15px;">작성자</b> <span th:text="${flInfo.nick}">작성자</span></p>
 												<p style="margin-bottom: 20px;"><b style="font-size: 15px;">작성일자</b> <span th:text="${#dates.format(flInfo.regDate, 'yyyy/MM/dd')}">작성일자</span></p>
 											</div>
@@ -66,26 +66,39 @@
 												위도<span id="lati" th:text="|${flInfo.lati}|"></span><br>
 												경도<span id="longi" th:text="|${flInfo.longi}|"></span>
 											</div>
-											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">면적 : </b><span th:text="${flInfo.area}"></span> <span>(m²)</span></p>
-											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">주요 재배 작물 : </b> <span th:text="${flInfo.mcrp}">작물 목록</span></p>
-											<pre style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">부가 설명 : </b> <span th:text="${flInfo.desct}" id="desct">내용</span></pre>
-											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">대여 기간 : </b> 
-												<span th:text="|${#dates.format(flInfo.lendStrDate, 'yyyy/MM/dd')} ~ ${#dates.format(flInfo.lendEndDate, 'yyyy/MM/dd')}|">대여 시작 ~ 종료 일자</span></p>
-											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">대여 가격 : </b> 
-												<span th:text="${#numbers.formatInteger(flInfo.lendPrice, 1, 'COMMA')} + '원'" style="font-size: 20px;"></span>
-												<span>(연간)</span>
-											</p>
+											<div class="row ml-2">
+												<h5><b style="font-size: 20px;">면적 : </b></h5>
+												<p class="ml-2" style="margin-bottom: 20px;" th:text="${flInfo.area}"></p><span>(m²)</span>
+											</div>
+											<div class="row ml-2">
+												<h5><b style="font-size: 20px;">주요 재배 작물 : </b></h5>
+												<p class="ml-2" style="margin-bottom: 20px;" th:text="${flInfo.mcrp}">작물 목록</p>
+											</div>
+											<div class="row ml-2">
+												<h5><b style="font-size: 20px;">부가 설명 : </b></h5>
+												<pre class="ml-2" style="margin-bottom: 20px; font-family: 'Nunito Sans', sans-serif; font-size: 15px;" th:text="${flInfo.desct}" id="desct">내용</pre>
+											</div>
+											<div class="row ml-2">
+												<h5><b style="font-size: 20px;">대여 기간 : </b></h5>
+												<p class="ml-2" style="margin-bottom: 20px;" th:text="|${#dates.format(flInfo.lendStrDate, 'yyyy/MM/dd')} ~ ${#dates.format(flInfo.lendEndDate, 'yyyy/MM/dd')}|">대여 시작 ~ 종료 일자</p>
+											</div>
+											<div class="row ml-2">
+												<h5><b style="font-size: 20px;">대여 가격 : </b></h5>
+												<p><b class="ml-2" style="margin-bottom: 20px; font-size: 20px;" th:text="${#numbers.formatInteger(flInfo.lendPrice, 1, 'COMMA')} + '원'"></b></p>
+												<span style="font-size: 15px;">(연간)</span>
+											</div>
 											<div class="row" style="justify-content: center;">
 												<th:block th:if="not ${#strings.isEmpty(session.mem)}">
 													<button type="button" class="btn btn-success mr-2" style="width: 150px; float: left;" id="applyBtn" 
 														th:if="${session.mem.memNo} != ${flInfo.memNo}">신청하기</button>
-													<button type="button" class="btn btn-dark mr-2" style="width: 150px;" id="update" 
+													<button type="button" class="btn btn-info mr-2" style="width: 150px;" id="update" 
 														th:if="${session.mem.memNo} == ${flInfo.memNo} or ${session.mem.memGrd == 'b0'}">수정하기</button>
-													<button type="button" class="btn btn-dark mr-2" style="width: 150px;" id="delete" 
+													<button type="button" class="btn btn-danger mr-2" style="width: 150px;" id="delete" 
 														th:if="${session.mem.memNo} == ${flInfo.memNo} or ${session.mem.memGrd == 'b0'}">삭제하기</button>
 												</th:block>
 												<button type="button" class="btn btn-dark" style="width: 150px; float: left;" id="toList">목록으로</button>
 											</div>
+											<p style="color: lightgray;" id="already"></p>
 										</div>
 									</div>
 								</div>
@@ -100,7 +113,9 @@
 		<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c573b65eabeb9b6da24ab52d832dc807"></script>
 		<script th:inline="javascript">
 			/*<![CDATA[*/
+			let flInfo = /*[[${flInfo}]]*/;
 			let boardNo = /*[[${flInfo.boardNo}]]*/;
+			let mem = /*[[${session.mem}]]*/;
 			/*]]>*/
 			
 			// 지도 api
@@ -118,6 +133,17 @@
 				position : new kakao.maps.LatLng(latitude,longitude), // 마커의 좌표
 				map : map
 			});
+			
+			// 이미 신청을 한 회원이면 신청하기 버튼이 비활성화
+			flInfo.applys.forEach(index => {
+				console.log(index);
+				if(index.memNo == mem.memNo) {
+					if(index.aplStts === 'e0' || index.aplStts === 'e1') {
+						$('#applyBtn').attr('disabled', true);
+						$('#already').append('이미 신청한 게시글입니다');
+					}
+				}
+			})
 			
 			// 신청하기 버튼 클릭 시
 			$('#applyBtn').magnificPopup({
