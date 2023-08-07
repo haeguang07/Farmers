@@ -49,8 +49,7 @@
    		 class="elevation-1"
 				>
 				<template v-slot:item.price="{ item }">
-					{{ console.log(item.row) }}
-    			{{ formatNumber(item.row.price) }}
+    			{{ formatNumber(item.raw.price) }}
   			</template>
 				<template v-slot:bottom>
       		<div class="text-center pt-2">
@@ -93,17 +92,19 @@
           <div>
             <div class="row">
 							<div class="col"></div>
-              <div class="col-2" v-if="board.regStts=='승인 대기'" >
+              <div class="col-3" v-if="board.regStts=='승인 대기'" >
                 <button v-show="btnShow" class="btn btn-success mb-3 mx-3" @click="apply">승인</button>
                 <select v-model="reason" v-show="!btnShow">
                   <option value="정보 누락 또는 오류">정보 누락 또는 오류</option>
                   <option value="부적절한 내용이 있습니다">부적절한 내용</option>
                 </select>
-                <button class="btn btn-danger mb-3 mx-3 col-2" @click="refusal1" v-show="btnShow">승인거부</button>
-                <button class="btn btn-danger mb-3 mx-3 col-2" @click="refusal2" v-show="!btnShow">승인거부</button>
-              </div>
-              <div v-else>
-                  <button class="btn btn-primary mb-3 mx-3 col-2" @click="back">돌아가기</button>
+								</div>
+								<div class="col-4" v-if="board.regStts=='승인 대기'" >
+									<button class="btn btn-danger mb-3 mx-3" @click="refusal1" v-show="btnShow">승인거부</button>
+									<button class="btn btn-danger mb-3 mx-3" @click="refusal2" v-show="!btnShow">승인거부</button>
+								</div>
+              <div class="col-4" v-else>
+                  <button class="btn btn-primary mb-3 mx-3" @click="back">돌아가기</button>
               </div>
             </div>
           </div>

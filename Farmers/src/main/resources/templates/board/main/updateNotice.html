@@ -137,7 +137,11 @@ h4, h5 {
 		
 				//데이터 입력 확인
 				if (!$('[name="title"]').val()) {
-					alert('제목을 입력하세요');
+					Swal.fire({
+						title: '제목을 입력하세요.',
+						icon: 'warning',
+						confirmButtonText:"확인"
+					}).then((result)=>{})
 					return;
 				} else {
 					let ckData = editor

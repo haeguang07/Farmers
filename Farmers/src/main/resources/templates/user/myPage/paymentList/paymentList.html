@@ -25,6 +25,9 @@
 table.dataTable tbody td {
 		  vertical-align: middle;
 }
+table.dataTable thead th {
+		 text-align: center;
+}
 </style>
 </head>
 
@@ -100,9 +103,18 @@ table.dataTable tbody td {
 				
 				$('#myTable').DataTable({
 					language : lang_kor,
-					order : [ [ 0, "desc" ] ],
+					columnDefs: [{width: "10%",targets: 0,orderable: true,
+				        render: function (data, type, row, meta) {
+					          // meta.row는 0부터 시작하는 행의 인덱스입니다.
+					          return meta.row + 1;
+					            }},
+						 	 	 {width: "10%",targets: 1},
+							  	 {width: "38%",targets: 2},
+							 	 {width: "14%",targets: 3,className: 'dt-body-right'},
+						 		 {width: "15%",targets: 4},
+						 		 {width: "13%",targets: 5}
+								],
 					lengthMenu : [5,10],
-					columnDefs: [{targets: 3,className: 'dt-body-right'}]
 				});
 			})
 

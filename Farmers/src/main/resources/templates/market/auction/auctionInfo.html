@@ -9,6 +9,10 @@
 	type="text/css">
 
 <style>
+#tabs-2 {
+	margin-top: 50px;
+}
+
 .big_img {
 	width: 550px;
 	height: 550px;	
@@ -278,12 +282,29 @@ label:has(.bidCount) {
 							<div class="tab-pane" id="tabs-2" role="tabpanel">
 								<div class="row d-flex justify-content-center">
 									<div class="col-lg-8">
-										<p>This delectable Strawberry Pie is an extraordinary
-											treat filled with sweet and tasty chunks of delicious
-											strawberries. Made with the freshest ingredients, one bite
-											will send you to summertime. Each gift arrives in an elegant
-											gift box and arrives with a greeting card of your choice that
-											you can personalize online!2</p>
+										<h5>판매자 정보</h5>
+										<!-- <table class="table seller">
+											<tr>
+												<td>판 매 자</td>
+												<td><span
+													th:text="|${bnb.name} (nickname: ${bnb.nick})|"></span></td>
+											</tr>
+											<tr>
+												<td>전화번호</td>
+												<td><span th:if="${bnb.mbl!=null and bnb.mbl!=''}"
+													th:text="|${bnb.mbl}|"></span></td>
+											</tr>
+											<tr>
+												<td>이 메 일</td>
+												<td><span th:text="|${bnb.email}|"></span></td>
+											</tr>
+											<tr>
+												<td>주 소</td>
+												<td><span th:if="${bnb.zip!=null and bnb.zip!=''}"
+													th:text="|${bnb.memAdr}, ${bnb.memAdrdeta} (우:${bnb.zip})|"></span>
+												</td>
+											</tr>
+										</table> -->
 									</div>
 								</div>
 							</div>
@@ -356,7 +377,11 @@ label:has(.bidCount) {
 					}).then((result) => {})
 				}else {
 					if(inputVal <= hBidVal){
-						alert('입찰 금액은 현재 최고 입찰가보다 높아야 합니다.');
+						Swal.fire({
+							title: '입찰 금액은 현재 최고 입찰가보다 높아야 합니다.',
+							icon: 'warning',
+							confirmButtonText:"확인",
+						}).then((result) => {})
 						$(this).focus();
 					} else{
 						if (balence !== 0){
@@ -390,11 +415,23 @@ label:has(.bidCount) {
 			$('.roundBtn').on('click', function(){
 				let btnVal = $(this).text();
 				let price = $('#bidPrice').val();
+				let previousBid = /*[[${actInfo.price}]]*/;
+				let compareBid = $('.highestBid').val().replace(/[^\d]+/g, "");
+				console.log(compareBid);
 				
 				if(btnVal == '-'){
 					let dec = Number(price);
 					dec = dec - 500;
-						if(dec >= 1000){						
+						if(dec >= 1000){	
+							if(dec == compareBid){
+								Swal.fire({
+									title: '입찰 금액은 현재 최고 입찰가보다 높아야 합니다.',
+									icon: 'warning',
+									confirmButtonText:"확인",
+								}).then((result) => {})
+								$('#bidPrice').val('');
+								$('#bidPrice').focus();
+							}
 						}else if(dec < 1000){
 							Swal.fire({
 								title: '입찰금액은 최소 1000원부터입니다.',
@@ -406,7 +443,6 @@ label:has(.bidCount) {
 					$('#bidPrice').val(dec);
 				}else if(btnVal == '+'){
 					let inc = Number(price);
-					let previousBid = parseInt($('.highestBid').text().replace(/[^\d]+/g, ""));
 					console.log(previousBid);
 					
 					if(inc === 0){
@@ -422,10 +458,20 @@ label:has(.bidCount) {
 				}
 			})
 			
+			let seller = /*[[${actInfo.memNo}]]*/;
+			
 			// 입찰 기능			
 			$('#bidNext').on('click', function(){
 				event.preventDefault();
 				let inputVal = $('#bidPrice').val();
+				
+				if(mem.memNo == seller){
+					Swal.fire({
+						title: '작성자는 입찰할 수 없습니다.',
+						icon: 'warning',
+						confirmButtonText:"확인",
+					}).then((result) => {})
+				}
 				
 				if(!bool){
 					Swal.fire({
@@ -512,6 +558,14 @@ label:has(.bidCount) {
 			$('#buyNext').on('click', function(){
 				event.preventDefault();
 				let boardNo = $('#boardNo').val();
+				
+				if(mem.memNo == seller){
+					Swal.fire({
+						title: '작성자는 즉시 구매를 할 수 없습니다.',
+						icon: 'warning',
+						confirmButtonText:"확인",
+					}).then((result) => {})
+				}
 				
 				// 구매 페이지로 보낼 배열
 				let productList = [];

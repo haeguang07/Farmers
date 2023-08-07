@@ -105,7 +105,7 @@
 							</table>
           <div>
             <div class="text-end">
-              <div v-if="board.regStts=='승인 대기;'">
+              <div v-if="board.regStts=='승인 대기'">
                 <button v-show="btnShow" class="btn btn-success mb-3 mx-3" @click="apply">승인</button>
                 <select v-model="reason" v-show="!btnShow">
                   <option value="정보 누락 또는 오류">정보 누락 또는 오류</option>

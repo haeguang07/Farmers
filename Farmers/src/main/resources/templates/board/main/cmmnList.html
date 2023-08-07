@@ -14,6 +14,13 @@
 .center {
 	text-align: center;
 }
+
+.nice-select {
+	width: 149px;
+}
+#dst1Div {
+	margin-left: 30px;
+}
 </style>
 </head>
 <body>
@@ -65,15 +72,18 @@
 						</div>
 					</div>
 					<div class="row col-lg-9">
-						<div class="col-lg-12" style="margin-left: 0;">
-							<!-- 지역1 선택창 -->
-							<div class="col-1">
-								<select class="form-select form-group col-1.5 mr-2"
-									aria-label="Default select example" id="dst1">
-									<option value="" selected="selected">도</option>
-									<option th:each="opt : ${dst1}" th:text="${opt.codeDesct}"
-										th:value="${opt.cmmnDetaCode}"></option>
-								</select>
+						<div class="col-lg-12 col-md-12 col-sm-12" style="margin-left: 0;">
+							<div class="row">
+								<div class="col-lg-9 col-md-2"></div>
+								<!-- 지역1 선택창 -->
+								<div class="col-1" id="dst1Div">
+									<select class="form-select form-group col-1.5 mr-2"
+										aria-label="Default select example" id="dst1">
+										<option value="" selected="selected">도 전체</option>
+										<option th:each="opt : ${dst1}" th:text="${opt.codeDesct}"
+											th:value="${opt.cmmnDetaCode}"></option>
+									</select>
+								</div>
 							</div>
 							<div class="shopping__cart__table" style="margin-bottom: 0px;">
 								<table id="myTable" class="center">
@@ -101,7 +111,7 @@
 										th:onclick="'location.href=\''+ @{${'/add/Cmmn'}} + '\''">등록</button>
 								</div>
 							</th:block>
-							<div class="row center" >
+							<div class="row center">
 								<div class="col-lg-12" id="pageDiv"></div>
 							</div>
 						</div>
@@ -188,8 +198,8 @@
 			    tr.append(tdImg);
 
 			    tr.append($('<td>').text(item.title));
-			    tr.append($('<td>').text(item.wrtDate));
 			    tr.append($('<td>').text(item.nick));
+			    tr.append($('<td>').text(item.wrtDate));
 			    tr.append($('<td>').text(item.hitCount));
 			    tr.append($('<td>').text(item.recomCount));
 

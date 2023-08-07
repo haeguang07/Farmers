@@ -165,8 +165,8 @@
 		resultType="AlertVO">
 		SELECT *
 		FROM alert
-		WHERE mem_no = #{memNO}
-		ORDER BY 1 desc
+		WHERE mem_no = #{memNo}
+		ORDER BY alrt_date desc
 	</select>
 
 	<!-- 상세 알림 조회 -->
@@ -368,6 +368,7 @@
      		  WHERE mem_no = #{memNo})
 		JOIN auction USING (board_no)
 		GROUP BY board_no, title, rep, act_date, reg_stts
+		ORDER BY 1 desc
 	</select>
 	
 	<!-- 나의 경매의 입찰 리스트 -->
@@ -410,6 +411,7 @@
       		  FROM payment_detail RIGHT JOIN funding USING (board_no) 
       		  WHERE board_no =#{boardNo}) a
 		LEFT JOIN payment b USING (pay_no)
+		ORDER BY 1 desc
 	</select>
 	
 	<!-- 나의 농촌비앤비 리스트 -->
@@ -507,6 +509,7 @@
 			   wrt_date
 		FROM board
 		WHERE mem_no = #{memNo}
+		ORDER BY 1 desc
 	</select>
 	
 	<!-- 모든 판매상품 리스트 -->
@@ -610,6 +613,7 @@
                           		  USING (mem_no)) 
 		USING (mem_no)
 		WHERE pay_deta_no = #{payDetaNo}
+		ORDER BY 1 desc
 	</select>
 	
 	<!-- 내 상품의 배송 상태 변경 -->
@@ -628,6 +632,7 @@
 			   FIND_CODE_NAME(reg_stts) reg_stts
         FROM experience
         WHERE mem_no = #{memNo}
+        ORDER BY 1 DESC
 	</select>
 	
 	<!-- 나의 농촌체험 신청 리스트 -->
@@ -646,6 +651,7 @@
      		  WHERE mem_no = #{memNo})
 		JOIN experience USING (board_no)
 		GROUP BY board_no, title, rep, apl_stts,apl_date,apl_no
+		ORDER BY 1 desc
 	</select>
 	
 	<!-- 나의 농촌체험 신청자 리스트 -->
@@ -715,6 +721,7 @@
 		FROM skilled_expert
 		WHERE div = #{div}
 		AND mem_no = #{memNo}
+		ORDER BY 1 desc
 	</select>
 	
 	<!-- 금손귀농인 나의 신청 리스트 -->
@@ -733,6 +740,7 @@
      		   WHERE mem_no = #{memNo})
 		 JOIN SKILLED_EXPERT USING (board_no)
 		 GROUP BY board_no, title, apl_stts,apl_date,apl_no,day_div
+		 ORDER BY 1 desc
 	</select>
 	
 	<!-- 나의 금손귀농인 구직자 리스트 -->
