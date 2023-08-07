@@ -90,18 +90,19 @@
 							</tbody>
 						</table>
           <div>
-            <div class="text-end">
-              <div v-if="board.regStts=='승인 대기'" >
+            <div class="row">
+							<div class="col"></div>
+              <div class="col-2" v-if="board.regStts=='승인 대기'" >
                 <button v-show="btnShow" class="btn btn-success mb-3 mx-3" @click="apply">승인</button>
                 <select v-model="reason" v-show="!btnShow">
                   <option value="정보 누락 또는 오류">정보 누락 또는 오류</option>
                   <option value="부적절한 내용이 있습니다">부적절한 내용</option>
                 </select>
-                <button class="btn btn-danger mb-3 mx-3" @click="refusal1" v-show="btnShow">승인거부</button>
-                <button class="btn btn-danger mb-3 mx-3" @click="refusal2" v-show="!btnShow">승인거부</button>
+                <button class="btn btn-danger mb-3 mx-3 col-2" @click="refusal1" v-show="btnShow">승인거부</button>
+                <button class="btn btn-danger mb-3 mx-3 col-2" @click="refusal2" v-show="!btnShow">승인거부</button>
               </div>
               <div v-else>
-                  <button class="btn btn-primary mb-3 mx-3" @click="back">돌아가기</button>
+                  <button class="btn btn-primary mb-3 mx-3 col-2" @click="back">돌아가기</button>
               </div>
             </div>
           </div>
@@ -149,7 +150,6 @@ methods:{
 		this.callList(obj);
 	},
 	changeBtn(){
-		console.log(this.selected);
 		if(this.stts==''){
 			this.$swal({
       	title: "상태를 선택하세요",
@@ -166,13 +166,11 @@ methods:{
 					tableName:'market'}
 			    list.push(obj);
 		  });
-		console.log(list);
 		this.modify(list)
 	},
 	modify(list){
   	axios.put('/admin/chageRegStatus', list)
   	.then(response => {
-			console.log(response.data);
 			let stts= this.searchStts
 			this.callList({stts})
 			this.selected = [];
@@ -217,7 +215,6 @@ methods:{
   		}
 		})
 		.then((response) => {
-  		console.log(response.data);
   		if (response.data.retCode == "Success") {
     		this.$swal({
 					title: "신청이 거부가 성공적으로 이루졌습니다.",
@@ -242,7 +239,6 @@ methods:{
 	callList(vo){
 		axios.get("/admin/markets",{params: vo})
 		.then(response => {
-			console.log(response.data);
 			this.boardList = response.data;
 		})
 		.catch(err => console.log(err));
@@ -278,7 +274,10 @@ methods:{
       pageCount () {
         return Math.ceil(this.boardList.length / this.itemsPerPage)
       },
-    }
+  },
+	created() {
+    document.title = "마켓관리";
+  }
 }
 
 </script>

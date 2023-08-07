@@ -24,7 +24,7 @@ loadFonts()
 const app=createApp(App).use(router).use(store).use(vuetify).use(CKEditor).use(VueSweetalert2).component('VueDatePicker', VueDatePicker);
 
   
-  store.dispatch('fetchCodes'); 
+store.dispatch('fetchCodes'); 
   
-  app.mount('#app');
+app.mount('#app');
 
