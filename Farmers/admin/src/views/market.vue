@@ -49,7 +49,7 @@
    		 class="elevation-1"
 				>
 				<template v-slot:item.price="{ item }">
-					{{ console.log(item.row) }}
+					{{ console.log(item) }}
     			{{ formatNumber(item.row.price) }}
   			</template>
 				<template v-slot:bottom>
