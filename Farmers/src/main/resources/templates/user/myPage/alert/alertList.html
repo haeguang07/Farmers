@@ -75,10 +75,16 @@
 		<!-- Shop Section End -->
 
 		<script>
+			var magnificPopup = $.magnificPopup.instance; 
 			//팝업창 닫기 함수
 			function closePopUp(){
-				var magnificPopup = $.magnificPopup.instance; 
 				magnificPopup.close();
+			}
+			
+			//파라미터 받아서 팝업창 닫기
+			function parameterClose(aplNo){
+				magnificPopup.close();
+				location.href="/auctionPayPage?aplNo="+aplNo
 			}
 		
 			// dataTables
