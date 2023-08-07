@@ -94,7 +94,8 @@
 		$(function () {
 			$('#myTable').DataTable({
 				language: lang_kor,
-				order : [2,'desc']
+				order : [2,'desc'],
+				lengthMenu : [5,10]
 			});
 		})
 
@@ -129,7 +130,7 @@
 		$(function(){
 			$('tr').each(function(idx,item){
 				if($(item).find('#mem').attr('data-mem') == /*[[${session.mem.memNo}]]*/){
-					$(item).css('background-color', 'lightcoral')
+					$(item).css('background-color', '#FFCAC6')
 				}
 			})
 		})

@@ -62,19 +62,14 @@
 				let error=null;
 				let urlParams = new URL(location.href).searchParams;
 				let errorMsg = urlParams.get('error');
-				console.log(errorMsg)
 				urlParams.delete('error')
 				if(errorMsg=='id'){
 			    	error='아이디가 존재하지 않습니다'
 			    }else if(errorMsg=='pass'){
 			    	error='비밀번호가 정확하지 않습니다'
 				}
-			
-				console.log(error);
-			
 			if(error !=null){
 				Swal.fire({ title: '로그인 실패' , text:error,  icon: 'error',confirmButtonText:"확인"});
-
 			}
 			/*]]>*/
 	

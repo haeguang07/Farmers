@@ -17,7 +17,7 @@
 		SELECT *
 		  FROM funding 
 		  LEFT JOIN ( SELECT board_no, TRUNC(fnd_end_date - sysdate) as dday, priceSum,
-				      		payCount, TRUNC((priceSum/goal_price)*100,2) as goalPer
+				      		NVL(payCount,0) as payCount, TRUNC((priceSum/goal_price)*100,2) as goalPer
 					FROM funding
 					LEFT JOIN (SELECT board_no, sum(price*qty) as
 										priceSum,
@@ -47,7 +47,7 @@
 				order by 1 desc
 			</when>
 			<when test="order.equals('인기순')">
-				order by payCount asc
+				order by payCount desc
 			</when>
 			<when test="order.equals('판매임박순')">
 				order by dday asc

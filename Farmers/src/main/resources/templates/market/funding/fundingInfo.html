@@ -8,7 +8,7 @@
 	<meta name="keywords" content="Male_Fashion, unica, creative, html">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>FundingInfo</title>
+	<title>Funding Info</title>
 	<link rel="stylesheet" href="css/sungwookCss/sungook.css" type="text/css">
 </head>
 
@@ -92,7 +92,7 @@
 													<div th:if="not ${#strings.isEmpty(session. mem)}" style="margin: 0 auto;">
 														<a href="#" class="primary-btn memService"
 														style="color: white; margin: 0 auto; margin-top: 20px; width: 500px;" id="getPay" th:if="${session.mem.memNo} != ${fundingInfo.memNo}" >구매하기</a>
-														<a th:href="@{modifyFunding(boardNo=${fundingInfo.boardNo})}" class="primary-btn myService"
+														<a th:href="@{/update/modifyFunding(boardNo=${fundingInfo.boardNo})}" class="primary-btn myService"
 														style="color: white; margin: 0 auto; margin-top: 20px; width: 500px;" id="getModify" th:if="${session.mem.memNo} == ${fundingInfo.memNo}">수정하기</a>
 													</div>
 												</div>
