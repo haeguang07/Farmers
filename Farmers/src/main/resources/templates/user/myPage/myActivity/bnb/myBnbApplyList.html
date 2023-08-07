@@ -64,7 +64,7 @@
 									<th>체크인</th>
 									<th>체크아웃</th>
 									<th>박</th>
-									<th>총금액</th>
+									<th>금액</th>
 									<th>결제일</th>
 									<th>상태</th>
 								</tr>
@@ -76,7 +76,7 @@
 										<td th:text="${pay.nick}"></td>
 										<td th:text="${#dates.format(pay.rsvStrDate, 'yyyy/MM/dd')}"></td>
 										<td th:text="${#dates.format(pay.rsvEndDate, 'yyyy/MM/dd')}"></td>
-										<td th:text="${pay.qty}"></td>
+										<td th:text="${pay.qty}+'박'"></td>
 										<td
 											th:text="${#numbers.formatInteger(pay.totalPrice, 3, 'COMMA')}"></td>
 										<td th:text="${#dates.format(pay.payDate, 'yyyy/MM/dd')}"></td>
@@ -96,7 +96,8 @@
 		$(function () {
 			$('#myTable').DataTable({
 				language: lang_kor,
-				order : [4,'desc']
+				order : [0,'desc'],
+				lengthMenu : [5,10]
 			});
 		})
 
@@ -126,15 +127,6 @@
 			}
 		};
 
-
-		//나의 입찰 확인
-		$(function(){
-			$('tr').each(function(idx,item){
-				if($(item).find('#mem').attr('data-mem') == /*[[${session.mem.memNo}]]*/){
-					$(item).css('background-color', 'lightcoral')
-				}
-			})
-		})
 	</script>
 </body>
 

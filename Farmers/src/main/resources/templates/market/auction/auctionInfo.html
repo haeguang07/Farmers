@@ -356,7 +356,11 @@ label:has(.bidCount) {
 					}).then((result) => {})
 				}else {
 					if(inputVal <= hBidVal){
-						alert('입찰 금액은 현재 최고 입찰가보다 높아야 합니다.');
+						Swal.fire({
+							title: '입찰 금액은 현재 최고 입찰가보다 높아야 합니다.',
+							icon: 'warning',
+							confirmButtonText:"확인",
+						}).then((result) => {})
 						$(this).focus();
 					} else{
 						if (balence !== 0){
@@ -390,11 +394,23 @@ label:has(.bidCount) {
 			$('.roundBtn').on('click', function(){
 				let btnVal = $(this).text();
 				let price = $('#bidPrice').val();
+				let previousBid = /*[[${actInfo.price}]]*/;
+				let compareBid = $('.highestBid').val().replace(/[^\d]+/g, "");
+				console.log(compareBid);
 				
 				if(btnVal == '-'){
 					let dec = Number(price);
 					dec = dec - 500;
-						if(dec >= 1000){						
+						if(dec >= 1000){	
+							if(dec == compareBid){
+								Swal.fire({
+									title: '입찰 금액은 현재 최고 입찰가보다 높아야 합니다.',
+									icon: 'warning',
+									confirmButtonText:"확인",
+								}).then((result) => {})
+								$('#bidPrice').val('');
+								$('#bidPrice').focus();
+							}
 						}else if(dec < 1000){
 							Swal.fire({
 								title: '입찰금액은 최소 1000원부터입니다.',
@@ -406,7 +422,6 @@ label:has(.bidCount) {
 					$('#bidPrice').val(dec);
 				}else if(btnVal == '+'){
 					let inc = Number(price);
-					let previousBid = parseInt($('.highestBid').text().replace(/[^\d]+/g, ""));
 					console.log(previousBid);
 					
 					if(inc === 0){

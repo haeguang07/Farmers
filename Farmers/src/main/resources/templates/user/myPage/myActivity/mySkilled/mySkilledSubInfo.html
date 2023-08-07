@@ -91,7 +91,7 @@
 									</div>
 									<div class="col-md-6">
 										<!-- <p>신청 날짜 : <span th:text="${#dates.format(SubInfo.aplDate, 'yyyy/MM/dd')}">홍길동</span></p> -->
-										<p>신청 날짜 : <span th:text="${SubInfo.aplDate}">홍길동</span></p>
+										<p>신청 날짜 : <span th:text="${#strings.substring(SubInfo.aplDate, 0, 10)}">홍길동</span></p>
 									</div>
 									<div class="col-md-6">
 										<p>신청상태 : <span th:text="${SubInfo.aplStts}">몰라</span></p>
