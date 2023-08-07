@@ -29,6 +29,9 @@
 		.marginT30 {
 			margin-top: 30px;
 		}
+		table.dataTable thead th {
+		 text-align: center;
+		}
 	</style>
 </head>
 
@@ -62,7 +65,7 @@
 							<thead>
 								<tr>
 									<th>번호</th>
-									<th>문의카테고리</th>
+									<th>카테고리</th>
 									<th>문의제목</th>
 									<th>문의날짜</th>
 									<th>답변상태</th>
@@ -71,7 +74,7 @@
 							<tbody>
 								<th:block th:each="inq : ${inqList}">
 									<tr>
-										<td id="inqNo" th:text="${inq.inqNo}"></td>
+										<td id="inqNo" th:data-inqNo="${inq.inqNo}"></td>
 										<td th:text="${inq.codeDesct}"></td>
 										<td th:text="${inq.inqTitle}"></td>
 										<td th:text="${#dates.format(inq.inqDate, 'yyyy/MM/dd')}"></td>
@@ -102,7 +105,12 @@
 				
 				$('#myTable').DataTable({
 					language: lang_kor,
-					order: [ [ 0, "desc" ] ],
+					columnDefs: [{width: "10%",targets: 0,orderable: true,
+				        render: function (data, type, row, meta) {
+					          // meta.row는 0부터 시작하는 행의 인덱스입니다.
+					          return meta.row + 1;
+					            }}
+								],
 					lengthMenu : [5,10]
 				});
 			})
@@ -145,7 +153,7 @@
 
 				// 문의상세 이동
 				$('tr').on('click','td',function(e){
-					let iqnNo = $(e.target).closest('tr').find('#inqNo').text()
+					let iqnNo = $(e.target).closest('tr').find('#inqNo').data("inqno")
 					
 					// // 모달창
 					$.magnificPopup.open({
