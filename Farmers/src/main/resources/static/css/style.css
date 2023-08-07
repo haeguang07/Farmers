@@ -1080,6 +1080,14 @@ ol {
 	transition: all, 0.3s;
 }
 
+.product__item__text h6.titleLeng {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 260px;
+}
+
 .product__item__text .rating {
 	margin-bottom: 6px;
 }
