@@ -22,6 +22,9 @@
 	width: 1500px;
 	height: 750px;
 }
+table.dataTable tbody td {
+		  vertical-align: middle;
+}
 </style>
 </head>
 
@@ -97,7 +100,8 @@
 				
 				$('#myTable').DataTable({
 					language : lang_kor,
-					order : [ [ 4, "desc" ] ]
+					order : [ [ 4, "desc" ] ],
+					lengthMenu : [5,10]
 				});
 			})
 

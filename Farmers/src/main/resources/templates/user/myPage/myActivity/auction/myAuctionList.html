@@ -101,32 +101,14 @@
 				table = $('#myTable').DataTable({
 					language: lang_kor,
 					bAutoWidth: false, // 너비 자동맞춤을 false로 설정해주어야 지정한 너비가 제대로 출력된다.
-					columnDefs: [{
-							width: "10%",
-							targets: 0
-						},
-						{
-							width: "15%",
-							targets: 1
-						},
-						{
-							width: "25%",
-							targets: 2
-						},
-						{
-							width: "15%",
-							targets: 3
-						},
-						{
-							width: "13%",
-							targets: 4
-						},
-						{
-							width: "15%",
-							targets: 5
-						}
-					],
-					order: [0, 'desc']
+					columnDefs: [{width: "10%",targets: 0},
+								 {width: "25%",targets: 1},
+								 {width: "10%",targets: 2},
+								 {width: "10%",targets: 3},
+								 {width: "15%",targets: 4}
+								],
+					order: [0, 'desc'],
+					lengthMenu : [5,10]
 				});
 			}
 
@@ -190,12 +172,12 @@
 				$('#thead').children().remove()
 				let tr = $('<tr>').addClass('th')
 				let th1 = $('<th>').text('번호')
-				let th2 = $('<th>').text('이미지')
+				//let th2 = $('<th>').text('이미지')
 				let th3 = $('<th>').text('상품명')
 				let th4 = $('<th>').text('경매일자')
 				let th5 = $('<th>').text('상태')
 				let th6 = $('<th>').text('입찰확인')
-				$(tr).append(th1, th2, th3, th4, th5, th6)
+				$(tr).append(th1, th3, th4, th5, th6)
 				$('#thead').append(tr)
 
 				//tbody
@@ -203,13 +185,13 @@
 				$(list).each(function (idx, item) {
 					tr = $('<tr>').attr('no', item.boardNo)
 					let td1 = $('<td>').text(item.boardNo)
-					let td2 = $('<td>').append($('<img>').attr('src', item.rep))
+					//let td2 = $('<td>').append($('<img>').attr('src', item.rep))
 					let td3 = $('<td>').text(item.title)
 					let td4 = $('<td>').text(item.actDate)
 					let td5 = $('<td>').text(item.regStts)
 					let td6 = $('<td>').append($('<button class="form-control" type="button">입찰확인</button>').addClass('myBtn'))
 
-					$(tr).append(td1, td2, td3, td4, td5, td6)
+					$(tr).append(td1, td3, td4, td5, td6)
 					$('#tbody').append(tr);
 				})
 			}
@@ -247,12 +229,12 @@
 				$('#thead').children().remove()
 				let tr = $('<tr>').addClass('th')
 				let th1 = $('<th>').text('번호')
-				let th2 = $('<th>').text('이미지')
+				//let th2 = $('<th>').text('이미지')
 				let th3 = $('<th>').text('상품명')
 				let th4 = $('<th>').text('경매일자')
 				let th5 = $('<th>').text('상태')
 				let th6 = $('<th>').text('입찰확인')
-				$(tr).append(th1, th2, th3, th4, th5, th6)
+				$(tr).append(th1, th3, th4, th5, th6)
 				$('#thead').append(tr)
 
 				//tbody
@@ -260,13 +242,13 @@
 				$(list).each(function (idx, item) {
 					tr = $('<tr>').attr('no', item.boardNo)
 					let td1 = $('<td>').text(item.boardNo)
-					let td2 = $('<td>').append($('<img>').attr('src', item.rep))
+					//let td2 = $('<td>').append($('<img>').attr('src', item.rep))
 					let td3 = $('<td>').text(item.title)
 					let td4 = $('<td>').text(item.actDate)
 					let td5 = $('<td>').text(item.regStts)
 					let td6 = $('<td>').append($('<button class="form-control" type="button">입찰확인</button> ').addClass('subBtn'))
 
-					$(tr).append(td1, td2, td3, td4, td5, td6)
+					$(tr).append(td1, td3, td4, td5, td6)
 					$('#tbody').append(tr);
 				})
 			}

@@ -16,7 +16,7 @@
  	overflow: hidden; 
  	text-overflow: ellipsis;
  	white-space: nowrap; 
- 	width: 200px;
+ 	width: 220px;
 }
 .nice-select {
 	width: 150px;
@@ -127,9 +127,9 @@
 			<tbody class="hideItem" id="expItem">
 				<tr>
 					<td id="number">번호</td>
-					<td id="title" class="expTitle">제목</td>
+					<td id="title" class="expTitle" style="padding: 30px 0px 10px 30px;">제목</td>
 					<td id="reception">참여 인원</td>
-					<td id="addr" class="expAddr">주소</td>
+					<td id="addr" class="expAddr" style="padding: 30px 0px 10px 30px;">주소</td>
 					<td id="date">체험 기간</td>
 				</tr>
 			</tbody>
@@ -201,7 +201,7 @@
 				
 				$(head).find('#thNumber').html('번호');
 				$(head).find('#thTitle').html('제목');
-				$(head).find('#thReception').html('참여 인원');
+				$(head).find('#thReception').html('참여 인원(명)');
 				$(head).find('#thAddr').html('주소');
 				$(head).find('#thDate').html('체험 기간');
 				
