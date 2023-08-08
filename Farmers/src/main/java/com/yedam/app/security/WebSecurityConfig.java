@@ -104,8 +104,8 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 				.csrf().disable()
 				//경로 권한 설정
 					.authorizeHttpRequests()
-					.antMatchers("/add/**", "/update/**","/procedure/**").hasRole("ROLE_REGULAR")
-					.antMatchers("/admin/**").hasRole("ROLE_ADMIN")
+					.antMatchers("/add/**", "/update/**","/procedure/**").hasRole("REGULAR")
+					.antMatchers("/admin/**").hasRole("ADMIN")
 					.anyRequest().permitAll()
 				//권한 없는 접근 처리
 				.and().exceptionHandling().accessDeniedHandler(accessDeniedHandler())
