@@ -102,35 +102,31 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 				.csrf().disable()
+				//경로 권한 설정
 					.authorizeHttpRequests()
-					.antMatchers("/add/**", "/update/**").hasRole("USER")
+					.antMatchers("/add/**", "/update/**","/procedure/**").hasRole("REGULAR")
 					.antMatchers("/admin/**").hasRole("ADMIN")
 					.anyRequest().permitAll()
-				.and()
-					.exceptionHandling().accessDeniedHandler(accessDeniedHandler())
-				.and()
-					.formLogin()
-					.loginPage("/login")
-					.passwordParameter("pw")
+				//권한 없는 접근 처리
+				.and().exceptionHandling().accessDeniedHandler(accessDeniedHandler())
+				//기본 로그인 설정
+				.and().formLogin().loginPage("/login").passwordParameter("pw")
 					.successHandler(authenticationSuccessHandler())
 					.failureHandler(authenticationFailureHandler()).permitAll()
+				.and().exceptionHandling().accessDeniedHandler(accessDeniedHandler())
+				//iframe위한 설정
+	 		    .and().headers().frameOptions().sameOrigin() // 팝업창 띄우기
 				.and()
-					.exceptionHandling().accessDeniedHandler(accessDeniedHandler())
-	 		    .and()
-				.headers().frameOptions().sameOrigin() // 팝업창 띄우기
-				.and()
+				//로그아웃 설정
 				.logout((logout) -> logout.logoutSuccessUrl("/").invalidateHttpSession(true)
-						.addLogoutHandler(new HeaderWriterLogoutHandler(new ClearSiteDataHeaderWriter(SOURCE)))
-						.permitAll())
+					.addLogoutHandler(new HeaderWriterLogoutHandler(new ClearSiteDataHeaderWriter(SOURCE)))
+					.permitAll())
 					.exceptionHandling().accessDeniedHandler(accessDeniedHandler())
-	 		    .and()
-				.oauth2Login() // OAuth2기반의 로그인인 경우
-				.loginPage("/login") // 인증이 필요한 URL에 접근하면 /loginForm으로 이동
-				.successHandler(authenticationSuccessHandler()) // 로그인 성공하면 "/" 으로 이동
-				.failureHandler(authenticationFailureHandler()) // 로그인 실패 시 /loginForm으로 이동
-				.userInfoEndpoint() // 로그인 성공 후 사용자정보를 가져온다
-				.userService(principalOauth2UserService) // 사용자정보를 처리할 때 사용한다
-
+				//api 로그인 설정
+	 		    .and().oauth2Login().loginPage("/login") 
+				.successHandler(authenticationSuccessHandler())
+				.failureHandler(authenticationFailureHandler()) 
+				.userInfoEndpoint().userService(principalOauth2UserService) // 사용자정보를 처리할 때 사용한다
 		;
 
 		return http.build();

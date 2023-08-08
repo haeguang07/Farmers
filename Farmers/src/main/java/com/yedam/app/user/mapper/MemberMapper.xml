@@ -6,27 +6,16 @@
 	<!-- 회원 조회 -->
 	<sql id="searchMemberAll">
 		SELECT 	m.mem_no
-				,id
-				,pw
-				,email
-				,nick
-				,login_path
-				,rpt_cnt
-				,mem_grd
-				,name
-				,zip
-				,addr
-				,deta_addr
-				,mbl
-				,b_date
-				,gen
-				,pnt
-				,stts
-				,sign_date
-				,prof
-				,grd_atch_file
-				,wdr_apl_date
-				,blck_date
+				,id ,pw
+				,email ,nick
+				,login_path ,rpt_cnt
+				,mem_grd ,name
+				,zip ,addr ,deta_addr
+				,mbl ,b_date
+				,gen ,pnt
+				,stts ,sign_date
+				,prof ,grd_atch_file
+				,wdr_apl_date ,blck_date
 		FROM member m join member_detail d
 		ON(m.mem_no=d.mem_no)
 	</sql>

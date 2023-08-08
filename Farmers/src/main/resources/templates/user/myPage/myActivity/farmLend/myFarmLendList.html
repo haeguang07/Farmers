@@ -84,6 +84,10 @@
 			let table;
 			//기본 화면 데이터
 			$(function () {
+				$(function(){
+					myMenucheck('나의 농지대여')
+				})
+				
 				ajaxMyList()
 			})
 
@@ -100,36 +104,19 @@
 			function mkDataTable() {
 				table = $('#myTable').DataTable({
 					language: lang_kor,
-					bAutoWidth: false, // 너비 자동맞춤을 false로 설정해주어야 지정한 너비가 제대로 출력된다.
+					bAutoWidth: false, 
 					columnDefs: [{
 							width: "10%",
 							targets: 0,orderable: true,
 					        render: function (data, type, row, meta) {
-						          // meta.row는 0부터 시작하는 행의 인덱스입니다.
 						          return meta.row + 1;
 						            }
-						},
-						{
-							width: "30%",
-							targets: 1
-						},
-						{
-							width: "10%",
-							targets: 2
-						},
-						{
-							width: "15%",
-							targets: 3,
-							className: 'dt-body-right'
-						},
-						{
-							width: "13%",
-							targets: 4
-						},
-						{
-							width: "15%",
-							targets: 5
-						}
+							},
+						{width: "30%",targets: 1},
+						{width: "10%",targets: 2},
+						{width: "15%",targets: 3,className: 'dt-body-right'},
+						{width: "13%",targets: 4},
+						{width: "15%",targets: 5}
 					],
 					lengthMenu : [5,10]
 				});
