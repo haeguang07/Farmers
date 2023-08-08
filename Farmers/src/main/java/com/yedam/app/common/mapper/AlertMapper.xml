@@ -21,7 +21,7 @@
 		FROM alert
 		WHERE mem_no = #{memNo}
 		AND alrt_stts = 'L1'
-		order by alrt_date desc 
+		order by alrt_no desc
 	</select>
 	
 	

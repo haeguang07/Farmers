@@ -45,4 +45,7 @@ public interface AuctionMapper {
 	// 경매 종료 후 24시간내 미결제 시 스케줄러
 	public void expiredAuctionPay();
 	
+	// 판매자 정보
+	public AuctionVO sellerInfo(String boardNo);
+	
 }

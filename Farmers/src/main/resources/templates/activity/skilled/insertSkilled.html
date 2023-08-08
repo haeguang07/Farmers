@@ -49,6 +49,10 @@
 <script src="/js/otherPlugins/sweetAlert2-11.4.10.js"></script>
 
 <style>
+#addFile img {
+    height: 210px;
+  }
+
 .nice-select {
 	width: 149px;
 }
@@ -427,7 +431,14 @@
 						})
 					},
 					error: function(result){
-						console.log(result);
+						Swal.fire({
+							title: '오류가 발생하였습니다.',
+							text: '잠시 후 다시 시도하세요.'
+							icon: 'warning',
+							confirmButtonText:"확인"
+						}).then((result) => {
+							parent.closePopUp();	
+						})
 					}
 				})
 			}

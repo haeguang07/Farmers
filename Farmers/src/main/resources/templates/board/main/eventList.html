@@ -11,6 +11,19 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>이벤트</title>
 <style>
+.eTitle {
+	display:block;
+ 	overflow: hidden; 
+ 	text-overflow: ellipsis;
+ 	white-space: nowrap; 
+ 	width: 150px;
+ 	font-weight: bold;
+}
+
+.set-bg {
+	cursor: pointer;
+}
+
 .nice-select {
 	width: 149px;
 }
@@ -95,8 +108,7 @@
 							</div>
 						</div>
 
-
-						<section class="blog spad" id="eventList">
+						<section class="row blog spad" id="eventList" style="padding-top: 0px;">
 							<div class="container">
 								<div class="row">
 									<div class="row" id="pageDiv"></div>
@@ -120,8 +132,8 @@
 									data-setbg="img/blog/blog-1.jpg"></div>
 								<div class="blog__item__text">
 									<span class="eDate"><img src="img/icon/calendar.png"
-										alt=""> 16 February 2020<span class="eDst2"></span></span>
-									<h5 class="eTitle">What Curling Irons Are The Best Ones</h5>
+										alt="">16 February 2020<span class="eDst2"></span></span>
+									<p class="eTitle">What Curling Irons Are The Best Ones</p>
 									<a href="#">자세히 보기</a>
 								</div>
 							</div>
@@ -213,7 +225,37 @@
             	let imageUrl = item.img;
             	$(clone).find('.set-bg').css('background-image', 'url('+imageUrl+')');
             	$(clone).find('.set-bg').on('click', function(){
-            		location.href = `/eventInfo?postCtg=i4&boardNo=${item.boardNo}`
+            		if(mem){
+	            		if(mem.memGrd != 'b2'){
+	            			location.href = `/eventInfo?postCtg=i4&boardNo=${item.boardNo}`
+	            		} else {
+	            			Swal.fire({
+								title: '정회원만 조회 가능합니다.',
+								text: '등업신청 하시겠습니까?',
+								icon: 'warning',
+								showCancelButton: true,
+								confirmButtonText:"확인",
+								cancelButtonText: "취소"
+							}).then((result) => {
+								if(result.isConfirmed){
+									location.href = `/myPage/myPage`;									
+								}
+							})
+	            		}
+            		} else {
+            			Swal.fire({
+							title: '로그인이 필요합니다.',
+							text: '확인을 누르시면 로그인 페이지로 이동합니다.',
+							icon: 'warning',
+							showCancelButton: true,
+							confirmButtonText:"확인",
+							cancelButtonText: "취소",
+						}).then((result) => {
+							if(result.isConfirmed){
+								location.href = `/login`;								
+							}
+						})
+            		}
             	})
             	$(clone).find('.eDst2').text(item.dst2);
             	$(clone).find('.eTitle').text(item.title);

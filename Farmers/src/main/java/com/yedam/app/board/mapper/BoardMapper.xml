@@ -29,7 +29,7 @@
 				  			   , m.nick
 				  			   , b.post_ctg
 						       , b.dst1
-						       , b.dst2
+						       , FIND_CODE_NAME(b.dst2) dst2
 						       , b.title
 						       , b.img
 						       , b.wrt_date

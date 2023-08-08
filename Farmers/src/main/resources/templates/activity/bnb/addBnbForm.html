@@ -47,10 +47,12 @@
 		<hr>
 		<!-- Shop Details Section Begin -->
 		<section class="shop-details">
-			<form th:action="@{/add/insertBnb}" method="POST" th:object="${bnb}" id="myForm">
+			<form th:action="@{/add/insertBnb}" method="POST" th:object="${bnb}"
+				id="myForm">
 				<div class="product__details__pic" style="background-color: white;">
 					<div class="container">
-					<h3 class="addTitle" style="text-align:left; margin-bottom:50px;">농촌비앤비 등록페이지</h3>
+						<h3 class="addTitle"
+							style="text-align: left; margin-bottom: 50px;">농촌비앤비 등록페이지</h3>
 						<div class="row">
 							<div class="row col-lg-12">
 								<div class="col-lg-4 col-md-9 row" id="addFile">
@@ -373,17 +375,17 @@
 					//상세 설명 존재하지 않을 시 출력 내용 설정
 					if(ckData.getData() == ''){
 						ckData.setData('<p>상세 설명이 존재하지 않습니다</p>')
-						formData.desct = ckData.getData()
+						formData.desct = ckData.getData();
 						return;
 					}else{
-						formData.desct = ckData.getData()
+						formData.desct = ckData.getData();
 					}
 					if($('#inputFile').val()){
-						formData.rep = dbPath
+						formData.rep = dbPath;
 					}
 					formData.boardNo = /*[[${bnb.boardNo}]]*/ ;
-
-					$('#myForm').submit();
+					Swal.fire({ title: '등록되었습니다.' , icon:'success', confirmButtonText:"확인"})
+							.then(result => {$('#myForm').submit()});
 				}
 			})
 			

@@ -980,6 +980,10 @@ ol {
 	background-position: center center;
 }
 
+.product__item__pic.actImg {
+	cursor: pointer;
+}
+
 .product__item__pic .label {
 	color: #111111;
 	font-size: 11px;

@@ -1,5 +1,6 @@
 package com.yedam.app.market.controller;
 
+import org.jasypt.encryption.StringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
@@ -15,9 +16,11 @@ public class AuctionController {
 	
 	@Autowired
 	AuctionService actService;
+	@Autowired
+	StringEncryptor jasyptStringEncryptor;
 	
-	//매주 월요일 9시 상태 변경
-	@Scheduled(cron = "0 0 9 * * 1") 
+	//매일 자정 상태 변경
+	@Scheduled(cron = "0 0 0 * * ?") 
 	public void update() {
 		boolean result=actService.updateAuctionReg();
 		System.out.println(result);
@@ -36,6 +39,13 @@ public class AuctionController {
 	@GetMapping("auctionInfo")
 	public String auctionInfo(Model model, String boardNo) {
 		AuctionVO info = actService.getAuctionInfo(boardNo);
+		AuctionVO vo = actService.sellerInfo(boardNo);
+		vo.setMemZip(jasyptStringEncryptor.decrypt(vo.getMemZip()));
+		vo.setMemAdr(jasyptStringEncryptor.decrypt(vo.getMemAdr()));
+		vo.setMemAdrdeta(jasyptStringEncryptor.decrypt(vo.getMemAdrdeta()));
+		vo.setEmail(jasyptStringEncryptor.decrypt(vo.getEmail()));
+		vo.setMbl(jasyptStringEncryptor.decrypt(vo.getMbl()));
+		model.addAttribute("seller", vo);
 		model.addAttribute("actInfo", info);
 
 		return "market/auction/auctionInfo";
