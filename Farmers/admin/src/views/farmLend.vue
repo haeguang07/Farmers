@@ -78,7 +78,7 @@
 								</tr>
 								<tr>
 									<th>신청인</th><td v-text="board.memNo"></td>
-									<th>가격(년)</th><td v-text="formatNumber(board.lendPrice)"></td>
+									<th>가격(년)</th><td>{{ formatNumber(board.lendPrice) }}㎡</td>
 								</tr>
 								<tr>
 									<th>시작일</th><td v-text="board.lendStrDate"></td>
@@ -171,19 +171,15 @@ methods:{
 	},
 	changeBtn(){
 		if(this.stts==''){
-			this.$swal({
-      	title: "상태를 선택하세요",
-      	icon: "warning",
-      	showConfirmButton: false,
-				timer: 1500
-    	});
+			this.$swal({title: "상태를 선택하세요",
+      	icon: "warning",showConfirmButton: false,
+				timer: 1500});
 			return;
 		}
 		let list =[];
 		this.selected.forEach(item => {
-			let obj={boardNo: item.boardNo, 
-          reqStts:this.stts,
-					tableName:'farm_lend'}
+			let obj={boardNo: item.boardNo,
+				  reqStts:this.stts,tableName:'farm_lend'}
 			    list.push(obj);
 		  });
 		this.modify(list)
@@ -233,16 +229,12 @@ methods:{
   		if (response.data.retCode == "Success") {
     		this.$swal({
 					title: "신청이 거부가 성공적으로 이루졌습니다.",
-					icon: "success",
-					showConfirmButton: false,
-					timer: 1500
+					icon: "success",showConfirmButton: false,timer: 1500
 				});
   		} else {
     		this.$swal({
       		title: "알림을 보내지 못하였습니다.",
-      		icon: "error",
-      		showConfirmButton: false,
-      		timer: 1500
+      		icon: "error",showConfirmButton: false,timer: 1500
     		});
   		}})
 			.catch((err) => console.log(err))
@@ -270,6 +262,7 @@ methods:{
 		this.dst1List = this.$store.state.dst1;
 		this.regSttsList = this.$store.state.regSttsList;
 		this.dst2All = this.$store.state.des2All;
+		//승인대기인 데이터 불러오기
 		this.callList({stts:'e0'});
 			
 		//모달 닫기

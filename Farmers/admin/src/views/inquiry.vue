@@ -102,7 +102,7 @@ export default {
   data() {
     return {
 
-      searchStts:'',
+      searchStts:'d0',
 			searchStr:'',searchEnd:'',
       ctgList:[],searchCtg:'',
       editor: ClassicEditor,
@@ -191,14 +191,12 @@ export default {
   
   mounted(){
     this.callList({stts:'d0'})
-    this.searchStts='d0';
-    // Vuex에서 데이터 가져오기
-		//this.ctgList = 
     axios.get('/admin/getCodes')
         .then(response => {
           this.ctgList=response.data['0F']
         })
         .catch(err=> console.log(err))
+        
 		window.onclick = function(event) {
   		if (event.target == document.getElementById("myModal")) {
 				document.getElementById("myModal").style.display = "none";
