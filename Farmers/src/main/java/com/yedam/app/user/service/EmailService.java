@@ -38,30 +38,22 @@ public class EmailService {
 	private String protocol;
 
 	public boolean sendMail(EmailVO mail) {
-
 		// 메일 인코딩
 		final String bodyEncoding = "UTF-8"; // 콘텐츠 인코딩
-
 		String subject = mail.getSubject();
 		String fromEmail = email;
 		String fromUsername = "파머스";
 		String toEmail = mail.getTo();
-
 		final String username = "hk97564";
 		final String password = this.password;
-
 		// 메일에 출력할 텍스트
-		StringBuffer sb = new StringBuffer();
-		sb.append(mail.getMessage());
-		String html = sb.toString();
-
+		StringBuffer sb = new StringBuffer();sb.append(mail.getMessage());String html = sb.toString();
 		// 메일 옵션 설정
 		Properties props = new Properties();
 		props.put("mail.transport.protocol", protocol);
 		props.put("mail.smtp.host", host);
 		props.put("mail.smtp.port", port);
 		props.put("mail.smtp.auth", auth);
-
 		props.put("mail.smtp.quitwait", "false");
 		props.put("mail.smtp.socketFactory.port", port);
 		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
@@ -104,10 +96,8 @@ public class EmailService {
 			MailcapCmdMap.addMailcap("multipart/*;; x-java-content-handler=com.sun.mail.handlers.multipart_mixed");
 			MailcapCmdMap.addMailcap("message/rfc822;; x-java-content-handler=com.sun.mail.handlers.message_rfc822");
 			CommandMap.setDefaultCommandMap(MailcapCmdMap);
-
 			// 메일 발송
 			Transport.send(message);
-
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
