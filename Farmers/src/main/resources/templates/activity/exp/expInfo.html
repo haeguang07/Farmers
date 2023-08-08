@@ -58,7 +58,7 @@
 												<h4 class="textLeft col-lg-9" th:text="${expInfo.title}" style="display: inline; text-align: left; font-size: 30px;">제목</h4>
 												<div>
 													<th:block th:if="not ${#strings.isEmpty(session.mem)}">
-														<button type="button" class="btn btn-dark" style="width: 150px;" id="delete" 
+														<button type="button" class="btn btn-danger" style="width: 150px;" id="delete" 
 															th:if="${session.mem.memNo} == ${expInfo.memNo} or ${session.mem.memGrd == 'b0'}">삭제하기</button>
 													</th:block>
 												</div>
