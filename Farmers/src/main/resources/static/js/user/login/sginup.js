@@ -187,7 +187,7 @@
 				let mblVal= mbl.val();
 				if(zip=='' || mblVal==''){
 					Swal.fire({title: '입력하지 않은 정보가 있습니다.' ,
-								text="이대로 회원가입하시겠습니까?",
+							text:"이대로 회원가입하시겠습니까?",
 						  icon: 'warning',
 						  confirmButtonText:"예", 
 						  showCancelButton: true,
