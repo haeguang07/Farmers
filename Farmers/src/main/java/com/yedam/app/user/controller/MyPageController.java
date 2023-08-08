@@ -139,6 +139,7 @@ public class MyPageController {
 	@PostMapping("myPage/upgradeMember")
 	@ResponseBody
 	public boolean upgradeMember(AttachVO vo) {
+		vo.setUplFileName(jasyptStringEncryptor.encrypt(vo.getUplFileName()));
 		return myPageService.upgradeGrade(vo);
 	}
 
