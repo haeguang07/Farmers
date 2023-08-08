@@ -288,16 +288,11 @@ public class FundingController {
 			// Paths.get() 메서드는 특정 경로의 파일 정보를 가져옵니다.(경로 정의하기)
 			System.out.println("path : " + saveName);
 			try {
-				uploadFile.transferTo(savePath);
 				// uploadFile에 파일을 업로드 하는 메서드 transferTo(file)
+				uploadFile.transferTo(savePath);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
-			// DB에 해당 경로 저장
-			// 1) 사용자가 업로드 할 때 사용한 파일명
-			// 2) 실제 서버에 업로드할 때 사용한 경로
-			// 1,2 둘다 DB에 저장해야함
 
 			// DB에 저장할 때 java에서만 읽히는 File.separator를 /로 변환 후 DB에 저장
 			String imagePath = "/images/" + uploadFileName.replace(File.separator, "/");
@@ -329,7 +324,7 @@ public class FundingController {
 		return folderPath;
 	}
 
-	// 기간 종료 및 달성 실패 시
+	// 펀딩 기간 종료 및 달성 실패 시
 	@Scheduled(cron = "0 0 0 * * *")
 	public void fundingRefund() {
 		//취소가 필요한 결제 정보
