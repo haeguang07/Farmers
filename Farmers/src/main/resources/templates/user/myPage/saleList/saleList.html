@@ -57,8 +57,8 @@
 								<tr>
 									<th>번호</th>
 									<th>이미지</th>
-									<th>제목</th> 
-									<th>구매자</th>
+									<th>상품명</th> 
+									<!-- <th>구매자</th> -->
 									<!-- <th>카테고리</th> -->
 									<th>결제일</th>
 									<th>배송상태</th>
@@ -74,7 +74,7 @@
 											</div>
 									</td>
 									<td th:text="${sale.title}" ></td>
-									<td th:text="${sale.nick}"></td>
+									<!-- <td th:text="${sale.nick}"></td> -->
 									<!-- <td th:text="${sale.boardCtg}"></td> -->
 									<td th:text="${#dates.format(sale.payDate, 'yyyy/MM/dd')}"></td>
 									<td th:text="${sale.shipStts}"></td>
@@ -103,9 +103,9 @@
 					            }},
 								 {width: "19%",targets: 1},
 								 {width: "31%",targets: 2},
-								 {width: "12%",targets: 3},
-								 {width: "15%",targets: 4},
-								 {width: "13%",targets: 5}
+								 /* {width: "12%",targets: 3}, */
+								 {width: "15%",targets: 3},
+								 {width: "13%",targets: 4}
 								],
 					lengthMenu : [5,10]
 				});
