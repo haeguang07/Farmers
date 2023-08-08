@@ -102,9 +102,7 @@ public class MyPageController {
 	// 회원정보 수정
 	@PostMapping("myPage/memberModify")
 	public String memberModify(MemberVO vo) {
-		System.out.println(vo);
 		if(!vo.getPw().equals("")) {	
-			System.out.println("test");
 		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
 		vo.setPw(scpwd.encode(vo.getPw()));
 		}
@@ -124,7 +122,6 @@ public class MyPageController {
 			vo.setEmail(jasyptStringEncryptor.encrypt(vo.getEmail()));
 		}
 		
-		System.out.println(vo.getPw());
 		myPageService.modifyMember(vo);
 		return "user/myPage/memberInfo/pwCheck";
 	}
@@ -134,7 +131,6 @@ public class MyPageController {
 	public String upgradeMemberForm(String data, Model model) {
 		Gson gson = new Gson();
 		MemberVO vo = gson.fromJson(data, MemberVO.class);
-		System.out.println(vo);
 		model.addAttribute("member", vo);
 		return "user/myPage/memberInfo/upgrade";
 	}
@@ -143,7 +139,6 @@ public class MyPageController {
 	@PostMapping("myPage/upgradeMember")
 	@ResponseBody
 	public boolean upgradeMember(AttachVO vo) {
-		System.out.println(vo);
 		return myPageService.upgradeGrade(vo);
 	}
 
@@ -167,7 +162,6 @@ public class MyPageController {
 	@ResponseBody
 	public boolean secession(String memNo) {
 		boolean result = myPageService.secession(memNo);
-		System.out.println(result);
 		return result;
 	}
 
@@ -198,7 +192,6 @@ public class MyPageController {
 		List<PaymentVO> list = myPageService.myPayNo(memNo);
 		List<PaymentVO> getInfoList = new ArrayList<PaymentVO>();
 		for (PaymentVO vo : list) {
-			System.out.println(vo);
 			myPageService.myPayList(vo);
 			getInfoList.add(vo);
 		}
@@ -214,7 +207,6 @@ public class MyPageController {
 		for (PaymentDetailVO paymentDetailVO : list) {
 			paymentService.getProductInfo(paymentDetailVO);
 		}
-		System.out.println(list);
 		model.addAttribute("payInfo", vo);
 		model.addAttribute("prodInfo", list);
 		return "user/myPage/paymentList/paymentDetail";
@@ -233,7 +225,6 @@ public class MyPageController {
 	@GetMapping("myPage/myInquiry")
 	public String myInquiry(String memNo, Model model) {
 		List<InquiryVO> list = myPageService.myInquiry(memNo);
-		System.out.println(list);
 		model.addAttribute("inqList", list);
 		return "user/myPage/inquiry/myInquiry";
 	}
@@ -248,7 +239,6 @@ public class MyPageController {
 	@PostMapping("myPage/addInpuiry")
 	@ResponseBody
 	public boolean addInquiry(InquiryVO vo) {
-		System.out.println(vo);
 		return myPageService.addInquiry(vo);
 	}
 
@@ -279,9 +269,7 @@ public class MyPageController {
 	// 알림 상세 페이지
 	@GetMapping("myPage/alertInfo")
 	public String alretInfo(String alrtNo, Model model) {
-		System.out.println(alrtNo);
 		AlertVO vo = myPageService.alertInfo(alrtNo);
-		System.out.println(vo);
 		model.addAttribute("alertInfo", vo);
 		return "user/myPage/alert/alertDetail";
 	}
@@ -290,7 +278,6 @@ public class MyPageController {
 	@GetMapping("myPage/changeAlretStts")
 	@ResponseBody
 	public boolean changeAlertStts(String alrtNo) {
-		System.out.println(alrtNo);
 		return myPageService.updateAlrtStts(alrtNo);
 	}
 
@@ -339,11 +326,9 @@ public class MyPageController {
 		List<FarmLendApplyVO> list = myPageService.mySubInfo(aplNo);
 		for (FarmLendApplyVO vo : list) {
 			vo.setMbl(jasyptStringEncryptor.decrypt(vo.getMbl()));
-			System.out.println(vo);
 			vo.setUplFileName(jasyptStringEncryptor.decrypt(vo.getUplFileName()));
 			
 		}
-		System.out.println(list);
 		model.addAttribute("aplInfo", list);
 		return "user/myPage/myActivity/farmLend/farmLendMySubInfo";
 	}
@@ -352,8 +337,6 @@ public class MyPageController {
 	@GetMapping("myPage/deleteMyFarmSub")
 	@ResponseBody
 	public boolean deleteMyFarmSub(String aplNo) {
-		System.out.println("A");
-		System.out.println(aplNo);
 		return myPageService.deleteMyFarmSub(aplNo);
 	}
 	
@@ -392,8 +375,6 @@ public class MyPageController {
 	@GetMapping("myPage/myAuctionList")
 	@ResponseBody
 	public List<AuctionVO> myAuctionList(String memNo){
-		System.out.println(memNo);
-		System.out.println(myPageService.myActionList(memNo));
 		return myPageService.myActionList(memNo);	
 	}
 	
@@ -408,7 +389,6 @@ public class MyPageController {
 	@GetMapping("myPage/myAuctionBidForm")
 	public String myAuctionBidForm(String boardNo,Model model) {
 		List<AuctionApplyVO> list = myPageService.myAuctionBidList(boardNo);
-		System.out.println(list);
 		model.addAttribute("bidList", list);
 		return "user/myPage/myActivity/auction/myAuctionBidList";
 	}
@@ -426,7 +406,6 @@ public class MyPageController {
 	@GetMapping("myPage/myFundingSubList")
 	public String myFundingSubList(String boardNo,Model model) {
 		List<PaymentDetailVO> list = myPageService.myFundingPayList(boardNo);
-		System.out.println(list);
 		model.addAttribute("payList", list);
 		return "user/myPage/myActivity/funding/myFundingSubList";
 	}
@@ -445,7 +424,6 @@ public class MyPageController {
 	@GetMapping("myPage/myBnbApplyList")
 	public String myBnbAppleList(String boardNo, Model model) {
 		List<PaymentDetailVO> list = myPageService.myBnbRsvList(boardNo);
-		System.out.println(list);
 		model.addAttribute("payList", list);
 		return "user/myPage/myActivity/bnb/myBnbApplyList";
 	}
@@ -455,7 +433,6 @@ public class MyPageController {
 	@GetMapping("myPage/myCropsSaleList")
 	public String myCropsSaleList(String memNo,Model model) {
 		List<CropsSaleVO> list = myPageService.myCropsSaleList(memNo);
-		System.out.println(list);
 		model.addAttribute("cropsList", list);
 		return "user/myPage/myActivity/cropsSale/myCropsSaleList";
 	}
@@ -464,7 +441,6 @@ public class MyPageController {
 	@GetMapping("myPage/myCropsSalePayList")
 	public String myCropsSalePayList (String boardNo, Model model) {
 		List<PaymentDetailVO> list = myPageService.myCropsPayList(boardNo);
-		System.out.println(list);
 		model.addAttribute("payList", list);
 		return "user/myPage/myActivity/cropsSale/myCropsSalePayList";
 	}
@@ -501,7 +477,6 @@ public class MyPageController {
 	public String mySaleList(String memNo,Model model) {
 		List<PaymentDetailVO> list = myPageService.mySalesPayList(memNo);
 		model.addAttribute("saleList", list);
-		System.out.println(list);
 		return "user/myPage/saleList/saleList";
 	}
 	
@@ -510,8 +485,6 @@ public class MyPageController {
 	public String mySaleInfo(String payDetaNo, Model model) {
 		PaymentDetailVO vo = myPageService.mySalesPayInfo(payDetaNo);
 		vo.setMbl(jasyptStringEncryptor.decrypt(vo.getMbl()));
-		System.out.println(vo);
-		System.out.println('a');
 		model.addAttribute("payInfo", vo);
 		return "user/myPage/saleList/saleInfo";
 	}
@@ -607,7 +580,6 @@ public class MyPageController {
 	@GetMapping("myPage/mySkilledList")
 	@ResponseBody
 	public List<SkilledVO> mySkilledList(SkilledVO vo){
-		System.out.println(vo);
 		List<SkilledVO> list = myPageService.mySkilledList(vo);
 		return list;	
 	}
@@ -620,7 +592,6 @@ public class MyPageController {
 		for (SkilledVO vo : list) {
 			vo.setMbl(jasyptStringEncryptor.decrypt(vo.getMbl()));
 		}
-		System.out.println(list);
 		return list;
 	}
 	
@@ -632,7 +603,6 @@ public class MyPageController {
 			vo.setMbl(jasyptStringEncryptor.decrypt(vo.getMbl()));
 		}
 		model.addAttribute("subList", list); 
-		System.out.println(list);
 		return "user/myPage/myActivity/mySkilled/myJobSearchList";
 	}
 	
@@ -642,7 +612,6 @@ public class MyPageController {
 		SkilledVO vo = myPageService.mySkilledSubInfo(aplNo);
 		model.addAttribute("SubInfo", vo);
 		vo.setMbl(jasyptStringEncryptor.decrypt(vo.getMbl()));
-		System.out.println(vo);
 		return "user/myPage/myActivity/mySkilled/mySkilledSubInfo";
 	}
 	
@@ -650,7 +619,6 @@ public class MyPageController {
 	@PostMapping("myPage/mySkilledSubAccept")
 	@ResponseBody
 	public void mySkilledSubAccept(SkilledVO vo) {
-		System.out.println(vo);
 		myPageService.SKilledSubAccept(vo);
 	}
 	

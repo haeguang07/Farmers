@@ -217,10 +217,8 @@
             $(function(){
                 let allSumPrice = 0;
                 $('.sumPrice').each(function(idx,item){
-                    console.log(Number($(item).attr('data-val')))
                     allSumPrice = Number(allSumPrice) + Number($(item).attr('data-val'))
                 })
-                console.log(allSumPrice)
                 $('#allSumPrice').text(priceToString(allSumPrice)+'원')
                 $('#allSumPrice').attr('data-val',allSumPrice)
                 payPrice = allSumPrice;
@@ -274,7 +272,6 @@
                 const customerKey = "-tbkMhmy1QihiRzQRvZ2R" // 내 상점에서 고객을 구분하기 위해 발급한 고객의 고유 ID
                 const button = document.getElementById("payment-button")
                 let orderId = 'mod'+random(20);
-                console.log(orderId)
                 let orderName;
                 if(/*[[${#lists.size(productList) > 1}]]*/){
                     orderName = $('#productName').text()+" 외 "+ /*[[${#lists.size(productList) - 1 +"건"}]]*/
@@ -416,7 +413,6 @@
 
                 new daum.Postcode({
                     oncomplete: function (data) {
-                        console.log(data)
                         $('#addressCode').val(data.zonecode)
                         $('#address').val(data.address)
                         $('#addressDetail').val('')

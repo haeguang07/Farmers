@@ -149,7 +149,6 @@
 			//tr 이동
 			$(document).on("click", ".tr", function (e) {
 				if (!$(e.currentTarget).hasClass('th') && !$(e.currentTarget).find('td').hasClass('dataTables_empty')) {
-					console.log($(e.currentTarget).attr('no'))
 					let ctg = $(e.currentTarget).attr('ctg')
 					location.href = "/cmmnInfo?postCtg="+ctg+"&boardNo=" + $(e.currentTarget).attr('no')
 				}

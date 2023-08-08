@@ -220,7 +220,7 @@
                     }
                 })
                 .done(function(result){
-                    console.log(result)
+  
                     if(result.retCode == "Success"){
                     	new swal({
 	                		title: "사용가능한 닉네임입니다",
@@ -238,24 +238,6 @@
                     }
                 })
             })
-            // $('#emailCheck').on('click',function(){
-            //     $.ajax({
-            //         url: "nickCheck",
-            //         data : {
-            //             nick : $('[name=email]').val()
-            //         }
-            //     })
-            //     .done(function(result){
-            //         console.log(result)
-            //         if(result.retCode == "Success"){
-            //             alert('사용 가능한 이메일입니다')
-            //             emailCheck = true
-            //         }else if(result.retCode == "Fail"){
-            //             alert('이미 존재하는 이메일입니다')
-            //             $('[name=email]').val('')
-            //         }
-            //     })
-            // })
 
             $(function(){
                 //날짜 타입으로 변환
@@ -270,7 +252,6 @@
                 oncomplete: function (data) {
                     // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
                     // 예제를 참고하여 다양한 활용법을 확인해 보세요.
-                    console.log(data)
                     $('#addressCode').val(data.zonecode)
                     $('#address').val(data.address)
                     $('#addressDetail').val('')
@@ -290,9 +271,7 @@
     								allowOutsideClick: false,
                 })
 								.then(function(isConfirm) {
-									console.log(isConfirm)
         				if (isConfirm.isConfirmed) {
-								console.log('s')
         				 $('#pwInput').toggleClass('hideItem')
                  $('#pw').val('');
                  $('#pwCheck').val('');

@@ -13,7 +13,6 @@
 	<style type="text/css">
 		.hideItem{
 		display : none;
-
 		}
 		.myInline {
 			display: inline;
@@ -152,15 +151,6 @@
 			$('#add').on('click', function () {
 				location.href = "/add/addFunding"
 			})
-
-			/* 팝업창 */
-			/* $('#add').magnificPopup({
-				items:[{
-					src:"addFunding",
-					type: 'iframe'
-				}
-				]
-			}) */
 			
 			//페이지 로드 시 함수
 			$(function () {
@@ -190,7 +180,7 @@
 			//리스트 데이터 아작스로 가져오기
 			function ajaxData(page, category, order, search) {
 				$.ajax({
-					url: 'fundingList',
+					url: '/fundingList',
 					type: 'POST',
 					data: {
 						pageNum: page,
@@ -244,8 +234,6 @@
 
 			// 페이징 생성 및 추가
 			function printPage(pageData) {
-				console.log(pageData)
-
 				let pageItem = $('#pageItem').clone()
 				$(pageItem).removeClass('hideItem')
 				$(pageItem).find('#prevPage').on('click', function () {

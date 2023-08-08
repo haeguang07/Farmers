@@ -135,7 +135,6 @@ table.dataTable thead th {
 			let stts = $(e.target).closest('tr').find('.stts')
 			let boardNo =  $(e.target).closest('tr').data('boardno')
 			let aplNo =  $(e.target).closest('tr').data('aplno')
-			console.log(boardNo)
 			$.ajax({
 				url : "/myPage/mySkilledSubAccept",
 				method : 'POST',
