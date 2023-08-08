@@ -159,7 +159,6 @@
 
             //등업신청 모달창
             $('#upgradeBtn').on('click',function(){
-                console.log()
                 if(/*[[${not #strings.equals(session.mem.memGrd, 'b1')}]]*/){
                     if(/*[[${not #strings.isEmpty(memberInfo.addr) and not #strings.isEmpty(memberInfo.zip)}]]*/){
                         $.magnificPopup.open({
@@ -214,14 +213,13 @@
                                 inputPlaceholder: '탈퇴'
                                 })
                             .then(function(value){
-                                console.log(value.value)
                                 if(value.value == '탈퇴'){
                                     $.ajax({
                                             url:"/myPage/secession",
                                             data : {memNo : /*[[${session.mem.memNo}]]*/}
                                         })
                                         .done(function(result){
-                                            console.log(result)
+
                                             if(result){
                                                 new swal({
                                                             title: "탈퇴가 완료되었습니다",
@@ -256,31 +254,7 @@
                             })
                         }
                     });
-                
-                //  if(confirm('탈퇴하시겠습니까?')){
-                //     let text = prompt('"탈퇴"를 입력하여주십시오')
-                //     if(text == '탈퇴'){
-                //         $.ajax({
-                //             url:"/myPage/secession",
-                //             data : {memNo : /*[[${session.mem.memNo}]]*/}
-                //         })
-                //         .done(function(result){
-                //             console.log(result)
-                //             if(result){
-                //                 alert('탈퇴 신청이 완료 되었습니다')
-                //                 location.href="/logout"
-                //             }else{
-                //                 alert('탈퇴 신청이 실패하였습니다')
-                //             }
-                //         })
-                //         .fail(function(){
-                //             alert('탈퇴 신청이 실패하였습니다')
-                //         })
 
-                //     }else{
-                //         alert('잘못 입력하였습니다')
-                //     }
-                // } 
             })
         </script>
     </div>

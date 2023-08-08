@@ -44,14 +44,10 @@
 
                 let jsonPayDetailData = urlParams.get('payDatailData');
                 let PayDetailData = JSON.parse(jsonPayDetailData)
-                console.log(PayDetailData)
 
                 let myResult = false;
 
                 //토스 api 결제 승인
-                console.log(urlParams.get('amount'))
-                console.log(urlParams.get('paymentKey'))
-                console.log(urlParams.get('orderId'))
                 $.ajax({
                         url: 'https://api.tosspayments.com/v1/payments/confirm',
                         method: 'POST',
@@ -66,9 +62,7 @@
                         })
                     })
                     .done(function (result1) {
-                        console.log(result1)
                         paymentData.payMthd = result1.method;
-                        console.log(paymentData)
 
                         //payment 테이블에 insert
                 $.ajax({
@@ -95,7 +89,7 @@
                             })
                             .done(function (result3) {
                                 myResult = true
-                                console.log('detail seuccess')
+
                  				if(paymentData.check == 'soon'){
                  					$.ajax({
                  						url :"/procedure/buyAuction",
@@ -106,14 +100,9 @@
                  							price : paymentData.totalPayPrice
                  						}
                  					})
-                 					.done(function(){
-                 						console.log('procedure')
-                 					})
+                 					
                  				}
                                 setTimeout(function () {
-                                	console.log(paymentData.boardNo)
-                                	console.log(paymentData.totalPayPrice)
-                                	console.log(/*[[${session.mem.memNo}]]*/)
                                    location.href = "paySuccess?result=" + myResult
                                 }, 2000);
                             })

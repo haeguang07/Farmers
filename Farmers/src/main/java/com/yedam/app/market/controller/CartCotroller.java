@@ -35,7 +35,6 @@ public class CartCotroller {
 	@GetMapping("deleteCart")
 	@ResponseBody
 	public String deleteCart(CartVO vo) {
-		System.out.println(vo);
 		boolean result = cartService.deleteCart(vo);
 
 		if (result) {

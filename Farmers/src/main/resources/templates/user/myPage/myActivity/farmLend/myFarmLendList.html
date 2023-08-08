@@ -104,36 +104,19 @@
 			function mkDataTable() {
 				table = $('#myTable').DataTable({
 					language: lang_kor,
-					bAutoWidth: false, // 너비 자동맞춤을 false로 설정해주어야 지정한 너비가 제대로 출력된다.
+					bAutoWidth: false, 
 					columnDefs: [{
 							width: "10%",
 							targets: 0,orderable: true,
 					        render: function (data, type, row, meta) {
-						          // meta.row는 0부터 시작하는 행의 인덱스입니다.
 						          return meta.row + 1;
 						            }
-						},
-						{
-							width: "30%",
-							targets: 1
-						},
-						{
-							width: "10%",
-							targets: 2
-						},
-						{
-							width: "15%",
-							targets: 3,
-							className: 'dt-body-right'
-						},
-						{
-							width: "13%",
-							targets: 4
-						},
-						{
-							width: "15%",
-							targets: 5
-						}
+							},
+						{width: "30%",targets: 1},
+						{width: "10%",targets: 2},
+						{width: "15%",targets: 3,className: 'dt-body-right'},
+						{width: "13%",targets: 4},
+						{width: "15%",targets: 5}
 					],
 					lengthMenu : [5,10]
 				});
@@ -271,9 +254,7 @@
 
 			//tr 이동
 			$(document).on("click", "tr", function (e) {
-				console.log(!$(e.currentTarget).hasClass('th'))
 				if (!$(e.currentTarget).hasClass('th') && !$(e.currentTarget).find('td').hasClass('dataTables_empty')) {
-					console.log($(e.currentTarget).attr('no'))
 					location.href = "/farmLendInfo?boardNo=" + $(e.currentTarget).attr('no')
 				}
 			})
@@ -318,7 +299,6 @@
 			//버튼 active
 			$('.myMenuBtn').on('click',function(){
 				$('.myMenuBtn').each(function(idx,item){
-					console.log(item)
 					$(item).toggleClass('activity')
 				})
 			})

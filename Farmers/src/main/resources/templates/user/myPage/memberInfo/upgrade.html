@@ -104,9 +104,8 @@
 			var files = inputFile[0].files;
 			//files : 선택한 모든 파일을 나열하는 FileList 객체입니다
 			//multiple 특성을 지정하지 않았다면 두 개 이상의 파일을 포함하지 않습니다
-			console.log(inputFile)
+
 			for (var i = 0; i < files.length; i++) {
-				console.log(files[i]);
 				formData.append("uploadFiles", files[i]); //키,값으로 append
 
 				$.ajax({
@@ -116,7 +115,6 @@
 					contentType: false, // multipart/form-data 타입을 사용하기위해 false로 지정
 					data: formData,
 					success: function (result) {
-						console.log(result)
 						dbPath = result.dbPath
 						uuid = result.uuidName
 						origin = result.originName
@@ -131,8 +129,6 @@
 		//등업신청 등록
 		$('#addBtn').on('click', function () {
 			if ($('#fileInput').val()) {
-				console.log(uuid)
-				console.log(origin)
 
 				let vo = {
 					memNo: /*[[${session.mem.memNo}]]*/ ,
@@ -145,7 +141,6 @@
 					type: 'POST',
 					data: vo,
 					success: function (result) {
-						console.log(result)
 						if(result){
 							new swal({
 		                		title: "등업신청이 완료되었습니다",
