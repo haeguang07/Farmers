@@ -25,13 +25,13 @@ public class MemberServiceImpl implements MemberService, UserDetailsService{
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws InternalAuthenticationServiceException {
-		
 		MemberVO vo = memberMapper.selectMember(username);
 		if(vo == null) {
 			throw new InternalAuthenticationServiceException("존재하지 않는 아이디입니다");
 		}
 		return new PrincipalDetails(vo);
 	}
+	
 	//아이디로 조회
 	@Override
 	public MemberVO getMember(String id) {

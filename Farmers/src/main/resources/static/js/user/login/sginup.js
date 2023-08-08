@@ -186,7 +186,8 @@
 				let zip =post.val();
 				let mblVal= mbl.val();
 				if(zip=='' || mblVal==''){
-					Swal.fire({title: '아직 입력하지 않은 정보가 있습니다. 이대로 회원가입하시겠습니까?' ,
+					Swal.fire({title: '입력하지 않은 정보가 있습니다.' ,
+							text:"이대로 회원가입하시겠습니까?",
 						  icon: 'warning',
 						  confirmButtonText:"예", 
 						  showCancelButton: true,
@@ -216,7 +217,6 @@
 										if (data.retCode == "Success") {
 											Swal.fire({ title: '회원가입이 성공적으로 진행되었습니다' , icon: 'success',confirmButtonText:"확인"})
 											.then((result)=>{location.href = "/login"});
-
 										} else if (data.retCode == "Fail") {
 											Swal.fire({ title: '회원가입을 실패 했습니다.',text:'관리자에게 문의해주세요' , icon: 'error',confirmButtonText:"확인"})
 											.then((result)=>{location.reload()});

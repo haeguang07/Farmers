@@ -229,23 +229,22 @@
 							}).then((YES) => {
 									if (YES) {
 										let payCode =/*[[${payInfo.payCode}]]*/;
-										let url = "https://api.tosspayments.com/v1/payments/"+payCode+"/cancel";
 										let boolean = false;
+										let url = "https://api.tosspayments.com/v1/payments/"+payCode+"/cancel";
 										//토스 환불 처리
 										$.ajax({   
 											url : url,
 											method : "POST",
 											async : false,
 											headers: {
-																	"Content-Type": "application/json",
-																	"Authorization": "Basic dGVzdF9za196WExrS0V5cE5BcldtbzUwblgzbG1lYXhZRzVSOg=="
+													  "Content-Type": "application/json",
+													  "Authorization": "Basic dGVzdF9za196WExrS0V5cE5BcldtbzUwblgzbG1lYXhZRzVSOg=="
 															},
 											data : JSON.stringify({
 												"cancelReason" : "취소"
 											})
 										})
 										.done(function(result){
-										console.log(result)
 										boolean = true;
 										})
 										.fail(function(data, textStatus, errorThrown){
@@ -254,7 +253,6 @@
 																icon : "error",
 																confirmButtonColor: '#95D083'		
 														})	
-										console.log(data)
 										})
 
 										if(boolean){

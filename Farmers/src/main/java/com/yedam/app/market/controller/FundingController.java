@@ -172,7 +172,6 @@ public class FundingController {
 		String loadPath = "/images" + File.separator + uploadFileName;
 
 		// Paths.get() 메서드는 특정 경로의 파일 정보를 가져옵니다.(경로 정의하기)
-		System.out.println("path : " + saveName);
 		try {
 			uploadFile.transferTo(savePath);
 			// uploadFile에 파일을 업로드 하는 메서드 transferTo(file)
@@ -187,9 +186,6 @@ public class FundingController {
 
 		// DB에 저장할 때 java에서만 읽히는 File.separator를 /로 변환 후 DB에 저장
 		String imagePath = "/images/" + uploadFileName.replace(File.separator, "/");
-
-		System.out.println(saveName);
-		System.out.println(savePath);
 
 		// ckeditor는 이미지 업로드 후 이미지 표시하기 위해 uploaded 와 url을 json 형식으로 받아야 함
 		// uploaded, url 값을 modelandview를 통해 보냄
@@ -216,8 +212,6 @@ public class FundingController {
 			String[] fileArray = fileName.split("\\."); 
 			String fileType = "."+fileArray[1];
 
-			System.out.println("fileName : " + fileName);
-
 			// 날짜 폴더 생성
 			String folderPath = makeFolder();
 			// UUID
@@ -232,7 +226,7 @@ public class FundingController {
 
 			String loadPath = "/images" + File.separator + uploadFileName;
 			// Paths.get() 메서드는 특정 경로의 파일 정보를 가져옵니다.(경로 정의하기)
-			System.out.println("path : " + saveName);
+
 			try {
 				uploadFile.transferTo(savePath);
 				// uploadFile에 파일을 업로드 하는 메서드 transferTo(file)
@@ -270,8 +264,6 @@ public class FundingController {
 			String originalName = uploadFile.getOriginalFilename();
 			String fileName = originalName.substring(originalName.lastIndexOf("//") + 1);
 
-			System.out.println("fileName : " + fileName);
-
 			// 날짜 폴더 생성
 			String folderPath = makeFolder();
 			// UUID
@@ -286,18 +278,13 @@ public class FundingController {
 
 			String loadPath = "/images" + File.separator + uploadFileName;
 			// Paths.get() 메서드는 특정 경로의 파일 정보를 가져옵니다.(경로 정의하기)
-			System.out.println("path : " + saveName);
+
 			try {
-				uploadFile.transferTo(savePath);
 				// uploadFile에 파일을 업로드 하는 메서드 transferTo(file)
+				uploadFile.transferTo(savePath);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
-			// DB에 해당 경로 저장
-			// 1) 사용자가 업로드 할 때 사용한 파일명
-			// 2) 실제 서버에 업로드할 때 사용한 경로
-			// 1,2 둘다 DB에 저장해야함
 
 			// DB에 저장할 때 java에서만 읽히는 File.separator를 /로 변환 후 DB에 저장
 			String imagePath = "/images/" + uploadFileName.replace(File.separator, "/");
@@ -329,7 +316,7 @@ public class FundingController {
 		return folderPath;
 	}
 
-	// 기간 종료 및 달성 실패 시
+	// 펀딩 기간 종료 및 달성 실패 시
 	@Scheduled(cron = "0 0 0 * * *")
 	public void fundingRefund() {
 		//취소가 필요한 결제 정보
@@ -352,20 +339,19 @@ public class FundingController {
 			String url = "https://api.tosspayments.com/v1/payments/"+vo.getPayCode()+"/cancel";
 			// 통신 후 반환값
 			ResponseEntity<Map> respEntity = rt.exchange(url, HttpMethod.POST, entity, Map.class);
-			System.out.println(respEntity.getBody().get("status"));
+
 			//상태가 취소일 경우 실행
 			if(respEntity.getBody().get("status").equals("CANCELED")) {
 				//payment_detail 테이블의 ship_stts 'B6'(환불 완료)으로 변경
 				
 				vo.setBoardCtg("n9");
 				myPageService.refundProcedure(vo);
-				System.out.println(vo);
 				
 				//환불 알림 전송
 				AlertVO alert = new AlertVO();
 				alert.setMemNo(vo.getMemNo());
 				alert.setAlrtTitle(vo.getTitle() +" 이(가) 자동환불 처리되었습니다");
-				alert.setAlrtDesct("해당 펀딩상품("+vo.getTitle()+")이(가) 목표금액을 달성하지 못 하여 자동 환불처리되었습니다");
+				alert.setAlrtDesct("해당 펀딩상품("+vo.getTitle()+")이(가) 기간내 목표금액을 달성하지 못 하여 자동 환불처리되었습니다");
 				alert.setBoardCtg("g15");
 				
 				alertService.addAlert(alert);

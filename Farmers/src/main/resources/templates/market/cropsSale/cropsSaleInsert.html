@@ -171,21 +171,21 @@
 			$('#addBtn').on('click', function() {
 				if(!$('[name="title"]').val()) {
 					Swal.fire({
-						icon : 'info',
+						icon : 'warning',
 						title : '제목을 입력하세요',
 						confirmButtonText : "확인"
 					})
 					return;
 				} else if(!$('#inputFile').val()) {
 					Swal.fire({
-						icon : 'info',
+						icon : 'warning',
 						title : '대표이미지를 등록하세요',
 						confirmButtonText : "확인"
 					})
 					return;
 				} else if($('[name="crpCtg"]').val() == null) {
 					Swal.fire({
-						icon : 'info',
+						icon : 'warning',
 						title : '상품 종류를 선택하세요',
 						confirmButtonText : "확인"
 					})
@@ -206,7 +206,7 @@
 						if(result == "success") {
 							Swal.fire({
 								icon : 'success',
-								title : '등록이 완료되었습니다',
+								title : '등록되었습니다',
 								confirmButtonText : "확인"
 							})
 							.then(function() {

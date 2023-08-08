@@ -46,7 +46,7 @@
 		INSERT INTO attachment
 				(ATCH_FILE_NO,MEM_NO,ATCH_FILE_NAME,UPL_FILE_NAME,UPL_DATE,BOARD_NO)
 		VALUES
-				('ATCH'||LPAD(ATCH_NO_SEQ.NEXTVAL,6,0),
+				('ATCH'||LPAD(ATCH_NO_SEQ.NEXTVAL,13,0),
 				#{memNo},
 				#{atchFileName},
 				#{uplFileName},
@@ -76,6 +76,7 @@
 		SELECT pay_no
 		FROM payment
 		WHERE mem_no = #{memNo}
+		ORDER BY pay_date desc
 	</select>
 
 	<!-- 결제내역 프로시저 (pay_no로 조회) -->
@@ -566,6 +567,7 @@
 			WHERE board_no IN (SELECT board_no 
 			                   FROM sale 
 			                   WHERE mem_no = #{memNo})
+			ORDER BY pay_date desc
 	</select>
 	
 	<!-- 나의 상품 결제용 with -->

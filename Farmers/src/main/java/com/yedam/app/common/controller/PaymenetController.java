@@ -36,13 +36,9 @@ public class PaymenetController {
 		Gson gson = new Gson();
 		List<PaymentDetailVO> list = gson.fromJson(productList, new TypeToken<ArrayList<PaymentDetailVO>>() {
 		}.getType());
-		System.out.println(list);
 		for (PaymentDetailVO vo : list) {
-			System.out.println(vo);
 			paymentService.getProductInfo(vo);
-			System.out.println(vo);
 		}
-		System.out.println(list);
 		model.addAttribute("productList", list);
 		return "common/payment/payment";
 	}
@@ -71,9 +67,7 @@ public class PaymenetController {
 	public Map<String, String> insertPayment(@RequestParam(value = "paymentData") String data) {
 		Gson gson = new Gson();
 		PaymentVO vo = gson.fromJson(data, PaymentVO.class);
-		System.out.println(vo);
 		paymentService.insertPaymnet(vo);
-		System.out.println(vo);
 
 		return Collections.singletonMap("payNo", vo.getPayNo());
 	}
@@ -82,12 +76,10 @@ public class PaymenetController {
 	@PostMapping("insertPayDetail")
 	@ResponseBody
 	public String insertPayDetail(@RequestParam(value = "payDetailData") String data) {
-		System.out.println(data);
 		Gson gson = new Gson();
 		List<PayProductVO> list = gson.fromJson(data, new TypeToken<ArrayList<PayProductVO>>() {
 		}.getType());
 		for (PayProductVO vo : list) {
-			System.out.println(vo);
 			paymentService.insertPayDetail(vo);
 		}
 
@@ -111,15 +103,12 @@ public class PaymenetController {
 	//경매 입찰 결제 페이지
 	@GetMapping("auctionPayPage")
 	public String auctionPayPage(PaymentDetailVO vo,Model model) {
-		System.out.println(vo);
 		List<PaymentDetailVO> list = new ArrayList<PaymentDetailVO>();
 		paymentService.getAuctionPay(vo);
-		System.out.println(vo);
 		vo.setQty(1);
 		vo.setTotalPrice(vo.getPrice());
 		vo.setBoardCtg("nc");
 		list.add(vo);
-		System.out.println(list);
 		model.addAttribute("productList", list);
 		return "common/payment/payment";
 	}
