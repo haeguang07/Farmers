@@ -88,7 +88,7 @@
 	<section class="shop-details">
 		<div class="product__details__pic" style="background-color: white;">
 			<div class="container">
-				<h3>금손 귀농인 등록</h3>
+				<h3 style="font-weight: bold;">금손 귀농인 등록</h3>
 				<hr>
 				<div class="row col-lg-12">
 					<div class="product__details__content col-lg-8">
@@ -296,6 +296,7 @@
 		// 도 선택시 시 select 출력
 		$('[name="dst1"]').on('change', function(){
 			let dst1 = $('[name="dst1"]').val();
+			console.log(dst1);
 			
 			$.ajax({
 				url: "/dst2",
@@ -433,7 +434,7 @@
 					error: function(result){
 						Swal.fire({
 							title: '오류가 발생하였습니다.',
-							text: '잠시 후 다시 시도하세요.'
+							text: '잠시 후 다시 시도하세요.',
 							icon: 'warning',
 							confirmButtonText:"확인"
 						}).then((result) => {
