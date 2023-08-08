@@ -90,7 +90,7 @@
 
         //CartList for문
         $(list).each(function (idx, item) {
-          console.log(item)
+
           let clone = $('#cartItem').clone();
           $(clone).removeClass('hideItem')
           $(clone).addClass('printItem')
@@ -170,7 +170,6 @@
       seletedDelete: function () {
         let vuethis = this;
         $("input[type='checkbox']:checked").closest('tr').each(function (idx, item) {
-          console.log(item)
           if ($(item).hasClass('product')) {
             vuethis.deleteData(item)
             $(item).remove();
@@ -197,12 +196,6 @@
             data: {
               cartNo: cNo
             }
-          })
-          .done(function (result) {
-            console.log(result)
-          })
-          .fail(function () {
-            console.log(result)
           })
       },
       //결제 넘기기

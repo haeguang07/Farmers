@@ -145,7 +145,6 @@ table.dataTable thead th {
 			};
 			// 구매상세내역 이동
 			$('tr').on('click', 'td', function(e) {
-				console.log($(e.target).closest('tr').attr('data-payNo'))
 				let payNo = $(e.target).closest('tr').attr('data-payNo')
 
 				// 모달창

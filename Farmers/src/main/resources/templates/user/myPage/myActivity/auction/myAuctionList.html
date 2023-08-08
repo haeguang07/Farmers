@@ -154,7 +154,6 @@
 						}
 					})
 					.done(function (result) {
-						console.log(result)
 
 						//datatable 파괴
 						if (typeof table != "undefined") {
@@ -211,7 +210,6 @@
 						}
 					})
 					.done(function (result) {
-						console.log(result)
 
 						//datatable 파괴
 						if (typeof table != "undefined") {
@@ -262,7 +260,6 @@
 			// //tr 이동
 			$(document).on("click", "tr", function (e) {
 				if (!$(e.currentTarget).hasClass('th') && !$(e.currentTarget).find('td').hasClass('dataTables_empty')) {
-					console.log($(e.currentTarget).attr('no'))
 					location.href = "/auctionInfo?boardNo=" + $(e.currentTarget).attr('no')
 				}
 			})
@@ -300,7 +297,6 @@
 			//버튼 active
 			$('.myMenuBtn').on('click', function () {
 				$('.myMenuBtn').each(function (idx, item) {
-					console.log(item)
 					$(item).toggleClass('activity')
 				})
 			})
