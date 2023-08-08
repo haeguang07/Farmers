@@ -75,7 +75,7 @@ public class MemberServiceImpl implements MemberService, UserDetailsService{
 	}
 
 
-	//회원가입 기능(0714) //개인정보 암호화 해야함
+	//회원가입 기능(0714) 
 	@Override
 	public boolean join(MemberVO vo) {
 		//개인정보 암호화

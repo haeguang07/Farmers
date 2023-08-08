@@ -23,7 +23,7 @@
 				,find_code_name (stts) stts
 				,sign_date
 				,prof
-				,grd_atch_file
+				,find_grd_file(mem_no) grd_atch_file
 				,wdr_apl_date
 				,blck_date
 		FROM member m LEFT JOIN member_detail d 
