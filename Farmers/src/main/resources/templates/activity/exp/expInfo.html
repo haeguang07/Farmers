@@ -56,10 +56,12 @@
 										<div class="product__details__text">
 											<div class="row">
 												<h4 class="textLeft col-lg-9" th:text="${expInfo.title}" style="display: inline; text-align: left; font-size: 30px;">제목</h4>
-												<th:block th:if="not ${#strings.isEmpty(session.mem)}">
-													<button type="button" class="btn btn-dark" style="width: 150px;" id="delete" 
-														th:if="${session.mem.memNo} == ${expInfo.memNo} or ${session.mem.memGrd == 'b0'}">삭제하기</button>
-												</th:block>
+												<div>
+													<th:block th:if="not ${#strings.isEmpty(session.mem)}">
+														<button type="button" class="btn btn-dark" style="width: 150px;" id="delete" 
+															th:if="${session.mem.memNo} == ${expInfo.memNo} or ${session.mem.memGrd == 'b0'}">삭제하기</button>
+													</th:block>
+												</div>
 											</div>
 											<hr>
 											<p style="margin-bottom: 20px; text-align: left;"><b style="font-size: 20px;">작성자 : </b> <span th:text="${expInfo.nick}">작성자</span></p>
