@@ -224,7 +224,6 @@ public class MyPageController {
 	@GetMapping("myPage/refund")
 	@ResponseBody
 	public void refund(PaymentDetailVO vo) {
-		System.out.println(vo);
 		myPageService.refundProcedure(vo);
 	}
 	

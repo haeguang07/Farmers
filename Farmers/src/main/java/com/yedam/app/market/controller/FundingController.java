@@ -360,7 +360,7 @@ public class FundingController {
 				AlertVO alert = new AlertVO();
 				alert.setMemNo(vo.getMemNo());
 				alert.setAlrtTitle(vo.getTitle() +" 이(가) 자동환불 처리되었습니다");
-				alert.setAlrtDesct("해당 펀딩상품("+vo.getTitle()+")이(가) 목표금액을 달성하지 못 하여 자동 환불처리되었습니다");
+				alert.setAlrtDesct("해당 펀딩상품("+vo.getTitle()+")이(가) 기간내 목표금액을 달성하지 못 하여 자동 환불처리되었습니다");
 				alert.setBoardCtg("g15");
 				
 				alertService.addAlert(alert);
