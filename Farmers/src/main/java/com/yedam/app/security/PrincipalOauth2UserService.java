@@ -30,21 +30,15 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
 		OAuth2UserInfo oAuth2UserInfo = null;
 		String provider = userRequest.getClientRegistration().getRegistrationId();
-		String loginPath ="";
-		
-		if (provider.equals("google")) {
-			oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
-			loginPath="구글";
-		} else if (provider.equals("naver")) {
+		String loginPath ="";		
+		if (provider.equals("naver")) {
 			oAuth2UserInfo = new NaverUserInfo(oAuth2User.getAttributes());
 			loginPath="네이버";
 		}else if(provider.equals("kakao")){
             oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
             loginPath="카카오";
         }
-
 		String providerId = oAuth2UserInfo.getProviderId(); 
-
 		String uuid = UUID.randomUUID().toString().substring(0, 6);
 		String username = provider + "_" + uuid;
 		String password = scpwd.encode("패스워드" + uuid);
@@ -56,8 +50,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 		String email = oAuth2UserInfo.getEmail(); 
 		String gender = oAuth2UserInfo.getGender();
 		String id = provider.substring(0, 2)+"_"+ providerId;
-		System.out.println(id);
-		
+		//이메일로 회원조회(이메일 복호화 후 비교)
 		List<MemberVO> emailList=memberMapper.selectEmail();		
 		String dbEmail = jasyptStringEncryptor.encrypt(email);
 		String memNo="";
@@ -65,29 +58,21 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 			String decryptEmail=jasyptStringEncryptor.decrypt(emails.getEmail());
 			if(decryptEmail.equals(email)) memNo= emails.getMemNo();
 		}
-		
 		MemberVO vo = memberMapper.selectMemberByNo(memNo);
-
 		// DB에 없는 사용자라면 회원가입처리
 		if (vo == null) {
 			vo = new MemberVO();
-			vo.setEmail(dbEmail);
-			vo.setNick(username);
-			vo.setPw(password);
-			vo.setZip(jasyptStringEncryptor.encrypt(""));
+			vo.setEmail(dbEmail);vo.setNick(username);
+			vo.setPw(password);vo.setZip(jasyptStringEncryptor.encrypt(""));
 			vo.setAddr(jasyptStringEncryptor.encrypt(""));
 			vo.setDetaAddr(jasyptStringEncryptor.encrypt(""));
 			vo.setMbl(jasyptStringEncryptor.encrypt(""));
 			vo.setLoginPath(loginPath);
-			vo.setGen(gender);
-			vo.setProf(prof);
-			vo.setName(name);
-			vo.setId(id);
-			vo.setMemGrd("b2");
-			memberMapper.insertMember(vo);
-			memberMapper.insertMemberDetail(vo);
+			vo.setGen(gender);vo.setProf(prof);
+			vo.setName(name);vo.setId(id);vo.setMemGrd("b2");
+			memberMapper.insertMember(vo);memberMapper.insertMemberDetail(vo);
 		}
-
+		//로그인
 		return new PrincipalDetails(vo, oAuth2User.getAttributes());
 	}
 

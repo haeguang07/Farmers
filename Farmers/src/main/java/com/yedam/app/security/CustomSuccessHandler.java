@@ -34,8 +34,8 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler{
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 	    clearSession(request);
-		//세션 가져오기
 		HttpSession session = request.getSession();
+		
 		//로그인 정보 세션에 저장하기
 		MemberVO vo = ((PrincipalDetails)authentication.getPrincipal()).getMemberVO();
 		if(vo!=null) {
@@ -53,26 +53,20 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler{
         //기본 url는 메인페이지
         String uri = "/";
 
-         //savedRequest 존재하는 경우 = 인증 권한이 없는 페이지 접근
-         //Security Filter가 인터셉트하여 savedRequest에 세션 저장
 	    SavedRequest savedRequest = requestCache.getRequest(request, response);
         if (savedRequest != null) {
             uri = savedRequest.getRedirectUrl();
         } else if (prevPage != null && !prevPage.equals("")) {
-            // 회원가입(간편X)이면 메인으로                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ) - 로그인으로 넘어온 경우 "/"로 redirect
-            if (prevPage.contains("/join")) {
-                uri = "/";
-            } else {
-                uri = prevPage;
-            }
+            // 회원가입이면 메인으로 이동                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ) - 로그인으로 넘어온 경우 "/"로 redirect
+            if (prevPage.contains("/join"))uri = "/"; 
+            else uri = prevPage;
         }
-
         //만약 관리자가 로그인할 경우 관리자 페이지로 이동
-        if(vo.getMemGrd().equals("b0")) {
-        	uri="/admin";
-        }
+        if(vo.getMemGrd().equals("b0")) uri="/admin";
         redirectStrategy.sendRedirect(request, response, uri);
 	}
+	
+	
 	  // 로그인 실패 후 성공 시 남아있는 에러 세션 제거
 	 protected void clearSession(HttpServletRequest request) {
 	        HttpSession session = request.getSession(false);
