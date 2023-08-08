@@ -195,8 +195,7 @@
 					let formData = $('#myForm').serializeObject();
 					formData.detaDesct = ckData;
 					formData.rep = dbPath;
-					console.log(formData);
-	
+					
 					$.ajax({
 						url : "/add/cropsSaleInsert",
 						method : "POST",
