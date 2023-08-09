@@ -68,10 +68,10 @@
 							<tbody>
 								<tr th:each="point : ${points}">
 									<td th:text="${#dates.format(point.useDate, 'yyyy/MM/dd')}"></td>
-									<td th:text="${point.pntStts}"></td>
-									<td th:text="${point.pnt}" th:style="${point.pntStts == '사용' ? 'color: red;' : 'color: blue;'}"></td>
+									<td th:text="${point.pntStts}"  th:style="${point.pntStts == '사용' ? 'color: red;' : 'color: blue;'}"></td>
+									<td th:text="${#numbers.formatInteger(point.pnt, 3, 'COMMA')}"></td>
 									<td th:text="${point.pntRcrd}"></td>
-									<td th:text="${point.leftPnt}"></td>
+									<td th:text="${#numbers.formatInteger(point.leftPnt, 3, 'COMMA')}"></td>
 								</tr>
 							</tbody>
 						</table>
