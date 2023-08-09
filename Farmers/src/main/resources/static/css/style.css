@@ -136,6 +136,10 @@ ol {
 	background-size: cover;
 	background-position: top center;
 }
+.set-bg1 {
+	background-repeat: no-repeat;
+	background-position: top center;
+}
 
 .spad {
 	padding-top: 100px;
