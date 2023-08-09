@@ -149,7 +149,7 @@ import axios from 'axios'
 export default{
   data(){
     return{
-			btnShow:true,reason:'',
+			btnShow:true,reason:'이미지가 정확하지 않습니다',
 			searchType:'아이디',searchText:'',
 			searchStts:'',searchLogin:'',
 			searchStr:'',searchEnd:'',

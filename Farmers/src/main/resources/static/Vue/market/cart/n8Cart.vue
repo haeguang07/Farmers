@@ -120,7 +120,12 @@
               $(clone).find('#qty').attr('dataQty', Number($(clone).find('#qty').val()))
               $(clone).find('#sumPrice').text(vuethis.priceToString(($(clone).find('#qty').val()) * (item
                 .price)) + '원')
-
+              // $(clone).find('#sumPrice').fadeOut(100 , function () {
+              //   $(clone).find('#sumPrice').fadeIn('fast');
+              // });
+              $(clone).find('#sumPrice').toggle(0,function(){
+                $(clone).find('#sumPrice').toggle('fast');
+              });
               vuethis.allSumPriceCheck();
             }
           })
@@ -130,7 +135,9 @@
             $(clone).find('#qty').attr('dataQty', Number($(clone).find('#qty').val()))
             $(clone).find('#sumPrice').text(vuethis.priceToString(($(clone).find('#qty').val()) * (item
               .price)) + '원')
-
+            $(clone).find('#sumPrice').toggle(0,function(){
+              $(clone).find('#sumPrice').toggle('fast');
+            });
             vuethis.allSumPriceCheck();
             } else {
               new swal({
