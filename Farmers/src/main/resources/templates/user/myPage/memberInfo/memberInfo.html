@@ -118,7 +118,7 @@
                                                 class="form-control form-control-sm"
                                                 style="display: inline; width: 100px; margin-left: 30px;"
                                                 id="pointHistory">내역조회</button>
-                                            <input type="text" readonly th:value="|${#strings.defaultString(memberInfo.pnt, '')}|">
+                                            <input type="text" readonly th:value="${memberInfo.pnt != 0 ? #numbers.formatInteger(memberInfo.pnt, 3, 'COMMA') : 0}">
                                         </div>
                                     </div>
                                 </div>

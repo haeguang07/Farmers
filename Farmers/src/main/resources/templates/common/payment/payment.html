@@ -247,6 +247,17 @@
                 })
                     $('#usePoint').val(0)
                 }
+                
+                if(Number($('#usePoint').val()) > Number($('#allSumPrice').data('val'))){
+                	new swal({
+                		title: "결제금액을 초과한 입력입니다",
+                		icon : "warning",
+                		confirmButtonColor: '#95D083'		
+                })
+                    $('#usePoint').val(0)
+                    $('#myPoint').val(memberInfo.pnt)
+              		$('#allSumPrice').text(priceToString($('#allSumPrice').data('val'))+'원')         
+                }
             })
 
             //input 태그 엔터 막기
