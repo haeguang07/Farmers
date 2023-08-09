@@ -28,13 +28,21 @@
 .new-corsur {
 	cursor: pointer;
 }
-.set-bg1{
+
+.set-bg {
 	transition: all 0.3s ease-out;
 	height: 260px;
+	position: relative;
 }
-.set-bg1:hover {
+
+.set-bg:hover {
+	height: 260px;
 	transform: scale(1.2, 1.2);
-	z-index: 9;
+}
+
+.hover-container {
+	height: 260px;
+	overflow: hidden;
 }
 </style>
 </head>
@@ -148,7 +156,8 @@
 		<div class="col-lg-4 col-md-6 col-sm-6 hideItem new-corsur"
 			id="fundingItem">
 			<div class="product__item">
-				<div class="product__item__pic set-bg1" id="img" data-setbg="">
+				<div class="hover-container">
+					<div class="product__item__pic set-bg" id="img" data-setbg=""></div>
 				</div>
 				<div class="product__item__text">
 
