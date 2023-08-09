@@ -78,14 +78,14 @@
 								</tr>
 								<tr>
 									<th>신청인</th><td v-text="board.memNo"></td>
-									<th>가격(년)</th><td>{{ formatNumber(board.lendPrice) }}㎡</td>
+									<th>가격(년)</th><td>{{ formatNumber(board.lendPrice) }}원</td>
 								</tr>
 								<tr>
 									<th>시작일</th><td v-text="board.lendStrDate"></td>
 									<th>종료일</th><td v-text="board.lendEndDate"></td>
 								</tr>
 								<tr>
-									<th>주소</th><td colspan="3" v-text="board.addr"></td>
+									<th>주소</th><td colspan="3">{{ formatNumber(board.addr) }}㎡</td>
 								</tr>
 								<tr>
 									<th>크기</th><td v-text="board.area"></td>

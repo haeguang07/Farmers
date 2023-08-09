@@ -55,9 +55,7 @@ export default createStore({
     },
   },
   actions: {
-    fetchCodes({
-      commit
-    }) {
+    fetchCodes({ commit }) {
       axios.get('/admin/getCodes')
         .then(response => {
           const data = response.data;
@@ -66,7 +64,6 @@ export default createStore({
           commit('setRegSttsList', data['0E']);
           commit('setWarnReasonList', data['0Y']);
           commit('setWarnSttsList', data['0Z']);
-        
           // 전체 데이터의 복사본
           const des2All = { ...data};
           // 복사본에서 지역2만 저장
