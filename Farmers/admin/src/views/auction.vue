@@ -136,7 +136,7 @@ export default{
   data(){
     return{
 			searchStts:'e0',searchStr:'',dateList:[],
-			btnShow:true,reason:'부적절한 경매품목입니다',
+			btnShow:true,reason:'정보 누락 또는 오류',
 			page:1,selected:[],itemsPerPage: 10,
 			board:{},  boardList:[],
 			dst1:'',dst1List:[],
