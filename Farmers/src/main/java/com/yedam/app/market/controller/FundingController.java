@@ -87,6 +87,7 @@ public class FundingController {
 	public String fundingInfo(FundingVO vo, Model model) {
 		FundingVO info = fundingService.getFundingInfo(vo);
 		List<FundingVO> poplu = fundingService.getPolpularFnd();
+		System.out.println(info);
 		model.addAttribute("fundingInfo", info);
 		model.addAttribute("polurInfo", poplu);
 		return "market/funding/fundingInfo";
