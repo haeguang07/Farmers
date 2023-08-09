@@ -1,9 +1,12 @@
 // dateInput 꾸미기
 			dateInput("birth",0)
 			//정규식
-			let regId = /^[a-zA-Z0-9]{6,15}$/; // 6자~15자리의 영문자, 숫자
-			let reqNick = /^[가-힣a-zA-Z0-9]{2,8}$/g; // 2~8자리  영문자, 숫자 특수문자와 공백/[^a-z|A-Z|0-9|ㄱ-ㅎ|가-힣]/g
-			let regEmail = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');//(randomString)@(randomString2).(2-3 characters)
+			// 6자~15자리의 영문자, 숫자
+			let regId = /^[a-zA-Z0-9]{6,15}$/; 
+			// 2~8자리  영문자, 숫자 특수문자와 공백/[^a-z|A-Z|0-9|ㄱ-ㅎ|가-힣]/g
+			let reqNick = /^[가-힣a-zA-Z0-9]{2,8}$/g; 
+			//(randomString)@(randomString2).(2-3 characters)
+			let regEmail = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
 			//이메일 인증번호 보내기
 			let num;
 			let btn = $('#sendEmail');

@@ -126,9 +126,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 	 		    .and().oauth2Login().loginPage("/login") 
 				.successHandler(authenticationSuccessHandler())
 				.failureHandler(authenticationFailureHandler()) 
-				.userInfoEndpoint().userService(principalOauth2UserService) // 사용자정보를 처리할 때 사용한다
-		;
-
+				.userInfoEndpoint().userService(principalOauth2UserService); // 사용자정보를 처리할 때 사용한다
 		return http.build();
 	}
 

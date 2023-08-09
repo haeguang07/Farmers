@@ -230,12 +230,12 @@
 												th:if="${session.mem.memNo} != ${goldInfo.memNo}">
 												<div class="row">
 													<span class="col"></span> <span
-														class="col-md-4 right smallChar" th:if="${applyer=='Y'}">이미
-														신청한 게시글입니다.</span>
+														class="col-md-4 right smallChar" th:if="${applier=='Y'}">
+														이미 신청한 게시글입니다. </span>
 												</div>
 												<button type="button" class="btn btn-success" id="applyBtn"
 													th:if="${goldInfo.cndt == '신청 대기'}"
-													th:disabled="${applyer=='Y'} ? 'disabled'">신청</button>
+													th:disabled="${applier=='Y'} ? 'disabled'">신청</button>
 												<button type="button" class="btn btn-success"
 													th:onclick="applyConfirm()"
 													th:if="${goldInfo.cndt == '즉시 수락'}">수락</button>
@@ -288,7 +288,7 @@
 			
 			Swal.fire({
 				title: '정말 삭제하시겠습니까?',
-				icon: 'warning',
+				icon: 'info',
 				showCancelButton: true,
 				confirmButtonText:"확인",
 				cancelButtonText: "취소"
@@ -359,7 +359,9 @@
 						memNo = /*[[${goldInfo.memNo}]]*/;
 						let title = /*[[${goldInfo.title}]]*/;
 						let alrtTitle = '등록하신 금손 귀농인 게시글이 즉시 수락되었습니다.';
-						let alrtDesct = '금손 귀농인 게시글 ' + "'" + title + "'" + '이 즉시 수락되었습니다. \n마이페이지 나의 금손 귀농인에서 내역 확인이 가능합니다.\n지금 바로 확인하세요!\n감사합니다.😊'
+						let alrtDesct = '금손 귀농인 게시글 ' + "'" + title + "'" + 
+										'이 즉시 수락되었습니다. \n마이페이지 나의 금손 귀농인에서 내역 확인이 가능합니다.' +
+										'\n지금 바로 확인하세요!\n감사합니다.😊';
 						
 						// 즉시 수락 상태 변경 ajax
 						$.ajax({

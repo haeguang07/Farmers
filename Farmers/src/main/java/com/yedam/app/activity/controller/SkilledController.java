@@ -106,7 +106,7 @@ public class SkilledController {
 				result = "Y";
 			}
 		}
-		model.addAttribute("applyer", result);
+		model.addAttribute("applier", result);
 		return "activity/skilled/skilledInfo";
 	}
 	

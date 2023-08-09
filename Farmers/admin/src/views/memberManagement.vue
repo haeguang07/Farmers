@@ -83,15 +83,13 @@
 			hide-default-footer
 			@click:row=info
    		class="elevation-1">
-			 <template v-slot:bottom>
-      <div class="text-center pt-2">
-        <v-pagination
-          v-model="page"
-          :length="pageCount"
-        ></v-pagination>
+			<template v-slot:bottom>
+				<div class="text-center pt-2">
+					<v-pagination
+						v-model="page" :length="pageCount">
+					</v-pagination>
 				</div>
-				</template>
-			
+			</template>
 			
 		</v-data-table>
 				
@@ -279,7 +277,6 @@ methods:{
 },
   mounted(){
 		this.sttsList = this.$store.state.allCode['0C'];
-		
 		this.allCode = this.$store.state.allCode;
   	this.callList()
 

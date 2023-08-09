@@ -327,6 +327,12 @@ h5:has(.countdown) {
 					div = 'o0';
 				}
 				$('#check1').prop("checked", false);
+				$('#searchVal').val('');
+				$('#dst1').val('');
+				$('#dst1').niceSelect('update');
+				$('#dst2').val('');
+				$('#dst2').niceSelect('update');
+				
 				goldData(div, 1);
 			})
 			
@@ -489,7 +495,6 @@ h5:has(.countdown) {
 			
 			//팝업창 닫기 함수
 			function closePopUp(boardNo, div){
-				// console.log(boardNo, div);
 				var magnificPopup = $.magnificPopup.instance; 
 				magnificPopup.close(); 
 				if(typeof boardNo == 'undefined'){
