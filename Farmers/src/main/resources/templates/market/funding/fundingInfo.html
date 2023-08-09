@@ -81,7 +81,7 @@
 													<p class="myInline col-lg-2 mb-0 textLeft">펀딩기간 </p><span th:text="${#dates.format(fundingInfo.fndStrDate, 'yyyy/MM/dd')+ ' ~ ' + #dates.format(fundingInfo.fndEndDate, 'yyyy/MM/dd')}" class="col-lg-4"></span>
 													<p class="myInline col-lg-2 mb-0 textLeft">목표금액 </p><span th:text="${#numbers.formatInteger(fundingInfo.goalPrice, 3, 'COMMA')}+원" class="col-lg-3"></span>
 												</div>
-												<div class="memService" th:if="not ${#strings.isEmpty(session. mem)}" style="margin-top: 20px;">
+												<div class="memService" th:if="${not #strings.isEmpty(session.mem) and fundingInfo.regStts != 'e4'}" style="margin-top: 20px;">
 													<div class="row" th:if="${session.mem.memNo} != ${fundingInfo.memNo}" >
 															<p class="myInline col-lg-1 mb-0 textLeft"> </p>
 															<p class="myInline col-lg-2 mb-0 textLeft">수량 </p><div class="myInline col-lg-4"><input type="number" value="1" id="count" class="form-control" min="1"></div>
@@ -89,7 +89,7 @@
 													</div>
 												</div>
 												<div class="product__details__cart__option row" style="margin-top: 40px;">
-													<div th:if="not ${#strings.isEmpty(session. mem)}" style="margin: 0 auto;">
+													<div th:if="${not #strings.isEmpty(session.mem) and fundingInfo.regStts != 'e4'}" style="margin: 0 auto;">
 														<a href="#" class="primary-btn memService"
 														style="color: white; margin: 0 auto; margin-top: 20px; width: 500px;" id="getPay" th:if="${session.mem.memNo} != ${fundingInfo.memNo}" >구매하기</a>
 														<a th:href="@{/update/modifyFunding(boardNo=${fundingInfo.boardNo})}" class="primary-btn myService"
