@@ -125,7 +125,7 @@ export default{
     return{
 			searchStts:'e0',
 			searchStr:'',searchEnd:'',
-			btnShow:true,reason:'',page:1,
+			btnShow:true,reason:'정보 누락 또는 오류',page:1,
 			selected:[],itemsPerPage: 10,
 			board:{}, boardList:[],
 			dst1:'',dst1List:[],
