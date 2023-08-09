@@ -290,7 +290,7 @@ $animationSpeed: 40s ;
 			// 리스트 데이터 아작스로 가져오기
 			function ajaxData(pageNum, order){
 				$.ajax({
-					url: "auction",
+					url: "/auction",
 					method: "GET",
 					data: {
 						pageNum,
@@ -457,7 +457,7 @@ $animationSpeed: 40s ;
 				
 				// 아작스
 				$.ajax({
-					url: "auctionNext",
+					url: "/auctionNext",
 					method: "GET",
 					success(data){
 						printNextList(data);
