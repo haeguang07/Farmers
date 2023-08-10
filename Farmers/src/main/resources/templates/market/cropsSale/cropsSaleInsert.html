@@ -122,7 +122,7 @@
 				//multiple 특성을 지정하지 않았다면 두 개 이상의 파일을 포함하지 않습니다
 
 				for (var i = 0; i < files.length; i++) {
-					console.log(files[i]);
+					//console.log(files[i]);
 					if (files[i].type.includes('image')) {
 						formData.append("uploadFiles", files[i]); //키, 값으로 append
 
@@ -133,10 +133,10 @@
 							contentType: false, // multipart/form-data 타입을 사용하기위해 false로 지정
 							data: formData,
 							success: function (result) {
-								console.log(result);
+								//console.log(result);
 								dbPath = result.dbPath;
 								$('#addFile').html('<img src="' + result.loadPath + '">');
-								console.log(dbPath);
+								//console.log(dbPath);
 							},
 							error: function (reject) {
 								console.log(reject);

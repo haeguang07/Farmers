@@ -136,7 +136,7 @@
 			
 			// 이미 신청을 한 회원이면 신청하기 버튼이 비활성화
 			flInfo.applys.forEach(index => {
-				console.log(index);
+				//console.log(index);
 				if(index.memNo == mem.memNo) {
 					if(index.aplStts === 'e0' || index.aplStts === 'e1') {
 						$('#applyBtn').attr('disabled', true);
@@ -201,7 +201,7 @@
 							data : 'boardNo=' + boardNo
 						})
 						.done(function(result) {
-							console.log(result);
+							//console.log(result);
 							if(result == "success") {
 								Swal.fire({
 									icon : 'success',

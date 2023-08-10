@@ -158,7 +158,7 @@
 			expInfo.expApplyList.forEach(index => {
 				if(index.aplStts === 'e1') {
 					apl += index.aplPer;
-					console.log(apl);
+					//console.log(apl);
 				}
 			})
 			$('#aplPer').append('현재 ' + apl + '명 /');
@@ -200,7 +200,7 @@
 					}
 				})
 				.done(function(result) {
-					console.log(result);
+					//console.log(result);
 					if(result == "success") {
 						Swal.fire({
 							icon : 'success',
@@ -265,7 +265,7 @@
 							data : 'boardNo=' + boardNo
 						})
 						.done(function(result) {
-							console.log(result);
+							//console.log(result);
 							if(result == "success") {
 								Swal.fire({
 									icon : 'success',

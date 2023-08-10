@@ -231,7 +231,6 @@
 				let onePay = Number($('#onePay').text());
 				let total = getNum * onePay
 				$('#payResult').text(total);
-				console.log(total);				
 				total = numComma(total);
 				$('#payResult').text(total);
 			}						
@@ -441,7 +440,6 @@
 			      },
 			      dataType: 'json',
 			      success: function (result) {
-			        console.log(result);
 			        reviewAjax();
 			        $('#reviewText').val('');
 			      },
@@ -473,7 +471,6 @@
 			  const rowData = $(this).closest('tr');
 			  const revMem = rowData.find('.revData').data('memno');
 			  const revNo = rowData.find('.revData').data('revno');
-			  console.log(revMem , revNo); 
 			  if(mem == null){
 					 //alert('삭제할 수 없습니다.')
 					  Swal.fire({ title: '삭제할 수 없습니다.' , icon:'error', confirmButtonText:"확인"});
@@ -496,7 +493,6 @@
 					      },
 					      success: function (result) {
 					        rowData.remove();
-					        console.log("리뷰 삭제 결과:", result);
 					        
 					      },
 					      error: function (error) {
@@ -526,7 +522,6 @@
 								boardCtg : 'n7'
 							},
 							success: function (result) {
-							        console.log("장바구니 성공: ", result);
 							        Swal.fire({title: '장바구니에 담았습니다', icon:'success', confirmButtonText:"확인"});
 							      },
 					      	error: function (error) {

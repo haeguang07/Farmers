@@ -121,7 +121,7 @@
 		                            // 변환된 위도와 경도 출력
 		                            let lati = result[0].y;	                            
 		                            let longi = result[0].x;
-		                            console.log('위도, 경도 : ', lati, ', ', longi);
+		                            //console.log('위도, 경도 : ', lati, ', ', longi);
 		                            
 		                            document.getElementById('latitude').value = lati;
 		                            document.getElementById('longitude').value = longi;
@@ -139,7 +139,7 @@
 		                    let dst2 = document.getElementById("dst2");
 		                    let array = adr.value.split(" ");
 		                    dst2.value = array[1];
-		                    console.log(dst2.value);
+		                    //console.log(dst2.value);
 		                    document.getElementById("addressDetail").focus();
 		                }
 		            }).open();
@@ -184,7 +184,7 @@
 				//multiple 특성을 지정하지 않았다면 두 개 이상의 파일을 포함하지 않습니다
 
 				for (var i = 0; i < files.length; i++) {
-					console.log(files[i]);
+					//console.log(files[i]);
 					if (files[i].type.includes('image')) {
 						formData.append("uploadFiles", files[i]); //키, 값으로 append
 						
@@ -195,10 +195,10 @@
 							contentType: false, // multipart/form-data 타입을 사용하기위해 false로 지정
 							data: formData,
 							success: function (result) {
-								console.log(result);
+								//console.log(result);
 								dbPath = result.dbPath;
 								$('#addFile').html('<img src="' + result.loadPath + '">');
-								console.log(dbPath);
+								//console.log(dbPath);
 							},
 							error: function (reject) {
 								console.log(reject);
@@ -272,7 +272,7 @@
 					let formData = $('#myForm').serializeObject();
 					formData.detaDesct = ckData;
 					formData.rep = dbPath;
-					console.log(formData);
+					//console.log(formData);
 					
 					$.ajax({
 						url : "/add/expInsert",
