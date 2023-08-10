@@ -215,7 +215,7 @@
 		                            // 변환된 위도와 경도 출력
 		                            let lati = result[0].y;	                            
 		                            let longi = result[0].x;
-		                            console.log('위도, 경도 : ', lati, ', ', longi);
+		                            //console.log('위도, 경도 : ', lati, ', ', longi);
 		                            
 		                            document.getElementById('latitude').value = lati;
 		                            document.getElementById('longitude').value = longi;
@@ -233,7 +233,7 @@
 		                    let dst2 = document.getElementById("dst2");
 		                    let array = adr.value.split(" ");
 		                    dst2.value = array[1];
-		                    console.log(dst2.value);
+		                    //console.log(dst2.value);
 		                    document.getElementById("addressDetail").focus();
 		                }
 		            }).open();
@@ -359,9 +359,9 @@
 				//files : 선택한 모든 파일을 나열하는 FileList 객체입니다
 				//multiple 특성을 지정하지 않았다면 두 개 이상의 파일을 포함하지 않습니다
 				
-				console.log(files);
+				//console.log(files);
 				for (var i = 0; i < files.length; i++) {
-					console.log(files[i]);
+					//console.log(files[i]);
 					formData.append("uploadFiles", files[i]); //키, 값으로 append
 					
 					$.ajax({
@@ -430,7 +430,7 @@
 						list.push(formData.mcrpList);
 						formData.mcrpList = list;
 					}
-					console.log(formData);
+					//console.log(formData);
 					formData.files = uploadFiles;
 					$.ajax({
 						url : "/add/farmLendInsert",
