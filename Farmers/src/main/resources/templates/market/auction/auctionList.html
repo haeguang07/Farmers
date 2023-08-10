@@ -329,7 +329,7 @@ $animationSpeed: 40s ;
 				$(clone).find('#lastAuctionDay').removeClass('label').text('');
 				
 				// 데이터 넣기
-				let imageUrl = '/img/market/auction/' + item.rep;
+				let imageUrl = item.rep;
 				$(clone).find('.set-bg').css('background-image', 'url('+ imageUrl +')');
 				$(clone).find('.set-bg').on('click', function(){
 					
