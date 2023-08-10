@@ -151,7 +151,7 @@
 					
 					if($(e.target).closest('tr').find('.stts').text() == "미열람"){
 						$.ajax({
-							url : "/changeAlretStts",
+							url : "/myPage/changeAlretStts",
 							data : {alrtNo : alrtNo}
 						})
 					.done(function(result){
