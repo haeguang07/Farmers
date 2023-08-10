@@ -161,7 +161,6 @@
 					method: "get",
 					data: {page, mktCtg,order},
 					success(result){	
-						console.log(result)
 						printData(result)
 					},
 					error(err){
@@ -176,7 +175,6 @@
 				let mk= data.mk; //controller에서 넘긴 값
 				let page=data.page;
 				mk.forEach(el => {
-					console.log(el)
 					printList(el)					
 				})			
 				printPage(page,mktCtg,order);
@@ -270,7 +268,6 @@
 
 		//카테고리 검색
 		$('#selectCtg').on('change', function(){
-			console.log($(this).val())
 			ajaxData(1, $(this).val())
 		})
 		
