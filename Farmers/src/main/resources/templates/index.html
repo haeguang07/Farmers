@@ -252,7 +252,6 @@
 				url: "https://apis.data.go.kr/1390000/youngV2/policyListV2?typeDv=json&serviceKey=XMbKkFwk066V9gZ9uvn63yI7xGN5wEbCjEffJl0upWWgKhcaFHesiDZHkYOwrOpgeyC/YwxBqavNpAhMdAdU5w==&rowCnt=5",
 				method: "GET",
 				success(result){					
-					//console.log(result);
 					makeList(result);
 				},
 				error(err){
@@ -277,7 +276,6 @@
 			eduTitles.each(function(index, el) {
 			  $(el).on('click', function() {
 			    let seq = $(this).closest('tr').find('.seq').text();
-			    //console.log(seq)
 			    location.href= "/eduInfo?seq="+seq;			    
 			  })
 			}) 

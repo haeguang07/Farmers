@@ -129,7 +129,6 @@ public class BnbController {
 	@PostMapping("update/updateBnb")
 	@ResponseBody
 	public String updateBnb(BnbVO vo) {
-		System.out.println(vo);
 		int result = bnbService.updateBnb(vo);
 		if (result > 0) {
 			return "수정 완료";

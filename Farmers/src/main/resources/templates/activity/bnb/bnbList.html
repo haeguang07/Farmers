@@ -222,15 +222,12 @@
 		
 		//천단위 콤마찍기 함수
 		function number_format(num) {								
-			console.log(num)
-			console.log(typeof num)
 			if(num==null) return 0;
 			return num.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 		} 
 		
 		//검색조건-지역
 		$('#selectRG').on('change', function(){
-			console.log($(this).val())
 			ajaxData(1, $(this).val())
 		})
 		
