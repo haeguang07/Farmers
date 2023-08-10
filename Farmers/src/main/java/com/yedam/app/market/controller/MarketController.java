@@ -84,7 +84,6 @@ public class MarketController {
 	@ResponseBody
 	@GetMapping("mk/review")
 	public List<ReviewVO> getReview(String boardNo) {
-		System.out.println(boardNo);
 		return revService.getReview(boardNo);
 	}
 
@@ -93,7 +92,6 @@ public class MarketController {
 	@PostMapping("mk/review")
 	public ReviewVO addReview(ReviewVO vo) {
 		revService.addReview(vo);
-		System.out.println(vo);
 		return vo;
 	}
 
@@ -101,7 +99,6 @@ public class MarketController {
 	@ResponseBody
 	@GetMapping("mk/revDel")
 	public String delReview(String revNo) {
-		System.out.println(revNo);
 		int result = revService.delReview(revNo);
 		if (result > 0) {
 			return "delete!";
@@ -120,7 +117,6 @@ public class MarketController {
 	// 등록처리
 	@PostMapping("add/insertMk")
 	public String addMk(MarketVO vo) {
-		System.out.println(vo);
 		mkService.insertMk(vo);
 		return "redirect:/marketList";
 	}
@@ -139,7 +135,6 @@ public class MarketController {
 	@PostMapping("update/updateMk")
 	@ResponseBody
 	public String updateMk(MarketVO vo) {
-		System.out.println(vo);
 		int result = mkService.updateMk(vo);
 		if (result > 0) {
 			return "수정 완료";

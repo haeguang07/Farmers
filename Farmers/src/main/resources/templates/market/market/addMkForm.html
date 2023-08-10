@@ -166,7 +166,6 @@
 				//multiple 특성을 지정하지 않았다면 두 개 이상의 파일을 포함하지 않습니다
 
 				for (var i = 0; i < files.length; i++) {
-					console.log(files[i]);
 					if (files[i].type.includes('image')) {
 						formData.append("uploadFiles", files[i]); //키,값으로 append
 
@@ -177,11 +176,9 @@
 							contentType: false, // multipart/form-data 타입을 사용하기위해 false로 지정
 							data: formData,
 							success: function (result) {
-								console.log(result)
 								dbPath = result.dbPath
 								$('#addFile').html('<img src="' + result.dbPath + '">')
 								$('#insertFile').val(result.dbPath);
-								console.log(dbPath)
 
 							},
 							error: function (reject) {
@@ -212,7 +209,6 @@
 	        $('#myForm').on('keydown', function (event) {
 	            if (event.key === "Enter") {
 	                event.preventDefault(); // 엔터키 기본 동작 막기
-	                //console.log("엔터키: 폼 제출 막음");
 	            }
 	        });
 			
@@ -237,7 +233,6 @@
 				} else {
  					let ckData = editor
 					let formData = $('#myForm').serializeObject()
-					console.log(formData);
 					//상세 설명 존재하지 않을 시 출력 내용 설정
 					if(ckData.getData() == ''){
 						ckData.setData('<p>상세 설명이 존재하지 않습니다</p>')

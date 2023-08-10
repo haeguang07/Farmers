@@ -133,7 +133,6 @@
 				method: "GET",
 				//data: {page},
 				success(result){					
-					console.log(result);
 					makeList(result);
 					hideLoader(); 
 				},
@@ -164,7 +163,6 @@
 			eduTitles.each(function(index, el) {
 			  $(el).on('click', function() {
 			    let seq = $(this).closest('tr').find('.seq').text();
-			    console.log(seq)
 			    location.href= "/eduInfo?seq="+seq;			    
 			  })
 			}) 
@@ -178,7 +176,6 @@
 			obj.next = parseInt(obj.endPage) < parseInt(poli.lastPage);
 			obj.prev = obj.startPage > 1;
 			obj.totalPosts = poli.totalCount;	
-			console.log(obj);
 			printPage(obj)
 		} 
 		

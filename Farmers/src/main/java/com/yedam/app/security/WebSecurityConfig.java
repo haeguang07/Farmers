@@ -77,7 +77,6 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 
 			String uri = "/";
 
-			System.out.println(request.getHeader("referer"));
 			if (request.getHeader("referer") != null && !request.getHeader("referer").isEmpty()) {
 				uri = request.getHeader("referer");
 			}
@@ -88,7 +87,6 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 			} else {
 				redirectStrategy.sendRedirect(request, response, uri);
 			}
-			System.out.println(session.getAttribute("acc"));
 			if (accessDeniedException instanceof AccessDeniedException) {
 				request.setAttribute("acc", "권한이 없습니다.");
 			} else {

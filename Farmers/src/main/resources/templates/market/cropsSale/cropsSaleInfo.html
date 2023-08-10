@@ -367,7 +367,7 @@
 							data : 'boardNo=' + boardNo
 						})
 						.done(function(result) {
-							console.log(result);
+							//console.log(result);
 							if(result == "success") {
 								Swal.fire({
 									icon : 'success',
@@ -410,7 +410,7 @@
 					dataType : 'json'
 				})
 				.done(function(result) {
-					console.log(result);
+					//console.log(result);
 					printReview(result);
 				})
 				.fail(function(result) {
@@ -537,14 +537,14 @@
 				if(mem != null) {
 					let result = false;
 					csInfo.payList.forEach(index => {
-						console.log(index.memNo);
+						//console.log(index.memNo);
 						if(mem.memNo == index.memNo) {
 							result = true;
 						}
 					})
 					let deliy = false;
 					csInfo.payList.forEach(index => {
-						console.log(index.shipStts);
+						//console.log(index.shipStts);
 						if(index.shipStts == 'B4') {
 							deliy = true;
 						}
@@ -579,7 +579,7 @@
 									},
 									dataType : 'json',
 									success : function(result) {
-										console.log(result);
+										//console.log(result);
 										reviewAjax();
 										// 작성한 리뷰 값 초기화
 										$('#reviewText').val('');
@@ -637,7 +637,7 @@
 					})
 					.then((result) => {
 						if(result.isConfirmed) {
-							console.log("리뷰 삭제 번호 : ", revNo);
+							//console.log("리뷰 삭제 번호 : ", revNo);
 							
 							$.ajax({
 								url: 'cropsSaleInfo/reviewDelete',
@@ -647,7 +647,7 @@
 								},
 								success: function (result) {
 									rowData.remove();
-									console.log("리뷰 삭제 결과 : ", result);
+									//console.log("리뷰 삭제 결과 : ", result);
 									if(result = "success") {
 										Swal.fire({
 											icon : 'success',
@@ -657,7 +657,7 @@
 									}
 						        },
 						        error: function (error) {
-						        	console.log("리뷰 삭제 오류 : ", error);
+						        	//console.log("리뷰 삭제 오류 : ", error);
 						        	if(result = "fail") {
 						        		Swal.fire({
 											icon : 'error',
