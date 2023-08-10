@@ -312,12 +312,12 @@ public class MyPageController {
 	public String myFarmLendSubList(String boardNo,Model model) {
 		FarmLendVO vo = myPageService.myFarmLendInfo(boardNo);
 		List<FarmLendApplyVO> list = vo.getApplys();
-		model.addAttribute("vo", vo);
-		model.addAttribute("list", list);
 		for (FarmLendApplyVO farmLendApplyVO : list) {
 			farmLendApplyVO.setMbl(jasyptStringEncryptor.decrypt(farmLendApplyVO.getMbl()));
 			farmLendApplyVO.setUplFileName(jasyptStringEncryptor.decrypt(farmLendApplyVO.getUplFileName()));
 		}
+		model.addAttribute("vo", vo);
+		model.addAttribute("list", list);
 		return "user/myPage/myActivity/farmLend/myFarmLendSubList";
 	}
 	
@@ -523,7 +523,7 @@ public class MyPageController {
 	public String myExpSubPeoList(String boardNo,Model model) {
 		List<ExpApplyVO> list = myPageService.myExpSubPeoList(boardNo);
 		for (ExpApplyVO vo : list) {
-			vo.setMbl(jasyptStringEncryptor.decrypt(vo.getMbl()));
+			vo.setMbl(jasyptStringEncryptor.decrypt(vo.getMbl()));			
 		}
 		model.addAttribute("applyList", list);
 		return "user/myPage/myActivity/myExperience/myExpSubList";

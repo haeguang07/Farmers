@@ -168,9 +168,9 @@
 					dataType : 'json'
 				})
 				.done(function(data) {
-					console.log(data);
+					//console.log(data);
 					printList(data);
-					console.log(data.dst2);
+					//console.log(data.dst2);
 					if(data.dst2) {
 						$('#dst2').empty();
 						$('#dst2').append(`<option value="">시·군</option>`);
@@ -245,7 +245,7 @@
 			}
 			// 페이지 생성 및 추가
 			function printPage(pageData) {
-				console.log(pageData);
+				//console.log(pageData);
 				
 				let pageItem = $('#pageItem').clone();
 				$(pageItem).removeClass('hideItem');

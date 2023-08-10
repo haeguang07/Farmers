@@ -22,7 +22,7 @@ public class AuctionRestController {
 	AuctionService actService;
 	
 	// 전체 경매 리스트(페이징)
-	@GetMapping("auction")
+	@GetMapping("/auction")
 	public Map<String, Object> auctionListPage(@RequestParam(required = false, defaultValue = "0") int pageNum,
 				@RequestParam(required = false, defaultValue = "인기순") String order) {
 		
@@ -42,7 +42,7 @@ public class AuctionRestController {
 	}
 
  	// 다음 경매 리스트
-	@GetMapping("auctionNext")
+	@GetMapping("/auctionNext")
 	public Map<String, Object> nextAuctionList(){
 		
 		Map<String, Object> map = new HashMap<>();
