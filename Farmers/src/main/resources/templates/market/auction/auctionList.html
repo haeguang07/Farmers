@@ -330,7 +330,7 @@ $animationSpeed: 40s ;
 				
 				// 데이터 넣기
 				let imageUrl = item.rep;
-				$(clone).find('.set-bg').css('background-image', 'url('+ imageUrl +')');
+				$(clone).find('.set-bg').css('background-image', 'url("'+ imageUrl +'")');
 				$(clone).find('.set-bg').on('click', function(){
 					
 					if(mem){
