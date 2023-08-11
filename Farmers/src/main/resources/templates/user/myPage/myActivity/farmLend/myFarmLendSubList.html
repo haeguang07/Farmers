@@ -84,7 +84,7 @@
 										<td th:if="${#strings.equals(vo.regStts, 'e6')} or ${#strings.equals(li.aplStts, '신청 거절')}" th:text="${li.aplStts}"></td>
 										<td style="display: none;">
 											<th:block th:each="file : ${li.attachList}">
-												<a th:href="${file.atchFileName}" th:text="${file.uplFileName}" th:download="${file.uplFileName}"></a>
+												<a th:href="${file.atchFileName}" th:text="${file.uplFileName}" th:download="${file.uplFileName}">다운로드</a>
 											</th:block>
 										</td>
 									</tr>
