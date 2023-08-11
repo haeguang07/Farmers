@@ -369,6 +369,7 @@ $animationSpeed: 40s ;
 				
 				// 경매 기간별 카운트 다운
 				let standard = new Date(item.actDate);
+				standard.setHours(0,0,0,0);
 				let period = Number(item.actTrm);
 				standard.setDate(standard.getDate() + period);
 				
