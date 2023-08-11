@@ -223,7 +223,8 @@
             	
             	// 데이터 넣기
             	let imageUrl = item.img;
-            	$(clone).find('.set-bg').css('background-image', 'url('+imageUrl+')');
+            	console.log(imageUrl);
+            	$(clone).find('.set-bg').css('background-image', 'url("'+imageUrl+'")');
             	$(clone).find('.set-bg').on('click', function(){
             		if(mem){
 	            		if(mem.memGrd != 'b2'){

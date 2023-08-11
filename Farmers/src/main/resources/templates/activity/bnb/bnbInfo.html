@@ -319,7 +319,6 @@
 		if(mem !=null){
 			memNo= mem.memNo
 		}
-		console.log(memNo);
 		/*]]>*/
 		
 		
@@ -332,7 +331,6 @@
 				maxDate = maxDate.substr(0,10)
 				minDate = /*[[${bnb.lendStrDate}]]*/;
 				minDate = minDate.substr(0,10)
-				//console.log(minDate, maxDate)
 				//DB 예약 날짜 받아오기
 				$.ajax({
 					url : "/checkRsvDate",
@@ -422,7 +420,6 @@
 						Swal.fire({ title: '예약 시작 날짜를 선택하세요' , icon:'warning', confirmButtonText:"확인"});
 						return;
 					}else{
-						console.log('What')
 						//예약날짜 체크 함수
 						checkRsv()
 					}
@@ -430,7 +427,6 @@
 
 				//설정날짜 사이에 예약날짜 유무확인
 				function checkRsv(){
-					console.log(rsvDateList)
 					if (rsvDateList.length != 0) { 
 					$(rsvDateList).each(function(idx, date){
 						// 선택된 날짜 사이에 예약일이 존재하는지 판단
@@ -466,7 +462,6 @@
 				var resultElement = document.getElementById('dateResult');
 				var night = document.getElementById('night');
 				// 날짜계산
-				console.log('일 수:', days);
 				night.textContent = nights + " 박 ";
 				resultElement.textContent = days;
 				if(days === 'NaN'){
@@ -491,7 +486,6 @@
 			$('#deleteButton').on('click', delPopUp);
 			//삭제 팝업 이벤트
 			function delPopUp(event) {
-				console.log(memList)
 				if(memList.length<1){
 					event.preventDefault();
 					Swal.fire({ title: '글을 정말 삭제하시겠습니까?' ,
@@ -595,7 +589,6 @@
 			    },
 			    dataType: 'json',
 			    success: function (list) {
-			      //console.log(list); 
 			      printReview(list);
 			    },
 			    error: function (error) {
@@ -720,7 +713,6 @@
 			      },
 			      dataType: 'json',
 			      success: function (result) {
-			        console.log(result);
 			        reviewAjax();
 			        $('#reviewText').val('');
 			      },
@@ -738,7 +730,6 @@
 			  if(element == memNo) {
 				 let rvForm = document.querySelector('.review-form')
 				 rvForm.style.display = 'block';
-				 console.log("true");
 				  return ;
 			  } else {
 				  console.log("false");
@@ -773,7 +764,6 @@
 				      },
 				      success: function (result) {
 				        rowData.remove();
-				        console.log("리뷰 삭제 결과:", result);
 				        
 				      },
 				      error: function (error) {
