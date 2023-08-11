@@ -50,7 +50,7 @@ public class AdminRestController {
 		Map<String, List<CodeVO>> code = codeService.getCodes("0K", "0E", "k0", "k1", "k2", "k3", "k4", "k5", "k6",
 				"k7", "k8","0Y","0Z","0C","0F");
 		List<CodeVO> list2 = code.get("0E");
-		int[] arr = { 8,7, 6, 5, 4, 3, 2, 0 };
+		int[] arr = { 9,7, 6, 5, 4, 3, 2, 0 };
 		for (int i = 0; i < arr.length; i++) {
 			list2.remove(arr[i]);
 		}
