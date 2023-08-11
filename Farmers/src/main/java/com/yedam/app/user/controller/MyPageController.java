@@ -313,8 +313,10 @@ public class MyPageController {
 		FarmLendVO vo = myPageService.myFarmLendInfo(boardNo);
 		List<FarmLendApplyVO> list = vo.getApplys();
 		for (FarmLendApplyVO farmLendApplyVO : list) {
+			for (AttachmentVO attach : farmLendApplyVO.getAttachList()) {				
+				attach.setUplFileName(jasyptStringEncryptor.decrypt(attach.getUplFileName()));
+			}
 			farmLendApplyVO.setMbl(jasyptStringEncryptor.decrypt(farmLendApplyVO.getMbl()));
-			farmLendApplyVO.setUplFileName(jasyptStringEncryptor.decrypt(farmLendApplyVO.getUplFileName()));
 		}
 		model.addAttribute("vo", vo);
 		model.addAttribute("list", list);
