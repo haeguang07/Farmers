@@ -85,10 +85,10 @@
 									<th>종료일</th><td v-text="board.lendEndDate"></td>
 								</tr>
 								<tr>
-									<th>주소</th><td colspan="3">{{ formatNumber(board.addr) }}㎡</td>
+									<th>주소</th><td colspan="3">{{board.addr}}</td>
 								</tr>
 								<tr>
-									<th>크기</th><td v-text="board.area"></td>
+									<th>크기</th><td>{{ formatNumber(board.area) }}㎡</td>
 									<th>주요제배작물</th>
 									<td>
 										<span v-for="(mcrp,index) in board.mcrpList">{{ mcrp }}
