@@ -145,6 +145,10 @@
         <!-- Checkout Section End -->
 
         <script th:inline="javascript">
+        	$(function(){
+        		myMenucheck('회원정보')
+        	})
+        
 		      //팝업창 닫기 함수
 				function closePopUp(){
 					var magnificPopup = $.magnificPopup.instance; 
