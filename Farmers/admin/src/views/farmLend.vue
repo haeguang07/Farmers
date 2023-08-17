@@ -48,19 +48,19 @@
 				@click:row=info
    		 class="elevation-1"
 				>
+				<!--숫자 3자리마다 콤마-->
 				<template v-slot:item.area="{ item }">
     			{{ formatNumber(item.raw.area) }}
   			</template>
 				<template v-slot:item.lendPrice="{ item }">
     			{{ formatNumber(item.raw.lendPrice) }}
   			</template>
-
+				<!--페이징-->
 				<template v-slot:bottom>
       		<div class="text-center pt-2">
         		<v-pagination v-model="page" :length="pageCount"></v-pagination>
         	</div>
     		</template>
-			
 			</v-data-table>
 				
 			<!-- 모달창 -->
@@ -153,8 +153,8 @@ export default{
       headers:[
 	        {title: '번호',key: 'boardNo',align: 'center'},
 	        {title: '주소', key: 'addr',align: 'start'},
-					{title: '면적',key: 'area',align: 'end'},
-					{title: '가격',key: 'lendPrice',align: 'end' },
+					{title: '면적(㎡)',key: 'area',align: 'end'},
+					{title: '가격(원)',key: 'lendPrice',align: 'end' },
 					{title: '신청일자', key: 'regDate',align: 'center'},
 	        {title: '상태',key: 'regStts',align: 'center'}
 	      ]

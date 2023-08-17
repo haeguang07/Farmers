@@ -20,17 +20,20 @@ import com.yedam.app.user.vo.MemberVO;
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 	@Autowired
 	MemberMapper memberMapper;
+	
 	@Autowired
 	StringEncryptor jasyptStringEncryptor;
 
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+		//비밀번호 암호화
 		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
 		OAuth2User oAuth2User = super.loadUser(userRequest);
 
 		OAuth2UserInfo oAuth2UserInfo = null;
 		String provider = userRequest.getClientRegistration().getRegistrationId();
-		String loginPath ="";		
+		String loginPath ="";
+		// API 구분(네이버, 카카오)
 		if (provider.equals("naver")) {
 			oAuth2UserInfo = new NaverUserInfo(oAuth2User.getAttributes());
 			loginPath="네이버";
@@ -38,6 +41,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
             oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
             loginPath="카카오";
         }
+		//API에서 얻은 정보들 
 		String providerId = oAuth2UserInfo.getProviderId(); 
 		String uuid = UUID.randomUUID().toString().substring(0, 6);
 		String username = provider + "_" + uuid;
